@@ -1,0 +1,12 @@
+[
+ {
+  "name": "TarenNatural",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c28c-1483-730f-bb9e-e1a443636038",
+  "output": "art-src\\Generated\\P3-TarenNatural\\TarenNatural_Rigged.fbx"
+ }
+]

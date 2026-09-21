@@ -17,7 +17,7 @@ namespace Lattice.EditorTools
         [Serializable]public sealed class ClipRow{public string state,path,name;}
         [Serializable]public sealed class Row
         {
-            public string id,model,albedo,emission,kind="static",fit="height",folder="Environment",character,form,enemy;
+            public string id,model,albedo,emission,emissionColor="#22F5FF",kind="static",fit="height",folder="Environment",character,form,enemy;
             public float size=1.9f;public ClipRow[] clips=Array.Empty<ClipRow>();
         }
         static readonly (string bone,string human)[] MeshyMap={
@@ -51,9 +51,14 @@ namespace Lattice.EditorTools
             PackStaging.StageFile(row.albedo,destination+row.id+"_base_color.png");
             if(!string.IsNullOrEmpty(row.emission))PackStaging.StageFile(row.emission,destination+row.id+"_emission.png");
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            string materialPath=Dir(row)+row.id+"_Toon.mat";
+            var stagedMaterial=AssetDatabase.LoadAssetAtPath<Material>(materialPath);
+            if(stagedMaterial==null){stagedMaterial=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(stagedMaterial,materialPath);}
+            stagedMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_base_color.png"));EditorUtility.SetDirty(stagedMaterial);AssetDatabase.SaveAssets();
             PackStaging.StageFile(row.model,destination+row.id+"_clean.fbx");AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             var importer=(ModelImporter)AssetImporter.GetAtPath(Model(row));importer.animationType=row.kind=="biped"?ModelImporterAnimationType.Human:ModelImporterAnimationType.Generic;
             importer.avatarSetup=ModelImporterAvatarSetup.CreateFromThisModel;importer.optimizeGameObjects=false;
+            importer.SaveAndReimport();
             if(row.kind=="biped")Map(importer,false);importer.SaveAndReimport();
             if(row.kind=="biped"&&!Human(Model(row))){Map(importer,true);importer.SaveAndReimport();}
             if(row.kind=="biped"&&!Human(Model(row)))throw new InvalidOperationException("Avatar is not human: "+row.id);
@@ -62,7 +67,7 @@ namespace Lattice.EditorTools
             if(albedo==null||Mathf.Max(albedo.width,albedo.height)>1024)throw new InvalidOperationException("Albedo intake failed: "+row.id);
             var mat=AssetDatabase.LoadAssetAtPath<Material>(Dir(row)+row.id+"_Toon.mat");
             if(mat==null||mat.GetTexture("_BaseMap")!=albedo)throw new InvalidOperationException("Importer did not bind the unique sibling albedo: "+row.id);
-            if(!string.IsNullOrEmpty(row.emission)){mat.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_emission.png"));mat.SetColor("_EmissionColor",Color.white*2);EditorUtility.SetDirty(mat);}
+            if(!string.IsNullOrEmpty(row.emission)){mat.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_emission.png"));ColorUtility.TryParseHtmlString(row.emissionColor,out var tint);mat.SetColor("_EmissionColor",tint*1.5f);EditorUtility.SetDirty(mat);}
             var root=new GameObject(row.id);var body=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Model(row)),root.transform);body.name="Body";
             try
             {
@@ -71,13 +76,12 @@ namespace Lattice.EditorTools
                 if(row.kind=="biped")
                 {
                     if(animator==null||!animator.isHuman)throw new InvalidOperationException("Humanoid animator missing: "+row.id);
-                    float feet=Mathf.Min(animator.GetBoneTransform(HumanBodyBones.LeftFoot).position.y,animator.GetBoneTransform(HumanBodyBones.RightFoot).position.y);
-                    float span=animator.GetBoneTransform(HumanBodyBones.Head).position.y-feet;
-                    if(span<.001f)throw new InvalidOperationException("Bone matrices have no vertical span: "+row.id);
-                    // Scale Body, an ancestor of the armature. Head-to-ankle plus 10% head/sole allowance.
-                    body.transform.localScale*=row.size/(span*1.10f);
-                    feet=Mathf.Min(animator.GetBoneTransform(HumanBodyBones.LeftFoot).position.y,animator.GetBoneTransform(HumanBodyBones.RightFoot).position.y);
-                    body.transform.position-=Vector3.up*(feet-row.size*.035f);
+                    var bounds=ModelGeometry.BoundsOf(body);
+                    if(bounds.size.y<.001f)throw new InvalidOperationException("Skinned vertices have no vertical span: "+row.id);
+                    body.transform.localScale*=row.size/bounds.size.y;
+                    bounds=ModelGeometry.BoundsOf(body);body.transform.position-=Vector3.up*bounds.min.y;
+                    if(Mathf.Abs(bounds.size.y-row.size)>.005f)throw new InvalidOperationException("Height normalization failed: "+row.id);
+                    Debug.Log($"MODEL_HEIGHT {row.id} measured={bounds.size.y:0.000} target={row.size:0.000}");
                 }
                 else
                 {
@@ -138,12 +142,21 @@ namespace Lattice.EditorTools
             try
             {
                 graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);var playable=AnimationClipPlayable.Create(graph,clip);AnimationPlayableOutput.Create(graph,"Motion",animator).SetSourcePlayable(playable);graph.Play();
-                playable.SetTime(clip.length*.15);graph.Evaluate(0);var before=bones.Select(b=>b.position).ToArray();
+                graph.Evaluate(0);playable.SetTime(clip.length*.15);graph.Evaluate(0);var before=bones.Select(b=>b.position).ToArray();var rotations=bones.Select(b=>b.localRotation).ToArray();var skinBefore=SkinPoints(animator);
                 playable.SetTime(clip.length*.65);graph.Evaluate(0);float travel=bones.Select((b,i)=>Vector3.Distance(before[i],b.position)).Sum()/row.size;
                 if(travel<=.05f)throw new InvalidOperationException("Walk is frozen on "+row.id+" relative travel="+travel);
-                Debug.Log($"ANIMATION_MOVES {row.id} relativeTravel={travel:0.000}");
+                float localTurn=bones.Select((b,i)=>Quaternion.Angle(rotations[i],b.localRotation)).Sum();
+                if(localTurn<20)throw new InvalidOperationException("Root travels but limb rotations are frozen: "+row.id);
+                var skinAfter=SkinPoints(animator);if(skinAfter.Length!=skinBefore.Length||skinAfter.Length==0)throw new InvalidOperationException("No measurable skinned geometry: "+row.id);
+                float skinTravel=skinAfter.Select((p,i)=>Vector3.Distance(p,skinBefore[i])).Average()/row.size;
+                if(skinTravel<=.0035f)throw new InvalidOperationException("Bones move but visible skin is frozen: "+row.id);
+                Debug.Log($"ANIMATION_MOVES {row.id} relativeTravel={travel:0.000} skinTravel={skinTravel:0.000} localTurn={localTurn:0.0}");
             }
             finally{graph.Destroy();}
+        }
+        static Vector3[] SkinPoints(Animator animator)
+        {
+            return ModelGeometry.Points(animator.gameObject);
         }
     }
 }

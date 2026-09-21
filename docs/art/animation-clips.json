@@ -1,0 +1,32 @@
+[
+  {
+    "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+    "name": "Armature|Armature|Armature|Roll",
+    "length": 1.4666667,
+    "human": true
+  },
+  {
+    "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+    "name": "Armature|Armature|Armature|Sword_Attack",
+    "length": 1.53333342,
+    "human": true
+  },
+  {
+    "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+    "name": "Armature|Armature|Armature|Walk_Loop",
+    "length": 1.33333337,
+    "human": true
+  },
+  {
+    "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+    "name": "Armature|Armature|Armature|Hit_Chest",
+    "length": 0.333333343,
+    "human": true
+  },
+  {
+    "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+    "name": "Armature|Armature|Armature|Idle_Loop",
+    "length": 2.50000024,
+    "human": true
+  }
+]

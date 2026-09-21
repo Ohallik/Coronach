@@ -25,7 +25,7 @@ namespace Lattice.EditorTools
             var shader=Shader.Find("Lattice/Toon");if(shader==null)throw new InvalidOperationException("Lattice shader absent");
             string path=dir+"/"+token+"_Toon.mat";
             var material=AssetDatabase.LoadAssetAtPath<Material>(path);
-            if(material==null){material=new Material(shader);AssetDatabase.CreateAsset(material,path);}
+            if(material==null)throw new InvalidOperationException("Pre-create generated material before model import: "+path);
             if(textures.Length==1)material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(textures[0].Replace('\\','/')));
             EditorUtility.SetDirty(material);return material;
         }

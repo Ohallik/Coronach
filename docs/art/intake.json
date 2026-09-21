@@ -1,1 +1,32 @@
-[]
+[
+  {
+    "id": "TarenNatural",
+    "model": "art-src/Generated/P3-TarenNatural/TarenNatural_clean.fbx",
+    "albedo": "art-src/Generated/P3-TarenNatural/TarenNatural_base_color.png",
+    "emission": "art-src/Generated/P3-TarenNatural/TarenNatural_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#FFB62E",
+    "character": "Taren",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  }
+]

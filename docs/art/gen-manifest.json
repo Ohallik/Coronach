@@ -1,1 +1,92 @@
-[]
+[
+  {
+    "task": "lattice_p3-img3d-01a0c28c-1483-730f-bb9e-e1a443636038",
+    "task_id": "01a0c28c-1483-730f-bb9e-e1a443636038",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael alien anatomy: smooth matte slate skin and a lighter face/throat/palms, plantigrade biped, no tail, no external ears, no hair, no fur or scales. Swept-back elongated cranium, low sensory ridge behind jaw, soft low-bridge nose, almond eyes with readable pale sclera and ring irises. Crown/back crest consists of thick flat overlapping keratin FRONDS, not hair strands. Branching sync-lines run temple to jaw, collar to sternum, elbow to hand and knee to shin. Four fingers plus thumb per hand; all five separated. Forearm 1.06-1.12 times upper arm. Body 7.2-7.6 heads tall, adult 1.85-1.95m. Natural forms wear muted asymmetric wraps over a fitted underlayer with collar node, two wrist bands and a spine docking plate. Practical trousers stop short of feet: no long skirt bridging legs.\nTaren Vosk, adult male Vael hero in NATURAL form. Use the attached board for species, wraps and palette, but REFINE his face into a specific new identity: broad short rectangular midface, strong blunt square chin, broad low-bridge nose with one subtle old healed nick, close-set hooded amber ring eyes, straight heavy brow ridges with a small notch in his LEFT brow ridge, a broad slightly crooked closed mouth. Face width is 0.76-0.82 face length; eye aperture width-to-height 2.6-3.0. His expression is calmly watchful with a hint of dry amusement. No angry generic symmetrical mannequin face. Short thick swept-back dark slate keratin fronds #293847 with copper tips #C98254. Matte slate skin #677887 and lighter face #93A2AD. Sparse bold branching amber-gold sync-lines #FFB62E, charcoal underlayer #283541, dusty asymmetric wraps #9C8C76 and copper sash #C98254. Shoulder width 1.25-1.32 hip width, waist 0.88-0.95 hip width; sturdy blade-fighter body, 1.9m. No armour, visor, weapons, vanes or glow effects in this Natural reference. The face must be recognizably broader and blunter than the approved generic species face.\nSingle straight orthographic FRONT view, face aimed exactly with torso, calm closed mouth, neutral relaxed A pose: arms 30-40 degrees away from sides, palms forward, five relaxed separated digits with visible white gaps. Feet parallel, shoulder width apart. Unbroken wide white gaps between both arms and trunk, between legs from crotch down, between fingers, and around accessories. Wraps stay on the torso or their own leg and never bridge legs. No held props.\nIMPORTANT: exactly one complete front A-pose figure on opaque white. Do not reproduce the multi-view board. Four fingers and one thumb clearly separated on BOTH hands.\nProduction correction: Edit this Taren Natural-form reference. Make TWO concrete corrections while preserving the body, outfit, slate/copper/amber palette and plume silhouette.\n1. Give him a VISIBLY DISTINCT NEW FACE: broaden his lower face and square off his jaw, shorten the distance from nose to chin, broaden and flatten the nose tip, deepen the upper eyelids into a relaxed hooded gaze, make his mouth wider with its left corner slightly raised. Add a tiny notch to his left fleshy brow ridge and a small healed diagonal scar across the bridge of his nose. Keep pale sclera and amber ring irises. No human ears: remove all ear rims or lobes, leaving a smooth low ridge behind each jaw hinge. His face should read sturdy and dryly amused, not an idealized narrow youthful model.\n2. Put BOTH arms in an obvious A pose, 35 degrees away from the torso, palms facing the camera. Each open hand MUST have exactly FOUR fingers plus ONE thumb: FIVE separately visible digits with opaque white gaps between every digit, all joined at the palm. Do not curl or hide the little fingers. Keep legs separated and shorten the center wrap so it cannot bridge the thighs.\nOne full-body front view, calm head aligned with torso. Fully OPAQUE WHITE RGB background in all empty space. Matte cel-shaded flat local colors, no gloss, shadow, gradient, halo, scenery, text, transparency, close-up inset or extra figure.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1846312 sha256(base64)=e5e30b12749811fb>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-TarenNatural/TarenNatural_Meshy.fbx",
+    "batch": "P3-TarenNatural",
+    "created_at": "2026-09-21T05:59:16+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:00:30+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-TarenNatural/TarenNatural_Meshy.fbx",
+      "art-src/Generated/P3-TarenNatural/TarenNatural_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c28d-39a1-758f-af2f-04944a482191",
+    "task_id": "01a0c28d-39a1-758f-af2f-04944a482191",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.9,
+      "input_task_id": "01a0c28c-1483-730f-bb9e-e1a443636038"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-TarenNatural/TarenNatural_Rigged.fbx",
+    "batch": "P3-TarenNatural",
+    "created_at": "2026-09-21T06:00:42+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:01:20+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-TarenNatural/TarenNatural_Rigged.fbx",
+      "art-src/Generated/P3-TarenNatural/TarenNatural_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-TarenNatural/TarenNatural_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2a3-a286-705f-9860-ee7070b07d64",
+    "task_id": "01a0c2a3-a286-705f-9860-ee7070b07d64",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nUse attached image 1 as the exact identity and proportions reference; image 2 supplies the approved Shaped palette/equipment direction. Produce exactly ONE front A-pose SHAPED form, not a board. Preserve the newer unique FACE from image 1. Vael: no external ears, no tail, no hair; flat overlapping keratin fronds, pale sclera, ring eyes, smooth matte slate skin.\nTaren: broad blunt square-jawed face, small nose scar, hooded amber ring eyes, dark thick fronds with copper tips, broad shoulders. Amber sync #FFB62E, copper #C98254, ivory #C9C2AE armour and charcoal #283541 joints. Larger right wrist blade mount and smaller left emitter.\nReplace Natural wraps with fitted segmented Lattice armour over forearms, shins, shoulders and chest. Keep the individual face and chin visible. A narrow light visor rests across the eyes, transparent enough to see both irises; no glass reflections. Plumes sheathed in thin matte ribs. Retract the energy blade fully for the reconstruction pose: a wrist blade socket remains, but no long blade obscures fingers. Left emitter is attached to forearm and leaves the hand unobscured. No cloth skirt or waist sash.\nExactly FOUR long thin BACK VANES, all rooted on the spine plate by separate short struts: two upper vanes and two lower vanes, paired left/right. They are folded mostly parallel to the spine, tilted only 8-15 degrees outward. Upper pair rises just above the shoulders; lower pair ends near hips. All FOUR dark rigid vane bodies must be separately visible, with white strips between their outer edges and the arms/body, except their narrow rooted struts. Vane width 0.08-0.12 torso width; each vane length 0.70-0.90 torso length. No detached floating vanes, extra fins, wings merging into arms or plates extending across limb gaps.\nSingle straight orthographic FRONT view, face aimed exactly with torso, calm closed mouth, neutral relaxed A pose: arms 30-40 degrees away from sides, palms forward, five relaxed separated digits with visible white gaps. Feet parallel, shoulder width apart. Unbroken wide white gaps between both arms and trunk, between legs from crotch down, between fingers, and around accessories. Wraps stay on the torso or their own leg and never bridge legs. No held props.\nFive clearly separated digits per hand. Palette lines remain flat saturated marks, no bloom spill. Opaque white everywhere behind the figure.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1904224 sha256(base64)=c02386cc844e2c43>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": null,
+    "batch": "P3-TarenShaped",
+    "created_at": "2026-09-21T06:25:00+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:26:00+00:00",
+    "status": "IN_PROGRESS"
+  }
+]

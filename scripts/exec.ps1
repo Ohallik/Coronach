@@ -2,7 +2,7 @@
 param(
     [Parameter(Mandatory=$true)][string]$Method,
     [Parameter(Mandatory=$true)][string]$Marker,
-    [string[]]$ExtraArgs=@(), [switch]$Graphics, [int]$TimeoutSec=600
+    [string[]]$ExtraArgs=@(), [switch]$Graphics, [switch]$Async, [int]$TimeoutSec=600
 )
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'unity-process.ps1')
@@ -16,7 +16,8 @@ $log=Join-Path $repo ('Builds/logs/'+(Get-HeadlessExecLogName $Method))
 New-Item -ItemType Directory -Force (Split-Path $log) | Out-Null
 if(Test-Path -LiteralPath $log){Remove-Item -LiteralPath $log}
 $unity='C:/Program Files/Unity/Hub/Editor/6000.4.7f1/Editor/Unity.exe'
-$unityArgs=@('-batchmode','-projectPath',$project,'-executeMethod',$Method,'-logFile',$log,'-quit')
+$unityArgs=@('-batchmode','-projectPath',$project,'-executeMethod',$Method,'-logFile',$log)
+if(-not $Async){$unityArgs+='-quit'}
 if(-not $Graphics){$unityArgs+='-nographics'}
 $unityArgs+=$ExtraArgs
 $proc=Start-Process -FilePath $unity -ArgumentList $unityArgs -WindowStyle Hidden -PassThru

@@ -11,5 +11,6 @@ Reusable code and tooling adapted from Nathan's FrostboundUnity project. No Fros
 - Kenney Sci-Fi Sounds, CC0: eight OGG effects/ambiences staged from the owned SpaceRPG archive through `PackStaging`. Source: https://kenney.nl/assets/sci-fi-sounds . Licence: `Lattice/Assets/_Project/Audio/Licenses/Kenney-SciFiSounds.txt`.
 - Kenney Particle Pack, CC0: `flare_01`, `circle_02`, `slash_01` only, used for shaping, hits, trails, boost and bursts. Licence: `Lattice/Assets/_Project/Art/Particles/License.txt`. Source: https://kenney.nl/assets/particle-pack . This is the particle-texture exception explicitly allowed by the slice prompt.
 - Real-ESRGAN NCNN Vulkan (portrait production tool only): Xintao Wang and contributors, BSD-3-Clause; uses the existing read-only tool/model installation in Frostbound's `art-src/realesrgan`. No demonstration images are imported into LATTICE.
+- Quaternius Universal Animation Library, CC0: skeleton and Idle, Walk, Sword Attack, Roll and Hit Chest animation clips only. Source archive: Frostbound's owned `Quaternius_UniversalAnimationLibrary`; staged licence `Lattice/Assets/_Project/Art/Animation/UAL-License.txt`. The donor export contains zero mesh renderers.
 
 Additional permitted donors, glyphs and particles will be recorded when staged. No downloaded model, portrait, environment image, panel or inventory icon is final LATTICE art.

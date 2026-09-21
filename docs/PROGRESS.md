@@ -2,7 +2,7 @@
 
 ## Current work
 
-2026-09-20: P0_TOOLCHAIN_OK is committed and NATHAN_SPECIES_APPROVED is received. Downstream design and generated art production are underway, with more distinctive hero faces required by Nathan's feedback. Both Windows packages contain the complete blockout route from New Game through Tallow Drift. The latest route passed every ordered milestone in 555.5 seconds, ending at level 6 with completion saved. Latest suites: 35 EditMode and 15 PlayMode tests. Both arena smokes passed with the final enemy behaviors; menu/dialogue/shop captures were opened and corrected. Generated terrain, skies, planet maps and UI are in the scenes; models remain blockouts until intake. Meshy spending is zero at approval.
+2026-09-20: P0_TOOLCHAIN_OK, NATHAN_SPECIES_APPROVED and P1_DESIGN_OK are closed. Taren Natural passed the complete T2 pilot, with a measured 1.9 m humanoid, moving skin and inspected Idle/Walk/Attack renders. Remaining hero bodies are generating; five of eight portrait grids are generated and reviewed, with the first two upscaled and assembled. Both Windows packages still contain the prior complete blockout route: 555.5 seconds, level 6, completion saved; 35 EditMode and 15 PlayMode tests. Rebuilds with final art remain required.
 
 ## Gates
 
@@ -12,7 +12,7 @@
 | NATHAN_SPECIES_APPROVED | CLOSED | Nathan approved continuing, with more distinctive hero faces required. Exact response in `docs/art/species-approval.json` and D027. |
 | P1_DESIGN_OK | CLOSED | `docs/art/DESIGN_REVIEW.md`: twenty downstream boards/references opened and reviewed; existing generated map/material references complete the set. Hero production faces refined. |
 | P2_CORE_OK | OPEN | 35 EditMode and 15 PlayMode tests, both arena smokes and the full blockout route passed; physical 60-second feel session remains. |
-| P3_ART_OK | IN PROGRESS | First T2 humanoid pilot next; generated asset provenance, humanoid motion, poses and actual renders required before batching. |
+| P3_ART_OK | IN PROGRESS | `docs/art/PILOT_REVIEW.md`: first T2 humanoid passed actual posed Unity renders; other models and all dialogue portrait renders remain. |
 | P4_CONTENT_OK | OPEN | First full ordered route passed. Final generated art, look review and balance remain. |
 | P5_PLAYABLE_OK | OPEN | Blockout performance and all-zone Continue pass. Final-art performance and physical controller feel remain. |
 | P6_HANDOFF_OK | PENDING | Documentation, final build, credits and tag required. |
@@ -34,7 +34,7 @@ No current user-input blocker. Physical controller feel, final artwork, final ba
 
 ## Art budget
 
-Meshy limit: 1,200 credits. Spent by this project: 0. Ledger: `docs/art/gen-manifest.json`.
+Meshy limit: 1,200 credits. Pilot cost: 20 (15 generation + 5 rig). Hero batch in progress; the authoritative running total is the sum of `consumed_credits` in `docs/art/gen-manifest.json`. The bridge enforces a conservative reserve before every paid request.
 
 ## Verification integrity
 
@@ -83,7 +83,7 @@ Double-click `Builds/Windows/Lattice.exe` for the release blockout or `Builds/Wi
 - `Builds/logs/perf-gullet.json`: final checkpoint run 30.019 s, 28,459 samples, at least twelve enemies, 1920x1080, RTX 5070; 948.0 fps mean, 1.384 ms p95, 1.595 ms p99. The second screenshot was opened and shows live attacks. This is a blockout performance baseline, not a final-model performance claim. Fresh report/screenshot and thresholds are required by `scripts/performance.ps1`.
 - Registered interaction prompts replace per-frame scene scans. Menus paginate inventory/shop stock; late-accepted crystal quests use collection history; pause has priority over Flash slow motion.
 - `Builds/logs/ui/`: eight second-capture 1080p renders opened (dialogue, six menu tabs, shop). Review fixed dialogue hint placement, row margins, atlas crop leakage and gameplay HUD showing through menus. Portrait space remains empty pending generated portrait intake.
-- New Meshy intake code fails empty batches, missing albedo, non-human avatars, and stationary walk bones. It is compiled but has not processed a generated model yet. Portrait pipeline now preserves all sixteen emotions, requires actual 4x Real-ESRGAN output, and imports 2304x2304 sheets with sixteen full 576x576 rects.
+- Meshy intake fails empty batches, missing/ambiguous albedo, non-human avatars, stationary limbs and frozen visible skin. Taren Natural passes with 260 degrees of summed local joint travel, 0.087 relative mean skin travel, and opened poses. The review now advances editor frames to avoid cached GPU skinning. Portrait pipeline preserves all sixteen emotions, requires actual 4x Real-ESRGAN output, and assembles 2304x2304 sheets; full batch Unity import remains.
 
 ### ART_PENDING / unfinished gates
 

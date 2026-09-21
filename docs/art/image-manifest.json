@@ -608,5 +608,96 @@
       1536
     ],
     "notes": "Accepted: asymmetric smile/raised brow and three cheek speckles distinguish Sela; both five-digit hands separated, shortened wrap, no external ear bowls, matte white front A-pose."
+  },
+  {
+    "name": "taren-shaped",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/taren-shaped.png",
+    "prompt": "art-src/Generated/P1-production/refs/taren-shaped.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Distinct production face retained; five-digit hands; four folded vanes visible with separate roots; wrist blade retracted for reconstruction, small offhand emitter. Metal plume ribs and vane topology require actual model QA."
+  },
+  {
+    "name": "sela-shaped",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/sela-shaped.png",
+    "prompt": "art-src/Generated/P1-production/refs/sela-shaped.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Production face markings retained; five-digit hands; four separate folded vane silhouettes and larger left emitter. Temple visor hardware accepted; no biological ear lobes. Rib/vane topology requires model QA."
+  },
+  {
+    "name": "portrait-Taren_Natural",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Taren_Natural.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Taren_Natural.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "All sixteen cells visually mapped in enum order. Broad jaw and nose scar persist; Neutral and Shocked clearly distinct, crown contained."
+  },
+  {
+    "name": "portrait-Sela_Natural",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Sela_Natural.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Sela_Natural.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "All sixteen cells visually mapped in enum order. Three left-cheek marks and pale fronds persist, Neutral and Shocked clearly distinct."
+  },
+  {
+    "name": "portrait-Taren_Shaped",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Taren_Shaped.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Taren_Shaped.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "All sixteen cells inspected and mapped in enum order. Identity and palette preserved; clear Neutral, Shocked, Playful and Special expressions."
+  },
+  {
+    "name": "portrait-Sela_Shaped",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Sela_Shaped.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Sela_Shaped.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "All sixteen cells inspected and mapped in enum order. Identity and palette preserved; clear Neutral, Shocked, Playful and Special expressions."
+  },
+  {
+    "name": "portrait-Orrin_Natural",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Orrin_Natural.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Orrin_Natural.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "All sixteen cells inspected and mapped in enum order. Identity and palette preserved; clear Neutral, Shocked, Playful and Special expressions."
   }
 ]
