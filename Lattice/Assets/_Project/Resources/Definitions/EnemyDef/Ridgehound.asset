@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Ridgehound
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   id: Ridgehound
-  prefab: {fileID: 0}
+  prefab: {fileID: 5718324515046120352, guid: 27ff65b11c9880943a9658f399148545, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

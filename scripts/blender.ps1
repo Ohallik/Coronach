@@ -39,7 +39,7 @@ if (-not $scriptPath.StartsWith($toolsPath, [System.StringComparison]::OrdinalIg
     throw "Blender scripts must live under $toolsPath"
 }
 
-$stamp = Get-Date -Format "yyyyMMdd-HHmmss"
+$stamp = (Get-Date -Format "yyyyMMdd-HHmmss") + '-' + [guid]::NewGuid().ToString('N').Substring(0,6)
 $stem = [System.IO.Path]::GetFileNameWithoutExtension($scriptPath)
 $log = Join-Path $LogDir "blender-$stem-$stamp.log"
 $cleanArgs = @($ScriptArgs | Where-Object { $_ -ne "--" })

@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Hauler",
+    "kind": "static",
+    "batch": "P3-Hauler",
+    "ref": "art-src/Generated/P1-production/refs/hauler.png",
+    "height": 12,
+    "fit": "length",
+    "family": "Ship",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael civilian cargo HAULER, 22-28m long, broad smooth rounded hull with two integrated cargo lobes and a low central cockpit. Width 0.46-0.56 length. Matte warm ivory #C4BBA8 plating, slate #465563 recesses, burnt orange #B87951 bands, thin cyan #22F5FF Lattice seams. Twin rear thrust apertures are dark, no exhaust. Three connected masses, no loose containers. Must read as broad workhorse compared with tiny needle Skiff and angular twin-prong Cutter.\nSingle orthographic three-quarter front view, 30 degrees above, complete length and silhouette, head/cockpit aligned with hull. White gaps between prongs/vanes while all roots stay attached."
+  },
+  {
+    "name": "Skiff",
+    "kind": "static",
+    "batch": "P3-Skiff",
+    "ref": "art-src/Generated/P1-production/refs/skiff.png",
+    "height": 6,
+    "fit": "length",
+    "family": "Ship",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael personal SKIFF, 5-7m long, smooth narrow teardrop fuselage with small swept attached side vanes and single cockpit, width 0.28-0.36 length. Matte slate-blue #617C92, cream #C5CFCE underside, cyan #22F5FF Lattice seams. One central rear thrust socket, no exhaust. Minimal compact silhouette, clearly narrower than the heavy Hauler and without the Cutter's twin prongs.\nSingle orthographic three-quarter front view, 30 degrees above, complete length and silhouette, head/cockpit aligned with hull. White gaps between prongs/vanes while all roots stay attached."
+  },
+  {
+    "name": "PatrolCutter",
+    "kind": "static",
+    "batch": "P3-PatrolCutter",
+    "ref": "art-src/Generated/P1-production/refs/cutter.png",
+    "height": 10,
+    "fit": "length",
+    "family": "Ship",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael patrol CUTTER, 13-17m long, smooth central hull splitting into two attached forward prongs with a wide white slot between them, width 0.37-0.45 length. Matte charcoal #364959, pale grey #A8BCBE armor and cyan #22F5FF Lattice seams. Compact central cockpit. Two integral rear thrust sockets, no exhaust. Swept shoulder guards stay attached. Sharper bifurcated patrol silhouette than rounded Hauler or teardrop Skiff.\nSingle orthographic three-quarter front view, 30 degrees above, complete length and silhouette, head/cockpit aligned with hull. White gaps between prongs/vanes while all roots stay attached."
+  }
+]

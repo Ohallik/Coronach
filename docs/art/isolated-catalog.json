@@ -1,0 +1,234 @@
+[
+  {
+    "id": "CantorHead",
+    "reference": "art-src/Generated/P1-production/refs/cantor.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Isolate ONLY the head and a very short neck collar of the reference serpent, no body or tail. Elongated navy-violet armored wedge skull, four rooted swept fins, a coral oval resonator centered on forehead outlined with cyan, forked mouth with coral inside. Straight forward-facing head axis, neutral straight neck collar ending in one circular connecting socket. Head length 1.7-2.1 times its width. No bent long neck.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-CantorHead.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/CantorHead.png",
+    "qa": "Single skull with short connected collar, rooted crest fins, coral resonator, matte white-background reference; orientation will be reviewed in 3D."
+  },
+  {
+    "id": "CantorBody",
+    "reference": "art-src/Generated/P1-production/refs/cantor.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Design one SINGLE short straight cylindrical BODY SEGMENT of the reference serpent, no head or tail. Four overlapping navy-violet armor plates surrounding a solid short cylinder; one broad coral circular weak-point organ on TOP rimmed with thin cyan branches. Small rooted dorsal blade ridge. Circular capped ends matching adjacent segments, width-to-length 0.85-1.0, thickness 0.70-0.85 of width. No long curving body; just one reusable straight link.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-CantorBody.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/CantorBody.png",
+    "qa": "Single straight connected segment with capped ends, readable top weak point and dorsal ridge, no detached geometry."
+  },
+  {
+    "id": "CantorTail",
+    "reference": "art-src/Generated/P1-production/refs/cantor.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Isolate ONLY a SHORT straight tapering TAIL TIP of the reference serpent. Navy-violet plated connecting collar tapering into a single flat leaf-shaped tail fin, cyan vein down the fin, all connected. No head, coral eye, body chain or curved neck. Length 1.8-2.2 times maximum width, clear flattened fin profile.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-CantorTail.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/CantorTail.png",
+    "qa": "Single tapering connected tail tip with leaf fin, cyan vein, open background and no body duplication."
+  },
+  {
+    "id": "MoonGroundA",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the top-left dusty ochre moon ground tile: square low relief slab, sparse small embedded gravel and shallow cracks; flat walkable top. Width-to-thickness 12-18, square footprint. All gravel attached, no loose outlying stones.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-MoonGroundA.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/MoonGroundA.png",
+    "qa": "Inspected single connected object, complete silhouette, matte ochre surfaces, opaque white background and no detached debris."
+  },
+  {
+    "id": "MoonGroundB",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the second cracked ochre moon ground tile: square low relief slab with broad irregular bedrock plates and narrow dark seams; flat walkable top. Width-to-thickness 10-16, square footprint. All stones connected.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-MoonGroundB.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/MoonGroundB.png",
+    "qa": "Inspected single connected object, complete silhouette, matte ochre surfaces, opaque white background and no detached debris."
+  },
+  {
+    "id": "RidgeRock1",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the tall narrow stratified sandstone ridge spire from the top row. Warm ochre fractured plates, tapered silhouette, compact integral rocky foot. Height 2.2-2.7 times width. No isolated surrounding pebbles.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-RidgeRock1.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/RidgeRock1.png",
+    "qa": "Inspected single connected object, complete silhouette, matte ochre surfaces, opaque white background and no detached debris."
+  },
+  {
+    "id": "RidgeRock2",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the broad low stratified sandstone ridge boulder from top row. Warm ochre angular steps, broad compact silhouette. Width 1.8-2.2 times height. No isolated surrounding pebbles.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-RidgeRock2.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/RidgeRock2.png",
+    "qa": "Inspected complete connected silhouette, clean flat colors, all protrusions rooted, no gloss or detached pieces; clear white backdrop."
+  },
+  {
+    "id": "RidgeRock3",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the stepped mesa sandstone rock from the far top right: three broad natural ledges with cracked ochre surfaces. Width 1.3-1.7 times height. One connected mass with compact root; no isolated surrounding pebbles.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-RidgeRock3.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/RidgeRock3.png",
+    "qa": "Inspected complete connected silhouette, clean flat colors, all protrusions rooted, no gloss or detached pieces; clear white backdrop."
+  },
+  {
+    "id": "CrystalClusterA",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the tall three-prong cyan Ridge Crystal cluster: exactly three thick faceted cyan prisms emerging from one connected ochre rock base, all tips separated by white gaps. Tallest crystal 1.5-1.8 times the shorter one. No bloom or detached stones.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-CrystalClusterA.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/CrystalClusterA.png",
+    "qa": "Inspected complete connected silhouette, clean flat colors, all protrusions rooted, no gloss or detached pieces; clear white backdrop."
+  },
+  {
+    "id": "CrystalClusterB",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the low broad five-prong cyan Ridge Crystal cluster: five thick faceted cyan prisms emerging from one connected ochre rock base, all tips visible with white gaps. Width 0.9-1.2 times height. No bloom or detached stones.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-CrystalClusterB.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/CrystalClusterB.png",
+    "qa": "Inspected single connected object, matte cel facets, clear silhouette and opaque white backdrop. Ready for reconstruction."
+  },
+  {
+    "id": "LatticeAnvil",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the center Lattice Anvil: heavy waist-high slate-blue pedestal, wide tapered ivory-banded top with recessed rectangular cyan interface, flared integral foot. Width 1.5-1.8 times height. No text on display.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-LatticeAnvil.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/LatticeAnvil.png",
+    "qa": "Inspected single connected object, matte cel facets, clear silhouette and opaque white backdrop. Ready for reconstruction."
+  },
+  {
+    "id": "OutpostHab",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the rounded outpost habitat module: squat slate dome, ivory door arch and corner braces, small cyan seams, integrated roof vent and short antenna. Width 1.3-1.6 times height, functional door fully attached. No environment.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-OutpostHab.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/OutpostHab.png",
+    "qa": "Inspected single connected object, matte cel facets, clear silhouette and opaque white backdrop. Ready for reconstruction."
+  },
+  {
+    "id": "OutpostDrill",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the upright outpost drilling machine: tall slate central cylinder with copper screw-drill rooted directly below it and four sturdy splayed support legs. Height 2.0-2.5 times foot span. Wide WHITE gaps between every leg and central drill, four feet all distinct. Cyan seams and ivory braces, no detached pieces.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-OutpostDrill.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/OutpostDrill.png",
+    "qa": "Inspected complete single connected prop, separated rooted supports where applicable, matte cel surfaces, white backdrop. Ring windows are opaque painted detail."
+  },
+  {
+    "id": "LandingPad",
+    "reference": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the low broad circular landing pad, complete round disk and integral short front ramp. Slate blue inset center, ivory ring, restrained copper trim and thin cyan radial seams. Diameter 12-16 times thickness. No letters or symbols.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-LandingPad.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/LandingPad.png",
+    "qa": "Inspected complete single connected prop, separated rooted supports where applicable, matte cel surfaces, white backdrop. Ring windows are opaque painted detail."
+  },
+  {
+    "id": "RingSegmentA",
+    "reference": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the plain curved station ring corridor segment from upper left: ivory roof and smooth hull, slate lower hull, broad blue-gray window strip and copper end collars; subtle cyan longitudinal seam. Arc spans 15-20 degrees, length 3-4 times cross-section width, two closed modular ends. No surrounding station.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-RingSegmentA.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/RingSegmentA.png",
+    "qa": "Inspected complete single connected prop, separated rooted supports where applicable, matte cel surfaces, white backdrop. Ring windows are opaque painted detail."
+  },
+  {
+    "id": "RingSegmentB",
+    "reference": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the curved station ring segment with one integral arch brace over its roof, second object top row. Ivory hull, slate base, copper brace and end collars, thin cyan seams. Arc spans 15-20 degrees, length 3-4 times cross-section width; a white open gap under the brace. No surrounding station.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-RingSegmentB.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/RingSegmentB.png",
+    "qa": "Inspected complete isolated connected prop, readable office fin or outfitter awning, opaque painted windows, matte palette and clear white background."
+  },
+  {
+    "id": "DockingPodOffice",
+    "reference": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the OFFICE docking pod at upper right: rounded ivory capsule with broad horizontal blue-gray window band, copper door frame, small door step and one integral tall slim rear vane. Cyan thin seams, slate underside. Width 1.5-1.9 times height. No separate items.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DockingPodOffice.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DockingPodOffice.png",
+    "qa": "Inspected complete isolated connected prop, readable office fin or outfitter awning, opaque painted windows, matte palette and clear white background."
+  },
+  {
+    "id": "DockingPodOutfitter",
+    "reference": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the OUTFITTER docking pod at lower left: rounded ivory capsule with broad display window and projecting copper canopy, slate underside and cyan seams. Width 1.5-1.9 times height. Display stays blank dark teal, no miniature furniture or text.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DockingPodOutfitter.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DockingPodOutfitter.png",
+    "qa": "Inspected complete isolated connected prop, readable office fin or outfitter awning, opaque painted windows, matte palette and clear white background."
+  },
+  {
+    "id": "DockingPodRepair",
+    "reference": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the REPAIR docking pod at lower middle: rounded ivory shell with a wide dark OPEN bay and integrated lowered ramp, paired short copper docking arms attached at its sides, cyan seams. White gap outside arms, open bay deep but unoccupied; no tiny equipment. Width 1.3-1.7 times height.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DockingPodRepair.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DockingPodRepair.png",
+    "qa": "Inspected isolated complete prop, connected repair braces or beacon roots, clear openings, matte palette and white background."
+  },
+  {
+    "id": "WarpBeacon",
+    "reference": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the upright warp beacon at lower right: two tall ivory curved prongs with slate inner faces and cyan strips, joined firmly to one circular base. Broad uninterrupted WHITE gap between prongs. Height 2.0-2.5 times base diameter. No energy sheet, portal fog, detached ornaments or text.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-WarpBeacon.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/WarpBeacon.png",
+    "qa": "Inspected isolated complete prop, connected repair braces or beacon roots, clear openings, matte palette and white background."
+  },
+  {
+    "id": "DeckWall",
+    "reference": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the upright rectangular wall panel from upper left: two matte ivory inset panels, one thin central cyan seam, copper ribs and slate lower kickplate. Width 1.0-1.2 times height, thickness 0.05-0.08 height. One continuous panel.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DeckWall.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DeckWall.png",
+    "qa": "Inspected isolated complete prop, connected repair braces or beacon roots, clear openings, matte palette and white background."
+  },
+  {
+    "id": "DeckFloor",
+    "reference": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the square floor panel from upper middle: flat walkable matte beige top, copper edge ribs, slate reinforced corners, sparse cyan edge slots. Width 12-16 times thickness. No raised obstacles.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DeckFloor.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DeckFloor.png",
+    "qa": "Inspected complete connected architecture piece, flat walkable panel or open doorway, matte palette, blank screen, white background."
+  },
+  {
+    "id": "DeckDoorway",
+    "reference": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the open doorway arch from upper right: thick rectangular ivory/copper/slate frame with chamfered top corners and cyan edge strips, attached low threshold. A broad fully WHITE EMPTY opening inside, no door leaf. Clear width 0.55-0.65 overall height.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DeckDoorway.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DeckDoorway.png",
+    "qa": "Inspected complete connected architecture piece, flat walkable panel or open doorway, matte palette, blank screen, white background."
+  },
+  {
+    "id": "DeckConsole",
+    "reference": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the standing terminal console from lower left: slate pedestal with ivory work ledge, one tilted dark blank screen and copper trim, small cyan side strips. Height 0.9-1.2 times width. No text, detached keyboards or floating display.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DeckConsole.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DeckConsole.png",
+    "qa": "Inspected complete connected architecture piece, flat walkable panel or open doorway, matte palette, blank screen, white background."
+  },
+  {
+    "id": "DeckBench",
+    "reference": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the workbench from lower middle: wide beige worktop, copper edges, two broad slate end supports and low integral back board with cyan strip. Width 2.0-2.5 times height. Large white gap below table between end supports. No tools or text.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DeckBench.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DeckBench.png",
+    "qa": "Inspected single complete connected prop, clear support gaps, restrained surface detail, matte cel palette and opaque white background."
+  },
+  {
+    "id": "DeckCrate",
+    "reference": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the cargo crate from lower right: one closed rounded rectangular ivory/slate box, copper seam ribs, dark recessed handles and one thin cyan locking strip. Width 1.2-1.4 times height. No labels or other objects.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-DeckCrate.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/DeckCrate.png",
+    "qa": "Inspected single complete connected prop, clear support gaps, restrained surface detail, matte cel palette and opaque white background."
+  },
+  {
+    "id": "GulletWallA",
+    "reference": "art-src/Generated/P1-production/refs/gullet-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Derive one single SIDE wall panel from the left open tunnel design. A violet chitin wall with three thick curved ribs framing deep navy membrane panels; tiny sparse cyan veins. ONE wall only, no full tunnel or opposite wall or floor. Upright gently concave rectangle, length 1.5-1.9 times height, thick structural edges. No detached rib tips.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-GulletWallA.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/GulletWallA.png",
+    "qa": "Inspected single complete connected prop, clear support gaps, restrained surface detail, matte cel palette and opaque white background."
+  },
+  {
+    "id": "GulletWallB",
+    "reference": "art-src/Generated/P1-production/refs/gullet-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the right-hand wall segment with an integral organic ledge: violet chitin ribs around deep navy membrane panels, tiny sparse cyan veins. ONE gently concave wall panel, length 1.5-1.9 times height. Broad flat ledge grown directly from the lower third, no opposite wall or floor.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-GulletWallB.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/GulletWallB.png",
+    "qa": "Inspected connected organic prop, clear outer silhouette and rooted ribs, restrained violet/cyan cel palette, opaque white background."
+  },
+  {
+    "id": "ChoirPod",
+    "reference": "art-src/Generated/P1-production/refs/gullet-environment-board.png",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the bottom-left Choir spawning pod: one closed upright ovoid violet organic capsule with three narrow cyan slits, broad rooted rib plates, connected flared organic base. Height 1.5-1.9 times width. No creatures, smoke or separate pieces.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "prompt_file": "docs/art/prompts/model-ChoirPod.md",
+    "accepted_source": "art-src/Generated/P3-isolated/refs/ChoirPod.png",
+    "qa": "Inspected connected organic prop, clear outer silhouette and rooted ribs, restrained violet/cyan cel palette, opaque white background."
+  }
+]

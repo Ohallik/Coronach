@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Burrower
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   id: Burrower
-  prefab: {fileID: 0}
+  prefab: {fileID: 8112752817556489790, guid: 99119c991436c314fbcd5b3b2ef853d2, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

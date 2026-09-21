@@ -14,6 +14,7 @@ namespace Lattice.UI
             if(DevArgs.Value("-route")=="slice")gameObject.AddComponent<SliceSmoke>();
             if(DevArgs.Has("-perf"))gameObject.AddComponent<PerformanceProbe>();
             if(DevArgs.Has("-uismoke"))gameObject.AddComponent<UiSmoke>();
+            if(DevArgs.Has("-portraitsmoke"))gameObject.AddComponent<PortraitSmoke>();
 #endif
             var zone=DevArgs.Value("-scene");
             if(string.IsNullOrEmpty(zone)||zone=="Title") yield return SceneManager.LoadSceneAsync("Title",LoadSceneMode.Additive);

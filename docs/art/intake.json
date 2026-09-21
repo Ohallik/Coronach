@@ -28,5 +28,385 @@
         "name": "Armature|Armature|Armature|Sword_Attack"
       }
     ]
+  },
+  {
+    "id": "TarenShaped",
+    "model": "art-src/Generated/P3-TarenShaped/TarenShaped_clean.fbx",
+    "albedo": "art-src/Generated/P3-TarenShaped/TarenShaped_base_color.png",
+    "emission": "art-src/Generated/P3-TarenShaped/TarenShaped_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#FFB62E",
+    "character": "Taren",
+    "form": "Shaped",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "SelaNatural",
+    "model": "art-src/Generated/P3-SelaNatural/SelaNatural_clean.fbx",
+    "albedo": "art-src/Generated/P3-SelaNatural/SelaNatural_base_color.png",
+    "emission": "art-src/Generated/P3-SelaNatural/SelaNatural_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "character": "Sela",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "SelaShaped",
+    "model": "art-src/Generated/P3-SelaShaped/SelaShaped_clean.fbx",
+    "albedo": "art-src/Generated/P3-SelaShaped/SelaShaped_base_color.png",
+    "emission": "art-src/Generated/P3-SelaShaped/SelaShaped_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "character": "Sela",
+    "form": "Shaped",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "SentinelHusk",
+    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
+    "albedo": "art-src/Generated/P3-SentinelHusk/SentinelHusk_base_color.png",
+    "emission": "art-src/Generated/P3-SentinelHusk/SentinelHusk_emission.png",
+    "kind": "biped",
+    "folder": "Enemies",
+    "size": 2.3,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "enemy": "SentinelHusk",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "Scrapmite",
+    "model": "art-src/Generated/P3-Scrapmite/Scrapmite_clean.fbx",
+    "albedo": "art-src/Generated/P3-Scrapmite/Scrapmite_base_color.png",
+    "emission": "art-src/Generated/P3-Scrapmite/Scrapmite_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 0.65,
+    "fit": "height",
+    "emissionColor": "#FFB62E",
+    "enemy": "Scrapmite"
+  },
+  {
+    "id": "ChoristerDart",
+    "model": "art-src/Generated/P3-ChoristerDart/ChoristerDart_clean.fbx",
+    "albedo": "art-src/Generated/P3-ChoristerDart/ChoristerDart_base_color.png",
+    "emission": "art-src/Generated/P3-ChoristerDart/ChoristerDart_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 1.6,
+    "fit": "length",
+    "emissionColor": "#22F5FF",
+    "enemy": "ChoristerDart"
+  },
+  {
+    "id": "ChoristerDrifter",
+    "model": "art-src/Generated/P3-ChoristerDrifter/ChoristerDrifter_clean.fbx",
+    "albedo": "art-src/Generated/P3-ChoristerDrifter/ChoristerDrifter_base_color.png",
+    "emission": "art-src/Generated/P3-ChoristerDrifter/ChoristerDrifter_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 2.0,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "enemy": "ChoristerDrifter"
+  },
+  {
+    "id": "Shellmine",
+    "model": "art-src/Generated/P3-Shellmine/Shellmine_clean.fbx",
+    "albedo": "art-src/Generated/P3-Shellmine/Shellmine_base_color.png",
+    "emission": "art-src/Generated/P3-Shellmine/Shellmine_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 1.0,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "enemy": "Shellmine"
+  },
+  {
+    "id": "Burrower",
+    "model": "art-src/Generated/P3-Burrower/Burrower_clean.fbx",
+    "albedo": "art-src/Generated/P3-Burrower/Burrower_base_color.png",
+    "emission": "art-src/Generated/P3-Burrower/Burrower_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 5.5,
+    "fit": "length",
+    "emissionColor": "#22F5FF",
+    "enemy": "Burrower"
+  },
+  {
+    "id": "CantorHead",
+    "model": "art-src/Generated/P3-CantorHead/CantorHead_clean.fbx",
+    "albedo": "art-src/Generated/P3-CantorHead/CantorHead_base_color.png",
+    "emission": "art-src/Generated/P3-CantorHead/CantorHead_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 3.8,
+    "fit": "depth",
+    "emissionColor": "#22F5FF",
+    "enemy": "Cantor",
+    "pitch": 90,
+    "yaw": 0,
+    "roll": 0
+  },
+  {
+    "id": "CantorBody",
+    "model": "art-src/Generated/P3-CantorBody/CantorBody_clean.fbx",
+    "albedo": "art-src/Generated/P3-CantorBody/CantorBody_base_color.png",
+    "emission": "art-src/Generated/P3-CantorBody/CantorBody_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 2.6,
+    "fit": "depth",
+    "emissionColor": "#22F5FF",
+    "form": "Body",
+    "enemy": "Cantor",
+    "pitch": 0,
+    "yaw": 90,
+    "roll": 0
+  },
+  {
+    "id": "CantorTail",
+    "model": "art-src/Generated/P3-CantorTail/CantorTail_clean.fbx",
+    "albedo": "art-src/Generated/P3-CantorTail/CantorTail_base_color.png",
+    "emission": "art-src/Generated/P3-CantorTail/CantorTail_emission.png",
+    "kind": "static",
+    "folder": "Enemies",
+    "size": 3,
+    "fit": "depth",
+    "emissionColor": "#22F5FF",
+    "form": "Tail",
+    "enemy": "Cantor",
+    "pitch": -90,
+    "yaw": 0,
+    "roll": 42
+  },
+  {
+    "id": "Orrin",
+    "model": "art-src/Generated/P3-Orrin/Orrin_clean.fbx",
+    "albedo": "art-src/Generated/P3-Orrin/Orrin_base_color.png",
+    "emission": "art-src/Generated/P3-Orrin/Orrin_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#49BE87",
+    "yaw": 0,
+    "character": "Orrin",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "Hal",
+    "model": "art-src/Generated/P3-Hal/Hal_clean.fbx",
+    "albedo": "art-src/Generated/P3-Hal/Hal_base_color.png",
+    "emission": "art-src/Generated/P3-Hal/Hal_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#408BFF",
+    "yaw": 0,
+    "character": "Hal",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "Mira",
+    "model": "art-src/Generated/P3-Mira/Mira_clean.fbx",
+    "albedo": "art-src/Generated/P3-Mira/Mira_base_color.png",
+    "emission": "art-src/Generated/P3-Mira/Mira_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#FF8046",
+    "yaw": 0,
+    "character": "Mira",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "Ridgehound",
+    "model": "art-src/Generated/P3-Ridgehound/Ridgehound_clean.fbx",
+    "albedo": "art-src/Generated/P3-Ridgehound/Ridgehound_base_color.png",
+    "emission": "art-src/Generated/P3-Ridgehound/Ridgehound_emission.png",
+    "kind": "generic",
+    "folder": "Enemies",
+    "size": 2.4,
+    "fit": "length",
+    "emissionColor": "#49BE87",
+    "yaw": 0,
+    "enemy": "Ridgehound",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/Fox-Idle.anim",
+        "name": "AnimalArmature|AnimalArmature|AnimalArmature|Idle"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/Fox-Walk.anim",
+        "name": "AnimalArmature|AnimalArmature|AnimalArmature|Walk"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/Fox-Attack.anim",
+        "name": "AnimalArmature|AnimalArmature|AnimalArmature|Attack"
+      }
+    ]
+  },
+  {
+    "id": "Neve",
+    "model": "art-src/Generated/P3-Neve/Neve_clean.fbx",
+    "albedo": "art-src/Generated/P3-Neve/Neve_base_color.png",
+    "emission": "art-src/Generated/P3-Neve/Neve_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.9,
+    "fit": "height",
+    "emissionColor": "#FFFFFF",
+    "yaw": 0,
+    "character": "Neve",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
   }
 ]

@@ -28,11 +28,11 @@ MonoBehaviour:
     response: 1
     resonance: 2
     fortune: 1
-  natural: {fileID: 0}
-  shaped: {fileID: 0}
-  flight: {fileID: 0}
-  portraitNatural: {fileID: 0}
-  portraitShaped: {fileID: 0}
+  natural: {fileID: 1742802304090804097, guid: 35e77d1c743aa054f95a146f87149f57, type: 3}
+  shaped: {fileID: 8234279475334070785, guid: 59e927a649d4d154693ffe3568316d20, type: 3}
+  flight: {fileID: 8234279475334070785, guid: 59e927a649d4d154693ffe3568316d20, type: 3}
+  portraitNatural: {fileID: 11400000, guid: 4c6b711f3f253924b9b045d67577d025, type: 2}
+  portraitShaped: {fileID: 11400000, guid: 126611bba38901d489c21cacbb054475, type: 2}
   skills:
   - {fileID: 11400000, guid: 788af3a98bbc5144d9ef18dbcb6af1f6, type: 2}
   - {fileID: 11400000, guid: b612891f221bf6e42874c0fe7d8f6e65, type: 2}

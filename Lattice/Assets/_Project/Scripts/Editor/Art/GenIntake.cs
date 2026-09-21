@@ -18,7 +18,7 @@ namespace Lattice.EditorTools
         [Serializable]public sealed class Row
         {
             public string id,model,albedo,emission,emissionColor="#22F5FF",kind="static",fit="height",folder="Environment",character,form,enemy;
-            public float size=1.9f;public ClipRow[] clips=Array.Empty<ClipRow>();
+            public float size=1.9f,yaw,pitch,roll;public ClipRow[] clips=Array.Empty<ClipRow>();
         }
         static readonly (string bone,string human)[] MeshyMap={
             ("Hips","Hips"),("Spine02","Spine"),("Spine01","Chest"),("Spine","UpperChest"),("neck","Neck"),("Head","Head"),
@@ -56,7 +56,14 @@ namespace Lattice.EditorTools
             if(stagedMaterial==null){stagedMaterial=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(stagedMaterial,materialPath);}
             stagedMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_base_color.png"));EditorUtility.SetDirty(stagedMaterial);AssetDatabase.SaveAssets();
             PackStaging.StageFile(row.model,destination+row.id+"_clean.fbx");AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-            var importer=(ModelImporter)AssetImporter.GetAtPath(Model(row));importer.animationType=row.kind=="biped"?ModelImporterAnimationType.Human:ModelImporterAnimationType.Generic;
+            var importer=(ModelImporter)AssetImporter.GetAtPath(Model(row));
+            // A replacement FBX must not retain the old rig's serialized rest pose.
+            if(row.kind=="biped")
+            {
+                importer.animationType=ModelImporterAnimationType.Generic;
+                var reset=importer.humanDescription;reset.human=Array.Empty<HumanBone>();reset.skeleton=Array.Empty<SkeletonBone>();importer.humanDescription=reset;importer.SaveAndReimport();
+            }
+            importer.animationType=row.kind=="biped"?ModelImporterAnimationType.Human:ModelImporterAnimationType.Generic;
             importer.avatarSetup=ModelImporterAvatarSetup.CreateFromThisModel;importer.optimizeGameObjects=false;
             importer.SaveAndReimport();
             if(row.kind=="biped")Map(importer,false);importer.SaveAndReimport();
@@ -86,14 +93,11 @@ namespace Lattice.EditorTools
                 else
                 {
                     var renderers=body.GetComponentsInChildren<Renderer>();if(renderers.Length==0)throw new InvalidOperationException("No model renderers");
-                    var points=row.kind=="generic"?body.GetComponentsInChildren<SkinnedMeshRenderer>().SelectMany(r=>r.bones).Where(b=>b!=null).Select(b=>b.position).ToArray():Array.Empty<Vector3>();
-                    if(row.kind=="generic"&&points.Length<4)throw new InvalidOperationException("Generic rig has no measurable bone chain");
-                    var bounds=points.Length>0?new Bounds(points[0],Vector3.zero):renderers[0].bounds;
-                    if(points.Length>0){foreach(var p in points)bounds.Encapsulate(p);}else foreach(var r in renderers)bounds.Encapsulate(r.bounds);
-                    float measure=row.fit=="length"?Mathf.Max(bounds.size.x,bounds.size.z):bounds.size.y;
+                    body.transform.localRotation=Quaternion.Euler(row.pitch,row.yaw,row.roll);
+                    var bounds=ModelGeometry.BoundsOf(body);
+                    float measure=row.fit=="depth"?bounds.size.z:row.fit=="length"?Mathf.Max(bounds.size.x,bounds.size.z):bounds.size.y;
                     if(measure<.001f)throw new InvalidOperationException("Zero model bounds");body.transform.localScale*=row.size/measure;
-                    if(points.Length>0){points=body.GetComponentsInChildren<SkinnedMeshRenderer>().SelectMany(r=>r.bones).Where(b=>b!=null).Select(b=>b.position).ToArray();bounds=new Bounds(points[0],Vector3.zero);foreach(var p in points)bounds.Encapsulate(p);}
-                    else{bounds=renderers[0].bounds;foreach(var r in renderers)bounds.Encapsulate(r.bounds);}body.transform.position-=Vector3.up*bounds.min.y;
+                    bounds=ModelGeometry.BoundsOf(body);body.transform.position-=new Vector3(bounds.center.x,bounds.min.y,bounds.center.z);
                 }
                 if(row.kind=="biped"||row.kind=="generic")
                 {
@@ -101,6 +105,14 @@ namespace Lattice.EditorTools
                     ConfigureClips(row,animator);
                     var probe=UnityEngine.Object.Instantiate(root);try{VerifyMotion(row,probe.GetComponentInChildren<Animator>());}finally{UnityEngine.Object.DestroyImmediate(probe);}
                     root.AddComponent<Lattice.Combat.GeneratedAnimator>();
+                }
+                if(row.form=="Shaped"&&row.kind=="biped")
+                {
+                    var vanes=body.GetComponentsInChildren<Transform>().Where(t=>t.name.StartsWith("Vane_")).OrderBy(t=>t.name).ToArray();
+                    if(vanes.Length!=4||vanes.Any(v=>v.GetComponent<MeshFilter>()==null))throw new InvalidOperationException("Shaped hero needs four separate generated vane meshes: "+row.id);
+                    foreach(var vane in vanes)vane.SetParent(animator.GetBoneTransform(vane.name.Contains("Upper")?HumanBodyBones.Chest:HumanBodyBones.Hips),true);
+                    var driver=root.AddComponent<Lattice.Combat.GeneratedVanes>();driver.vanes=vanes;driver.folded=vanes.Select(v=>v.localRotation).ToArray();
+                    Debug.Log("VANE_PARTS_OK "+row.id+" count=4");
                 }
                 Directory.CreateDirectory(Path.GetDirectoryName(Prefab(row)));var prefab=PrefabUtility.SaveAsPrefabAsset(root,Prefab(row));
                 if(!string.IsNullOrEmpty(row.character))

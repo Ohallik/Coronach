@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Shellmine
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   id: Shellmine
-  prefab: {fileID: 0}
+  prefab: {fileID: 2324046452922497611, guid: 399fd2b86c45ac841a77f58372ef0a30, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

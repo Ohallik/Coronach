@@ -29,6 +29,7 @@ def main():
     p = argparse.ArgumentParser()
     p.add_argument("--input", required=True)
     p.add_argument("--output", required=True)
+    p.add_argument("--scale-all", action="store_true")
     args = p.parse_args(cli_args())
 
     before = Path(args.input).stat().st_size
@@ -40,7 +41,10 @@ def main():
     groups = sum(len(o.vertex_groups) for o in meshes)
     bones = sum(len(o.data.bones) for o in armatures)
 
-    export_model(args.output)
+    if args.scale_all:
+        bpy.ops.export_scene.fbx(filepath=str(Path(args.output).resolve()),use_selection=False,apply_unit_scale=True,apply_scale_options='FBX_SCALE_ALL',add_leaf_bones=False,bake_anim=False,path_mode='COPY',embed_textures=False)
+    else:
+        export_model(args.output)
 
     after = Path(args.output).stat().st_size
     # Report the skin contract on both sides: a smaller file that lost its vertex

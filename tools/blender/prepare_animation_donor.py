@@ -4,9 +4,9 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import bpy
 from _common import cli_args, reset, import_model, export_model, write_json
-p=argparse.ArgumentParser();p.add_argument('--input',required=True);p.add_argument('--output',required=True);a=p.parse_args(cli_args())
+p=argparse.ArgumentParser();p.add_argument('--input',required=True);p.add_argument('--output',required=True);p.add_argument('--fox',action='store_true');a=p.parse_args(cli_args())
 reset();import_model(a.input)
-keep={'Idle_Loop','Walk_Loop','Sword_Attack','Roll','Hit_Chest'}
+keep={'Idle','Walk','Attack'} if a.fox else {'Idle_Loop','Walk_Loop','Sword_Attack','Roll','Hit_Chest'}
 for obj in list(bpy.data.objects):
  if obj.type!='ARMATURE':bpy.data.objects.remove(obj,do_unlink=True)
 for action in list(bpy.data.actions):
@@ -18,6 +18,12 @@ for arm in bpy.context.scene.objects:
   arm.animation_data.action=None
 assert not any(o.type=='MESH' for o in bpy.context.scene.objects)
 assert len(bpy.data.actions)==len(keep),[x.name for x in bpy.data.actions]
-export_model(a.output)
+if a.fox:
+ # Keep the same AnimalArmature child path as the graft, even with zero meshes.
+ wrapper=bpy.data.objects.new('FoxClipRoot',None);bpy.context.collection.objects.link(wrapper)
+ for arm in [o for o in bpy.context.scene.objects if o.type=='ARMATURE']:
+  world=arm.matrix_world.copy();arm.parent=wrapper;arm.matrix_world=world
+ bpy.ops.export_scene.fbx(filepath=str(Path(a.output).resolve()),use_selection=False,apply_unit_scale=True,apply_scale_options='FBX_SCALE_ALL',add_leaf_bones=False,bake_anim=True,path_mode='COPY',embed_textures=False)
+else:export_model(a.output)
 write_json(str(Path(a.output).with_suffix('.json')),dict(source=a.input,meshes=0,actions=[x.name for x in bpy.data.actions]))
 print('ANIMATION_DONOR_OK meshes=0 clips='+str(len(keep)))

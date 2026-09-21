@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChoristerDart
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   id: ChoristerDart
-  prefab: {fileID: 0}
+  prefab: {fileID: 8003105858995159329, guid: 6b65438dde9fe1849bb74ef896d38c35, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

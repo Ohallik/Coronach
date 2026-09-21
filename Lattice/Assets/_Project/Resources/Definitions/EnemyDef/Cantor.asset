@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Cantor
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   id: Cantor
-  prefab: {fileID: 0}
-  bodySegment: {fileID: 0}
-  tailSegment: {fileID: 0}
+  prefab: {fileID: 7763395953902798841, guid: 54bf7c0f6e2cf7a4b9b84e350df23d9e, type: 3}
+  bodySegment: {fileID: 2045523755849175597, guid: 1790c14ddddd6554e8b8cdd22885e3ea, type: 3}
+  tailSegment: {fileID: 7146944435366699, guid: 746d91f506076af42a5892b43dd6fa18, type: 3}
   stats:
     output: 0
     plating: 0

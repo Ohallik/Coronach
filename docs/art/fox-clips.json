@@ -1,0 +1,20 @@
+[
+  {
+    "path": "Assets/_Project/Art/Animation/Fox-Attack.anim",
+    "name": "AnimalArmature|AnimalArmature|AnimalArmature|Attack",
+    "length": 1.33333337,
+    "human": false
+  },
+  {
+    "path": "Assets/_Project/Art/Animation/Fox-Idle.anim",
+    "name": "AnimalArmature|AnimalArmature|AnimalArmature|Idle",
+    "length": 3.33333349,
+    "human": false
+  },
+  {
+    "path": "Assets/_Project/Art/Animation/Fox-Walk.anim",
+    "name": "AnimalArmature|AnimalArmature|AnimalArmature|Walk",
+    "length": 1.06666672,
+    "human": false
+  }
+]

@@ -1,0 +1,38 @@
+[
+ {
+  "name": "Hauler",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2c6-894b-7400-a4ca-b3dddd62d0dd",
+  "output": "art-src\\Generated\\P3-Hauler\\Hauler_Static.fbx"
+ },
+ {
+  "name": "Skiff",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2c7-25b4-75d8-a517-57622df315c2",
+  "output": "art-src\\Generated\\P3-Skiff\\Skiff_Static.fbx"
+ },
+ {
+  "name": "PatrolCutter",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2c7-c3d8-7476-9659-f3b36dcc3ee3",
+  "output": "art-src\\Generated\\P3-PatrolCutter\\PatrolCutter_Static.fbx"
+ }
+]

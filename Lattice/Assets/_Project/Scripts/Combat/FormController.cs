@@ -18,9 +18,8 @@ namespace Lattice.Combat
             Shaping=true;CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"shape");yield return new WaitForSecondsRealtime(.3f);Current=form;
             if(natural!=null)natural.SetActive(form==BodyForm.Natural);
             if(shaped!=null)shaped.SetActive(form==BodyForm.Shaped);
-            if(flight!=null){flight.SetActive(form==BodyForm.Flight||form==BodyForm.CivilFlight);flight.transform.localRotation=Quaternion.Euler(90,0,0);}
-            foreach(var vane in GetComponentsInChildren<Transform>(true))if(vane.name.StartsWith("Vane_"))
-                vane.localRotation=Quaternion.Euler(0,0,(vane.name.EndsWith("L")?-1:1)*(form==BodyForm.Flight?55:form==BodyForm.CivilFlight?25:5));
+            if(flight!=null){flight.SetActive(form==BodyForm.Flight||form==BodyForm.CivilFlight);flight.transform.localRotation=Quaternion.Euler(90,0,0);flight.transform.localPosition=new Vector3(0,.8f,-.8f);}
+            foreach(var vanes in GetComponentsInChildren<GeneratedVanes>(true))vanes.SetForm(form);
             Debug.Log("FORM "+form);yield return new WaitForSecondsRealtime(.3f);Shaping=false;
         }
     }

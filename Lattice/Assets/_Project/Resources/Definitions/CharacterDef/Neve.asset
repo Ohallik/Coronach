@@ -28,10 +28,10 @@ MonoBehaviour:
     response: 0
     resonance: 0
     fortune: 0
-  natural: {fileID: 0}
+  natural: {fileID: 8403401063423764904, guid: 79842f8a6e75edd41887117a81dcce1d, type: 3}
   shaped: {fileID: 0}
   flight: {fileID: 0}
-  portraitNatural: {fileID: 0}
+  portraitNatural: {fileID: 11400000, guid: 6180607b146187b4196a1ac8d6bc4eca, type: 2}
   portraitShaped: {fileID: 0}
   skills:
   - {fileID: 0}

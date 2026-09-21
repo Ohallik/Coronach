@@ -68,7 +68,7 @@ STATIC_KIND = "static"
 def run(cmd: list[str], label: str) -> tuple[int, str]:
     print(f"    $ {label}", flush=True)
     proc = subprocess.run(cmd, cwd=ROOT, capture_output=True, text=True, encoding="utf-8",
-                          errors="replace")
+                          errors="replace", timeout=3900)
     out = (proc.stdout or "") + (proc.stderr or "")
     return proc.returncode, out
 

@@ -2,7 +2,7 @@
 
 ## Current work
 
-2026-09-20: P0_TOOLCHAIN_OK, NATHAN_SPECIES_APPROVED and P1_DESIGN_OK are closed. Taren Natural passed the complete T2 pilot, with a measured 1.9 m humanoid, moving skin and inspected Idle/Walk/Attack renders. Remaining hero bodies are generating; five of eight portrait grids are generated and reviewed, with the first two upscaled and assembled. Both Windows packages still contain the prior complete blockout route: 555.5 seconds, level 6, completion saved; 35 EditMode and 15 PlayMode tests. Rebuilds with final art remain required.
+2026-09-21: P0_TOOLCHAIN_OK, NATHAN_SPECIES_APPROVED and P1_DESIGN_OK are closed. Four hero bodies, eight portrait sheets, ten enemy pieces, two civilian bases/four named retextures and three ships are generated. All sixteen Neutral/Shocked dialogue captures were opened and accepted (`P3_PORTRAITS_OK`). Hero vanes now open as four distinct parts in Flight. Enemy/civilian Unity review is underway: Sentinel rig deformation and Cantor axis alignment are active repairs. All 27 environment references are accepted and their Meshy batch is running. The development package contains heroes/portraits but predates these latest model repairs; the release package still contains the prior complete blockout route (555.5 seconds, level 6; 35 EditMode and 15 PlayMode tests). Final-art rebuilds and verification remain required.
 
 ## Gates
 
@@ -12,7 +12,7 @@
 | NATHAN_SPECIES_APPROVED | CLOSED | Nathan approved continuing, with more distinctive hero faces required. Exact response in `docs/art/species-approval.json` and D027. |
 | P1_DESIGN_OK | CLOSED | `docs/art/DESIGN_REVIEW.md`: twenty downstream boards/references opened and reviewed; existing generated map/material references complete the set. Hero production faces refined. |
 | P2_CORE_OK | OPEN | 35 EditMode and 15 PlayMode tests, both arena smokes and the full blockout route passed; physical 60-second feel session remains. |
-| P3_ART_OK | IN PROGRESS | `docs/art/PILOT_REVIEW.md`: first T2 humanoid passed actual posed Unity renders; other models and all dialogue portrait renders remain. |
+| P3_ART_OK | IN PROGRESS | `docs/art/PILOT_REVIEW.md`, `docs/art/PORTRAIT_REVIEW.md`; hero forms and all 16 dialogue renders opened. Enemy repairs, ship/environment intake and final complete contact sheet remain. |
 | P4_CONTENT_OK | OPEN | First full ordered route passed. Final generated art, look review and balance remain. |
 | P5_PLAYABLE_OK | OPEN | Blockout performance and all-zone Continue pass. Final-art performance and physical controller feel remain. |
 | P6_HANDOFF_OK | PENDING | Documentation, final build, credits and tag required. |
@@ -34,7 +34,7 @@ No current user-input blocker. Physical controller feel, final artwork, final ba
 
 ## Art budget
 
-Meshy limit: 1,200 credits. Pilot cost: 20 (15 generation + 5 rig). Hero batch in progress; the authoritative running total is the sum of `consumed_credits` in `docs/art/gen-manifest.json`. The bridge enforces a conservative reserve before every paid request.
+Meshy limit: 1,200 credits. Completed cast/enemies/civilians/ships cost 360 credits before the running 27-prop environment batch. The authoritative running total is the sum of `consumed_credits` in `docs/art/gen-manifest.json`. Paid jobs run sequentially and the bridge enforces a conservative reserve before every request. One rejected overlength retexture prompt cost zero credits and was shortened before retry.
 
 ## Verification integrity
 
@@ -87,9 +87,9 @@ Double-click `Builds/Windows/Lattice.exe` for the release blockout or `Builds/Wi
 
 ### ART_PENDING / unfinished gates
 
-- ART_PENDING: Taren and Sela Natural/Shaped/Flight models; all civilian bodies/retextures; eight enemies including Cantor head/body/tail; three traffic ship classes; the full static environment set. P1 approval is received; downstream designs and production are underway.
-- ART_PENDING: eight generated portrait grids and their dialogue-box render review. No temporary downloaded faces are used.
+- ART_PENDING: Sentinel rig repair and final Cantor chain alignment; ship intake and full static environment generation/intake. All four hero models and four civilian variants are imported; their final world look remains to be reviewed. No temporary downloaded faces are used.
+- `P3_PORTRAITS_OK`: eight generated portrait grids imported, all sixteen Neutral/Shocked dialogue panels opened and accepted. Evidence and rejecting conditions: `docs/art/PORTRAIT_REVIEW.md`.
 - Texture/skies are generated at the image tool's native returned sizes (tiles 1254 square; panoramas/maps 1774x887), not the 4096x2048 requested in prompts. Provenance records the actual dimensions. Final look review remains open.
 - Main-route progression to level 6 is verified. The T2 comparison, broader balance, release-route physical pad feel and final art performance remain open.
-- Tallow Drift currently loads its ground deck directly; the separate SpaceSafe docking approach remains unfinished. The Gullet membrane texture is visually busy and needs the final environment look pass. All model and portrait renders remain required.
+- Tallow Drift currently loads its ground deck directly; the separate SpaceSafe docking approach remains unfinished. A quieter generated Gullet membrane v2 is staged; its final environment look pass remains. Complete model render review remains required.
 - No `slice-v0.1` tag has been created. P6 requires the finished slice, not this checkpoint.

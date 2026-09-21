@@ -78,7 +78,7 @@
     },
     "credits": 15,
     "consumed_credits": 15,
-    "output_path": null,
+    "output_path": "art-src/Generated/P3-TarenShaped/TarenShaped_Meshy.fbx",
     "batch": "P3-TarenShaped",
     "created_at": "2026-09-21T06:25:00+00:00",
     "polycount_band": {
@@ -86,7 +86,982 @@
       "max": 15000,
       "target": 12000
     },
-    "updated_at": "2026-09-21T06:26:00+00:00",
+    "updated_at": "2026-09-21T06:26:25+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-TarenShaped/TarenShaped_Meshy.fbx",
+      "art-src/Generated/P3-TarenShaped/TarenShaped_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c2a4-f6a4-720c-ae12-ffe0c8a4b267",
+    "task_id": "01a0c2a4-f6a4-720c-ae12-ffe0c8a4b267",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.9,
+      "input_task_id": "01a0c2a3-a286-705f-9860-ee7070b07d64"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-TarenShaped/TarenShaped_Rigged.fbx",
+    "batch": "P3-TarenShaped",
+    "created_at": "2026-09-21T06:26:36+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:27:14+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-TarenShaped/TarenShaped_Rigged.fbx",
+      "art-src/Generated/P3-TarenShaped/TarenShaped_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-TarenShaped/TarenShaped_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2a5-b93e-7091-8fc3-168591ab9667",
+    "task_id": "01a0c2a5-b93e-7091-8fc3-168591ab9667",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael alien anatomy: smooth matte slate skin and a lighter face/throat/palms, plantigrade biped, no tail, no external ears, no hair, no fur or scales. Swept-back elongated cranium, low sensory ridge behind jaw, soft low-bridge nose, almond eyes with readable pale sclera and ring irises. Crown/back crest consists of thick flat overlapping keratin FRONDS, not hair strands. Branching sync-lines run temple to jaw, collar to sternum, elbow to hand and knee to shin. Four fingers plus thumb per hand; all five separated. Forearm 1.06-1.12 times upper arm. Body 7.2-7.6 heads tall, adult 1.85-1.95m. Natural forms wear muted asymmetric wraps over a fitted underlayer with collar node, two wrist bands and a spine docking plate. Practical trousers stop short of feet: no long skirt bridging legs.\nSela Irun, adult female Vael hero in NATURAL form. Use the attached board for species, plume-mane, wraps and palette, but REFINE her face into a distinct identity: long diamond-shaped face with high angular cheek ridges, narrow tapered jaw and small off-center cleft in the chin, longer low-bridge nose with a softly upturned tip, wide-set narrow cyan ring eyes, sharply slanted asymmetric brow ridges (her RIGHT brow slightly raised), thin upper lip and fuller lower lip, a crooked closed half-smile. Three small darker slate pigment speckles under her LEFT eye provide a stable unique marking. Face width 0.64-0.71 face length; eye aperture width-to-height 2.7-3.1. No generic perfectly symmetrical doll face. Pale violet-white flat keratin plume-mane #D7CFF0 with lilac roots #9C8DC1, longer and finer than Taren but clearly thick fronds, not human hair. Matte slate-blue skin #718A9B and face #A2B7C4, fine branched cyan sync-lines #22F5FF. Fitted underlayer #334756, muted sand wraps and lilac sash #AE9CCF. Shoulder width 1.02-1.10 hip width, waist 0.86-0.93 hip width, 1.9m, practical athletic anatomy. No armour, visor, weapons, vanes or glow effects in this Natural reference. Keep long fronds behind shoulders and clear of arms. Her identity must contrast strongly with Taren's short broad face.\nSingle straight orthographic FRONT view, face aimed exactly with torso, calm closed mouth, neutral relaxed A pose: arms 30-40 degrees away from sides, palms forward, five relaxed separated digits with visible white gaps. Feet parallel, shoulder width apart. Unbroken wide white gaps between both arms and trunk, between legs from crotch down, between fingers, and around accessories. Wraps stay on the torso or their own leg and never bridge legs. No held props.\nIMPORTANT: exactly one complete front A-pose figure on opaque white. Do not reproduce the multi-view board. Four fingers and one thumb clearly separated on BOTH hands.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1716396 sha256(base64)=7077fbb43b4f262a>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-SelaNatural/SelaNatural_Meshy.fbx",
+    "batch": "P3-SelaNatural",
+    "created_at": "2026-09-21T06:27:17+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:28:18+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-SelaNatural/SelaNatural_Meshy.fbx",
+      "art-src/Generated/P3-SelaNatural/SelaNatural_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c2a6-b109-73f3-a1b2-f667dbb923ad",
+    "task_id": "01a0c2a6-b109-73f3-a1b2-f667dbb923ad",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.9,
+      "input_task_id": "01a0c2a5-b93e-7091-8fc3-168591ab9667"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-SelaNatural/SelaNatural_Rigged.fbx",
+    "batch": "P3-SelaNatural",
+    "created_at": "2026-09-21T06:28:34+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:29:11+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-SelaNatural/SelaNatural_Rigged.fbx",
+      "art-src/Generated/P3-SelaNatural/SelaNatural_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-SelaNatural/SelaNatural_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2a7-82cd-7251-a0d0-4d968c30911b",
+    "task_id": "01a0c2a7-82cd-7251-a0d0-4d968c30911b",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nUse attached image 1 as the exact identity and proportions reference; image 2 supplies the approved Shaped palette/equipment direction. Produce exactly ONE front A-pose SHAPED form, not a board. Preserve the newer unique FACE from image 1. Vael: no external ears, no tail, no hair; flat overlapping keratin fronds, pale sclera, ring eyes, smooth matte slate skin.\nSela: long angular face, raised right brow, crooked smile, three small slate speckles under left eye, cyan ring eyes, pale violet-white plume-mane. Cyan sync #22F5FF, lilac #AE9CCF accents, ivory #C8D0D3 armour and deep slate #334756 joints. LARGE left forearm emitter and smaller right wrist blade mount.\nReplace Natural wraps with fitted segmented Lattice armour over forearms, shins, shoulders and chest. Keep the individual face and chin visible. A narrow light visor rests across the eyes, transparent enough to see both irises; no glass reflections. Plumes sheathed in thin matte ribs. Retract the energy blade fully for the reconstruction pose: a wrist blade socket remains, but no long blade obscures fingers. Left emitter is attached to forearm and leaves the hand unobscured. No cloth skirt or waist sash.\nExactly FOUR long thin BACK VANES, all rooted on the spine plate by separate short struts: two upper vanes and two lower vanes, paired left/right. They are folded mostly parallel to the spine, tilted only 8-15 degrees outward. Upper pair rises just above the shoulders; lower pair ends near hips. All FOUR dark rigid vane bodies must be separately visible, with white strips between their outer edges and the arms/body, except their narrow rooted struts. Vane width 0.08-0.12 torso width; each vane length 0.70-0.90 torso length. No detached floating vanes, extra fins, wings merging into arms or plates extending across limb gaps.\nSingle straight orthographic FRONT view, face aimed exactly with torso, calm closed mouth, neutral relaxed A pose: arms 30-40 degrees away from sides, palms forward, five relaxed separated digits with visible white gaps. Feet parallel, shoulder width apart. Unbroken wide white gaps between both arms and trunk, between legs from crotch down, between fingers, and around accessories. Wraps stay on the torso or their own leg and never bridge legs. No held props.\nFive clearly separated digits per hand. Palette lines remain flat saturated marks, no bloom spill. Opaque white everywhere behind the figure.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1744116 sha256(base64)=73d814918b277dca>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-SelaShaped/SelaShaped_Meshy.fbx",
+    "batch": "P3-SelaShaped",
+    "created_at": "2026-09-21T06:29:14+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:30:28+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-SelaShaped/SelaShaped_Meshy.fbx",
+      "art-src/Generated/P3-SelaShaped/SelaShaped_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c2a8-a945-720e-ab7a-a1bb7646998b",
+    "task_id": "01a0c2a8-a945-720e-ab7a-a1bb7646998b",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.9,
+      "input_task_id": "01a0c2a7-82cd-7251-a0d0-4d968c30911b"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-SelaShaped/SelaShaped_Rigged.fbx",
+    "batch": "P3-SelaShaped",
+    "created_at": "2026-09-21T06:30:39+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:31:17+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-SelaShaped/SelaShaped_Rigged.fbx",
+      "art-src/Generated/P3-SelaShaped/SelaShaped_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-SelaShaped/SelaShaped_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2ac-492c-7152-a378-c31b275b6aa9",
+    "task_id": "01a0c2ac-492c-7152-a378-c31b275b6aa9",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nSentinel Husk, 2.4m tall armoured BIPED relic; readable humanoid head-neck-torso-hips and two arms/two legs, not a quadruped. Broad blunt octagonal shoulders, compact visor head, oversized shield-like left forearm, right piledriver fist. Dark basalt #394651 segmented armour with dusty ochre inset plates #A6946A and thin saturated cyan #22F5FF seams. Width-to-height 0.36-0.43; neck visible above torso. It must NOT resemble the low ridgehound, tiny scrapmite or round burrower: its upright shield silhouette is its identity. Front A-pose, head forward, arms 35 degrees off trunk, fists unclenched, legs shoulder-width with wide white gaps. Five stubby separated fingers on each hand; armour attached to its own limb only. Single orthographic front view.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=2041060 sha256(base64)=fe36b01ea4ff8b5f>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-SentinelHusk/SentinelHusk_Meshy.fbx",
+    "batch": "P3-SentinelHusk",
+    "created_at": "2026-09-21T06:34:28+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:35:53+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-SentinelHusk/SentinelHusk_Meshy.fbx",
+      "art-src/Generated/P3-SentinelHusk/SentinelHusk_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c2ad-9fc3-76ca-b5bd-33ba056f8517",
+    "task_id": "01a0c2ad-9fc3-76ca-b5bd-33ba056f8517",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 2.3,
+      "input_task_id": "01a0c2ac-492c-7152-a378-c31b275b6aa9"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-SentinelHusk/SentinelHusk_Rigged.fbx",
+    "batch": "P3-SentinelHusk",
+    "created_at": "2026-09-21T06:36:04+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:37:06+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-SentinelHusk/SentinelHusk_Rigged.fbx",
+      "art-src/Generated/P3-SentinelHusk/SentinelHusk_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-SentinelHusk/SentinelHusk_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2ae-c0e6-73f9-bf14-86b6971c5b9e",
+    "task_id": "01a0c2ae-c0e6-73f9-bf14-86b6971c5b9e",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nRidgehound, alien QUADRUPED pack predator, 2.2m nose-to-tail, shoulder height 0.75-0.90m, lean low dog-like body with four separate digitigrade legs and three blunt toes per paw, no hands or humanoid torso. Identity: a low wedge head with three rooted backward-swept rust basalt crest plates and sharply sloped armoured shoulders. Dusty russet #995E45 dorsal armour, charcoal #3D464B lower body, small lime #AACF5A eye/side fissures. Not a wolf in fur, not round like Burrower, not a six-legged Scrapmite. Short thick tail extended straight back, separated from rump contour beyond its root and never touching legs. Single orthographic three-quarter FRONT view about 35 degrees. Stagger near front foot half a head forward of far front foot, hind legs also staggered; broad continuous white between all four legs. Head aligned with body; every paw fully visible, no resting on ground.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1662752 sha256(base64)=abce1b2062808bb1>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-Ridgehound/Ridgehound_Meshy.fbx",
+    "batch": "P3-Ridgehound",
+    "created_at": "2026-09-21T06:37:09+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:37:58+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-Ridgehound/Ridgehound_Meshy.fbx",
+      "art-src/Generated/P3-Ridgehound/Ridgehound_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2af-95be-7799-8a40-0683f2ff3c0e",
+    "task_id": "01a0c2af-95be-7799-8a40-0683f2ff3c0e",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nScrapmite, small low SIX-LEGGED mechanical scavenger 0.45-0.55m long, squat hexagonal body, three segmented short legs per side. Six grounded attachment roots with background between every leg from first joint outward; legs never cross each other. Identity is a rusty angular broken circuit carapace and one bright amber #FFB62E central eye, dark grey #464F54 and copper #B77547 plates. Width 0.75-0.90 body length. It must NOT read as four-legged Ridgehound, round Shellmine or a flying Chorister: all six little skitter legs plainly counted. Single orthographic three-quarter front view 30 degrees above, no loose scrap or debris.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1954672 sha256(base64)=c5e06a18acb9603e>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-Scrapmite/Scrapmite_Meshy.fbx",
+    "batch": "P3-Scrapmite",
+    "created_at": "2026-09-21T06:38:03+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:38:52+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-Scrapmite/Scrapmite_Meshy.fbx",
+      "art-src/Generated/P3-Scrapmite/Scrapmite_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b0-61d3-77ef-8935-64729cb1acd1",
+    "task_id": "01a0c2b0-61d3-77ef-8935-64729cb1acd1",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nChorister Dart, small flying alien 0.8-1.0m long, a narrow spear-shaped violet #635B88 body with one small orange #FFAB68 eye and two swept pointed fins visibly attached by distinct narrow roots. Fin tip span 0.60-0.78 body length. Rear taper like a needle. No legs, feathers, beak or humanoid face. Continuous cyan #22F5FF organ seams. The identity is a sharp triangular dive-bomber silhouette, unlike a round Drifter, blunt Shellmine or segmented Cantor. Single orthographic three-quarter front view 30 degrees above; white triangles separate each attached fin from central body along its trailing edge, no detached fins.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1346996 sha256(base64)=bfa1b18d22d52a48>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-ChoristerDart/ChoristerDart_Meshy.fbx",
+    "batch": "P3-ChoristerDart",
+    "created_at": "2026-09-21T06:38:55+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:39:44+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-ChoristerDart/ChoristerDart_Meshy.fbx",
+      "art-src/Generated/P3-ChoristerDart/ChoristerDart_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b1-2c15-73a1-8f76-6df1de205b16",
+    "task_id": "01a0c2b1-2c15-73a1-8f76-6df1de205b16",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nChorister Drifter, floating alien spitter 1.3-1.6m wide, a flattened bell-shaped mauve #8B6D98 carapace, three large forward nozzle mouths integrated into its underside and five short thick hanging tendrils attached around rim. Each tendril 0.24-0.32 bell diameter, thick enough for reconstruction, gently curved downward with generous white gaps and no intersections. Dark indigo #354569 underside; cyan #22F5FF seam rings and coral #E9978D nozzle lips. No smoke, goo, bubbles or free floating parts. Its identity is a broad bell with three firing throats: must NOT resemble the sharp Dart, spiked Shellmine or long Cantor. Single orthographic three-quarter front view at eye height.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1570744 sha256(base64)=8bd8ab2a3a09db9d>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-ChoristerDrifter/ChoristerDrifter_Meshy.fbx",
+    "batch": "P3-ChoristerDrifter",
+    "created_at": "2026-09-21T06:39:48+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:40:49+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-ChoristerDrifter/ChoristerDrifter_Meshy.fbx",
+      "art-src/Generated/P3-ChoristerDrifter/ChoristerDrifter_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b2-291f-7433-94bd-67a4ad21dffe",
+    "task_id": "01a0c2b2-291f-7433-94bd-67a4ad21dffe",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nShellmine, stationary alien proximity mine 0.8-1.0m diameter, compact dark indigo #3A4665 spherical shell flattened beneath, six short thick blunt conical spikes in a radial star, each attached at its own base with visible white between neighbouring spikes. Bright coral #EE8174 central hexagonal iris and cyan #22F5FF seam ring. Small integral triangular mounting foot, not a scenic base. No legs, tendrils, wings or detached shards. Must NOT read as bell-shaped Drifter or tiny six-legged Scrapmite; a closed spiked sea-urchin shell. Single orthographic three-quarter front view 20 degrees above.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1567156 sha256(base64)=e468e432e4bb1b8d>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-Shellmine/Shellmine_Meshy.fbx",
+    "batch": "P3-Shellmine",
+    "created_at": "2026-09-21T06:40:52+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:41:41+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-Shellmine/Shellmine_Meshy.fbx",
+      "art-src/Generated/P3-Shellmine/Shellmine_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b2-f3d6-7604-88f6-d06da82a644a",
+    "task_id": "01a0c2b2-f3d6-7604-88f6-d06da82a644a",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nBurrower, large limbless alien drilling grub mini-boss, 5-6m long, diameter 0.30-0.38 length. Identity: thick curved segmented ochre #9C754F carapace, blunt three-petal rock auger face fixed open around a dark maw, bright beam-vulnerable turquoise #22F5FF throat. Five heavy linked body rings taper to a blunt tail; each ring overlaps the next as one continuous body, no detached sections. No legs, arms, fur, wings or extra tentacles. Body nearly straight with slight upward head arch, head aligned with body. Must NOT resemble thin flying Cantor: stocky earth-drilling body and massive round drill head. Single orthographic three-quarter front view 35 degrees with complete tail and visible full length.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1977424 sha256(base64)=3a733aa0c4b856b7>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-Burrower/Burrower_Meshy.fbx",
+    "batch": "P3-Burrower",
+    "created_at": "2026-09-21T06:41:44+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:42:21+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-Burrower/Burrower_Meshy.fbx",
+      "art-src/Generated/P3-Burrower/Burrower_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b3-915c-7278-b350-41fc8882acba",
+    "task_id": "01a0c2b3-915c-7278-b350-41fc8882acba",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Isolate ONLY the head and a very short neck collar of the reference serpent, no body or tail. Elongated navy-violet armored wedge skull, four rooted swept fins, a coral oval resonator centered on forehead outlined with cyan, forked mouth with coral inside. Straight forward-facing head axis, neutral straight neck collar ending in one circular connecting socket. Head length 1.7-2.1 times its width. No bent long neck.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1477624 sha256(base64)=1dc55d63f4c574a9>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-CantorHead/CantorHead_Meshy.fbx",
+    "batch": "P3-CantorHead",
+    "created_at": "2026-09-21T06:42:25+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:43:14+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-CantorHead/CantorHead_Meshy.fbx",
+      "art-src/Generated/P3-CantorHead/CantorHead_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b4-5e12-715f-8087-7ed3f0717462",
+    "task_id": "01a0c2b4-5e12-715f-8087-7ed3f0717462",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Design one SINGLE short straight cylindrical BODY SEGMENT of the reference serpent, no head or tail. Four overlapping navy-violet armor plates surrounding a solid short cylinder; one broad coral circular weak-point organ on TOP rimmed with thin cyan branches. Small rooted dorsal blade ridge. Circular capped ends matching adjacent segments, width-to-length 0.85-1.0, thickness 0.70-0.85 of width. No long curving body; just one reusable straight link.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1674272 sha256(base64)=3623b796e826ffdc>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-CantorBody/CantorBody_Meshy.fbx",
+    "batch": "P3-CantorBody",
+    "created_at": "2026-09-21T06:43:17+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:44:18+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-CantorBody/CantorBody_Meshy.fbx",
+      "art-src/Generated/P3-CantorBody/CantorBody_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b5-58a3-732e-bb65-5b54f642eb72",
+    "task_id": "01a0c2b5-58a3-732e-bb65-5b54f642eb72",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Isolate ONLY a SHORT straight tapering TAIL TIP of the reference serpent. Navy-violet plated connecting collar tapering into a single flat leaf-shaped tail fin, cyan vein down the fin, all connected. No head, coral eye, body chain or curved neck. Length 1.8-2.2 times maximum width, clear flattened fin profile.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1500980 sha256(base64)=514580f15fa02ffe>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-CantorTail/CantorTail_Meshy.fbx",
+    "batch": "P3-CantorTail",
+    "created_at": "2026-09-21T06:44:21+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:44:58+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-CantorTail/CantorTail_Meshy.fbx",
+      "art-src/Generated/P3-CantorTail/CantorTail_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b6-9ff4-712d-afbe-6144278b8ad2",
+    "task_id": "01a0c2b6-9ff4-712d-afbe-6144278b8ad2",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael alien anatomy: smooth matte slate skin and a lighter face/throat/palms, plantigrade biped, no tail, no external ears, no hair, no fur or scales. Swept-back elongated cranium, low sensory ridge behind jaw, soft low-bridge nose, almond eyes with readable pale sclera and ring irises. Crown/back crest consists of thick flat overlapping keratin FRONDS, not hair strands. Branching sync-lines run temple to jaw, collar to sternum, elbow to hand and knee to shin. Four fingers plus thumb per hand; all five separated. Forearm 1.06-1.12 times upper arm. Body 7.2-7.6 heads tall, adult 1.85-1.95m. Natural forms wear muted asymmetric wraps over a fitted underlayer with collar node, two wrist bands and a spine docking plate. Practical trousers stop short of feet: no long skirt bridging legs.\nOrrin Malk, mature male dockmaster, broad rectangular face, broad flattened nose, heavy low brow, tired hooded green ring eyes, wide square jaw, closed fond frown. Short cropped stone-grey keratin plumes #7C858D; slate-grey skin #667681, face #98A5AA, restrained dim-green sync-lines #49BE87. Deep navy underlayer #26384A, slate-beige asymmetric dock-office wraps #8C8C7D and one muted green sash #487764. Shoulder width 1.22-1.30 hip width; waist 0.90-0.98 hip width. Clearly older, broader and more grounded than Taren; no beard or human ears.\nSingle straight orthographic FRONT view, face aimed exactly with torso, calm closed mouth, neutral relaxed A pose: arms 30-40 degrees away from sides, palms forward, five relaxed separated digits with visible white gaps. Feet parallel, shoulder width apart. Unbroken wide white gaps between both arms and trunk, between legs from crotch down, between fingers, and around accessories. Wraps stay on the torso or their own leg and never bridge legs. No held props.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1753596 sha256(base64)=a55f8e52c146719c>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-CivilianMale/CivilianMale_Meshy.fbx",
+    "batch": "P3-CivilianMale",
+    "created_at": "2026-09-21T06:45:45+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:46:58+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-CivilianMale/CivilianMale_Meshy.fbx",
+      "art-src/Generated/P3-CivilianMale/CivilianMale_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c2b7-c601-7636-b54b-5f17759b0cb8",
+    "task_id": "01a0c2b7-c601-7636-b54b-5f17759b0cb8",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.9,
+      "input_task_id": "01a0c2b6-9ff4-712d-afbe-6144278b8ad2"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-CivilianMale/CivilianMale_Rigged.fbx",
+    "batch": "P3-CivilianMale",
+    "created_at": "2026-09-21T06:47:01+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:47:39+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-CivilianMale/CivilianMale_Rigged.fbx",
+      "art-src/Generated/P3-CivilianMale/CivilianMale_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-CivilianMale/CivilianMale_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2b8-68c2-74be-b236-d54569915316",
+    "task_id": "01a0c2b8-68c2-74be-b236-d54569915316",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael alien anatomy: smooth matte slate skin and a lighter face/throat/palms, plantigrade biped, no tail, no external ears, no hair, no fur or scales. Swept-back elongated cranium, low sensory ridge behind jaw, soft low-bridge nose, almond eyes with readable pale sclera and ring irises. Crown/back crest consists of thick flat overlapping keratin FRONDS, not hair strands. Branching sync-lines run temple to jaw, collar to sternum, elbow to hand and knee to shin. Four fingers plus thumb per hand; all five separated. Forearm 1.06-1.12 times upper arm. Body 7.2-7.6 heads tall, adult 1.85-1.95m. Natural forms wear muted asymmetric wraps over a fitted underlayer with collar node, two wrist bands and a spine docking plate. Practical trousers stop short of feet: no long skirt bridging legs.\nMira Tessen, adult female outfitter, rounded heart-shaped face, full cheek pads, short broad nose, arched brow ridges, large alert orange ring eyes, small asymmetric saleswoman's smile. Rust-red flat keratin plume-mane #A34D36, slate skin #7E838C, face #ACAFB2, orange sync-lines #FF913D. Aubergine underlayer #403C51, sand wraps #AF9B7B and terracotta sash #A95E41. Shoulder width 0.99-1.06 hip width; waist 0.85-0.93 hip width. Fronds end near shoulder blades and stay behind outspread arms. Solid practical physique, no exaggerated sexual anatomy. Distinct from narrow-faced Sela.\nSingle straight orthographic FRONT view, face aimed exactly with torso, calm closed mouth, neutral relaxed A pose: arms 30-40 degrees away from sides, palms forward, five relaxed separated digits with visible white gaps. Feet parallel, shoulder width apart. Unbroken wide white gaps between both arms and trunk, between legs from crotch down, between fingers, and around accessories. Wraps stay on the torso or their own leg and never bridge legs. No held props.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1724212 sha256(base64)=69c779d9d536ea7c>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-CivilianFemale/CivilianFemale_Meshy.fbx",
+    "batch": "P3-CivilianFemale",
+    "created_at": "2026-09-21T06:47:41+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T06:48:55+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-CivilianFemale/CivilianFemale_Meshy.fbx",
+      "art-src/Generated/P3-CivilianFemale/CivilianFemale_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-rig-01a0c2b9-8dc6-74b8-ac84-ac302dcd61e2",
+    "task_id": "01a0c2b9-8dc6-74b8-ac84-ac302dcd61e2",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.9,
+      "input_task_id": "01a0c2b8-68c2-74be-b236-d54569915316"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P3-CivilianFemale/CivilianFemale_Rigged.fbx",
+    "batch": "P3-CivilianFemale",
+    "created_at": "2026-09-21T06:48:58+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:49:35+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-CivilianFemale/CivilianFemale_Rigged.fbx",
+      "art-src/Generated/P3-CivilianFemale/CivilianFemale_Rigged_walking_fbx.fbx",
+      "art-src/Generated/P3-CivilianFemale/CivilianFemale_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "lattice_p3-retexture-01a0c2c1-08c5-74c6-985a-496693daa0a2",
+    "task_id": "01a0c2c1-08c5-74c6-985a-496693daa0a2",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Mature dockmaster. Short stone-grey keratin plumes #7C858D; slate skin #667681, lighter face #98A5AA, green eyes and thin dim-green branching sync-lines #49BE87. Deep navy underlayer #26384A, slate-beige dock wraps #8C8C7D, muted green sash #487764. Heavy low brow, tired hooded eyes.",
+    "params": {
+      "model_url": "data:model/gltf-binary;base64,<omitted chars=7973036 sha256(base64)=ff4a73827a7328c6>",
+      "text_style_prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Mature dockmaster. Short stone-grey keratin plumes #7C858D; slate skin #667681, lighter face #98A5AA, green eyes and thin dim-green branching sync-lines #49BE87. Deep navy underlayer #26384A, slate-beige dock wraps #8C8C7D, muted green sash #487764. Heavy low brow, tired hooded eyes.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/P3-Orrin/Orrin_Meshy.fbx",
+    "batch": "P3-Orrin",
+    "created_at": "2026-09-21T06:57:08+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:57:58+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-Orrin/Orrin_Meshy.fbx",
+      "art-src/Generated/P3-Orrin/Orrin_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-retexture-01a0c2c1-d9e4-72c5-a1c7-39ee20d22594",
+    "task_id": "01a0c2c1-d9e4-72c5-a1c7-39ee20d22594",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Older gentle repairer. Ivory-grey keratin plumes #C9C9B9; warm-grey skin #7A8284, light face #A5ABAA, blue eyes and thin blue branching sync-lines #388DFF. Charcoal underlayer #303D46, weathered ochre workshop wraps #A49368, blue sash #507DA0. Gentle deep-set eyes, subtle cheek folds.",
+    "params": {
+      "model_url": "data:model/gltf-binary;base64,<omitted chars=7973036 sha256(base64)=ff4a73827a7328c6>",
+      "text_style_prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Older gentle repairer. Ivory-grey keratin plumes #C9C9B9; warm-grey skin #7A8284, light face #A5ABAA, blue eyes and thin blue branching sync-lines #388DFF. Charcoal underlayer #303D46, weathered ochre workshop wraps #A49368, blue sash #507DA0. Gentle deep-set eyes, subtle cheek folds.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/P3-Hal/Hal_Meshy.fbx",
+    "batch": "P3-Hal",
+    "created_at": "2026-09-21T06:58:02+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:59:03+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-Hal/Hal_Meshy.fbx",
+      "art-src/Generated/P3-Hal/Hal_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-retexture-01a0c2c2-d994-759b-ac3e-06768fdd770d",
+    "task_id": "01a0c2c2-d994-759b-ac3e-06768fdd770d",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Alert female outfitter. Rust-red keratin plumes #A34D36; slate skin #7E838C, light face #ACAFB2, orange eyes and thin orange branching sync-lines #FF913A. Cream-beige shop wraps #B4AA94, muted terracotta sash #AD725C, dark slate underlayer. Heart-shaped face, asymmetric friendly smile.",
+    "params": {
+      "model_url": "data:model/gltf-binary;base64,<omitted chars=7968832 sha256(base64)=ff17ad89a4f1dec8>",
+      "text_style_prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Alert female outfitter. Rust-red keratin plumes #A34D36; slate skin #7E838C, light face #ACAFB2, orange eyes and thin orange branching sync-lines #FF913A. Cream-beige shop wraps #B4AA94, muted terracotta sash #AD725C, dark slate underlayer. Heart-shaped face, asymmetric friendly smile.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/P3-Mira/Mira_Meshy.fbx",
+    "batch": "P3-Mira",
+    "created_at": "2026-09-21T06:59:09+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T06:59:58+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-Mira/Mira_Meshy.fbx",
+      "art-src/Generated/P3-Mira/Mira_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-retexture-01a0c2c5-62f6-73be-935d-793c54994e59",
+    "task_id": "01a0c2c5-62f6-73be-935d-793c54994e59",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Female courier. Black keratin plumes #242A37; cool slate skin #727E91, light face #A1AAB6, silver eyes and thin white branching sync-lines. Indigo underlayer #283952, weathered pale-grey travel wraps #9CA6B0, muted plum sash #71657F. Narrow alert eyes, subtle skeptical smile.",
+    "params": {
+      "model_url": "data:model/gltf-binary;base64,<omitted chars=7968832 sha256(base64)=ff17ad89a4f1dec8>",
+      "text_style_prompt": "LATTICE cel-shaded anime Vael alien. Keep original UVs, anatomy and garment boundaries. Flat matte colors; no gloss, baked light, shadows, text or scenery. Thick keratin fronds, no hair. Keep facial features legible. Female courier. Black keratin plumes #242A37; cool slate skin #727E91, light face #A1AAB6, silver eyes and thin white branching sync-lines. Indigo underlayer #283952, weathered pale-grey travel wraps #9CA6B0, muted plum sash #71657F. Narrow alert eyes, subtle skeptical smile.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/P3-Neve/Neve_Meshy.fbx",
+    "batch": "P3-Neve",
+    "created_at": "2026-09-21T07:01:53+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-21T07:02:42+00:00",
+    "downloaded": [
+      "art-src/Generated/P3-Neve/Neve_Meshy.fbx",
+      "art-src/Generated/P3-Neve/Neve_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2c6-894b-7400-a4ca-b3dddd62d0dd",
+    "task_id": "01a0c2c6-894b-7400-a4ca-b3dddd62d0dd",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael civilian cargo HAULER, 22-28m long, broad smooth rounded hull with two integrated cargo lobes and a low central cockpit. Width 0.46-0.56 length. Matte warm ivory #C4BBA8 plating, slate #465563 recesses, burnt orange #B87951 bands, thin cyan #22F5FF Lattice seams. Twin rear thrust apertures are dark, no exhaust. Three connected masses, no loose containers. Must read as broad workhorse compared with tiny needle Skiff and angular twin-prong Cutter.\nSingle orthographic three-quarter front view, 30 degrees above, complete length and silhouette, head/cockpit aligned with hull. White gaps between prongs/vanes while all roots stay attached.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=2396840 sha256(base64)=b1823d1f3f1dc98f>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-Hauler/Hauler_Meshy.fbx",
+    "batch": "P3-Hauler",
+    "created_at": "2026-09-21T07:03:07+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:03:44+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-Hauler/Hauler_Meshy.fbx",
+      "art-src/Generated/P3-Hauler/Hauler_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2c7-25b4-75d8-a517-57622df315c2",
+    "task_id": "01a0c2c7-25b4-75d8-a517-57622df315c2",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael personal SKIFF, 5-7m long, smooth narrow teardrop fuselage with small swept attached side vanes and single cockpit, width 0.28-0.36 length. Matte slate-blue #617C92, cream #C5CFCE underside, cyan #22F5FF Lattice seams. One central rear thrust socket, no exhaust. Minimal compact silhouette, clearly narrower than the heavy Hauler and without the Cutter's twin prongs.\nSingle orthographic three-quarter front view, 30 degrees above, complete length and silhouette, head/cockpit aligned with hull. White gaps between prongs/vanes while all roots stay attached.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1768616 sha256(base64)=ddb104891197b9ac>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-Skiff/Skiff_Meshy.fbx",
+    "batch": "P3-Skiff",
+    "created_at": "2026-09-21T07:03:48+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:04:25+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-Skiff/Skiff_Meshy.fbx",
+      "art-src/Generated/P3-Skiff/Skiff_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2c7-c3d8-7476-9659-f3b36dcc3ee3",
+    "task_id": "01a0c2c7-c3d8-7476-9659-f3b36dcc3ee3",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nVael patrol CUTTER, 13-17m long, smooth central hull splitting into two attached forward prongs with a wide white slot between them, width 0.37-0.45 length. Matte charcoal #364959, pale grey #A8BCBE armor and cyan #22F5FF Lattice seams. Compact central cockpit. Two integral rear thrust sockets, no exhaust. Swept shoulder guards stay attached. Sharper bifurcated patrol silhouette than rounded Hauler or teardrop Skiff.\nSingle orthographic three-quarter front view, 30 degrees above, complete length and silhouette, head/cockpit aligned with hull. White gaps between prongs/vanes while all roots stay attached.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1983768 sha256(base64)=aebb23211cecf726>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-PatrolCutter/PatrolCutter_Meshy.fbx",
+    "batch": "P3-PatrolCutter",
+    "created_at": "2026-09-21T07:04:28+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:05:05+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-PatrolCutter/PatrolCutter_Meshy.fbx",
+      "art-src/Generated/P3-PatrolCutter/PatrolCutter_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2d4-900c-74ad-a258-c04f2185eb9d",
+    "task_id": "01a0c2d4-900c-74ad-a258-c04f2185eb9d",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the top-left dusty ochre moon ground tile: square low relief slab, sparse small embedded gravel and shallow cracks; flat walkable top. Width-to-thickness 12-18, square footprint. All gravel attached, no loose outlying stones.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1852188 sha256(base64)=f721845ecbc0c3e2>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-MoonGroundA/MoonGroundA_Meshy.fbx",
+    "batch": "P3-MoonGroundA",
+    "created_at": "2026-09-21T07:18:26+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:19:15+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-MoonGroundA/MoonGroundA_Meshy.fbx",
+      "art-src/Generated/P3-MoonGroundA/MoonGroundA_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2d5-5ad7-71c2-bf26-fd173d9f63f2",
+    "task_id": "01a0c2d5-5ad7-71c2-bf26-fd173d9f63f2",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the second cracked ochre moon ground tile: square low relief slab with broad irregular bedrock plates and narrow dark seams; flat walkable top. Width-to-thickness 10-16, square footprint. All stones connected.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1944544 sha256(base64)=1f47ade56c1e9229>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-MoonGroundB/MoonGroundB_Meshy.fbx",
+    "batch": "P3-MoonGroundB",
+    "created_at": "2026-09-21T07:19:19+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:20:08+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-MoonGroundB/MoonGroundB_Meshy.fbx",
+      "art-src/Generated/P3-MoonGroundB/MoonGroundB_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2d6-2667-7307-ad59-d9e6944ca7f7",
+    "task_id": "01a0c2d6-2667-7307-ad59-d9e6944ca7f7",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the tall narrow stratified sandstone ridge spire from the top row. Warm ochre fractured plates, tapered silhouette, compact integral rocky foot. Height 2.2-2.7 times width. No isolated surrounding pebbles.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1362120 sha256(base64)=7a3cf67ec17b85f0>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P3-RidgeRock1/RidgeRock1_Meshy.fbx",
+    "batch": "P3-RidgeRock1",
+    "created_at": "2026-09-21T07:20:10+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:20:47+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P3-RidgeRock1/RidgeRock1_Meshy.fbx",
+      "art-src/Generated/P3-RidgeRock1/RidgeRock1_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "lattice_p3-img3d-01a0c2d6-c1f9-70e9-8e65-d51b5a9e53ee",
+    "task_id": "01a0c2d6-c1f9-70e9-8e65-d51b5a9e53ee",
+    "prompt_id": "LATTICE_P3",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Only the broad low stratified sandstone ridge boulder from top row. Warm ochre angular steps, broad compact silhouette. Width 1.8-2.2 times height. No isolated surrounding pebbles.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=2135472 sha256(base64)=317d91d0f33e60f3>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": null,
+    "batch": "P3-RidgeRock2",
+    "created_at": "2026-09-21T07:20:51+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-21T07:20:51+00:00",
     "status": "IN_PROGRESS"
   }
 ]

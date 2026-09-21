@@ -53,10 +53,18 @@ namespace Lattice.EditorTools
                 yield return null;
                 Frame(bounds,new Vector3(0,.1f,1),960,1080);Capture(row.id+"-idle-front",960,1080);
                 Frame(bounds,new Vector3(1,.15f,0),960,1080);Capture(row.id+"-idle-side",960,1080);
+                Frame(bounds,new Vector3(0,.12f,-1),960,1080);Capture(row.id+"-idle-back",960,1080);
                 if(row.clips!=null&&row.clips.Any(c=>c.state=="Walk"))
                 {
                     foreach(float phase in new[]{.15f,.65f}){Pose(actor,row,"Walk",phase);yield return null;Frame(BoundsOf(actor),new Vector3(.65f,.25f,1),960,1080);Capture(row.id+"-walk-"+Mathf.RoundToInt(phase*100),960,1080);}
                     Pose(actor,row,"Attack",.45f);yield return null;Frame(BoundsOf(actor),new Vector3(.65f,.25f,1),960,1080);Capture(row.id+"-attack",960,1080);
+                }
+                if(row.form=="Shaped")
+                {
+                    Pose(actor,row,"Idle",.2f);actor.transform.rotation=Quaternion.Euler(90,0,0);actor.GetComponent<Lattice.Combat.GeneratedVanes>().SetForm(Lattice.Data.BodyForm.Flight);
+                    yield return null;Frame(BoundsOf(actor),new Vector3(.7f,1,.5f),1280,960);Capture(row.character+"-Flight",1280,960);
+                    Frame(BoundsOf(actor),new Vector3(.01f,1,.01f),1280,960);Capture(row.character+"-Flight-top",1280,960);
+                    actor.transform.rotation=Quaternion.identity;actor.GetComponent<Lattice.Combat.GeneratedVanes>().SetForm(Lattice.Data.BodyForm.Shaped);
                 }
                 Pose(actor,row,"Idle",.2f);bounds=BoundsOf(actor);actor.transform.position+=new Vector3(cursor-bounds.min.x,-bounds.min.y,0);cursor+=bounds.size.x+.6f;actor.SetActive(false);lineup.Add(actor);
             }

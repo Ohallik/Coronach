@@ -1,0 +1,22 @@
+[
+ {
+  "name": "CivilianMale",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2b6-9ff4-712d-afbe-6144278b8ad2",
+  "output": "art-src\\Generated\\P3-CivilianMale\\CivilianMale_Rigged.fbx"
+ },
+ {
+  "name": "CivilianFemale",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2b8-68c2-74be-b236-d54569915316",
+  "output": "art-src\\Generated\\P3-CivilianFemale\\CivilianFemale_Rigged.fbx"
+ }
+]

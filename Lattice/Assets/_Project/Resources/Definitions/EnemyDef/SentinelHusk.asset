@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SentinelHusk
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   id: SentinelHusk
-  prefab: {fileID: 0}
+  prefab: {fileID: 2651303975460094046, guid: 71a6526b79fc02f429f80fd05b414a5c, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

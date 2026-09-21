@@ -1,0 +1,118 @@
+[
+ {
+  "name": "SentinelHusk",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2ac-492c-7152-a378-c31b275b6aa9",
+  "output": "art-src\\Generated\\P3-SentinelHusk\\SentinelHusk_Rigged.fbx"
+ },
+ {
+  "name": "Ridgehound",
+  "kind": "quadruped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2ae-c0e6-73f9-bf14-86b6971c5b9e",
+  "output": "art-src\\Generated\\P3-Ridgehound\\Ridgehound_Rigged.fbx"
+ },
+ {
+  "name": "Scrapmite",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2af-95be-7799-8a40-0683f2ff3c0e",
+  "output": "art-src\\Generated\\P3-Scrapmite\\Scrapmite_Static.fbx"
+ },
+ {
+  "name": "ChoristerDart",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b0-61d3-77ef-8935-64729cb1acd1",
+  "output": "art-src\\Generated\\P3-ChoristerDart\\ChoristerDart_Static.fbx"
+ },
+ {
+  "name": "ChoristerDrifter",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b1-2c15-73a1-8f76-6df1de205b16",
+  "output": "art-src\\Generated\\P3-ChoristerDrifter\\ChoristerDrifter_Static.fbx"
+ },
+ {
+  "name": "Shellmine",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b2-291f-7433-94bd-67a4ad21dffe",
+  "output": "art-src\\Generated\\P3-Shellmine\\Shellmine_Static.fbx"
+ },
+ {
+  "name": "Burrower",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b2-f3d6-7604-88f6-d06da82a644a",
+  "output": "art-src\\Generated\\P3-Burrower\\Burrower_Static.fbx"
+ },
+ {
+  "name": "CantorHead",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b3-915c-7278-b350-41fc8882acba",
+  "output": "art-src\\Generated\\P3-CantorHead\\CantorHead_Static.fbx"
+ },
+ {
+  "name": "CantorBody",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b4-5e12-715f-8087-7ed3f0717462",
+  "output": "art-src\\Generated\\P3-CantorBody\\CantorBody_Static.fbx"
+ },
+ {
+  "name": "CantorTail",
+  "kind": "static",
+  "prompt_id": "LATTICE_P3",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0c2b5-58a3-732e-bb65-5b54f642eb72",
+  "output": "art-src\\Generated\\P3-CantorTail\\CantorTail_Static.fbx"
+ }
+]

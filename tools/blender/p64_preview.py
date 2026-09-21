@@ -111,7 +111,7 @@ def main():
     bpy.context.scene.camera = camera
 
     scene = bpy.context.scene
-    scene.render.engine = "BLENDER_EEVEE_NEXT"
+    scene.render.engine = "BLENDER_EEVEE" if bpy.app.version >= (5,0,0) else "BLENDER_EEVEE_NEXT"
     scene.render.resolution_x = scene.render.resolution_y = args.size
     scene.render.resolution_percentage = 100
     scene.render.image_settings.file_format = "PNG"

@@ -699,5 +699,434 @@
       1254
     ],
     "notes": "All sixteen cells inspected and mapped in enum order. Identity and palette preserved; clear Neutral, Shocked, Playful and Special expressions."
+  },
+  {
+    "name": "portrait-Mira_Natural",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Mira_Natural.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Mira_Natural.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Sixteen cells visually inspected in exact enum order, including readable Neutral and Shocked. Fronds, face and palette remain consistent."
+  },
+  {
+    "name": "portrait-Hal_Natural",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Hal_Natural.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Hal_Natural.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Sixteen cells visually inspected in exact enum order, including readable Neutral and Shocked. Fronds, face and palette remain consistent."
+  },
+  {
+    "name": "portrait-Neve_Natural",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-portraits/refs/Neve_Natural.png",
+    "prompt": "art-src/Generated/P3-portraits/refs/Neve_Natural.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_PORTRAIT",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Sixteen cells visually inspected in exact enum order, including readable Neutral and Shocked. Fronds, face and palette remain consistent."
+  },
+  {
+    "name": "model-CantorHead",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/CantorHead.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/CantorHead.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1312,
+      1199
+    ],
+    "notes": "Single skull with short connected collar, rooted crest fins, coral resonator, matte white-background reference; orientation will be reviewed in 3D."
+  },
+  {
+    "name": "model-CantorBody",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/CantorBody.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/CantorBody.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Single straight connected segment with capped ends, readable top weak point and dorsal ridge, no detached geometry."
+  },
+  {
+    "name": "model-CantorTail",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/CantorTail.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/CantorTail.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Single tapering connected tail tip with leaf fin, cyan vein, open background and no body duplication."
+  },
+  {
+    "name": "model-MoonGroundA",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/MoonGroundA.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/MoonGroundA.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected single connected object, complete silhouette, matte ochre surfaces, opaque white background and no detached debris."
+  },
+  {
+    "name": "model-MoonGroundB",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/MoonGroundB.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/MoonGroundB.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected single connected object, complete silhouette, matte ochre surfaces, opaque white background and no detached debris."
+  },
+  {
+    "name": "model-RidgeRock1",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/RidgeRock1.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/RidgeRock1.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1310,
+      1200
+    ],
+    "notes": "Inspected single connected object, complete silhouette, matte ochre surfaces, opaque white background and no detached debris."
+  },
+  {
+    "name": "model-RidgeRock2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/RidgeRock2.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/RidgeRock2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete connected silhouette, clean flat colors, all protrusions rooted, no gloss or detached pieces; clear white backdrop."
+  },
+  {
+    "name": "model-RidgeRock3",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/RidgeRock3.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/RidgeRock3.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete connected silhouette, clean flat colors, all protrusions rooted, no gloss or detached pieces; clear white backdrop."
+  },
+  {
+    "name": "model-CrystalClusterA",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/CrystalClusterA.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/CrystalClusterA.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete connected silhouette, clean flat colors, all protrusions rooted, no gloss or detached pieces; clear white backdrop."
+  },
+  {
+    "name": "model-CrystalClusterB",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/CrystalClusterB.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/CrystalClusterB.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1312,
+      1199
+    ],
+    "notes": "Inspected single connected object, matte cel facets, clear silhouette and opaque white backdrop. Ready for reconstruction."
+  },
+  {
+    "name": "model-LatticeAnvil",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/LatticeAnvil.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/LatticeAnvil.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected single connected object, matte cel facets, clear silhouette and opaque white backdrop. Ready for reconstruction."
+  },
+  {
+    "name": "model-OutpostHab",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/OutpostHab.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/OutpostHab.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected single connected object, matte cel facets, clear silhouette and opaque white backdrop. Ready for reconstruction."
+  },
+  {
+    "name": "model-OutpostDrill",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/OutpostDrill.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/OutpostDrill.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete single connected prop, separated rooted supports where applicable, matte cel surfaces, white backdrop. Ring windows are opaque painted detail."
+  },
+  {
+    "name": "model-LandingPad",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/LandingPad.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/LandingPad.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete single connected prop, separated rooted supports where applicable, matte cel surfaces, white backdrop. Ring windows are opaque painted detail."
+  },
+  {
+    "name": "model-RingSegmentA",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/RingSegmentA.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/RingSegmentA.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete single connected prop, separated rooted supports where applicable, matte cel surfaces, white backdrop. Ring windows are opaque painted detail."
+  },
+  {
+    "name": "model-RingSegmentB",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/RingSegmentB.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/RingSegmentB.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete isolated connected prop, readable office fin or outfitter awning, opaque painted windows, matte palette and clear white background."
+  },
+  {
+    "name": "model-DockingPodOffice",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DockingPodOffice.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DockingPodOffice.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete isolated connected prop, readable office fin or outfitter awning, opaque painted windows, matte palette and clear white background."
+  },
+  {
+    "name": "model-DockingPodOutfitter",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DockingPodOutfitter.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DockingPodOutfitter.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete isolated connected prop, readable office fin or outfitter awning, opaque painted windows, matte palette and clear white background."
+  },
+  {
+    "name": "model-DockingPodRepair",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DockingPodRepair.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DockingPodRepair.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected isolated complete prop, connected repair braces or beacon roots, clear openings, matte palette and white background."
+  },
+  {
+    "name": "model-WarpBeacon",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/WarpBeacon.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/WarpBeacon.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected isolated complete prop, connected repair braces or beacon roots, clear openings, matte palette and white background."
+  },
+  {
+    "name": "model-DeckWall",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DeckWall.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DeckWall.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1374,
+      1145
+    ],
+    "notes": "Inspected isolated complete prop, connected repair braces or beacon roots, clear openings, matte palette and white background."
+  },
+  {
+    "name": "model-DeckFloor",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DeckFloor.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DeckFloor.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete connected architecture piece, flat walkable panel or open doorway, matte palette, blank screen, white background."
+  },
+  {
+    "name": "model-DeckDoorway",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DeckDoorway.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DeckDoorway.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected complete connected architecture piece, flat walkable panel or open doorway, matte palette, blank screen, white background."
+  },
+  {
+    "name": "model-DeckConsole",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DeckConsole.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DeckConsole.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1374,
+      1145
+    ],
+    "notes": "Inspected complete connected architecture piece, flat walkable panel or open doorway, matte palette, blank screen, white background."
+  },
+  {
+    "name": "model-DeckBench",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DeckBench.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DeckBench.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected single complete connected prop, clear support gaps, restrained surface detail, matte cel palette and opaque white background."
+  },
+  {
+    "name": "model-DeckCrate",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/DeckCrate.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/DeckCrate.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected single complete connected prop, clear support gaps, restrained surface detail, matte cel palette and opaque white background."
+  },
+  {
+    "name": "model-GulletWallA",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/GulletWallA.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/GulletWallA.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1448,
+      1086
+    ],
+    "notes": "Inspected single complete connected prop, clear support gaps, restrained surface detail, matte cel palette and opaque white background."
+  },
+  {
+    "name": "model-GulletWallB",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/GulletWallB.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/GulletWallB.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected connected organic prop, clear outer silhouette and rooted ribs, restrained violet/cyan cel palette, opaque white background."
+  },
+  {
+    "name": "model-ChoirPod",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-isolated/refs/ChoirPod.png",
+    "prompt": "art-src/Generated/P3-isolated/refs/ChoirPod.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1122,
+      1402
+    ],
+    "notes": "Inspected connected organic prop, clear outer silhouette and rooted ribs, restrained violet/cyan cel palette, opaque white background."
+  },
+  {
+    "name": "gullet-membrane-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3-texture-refine/refs/gullet-membrane-v2.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/gullet-membrane.png",
+    "prompt": "art-src/Generated/P3-texture-refine/refs/gullet-membrane-v2.prompt.txt",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "inspected": true,
+    "notes": "Opened: muted broad navy/violet cells with sparse dim cyan veins. Replaces the busy runtime membrane texture; original source retained. In-world look review pending."
   }
 ]

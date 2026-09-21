@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Orrin",
+    "base": "CivilianMale",
+    "status": "ok",
+    "prompt": "docs/art/prompts/retexture-Orrin.md"
+  },
+  {
+    "name": "Hal",
+    "base": "CivilianMale",
+    "status": "ok",
+    "prompt": "docs/art/prompts/retexture-Hal.md"
+  },
+  {
+    "name": "Mira",
+    "base": "CivilianFemale",
+    "status": "ok",
+    "prompt": "docs/art/prompts/retexture-Mira.md"
+  },
+  {
+    "name": "Neve",
+    "base": "CivilianFemale",
+    "status": "ok",
+    "prompt": "docs/art/prompts/retexture-Neve.md"
+  }
+]

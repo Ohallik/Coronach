@@ -1,0 +1,94 @@
+[
+  {
+    "name": "SentinelHusk",
+    "kind": "biped",
+    "batch": "P3-SentinelHusk",
+    "ref": "art-src/Generated/P1-production/refs/sentinel-husk-v2.png",
+    "height": 2.3,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nSentinel Husk, 2.4m tall armoured BIPED relic; readable humanoid head-neck-torso-hips and two arms/two legs, not a quadruped. Broad blunt octagonal shoulders, compact visor head, oversized shield-like left forearm, right piledriver fist. Dark basalt #394651 segmented armour with dusty ochre inset plates #A6946A and thin saturated cyan #22F5FF seams. Width-to-height 0.36-0.43; neck visible above torso. It must NOT resemble the low ridgehound, tiny scrapmite or round burrower: its upright shield silhouette is its identity. Front A-pose, head forward, arms 35 degrees off trunk, fists unclenched, legs shoulder-width with wide white gaps. Five stubby separated fingers on each hand; armour attached to its own limb only. Single orthographic front view."
+  },
+  {
+    "name": "Ridgehound",
+    "kind": "quadruped",
+    "batch": "P3-Ridgehound",
+    "ref": "art-src/Generated/P1-production/refs/ridgehound-v2.png",
+    "height": 2.4,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nRidgehound, alien QUADRUPED pack predator, 2.2m nose-to-tail, shoulder height 0.75-0.90m, lean low dog-like body with four separate digitigrade legs and three blunt toes per paw, no hands or humanoid torso. Identity: a low wedge head with three rooted backward-swept rust basalt crest plates and sharply sloped armoured shoulders. Dusty russet #995E45 dorsal armour, charcoal #3D464B lower body, small lime #AACF5A eye/side fissures. Not a wolf in fur, not round like Burrower, not a six-legged Scrapmite. Short thick tail extended straight back, separated from rump contour beyond its root and never touching legs. Single orthographic three-quarter FRONT view about 35 degrees. Stagger near front foot half a head forward of far front foot, hind legs also staggered; broad continuous white between all four legs. Head aligned with body; every paw fully visible, no resting on ground.",
+    "donor": "C:/Users/natem/Projects/FrostboundUnity/art-src/Quaternius_UltimateAnimatedAnimals/FBX/Fox.fbx",
+    "fit": "length"
+  },
+  {
+    "name": "Scrapmite",
+    "kind": "static",
+    "batch": "P3-Scrapmite",
+    "ref": "art-src/Generated/P1-production/refs/scrapmite-v2.png",
+    "height": 0.65,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nScrapmite, small low SIX-LEGGED mechanical scavenger 0.45-0.55m long, squat hexagonal body, three segmented short legs per side. Six grounded attachment roots with background between every leg from first joint outward; legs never cross each other. Identity is a rusty angular broken circuit carapace and one bright amber #FFB62E central eye, dark grey #464F54 and copper #B77547 plates. Width 0.75-0.90 body length. It must NOT read as four-legged Ridgehound, round Shellmine or a flying Chorister: all six little skitter legs plainly counted. Single orthographic three-quarter front view 30 degrees above, no loose scrap or debris."
+  },
+  {
+    "name": "ChoristerDart",
+    "kind": "static",
+    "batch": "P3-ChoristerDart",
+    "ref": "art-src/Generated/P1-production/refs/chorister-dart.png",
+    "height": 1.6,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nChorister Dart, small flying alien 0.8-1.0m long, a narrow spear-shaped violet #635B88 body with one small orange #FFAB68 eye and two swept pointed fins visibly attached by distinct narrow roots. Fin tip span 0.60-0.78 body length. Rear taper like a needle. No legs, feathers, beak or humanoid face. Continuous cyan #22F5FF organ seams. The identity is a sharp triangular dive-bomber silhouette, unlike a round Drifter, blunt Shellmine or segmented Cantor. Single orthographic three-quarter front view 30 degrees above; white triangles separate each attached fin from central body along its trailing edge, no detached fins."
+  },
+  {
+    "name": "ChoristerDrifter",
+    "kind": "static",
+    "batch": "P3-ChoristerDrifter",
+    "ref": "art-src/Generated/P1-production/refs/chorister-drifter.png",
+    "height": 2.0,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nChorister Drifter, floating alien spitter 1.3-1.6m wide, a flattened bell-shaped mauve #8B6D98 carapace, three large forward nozzle mouths integrated into its underside and five short thick hanging tendrils attached around rim. Each tendril 0.24-0.32 bell diameter, thick enough for reconstruction, gently curved downward with generous white gaps and no intersections. Dark indigo #354569 underside; cyan #22F5FF seam rings and coral #E9978D nozzle lips. No smoke, goo, bubbles or free floating parts. Its identity is a broad bell with three firing throats: must NOT resemble the sharp Dart, spiked Shellmine or long Cantor. Single orthographic three-quarter front view at eye height."
+  },
+  {
+    "name": "Shellmine",
+    "kind": "static",
+    "batch": "P3-Shellmine",
+    "ref": "art-src/Generated/P1-production/refs/shellmine.png",
+    "height": 1.0,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nShellmine, stationary alien proximity mine 0.8-1.0m diameter, compact dark indigo #3A4665 spherical shell flattened beneath, six short thick blunt conical spikes in a radial star, each attached at its own base with visible white between neighbouring spikes. Bright coral #EE8174 central hexagonal iris and cyan #22F5FF seam ring. Small integral triangular mounting foot, not a scenic base. No legs, tendrils, wings or detached shards. Must NOT read as bell-shaped Drifter or tiny six-legged Scrapmite; a closed spiked sea-urchin shell. Single orthographic three-quarter front view 20 degrees above."
+  },
+  {
+    "name": "Burrower",
+    "kind": "static",
+    "batch": "P3-Burrower",
+    "ref": "art-src/Generated/P1-production/refs/burrower.png",
+    "height": 3.0,
+    "family": "Enemy",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region, including between limbs. No transparency or alpha channel, gradient, vignette or halo. Use case: stylized-concept. LATTICE production design. Crisp cel-shaded anime game art with restrained flat local-color regions and readable silhouettes. Even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom spill, scenery, floor, particles, text, labels, watermark, borders or detached decorative parts. Emissive lines are opaque saturated color, not illumination. Every appendage is visibly rooted in its body.\nExactly ONE isolated complete subject, ONE view only, filling 80-88 percent of the canvas with clear margin on every side. No inset, turnaround, duplicate, cropped appendage or ground plane. This image will be reconstructed into 3D.\nBurrower, large limbless alien drilling grub mini-boss, 5-6m long, diameter 0.30-0.38 length. Identity: thick curved segmented ochre #9C754F carapace, blunt three-petal rock auger face fixed open around a dark maw, bright beam-vulnerable turquoise #22F5FF throat. Five heavy linked body rings taper to a blunt tail; each ring overlaps the next as one continuous body, no detached sections. No legs, arms, fur, wings or extra tentacles. Body nearly straight with slight upward head arch, head aligned with body. Must NOT resemble thin flying Cantor: stocky earth-drilling body and massive round drill head. Single orthographic three-quarter front view 35 degrees with complete tail and visible full length."
+  },
+  {
+    "name": "CantorHead",
+    "kind": "static",
+    "batch": "P3-CantorHead",
+    "ref": "art-src/Generated/P3-isolated/refs/CantorHead.png",
+    "height": 3.0,
+    "family": "Enemy",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Isolate ONLY the head and a very short neck collar of the reference serpent, no body or tail. Elongated navy-violet armored wedge skull, four rooted swept fins, a coral oval resonator centered on forehead outlined with cyan, forked mouth with coral inside. Straight forward-facing head axis, neutral straight neck collar ending in one circular connecting socket. Head length 1.7-2.1 times its width. No bent long neck.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n"
+  },
+  {
+    "name": "CantorBody",
+    "kind": "static",
+    "batch": "P3-CantorBody",
+    "ref": "art-src/Generated/P3-isolated/refs/CantorBody.png",
+    "height": 2.2,
+    "family": "Enemy",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Design one SINGLE short straight cylindrical BODY SEGMENT of the reference serpent, no head or tail. Four overlapping navy-violet armor plates surrounding a solid short cylinder; one broad coral circular weak-point organ on TOP rimmed with thin cyan branches. Small rooted dorsal blade ridge. Circular capped ends matching adjacent segments, width-to-length 0.85-1.0, thickness 0.70-0.85 of width. No long curving body; just one reusable straight link.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n"
+  },
+  {
+    "name": "CantorTail",
+    "kind": "static",
+    "batch": "P3-CantorTail",
+    "ref": "art-src/Generated/P3-isolated/refs/CantorTail.png",
+    "height": 2.2,
+    "family": "Enemy",
+    "prompt": "Use case: stylized-concept. Single LATTICE production reconstruction reference. OPAQUE PURE WHITE #FFFFFF background in every empty region. Exactly ONE complete isolated object, ONE three-quarter orthographic view, centered with 8-12 percent margin, no turnarounds, insets, additional objects, text, symbols, labels, floor, scenery, cast shadows, halo, gradients or transparency. Crisp cel-shaded anime game art, flat local colors with minimal facet shading. Matte surfaces: no specular highlights, reflection, rim light or bloom. Thick readable connected geometry, no floating or detached ornaments. All protrusions have clear roots in the main body. This will be reconstructed as a textured 3D game model. Preserve the referenced object's design, palette and materials.\nInput image is a design reference only. Isolate ONLY a SHORT straight tapering TAIL TIP of the reference serpent. Navy-violet plated connecting collar tapering into a single flat leaf-shaped tail fin, cyan vein down the fin, all connected. No head, coral eye, body chain or curved neck. Length 1.8-2.2 times maximum width, clear flattened fin profile.\nRender this ONE object alone on opaque pure white; do not copy the multi-object layout.\n"
+  }
+]

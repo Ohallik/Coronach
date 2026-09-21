@@ -1,0 +1,32 @@
+[
+ {
+  "name": "TarenShaped",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2a3-a286-705f-9860-ee7070b07d64",
+  "output": "art-src\\Generated\\P3-TarenShaped\\TarenShaped_Rigged.fbx"
+ },
+ {
+  "name": "SelaNatural",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2a5-b93e-7091-8fc3-168591ab9667",
+  "output": "art-src\\Generated\\P3-SelaNatural\\SelaNatural_Rigged.fbx"
+ },
+ {
+  "name": "SelaShaped",
+  "kind": "biped",
+  "prompt_id": "LATTICE_P3",
+  "credits": 20,
+  "status": "ok",
+  "notes": [],
+  "img3d_task": "01a0c2a7-82cd-7251-a0d0-4d968c30911b",
+  "output": "art-src\\Generated\\P3-SelaShaped\\SelaShaped_Rigged.fbx"
+ }
+]

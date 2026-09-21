@@ -13,4 +13,6 @@ Reusable code and tooling adapted from Nathan's FrostboundUnity project. No Fros
 - Real-ESRGAN NCNN Vulkan (portrait production tool only): Xintao Wang and contributors, BSD-3-Clause; uses the existing read-only tool/model installation in Frostbound's `art-src/realesrgan`. No demonstration images are imported into LATTICE.
 - Quaternius Universal Animation Library, CC0: skeleton and Idle, Walk, Sword Attack, Roll and Hit Chest animation clips only. Source archive: Frostbound's owned `Quaternius_UniversalAnimationLibrary`; staged licence `Lattice/Assets/_Project/Art/Animation/UAL-License.txt`. The donor export contains zero mesh renderers.
 
+- Quaternius Ultimate Animated Animals, CC0: Fox skeleton and Idle, Walk and Attack clips only, grafted onto the generated Ridgehound. Zero donor meshes are staged. Licence: `Lattice/Assets/_Project/Art/Animation/Fox-License.txt`.
+
 Additional permitted donors, glyphs and particles will be recorded when staged. No downloaded model, portrait, environment image, panel or inventory icon is final LATTICE art.
