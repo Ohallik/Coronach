@@ -7,5 +7,37 @@
     "runtime": "Lattice/Assets/_Project/Resources/UI/Title/key-art.png",
     "inspected": true,
     "notes": "Cinder Halo around Vorun. Dark left area supports title UI. No species depiction or borrowed visible art."
+  },
+  {
+    "name": "species-sheet-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1/refs/species-sheet-v2.png",
+    "prompt": "art-src/Generated/P1/refs/species-sheet-v2.prompt.txt",
+    "inspected": true,
+    "status": "NATHAN_GATE_PENDING"
+  },
+  {
+    "name": "species-faces-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1/refs/species-faces-v2.png",
+    "prompt": "art-src/Generated/P1/refs/species-faces-v2.prompt.txt",
+    "inspected": true,
+    "status": "NATHAN_GATE_PENDING"
+  },
+  {
+    "name": "taren-board",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1/refs/taren-board.png",
+    "prompt": "art-src/Generated/P1/refs/taren-board.prompt.txt",
+    "inspected": true,
+    "status": "NATHAN_GATE_PENDING"
+  },
+  {
+    "name": "sela-board-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1/refs/sela-board-v2.png",
+    "prompt": "art-src/Generated/P1/refs/sela-board-v2.prompt.txt",
+    "inspected": true,
+    "status": "NATHAN_GATE_PENDING"
   }
 ]

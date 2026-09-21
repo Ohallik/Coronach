@@ -9,7 +9,7 @@
 | Gate | Status | Evidence / defect that must fail |
 |---|---|---|
 | P0_TOOLCHAIN_OK | CLOSED | `VERIFY_OK`, `BOOT_SCENES_OK`, `BUILD_OK`; 19/19 EditMode + 3/3 PlayMode; title smoke and inspected 1920x1080 screenshot; physical Logitech attachment in Player.log. |
-| NATHAN_SPECIES_APPROVED | NOT REQUESTED | Requires Nathan's actual response to generated species and hero boards. |
+| NATHAN_SPECIES_APPROVED | AWAITING NATHAN | Review packet `docs/art/SPECIES.md`; four final generated images below. P2 continues. |
 | P1_DESIGN_OK | PENDING | All design references inspected; no fused limbs, gloss, detached components. |
 | P2_CORE_OK | PENDING | Fresh nonempty passing test XML, arena kill smokes and inspected renders required. |
 | P3_ART_OK | PENDING | Generated asset provenance, humanoid motion, poses and actual renders required. |
@@ -19,7 +19,14 @@
 
 ## NATHAN GATE
 
-Not requested yet. No Vael generation credits may be spent until species and hero designs are approved.
+**P1 approval requested 2026-09-20:** approve or redirect the Vael species, Taren and Sela. Review `docs/art/SPECIES.md` with embedded images:
+
+- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-sheet-v2.png`
+- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-faces-v2.png`
+- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/taren-board.png`
+- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/sela-board-v2.png`
+
+This is the user-requested gate in `docs/SLICE_PROMPT.md` P1. No approval is inferred from silence. No Vael Meshy credits may be spent until Nathan responds; P2 code and blockout work continues now.
 
 ## BLOCKED
 
