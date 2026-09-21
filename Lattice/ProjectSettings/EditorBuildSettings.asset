@@ -24,6 +24,9 @@ EditorBuildSettings:
     path: Assets/_Project/Scenes/Gullet_Tunnel.unity
     guid: 555b030847d88a541b524d323bb706cf
   - enabled: 1
+    path: Assets/_Project/Scenes/TallowApproach.unity
+    guid: 989f7d164ffeea743b2205145d6ff38d
+  - enabled: 1
     path: Assets/_Project/Scenes/TallowDrift.unity
     guid: faaca69cce555044ca3f5f9ea4880248
   - enabled: 1

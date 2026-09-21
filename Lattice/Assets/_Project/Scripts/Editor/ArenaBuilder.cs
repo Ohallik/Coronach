@@ -29,15 +29,18 @@ namespace Lattice.EditorTools
         }
         public static void Definitions()
         {
-            var ground=Asset<CameraProfile>("Ground",p=>{p.pitch=40;p.yaw=20;p.distance=24;p.deadZone=.4f;});
+            var ground=Asset<CameraProfile>("Ground",p=>{p.pitch=40;p.yaw=20;p.distance=19.5f;p.deadZone=.4f;});
             var flight=Asset<CameraProfile>("Flight",p=>{p.pitch=48;p.yaw=0;p.distance=31;p.deadZone=.8f;p.lookAhead=.3f;});
             var warm=Asset<Hd2dProfile>("Warm",p=>{p.tint=new Color(1,.94f,.84f);p.tiltStart=.18f;p.tiltStrength=6;p.bloom=.45f;});
             var cold=Asset<Hd2dProfile>("Cold",p=>{p.tint=new Color(.82f,.94f,1);p.tiltStart=.18f;p.tiltStrength=7;p.bloom=.7f;});
-            foreach(var name in new[]{"Arena_Ground","Arena_Flight","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Gullet_Tunnel","TallowDrift"})
+            var deck=Asset<Hd2dProfile>("DeckSoft",p=>{p.tint=new Color(.96f,.98f,1);p.tiltStart=.23f;p.tiltStrength=4;p.bloom=.3f;});
+            var halo=Asset<Hd2dProfile>("Halo",p=>{p.tint=new Color(1,.97f,.93f);p.tiltStart=.22f;p.tiltStrength=4.5f;p.bloom=.4f;});
+            var tallow=Asset<Hd2dProfile>("Tallow",p=>{p.tint=new Color(.95f,1,.96f);p.tiltStart=.23f;p.tiltStrength=4;p.bloom=.35f;});
+            foreach(var name in new[]{"Arena_Ground","Arena_Flight","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Gullet_Tunnel","TallowApproach","TallowDrift"})
             {
-                bool isFlight=name=="Arena_Flight"||name=="Hub_CinderHalo"||name=="Gullet_Tunnel";
-                bool safe=name.StartsWith("Hub")||name=="TallowDrift";
-                Asset<ZoneDef>(name,z=>{z.id=z.scene=name;z.kind=isFlight?(safe?ZoneKind.SpaceSafe:ZoneKind.SpaceCombat):(safe?ZoneKind.GroundSafe:ZoneKind.GroundCombat);z.cameraProfile=isFlight?flight:ground;z.hd2dProfile=isFlight?cold:warm;});
+                bool isFlight=name=="Arena_Flight"||name=="Hub_CinderHalo"||name=="Gullet_Tunnel"||name=="TallowApproach";
+                bool safe=name.StartsWith("Hub")||name.StartsWith("Tallow");
+                Asset<ZoneDef>(name,z=>{z.id=z.scene=name;z.kind=isFlight?(safe?ZoneKind.SpaceSafe:ZoneKind.SpaceCombat):(safe?ZoneKind.GroundSafe:ZoneKind.GroundCombat);z.cameraProfile=isFlight?flight:ground;z.hd2dProfile=name=="Hub_Decks"?deck:name=="Hub_CinderHalo"?halo:name.StartsWith("Tallow")?tallow:isFlight?cold:warm;});
             }
             foreach(string name in new[]{"Taren","Sela"})Asset<CharacterDef>(name,c=>{c.id=c.displayName=c.speakerId=name;c.female=name=="Sela";c.baseStats=new Stats{output=50,plating=10,response=10,resonance=10,fortune=5};c.growthPerLevel=new Stats{output=5,plating=2,response=1,resonance=2,fortune=1};c.syncHue=name=="Taren"?new Color(1,.65f,.12f):Color.cyan;});
             string[][] skillNames={new[]{"Arc Cleave","Ember Step","Pulse Burst","Overdrive"},new[]{"Thread Lance","Scatter Bloom","Static Net","Refract"}};
@@ -74,7 +77,7 @@ namespace Lattice.EditorTools
                 for(int tier=1;tier<=2;tier++)
                 {
                     int t=tier;string id=discipline+"T"+t;
-                    var part=Asset<TechPartDef>(id,p=>{p.id=id;p.displayName=(t==1?"Scrap ":"Refined ")+slot;p.tier=t;p.slot=slot;p.baseStats=slot==GearSlot.Frame?new Stats{plating=t*8}:slot==GearSlot.Drive?new Stats{response=t*6}:slot==GearSlot.Module?new Stats{resonance=t*5,fortune=t*3}:new Stats{output=t==2?25:8};p.damageType=slot==GearSlot.Emitter?DamageType.Beam:DamageType.Kinetic;p.affixPool=new[]{affix};p.salvage=new[]{new Ingredient{id="ScrapAlloy",count=t*2}};});
+                    var part=Asset<TechPartDef>(id,p=>{p.id=id;p.displayName=(t==1?"Scrap ":"Refined ")+slot;p.tier=t;p.slot=slot;p.baseStats=slot==GearSlot.Frame?new Stats{plating=t*8}:slot==GearSlot.Drive?new Stats{response=t*6}:slot==GearSlot.Module?new Stats{resonance=t*5,fortune=t*3}:new Stats{output=t==2?(slot==GearSlot.Edge?30:25):8};p.damageType=slot==GearSlot.Emitter?DamageType.Beam:DamageType.Kinetic;p.affixPool=new[]{affix};p.salvage=new[]{new Ingredient{id="ScrapAlloy",count=t*2}};});
                     Asset<RecipeDef>(id,r=>{r.id=id;r.displayName=part.displayName;r.discipline=discipline;r.tier=t;r.unlockLevel=t;r.output=part;r.inputs=t==1?new[]{new Ingredient{id="ScrapAlloy",count=3}}:new[]{new Ingredient{id="ScrapAlloy",count=6},new Ingredient{id="RidgeCrystal",count=2}};});
                 }
             }
@@ -105,16 +108,17 @@ namespace Lattice.EditorTools
             var go=GameObject.CreatePrimitive(PrimitiveType.Cube);go.name=name;go.transform.position=position;go.transform.localScale=scale;
             go.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/"+material);go.isStatic=true;return go;
         }
+        public static void BuildGeneratedArenas(){BuildScene(false);BuildScene(true);}
         static void BuildScene(bool flight)
         {
             string name=flight?"Arena_Flight":"Arena_Ground";
             var scene=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             var root=new GameObject("ZoneRoot",typeof(ZoneController),typeof(ArenaRuntime));root.GetComponent<ZoneController>().definition=GameCatalog.Find<ZoneDef>(name);
             new GameObject("Arrival",typeof(SpawnPoint)).transform.position=new Vector3(0,flight?1:0,-4);
-            Block("Blockout arena",new Vector3(0,-.7f,0),new Vector3(40,1,40),"Ground");
-            for(int i=0;i<8;i++)Block("Ridge "+i,new Vector3((i%2==0?-1:1)*(11+i%3),1,i*5-18),new Vector3(4,2+i%3,3),"Rock");
-            if(flight){Block("TunnelLeft",new Vector3(-17,3,0),new Vector3(1,8,40),"Rock");Block("TunnelRight",new Vector3(17,3,0),new Vector3(1,8,40),"Rock");}
-            Block("Emissive test cube",new Vector3(-4,.7f,3),Vector3.one*1.2f,"Emission");
+            var floor=Block("Training terrain",new Vector3(0,-.7f,0),new Vector3(40,1,40),"Ground");WorldArt.Dress(floor,flight?"GulletMembrane":"MoonGroundA",new(40,1,40));
+            for(int i=0;i<8;i++)WorldBuilder.Piece("RidgeRock"+(i%3+1),new Vector3((i%2==0?-1:1)*(11+i%3),1,i*5-18),new Vector3(4,2+i%3,3));
+            if(flight)for(int i=0;i<5;i++)for(int sign=-1;sign<=1;sign+=2)WorldBuilder.Piece("GulletWallA",new Vector3(sign*17,3,i*8-16),new Vector3(1,8,8));
+            WorldBuilder.Piece("CrystalClusterB",new Vector3(-4,.7f,3),Vector3.one*1.2f,"Emission");
             var light=new GameObject("Sun",typeof(Light));light.transform.rotation=Quaternion.Euler(48,-30,0);light.GetComponent<Light>().type=LightType.Directional;light.GetComponent<Light>().intensity=1.5f;light.GetComponent<Light>().shadows=LightShadows.Soft;
             RenderSettings.ambientLight=new Color(.35f,.39f,.5f);
             var volume=new GameObject("Look",typeof(Volume)).GetComponent<Volume>();volume.isGlobal=true;
@@ -126,8 +130,7 @@ namespace Lattice.EditorTools
             if(!profile.TryGet<Vignette>(out var vignette)){vignette=profile.Add<Vignette>();AssetDatabase.AddObjectToAsset(vignette,profile);}
             bloom.intensity.Override(.45f);bloom.threshold.Override(1.1f);vignette.intensity.Override(.17f);
             EditorUtility.SetDirty(profile);EditorUtility.SetDirty(bloom);EditorUtility.SetDirty(vignette);volume.sharedProfile=profile;
-            var guide=Block("Arena guide",new Vector3(7,1,-4),new Vector3(.8f,2,.8f),"Sela");
-            guide.AddComponent<Npc>().speaker="Hal";guide.GetComponent<Npc>().firstNode="ArenaGuide";
+            var guide=WorldBuilder.Npc("Hal",new Vector3(7,0,-4),"ArenaGuide");guide.repeatNode="ArenaGuide";guide.postNode="ArenaGuide";
             for(int i=0;i<3;i++){var spawn=new GameObject("EnemySpawn_"+i,typeof(Spawner));spawn.transform.position=new Vector3((i-1)*5,flight?1:0,5);var s=spawn.GetComponent<Spawner>();s.definition=GameCatalog.Find<EnemyDef>(flight?"ChoristerDart":"Ridgehound");s.count=1;s.radius=0;}
             EditorSceneManager.SaveScene(scene,"Assets/_Project/Scenes/"+name+".unity");
         }

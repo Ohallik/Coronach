@@ -17,6 +17,8 @@ namespace Lattice.EditorTools
             {
                 float x=(i-1)*20;WorldBuilder.Spawn(ids[i],new(x,0,-3));WorldBuilder.Dock("Launch — Cinder Halo",new(x,0,-10),"Hub_CinderHalo",ids[i]);
                 WorldBuilder.Piece("DeckConsole",new(x+5,.8f,5),new(2,1.6f,1),"Sela");WorldBuilder.Piece("DeckCrate",new(x-5,.7f,5),Vector3.one*1.4f);
+                WorldBuilder.Piece("DeckDoorway",new(x,1.8f,-7),new(5,3.6f,1),"Rock",false);
+                WorldBuilder.Piece("DeckBench",new(x-6,.55f,8),new(3,1.1f,1.5f));
             }
             WorldBuilder.Spawn("Arrival",new(-20,0,-3));
             WorldBuilder.Npc("Orrin",new(-20,0,3));var mira=WorldBuilder.Npc("Mira",new(0,0,3));mira.postFlag="quest.MiraCrystals.complete";
@@ -24,6 +26,7 @@ namespace Lattice.EditorTools
             var bench=WorldBuilder.Piece("LatticeAnvil",new(26,.8f,1),new(2,1.6f,2),"Emission").AddComponent<Bench>();bench.prompt="Fabricate at Hal's bench";
             var repair=WorldBuilder.Piece("RepairConsole",new(15,.8f,1),new(1.5f,1.6f,1.5f),"Sela").AddComponent<RepairBay>();repair.prompt="Repair & save — 8 scrip per Sync level";
             WorldBuilder.Label("DOCK OFFICE",new(-20,.1f,-1));WorldBuilder.Label("OUTFITTER",new(0,.1f,-1));WorldBuilder.Label("REPAIR BAY",new(20,.1f,-1));
+            WorldBuilder.Boundary("Deck front edge",new(0,5,-16),new(64,12,1));
             WorldBuilder.Save(scene,"Hub_Decks");
         }
     }

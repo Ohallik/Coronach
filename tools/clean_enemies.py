@@ -6,6 +6,9 @@ def run(args):subprocess.run(args,cwd=ROOT,check=True,timeout=650)
 rows=json.loads((ROOT/'docs/art/enemy-batch.json').read_text(encoding='utf-8'))
 for row in rows:
  name=row['name'];folder=ROOT/'art-src/Generated'/row['batch'];source=folder/(name+('_Static.fbx' if row['kind']=='static' else '_Rigged.fbx'))
+ if name=='SentinelHusk' and (folder/(name+'_RepairRig.fbx')).is_file():
+  run(['powershell','-NoProfile','-ExecutionPolicy','Bypass','-File','scripts/blender.ps1','-Script','tools/blender/rebind_sentinel.py','--input',str(folder/(name+'_RepairRig.fbx')),'--output',str(folder/(name+'_clean.fbx'))])
+  continue
  args=['powershell','-NoProfile','-ExecutionPolicy','Bypass','-File','scripts/blender.ps1','-Script','tools/blender/p64_strip_embedded.py','--input',str(source),'--output',str(folder/(name+'_clean.fbx'))]
  if name=='Ridgehound':args+=['--scale-all']
  run(args)

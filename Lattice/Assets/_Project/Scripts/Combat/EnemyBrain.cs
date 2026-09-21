@@ -10,13 +10,14 @@ namespace Lattice.Combat
         public EnemyDef definition;
         public Health Health{get;private set;}
         public bool Telegraphing{get;private set;}
+        public bool Attacking=>lunging||Time.time<attackAnimationUntil;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
         public bool Passive;
         CharacterController controller;
         GameObject warning;
         Vector3 home;
         Vector3 aim;
-        float nextAttack,strikeAt;
+        float nextAttack,strikeAt,attackAnimationUntil;
         bool lunging;
         public float DamageScale=1;
         BossController boss;
@@ -58,7 +59,7 @@ namespace Lattice.Combat
             {
                 if(Time.time>=strikeAt)
                 {
-                    Telegraphing=false;warning.SetActive(false);
+                    Telegraphing=false;warning.SetActive(false);attackAnimationUntil=Time.time+.55f;
                     var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")

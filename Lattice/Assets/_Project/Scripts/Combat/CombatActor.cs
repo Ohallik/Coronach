@@ -20,6 +20,8 @@ namespace Lattice.Combat
         public int Kills{get;private set;}
         public int FlashMoves{get;private set;}
         public int FlashGuards{get;private set;}
+        public int AttackSequence{get;private set;}
+        public float VisualAttackUntil{get;private set;}
         public readonly float[] cooldowns=new float[4];
         float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil;
         bool guarding,critical,flashConsumed;
@@ -97,6 +99,7 @@ namespace Lattice.Combat
             if(!CanAct||GameTime.Now<nextAttack)return false;
             State=ActorState.Attack;float delay=flight?.17f:.29f;nextAttack=GameTime.Now+delay;actionUntil=GameTime.Now+.08f;
             combo=(combo+1)%3;Vector3 aim=Aim();
+            AttackSequence++;VisualAttackUntil=Time.time+.42f;
             AudioManager.Play(flight||character=="Sela"?"laserSmall_000":"impactMetal_000",.18f);
             if(flight||character=="Sela")Projectile.Fire(transform.position+Vector3.up*.9f+aim*.6f,aim,Packet(rangedDamage*(flight?.38f:.7f),emitterType,12));
             else Strike(transform.position+Vector3.up*.8f+aim*1.2f,1.65f,Packet(damage*(combo==0?1.25f:1),edgeType,20));
@@ -106,6 +109,7 @@ namespace Lattice.Combat
         {
             if(!CanAct||GameTime.Now<nextAttack)return false;
             State=ActorState.Attack;nextAttack=GameTime.Now+.7f;actionUntil=GameTime.Now+.2f;
+            AttackSequence++;VisualAttackUntil=Time.time+.42f;
             var direction=target!=null&&target.Alive?(target.transform.position-transform.position).normalized:motor.Facing;
             direction.y=0;StartCoroutine(LungePath(direction));return true;
         }

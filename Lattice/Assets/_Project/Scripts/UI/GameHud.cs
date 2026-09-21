@@ -16,12 +16,12 @@ namespace Lattice.UI
         void Start()
         {
             canvas=UiKit.CreateCanvas("HUD",5,transform);
-            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.zero,new(275,915),new(530,280));frame.raycastTarget=false;
-            status=Text("Status",new(270,975),new(460,50),27,TextAlignmentOptions.Left);
-            hp=Bar("Integrity",new(270,932),new Color(.23f,.88f,.72f));
-            charge=Bar("Charge",new(270,905),new Color(.18f,.66f,1));
-            thrust=Bar("Thrust",new(270,878),new Color(1,.65f,.2f));
-            partner=Text("Partner",new(270,835),new(460,45),22,TextAlignmentOptions.Left);
+            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.zero,new(230,947),new(430,215));frame.raycastTarget=false;
+            status=Text("Status",new(230,999),new(360,40),24,TextAlignmentOptions.Left);
+            hp=Bar("Integrity",new(230,962),new Color(.23f,.88f,.72f));
+            charge=Bar("Charge",new(230,940),new Color(.18f,.66f,1));
+            thrust=Bar("Thrust",new(230,918),new Color(1,.65f,.2f));
+            partner=Text("Partner",new(230,895),new(360,32),21,TextAlignmentOptions.Left);
             target=Text("Target",new(960,972),new(700,80),25);
             zone=Text("Zone",new(1635,1000),new(500,60),26,TextAlignmentOptions.Right);
             skills=Text("Skills",new(625,50),new(1190,60),21);
@@ -43,20 +43,20 @@ namespace Lattice.UI
         {var t=UiKit.Text(canvas.transform,name,"",font,UiKit.TextColor,align);UiKit.Rect(t.gameObject,Vector2.zero,Vector2.zero,pos,size);return t;}
         Image Bar(string name,Vector2 pos,Color color)
         {
-            var bg=UiKit.Panel(canvas.transform,name+"Back",new Color(.025f,.045f,.065f,.85f));UiKit.Rect(bg.gameObject,Vector2.zero,Vector2.zero,pos,new(460,16));
-            var fill=UiKit.Panel(bg.transform,name,color);var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(460,16));rect.pivot=new(0,.5f);return fill;
+            var bg=UiKit.Panel(canvas.transform,name+"Back",new Color(.025f,.045f,.065f,.85f));UiKit.Rect(bg.gameObject,Vector2.zero,Vector2.zero,pos,new(360,14));
+            var fill=UiKit.Panel(bg.transform,name,color);var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(360,14));rect.pivot=new(0,.5f);return fill;
         }
         void Update()
         {
             var party=PartyController.Current;if(party==null||party.members==null)return;
             canvas.enabled=!GameInput.Current.Blocked;
             var a=party.Active;
-            hp.rectTransform.sizeDelta=new Vector2(460*a.Health.integrity/a.Health.maximum,16);
-            charge.rectTransform.sizeDelta=new Vector2(460*a.charge/100,16);thrust.rectTransform.sizeDelta=new Vector2(460*a.thrust/100,16);
+            hp.rectTransform.sizeDelta=new Vector2(360*a.Health.integrity/a.Health.maximum,14);
+            charge.rectTransform.sizeDelta=new Vector2(360*a.charge/100,14);thrust.rectTransform.sizeDelta=new Vector2(360*a.thrust/100,14);
             var state=GameServices.Current.State;int level=state.party.Find(m=>m.id==a.character)?.level??1;
             status.text=$"{a.character.ToUpperInvariant()}   LV {level}   {a.Health.integrity:0} / {a.Health.maximum:0}";
             if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"Y  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Health.Alive?"":"  ·  STAND NEAR TO REVIVE");}
-            zone.text=ZoneController.Current.definition.id.Replace('_',' ').ToUpperInvariant();
+            zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
             if(a.target!=null&&a.target.Alive)target.text=$"{a.target.id.ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+(a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"));else target.text="";
             reticle.enabled=a.target!=null&&a.target.Alive;
             if(reticle.enabled)

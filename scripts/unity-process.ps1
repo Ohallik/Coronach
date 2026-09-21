@@ -9,3 +9,9 @@ function Stop-LatticeProcessTree {
     foreach($child in $children){Stop-LatticeProcessTree -ProcessId $child.ProcessId}
     Stop-Process -Id $ProcessId -Force -ErrorAction SilentlyContinue
 }
+function Get-LatticeSaveWriters {
+    param([string]$ProjectPath)
+    Get-CimInstance Win32_Process -Filter "Name = 'Lattice.exe' OR Name = 'Unity.exe'" | Where-Object {
+        $_.Name -eq 'Lattice.exe' -or -not $_.CommandLine -or $_.CommandLine.IndexOf($ProjectPath,[StringComparison]::OrdinalIgnoreCase) -ge 0
+    }
+}

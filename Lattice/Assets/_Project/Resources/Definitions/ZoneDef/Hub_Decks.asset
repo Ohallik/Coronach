@@ -16,7 +16,7 @@ MonoBehaviour:
   scene: Hub_Decks
   kind: 0
   cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
-  hd2dProfile: {fileID: 11400000, guid: d6dbd57ebebb0bd458e48e685f334acb, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: f8002442d297be84080dadf57a0a2b82, type: 2}
   ambientAudio: {fileID: 0}
   musicId: 
   mapIcon: {fileID: 0}

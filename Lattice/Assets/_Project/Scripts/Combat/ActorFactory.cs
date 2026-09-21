@@ -27,7 +27,7 @@ namespace Lattice.Combat
             form.shaped=definition!=null&&definition.shaped!=null?Object.Instantiate(definition.shaped,root.transform):Visual("Shaped",PrimitiveType.Capsule,root.transform,new Vector3(.85f,.95f,.8f),Vector3.up*.95f,material);
             form.flight=definition!=null&&definition.flight!=null?Object.Instantiate(definition.flight,root.transform):Visual("Flight",PrimitiveType.Capsule,root.transform,new Vector3(.7f,.9f,.7f),Vector3.up*.75f,material);
             form.shaped.SetActive(false);form.flight.SetActive(false);
-            root.AddComponent<PlayerBrain>();root.AddComponent<PartnerBrain>();return actor;
+            root.AddComponent<HeroWeaponVfx>();root.AddComponent<PlayerBrain>();root.AddComponent<PartnerBrain>();return actor;
         }
         public static EnemyBrain Enemy(EnemyDef definition,Vector3 position)
         {
@@ -36,6 +36,7 @@ namespace Lattice.Combat
             var health=root.AddComponent<Health>();health.id=definition.id;health.maximum=health.integrity=definition.integrity;health.weakness=definition.weakness;health.resistance=definition.resistance;health.breakThreshold=definition.breakThreshold;
             root.AddComponent<Hurtbox>().owner=health;
             var visual=definition.prefab!=null?Object.Instantiate(definition.prefab,root.transform):Visual("ART_PENDING_"+definition.id,definition.archetype==EnemyArchetype.Mine?PrimitiveType.Sphere:PrimitiveType.Capsule,root.transform,new Vector3(cc.radius*2,cc.height*.5f,cc.radius*2),cc.center,"Enemy");
+            if(definition.id=="Cantor")SerpentSegments.CenterVisual(visual,SerpentSegments.CenterHeight);
             if(definition.id=="Scrapmite"||definition.id.StartsWith("Chorister")){var motion=visual.AddComponent<ProceduralMotion>();motion.motion=definition.id=="Scrapmite"?ProceduralMotion.Motion.Skitter:ProceduralMotion.Motion.Hover;}
             var enemy=root.AddComponent<EnemyBrain>();enemy.definition=definition;
             root.AddComponent<LootDrop>().definition=definition;

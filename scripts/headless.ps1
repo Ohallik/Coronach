@@ -322,9 +322,9 @@ $IsTestRun = $Mode -in @("tests", "playtests")
 $testLaunchNotBeforeUtc = [datetime]::MinValue
 try {
     if ($ShieldPlaytestSaves) {
-        $conflicts = @(Get-Process Lattice,Unity -ErrorAction SilentlyContinue)
+        $conflicts = @(Get-LatticeSaveWriters $ProjectPath)
         if ($conflicts.Count -gt 0) {
-            throw "PlayMode save shield requires no running Lattice/Unity process: $($conflicts.Id -join ',')"
+            throw "PlayMode save shield requires no running Lattice player/editor: $($conflicts.ProcessId -join ',')"
         }
     }
     if ($HadSaves) {
@@ -423,7 +423,7 @@ try {
 }
 finally {
     if ($ShieldPlaytestSaves) {
-        $liveWriters = @(Get-Process Lattice,Unity -ErrorAction SilentlyContinue)
+        $liveWriters = @(Get-LatticeSaveWriters $ProjectPath)
         if ($SafeToClearPlaytestSaves -and $liveWriters.Count -gt 0) {
             throw "PlayMode cleanup refused while a save writer is alive; human stash remains at $SaveBackup"
         }

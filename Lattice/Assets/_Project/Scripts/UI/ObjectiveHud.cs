@@ -44,8 +44,10 @@ namespace Lattice.UI
                     if(!flags.GetBool("bossdown.Cantor")){label="Break through the Gullet";goal=new Vector3(Mathf.Sin(805f/900*Mathf.PI*4)*12,1,805);}
                     else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
                     break;
+                case "TallowApproach":label="Dock at Tallow Drift";target=prompts.OfType<DockingPad>().FirstOrDefault();break;
                 case "TallowDrift":
                     if(flags.GetBool("sliceComplete"))label="LINK SECURE · SLICE COMPLETE";
+                    else if(!flags.GetBool("met.Keeper")){label="Talk to the dock keeper";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else{label="Repair and save at Tallow Drift";target=prompts.OfType<RepairBay>().FirstOrDefault();}
                     break;
                 default:label="Practice attacks, dodges and swaps";break;

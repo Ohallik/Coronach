@@ -35,7 +35,7 @@ namespace Lattice.Combat
         {
             if(!enabled||Mathf.Abs(hit.normal.y)>.5f||Time.unscaledTime-contactAt<.6f)return;
             contactAt=Time.unscaledTime;dashRemaining=0;velocity=Vector3.Reflect(velocity,hit.normal)*.4f+hit.normal*4;
-            if(TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
+            if(Lattice.Core.ZoneController.Current!=null&&Lattice.Core.ZoneController.Current.Combat&&TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
         }
     }
 }

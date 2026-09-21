@@ -31,7 +31,7 @@ namespace Lattice.EditorTools
             foreach(var zone in GameCatalog.All<ZoneDef>())
             {
                 if(zone.id.StartsWith("Arena"))continue;
-                zone.skybox=AssetDatabase.LoadAssetAtPath<Material>(Materials+(zone.id=="Gullet_Tunnel"?"gullet-sky":zone.id=="TallowDrift"?"tallow-sky":"halo-sky")+".mat");EditorUtility.SetDirty(zone);
+                zone.skybox=AssetDatabase.LoadAssetAtPath<Material>(Materials+(zone.id=="Gullet_Tunnel"?"gullet-sky":zone.id.StartsWith("Tallow")?"tallow-sky":"halo-sky")+".mat");EditorUtility.SetDirty(zone);
             }
             AssetDatabase.SaveAssets();
         }

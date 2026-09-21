@@ -9,7 +9,14 @@ namespace Lattice.EditorTools
         {
             var scene=WorldBuilder.Begin("Sorrel_Ridges");
             WorldArt.Planet("Vorun",new(160,35,350),150);
-            WorldBuilder.Piece("MoonGroundA",new(0,-.6f,90),new(140,1,230),"Ground");
+            // Generated tile texture on continuous walkable terrain; generated slabs dress its margins.
+            var terrain=ArenaBuilder.Block("Sorrel terrain",new(0,-.6f,90),new(140,1,230),"Ground");WorldArt.Dress(terrain,"MoonGroundA",new(140,1,230));
+            for(int i=0;i<20;i++)
+            {
+                float x=(i%2==0?-1:1)*(i%3==0?52:19),z=8+(i/2)*21;
+                var slab=WorldBuilder.Piece(i%2==0?"MoonGroundA":"MoonGroundB",new(x,0,z),new(12,.6f,12),"Ground",false);
+                var bounds=ModelGeometry.BoundsOf(slab);slab.transform.position+=Vector3.up*(-.08f-bounds.max.y);
+            }
             WorldBuilder.Spawn("Arrival",new(0,0,-12));WorldBuilder.Spawn("Outpost",new(0,0,14));
             WorldBuilder.Dock("Launch — Cinder Halo",new(0,0,-18),"Hub_CinderHalo","Moon");
             WorldBuilder.Piece("OutpostHab",new(-7,2,18),new(5,4,8));WorldBuilder.Piece("OutpostHab",new(7,2,18),new(5,4,8));
@@ -40,6 +47,8 @@ namespace Lattice.EditorTools
             WorldBuilder.Piece("OutpostDrill",new(-12,4,181),new(7,8,7));WorldBuilder.Label("DRILL SITE",new(0,.1f,147));
             var key=WorldBuilder.Piece("WarpKeyCradle",new(0,1,199),new(1.5f,2,1.5f),"Emission").AddComponent<KeyPickup>();key.prompt="Recover the warp key";
             WorldBuilder.Dock("Launch — outer Halo beacon",new(8,0,201),"Hub_CinderHalo","Outer");
+            WorldBuilder.Boundary("West ridge limit",new(-70,10,90),new(1,30,234));WorldBuilder.Boundary("East ridge limit",new(70,10,90),new(1,30,234));
+            WorldBuilder.Boundary("Landing edge",new(0,10,-25),new(140,30,1));WorldBuilder.Boundary("Drill edge",new(0,10,205),new(140,30,1));
             WorldBuilder.Save(scene,"Sorrel_Ridges");
         }
     }

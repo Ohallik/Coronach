@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7407bcc1a5f509c4092ea9e9ee947eae, type: 3}
+  m_Name: TallowApproach
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ZoneDef
+  id: TallowApproach
+  scene: TallowApproach
+  kind: 2
+  cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: 8371dd7732fb4cf4584e33c0553febf0, type: 2}
+  ambientAudio: {fileID: 0}
+  musicId: 
+  mapIcon: {fileID: 0}
+  flightPlane: 1
+  safePockets: []
+  skybox: {fileID: 2100000, guid: 3dfa06876a929784fbe9c19c6d1f9114, type: 2}

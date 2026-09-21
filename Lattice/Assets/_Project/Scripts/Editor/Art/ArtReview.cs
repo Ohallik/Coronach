@@ -54,6 +54,7 @@ namespace Lattice.EditorTools
                 Frame(bounds,new Vector3(0,.1f,1),960,1080);Capture(row.id+"-idle-front",960,1080);
                 Frame(bounds,new Vector3(1,.15f,0),960,1080);Capture(row.id+"-idle-side",960,1080);
                 Frame(bounds,new Vector3(0,.12f,-1),960,1080);Capture(row.id+"-idle-back",960,1080);
+                Frame(bounds,new Vector3(.7f,.55f,1),960,1080);Capture(row.id+"-idle-3quarter",960,1080);
                 if(row.clips!=null&&row.clips.Any(c=>c.state=="Walk"))
                 {
                     foreach(float phase in new[]{.15f,.65f}){Pose(actor,row,"Walk",phase);yield return null;Frame(BoundsOf(actor),new Vector3(.65f,.25f,1),960,1080);Capture(row.id+"-walk-"+Mathf.RoundToInt(phase*100),960,1080);}
@@ -72,6 +73,14 @@ namespace Lattice.EditorTools
             yield return null;
             var rowBounds=BoundsOf(lineup[0]);foreach(var actor in lineup.Skip(1))rowBounds.Encapsulate(BoundsOf(actor));
             Frame(rowBounds,new Vector3(0,.08f,1),Mathf.Max(1920,rows.Length*180),1080);Capture("true-scale-row",Mathf.Max(1920,rows.Length*180),1080);
+            foreach(var actor in lineup)actor.SetActive(false);
+            var cantor=Lattice.Core.GameCatalog.Find<Lattice.Data.EnemyDef>("Cantor");
+            if(cantor!=null&&cantor.prefab!=null&&cantor.bodySegment!=null&&cantor.tailSegment!=null)
+            {
+                var root=new GameObject("Cantor chain review");var head=UnityEngine.Object.Instantiate(cantor.prefab,root.transform);Lattice.Combat.SerpentSegments.CenterVisual(head,Lattice.Combat.SerpentSegments.CenterHeight);
+                root.AddComponent<Lattice.Combat.SerpentSegments>().Initialize(cantor,null);yield return null;
+                Frame(BoundsOf(root),new Vector3(1,.65f,.35f),2048,1024);Capture("Cantor-chain",2048,1024);UnityEngine.Object.DestroyImmediate(root);
+            }
             File.WriteAllText(Path.Combine(Out,"model-review.json"),JsonConvert.SerializeObject(reports,Formatting.Indented,new JsonSerializerSettings{ReferenceLoopHandling=ReferenceLoopHandling.Ignore}));
             foreach(var graph in graphs.Values)if(graph.IsValid())graph.Destroy();graphs.Clear();
             Debug.Log("ART_RENDERS_COUNT "+rows.Length);
@@ -93,7 +102,8 @@ namespace Lattice.EditorTools
         }
         static void Frame(Bounds bounds,Vector3 direction,int width,int height)
         {
-            camera.transform.position=bounds.center+direction.normalized*(bounds.size.magnitude*2+5);camera.transform.LookAt(bounds.center);
+            float distance=bounds.size.magnitude*2+5;camera.farClipPlane=Mathf.Max(500,distance+bounds.size.magnitude*2+10);
+            camera.transform.position=bounds.center+direction.normalized*distance;camera.transform.LookAt(bounds.center);
             float x=0,y=0;for(int i=0;i<8;i++)
             {var p=bounds.center+Vector3.Scale(bounds.extents,new Vector3((i&1)==0?-1:1,(i&2)==0?-1:1,(i&4)==0?-1:1));var v=camera.transform.InverseTransformPoint(p);x=Mathf.Max(x,Mathf.Abs(v.x));y=Mathf.Max(y,Mathf.Abs(v.y));}
             camera.aspect=(float)width/height;camera.orthographicSize=Mathf.Max(y,x/camera.aspect)*1.13f;
@@ -104,6 +114,10 @@ namespace Lattice.EditorTools
             var png=new Texture2D(width,height,TextureFormat.RGB24,false);try
             {
                 camera.Render();camera.Render();var previous=RenderTexture.active;RenderTexture.active=rt;png.ReadPixels(new Rect(0,0,width,height),0,0);png.Apply();RenderTexture.active=previous;
+                var pixels=png.GetRawTextureData<byte>();int lowR=255,lowG=255,highR=0,highG=0;
+                for(int y=0;y<height;y+=Mathf.Max(1,height/128))for(int x=0;x<width;x+=Mathf.Max(1,width/512))
+                {int at=(y*width+x)*3;lowR=Mathf.Min(lowR,pixels[at]);highR=Mathf.Max(highR,pixels[at]);lowG=Mathf.Min(lowG,pixels[at+1]);highG=Mathf.Max(highG,pixels[at+1]);}
+                if(Mathf.Max(highR-lowR,highG-lowG)<18)throw new InvalidOperationException("Uniform/empty rendered image "+name);
                 var bytes=png.EncodeToPNG();if(bytes.Length<30000)throw new InvalidOperationException("Blank/suspicious capture "+name);File.WriteAllBytes(Path.Combine(Out,name+".png"),bytes);Debug.Log("ART_RENDER "+name+" bytes="+bytes.Length);
             }finally{camera.targetTexture=null;rt.Release();UnityEngine.Object.DestroyImmediate(rt);UnityEngine.Object.DestroyImmediate(png);}
         }

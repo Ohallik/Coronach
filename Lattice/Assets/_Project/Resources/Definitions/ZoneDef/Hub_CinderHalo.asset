@@ -16,7 +16,7 @@ MonoBehaviour:
   scene: Hub_CinderHalo
   kind: 2
   cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
-  hd2dProfile: {fileID: 11400000, guid: a2360d045852b864db338e4b91cd320d, type: 2}
+  hd2dProfile: {fileID: 11400000, guid: fced38a8d8e88ab4ea2d45d5a8f64019, type: 2}
   ambientAudio: {fileID: 0}
   musicId: 
   mapIcon: {fileID: 0}

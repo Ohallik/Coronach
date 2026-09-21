@@ -23,7 +23,7 @@ namespace Lattice.EditorTools
             }
             WorldBuilder.Warp("Sorrel approach",new(65,1,8),"Sorrel_Ridges","met.Orrin");
             WorldBuilder.Warp("Outer warp — The Gullet",new(0,1,74),"Gullet_Tunnel");
-            var neve=WorldBuilder.Npc("Neve",new(-7,1,-8));foreach(var renderer in neve.GetComponentsInChildren<Renderer>())renderer.enabled=false;
+            var neve=WorldBuilder.Npc("Neve",new(-7,1,-8));foreach(var renderer in neve.GetComponentsInChildren<Renderer>())renderer.enabled=false;neve.GetComponent<Collider>().enabled=false;
             WorldBuilder.Piece("Skiff",neve.transform.position-Vector3.up,new(4,1.5f,6),"Sela",false);
             var hail=neve.gameObject.AddComponent<HailPoint>();hail.contact=neve;hail.prompt="Hail Neve";hail.range=7;neve.range=0;
             for(int laneIndex=0;laneIndex<4;laneIndex++)

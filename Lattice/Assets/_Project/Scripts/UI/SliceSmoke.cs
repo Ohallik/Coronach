@@ -42,6 +42,7 @@ namespace Lattice.UI
                 if(z==410)yield return Capture("Gullet_Tunnel");
             }
             yield return FightNearby(70);yield return Use(FindFirstObjectByType<WarpBeacon>());
+            yield return Zone("TallowApproach");yield return Capture("TallowApproach");yield return Use(FindFirstObjectByType<DockingPad>());
             yield return Zone("TallowDrift");yield return Talk("Keeper");yield return Use(FindFirstObjectByType<RepairBay>());yield return Capture("TallowDrift");
             if(!flashSeen||!swapped||!lungeSeen||!GameServices.Current.Flags.GetBool("sliceComplete")||GameServices.Current.Saves.Load("autosave")?.flags.GetValueOrDefault("sliceComplete")!=true)
             {Fail($"end contract flash={flashSeen} swap={swapped} lunge={lungeSeen}");yield break;}

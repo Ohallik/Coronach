@@ -1,0 +1,67 @@
+[
+  {
+    "id": "halo-sky",
+    "native": "art-src/Generated/P3-world-upscale/native/halo-sky.png",
+    "nativeSize": [
+      1774,
+      887
+    ],
+    "upscale": "Real-ESRGAN x4plus-anime 4x; Lanczos to 4096x2048",
+    "runtimeSize": [
+      4096,
+      2048
+    ]
+  },
+  {
+    "id": "gullet-sky",
+    "native": "art-src/Generated/P3-world-upscale/native/gullet-sky.png",
+    "nativeSize": [
+      1774,
+      887
+    ],
+    "upscale": "Real-ESRGAN x4plus-anime 4x; Lanczos to 4096x2048",
+    "runtimeSize": [
+      4096,
+      2048
+    ]
+  },
+  {
+    "id": "tallow-sky",
+    "native": "art-src/Generated/P3-world-upscale/native/tallow-sky.png",
+    "nativeSize": [
+      1774,
+      887
+    ],
+    "upscale": "Real-ESRGAN x4plus-anime 4x; Lanczos to 4096x2048",
+    "runtimeSize": [
+      4096,
+      2048
+    ]
+  },
+  {
+    "id": "vorun-map",
+    "native": "art-src/Generated/P3-world-upscale/native/vorun-map.png",
+    "nativeSize": [
+      1774,
+      887
+    ],
+    "upscale": "Real-ESRGAN x4plus-anime 4x; Lanczos to 4096x2048",
+    "runtimeSize": [
+      4096,
+      2048
+    ]
+  },
+  {
+    "id": "sorrel-map",
+    "native": "art-src/Generated/P3-world-upscale/native/sorrel-map.png",
+    "nativeSize": [
+      1774,
+      887
+    ],
+    "upscale": "Real-ESRGAN x4plus-anime 4x; Lanczos to 4096x2048",
+    "runtimeSize": [
+      4096,
+      2048
+    ]
+  }
+]

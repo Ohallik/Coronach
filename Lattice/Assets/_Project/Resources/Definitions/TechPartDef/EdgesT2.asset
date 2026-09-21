@@ -18,7 +18,7 @@ MonoBehaviour:
   damageType: 2
   tier: 2
   baseStats:
-    output: 25
+    output: 30
     plating: 0
     response: 0
     resonance: 0

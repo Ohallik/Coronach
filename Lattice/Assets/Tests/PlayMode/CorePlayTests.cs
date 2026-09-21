@@ -113,7 +113,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest]public IEnumerator EveryZoneAutosaveResumesThroughTheTitle()
         {
             var state=GameServices.Current.State;state.flags["resumeProbe"]=true;state.activeMember=1;state.party[1].level=3;
-            foreach(string zone in new[]{"Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Gullet_Tunnel","TallowDrift"})
+            foreach(string zone in new[]{"Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Gullet_Tunnel","TallowApproach","TallowDrift"})
             {
                 yield return Load(zone);var saved=GameServices.Current.Saves.Load("autosave");
                 Assert.IsNotNull(saved);Assert.AreEqual(zone,saved.zone);Assert.AreEqual(2,saved.party.Count);
@@ -124,6 +124,17 @@ namespace Lattice.Tests.PlayMode
                 Assert.AreEqual(2,PartyController.Current.members.Length);Assert.AreEqual("Sela",PartyController.Current.Active.character);
                 Assert.AreEqual(3,GameServices.Current.State.party[1].level);Assert.IsTrue(GameServices.Current.Flags.GetBool("resumeProbe"));
             }
+        }
+        [UnityTest]public IEnumerator SafePocketTracksTeleportAndActiveMemberSwap()
+        {
+            yield return Load("Sorrel_Ridges");var party=PartyController.Current;
+            var cc=party.Active.GetComponent<CharacterController>();cc.enabled=false;party.Active.transform.position=new Vector3(0,0,18);cc.enabled=true;
+            yield return new WaitForSecondsRealtime(.4f);Assert.AreEqual(BodyForm.Natural,party.Active.GetComponent<FormController>().Current);
+            cc.enabled=false;party.Active.transform.position=new Vector3(0,0,32);cc.enabled=true;
+            yield return new WaitForSecondsRealtime(.4f);Assert.AreEqual(BodyForm.Shaped,party.Active.GetComponent<FormController>().Current);
+            var partner=party.members[1-party.index];cc=partner.GetComponent<CharacterController>();cc.enabled=false;partner.transform.position=new Vector3(0,0,18);cc.enabled=true;
+            Assert.IsTrue(party.Swap());partner.GetComponent<PlayerBrain>().AutoPilot=true;
+            yield return new WaitForSecondsRealtime(.4f);Assert.AreEqual(BodyForm.Natural,party.Active.GetComponent<FormController>().Current);
         }
         [UnityTest]public IEnumerator DefeatRetryRestoresTheSavedPartyWithoutAnotherDefeat()
         {
