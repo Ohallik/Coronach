@@ -127,10 +127,11 @@ namespace Lattice.EditorTools
         {var go=new GameObject("Spawn_"+id,typeof(SpawnPoint));go.transform.position=position;go.GetComponent<SpawnPoint>().id=id;return go.GetComponent<SpawnPoint>();}
         public static void Boundary(string name,Vector3 position,Vector3 size)
         {var go=new GameObject(name,typeof(BoxCollider));go.transform.position=position;go.GetComponent<BoxCollider>().size=size;go.isStatic=true;}
-        public static void Label(string text,Vector3 position,float size=2)
+        public static GameObject Label(string text,Vector3 position,float size=2)
         {
             var go=new GameObject("Sign_"+text,typeof(TextMeshPro));go.transform.position=position;go.transform.rotation=Quaternion.Euler(60,0,0);
             var label=go.GetComponent<TextMeshPro>();label.text=text;label.font=TMP_Settings.defaultFontAsset;label.fontSize=size;label.alignment=TextAlignmentOptions.Center;label.color=new Color(.75f,.92f,1);label.rectTransform.sizeDelta=new Vector2(22,4);
+            return go;
         }
         public static Npc Npc(string id,Vector3 position,string first=null)
         {
@@ -140,7 +141,7 @@ namespace Lattice.EditorTools
             else {if(requireGenerated)throw new InvalidOperationException("Final world requires generated civilian "+id);var body=GameObject.CreatePrimitive(PrimitiveType.Capsule);body.name="ART_PENDING_Civilian";body.transform.SetParent(go.transform,false);body.transform.localPosition=Vector3.up*.95f;body.transform.localScale=new Vector3(.75f,.95f,.75f);}
             var collider=go.AddComponent<CapsuleCollider>();collider.height=1.9f;collider.radius=.35f;collider.center=Vector3.up*.95f;
             var npc=go.AddComponent<Npc>();npc.speaker=id;npc.firstNode=first??id+"First";npc.repeatNode=id+"Repeat";npc.postNode=id+"Post";npc.prompt="Talk to "+id;npc.range=3.2f;
-            Label(id,position+new Vector3(0,2.8f,0),1.5f);return npc;
+            Label(id,position+new Vector3(0,2.8f,0),1.5f).transform.SetParent(go.transform,true);return npc;
         }
         public static DockingPad Dock(string name,Vector3 position,string scene,string spawn)
         {

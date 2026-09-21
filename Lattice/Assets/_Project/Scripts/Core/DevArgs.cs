@@ -8,7 +8,7 @@ namespace Lattice.Core
 #if LATTICE_DEV || UNITY_EDITOR
             return true;
 #else
-            return name!="-scene"&&name!="-spawn"&&name!="-loadout"&&name!="-route"&&name!="-perf"&&name!="-uismoke";
+            return name!="-scene"&&name!="-spawn"&&name!="-loadout"&&name!="-route"&&name!="-perf"&&name!="-uismoke"&&name!="-portraitsmoke"&&name!="-balance"&&name!="-look";
 #endif
         }
         public static bool Has(string name)=>Allowed(name)&&Array.IndexOf(Environment.GetCommandLineArgs(),name)>=0;

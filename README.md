@@ -2,11 +2,11 @@
 
 A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cross the Gullet with Taren and Sela.
 
-Current status: **playable blockout; species approved, generated art production underway**. The final generated models and portraits are not present yet. See [progress](docs/PROGRESS.md) and the [species review packet](docs/art/SPECIES.md). No final release tag has been made.
+The slice includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout: 48 production models and eight expression sheets. See [progress](docs/PROGRESS.md) for the release evidence and the remaining human controller-feel checks.
 
 ## Run
 
-Playable checkpoint: `Builds/Windows/Lattice.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet.
+Run `Builds/Windows/Lattice.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet. At Tallow Drift, dock, talk to the keeper, then use the repair console to save and finish.
 
 The development package is `Builds/WindowsDev/Lattice.exe`; it also supports the arena and verification arguments below. Keep each EXE beside its `Lattice_Data` folder and Unity runtime files. Consult `docs/PROGRESS.md` for open gates.
 
@@ -55,8 +55,10 @@ powershell -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -Dev -Scene Arena
 powershell -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -Dev -Route slice -RequirePad
 powershell -ExecutionPolicy Bypass -File scripts/performance.ps1
 powershell -ExecutionPolicy Bypass -File scripts/ui-smoke.ps1
+powershell -ExecutionPolicy Bypass -File scripts/look.ps1
+powershell -ExecutionPolicy Bypass -File scripts/balance.ps1
 ```
 
-Development player arguments: `-scene`, `-spawn`, `-loadout starter|moon|gullet`, `-route slice`, `-perf <report>`, `-screenshot <png>`. Runtime shortcuts are disabled in release builds. Gates require fresh tests, state assertions and opened screenshots; logs alone are insufficient.
+Development player arguments: `-scene`, `-spawn`, `-loadout starter|moon|gullet`, `-route slice`, `-perf <report>`, `-look <folder>`, `-balance <report>`, `-screenshot <png>`. Runtime shortcuts are disabled in release builds. Gates require fresh tests, state assertions and opened screenshots; logs alone are insufficient. Rebuild the generated world with `scripts/exec.ps1 -Method Lattice.EditorTools.WorldBuilder.BuildFinal -Marker WORLD_GENERATED_OK` before packaging scene changes.
 
-All visible final art must be generated. [Credits](docs/CREDITS.md) record the permitted fonts, sounds and particle textures. Raw art, private credentials, build products and Unity caches are excluded from git.
+All visible model, portrait, environment, texture and UI art is generated. [Credits](docs/CREDITS.md) record the permitted animation donors, fonts, sounds and particle textures. Meshy production used 765 of the 1,200-credit budget. Raw art, private credentials, build products and Unity caches are excluded from git.

@@ -2,94 +2,68 @@
 
 ## Current work
 
-2026-09-21: **P3_ART_OK** closes with all 48 generated models, eight portrait sheets, hero forms, animation poses, the Cantor chain, framed model contact sheet and corrected true-scale row opened. Meshy total is **765/1,200 credits**. `WorldBuilder.BuildFinal` replaces the world and training-arena stand-ins and rejects missing generated prefabs. Fresh suites pass 35 EditMode / 16 PlayMode tests, including all six scene saves and safe-pocket teleport/swap. The generated development build is being reviewed in eighteen world captures and the revised T2 comparison. The release package still contains the prior blockout route; final route, performance and release rebuild remain.
+2026-09-21: all five zones and Tallow Drift's exterior approach are playable with generated art. All 48 production models, eight expression sheets, textures, skies and UI are imported and reviewed. Meshy spend is **765/1,200 credits**. No model ART_PENDING rows remain.
+
+Both Windows packages contain the generated world. Fresh tests pass **35 EditMode / 17 PlayMode**, zero skips. The final full route passed in **545.8 seconds**, reached level 6 without crafted gear, defeated both bosses, docked at Tallow Drift and saved completion. Burrower measured **60.9 s**, Cantor **109.6 s**. Final world, UI, performance and release-title captures have been opened and accepted.
 
 ## Gates
 
-| Gate | Status | Evidence / defect that must fail |
+| Gate | Status | Evidence / rejecting condition |
 |---|---|---|
-| P0_TOOLCHAIN_OK | CLOSED | `VERIFY_OK`, `BOOT_SCENES_OK`, `BUILD_OK`; 19/19 EditMode + 3/3 PlayMode; title smoke and inspected 1920x1080 screenshot; physical Logitech attachment in Player.log. |
-| NATHAN_SPECIES_APPROVED | CLOSED | Nathan approved continuing, with more distinctive hero faces required. Exact response in `docs/art/species-approval.json` and D027. |
-| P1_DESIGN_OK | CLOSED | `docs/art/DESIGN_REVIEW.md`: twenty downstream boards/references opened and reviewed; existing generated map/material references complete the set. Hero production faces refined. |
-| P2_CORE_OK | OPEN | 35 EditMode and 15 PlayMode tests, both arena smokes and the full blockout route passed; physical 60-second feel session remains. |
-| P3_ART_OK | CLOSED | `docs/art/ART_REVIEW.md`: all 48 models, four hero bodies/Flight forms, repaired animations, Cantor chain, 16 portrait dialogue captures, framed contact sheet and true-scale row opened. 765 credits. Uniform/blank renders now fail image contrast as well as file-size checks. |
-| P4_CONTENT_OK | OPEN | First full ordered route passed. Final generated art, look review and balance remain. |
-| P5_PLAYABLE_OK | OPEN | Blockout performance and all-zone Continue pass. Final-art performance and physical controller feel remain. |
-| P6_HANDOFF_OK | PENDING | Documentation, final build, credits and tag required. |
+| P0_TOOLCHAIN_OK | CLOSED | Unity 6000.4.7f1, URP 17.4, Blender 5.1.2; compile/build, opened title, real Logitech attachment. Missing markers, blank title or absent hardware fail. |
+| NATHAN_SPECIES_APPROVED | CLOSED | Actual response below and docs/art/species-approval.json; no inferred approval. |
+| P1_DESIGN_OK | CLOSED | docs/art/DESIGN_REVIEW.md; opened species, distinct hero faces, cast, enemies, ships and environment references. |
+| P2_CORE_OK | OPEN — human feel only | Core, controller translation, arena smokes and full route pass. The physical 60-second pad session has not been observed. |
+| P3_ART_OK | CLOSED | docs/art/ART_REVIEW.md: all models, posed animations, hero forms, Cantor chain, 16 dialogue captures and corrected true-scale row opened. Blank/low-contrast renders, invalid rigs and frozen skin fail intake. |
+| P4_CONTENT_OK | CLOSED | Eighteen refreshed world views accepted; full ordered route and final completion save pass. Burrower 60.9 s / Cantor 109.6 s; crafted T2 reduces controlled duration by 30.5%. Fresh 35/17 suites pass. |
+| P5_PLAYABLE_OK | OPEN — human feel only | Final-art 1080p performance, six-scene Continue, both arenas and UI pass. The human release-route controller session remains unverified. |
+| P6_HANDOFF_OK | IN PROGRESS | Generated release built and title smoke/render passed with Logitech attached; handoff commit and tag remain. |
 
 ## NATHAN GATE
 
-**NATHAN_SPECIES_APPROVED, 2026-09-20.** Nathan: "in general the designs of the race are fine. when we actually design the main characters they'll need to be more unique looking faces but that is okay for now. please continue". Approved review images:
+**NATHAN_SPECIES_APPROVED, 2026-09-20.** Nathan: "in general the designs of the race are fine. when we actually design the main characters they'll need to be more unique looking faces but that is okay for now. please continue".
 
-- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-sheet-v2.png`
-- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-faces-v2.png`
-- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/taren-board.png`
-- `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/sela-board-v2.png`
+- C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-sheet-v2.png
+- C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-faces-v2.png
+- C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/taren-board.png
+- C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/sela-board-v2.png
 
-The user-requested P1 gate is closed by the actual response above. Main-character facial distinctiveness is a production requirement. P2 code, generated UI, all five zone blockouts and the automated route were built and verified while waiting. Paid generation may now proceed within the 1,200-credit cap.
+Receipt and facial-distinctiveness requirement: D027–D028 in docs/DECISIONS.md. Taren's broad jaw, hooded eyes and nose scar differ from Sela's longer face, raised brow and cheek speckles in production references and portraits. No second design approval is required.
 
-## BLOCKED
+## Run
 
-No current user-input blocker. Physical controller feel, final artwork, final balance and the remaining gates are not claimed complete. Continue autonomously; no second design approval is required.
+Double-click **Builds/Windows/Lattice.exe**. Keep it beside Lattice_Data, UnityPlayer.dll and the other runtime files. Select New Game with the bottom face button, dock at Orrin's office and follow the objective panel. At Tallow Drift, dock, talk to the keeper, then repair/save to finish.
 
-## Art budget
+Builds/WindowsDev/Lattice.exe contains development probes and diagnostics. Runtime shortcuts are disabled in release. [README](../README.md) has full controls, saves, verification commands and bug reporting.
 
-Meshy limit: 1,200 credits. **Final production spend: 765 credits** (360 cast/enemies/civilians/ships + 405 for 27 environment models). The authoritative total is the sum of `consumed_credits` in `docs/art/gen-manifest.json`. All paid jobs are complete. One rejected overlength retexture prompt cost zero credits and was shortened before retry.
+The Logitech Precision C21A uses its d-pad for movement; **LB + d-pad** cycles targets/items. Synthetic events verify translation/navigation. PAD_BRIDGE_ATTACH vid=046D pid=C21A profile=LogitechPrecision proves real attachment in the graphics player. Neither proves human feel. Windows focus loss can temporarily disable the HID device; the bridge reattaches when enabled again.
 
-## Verification integrity
+## Validation evidence
 
-Synthetic controller tests demonstrate translation and navigation, not a human pad feel session. Physical attachment is checked in a graphics-enabled built player. Never describe unattended tests as hands-on play.
+- Fresh XML: Builds/logs/editmode-results.xml (35 passed) and playmode-results.xml (17 passed). The fail-closed runner rejects absent, stale, malformed, incomplete, zero-test, skipped or failed results, including hidden child failures. Its adjudicator accepted one good fixture and rejected eight bad fixtures.
+- Runtime coverage: real attacks/projectiles, 8 m lunge, swap/revive, Flash, docks/locked warp, Yarn short-button taps, six menu pages, analog/digital pad separation, title Continue in all six world scenes, defeat/retry, safe-pocket teleport/swap, enemy patterns and civil/combat collision damage.
+- Strict WorldBuilder.BuildFinal rejects missing generated prefabs. GULLET_WALLS_OK samples=714 checks both sides throughout the 900 m tube with physics rays at flight height; a collision gap fails.
+- Final complete-art route: Builds/logs/route-generated-final-passed.log, completed-generated-final-save.json and route-generated-final-complete.png (opened). Every ordered marker passes, including the new Tallow approach/dock; both heroes are level 6 with no equipped gear, and sliceComplete=true is saved in TallowDrift. Total 545.8 s, Burrower 60.9 s / Cantor 109.6 s. This is automated regression timing, not human playtime. The earlier 568.6 s generated route is preserved under the corresponding generated-first filenames.
+- Final controlled fabrication comparison: Builds/logs/balance.json. Four level-one combo hits kill a Ridgehound. Actual three T1 crafts then a T2 craft consume material/crystal inputs. At level three, +30 T2 Edge reduces the stationary 14,000-Integrity Burrower from 28.517 to 19.817 seconds (ratio 0.6949, 30.5% shorter). The prior 18,000 trial remains in balance-18000.json (36.018 / 24.017 s).
+- Model renders: Builds/logs/renders/, including all 48 framed tiles, Idle/Walk/Attack, hero Flight/overhead, Cantor chain, contact sheet and true-scale row. Opened review/rejection details: docs/art/ART_REVIEW.md. The original blank far-clipped row is preserved as rejected evidence.
+- Portraits: eight 2304×2304 sheets, full 576-pixel cells, actual 4× Real-ESRGAN processing and sixteen opened Neutral/Shocked dialogue panels. See docs/art/PORTRAIT_REVIEW.md.
+- World look: Builds/logs/look/first-generated/ preserves earlier views; look/generated/ holds three second-capture 1080p views of each of six scenes, with review pages under review/. Review led to a tighter ground camera, quieter Gullet membrane, visible walls, planet-shadow correction and readable HUD.
+- WORLD_LOOK_OK: docs/art/WORLD_REVIEW.md records all eighteen refreshed world views, eight UI screens and both final arena captures opened and accepted. Both arena smokes prove three kills, skills, swap and Flash; Flight additionally emits LUNGE_KILL. Real Logitech attachment was recorded in both runs.
+- Final-art performance: Builds/logs/perf-gullet.json and opened perf-gullet.png. RTX 5070, 1920×1080, minimum twelve live enemies, 30.018 seconds / 26,860 samples: uncapped mean 894.8 fps, median 1.083 ms, p95 1.456 ms, p99 1.694 ms. The contract rejects fewer than twelve enemies, wrong scene/resolution, too few samples or mean below 60 fps. Ordinary gameplay is capped at 60 fps.
+- Release title: Builds/logs/release-title.log and release-title.png (opened), TITLE_BOOT_OK / TITLE_SMOKE_OK and physical Logitech attachment. The independent release smoke uses its own log and save path. The 235-file, 433,085,062-byte package inventory and hashes are in Builds/logs/release-package-manifest.json.
+- Historical blockout routes and rejected runs remain under Builds/logs/; their measurements are in docs/PLAYTEST_NOTES.md. They are not final-art performance evidence.
 
-### P0 evidence
+## Art and licences
 
-- Build: `Builds/Windows/Lattice.exe` (Unity 6000.4.7f1, URP 17.4).
-- Compile/build logs: `Builds/logs/headless-exec-BatchTools-*.log`.
-- At P0, fresh suites passed 19 EditMode and 3 PlayMode tests. The reusable `Builds/logs/editmode-results.xml` and `playmode-results.xml` paths now contain the expanded 35/15 suites below.
-- Physical hardware: `%USERPROFILE%/AppData/LocalLow/Nathan/Lattice/Player.log` and copied `Builds/logs/Title-player.log`: `PAD_BRIDGE_ATTACH vid=046D pid=C21A profile=LogitechPrecision`. Graphics player ran for more than ten seconds.
-- Render: `Builds/logs/Title-screenshot.png`, second capture, visually inspected: title, four menu rows and generated Cinder Halo key art visible. First hidden-window attempt was black and rejected; interactive players now launch visibly.
-- Test instrument: `headless.ps1 testcontract` accepted one valid fixture and rejected eight defects (missing, stale, stale payload, malformed, failure, hidden child error, incomplete, zero tests).
-- Input instrument: synthetic Joystick states prove A submission, X separation, d-pad translation, Start, disconnect, title navigation, disabled Continue skip, settings confirm/cancel and focus restoration.
-- Blender 5.1: `BLENDER_TOOLCHAIN_OK`; Meshy bridge payload contract test passes. Meshy credentials copied privately; zero paid requests.
-- `.gitignore` verified for art-src, Builds, Library and tools/meshy/.env.
+All visible models, portraits, environment textures, panoramas, panels and icons are generated. Procedural continuous terrain and tube shell use generated textures. Allowed external resources are skeleton/animation donors, CC0 sounds and particle textures, and TMP fonts; each is listed in docs/CREDITS.md. No additional ART_EXCEPTION is used.
 
-## How to run and verify (current)
+The authoritative Meshy total is the sum of consumed_credits in docs/art/gen-manifest.json: **765 credits**, all paid tasks complete. Raw sources/prompts remain under ignored art-src/Generated/. Native 1254-square textures and 1774×887 panoramas are recorded honestly; five sky/maps have actual 4× Real-ESRGAN derivatives resized to 4096×2048, indexed in docs/art/world-upscale.json.
 
-Double-click `Builds/Windows/Lattice.exe` for the release blockout or `Builds/WindowsDev/Lattice.exe` for development probes. Arena boots in the development player use `-scene Arena_Ground` or `-scene Arena_Flight`. Title uses d-pad + bottom face button (A), B returns from settings. Both packages contain all five zones; these are playable checkpoints, not the final generated-art release.
+## Known limits / BLOCKED
 
-`powershell -NoProfile -ExecutionPolicy Bypass -File scripts/headless.ps1 verify|tests|playtests|build`
+No current user-input blocker. Continue autonomously; no additional approval is requested.
 
-`powershell -NoProfile -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -RequirePad`
-
-### P2 evidence in progress (gate still open)
-
-- EditMode: 35/35 passed, no skips, fresh fail-closed XML. Includes damage, break, levels, equipment/affixes, atomic crafting/inventory, quests, save slots and corruption, pause/Flash arbitration, late quest acceptance and pad translation.
-- PlayMode: 15/15 passed. Ground attack kill, flight projectile kill, measured 8 m dash, form/motor transitions, swap and timed revive, additive dock and flag-gated warp, Yarn line/options/bench command, short A taps during typewriter delays, all six menu tabs, analog lock-on/d-pad separation, actual Continue from all five zones, defeat/retry restoring living actors, Cantor segment motion/phases, pack lunge/Drifter volley behavior and existing pad/title tests.
-- Test-discovered fixes: Json.NET now replaces initialized collections on load (avoids duplicate Taren); flight dash has a separate duration from cruise clamp; equipped gear/affixes feed runtime stats; one lunge shares its victim set along the path.
-- Fresh arena smoke captures: `Builds/logs/Arena_Ground-screenshot.png` and `Arena_Flight-screenshot.png`, both opened after the final enemy behavior changes; three kills, swap, and Flash Move assertions passed, Logitech C21A attached. The flight log also confirms `LUNGE_KILL` and a Sela skill.
-- Render review found bloom missing: main camera post-processing was disabled, renderer postProcessData was null, and volume components needed persistent subassets. All fixed in reproducible builders. The emissive cube visibly blooms in the inspected ground arena; ordinary geometry does not.
-- Physical 60-second hands-on controller feel evidence is not available yet. Automated input and attached hardware do not close that requirement.
-- Generated UI art (panel, button, slider/reticle, sixteen items, eight skills) is archived with prompts under `art-src/Generated/P2/refs/`, provenance in `docs/art/image-manifest.json`.
-- Implementation checkpoint committed as `70acfa9` (`P2_CORE_CHECKPOINT`). This deliberately does not claim the physical-feel gate is closed.
-- Retry regression fix committed as `29eb6d1`. The test failed before the fix (`Builds/logs/retry-regression-red.xml`) and the complete 14-test PlayMode suite passed afterward.
-- Final checkpoint packages include the new lunge/dive/volley behaviors. Release title smoke passed with `TITLE_BOOT_OK`, `TITLE_SMOKE_OK` and physical Logitech attachment; its second 1080p screenshot was opened. Development arena and full-route verification also passed. The current code/docs are committed as a further `P2_CORE_CHECKPOINT`; this does not close the physical-feel or final-art gates.
-
-### Route, look and performance evidence
-
-- Latest complete route: `Builds/logs/route-enemy-patterns-passed.log`, every ordered milestone accepted by `ROUTE_MARKER_CONTRACT_OK`, `SLICE_SMOKE_OK elapsed=555.5 level=6`. Burrower took 75.9 s and Cantor 100.4 s. `Builds/logs/completed-enemy-patterns-save.json` contains both heroes at level 6, no crafted equipment, and `sliceComplete=true` in Tallow Drift. The final completion screenshot was opened. Route uses real movement, damage, NPC interactions, key pickup, gates and saves, with no flag/kill injection; this is an automated regression duration, not a human playtime claim.
-- Historical routes: the first 395.2 s run reached level 7 before XP tuning; its reusable log was superseded. `route-pre-aim-fix-passed.log` completed in 604.3 s at level 6. `route-aim-corrected-passed.log` completed in 549.9 s at level 6, with 64.7/99.5 s boss fights. Their completion saves are archived alongside the logs. The final run above includes the new pack lunge, Dart dive and Drifter volley.
-- Preserved rejected runs: `Builds/logs/route-combat-timeout-rejected.log` exposed a travel timer that counted nested combat; `burrower-overlong-rejected.log` rejected the 30,000-Integrity Burrower experiment. Both informed fixes before the completed runs above. Balance and physical feel remain open.
-- Five reproducible builders create Halo traffic/docks, the Decks, twelve Sorrel encounters and six mines, a 900 m Gullet with four chambers, and Tallow Drift. Yarn first/repeat/post lines and twelve ambient barks are present.
-- All fifteen initial zone screenshots in `Builds/logs/zones/` were opened. Halo/Decks/Sorrel/Tallow show generated texture/UI work on obvious blockouts. Gullet screenshots exposed outward-facing shell triangles; fixed winding, and the updated interior is visible in `Builds/logs/perf-gullet.png` (opened). None of these close a final-art LOOK gate.
-- `Builds/logs/perf-gullet.json`: final checkpoint run 30.019 s, 28,459 samples, at least twelve enemies, 1920x1080, RTX 5070; 948.0 fps mean, 1.384 ms p95, 1.595 ms p99. The second screenshot was opened and shows live attacks. This is a blockout performance baseline, not a final-model performance claim. Fresh report/screenshot and thresholds are required by `scripts/performance.ps1`.
-- Registered interaction prompts replace per-frame scene scans. Menus paginate inventory/shop stock; late-accepted crystal quests use collection history; pause has priority over Flash slow motion.
-- `Builds/logs/ui/`: eight second-capture 1080p renders opened (dialogue, six menu tabs, shop). Review fixed dialogue hint placement, row margins, atlas crop leakage and gameplay HUD showing through menus. Portrait space remains empty pending generated portrait intake.
-- Meshy intake fails empty batches, missing/ambiguous albedo, non-human avatars, stationary limbs and frozen visible skin. Taren Natural passes with 260 degrees of summed local joint travel, 0.087 relative mean skin travel, and opened poses. The review now advances editor frames to avoid cached GPU skinning. Portrait pipeline preserves all sixteen emotions, requires actual 4x Real-ESRGAN output, and assembles 2304x2304 sheets; full batch Unity import remains.
-
-### ART_PENDING / unfinished gates
-
-- No model ART_PENDING rows remain. All 48 production models pass intake and opened review. Final-world look, route and performance review remain in progress.
-- `P3_PORTRAITS_OK`: eight generated portrait grids imported, all sixteen Neutral/Shocked dialogue panels opened and accepted. Evidence and rejecting conditions: `docs/art/PORTRAIT_REVIEW.md`.
-- Texture sources are native 1254 square; sky/map sources are native 1774x887. Five panoramas/maps now have actual 4x Real-ESRGAN derivatives resized to 4096x2048 for runtime. Both sizes and processing are recorded in `docs/art/world-upscale.json`.
-- Main-route progression to level 6 is verified. The T2 comparison, broader balance, release-route physical pad feel and final art performance remain open.
-- Tallow now has a generated SpaceSafe exterior docking into the GroundSafe deck. The quieter Gullet membrane and its generated walls are in the rebuilt development player. The complete model gate is closed; final-world review remains in progress.
-- No `slice-v0.1` tag has been created. P6 requires the finished slice, not this checkpoint.
+- P2 and P5 physical controller-feel sessions have not been performed by a human. Attached hardware and automated play do not close them.
+- This slice reuses civilian bodies for the unnamed survivor/keeper, has fixed diorama cameras and limited environment modules. Human pacing, comfort and subjective combat tuning remain review items.
+- Automated saves are isolated under Builds/; runtime tests shield the user's default save directory. Default saves live at %USERPROFILE%/AppData/LocalLow/Nathan/Lattice/Saves.
+- Final verification and slice-v0.1 tagging are still in progress; no handoff gate is claimed yet.

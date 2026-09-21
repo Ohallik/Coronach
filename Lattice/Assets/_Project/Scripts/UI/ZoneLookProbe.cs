@@ -15,7 +15,7 @@ namespace Lattice.UI
             while(PartyController.Current==null||SceneFlow.Current.Loading)yield return null;
             string[] zones={"Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Gullet_Tunnel","TallowApproach","TallowDrift"};
             Vector3[][] points={new[]{new Vector3(-20,1,0),new Vector3(0,1,30),new Vector3(25,1,25)},new[]{new Vector3(-20,0,0),new Vector3(0,0,0),new Vector3(20,0,0)},
-                new[]{new Vector3(0,0,18),new Vector3(0,0,75),new Vector3(0,0,173)},new[]{new Vector3(0,1,8),new Vector3(Mathf.Sin(320f/900*Mathf.PI*4)*12,1,320),new Vector3(Mathf.Sin(805f/900*Mathf.PI*4)*12,1,805)},
+                new[]{new Vector3(0,0,18),new Vector3(0,0,75),new Vector3(0,0,164)},new[]{new Vector3(0,1,8),new Vector3(Mathf.Sin(320f/900*Mathf.PI*4)*12,1,320),new Vector3(Mathf.Sin(805f/900*Mathf.PI*4)*12,1,805)},
                 new[]{new Vector3(0,1,-8),new Vector3(10,1,6),new Vector3(-10,1,16)},new[]{new Vector3(0,0,-3),new Vector3(-4,0,5),new Vector3(6,0,3)}};
             int captured=0;
             for(int z=0;z<zones.Length;z++)

@@ -21,6 +21,7 @@ namespace Lattice.EditorTools
             foreach(string name in new[]{"sorrel-ground","sorrel-rock","deck-panels","gullet-membrane","vorun-map","sorrel-map"})
             {
                 var mat=Material(name,"Lattice/Toon");mat.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+name+".png"));mat.SetColor("_BaseColor",Color.white);
+                mat.SetFloat("_ReceiveShadows",name.EndsWith("-map")?0:1);
                 if(name=="gullet-membrane"){mat.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+name+"-emission.png"));mat.SetColor("_EmissionColor",new Color(.05f,2.5f,3));mat.EnableKeyword("_DISSOLVE_ON");mat.SetVector("_DissolveParams",new Vector4(0,3,0,0));mat.SetColor("_DissolveEdgeColor",new Color(.1f,3,4));}
                 EditorUtility.SetDirty(mat);
             }
@@ -54,7 +55,8 @@ namespace Lattice.EditorTools
         {
             var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name=name;go.transform.position=position;go.transform.localScale=Vector3.one*diameter;
             Object.DestroyImmediate(go.GetComponent<Collider>());go.GetComponent<Renderer>().sharedMaterial=AssetDatabase.LoadAssetAtPath<Material>(Materials+(name=="Vorun"?"vorun-map":"sorrel-map")+".mat");
-            go.isStatic=true;
+            go.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            go.GetComponent<Renderer>().receiveShadows=false;go.isStatic=true;
         }
     }
 }

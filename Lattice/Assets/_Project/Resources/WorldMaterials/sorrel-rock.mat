@@ -47,6 +47,7 @@ Material:
     - _OccFade: 0
     - _OccFadeToggle: 0
     - _RampSteps: 3
+    - _ReceiveShadows: 1
     - _RimPower: 4
     - _ScatterPebbleRerole: 0
     - _SrcBlend: 1

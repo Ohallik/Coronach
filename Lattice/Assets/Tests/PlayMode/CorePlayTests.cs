@@ -136,6 +136,22 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(party.Swap());partner.GetComponent<PlayerBrain>().AutoPilot=true;
             yield return new WaitForSecondsRealtime(.4f);Assert.AreEqual(BodyForm.Natural,party.Active.GetComponent<FormController>().Current);
         }
+        [UnityTest]public IEnumerator FlightWallContactHurtsOnlyInCombatZones()
+        {
+            foreach(string zone in new[]{"Hub_CinderHalo","Arena_Flight"})
+            {
+                yield return Load(zone);var actor=PartyController.Current.Active;
+                var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=new Vector3(200,1,-200);cc.enabled=true;
+                var wall=new GameObject("Collision test wall",typeof(BoxCollider));wall.transform.position=new Vector3(203,1,-200);wall.GetComponent<BoxCollider>().size=new Vector3(1,6,20);
+                Physics.SyncTransforms();float before=actor.Health.integrity,furthest=actor.transform.position.x;
+                float until=Time.realtimeSinceStartup+2;
+                while(Time.realtimeSinceStartup<until){actor.motor.Move(Vector2.right,true,false);furthest=Mathf.Max(furthest,actor.transform.position.x);yield return null;}
+                Assert.Less(furthest,202.6f,"flight must collide with the wall in either mode");
+                if(zone=="Hub_CinderHalo")Assert.AreEqual(before,actor.Health.integrity,"civil flight collisions must be harmless");
+                else Assert.Less(actor.Health.integrity,before,"combat wall contact must cause damage");
+                Object.Destroy(wall);yield return null;
+            }
+        }
         [UnityTest]public IEnumerator DefeatRetryRestoresTheSavedPartyWithoutAnotherDefeat()
         {
             var saved=GameServices.Current.State;

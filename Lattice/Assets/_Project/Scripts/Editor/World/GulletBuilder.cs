@@ -40,7 +40,20 @@ namespace Lattice.EditorTools
             var cacheTrigger=cache.gameObject.GetComponent<BoxCollider>();cacheTrigger.isTrigger=true;cacheTrigger.size=Vector3.one*2;
             WorldBuilder.Encounter("Gullet_Cantor",new(CenterX(805),1,805),new(44,6,36),"Cantor",1);
             WorldBuilder.Warp("Exit warp — Tallow Drift",new(CenterX(890),1,890),"TallowApproach","bossdown.Cantor");
+            VerifyWalls();
             WorldBuilder.Save(scene,"Gullet_Tunnel");
+        }
+        static void VerifyWalls()
+        {
+            // The continuous shell closes the gaps between decorative wall modules.
+            Physics.SyncTransforms();int samples=0;
+            for(float z=5;z<896;z+=2.5f)for(int sign=-1;sign<=1;sign+=2)
+            {
+                if(!Physics.Raycast(new Vector3(CenterX(z),1,z),Vector3.right*sign,Radius(z)+5,Physics.DefaultRaycastLayers,QueryTriggerInteraction.Ignore))
+                    throw new System.Exception("FAILED: Gullet wall gap at z="+z+" side="+sign);
+                samples++;
+            }
+            Debug.Log("GULLET_WALLS_OK samples="+samples);
         }
         static void Tube()
         {

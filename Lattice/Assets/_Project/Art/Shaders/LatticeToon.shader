@@ -28,6 +28,7 @@ Shader "Lattice/Toon"
         _BaseMapStrength("Base Map Strength", Range(0, 1)) = 1
         _BaseColor("Base Color", Color) = (1, 1, 1, 1)
         _RampSteps("Ramp Steps", Range(2, 6)) = 3
+        _ReceiveShadows("Receive Scene Shadows", Range(0, 1)) = 1
         _ShadowTint("Shadow Tint", Color) = (0.55, 0.55, 0.68, 1)
         _RimColor("Rim Color", Color) = (0.25, 0.25, 0.3, 1)
         _RimPower("Rim Power", Range(0.5, 12)) = 4
@@ -171,6 +172,7 @@ Shader "Lattice/Toon"
             half _BaseMapStrength;
             half4 _BaseColor;
             half _RampSteps;
+            half _ReceiveShadows;
             half4 _ShadowTint;
             half4 _RimColor;
             half _RimPower;
@@ -747,7 +749,7 @@ Shader "Lattice/Toon"
                 #endif
 
                 half ndotl = dot(normalWS, mainLight.direction);
-                half lit = ToonRamp(ndotl * mainLight.shadowAttenuation * mainLight.distanceAttenuation);
+                half lit = ToonRamp(ndotl * lerp(1.0h, mainLight.shadowAttenuation, _ReceiveShadows) * mainLight.distanceAttenuation);
                 half3 lighting = lerp(_ShadowTint.rgb, half3(1, 1, 1), lit) * mainLight.color;
 
                 // Additional lights: smooth, scaled down so the sun stays the author of the look.
