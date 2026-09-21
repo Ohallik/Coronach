@@ -1,10 +1,12 @@
 # LATTICE slice progress
 
-## Current work
+## Handoff — slice-v0.1
 
 2026-09-21: all five zones and Tallow Drift's exterior approach are playable with generated art. All 48 production models, eight expression sheets, textures, skies and UI are imported and reviewed. Meshy spend is **765/1,200 credits**. No model ART_PENDING rows remain.
 
 Both Windows packages contain the generated world. Fresh tests pass **35 EditMode / 17 PlayMode**, zero skips. The final full route passed in **545.8 seconds**, reached level 6 without crafted gear, defeated both bosses, docked at Tallow Drift and saved completion. Burrower measured **60.9 s**, Cantor **109.6 s**. Final world, UI, performance and release-title captures have been opened and accepted.
+
+**P6_HANDOFF_OK**: release at `Builds/Windows/Lattice.exe`, source tag `slice-v0.1`. README, credits, decisions, playtest notes, art reviews and the committed validation snapshot are current. P2/P5 remain open only for the human feel sessions described below.
 
 ## Gates
 
@@ -17,7 +19,7 @@ Both Windows packages contain the generated world. Fresh tests pass **35 EditMod
 | P3_ART_OK | CLOSED | docs/art/ART_REVIEW.md: all models, posed animations, hero forms, Cantor chain, 16 dialogue captures and corrected true-scale row opened. Blank/low-contrast renders, invalid rigs and frozen skin fail intake. |
 | P4_CONTENT_OK | CLOSED | Eighteen refreshed world views accepted; full ordered route and final completion save pass. Burrower 60.9 s / Cantor 109.6 s; crafted T2 reduces controlled duration by 30.5%. Fresh 35/17 suites pass. |
 | P5_PLAYABLE_OK | OPEN — human feel only | Final-art 1080p performance, six-scene Continue, both arenas and UI pass. The human release-route controller session remains unverified. |
-| P6_HANDOFF_OK | IN PROGRESS | Generated release built and title smoke/render passed with Logitech attached; handoff commit and tag remain. |
+| P6_HANDOFF_OK | CLOSED | Generated release built; title smoke/render and Logitech attachment pass. Documentation, validation snapshot, gate commits and slice-v0.1 tag delivered. Open P2/P5 human-feel requirements are disclosed. |
 
 ## NATHAN GATE
 
@@ -63,9 +65,9 @@ The authoritative Meshy total is the sum of consumed_credits in docs/art/gen-man
 
 ## Known limits / BLOCKED
 
-No current user-input blocker. Continue autonomously; no additional approval is requested.
+No setup or generation blocker remains. No additional approval is requested.
 
 - P2 and P5 physical controller-feel sessions have not been performed by a human. Attached hardware and automated play do not close them.
 - This slice reuses civilian bodies for the unnamed survivor/keeper, has fixed diorama cameras and limited environment modules. Human pacing, comfort and subjective combat tuning remain review items.
 - Automated saves are isolated under Builds/; runtime tests shield the user's default save directory. Default saves live at %USERPROFILE%/AppData/LocalLow/Nathan/Lattice/Saves.
-- Final verification and slice-v0.1 tagging are still in progress; no handoff gate is claimed yet.
+- Gate commits: P3 f58bb93, P4 48c049f, P5 automated checkpoint 7ec944a; final handoff is tagged slice-v0.1. The P5 checkpoint deliberately does not claim its human-feel gate closed.

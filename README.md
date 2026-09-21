@@ -2,7 +2,7 @@
 
 A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cross the Gullet with Taren and Sela.
 
-The slice includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout: 48 production models and eight expression sheets. See [progress](docs/PROGRESS.md) for the release evidence and the remaining human controller-feel checks.
+**slice-v0.1** includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout: 48 production models and eight expression sheets. The full automated route, 52 tests and final-art 1080p performance pass. See [progress](docs/PROGRESS.md) for evidence and the remaining human controller-feel checks.
 
 ## Run
 
