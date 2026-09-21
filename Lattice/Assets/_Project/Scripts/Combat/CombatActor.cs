@@ -30,7 +30,7 @@ namespace Lattice.Combat
         void Update()
         {
             if(!Health.Alive)return;
-            if(GameTime.Now>=actionUntil&&State!=ActorState.Guard)State=ActorState.Idle;
+            if(GameTime.Now>=actionUntil&&State!=ActorState.Guard)State=motor!=null&&motor.Velocity.sqrMagnitude>.1f?ActorState.Move:ActorState.Idle;
             charge=Mathf.Max(0,charge-Time.deltaTime*.4f);thrust=Mathf.Min(100,thrust+Time.deltaTime*17);
             for(int i=0;i<4;i++)cooldowns[i]=Mathf.Max(0,cooldowns[i]-Time.deltaTime);
         }

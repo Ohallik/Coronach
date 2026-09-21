@@ -153,5 +153,24 @@ namespace Lattice.Tests.PlayMode
             enemy.Health.integrity=enemy.Health.maximum*.25f;yield return null;
             Assert.AreEqual(3,enemy.GetComponent<BossController>().Phase);
         }
+        [UnityTest]public IEnumerator PackLungeAndDrifterVolleyUseTheirRealAttackPatterns()
+        {
+            var actor=PartyController.Current.Active;var cc=actor.GetComponent<CharacterController>();
+            cc.enabled=false;actor.transform.position=new Vector3(0,0,-10);cc.enabled=true;
+            var hunter=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Ridgehound"),new Vector3(0,0,-4.5f));
+            float until=Time.realtimeSinceStartup+4;
+            while(!hunter.Telegraphing&&Time.realtimeSinceStartup<until)yield return null;
+            Assert.IsTrue(hunter.Telegraphing);Vector3 windup=hunter.transform.position;
+            while(hunter.Telegraphing&&Time.realtimeSinceStartup<until)yield return null;
+            yield return new WaitForSecondsRealtime(.2f);
+            Assert.Greater((hunter.transform.position-windup).magnitude,2.2f,"a pack attack must lunge, not merely resume walking");
+            Object.Destroy(hunter.gameObject);yield return null;
+            var drifter=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("ChoristerDrifter"),new Vector3(0,0,-2));
+            until=Time.realtimeSinceStartup+4;
+            while(!drifter.Telegraphing&&Time.realtimeSinceStartup<until)yield return null;
+            Assert.IsTrue(drifter.Telegraphing);int before=Object.FindObjectsByType<Projectile>(FindObjectsSortMode.None).Length;
+            while(drifter.Telegraphing&&Time.realtimeSinceStartup<until)yield return null;
+            Assert.GreaterOrEqual(Object.FindObjectsByType<Projectile>(FindObjectsSortMode.None).Length,before+3,"a Drifter volley must create three live projectiles");
+        }
     }
 }

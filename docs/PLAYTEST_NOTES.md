@@ -29,6 +29,15 @@ Input source: scripted runtime actions and synthetic pad events in tests. Logite
 - The 30,000-Integrity Burrower experiment was rejected: repeated partner knockdowns and a 150-second combat timeout. Archive: `Builds/logs/burrower-overlong-rejected.log`. Longer fights do not scale linearly from the short sample; balance remains open.
 - The subsequent 18,000-Integrity Burrower completed in 96.3 seconds. Inspection found a route-driver defect: its 0.08 aim nudge was below GroundMotor's 0.1 facing threshold, so firing could continue in the old direction after a charge. Raise the nudge to 0.15 before using subsequent runs for balance. This changes automated steering, not player controls.
 - Death/retry regression reproduced before the fix: `Builds/logs/retry-regression-red.xml` fails because departing dead actors overwrite the loaded save during the scene fade. Party state synchronization is now suspended while SceneFlow is loading; the full 14-test PlayMode suite passed afterward.
+- Corrected-aim route passed in 549.9 s at level 6; Burrower 64.7 s, Cantor 99.5 s. Archive: `Builds/logs/route-aim-corrected-passed.log` and `completed-aim-corrected-save.json`. No equipment or fabrication was required.
+- Added the specified pack lunge, Dart dive, Drifter three-shot volley and audible wind-up. The complete 15-test PlayMode suite passed, including a runtime check for post-wind-up displacement and three actual active projectile objects. Actor movement now reports the Move state.
+
+## 2026-09-20 — final blockout checkpoint checks
+
+- Both Windows packages rebuilt with the final enemy behaviors. The ordered route passed in 555.5 s at level 6; Burrower 75.9 s, Cantor 100.4 s. Archive: `Builds/logs/route-enemy-patterns-passed.log` and `completed-enemy-patterns-save.json`. Both heroes have no crafted equipment; completion is saved at Tallow Drift. The final completion render was opened.
+- Both arena smokes passed again with the Logitech C21A attached: three kills, swap and Flash Move. Flight also emitted `LUNGE_KILL` and skill evidence. Both second-capture screenshots were opened. The 35 EditMode and 15 PlayMode suites are green with zero skips.
+- Gullet stress rerun after the enemy changes: 30.019 s, 28,459 samples, minimum twelve enemies, 1080p on RTX 5070; 948.0 fps mean, 1.384 ms p95, 1.595 ms p99. The second capture was opened and shows the attacking enemies. Final-art performance remains unmeasured.
+- Final release package title smoke passed with the physical Logitech attached; its second 1080p title capture was opened. No players or Unity editor jobs remain running at checkpoint handoff.
 
 ## Required later sessions
 

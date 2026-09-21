@@ -1,3 +1,5 @@
+using System.Collections;
+using System.Collections.Generic;
 using Lattice.Core;
 using Lattice.Data;
 using UnityEngine;
@@ -15,6 +17,7 @@ namespace Lattice.Combat
         Vector3 home;
         Vector3 aim;
         float nextAttack,strikeAt;
+        bool lunging;
         public float DamageScale=1;
         BossController boss;
         void Awake(){Health=GetComponent<Health>();controller=GetComponent<CharacterController>();home=transform.position;}
@@ -42,12 +45,14 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(Passive||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
+            if(Passive||lunging||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
             if(boss!=null&&boss.Busy){if(warning!=null)warning.SetActive(false);Telegraphing=false;return;}
             var victim=PartyController.Current.Active;if(!victim.Health.Alive)return;
             Vector3 d=victim.transform.position-transform.position;d.y=0;float distance=d.magnitude;
             var attack=definition.attacks?.Length>0?definition.attacks[0]:null;
             float range=attack!=null?attack.range:2.6f;
+            bool dive=definition.archetype==EnemyArchetype.PackHunter||definition.id=="ChoristerDart";
+            if(dive)range=6;
             bool ranged=definition.archetype==EnemyArchetype.Spitter||definition.archetype==EnemyArchetype.Serpent;
             if(Telegraphing)
             {
@@ -55,14 +60,22 @@ namespace Lattice.Combat
                 {
                     Telegraphing=false;warning.SetActive(false);
                     var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10};
-                    if(ranged)Projectile.Fire(transform.position+Vector3.up,aim,packet,11);
+                    if(dive)StartCoroutine(LungeAttack(packet));
+                    else if(definition.id=="ChoristerDrifter")
+                    {for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
+                    else if(ranged)Projectile.Fire(transform.position+Vector3.up,aim,packet,11);
                     else CombatActor.Strike(transform.position+aim*1.1f+Vector3.up*.7f,definition.archetype==EnemyArchetype.Mine?3:range*.7f,packet);
                     if(definition.archetype==EnemyArchetype.Mine)Health.Receive(new DamagePacket{amount=Health.maximum*3,type=DamageType.Pulse,source=victim.Health});
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);
                 }
                 return;
             }
-            if(distance<range&&Time.time>=nextAttack){Telegraphing=true;strikeAt=Time.time+(attack!=null?attack.telegraph:.65f);aim=d.normalized;warning.SetActive(true);return;}
+            if(distance<range&&Time.time>=nextAttack)
+            {
+                Telegraphing=true;strikeAt=Time.time+(attack!=null?attack.telegraph:.65f);
+                aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;transform.rotation=Quaternion.LookRotation(aim);
+                warning.SetActive(true);AudioManager.Play("computerNoise_000",.08f);return;
+            }
             if(definition.archetype==EnemyArchetype.Mine)return;
             if(distance>35){Move(home-transform.position,definition.speed);return;}
             if(ranged)
@@ -74,6 +87,19 @@ namespace Lattice.Combat
                 Move(approach,definition.speed);
             }
             if(d.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(d);
+        }
+        IEnumerator LungeAttack(DamagePacket packet)
+        {
+            lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;
+            for(float elapsed=0;elapsed<.28f&&Health.Alive&&!Health.Broken;)
+            {
+                if(GameServices.Current.Input.Blocked){yield return null;continue;}
+                elapsed+=Time.deltaTime;
+                if(controller.enabled)controller.Move(direction*16*Time.deltaTime);
+                var hit=CombatActor.Strike(transform.position+Vector3.up*.7f+direction*.5f,1.15f,packet);hit.hit=victims;
+                yield return null;
+            }
+            lunging=false;
         }
         void Move(Vector3 direction,float speed){direction.y=0;if(controller.enabled)controller.Move(direction.normalized*speed*(Time.time<Health.SlowUntil?.4f:1)*Time.deltaTime+(ZoneController.Current.Flight?Vector3.zero:Vector3.down*6*Time.deltaTime));}
     }
