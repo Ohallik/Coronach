@@ -1,6 +1,16 @@
 # LATTICE slice progress
 
-## Handoff — slice-v0.1
+## Current review — quality gate reopened
+
+2026-09-21: **QUALITY_REVIEW_REJECTED** after agent-directed play of the opening, a ground encounter, flight combat and menus. The slice does **not** yet meet the professional presentation/feel target. Repetitive environment composition, weak combat silhouettes/feedback and sparse menus remain. The earlier screenshot acceptance below was too lenient and is superseded by [PLAY_REVIEW.md](PLAY_REVIEW.md).
+
+This pass fixes menu-close input leakage, dropped lunge taps, combatant contact being treated as wall damage, flight-partner braking, paused pending attacks and several HUD/world readability issues. Fresh checks are recorded in `docs/validation/play-review.json`. These are corrections to the playable prototype, not a closed quality gate. The `slice-v0.1` tag and its measurements remain historical.
+
+Final correction checks: **35 EditMode / 21 PlayMode** passed with zero skips. The route passed in **532.3 s**, reached level 6 and saved completion; Burrower 66.1 s / Cantor 87.8 s. The route precedes only the final buffered-lunge/menu cancellation guard, covered by the 21-test suite. All eighteen refreshed zone views, step-by-step review frames, final completion and release title were opened. Both Windows packages contain the corrections.
+
+Virtual-gamepad play pauses between screenshot-based decisions. It does not establish physical Logitech feel or completion of the full release route by a human. P4 visual quality and P5 presentation/feel are open; no further approval is needed to improve them.
+
+## Historical handoff — slice-v0.1
 
 2026-09-21: all five zones and Tallow Drift's exterior approach are playable with generated art. All 48 production models, eight expression sheets, textures, skies and UI are imported and reviewed. Meshy spend is **765/1,200 credits**. No model ART_PENDING rows remain.
 
@@ -17,8 +27,8 @@ Both Windows packages contain the generated world. Fresh tests pass **35 EditMod
 | P1_DESIGN_OK | CLOSED | docs/art/DESIGN_REVIEW.md; opened species, distinct hero faces, cast, enemies, ships and environment references. |
 | P2_CORE_OK | OPEN — human feel only | Core, controller translation, arena smokes and full route pass. The physical 60-second pad session has not been observed. |
 | P3_ART_OK | CLOSED | docs/art/ART_REVIEW.md: all models, posed animations, hero forms, Cantor chain, 16 dialogue captures and corrected true-scale row opened. Blank/low-contrast renders, invalid rigs and frozen skin fail intake. |
-| P4_CONTENT_OK | CLOSED | Eighteen refreshed world views accepted; full ordered route and final completion save pass. Burrower 60.9 s / Cantor 109.6 s; crafted T2 reduces controlled duration by 30.5%. Fresh 35/17 suites pass. |
-| P5_PLAYABLE_OK | OPEN — human feel only | Final-art 1080p performance, six-scene Continue, both arenas and UI pass. The human release-route controller session remains unverified. |
+| P4_CONTENT_OK | REOPENED — visual quality | Content and ordered route exist; ordinary play exposes sparse/repetitive spaces and weak scene composition. Prior WORLD_LOOK_OK acceptance is superseded by PLAY_REVIEW.md. |
+| P5_PLAYABLE_OK | OPEN — presentation and feel | Concrete input/partner defects found and corrected during agent-directed play. Combat readability, menus, feedback and the physical controller session remain below/unverified against the target. |
 | P6_HANDOFF_OK | CLOSED | Generated release built; title smoke/render and Logitech attachment pass. Documentation, validation snapshot, gate commits and slice-v0.1 tag delivered. Open P2/P5 human-feel requirements are disclosed. |
 
 ## NATHAN GATE
@@ -40,7 +50,7 @@ Builds/WindowsDev/Lattice.exe contains development probes and diagnostics. Runti
 
 The Logitech Precision C21A uses its d-pad for movement; **LB + d-pad** cycles targets/items. Synthetic events verify translation/navigation. PAD_BRIDGE_ATTACH vid=046D pid=C21A profile=LogitechPrecision proves real attachment in the graphics player. Neither proves human feel. Windows focus loss can temporarily disable the HID device; the bridge reattaches when enabled again.
 
-## Validation evidence
+## Historical validation evidence — slice-v0.1
 
 The committed snapshot `docs/validation/slice-v0.1.json` records test counts, route/balance/performance measurements, opened captures, hardware identity, credit spend and the release package manifest hash. The P5 automated checkpoint is complete; the named P5 gate remains open for human feel.
 

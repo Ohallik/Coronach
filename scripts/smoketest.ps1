@@ -8,16 +8,14 @@ $runName=if($Route){"route-$Route"}else{$Scene}
 if($Route -and -not $PSBoundParameters.ContainsKey('TimeoutSec')){$TimeoutSec=900}
 $log=Join-Path $repo "Builds/logs/$runName-player.log"
 $shot=Join-Path $repo "Builds/logs/$runName-screenshot.png"
-$playerLog=Join-Path $env:USERPROFILE 'AppData/LocalLow/Nathan/Lattice/Player.log'
 foreach($path in @($log,$shot)){if(Test-Path -LiteralPath $path){Remove-Item -LiteralPath $path}}
-$playerArgs=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-smoketest','-scene',$Scene,'-screenshot',$shot,'-savepath',(Join-Path $repo 'Builds/smoke-saves'))
+$playerArgs=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-smoketest','-scene',$Scene,'-screenshot',$shot,'-savepath',(Join-Path $repo "Builds/smoke-saves/$runName"),'-logFile',$log)
 if($Route){$playerArgs+=@('-route',$Route)}
 $startedUtc=[DateTime]::UtcNow
 $proc=Start-Process -FilePath $exe -ArgumentList $playerArgs -PassThru
 try {
     if(-not $proc.WaitForExit($TimeoutSec*1000)){throw 'FAILED: player timeout'}
-    Copy-Item -LiteralPath $playerLog -Destination $log
-    if((Get-Item -LiteralPath $playerLog).LastWriteTimeUtc -lt $startedUtc){throw 'FAILED: stale Player.log'}
+    if(-not (Test-Path -LiteralPath $log) -or (Get-Item -LiteralPath $log).LastWriteTimeUtc -lt $startedUtc){throw 'FAILED: missing/stale smoke log'}
     $text=[IO.File]::ReadAllText($log)
     if($text -match 'Exception:|FAILED:'){throw "FAILED: player error; $log"}
     $marker=if($Route){'SLICE_SMOKE_OK'}elseif($Scene -eq 'Title'){'TITLE_SMOKE_OK'}else{'ARENA_SMOKE_OK '+$Scene}

@@ -9,23 +9,28 @@ namespace Lattice.UI
     public sealed class GameHud:MonoBehaviour
     {
         Canvas canvas;
-        TMP_Text status,partner,target,prompt,skills,zone,probe;
+        TMP_Text status,partner,target,prompt,skills,zone,probe,hpLabel,chargeLabel,thrustLabel;
         Image hp,charge,thrust,reticle;
         readonly Image[] skillIcons=new Image[4];
         readonly TMP_Text[] skillLabels=new TMP_Text[4];
         void Start()
         {
             canvas=UiKit.CreateCanvas("HUD",5,transform);
-            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.zero,new(230,947),new(430,215));frame.raycastTarget=false;
-            status=Text("Status",new(230,999),new(360,40),24,TextAlignmentOptions.Left);
-            hp=Bar("Integrity",new(230,962),new Color(.23f,.88f,.72f));
-            charge=Bar("Charge",new(230,940),new Color(.18f,.66f,1));
-            thrust=Bar("Thrust",new(230,918),new Color(1,.65f,.2f));
-            partner=Text("Partner",new(230,895),new(360,32),21,TextAlignmentOptions.Left);
+            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.zero,new(230,932),new(430,245));frame.raycastTarget=false;
+            status=Text("Status",new(230,1010),new(360,34),24,TextAlignmentOptions.Left);
+            hpLabel=Text("IntegrityLabel",new(230,980),new(360,22),15,TextAlignmentOptions.Left);
+            chargeLabel=Text("ChargeLabel",new(230,946),new(360,22),15,TextAlignmentOptions.Left);
+            thrustLabel=Text("ThrustLabel",new(230,912),new(360,22),15,TextAlignmentOptions.Left);
+            hp=Bar("Integrity",new(230,964),new Color(.23f,.88f,.72f));
+            charge=Bar("Charge",new(230,930),new Color(.18f,.66f,1));
+            thrust=Bar("Thrust",new(230,896),new Color(1,.65f,.2f));
+            partner=Text("Partner",new(230,865),new(360,28),18,TextAlignmentOptions.Left);
             target=Text("Target",new(960,972),new(700,80),25);
             zone=Text("Zone",new(1635,1000),new(500,60),26,TextAlignmentOptions.Right);
             skills=Text("Skills",new(625,50),new(1190,60),21);
             prompt=Text("Interaction",new(960,205),new(1200,60),28);
+            skills.outlineWidth=.2f;skills.outlineColor=new Color32(5,12,22,255);
+            prompt.outlineWidth=.22f;prompt.outlineColor=new Color32(5,12,22,255);
             reticle=UiKit.Panel(canvas.transform,"TargetReticle",Color.white);reticle.sprite=UiSkin.Kit("reticle");reticle.raycastTarget=false;reticle.preserveAspect=true;
             UiKit.Rect(reticle.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(90,90));
             for(int i=0;i<4;i++)
@@ -54,10 +59,13 @@ namespace Lattice.UI
             hp.rectTransform.sizeDelta=new Vector2(360*a.Health.integrity/a.Health.maximum,14);
             charge.rectTransform.sizeDelta=new Vector2(360*a.charge/100,14);thrust.rectTransform.sizeDelta=new Vector2(360*a.thrust/100,14);
             var state=GameServices.Current.State;int level=state.party.Find(m=>m.id==a.character)?.level??1;
-            status.text=$"{a.character.ToUpperInvariant()}   LV {level}   {a.Health.integrity:0} / {a.Health.maximum:0}";
-            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"Y  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Health.Alive?"":"  ·  STAND NEAR TO REVIVE");}
+            status.text=$"{a.character.ToUpperInvariant()}   ·   SYNC {level}";
+            hpLabel.text=$"INTEGRITY   {a.Health.integrity:0} / {a.Health.maximum:0}";
+            chargeLabel.text=$"CHARGE   {a.charge:0} / 100";
+            thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
+            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Health.Alive?"":"  ·  APPROACH TO REVIVE");}
             zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
-            if(a.target!=null&&a.target.Alive)target.text=$"{a.target.id.ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+(a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"));else target.text="";
+            if(a.target!=null&&a.target.Alive)target.text=$"{Readable(a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+(a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"));else target.text="";
             reticle.enabled=a.target!=null&&a.target.Alive;
             if(reticle.enabled)
             {
@@ -68,10 +76,22 @@ namespace Lattice.UI
             string[] names=a.character=="Taren"?new[]{"Cleave","Ember","Pulse","Overdrive"}:new[]{"Lance","Scatter","Static net","Refract"};
             string[] faces={"A","B","X","Y"};
             bool combat=ZoneController.Current.Combat;
-            for(int i=0;i<4;i++){skillIcons[i].enabled=combat;skillLabels[i].enabled=combat;skillIcons[i].sprite=UiSkin.Skill(a.character,i);skillIcons[i].color=a.cooldowns[i]>0?new Color(.35f,.4f,.5f):Color.white;skillLabels[i].text=(a.cooldowns[i]>0?a.cooldowns[i].ToString("0.0"):"RB + "+faces[i])+"\n"+names[i];}
-            skills.text=!combat?"A  INTERACT     Y  SWAP     RT  "+(a.flight?"BOOST     LT  BRAKE":"SPRINT")+"     START  MENU":a.flight?"A  FIRE     X  LUNGE     B  ROLL     RT  BOOST     LT  BRAKE":"A  ATTACK     B  DODGE     X  GUARD     RT  SPRINT     LT  "+state.quickItem.ToUpperInvariant();
+            var character=GameCatalog.Find<Lattice.Data.CharacterDef>(a.character);
+            for(int i=0;i<4;i++)
+            {
+                float cost=character!=null&&character.skills.Length>i?character.skills[i].chargeCost:20;
+                skillIcons[i].enabled=combat;skillLabels[i].enabled=combat;skillIcons[i].sprite=UiSkin.Skill(a.character,i);
+                skillIcons[i].color=a.cooldowns[i]>0||a.charge<cost?new Color(.4f,.46f,.53f):Color.white;
+                string binding=PromptService.Device==PromptDevice.Gamepad?"RB+"+faces[i]:PromptService.Tag("Skill"+(i+1));
+                skillLabels[i].text=(a.cooldowns[i]>0?a.cooldowns[i].ToString("0.0")+"s":binding+" · "+cost.ToString("0")+"C")+"\n"+names[i];
+            }
+            string Hint(string action,string label)=>PromptService.Tag(action)+"  "+label;
+            skills.text=!combat?Hint("Interact","INTERACT")+"    "+Hint("Swap","SWAP")+"    "+Hint(a.flight?"Boost":"Sprint",a.flight?"BOOST":"SPRINT")+(a.flight?"    "+Hint("Brake","BRAKE"):"")+"    "+Hint("Pause","MENU"):
+                a.flight?Hint("Fire","FIRE")+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
+                Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+Hint("Sprint","SPRINT")+"    "+Hint("QuickItem",Readable(state.quickItem).ToUpperInvariant());
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
         }
+        static string Readable(string value)=>System.Text.RegularExpressions.Regex.Replace(value??"","(?<=[a-z])(?=[A-Z])"," ");
         void Damage(Health health,float amount,bool weak){if(canvas!=null)StartCoroutine(Number(health.transform.position+Vector3.up*1.9f,amount,weak));}
         IEnumerator Number(Vector3 position,float amount,bool weak)
         {

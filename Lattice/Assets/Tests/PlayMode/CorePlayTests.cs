@@ -44,6 +44,26 @@ namespace Lattice.Tests.PlayMode
         }
         static IEnumerator Press(Gamepad pad,GamepadButton button)
         {InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(button));yield return null;yield return null;InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;yield return null;}
+        [UnityTest]public IEnumerator PausedCombatHoldsPendingHitsProjectilesAndActionClock()
+        {
+            var actor=PartyController.Current.Active;
+            var enemy=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None)[0];
+            float health=enemy.Health.integrity;
+            GameTime.Paused=true;float now=GameTime.Now;
+            var packet=new DamagePacket{source=actor.Health,amount=10,type=DamageType.Pulse};
+            var hit=CombatActor.Strike(enemy.transform.position+Vector3.up*.8f,2,packet);
+            Projectile.Fire(new Vector3(0,3,-20),Vector3.forward,packet);
+            var projectile=Object.FindObjectsByType<Projectile>(FindObjectsSortMode.None).Last();
+            var start=projectile.transform.position;
+            yield return new WaitForSecondsRealtime(.35f);
+            Assert.AreEqual(health,enemy.Health.integrity,"a queued hit must not apply during a menu/review pause");
+            Assert.That(GameTime.Now,Is.EqualTo(now).Within(.001f));
+            Assert.AreEqual(start,projectile.transform.position);
+            Assert.IsNotNull(hit);Assert.IsFalse(actor.Attack());
+            GameTime.Paused=false;yield return null;yield return null;
+            Assert.Less(enemy.Health.integrity,health,"the pending hit must resolve after resume");
+            Assert.AreNotEqual(start,projectile.transform.position);
+        }
         [UnityTest]public IEnumerator GroundFormMotorAndAttackKillAnEnemy()
         {
             var actor=PartyController.Current.Active;
@@ -77,6 +97,47 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(1);Assert.IsFalse(first.Health.Alive);
             yield return new WaitForSecondsRealtime(1.3f);Assert.IsTrue(first.Health.Alive);
         }
+        [UnityTest]public IEnumerator ShortLungeTapSurvivesHeldFireRecovery()
+        {
+            yield return Load("Arena_Flight");var actor=PartyController.Current.Active;
+            var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=new Vector3(200,1,-200);cc.enabled=true;
+            actor.target=null;actor.GetComponent<PlayerBrain>().AutoPilot=false;
+            var start=actor.transform.position;
+            InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.South));yield return null;yield return null;
+            Assert.Greater(actor.AttackSequence,0,"held A must start emitter recovery");
+            InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.South).WithButton(GamepadButton.West));yield return null;yield return null;
+            InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.South));
+            yield return new WaitForSecondsRealtime(.4f);
+            InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;
+            Assert.Greater(actor.transform.position.z-start.z,7.5f,"a released X tap must still execute its lunge after fire recovery");
+        }
+        [UnityTest]public IEnumerator FlightPartnerKeepsUpWithBoostBeforeSwap()
+        {
+            yield return Load("Arena_Flight");var party=PartyController.Current;var leader=party.Active;var partner=party.members[1-party.index];
+            for(int i=0;i<party.members.Length;i++)
+            {
+                var cc=party.members[i].GetComponent<CharacterController>();cc.enabled=false;
+                party.members[i].transform.position=new Vector3(200+i*2,1,-200-i*3);cc.enabled=true;
+            }
+            leader.target=null;partner.GetComponent<PartnerBrain>().enabled=true;
+            var start=partner.transform.position;float until=Time.realtimeSinceStartup+2.5f;
+            while(Time.realtimeSinceStartup<until){leader.motor.Move(Vector2.up,true,false);yield return null;}
+            Assert.Greater(partner.transform.position.z-start.z,25,"a following flight partner must not fly with the brake permanently held");
+            Assert.Less((leader.transform.position-partner.transform.position).magnitude,18,"boost must not leave the swap partner an encounter behind");
+            Vector3 before=leader.transform.position;Assert.IsTrue(party.Swap());
+            Assert.Less((party.Active.transform.position-before).magnitude,18);
+        }
+        [UnityTest]public IEnumerator OpeningMenuCancelsBufferedLunge()
+        {
+            yield return Load("Arena_Flight");var actor=PartyController.Current.Active;
+            var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=new Vector3(200,1,-200);cc.enabled=true;
+            actor.target=null;actor.GetComponent<PlayerBrain>().AutoPilot=false;Vector3 before=actor.transform.position;
+            InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.South));yield return null;yield return null;
+            InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.West));yield return null;yield return null;
+            var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open();InputSystem.QueueStateEvent(pad,new GamepadState());
+            yield return new WaitForSecondsRealtime(.15f);menu.Close();yield return new WaitForSecondsRealtime(.4f);
+            Assert.Less((actor.transform.position-before).magnitude,.1f,"opening UI must cancel a pending lunge instead of executing it after close");
+        }
         [UnityTest]public IEnumerator DockAndLockedWarpUseAdditiveZoneFlow()
         {
             var dock=new GameObject("TestDock").AddComponent<DockingPad>();dock.scene="Arena_Flight";dock.Interact();
@@ -108,7 +169,12 @@ namespace Lattice.Tests.PlayMode
             var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open();yield return null;
             Assert.IsNotNull(EventSystem.current.currentSelectedGameObject);
             for(int i=0;i<6;i++){yield return Press(pad,GamepadButton.RightShoulder);Assert.IsTrue(menu.IsOpen);Assert.IsNotNull(EventSystem.current.currentSelectedGameObject);}
+            var actor=PartyController.Current.Active;actor.GetComponent<PlayerBrain>().AutoPilot=false;Vector3 before=actor.transform.position;
             yield return Press(pad,GamepadButton.East);Assert.IsFalse(menu.IsOpen);Assert.IsFalse(GameInput.Current.Blocked);Assert.AreEqual(1,Time.timeScale);
+            Assert.AreNotEqual(ActorState.Dodge,actor.State,"B closing the menu must not leak into a gameplay dodge");
+            Assert.Less((actor.transform.position-before).magnitude,.1f);
+            yield return Press(pad,GamepadButton.East);
+            Assert.AreEqual(ActorState.Dodge,actor.State,"a fresh B press after release must dodge normally");
         }
         [UnityTest]public IEnumerator EveryZoneAutosaveResumesThroughTheTitle()
         {
@@ -149,6 +215,17 @@ namespace Lattice.Tests.PlayMode
                 Assert.Less(furthest,202.6f,"flight must collide with the wall in either mode");
                 if(zone=="Hub_CinderHalo")Assert.AreEqual(before,actor.Health.integrity,"civil flight collisions must be harmless");
                 else Assert.Less(actor.Health.integrity,before,"combat wall contact must cause damage");
+                if(zone=="Arena_Flight")
+                {
+                    // The same solid collider becomes a combatant body: contact alone
+                    // must not apply the wall's 12 damage to the player.
+                    wall.AddComponent<Health>();
+                    cc.enabled=false;actor.transform.position=new Vector3(200,1,-200);cc.enabled=true;
+                    before=actor.Health.integrity;furthest=200;until=Time.realtimeSinceStartup+2;
+                    while(Time.realtimeSinceStartup<until){actor.motor.Move(Vector2.right,true,false);furthest=Mathf.Max(furthest,actor.transform.position.x);yield return null;}
+                    Assert.Greater(furthest,201,"the actor must actually reach the body collider");
+                    Assert.AreEqual(before,actor.Health.integrity,"combatant bodies must not inflict wall collision damage");
+                }
                 Object.Destroy(wall);yield return null;
             }
         }

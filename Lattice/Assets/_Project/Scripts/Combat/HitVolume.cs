@@ -9,6 +9,7 @@ namespace Lattice.Combat
         public HashSet<Health> hit=new();
         void Update()
         {
+            if(Lattice.Core.GameTime.Paused)return;
             foreach(var col in Physics.OverlapSphere(transform.position,radius,~0,QueryTriggerInteraction.Collide))
             {
                 if(!col.TryGetComponent<Hurtbox>(out var box)||box.owner==null||!hit.Add(box.owner))continue;

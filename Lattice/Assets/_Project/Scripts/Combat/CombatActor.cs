@@ -117,7 +117,7 @@ namespace Lattice.Combat
         {
             Vector3 start=transform.position;motor.Dash(direction,8);
             var victims=new System.Collections.Generic.HashSet<Health>();var packet=Packet(damage,edgeType,28,"lunge");
-            for(int i=0;i<5;i++){var at=start+direction*(i*1.7f)+Vector3.up*.8f;var hit=Strike(at,1.05f,packet);hit.hit=victims;CombatVfx.Burst(at,character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"lunge");yield return null;}
+            for(int i=0;i<5;i++){while(GameTime.Paused)yield return null;var at=start+direction*(i*1.7f)+Vector3.up*.8f;var hit=Strike(at,1.05f,packet);hit.hit=victims;CombatVfx.Burst(at,character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"lunge");yield return null;}
         }
         public bool Skill(int slot)
         {

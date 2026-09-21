@@ -6,14 +6,15 @@ namespace Lattice.Combat
     public sealed class PlayerBrain:MonoBehaviour
     {
         CombatActor actor;
-        float nextFire;
+        float lungeRequestedUntil=-1;
         public bool AutoPilot;
         void Awake(){actor=GetComponent<CombatActor>();}
         void Update()
         {
             if(AutoPilot||GameServices.Current==null||actor.motor==null)return;
-            var input=GameServices.Current.Input;if(input.Blocked||!actor.Health.Alive)return;
-            if(actor.State==Lattice.Data.ActorState.Stagger){actor.motor.Move(Vector2.zero,false,true);return;}
+            var input=GameServices.Current.Input;if(input.Blocked||!actor.Health.Alive){lungeRequestedUntil=-1;return;}
+            if(GameTime.Paused)return;
+            if(actor.State==Lattice.Data.ActorState.Stagger){lungeRequestedUntil=-1;actor.motor.Move(Vector2.zero,false,true);return;}
             var zone=ZoneController.Current;bool combat=zone!=null&&zone.Combat;
             PromptService.FindInteraction(transform.position);
             if(input.Pressed("Interact")&&PromptService.TryInteract())return;
@@ -33,14 +34,20 @@ namespace Lattice.Combat
                 if(items.Count>0)state.quickItem=items[(items.IndexOf(state.quickItem)+itemCycle+items.Count)%items.Count];
             }
             if(input.SkillMod)
-            {for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1)))actor.Skill(i);return;}
+            {lungeRequestedUntil=-1;for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1)))actor.Skill(i);return;}
             for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1)))actor.Skill(i);
-            if(!PromptService.AConsumed&&(actor.flight?input.Held("Fire"):input.Pressed("Attack")))actor.Attack();
+            // A short lunge tap during emitter recovery should fire as soon as recovery ends.
+            // Give it priority over held fire so continuous shooting cannot starve the request.
+            if(actor.flight&&input.Pressed("Lunge"))lungeRequestedUntil=GameTime.Now+.2f;
+            bool lungePending=actor.flight&&GameTime.Now<=lungeRequestedUntil;
+            if(lungePending&&actor.Lunge())lungeRequestedUntil=-1;
+            if(!lungePending&&!PromptService.AConsumed&&(actor.flight?input.Held("Fire"):input.Pressed("Attack")))actor.Attack();
             if(input.Pressed(actor.flight?"Roll":"Dodge"))actor.Dodge(new Vector3(move.x,0,move.y));
-            if(actor.flight){if(input.Pressed("Lunge"))actor.Lunge();}else actor.Guard(input.Held("Guard"));
+            if(!actor.flight)actor.Guard(input.Held("Guard"));
             if(!actor.flight&&input.Pressed("QuickItem"))UseItem();
             if(actor.target==null||!actor.target.Alive)actor.target=FindTarget();
         }
+        void OnDisable(){lungeRequestedUntil=-1;}
         public Health FindTarget()
         {
             Health nearest=null;float best=30*30;

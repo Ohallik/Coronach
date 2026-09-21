@@ -1,5 +1,9 @@
 # Final world and UI review — 2026-09-21
 
+**Superseded by QUALITY_REVIEW_REJECTED in [PLAY_REVIEW.md](../PLAY_REVIEW.md).** The earlier acceptance below established that generated assets rendered, but overestimated their composition and gameplay readability. Eighteen new views in `Builds/logs/look/play-review/` were opened after the first correction pass: the smaller/quieter Decks tiles and connected door walls help, and Halo's backdrop is less dominant, but the rooms repeat, Sorrel remains sparse, Gullet enemies blend into its membrane, and Tallow still lacks convincing detail. These frames are not accepted as professional quality.
+
+The text below preserves the historical slice-v0.1 review; it does not close the current visual gate.
+
 **WORLD_LOOK_OK**. All eighteen graphics-enabled second captures were opened and judged after the final world rebuild. Sources are 1920×1080 under `Builds/logs/look/generated/`; the six three-frame review pages are under `review/`. The look probe teleports and disables AI, so these pictures are visual evidence only. Full-route movement, combat, gates and saves are verified separately.
 
 | Scene / three-view review page | Observations |

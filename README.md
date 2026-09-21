@@ -4,6 +4,8 @@ A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cro
 
 **slice-v0.1** includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout: 48 production models and eight expression sheets. The full automated route, 52 tests and final-art 1080p performance pass. See [progress](docs/PROGRESS.md) for evidence and the remaining human controller-feel checks.
 
+**Current quality review: not yet at the professional target.** Playing the opening and ground/flight encounters exposed input and partner-following defects, now corrected, plus unfinished environment composition, combat readability and menus. [Play review](docs/PLAY_REVIEW.md) records what was actually played, the fixes, remaining issues and limits of virtual-gamepad testing. The current build includes those corrections; the original tag's results above are historical.
+
 ## Run
 
 Run `Builds/Windows/Lattice.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet. At Tallow Drift, dock, talk to the keeper, then use the repair console to save and finish.

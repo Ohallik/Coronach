@@ -30,7 +30,7 @@ namespace Lattice.EditorTools
         public static void Definitions()
         {
             var ground=Asset<CameraProfile>("Ground",p=>{p.pitch=40;p.yaw=20;p.distance=19.5f;p.deadZone=.4f;});
-            var flight=Asset<CameraProfile>("Flight",p=>{p.pitch=48;p.yaw=0;p.distance=31;p.deadZone=.8f;p.lookAhead=.3f;});
+            var flight=Asset<CameraProfile>("Flight",p=>{p.pitch=48;p.yaw=0;p.distance=26;p.deadZone=.4f;p.lookAhead=.22f;p.speedZoom=.08f;});
             var warm=Asset<Hd2dProfile>("Warm",p=>{p.tint=new Color(1,.94f,.84f);p.tiltStart=.18f;p.tiltStrength=6;p.bloom=.45f;});
             var cold=Asset<Hd2dProfile>("Cold",p=>{p.tint=new Color(.82f,.94f,1);p.tiltStart=.18f;p.tiltStrength=7;p.bloom=.7f;});
             var deck=Asset<Hd2dProfile>("DeckSoft",p=>{p.tint=new Color(.96f,.98f,1);p.tiltStart=.23f;p.tiltStrength=4;p.bloom=.3f;});

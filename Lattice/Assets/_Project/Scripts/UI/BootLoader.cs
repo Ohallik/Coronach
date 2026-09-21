@@ -10,6 +10,7 @@ namespace Lattice.UI
         IEnumerator Start()
         {
 #if LATTICE_DEV || UNITY_EDITOR
+            if(DevArgs.Has("-review"))gameObject.AddComponent<ReviewInput>();
             DevLoadout.Apply(DevArgs.Value("-loadout"));
             if(DevArgs.Value("-route")=="slice")gameObject.AddComponent<SliceSmoke>();
             if(DevArgs.Has("-perf"))gameObject.AddComponent<PerformanceProbe>();

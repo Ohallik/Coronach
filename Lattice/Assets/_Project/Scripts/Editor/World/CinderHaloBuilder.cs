@@ -10,7 +10,7 @@ namespace Lattice.EditorTools
         public static void BuildZone()
         {
             var scene=WorldBuilder.Begin("Hub_CinderHalo");
-            WorldArt.Planet("Vorun",new(45,-110,105),180);WorldArt.Planet("Sorrel",new(-85,-40,85),35);
+            WorldArt.Planet("Vorun",new(150,-410,460),155);WorldArt.Planet("Sorrel",new(-85,-120,160),35);
             WorldBuilder.Spawn("Arrival",new(-20,1,3));WorldBuilder.Spawn("Office",new(-20,1,5));WorldBuilder.Spawn("Shop",new(0,1,9));WorldBuilder.Spawn("Repair",new(20,1,5));WorldBuilder.Spawn("Outer",new(0,1,61));WorldBuilder.Spawn("Moon",new(54,1,8));
             for(int i=0;i<24;i++)
             {

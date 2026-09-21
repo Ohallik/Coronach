@@ -17,8 +17,22 @@ namespace Lattice.EditorTools
                 var slab=WorldBuilder.Piece(i%2==0?"MoonGroundA":"MoonGroundB",new(x,0,z),new(12,.6f,12),"Ground",false);
                 var bounds=ModelGeometry.BoundsOf(slab);slab.transform.position+=Vector3.up*(-.08f-bounds.max.y);
             }
-            WorldBuilder.Spawn("Arrival",new(0,0,-12));WorldBuilder.Spawn("Outpost",new(0,0,14));
+            WorldBuilder.Spawn("Arrival",new(0,0,-16));WorldBuilder.Spawn("Outpost",new(0,0,14));
             WorldBuilder.Dock("Launch — Cinder Halo",new(0,0,-18),"Hub_CinderHalo","Moon");
+            WorldBuilder.Piece("Skiff",new(-8,1,-18),new(4,2,7),"Rock",false);
+            for(int i=0;i<3;i++)WorldBuilder.Piece("DeckCrate",new(5+i*1.3f,.45f,-15),Vector3.one*.9f);
+            // Rock spines divide the three paths while keeping their encounter centres open.
+            for(int side=-1;side<=1;side+=2)
+                for(int i=0;i<8;i++)
+                {
+                    float z=29+i*16, x=side*(16+Mathf.Sin(i*1.7f)*2);
+                    var ridge=WorldBuilder.Piece("RidgeRock"+(i%3+1),new(x,1.6f,z),new(5,3.2f,9));ridge.transform.rotation=Quaternion.Euler(0,i*47,0);
+                    for(int chip=0;chip<3;chip++)
+                    {
+                        var rock=WorldBuilder.Piece("RidgeRock"+(chip+1),new(x+side*(2+chip),.25f,z-4+chip*3),new(1,.5f+chip*.2f,1),"Rock",false);
+                        rock.transform.rotation=Quaternion.Euler(0,chip*77+i*31,0);
+                    }
+                }
             WorldBuilder.Piece("OutpostHab",new(-7,2,18),new(5,4,8));WorldBuilder.Piece("OutpostHab",new(7,2,18),new(5,4,8));
             var safe=new GameObject("Outpost safe pocket",typeof(BoxCollider),typeof(SafePocket));safe.transform.position=new Vector3(0,1,16);safe.GetComponent<BoxCollider>().size=new Vector3(10,5,18);safe.GetComponent<BoxCollider>().isTrigger=true;
             WorldBuilder.Npc("Survivor",new(1,0,18));

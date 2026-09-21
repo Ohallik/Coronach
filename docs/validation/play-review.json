@@ -1,0 +1,111 @@
+{
+  "reviewedOn": "2026-09-21",
+  "verdict": "QUALITY_REVIEW_REJECTED",
+  "professionalQualityAccepted": false,
+  "report": "docs/PLAY_REVIEW.md",
+  "inputMethod": "Agent-directed ordinary virtual Gamepad events; screenshot observation and simulation pause between decisions.",
+  "humanPhysicalPadPlay": false,
+  "fullInteractivelyPlayedRoute": false,
+  "tests": {
+    "editMode": {
+      "path": "Builds/logs/editmode-results.xml",
+      "sha256": "7134be523913db5c476cd80ae9b740fd86e420086ab1c8bb9ef2d4aa79f91cc4",
+      "id": "2",
+      "testcasecount": "35",
+      "result": "Passed",
+      "total": "35",
+      "passed": "35",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-09-21 21:05:19Z",
+      "end-time": "2026-09-21 21:05:19Z",
+      "duration": "0.204678"
+    },
+    "playMode": {
+      "path": "Builds/logs/playmode-results.xml",
+      "sha256": "1233a29b2d2db7279f960d9e85bdde00ff04cb90c4a59f7fa98d25921c91c905",
+      "id": "2",
+      "testcasecount": "21",
+      "result": "Passed",
+      "total": "21",
+      "passed": "21",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-09-21 21:18:42Z",
+      "end-time": "2026-09-21 21:20:20Z",
+      "duration": "98.2591132"
+    }
+  },
+  "releasePackage": {
+    "path": "Builds/Windows/Lattice.exe",
+    "manifest": "Builds/logs/release-play-review-manifest.json",
+    "sha256": "efab85e88cffa5df258c7c45b41adde01d1e9d412a25f873fa1bfec70c663adb",
+    "files": 235,
+    "bytes": 433305594,
+    "reviewHarnessExcluded": true
+  },
+  "route": {
+    "log": "Builds/logs/route-play-review-final-passed.log",
+    "sha256": "12e6e6a6fff85e52647f23451f6450b13d286bec8f354b49946740e78aa208a2",
+    "elapsedSeconds": 532.3,
+    "level": 6,
+    "bossSeconds": {
+      "Burrower": 66.1,
+      "Cantor": 87.8
+    },
+    "savedCompletion": true,
+    "sourceScope": "After partner/input/world fixes; before the final buffered-lunge cancellation-on-menu guard. That guard is covered by the final PlayMode suite. The route uses its own driver, not PlayerBrain input."
+  },
+  "openedWorldCaptures": [
+    "Builds/logs/look/play-review/Hub_CinderHalo-0.png",
+    "Builds/logs/look/play-review/Hub_CinderHalo-1.png",
+    "Builds/logs/look/play-review/Hub_CinderHalo-2.png",
+    "Builds/logs/look/play-review/Hub_Decks-0.png",
+    "Builds/logs/look/play-review/Hub_Decks-1.png",
+    "Builds/logs/look/play-review/Hub_Decks-2.png",
+    "Builds/logs/look/play-review/Sorrel_Ridges-0.png",
+    "Builds/logs/look/play-review/Sorrel_Ridges-1.png",
+    "Builds/logs/look/play-review/Sorrel_Ridges-2.png",
+    "Builds/logs/look/play-review/Gullet_Tunnel-0.png",
+    "Builds/logs/look/play-review/Gullet_Tunnel-1.png",
+    "Builds/logs/look/play-review/Gullet_Tunnel-2.png",
+    "Builds/logs/look/play-review/TallowApproach-0.png",
+    "Builds/logs/look/play-review/TallowApproach-1.png",
+    "Builds/logs/look/play-review/TallowApproach-2.png",
+    "Builds/logs/look/play-review/TallowDrift-0.png",
+    "Builds/logs/look/play-review/TallowDrift-1.png",
+    "Builds/logs/look/play-review/TallowDrift-2.png"
+  ],
+  "reviewCaptureFolders": [
+    "Builds/review-live",
+    "Builds/review-ground",
+    "Builds/review-flight",
+    "Builds/review-fixed"
+  ],
+  "excludedSamples": [
+    "review-baseline hidden black frames",
+    "review-live/024-025 combat timing before full GameTime pause",
+    "review-fixed/003 input lost while unfocused",
+    "interrupted route whose shared default log was replaced by title smoke"
+  ],
+  "releaseTitle": {
+    "log": "Builds/logs/Title-player.log",
+    "capture": "Builds/logs/Title-screenshot.png",
+    "opened": true
+  },
+  "defaultSaveRestored": "Originally absent; review-created save archived under Builds/review-20260921-133258/review-created-saves.",
+  "meshyCredits": {
+    "used": 765,
+    "budget": 1200,
+    "spentThisReview": 0
+  },
+  "performance": "Not remeasured in this review; slice-v0.1 performance remains historical."
+}

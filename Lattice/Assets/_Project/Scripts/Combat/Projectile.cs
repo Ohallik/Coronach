@@ -23,6 +23,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
+            if(Lattice.Core.GameTime.Paused)return;
             var delta=velocity*Time.deltaTime;
             foreach(var hit in Physics.SphereCastAll(transform.position,.15f,velocity.normalized,delta.magnitude,~0,QueryTriggerInteraction.Collide))
             {

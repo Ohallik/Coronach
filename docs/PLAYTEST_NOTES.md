@@ -1,5 +1,9 @@
 # LATTICE playtest notes
 
+## 2026-09-21 — agent-directed play review (current)
+
+**QUALITY_REVIEW_REJECTED.** See [PLAY_REVIEW.md](PLAY_REVIEW.md) for the exact played sections, screenshot paths, defects and outstanding presentation work. The opening, ground pack, flight combat and menus were controlled with bounded virtual-pad inputs chosen from rendered observations; no physical-pad or full interactive-route claim is made. This supersedes the earlier visual acceptance later in this file. Fresh technical results belong to `docs/validation/play-review.json`, separate from the historical slice-v0.1 measurements.
+
 ## 2026-09-20 — P2 automated arena review
 
 Input source: scripted runtime actions and synthetic pad events in tests. Logitech Precision C21A physical attachment is verified in the visible Windows player. No human pad-feel session has been observed.

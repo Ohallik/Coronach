@@ -97,6 +97,19 @@ namespace Lattice.EditorTools
                 }
                 body.transform.localScale=Vector3.Scale(body.transform.localScale,scale);bounds=ModelGeometry.BoundsOf(body);
                 body.transform.localPosition-=bounds.center;go.transform.position=pos;
+                if(key=="DeckFloor")
+                {
+                    // Preserve generated panel detail at human scale with a quiet steel floor value.
+                    foreach(var renderer in body.GetComponentsInChildren<Renderer>())
+                    {
+                        var source=renderer.sharedMaterial;if(source==null)continue;
+                        string path="Assets/_Project/Resources/WorldMaterials/deck-floor-muted.mat";
+                        var muted=AssetDatabase.LoadAssetAtPath<Material>(path);
+                        if(muted==null){muted=new Material(source);AssetDatabase.CreateAsset(muted,path);}
+                        muted.SetColor("_BaseColor",new Color(.38f,.45f,.52f));muted.SetColor("_EmissionColor",new Color(.04f,.15f,.17f));
+                        EditorUtility.SetDirty(muted);renderer.sharedMaterial=muted;
+                    }
+                }
                 if(solid)
                 {
                     if(key=="DeckDoorway")foreach(var filter in body.GetComponentsInChildren<MeshFilter>())filter.gameObject.AddComponent<MeshCollider>().sharedMesh=filter.sharedMesh;
@@ -113,7 +126,7 @@ namespace Lattice.EditorTools
         }
         static GameObject FloorTiles(Vector3 pos,Vector3 size,bool solid)
         {
-            var root=new GameObject("Deck floor modules");int nx=Mathf.CeilToInt(size.x/8),nz=Mathf.CeilToInt(size.z/8);float x=size.x/nx,z=size.z/nz;
+            var root=new GameObject("Deck floor modules");int nx=Mathf.CeilToInt(size.x/4),nz=Mathf.CeilToInt(size.z/4);float x=size.x/nx,z=size.z/nz;
             for(int i=0;i<nx;i++)for(int j=0;j<nz;j++)Piece("DeckFloor",pos+new Vector3((i+.5f)*x-size.x*.5f,0,(j+.5f)*z-size.z*.5f),new Vector3(x,size.y,z),"Ground",solid).transform.SetParent(root.transform,true);
             return root;
         }

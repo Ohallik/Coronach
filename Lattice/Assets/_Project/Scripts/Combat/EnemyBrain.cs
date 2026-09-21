@@ -27,7 +27,11 @@ namespace Lattice.Combat
             Health.Damaged+=OnDamaged;
             boss=GetComponent<BossController>();
             Health.Died+=OnDeath;
-            warning=ActorFactory.Visual("Telegraph",PrimitiveType.Cylinder,transform,new Vector3(3,.015f,3),Vector3.up*.03f,"Threat");warning.SetActive(false);
+            warning=ActorFactory.Visual("Telegraph",PrimitiveType.Quad,transform,new Vector3(3,3,1),Vector3.up*.04f,"Threat");
+            warning.transform.localRotation=Quaternion.Euler(90,0,0);
+            var renderer=warning.GetComponent<Renderer>();renderer.sharedMaterial=Resources.Load<Material>("Effects/circle_02");
+            var tint=new MaterialPropertyBlock();tint.SetColor("_BaseColor",new Color(1,.32f,.09f,.9f));renderer.SetPropertyBlock(tint);
+            renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;warning.SetActive(false);
             nextAttack=Time.time+.6f;
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
@@ -46,7 +50,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(Passive||lunging||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
+            if(GameTime.Paused||Passive||lunging||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
             if(boss!=null&&boss.Busy){if(warning!=null)warning.SetActive(false);Telegraphing=false;return;}
             var victim=PartyController.Current.Active;if(!victim.Health.Alive)return;
             Vector3 d=victim.transform.position-transform.position;d.y=0;float distance=d.magnitude;
@@ -94,7 +98,7 @@ namespace Lattice.Combat
             lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;
             for(float elapsed=0;elapsed<.28f&&Health.Alive&&!Health.Broken;)
             {
-                if(GameServices.Current.Input.Blocked){yield return null;continue;}
+                if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
                 elapsed+=Time.deltaTime;
                 if(controller.enabled)controller.Move(direction*16*Time.deltaTime);
                 var hit=CombatActor.Strike(transform.position+Vector3.up*.7f+direction*.5f,1.15f,packet);hit.hit=victims;

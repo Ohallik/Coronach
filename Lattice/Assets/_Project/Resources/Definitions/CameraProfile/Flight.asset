@@ -15,7 +15,7 @@ MonoBehaviour:
   pitch: 48
   yaw: 0
   fov: 30
-  distance: 31
-  deadZone: 0.8
-  lookAhead: 0.3
-  speedZoom: 0.12
+  distance: 26
+  deadZone: 0.4
+  lookAhead: 0.22
+  speedZoom: 0.08

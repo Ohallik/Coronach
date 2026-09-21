@@ -33,7 +33,9 @@ namespace Lattice.Combat
         public void Dash(Vector3 direction,float distance){Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;transform.rotation=Quaternion.LookRotation(Facing);}
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
-            if(!enabled||Mathf.Abs(hit.normal.y)>.5f||Time.unscaledTime-contactAt<.6f)return;
+            // Combatants resolve damage through their attacks. Brushing a partner or a
+            // lunge target must not count as hitting the tunnel wall.
+            if(!enabled||Mathf.Abs(hit.normal.y)>.5f||hit.collider.GetComponentInParent<Health>()!=null||Time.unscaledTime-contactAt<.6f)return;
             contactAt=Time.unscaledTime;dashRemaining=0;velocity=Vector3.Reflect(velocity,hit.normal)*.4f+hit.normal*4;
             if(Lattice.Core.ZoneController.Current!=null&&Lattice.Core.ZoneController.Current.Combat&&TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
         }

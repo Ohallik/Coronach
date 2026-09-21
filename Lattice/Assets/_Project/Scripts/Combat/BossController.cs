@@ -28,7 +28,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(health==null||!health.Alive)return;
+            if(GameTime.Paused||health==null||!health.Alive)return;
             float ratio=health.integrity/health.maximum;int phase=health.id=="Cantor"?(ratio<.33f?3:ratio<.66f?2:1):(ratio<.5f?2:1);
             if(phase!=Phase){Phase=phase;Debug.Log($"BOSS_PHASE {health.id} {Phase}");}
             brain.DamageScale=1+(Phase-1)*.18f;
@@ -44,6 +44,7 @@ namespace Lattice.Combat
             var hit=new HashSet<Health>();var controller=GetComponent<CharacterController>();
             for(float t=0;t<.85f&&health.Alive&&!health.Broken;t+=Time.deltaTime)
             {
+                if(GameTime.Paused){yield return null;continue;}
                 if(controller.enabled)controller.Move(direction*(Phase==2?19:15)*Time.deltaTime);
                 foreach(var actor in PartyController.Current.members)if(actor.Health.Alive&&!hit.Contains(actor.Health)&&(actor.transform.position-transform.position).sqrMagnitude<9)
                 {hit.Add(actor.Health);actor.Health.Receive(new DamagePacket{source=health,amount=26*brain.DamageScale,type=DamageType.Kinetic});}
