@@ -40,6 +40,8 @@ The Logitech Precision C21A uses its d-pad for movement; **LB + d-pad** cycles t
 
 ## Validation evidence
 
+The committed snapshot `docs/validation/slice-v0.1.json` records test counts, route/balance/performance measurements, opened captures, hardware identity, credit spend and the release package manifest hash. The P5 automated checkpoint is complete; the named P5 gate remains open for human feel.
+
 - Fresh XML: Builds/logs/editmode-results.xml (35 passed) and playmode-results.xml (17 passed). The fail-closed runner rejects absent, stale, malformed, incomplete, zero-test, skipped or failed results, including hidden child failures. Its adjudicator accepted one good fixture and rejected eight bad fixtures.
 - Runtime coverage: real attacks/projectiles, 8 m lunge, swap/revive, Flash, docks/locked warp, Yarn short-button taps, six menu pages, analog/digital pad separation, title Continue in all six world scenes, defeat/retry, safe-pocket teleport/swap, enemy patterns and civil/combat collision damage.
 - Strict WorldBuilder.BuildFinal rejects missing generated prefabs. GULLET_WALLS_OK samples=714 checks both sides throughout the 900 m tube with physics rays at flight height; a collision gap fails.

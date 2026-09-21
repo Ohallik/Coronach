@@ -1,0 +1,107 @@
+{
+  "release": "slice-v0.1",
+  "reviewedOn": "2026-09-21",
+  "codeAndContentCommit": "48c049f",
+  "releasePackage": {
+    "path": "Builds/Windows/Lattice.exe",
+    "files": 235,
+    "bytes": 433085062,
+    "manifestSha256": "2636395ce639389c6fa4b211fc229beb215bfa8f6656f587ad777e2b46e6d864",
+    "manifest": "Builds/logs/release-package-manifest.json"
+  },
+  "tests": {
+    "editMode": {
+      "id": "2",
+      "testcasecount": "35",
+      "result": "Passed",
+      "total": "35",
+      "passed": "35",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-09-21 08:03:10Z",
+      "end-time": "2026-09-21 08:03:11Z",
+      "duration": "0.4869829"
+    },
+    "playMode": {
+      "id": "2",
+      "testcasecount": "17",
+      "result": "Passed",
+      "total": "17",
+      "passed": "17",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-09-21 08:03:20Z",
+      "end-time": "2026-09-21 08:04:37Z",
+      "duration": "77.5503833"
+    }
+  },
+  "route": {
+    "log": "Builds/logs/route-generated-final-passed.log",
+    "save": "Builds/logs/completed-generated-final-save.json",
+    "openedScreenshot": "Builds/logs/route-generated-final-complete.png",
+    "orderedMarkersPassed": true,
+    "completionSaveChecked": true,
+    "seconds": 545.8,
+    "level": 6,
+    "craftedGearRequired": false,
+    "burrowerSeconds": 60.9,
+    "cantorSeconds": 109.6,
+    "input": "automated gameplay actions; physical Logitech attachment separately logged"
+  },
+  "performance": {
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "zone": "Gullet_Tunnel",
+    "width": 1920,
+    "height": 1080,
+    "samples": 26860,
+    "minimumEnemies": 12,
+    "seconds": 30.018177032470703,
+    "fps": 894.7911987304688,
+    "medianMs": 1.0826034545898438,
+    "p95Ms": 1.4560941457748413,
+    "p99Ms": 1.6941043138504028
+  },
+  "balance": {
+    "ridgeHits": 4,
+    "level": 3,
+    "baselineSeconds": 28.51739,
+    "t2Seconds": 19.81717,
+    "ratio": 0.6949153,
+    "mode": "stationary target, Taren basic attacks, actual colliders, no skills or partner damage"
+  },
+  "visualReview": {
+    "models": 48,
+    "portraitSheets": 8,
+    "openedPortraitDialogueCaptures": 16,
+    "openedWorldCaptures": 18,
+    "openedUiCaptures": 8,
+    "openedArenaCaptures": 2,
+    "worldReview": "docs/art/WORLD_REVIEW.md",
+    "releaseTitle": "Builds/logs/release-title.png"
+  },
+  "controller": {
+    "vendor": "046D",
+    "product": "C21A",
+    "profile": "LogitechPrecision",
+    "physicalAttachmentObserved": true,
+    "syntheticNavigationTestsPassed": true,
+    "humanFeelSessionPerformed": false
+  },
+  "meshCredits": {
+    "spent": 765,
+    "cap": 1200,
+    "ledger": "docs/art/gen-manifest.json"
+  },
+  "openGates": {
+    "P2_CORE_OK": "Human 60-second physical-pad feel session not performed",
+    "P5_PLAYABLE_OK": "Human release-route physical-pad feel session not performed"
+  }
+}
