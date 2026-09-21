@@ -14,7 +14,8 @@
     "source": "art-src/Generated/P1/refs/species-sheet-v2.png",
     "prompt": "art-src/Generated/P1/refs/species-sheet-v2.prompt.txt",
     "inspected": true,
-    "status": "NATHAN_GATE_PENDING"
+    "status": "NATHAN_SPECIES_APPROVED",
+    "notes": "Species approved; hero face refinement required and implemented in production references."
   },
   {
     "name": "species-faces-v2",
@@ -22,7 +23,8 @@
     "source": "art-src/Generated/P1/refs/species-faces-v2.png",
     "prompt": "art-src/Generated/P1/refs/species-faces-v2.prompt.txt",
     "inspected": true,
-    "status": "NATHAN_GATE_PENDING"
+    "status": "NATHAN_SPECIES_APPROVED",
+    "notes": "Species approved; hero face refinement required and implemented in production references."
   },
   {
     "name": "taren-board",
@@ -30,7 +32,8 @@
     "source": "art-src/Generated/P1/refs/taren-board.png",
     "prompt": "art-src/Generated/P1/refs/taren-board.prompt.txt",
     "inspected": true,
-    "status": "NATHAN_GATE_PENDING"
+    "status": "NATHAN_SPECIES_APPROVED",
+    "notes": "Species approved; hero face refinement required and implemented in production references."
   },
   {
     "name": "sela-board-v2",
@@ -38,7 +41,8 @@
     "source": "art-src/Generated/P1/refs/sela-board-v2.png",
     "prompt": "art-src/Generated/P1/refs/sela-board-v2.prompt.txt",
     "inspected": true,
-    "status": "NATHAN_GATE_PENDING"
+    "status": "NATHAN_SPECIES_APPROVED",
+    "notes": "Species approved; hero face refinement required and implemented in production references."
   },
   {
     "name": "ui-panel",
@@ -201,5 +205,408 @@
       887
     ],
     "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "orrin-rejected-dark",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/orrin-rejected-dark.png",
+    "prompt": "art-src/Rejected/P1-production/orrin-rejected-dark.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Rejected: dark halo background and insufficient finger gaps."
+  },
+  {
+    "name": "mira-rejected-dark",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/mira-rejected-dark.png",
+    "prompt": "art-src/Rejected/P1-production/mira-rejected-dark.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Rejected: dark halo background and insufficient finger gaps."
+  },
+  {
+    "name": "orrin-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/orrin-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/orrin-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "White background, matte colors, separated five-digit hands, clear arm and leg gaps; accepted NPC design reference."
+  },
+  {
+    "name": "mira-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/mira-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/mira-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "White background, matte colors, separated five-digit hands, clear arm and leg gaps; accepted NPC design reference."
+  },
+  {
+    "name": "hal-rejected-dark",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/hal-rejected-dark.png",
+    "prompt": "art-src/Rejected/P1-production/hal-rejected-dark.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Rejected: dark gradient background; retain NPC shared-body retexture direction."
+  },
+  {
+    "name": "neve-rejected-dark",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/neve-rejected-dark.png",
+    "prompt": "art-src/Rejected/P1-production/neve-rejected-dark.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Rejected: dark gradient background; retain NPC shared-body retexture direction."
+  },
+  {
+    "name": "hal-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/hal-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/hal-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Inspected: matte NPC shared-body variant, white background and separated hands/limbs. Hal pale plume gap; Neve black plume and white sync."
+  },
+  {
+    "name": "neve-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/neve-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/neve-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Inspected: matte NPC shared-body variant, white background and separated hands/limbs. Hal pale plume gap; Neve black plume and white sync."
+  },
+  {
+    "name": "sentinel-husk-rejected-alpha",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/sentinel-husk-rejected-alpha.png",
+    "prompt": "art-src/Rejected/P1-production/sentinel-husk-rejected-alpha.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Needs opaque white reference; image tool returned transparent or translucent background. Subject silhouette accepted for correction."
+  },
+  {
+    "name": "ridgehound-rejected-alpha",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/ridgehound-rejected-alpha.png",
+    "prompt": "art-src/Rejected/P1-production/ridgehound-rejected-alpha.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1374,
+      1145
+    ],
+    "notes": "Needs opaque white reference; image tool returned transparent or translucent background. Subject silhouette accepted for correction."
+  },
+  {
+    "name": "sentinel-husk-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/sentinel-husk-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/sentinel-husk-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Inspected: opaque white, distinct upright shield silhouette, connected limbs and clear gaps. Humanoid rig probe still required."
+  },
+  {
+    "name": "ridgehound-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/ridgehound-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/ridgehound-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1374,
+      1145
+    ],
+    "notes": "Inspected all four paws and leg gaps, aligned head, rooted crest, tail clear of legs, matte colors, white field."
+  },
+  {
+    "name": "burrower",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/burrower.png",
+    "prompt": "art-src/Generated/P1-production/refs/burrower.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Inspected: connected stocky drill grub, distinct three-petal maw and segmented taper, complete silhouette on white; static procedural-motion lane."
+  },
+  {
+    "name": "scrapmite-rejected-hidden-leg",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/scrapmite-rejected-hidden-leg.png",
+    "prompt": "art-src/Rejected/P1-production/scrapmite-rejected-hidden-leg.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1377,
+      1142
+    ],
+    "notes": "Rejected for model input: far rear leg hidden, only five feet evident; eye highlight needs matte correction."
+  },
+  {
+    "name": "chorister-dart",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/chorister-dart.png",
+    "prompt": "art-src/Generated/P1-production/refs/chorister-dart.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Sharp dart silhouette, two rooted fins with clear gaps, one aligned eye; matte single view on opaque white."
+  },
+  {
+    "name": "chorister-drifter",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/chorister-drifter.png",
+    "prompt": "art-src/Generated/P1-production/refs/chorister-drifter.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1312,
+      1199
+    ],
+    "notes": "Bell silhouette, three visible nozzle mouths and five attached separated tendrils; matte opaque white."
+  },
+  {
+    "name": "scrapmite-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/scrapmite-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/scrapmite-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1377,
+      1142
+    ],
+    "notes": "All six legs and feet now visible and separated; matte amber eye; no detached parts or scenery."
+  },
+  {
+    "name": "shellmine",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/shellmine.png",
+    "prompt": "art-src/Generated/P1-production/refs/shellmine.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1312,
+      1199
+    ],
+    "notes": "Six attached blunt spikes, distinct compact mine silhouette, matte white-field single view."
+  },
+  {
+    "name": "cantor",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/cantor.png",
+    "prompt": "art-src/Generated/P1-production/refs/cantor.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Accepted full-creature concept: long connected serpent, three body weak points, distinct from Burrower. Generate isolated head/body/tail references before Meshy; this curved full body is not a model input."
+  },
+  {
+    "name": "hauler",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/hauler.png",
+    "prompt": "art-src/Generated/P1-production/refs/hauler.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Broad connected cargo lobes and central cockpit, clear smooth civilian silhouette, no loose cargo or scenic background."
+  },
+  {
+    "name": "skiff",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/skiff.png",
+    "prompt": "art-src/Generated/P1-production/refs/skiff.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Single compact tapered civilian craft, attached vanes, no gloss/ground, strong distinction from hauler and cutter."
+  },
+  {
+    "name": "cutter",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/cutter.png",
+    "prompt": "art-src/Generated/P1-production/refs/cutter.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Twin-prong patrol silhouette with open central white slot, connected smooth hull, complete framing."
+  },
+  {
+    "name": "sorrel-environment-board",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/sorrel-environment-board.png",
+    "prompt": "art-src/Generated/P1-production/refs/sorrel-environment-board.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "All eleven requested Sorrel concepts present: two ground tiles, three ridges, two rooted crystal clusters, anvil, hab, drill, pad. Board only; isolate subjects before Meshy."
+  },
+  {
+    "name": "halo-environment-board",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/halo-environment-board.png",
+    "prompt": "art-src/Generated/P1-production/refs/halo-environment-board.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Six concepts inspected: two ring variants, three distinct docking pods and rooted split beacon. White gutters; board only, isolate before Meshy."
+  },
+  {
+    "name": "decks-environment-board",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/decks-environment-board.png",
+    "prompt": "art-src/Generated/P1-production/refs/decks-environment-board.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "All six modular interior concepts present, connected structural parts and open doorway. Board only."
+  },
+  {
+    "name": "gullet-environment-board",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/gullet-environment-board.png",
+    "prompt": "art-src/Generated/P1-production/refs/gullet-environment-board.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1312,
+      1199
+    ],
+    "notes": "Two open wall variants, rooted Choir pod and restrained membrane design inspected. Final corridor placement must preserve camera visibility; board only."
+  },
+  {
+    "name": "tallow-environment-board",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/tallow-environment-board.png",
+    "prompt": "art-src/Generated/P1-production/refs/tallow-environment-board.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Complete connected refuge-station hull, distinct oval habitat and docking arm; matte single view on white."
+  },
+  {
+    "name": "taren-natural-rejected-hands",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/taren-natural-rejected-hands.png",
+    "prompt": "art-src/Rejected/P1-production/taren-natural-rejected-hands.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Rejected for production: finger count/gaps inadequate, face too close to generic species; Sela external ears must be removed."
+  },
+  {
+    "name": "sela-natural-rejected-hands",
+    "generator": "session image_gen",
+    "source": "art-src/Rejected/P1-production/sela-natural-rejected-hands.png",
+    "prompt": "art-src/Rejected/P1-production/sela-natural-rejected-hands.prompt.txt",
+    "inspected": true,
+    "status": "REJECTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Rejected for production: finger count/gaps inadequate, face too close to generic species; Sela external ears must be removed."
+  },
+  {
+    "name": "taren-natural-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/taren-natural-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/taren-natural-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Accepted: broad blunt face, nose scar and hooded amber gaze visibly distinguish Taren; both five-digit hands separated, legs clear, matte white front A-pose."
+  },
+  {
+    "name": "sela-natural-v2",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P1-production/refs/sela-natural-v2.png",
+    "prompt": "art-src/Generated/P1-production/refs/sela-natural-v2.prompt.txt",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1024,
+      1536
+    ],
+    "notes": "Accepted: asymmetric smile/raised brow and three cheek speckles distinguish Sela; both five-digit hands separated, shortened wrap, no external ear bowls, matte white front A-pose."
   }
 ]

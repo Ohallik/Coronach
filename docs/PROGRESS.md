@@ -10,9 +10,9 @@
 |---|---|---|
 | P0_TOOLCHAIN_OK | CLOSED | `VERIFY_OK`, `BOOT_SCENES_OK`, `BUILD_OK`; 19/19 EditMode + 3/3 PlayMode; title smoke and inspected 1920x1080 screenshot; physical Logitech attachment in Player.log. |
 | NATHAN_SPECIES_APPROVED | CLOSED | Nathan approved continuing, with more distinctive hero faces required. Exact response in `docs/art/species-approval.json` and D027. |
-| P1_DESIGN_OK | IN PROGRESS | Hero/species packet inspected. NPC, enemy, ship and environment boards underway. |
+| P1_DESIGN_OK | CLOSED | `docs/art/DESIGN_REVIEW.md`: twenty downstream boards/references opened and reviewed; existing generated map/material references complete the set. Hero production faces refined. |
 | P2_CORE_OK | OPEN | 35 EditMode and 15 PlayMode tests, both arena smokes and the full blockout route passed; physical 60-second feel session remains. |
-| P3_ART_OK | PENDING | Generated asset provenance, humanoid motion, poses and actual renders required. |
+| P3_ART_OK | IN PROGRESS | First T2 humanoid pilot next; generated asset provenance, humanoid motion, poses and actual renders required before batching. |
 | P4_CONTENT_OK | OPEN | First full ordered route passed. Final generated art, look review and balance remain. |
 | P5_PLAYABLE_OK | OPEN | Blockout performance and all-zone Continue pass. Final-art performance and physical controller feel remain. |
 | P6_HANDOFF_OK | PENDING | Documentation, final build, credits and tag required. |
