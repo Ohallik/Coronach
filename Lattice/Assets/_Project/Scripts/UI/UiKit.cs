@@ -176,14 +176,9 @@ namespace Lattice.UI
             image.sprite = n;
             image.type = Image.Type.Sliced;
             image.color = Color.white;
-            button.transition = Selectable.Transition.SpriteSwap;
-            button.spriteState = new SpriteState
-            {
-                highlightedSprite = UiSkin.Kit(hover),
-                selectedSprite = UiSkin.Kit(hover),
-                pressedSprite = UiSkin.Kit(pressed),
-                disabledSprite = UiSkin.Kit(disabled),
-            };
+            button.transition = Selectable.Transition.ColorTint;
+            var state=button.colors;state.normalColor=new Color(.72f,.8f,.88f);state.highlightedColor=Color.white;
+            state.selectedColor=new Color(1.3f,1.15f,.8f);state.pressedColor=new Color(.6f,1,1);state.disabledColor=new Color(.35f,.35f,.35f,.65f);state.colorMultiplier=1.15f;button.colors=state;
         }
 
         public static Button Button(Transform parent, string name, string label, Action onClick)
@@ -226,7 +221,7 @@ namespace Lattice.UI
             var text = Text(go.transform, "Label", label, fontSize, TextColor, align);
             Rect(text.gameObject, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
             ((RectTransform)text.transform).sizeDelta = Vector2.zero;
-            text.margin = new Vector4(18f, 0f, 18f, 0f);
+            text.margin = new Vector4(42f, 0f, 42f, 0f);
             return button;
         }
 

@@ -98,6 +98,11 @@ namespace Lattice.Core
 
         public static bool Installed => _installed;
         public static int LinkCount => Links.Count;
+        public static bool StickIsDpad(Gamepad pad)
+        {
+            foreach(var link in Links.Values)if(link.Pad==pad)return link.Profile.StickIsDpad;
+            return false;
+        }
 
         static PadBridge()
         {

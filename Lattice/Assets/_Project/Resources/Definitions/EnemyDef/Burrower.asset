@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: Burrower
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  id: Burrower
+  prefab: {fileID: 0}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 30000
+  breakThreshold: 600
+  speed: 3.2
+  attacks:
+  - {fileID: 11400000, guid: f9418e678aadd1941a8083051cd5f48d, type: 2}
+  weakness: 0
+  resistance: 3
+  archetype: 3
+  lootTable: {fileID: 11400000, guid: ca1914e9e28048b44afb2b8250f9126c, type: 2}
+  xp: 240
+  boss: 1

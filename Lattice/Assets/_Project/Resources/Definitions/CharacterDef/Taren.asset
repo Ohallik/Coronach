@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baa42b3aabba774c8e80324e65c4799, type: 3}
+  m_Name: Taren
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
+  id: Taren
+  displayName: Taren
+  speakerId: Taren
+  female: 0
+  baseStats:
+    output: 50
+    plating: 10
+    response: 10
+    resonance: 10
+    fortune: 5
+  growthPerLevel:
+    output: 5
+    plating: 2
+    response: 1
+    resonance: 2
+    fortune: 1
+  natural: {fileID: 0}
+  shaped: {fileID: 0}
+  flight: {fileID: 0}
+  portraitNatural: {fileID: 0}
+  portraitShaped: {fileID: 0}
+  skills:
+  - {fileID: 11400000, guid: ccf07ccfc348ef74c9f74779be010d86, type: 2}
+  - {fileID: 11400000, guid: a9f17306d0b1e8143a5592273f3b8e48, type: 2}
+  - {fileID: 11400000, guid: 808a343f4c3447045b7eeae8f05195f9, type: 2}
+  - {fileID: 11400000, guid: 96d021d8e937f4948962a399d7950c2d, type: 2}
+  startingGear: []
+  syncHue: {r: 1, g: 0.65, b: 0.12, a: 1}

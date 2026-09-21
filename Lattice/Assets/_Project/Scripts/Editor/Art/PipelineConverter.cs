@@ -41,13 +41,15 @@ namespace Lattice.EditorTools
         internal static UniversalRenderPipelineAsset ConvertTo3DInternal()
         {
             Directory.CreateDirectory("Assets/_Project/Settings");
-            if (AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(PipelinePath) is { } existing) return existing;
+            if (AssetDatabase.LoadAssetAtPath<UniversalRenderPipelineAsset>(PipelinePath) is { } existing)
+            {BindPostProcessing(AssetDatabase.LoadAssetAtPath<UniversalRendererData>(RendererPath));return existing;}
             // 1. 3D forward renderer with SSAO + depth/normal textures for the diorama look.
             var renderer = ScriptableObject.CreateInstance<UniversalRendererData>();
             renderer.name = "URP-3D-Renderer";
             renderer.renderingMode = RenderingMode.Forward;
             renderer.depthPrimingMode = DepthPrimingMode.Disabled;
             AssetDatabase.CreateAsset(renderer, RendererPath);
+            BindPostProcessing(renderer);
 
             var ssao = ScriptableObject.CreateInstance<ScreenSpaceAmbientOcclusion>();
             ssao.name = "SSAO";
@@ -104,6 +106,12 @@ namespace Lattice.EditorTools
             var p = so.FindProperty(prop);
             if (p != null) p.intValue = value;
             else throw new InvalidOperationException($"Missing serialized property {prop}");
+        }
+        internal static void BindPostProcessing(UniversalRendererData renderer)
+        {
+            var data=AssetDatabase.LoadAssetAtPath<PostProcessData>("Packages/com.unity.render-pipelines.universal/Runtime/Data/PostProcessData.asset");
+            if(data==null)throw new InvalidOperationException("URP post-process resources missing");
+            var so=new SerializedObject(renderer);so.FindProperty("postProcessData").objectReferenceValue=data;so.ApplyModifiedPropertiesWithoutUndo();renderer.SetDirty();EditorUtility.SetDirty(renderer);
         }
 
         static void SetBool(SerializedObject so, string prop, bool value)

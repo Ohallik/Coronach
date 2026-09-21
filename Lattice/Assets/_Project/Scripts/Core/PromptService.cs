@@ -21,6 +21,23 @@ namespace Lattice.Core
     /// </summary>
     public static class PromptService
     {
+        public static InteractionPrompt Interaction { get; private set; }
+        static int consumedFrame=-1;
+        public static bool AConsumed => consumedFrame==Time.frameCount;
+        public static void FindInteraction(Vector3 position)
+        {
+            Interaction=null;float best=float.MaxValue;
+            foreach(var p in InteractionPrompt.Active)
+            {
+                float d=(p.transform.position-position).sqrMagnitude;
+                if(p.Available&&d<p.range*p.range&&d<best){best=d;Interaction=p;}
+            }
+        }
+        public static bool TryInteract()
+        {
+            if(Interaction==null||AConsumed)return false;
+            consumedFrame=Time.frameCount;Interaction.Interact();return true;
+        }
         public static PromptDevice Device { get; private set; } = PromptDevice.Keyboard;
 
         /// <summary>Raised when the active device flips or a binding is rebound.</summary>
@@ -351,6 +368,7 @@ namespace Lattice.Core
         /// <summary>Editor/tests teardown safety — drop caches and any device pin.</summary>
         public static void Reset()
         {
+            Interaction=null;consumedFrame=-1;
             _forced = null;
             Device = PromptDevice.Keyboard;
             SpriteCache.Clear();

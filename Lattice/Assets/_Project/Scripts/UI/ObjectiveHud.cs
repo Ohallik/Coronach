@@ -1,0 +1,64 @@
+using System.Linq;
+using Lattice.Core;
+using Lattice.Combat;
+using Lattice.World;
+using TMPro;
+using UnityEngine;
+namespace Lattice.UI
+{
+    public sealed class ObjectiveHud:MonoBehaviour
+    {
+        TMP_Text text;float next;Canvas canvas;
+        void Start()
+        {
+            canvas=UiKit.CreateCanvas("Objective",6,transform);var frame=UiKit.DarkFrame(canvas.transform,"ObjectiveFrame");frame.raycastTarget=false;
+            UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
+            text=UiKit.Text(frame.transform,"Objective","",23,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
+            UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(490,95));
+        }
+        void Update()
+        {
+            canvas.enabled=!GameInput.Current.Blocked;
+            if(Time.unscaledTime<next||PartyController.Current==null)return;next=Time.unscaledTime+.25f;
+            var state=GameServices.Current.State;var flags=GameServices.Current.Flags;Vector3? goal=null;string label="";
+            var prompts=InteractionPrompt.Active;
+            InteractionPrompt target=null;
+            switch(state.zone)
+            {
+                case "Hub_CinderHalo":
+                    if(!flags.GetBool("met.Orrin")){label="Dock at Orrin's office";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Office");}
+                    else if(flags.GetBool("warpkey")){label="Enter the Gullet";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Gullet_Tunnel");}
+                    else{label="Land on Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Sorrel_Ridges");}
+                    break;
+                case "Hub_Decks":
+                    if(!flags.GetBool("met.Orrin")){label="Talk to Orrin";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Orrin");}
+                    else{label="Return to the Halo";target=prompts.OfType<DockingPad>().OrderBy(p=>(p.transform.position-PartyController.Current.Active.transform.position).sqrMagnitude).FirstOrDefault();}
+                    break;
+                case "Sorrel_Ridges":
+                    if(!flags.GetBool("met.Survivor")){label="Reach the outpost survivor";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Survivor");}
+                    else if(!flags.GetBool("bossdown.Burrower")){label="Follow the ridges to the drill";goal=new Vector3(0,0,164);}
+                    else if(!flags.GetBool("warpkey")){label="Recover the warp key";target=prompts.OfType<KeyPickup>().FirstOrDefault();}
+                    else{label="Return to the Halo";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Outer");}
+                    break;
+                case "Gullet_Tunnel":
+                    if(!flags.GetBool("bossdown.Cantor")){label="Break through the Gullet";goal=new Vector3(Mathf.Sin(805f/900*Mathf.PI*4)*12,1,805);}
+                    else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
+                    break;
+                case "TallowDrift":
+                    if(flags.GetBool("sliceComplete"))label="LINK SECURE · SLICE COMPLETE";
+                    else{label="Repair and save at Tallow Drift";target=prompts.OfType<RepairBay>().FirstOrDefault();}
+                    break;
+                default:label="Practice attacks, dodges and swaps";break;
+            }
+            if(target!=null)goal=target.transform.position;
+            string direction="";
+            if(goal.HasValue)
+            {
+                var delta=goal.Value-PartyController.Current.Active.transform.position;delta.y=0;
+                var local=Quaternion.Euler(0,-ZoneController.Current.definition.cameraProfile.yaw,0)*delta;
+                direction=$"\n{delta.magnitude:0} m · "+(Mathf.Abs(local.x)>Mathf.Abs(local.z)?local.x>0?"right":"left":local.z>0?"ahead":"behind");
+            }
+            text.text=label+direction;
+        }
+    }
+}

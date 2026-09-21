@@ -149,9 +149,21 @@ namespace Lattice.Tests.PlayMode
         // ==================== 1. the bridge ====================
 
         [UnityTest]
+        public IEnumerator AnalogPadLockOnPreservesMovementAndDpadDoesNotMove()
+        {
+            var pad=AddPad();yield return null;
+            InputSystem.QueueStateEvent(pad,new GamepadState{leftStick=Vector2.right}.WithButton(GamepadButton.LeftShoulder));yield return null;
+            Assert.Greater(GameInput.Current.Move.x,.9f,"LB lock-on must preserve analog movement");
+            InputSystem.QueueStateEvent(pad,new GamepadState().WithButton(GamepadButton.DpadUp));yield return null;
+            Assert.Less(GameInput.Current.Move.sqrMagnitude,.01f,"item selection must not move an analog-pad player");
+            InputSystem.QueueStateEvent(pad,new GamepadState());yield return null;
+        }
+
+        [UnityTest]
         public IEnumerator BridgedJoystick_IsAGamepadToGameInputAndTheUiMap()
         {
-
+            // Isolate translation from the selected New Game button. UI routing has its own test.
+            foreach(var canvas in Object.FindFirstObjectByType<TitleScreen>().GetComponentsInChildren<Canvas>())canvas.gameObject.SetActive(false);
             var joy = Add("LatticeTestPadHat");
             Assert.IsInstanceOf<Joystick>(joy, "the test device must be what a DirectInput pad is to Unity: a Joystick");
             yield return null;

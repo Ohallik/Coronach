@@ -1,0 +1,42 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2baa42b3aabba774c8e80324e65c4799, type: 3}
+  m_Name: Sela
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
+  id: Sela
+  displayName: Sela
+  speakerId: Sela
+  female: 1
+  baseStats:
+    output: 50
+    plating: 10
+    response: 10
+    resonance: 10
+    fortune: 5
+  growthPerLevel:
+    output: 5
+    plating: 2
+    response: 1
+    resonance: 2
+    fortune: 1
+  natural: {fileID: 0}
+  shaped: {fileID: 0}
+  flight: {fileID: 0}
+  portraitNatural: {fileID: 0}
+  portraitShaped: {fileID: 0}
+  skills:
+  - {fileID: 11400000, guid: 788af3a98bbc5144d9ef18dbcb6af1f6, type: 2}
+  - {fileID: 11400000, guid: b612891f221bf6e42874c0fe7d8f6e65, type: 2}
+  - {fileID: 11400000, guid: e93db490fa480044589eff604fbc310f, type: 2}
+  - {fileID: 11400000, guid: c3c99db4d6094ef42bde42d72ca687b4, type: 2}
+  startingGear: []
+  syncHue: {r: 0, g: 1, b: 1, a: 1}

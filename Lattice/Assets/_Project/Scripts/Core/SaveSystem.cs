@@ -29,7 +29,7 @@ namespace Lattice.Core
             var path=PathForSlot(slot);
             try {
                 if(!File.Exists(path)) return null;
-                var state=JsonConvert.DeserializeObject<GameState>(File.ReadAllText(path));
+                var state=JsonConvert.DeserializeObject<GameState>(File.ReadAllText(path),new JsonSerializerSettings{ObjectCreationHandling=ObjectCreationHandling.Replace});
                 return state!=null && state.version==1 && state.party?.Count>0 ? state : null;
             } catch(JsonException) { return null; } catch(IOException) { return null; }
         }

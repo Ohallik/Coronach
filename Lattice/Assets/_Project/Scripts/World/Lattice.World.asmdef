@@ -5,6 +5,8 @@
     "Lattice.Data",
     "Lattice.Core",
     "Lattice.Rpg",
-    "Lattice.Combat"
+    "Lattice.Combat",
+    "Unity.Splines",
+    "Unity.Mathematics"
   ]
 }

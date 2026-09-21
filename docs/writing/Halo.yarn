@@ -1,0 +1,17 @@
+title: NeveFirst
+---
+Neve: Shapers in the lanes. I thought those were expensive warning lights. #emotion:Amused
+Taren: Only if we hit something. #emotion:Neutral
+Neve: The Choir has closed the Gullet's chambers. Kill the singers and the membranes loosen. Do not lean on the walls. #emotion:Worried
+Neve: I left a cache in the second chamber. Copper beacon, cracked casing. Tell it I sent you. #emotion:Determined
+<<setFlag neve.cache>>
+===
+title: NeveRepeat
+---
+Neve: The cache is yours. My advice costs more: brake before you turn. #emotion:Smug
+===
+title: NevePost
+---
+Neve: That key is humming. Either it works or it is very pleased with itself. #emotion:Curious
+Neve: Follow the beacon through the Gullet. Tallow Drift is still answering. #emotion:Determined
+===

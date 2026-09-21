@@ -1,0 +1,18 @@
+{
+  "Taren": {
+    "swap": "My turn to be unreasonable.",
+    "low": "The seams are getting warm.",
+    "kill": "That answers that.",
+    "flash": "Just a little early.",
+    "boss": "We can stop shouting now.",
+    "zone": "Same body. Different problem."
+  },
+  "Sela": {
+    "swap": "Try to keep up, Vosk.",
+    "low": "That was a load-bearing piece!",
+    "kill": "Beautifully uncooperative.",
+    "flash": "You missed. I noticed.",
+    "boss": "I liked it better quiet.",
+    "zone": "I vote we touch nothing. Yet."
+  }
+}

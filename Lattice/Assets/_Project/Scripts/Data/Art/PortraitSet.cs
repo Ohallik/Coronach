@@ -13,12 +13,8 @@ namespace Lattice.Data
         Shocked,
         Worried,
         Intense,
-        Synced, // Ozzie's tech-mode persona
-        // ---- extended set (P65): shared vocabulary, per-character nuance. Each
-        // character wears these their own way (Amused is Ozzie's belly-laugh but
-        // Martok's fought-off smirk). A character with no honest cell for a slot
-        // has NO entry for it — Get() falls back to Neutral rather than showing
-        // a wrong-valence face. Append-only: ordinals are serialized in assets.
+        Synced,
+        // Append-only: ordinals are serialized in the generated 4x4 sheets.
         Amused,
         Smug,
         Curious,
@@ -26,8 +22,7 @@ namespace Lattice.Data
         Tender,
         Determined,
         Playful,
-        Special, // the character-signature cell: Ozzie's fetched wrench, Martok's
-                 // border grief, Roka's scent-lock, Shaza's concealment
+        Special,
     }
 
     /// <summary>

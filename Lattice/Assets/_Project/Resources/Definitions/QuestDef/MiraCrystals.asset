@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: MiraCrystals
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: MiraCrystals
+  title: Six bright answers
+  description: 
+  steps:
+  - kind: 3
+    target: RidgeCrystal
+    count: 6
+  rewardXp: 80
+  rewardScrip: 100
+  rewards: []
+  flagsOnComplete: []

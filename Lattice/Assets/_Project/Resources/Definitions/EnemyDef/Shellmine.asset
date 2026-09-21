@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
+  m_Name: Shellmine
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  id: Shellmine
+  prefab: {fileID: 0}
+  bodySegment: {fileID: 0}
+  tailSegment: {fileID: 0}
+  stats:
+    output: 0
+    plating: 0
+    response: 0
+    resonance: 0
+    fortune: 0
+  integrity: 100
+  breakThreshold: 80
+  speed: 3.2
+  attacks:
+  - {fileID: 11400000, guid: 824971de4a15c104180083b7611d45bd, type: 2}
+  weakness: 2
+  resistance: 1
+  archetype: 4
+  lootTable: {fileID: 11400000, guid: 946185c8cce701f45998979377cb39e1, type: 2}
+  xp: 24
+  boss: 0

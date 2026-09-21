@@ -14,7 +14,8 @@ namespace Lattice.Core
         void Awake()
         {
             if(Current!=null && Current!=this){Destroy(gameObject);return;}
-            Current=this; Input=new GameInput();
+            Current=this;GameTime.Reset();Input=new GameInput();
+            gameObject.AddComponent<AudioManager>();
             var root=DevArgs.Value("-savepath")??Path.Combine(Application.persistentDataPath,"Saves");
             Saves=new SaveSystem(root);
             Application.targetFrameRate=60;

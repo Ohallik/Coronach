@@ -39,5 +39,167 @@
     "prompt": "art-src/Generated/P1/refs/sela-board-v2.prompt.txt",
     "inspected": true,
     "status": "NATHAN_GATE_PENDING"
+  },
+  {
+    "name": "ui-panel",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P2/refs/ui-panel.png",
+    "prompt": "art-src/Generated/P2/refs/ui-panel.prompt.txt",
+    "runtime": "Lattice/Assets/_Project/Resources/UI/Generated/ui-panel.png",
+    "inspected": true,
+    "notes": "Atlas contents and separation inspected; sprite rectangles assembled in Unity."
+  },
+  {
+    "name": "item-icons",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P2/refs/item-icons.png",
+    "prompt": "art-src/Generated/P2/refs/item-icons.prompt.txt",
+    "runtime": "Lattice/Assets/_Project/Resources/UI/Generated/item-icons.png",
+    "inspected": true,
+    "notes": "Atlas contents and separation inspected; sprite rectangles assembled in Unity."
+  },
+  {
+    "name": "skill-icons",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P2/refs/skill-icons.png",
+    "prompt": "art-src/Generated/P2/refs/skill-icons.prompt.txt",
+    "runtime": "Lattice/Assets/_Project/Resources/UI/Generated/skill-icons.png",
+    "inspected": true,
+    "notes": "Atlas contents and separation inspected; sprite rectangles assembled in Unity."
+  },
+  {
+    "name": "ui-button",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P2/refs/ui-button.png",
+    "prompt": "art-src/Generated/P2/refs/ui-button.prompt.txt",
+    "runtime": "Lattice/Assets/_Project/Resources/UI/Generated/ui-button.png",
+    "inspected": true,
+    "notes": "Atlas contents and separation inspected; sprite rectangles assembled in Unity."
+  },
+  {
+    "name": "ui-controls",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P2/refs/ui-controls.png",
+    "prompt": "art-src/Generated/P2/refs/ui-controls.prompt.txt",
+    "runtime": "Lattice/Assets/_Project/Resources/UI/Generated/ui-controls.png",
+    "inspected": true,
+    "notes": "Atlas contents and separation inspected; sprite rectangles assembled in Unity."
+  },
+  {
+    "name": "sorrel-ground",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/sorrel-ground.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/sorrel-ground.png",
+    "prompt": "art-src/Generated/P3/refs/sorrel-ground.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "sorrel-rock",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/sorrel-rock.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/sorrel-rock.png",
+    "prompt": "art-src/Generated/P3/refs/sorrel-rock.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "deck-panels",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/deck-panels.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/deck-panels.png",
+    "prompt": "art-src/Generated/P3/refs/deck-panels.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "gullet-membrane",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/gullet-membrane.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/gullet-membrane.png",
+    "prompt": "art-src/Generated/P3/refs/gullet-membrane.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "vorun-map",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/vorun-map.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/vorun-map.png",
+    "prompt": "art-src/Generated/P3/refs/vorun-map.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1774,
+      887
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "sorrel-map",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/sorrel-map.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/sorrel-map.png",
+    "prompt": "art-src/Generated/P3/refs/sorrel-map.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1774,
+      887
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "halo-sky",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/halo-sky.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/halo-sky.png",
+    "prompt": "art-src/Generated/P3/refs/halo-sky.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1774,
+      887
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "gullet-sky",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/gullet-sky.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/gullet-sky.png",
+    "prompt": "art-src/Generated/P3/refs/gullet-sky.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1774,
+      887
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
+  },
+  {
+    "name": "tallow-sky",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P3/refs/tallow-sky.png",
+    "runtime": "Lattice/Assets/_Project/Art/Generated/Textures/tallow-sky.png",
+    "prompt": "art-src/Generated/P3/refs/tallow-sky.prompt.txt",
+    "inspected": true,
+    "native_resolution": [
+      1774,
+      887
+    ],
+    "notes": "Native generated output preserved. In-engine repeat/wrap inspection remains required."
   }
 ]

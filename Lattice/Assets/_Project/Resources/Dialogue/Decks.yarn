@@ -1,0 +1,77 @@
+title: OrrinFirst
+---
+Orrin: Sorrel missed three check-ins. The drill still turns. I can hear it through the ring. #emotion:Worried
+Taren: A working drill and nobody asking for spare parts. That is suspicious. #emotion:Curious
+Orrin: Find the survivor at the outpost. Then shut down whatever is nesting at the drill head. #emotion:Determined
+<<startQuest Sorrel>>
+Sela: You said "whatever". Excellent briefing. I am coming. #emotion:Amused
+Taren: I was counting on it. #emotion:Happy
+<<joinParty Sela>>
+Orrin: Launch from any Decks airlock. Sorrel's approach marker is east of the ring. Bring back the warp key. #emotion:Neutral
+===
+title: OrrinRepeat
+---
+Orrin: The outpost first, then the drill. If Sela stops talking, run. #emotion:Smug
+===
+title: OrrinPost
+---
+Orrin: The drill went quiet. For once, silence is good news. #emotion:Tender
+Orrin: Your key will open the outer beacon. The Gullet comes next. Keep each other in sight. #emotion:Worried
+===
+title: MiraFirst
+---
+Mira: Two Shapers. Twice the damage to my stock, half the patience. #emotion:Amused
+Mira: Six Ridge Crystals will settle a favour. Mine the bright seams on Sorrel; do not lick them. #emotion:Happy
+<<startQuest MiraCrystals>>
+-> Let us see the stock.
+    <<shop>>
+-> We will bring the crystals.
+    Mira: Then I will pretend that was a promise. #emotion:Smug
+===
+title: MiraRepeat
+---
+Mira: If it sparks, I sell it. If it smokes, Hal is down the corridor. #emotion:Happy
+<<shop>>
+===
+title: MiraPost
+---
+Mira: Six clear crystals. You found all the colours I asked for, including "not stolen". #emotion:Happy
+<<shop>>
+===
+title: HalFirst
+---
+Hal: Hold still a moment. Your collar node is running warm. #emotion:Worried
+Taren: It does that when somebody says "hold still". #emotion:Amused
+Hal: Here. Scrap Alloy for your first part. The bench knows five disciplines. Make three edges and it will teach you the refined pattern. #emotion:Tender
+<<giveItem ScrapAlloy 12>>
+<<giveItem LatticeFilament 3>>
+<<setFlag hal.lesson>>
+-> Link to the fabrication bench.
+    <<bench>>
+-> Repair and save.
+    <<repair>>
+-> Just visiting.
+    Hal: Good. Do that more often. #emotion:Happy
+===
+title: HalRepeat
+---
+Hal: You can mend a body. It is harder to mend a hurry. #emotion:Neutral
+-> Repair and save.
+    <<repair>>
+-> Use the bench.
+    <<bench>>
+-> Leave.
+    Hal: Easy on the landing. #emotion:Tender
+===
+title: HalPost
+---
+Hal: I felt the Burrower stop through the pipes. Thank you. #emotion:Happy
+-> Repair and save.
+    <<repair>>
+-> Use the bench.
+    <<bench>>
+===
+title: SelaWaiting
+---
+Sela: Orrin has the coordinates. I have several unreasonable ideas. See him first. #emotion:Playful
+===

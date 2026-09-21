@@ -5,12 +5,8 @@ using UnityEngine;
 namespace Lattice.UI
 {
     /// <summary>
-    /// POLISH-02: the UI skin — resource-backed access to the 9-slice kit sprites
-    /// (Resources/UI/Kit), the standalone icons (Resources/UI/Icons), the licensed
-    /// font pair (Cinzel display / Nunito body, both SIL OFL — see CREDITS.md) and
-    /// the TMP inline-sprite tags. Every getter degrades gracefully: with the art
-    /// missing the whole UI still runs on flat colors and the default font, so
-    /// nothing here can wedge a test or a smoke.
+    /// Generated UI atlas slices and the permitted TMP font. Missing art falls
+    /// back to flat colors without preventing navigation.
     /// </summary>
     public static class UiSkin
     {
@@ -20,8 +16,33 @@ namespace Lattice.UI
 
         // ---------- sprites ----------
 
-        public static Sprite Kit(string name) => Load("UI/Kit/", name);
-        public static Sprite Icon(string name) => Load("UI/Icons/", name);
+        public static readonly string[] Items={"ScrapAlloy","LatticeFilament","RidgeCrystal","HuskCore","ChoirResin","CantorPearl","Emitter","Edge","Frame","Drive","Module","RepairGel","ChargeCell","WarpKey","Scrip","Anvil"};
+        public static Sprite Kit(string name)
+        {
+            if(name=="panel_frame"||name=="panel_dark")return Slice("ui-panel",new(.02f,.025f,.96f,.915f),"panel",new(85,85,85,85),200);
+            if(name.StartsWith("button")||name.StartsWith("row"))return Slice("ui-button",new(.02f,.25f,.96f,.54f),"button",new(160,90,160,90),300);
+            if(name=="bar_frame"||name=="bar_fill")return Slice("ui-controls",new(.022f,.42f,.347f,.16f),"bar",new(60,20,60,20),100);
+            if(name=="keycap")return Slice("ui-controls",new(.447f,.32f,.135f,.355f),"thumb",Vector4.zero,100);
+            if(name=="reticle")return Slice("ui-controls",new(.69f,.14f,.29f,.76f),"reticle",Vector4.zero,100);
+            return null;
+        }
+        public static Sprite Icon(string name)
+        {
+            int i=System.Array.IndexOf(Items,name);if(i<0)return null;
+            float[] left={20,325,623,936},right={302,606,923,1235};
+            float[] top={20,325,600,910},bottom={300,590,885,1190};
+            int x=i%4,y=i/4;
+            return Slice("item-icons",new(left[x]/1254,1-bottom[y]/1254,(right[x]-left[x])/1254,(bottom[y]-top[y])/1254),name,Vector4.zero,100);
+        }
+        public static Sprite Skill(string character,int slot)
+        {return Slice("skill-icons",new(slot/4f,character=="Taren"?.5f:0,.25f,.5f),character+slot,Vector4.zero,100);}
+        static Sprite Slice(string atlas,Rect normalized,string id,Vector4 border,float ppu)
+        {
+            if(Cache.TryGetValue(id,out var sprite))return sprite;
+            var texture=Resources.Load<Texture2D>("UI/Generated/"+atlas);if(texture==null)return null;
+            var rect=new Rect(normalized.x*texture.width,normalized.y*texture.height,normalized.width*texture.width,normalized.height*texture.height);
+            sprite=Sprite.Create(texture,rect,new(.5f,.5f),ppu,0,SpriteMeshType.FullRect,border);sprite.name=id;Cache[id]=sprite;return sprite;
+        }
         /// <summary>POLISH-05 full-screen art: the illustrated map set (Resources/UI/Map).</summary>
         public static Sprite Map(string name) => Load("UI/Map/", name);
         /// <summary>POLISH-05: the designed wordmark set (Resources/UI/Title).</summary>

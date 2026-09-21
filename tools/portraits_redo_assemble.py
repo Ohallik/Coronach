@@ -5,11 +5,11 @@
   cell-to-cell alignment identical to the generated sheet.
 - POLISH-03 load_clean edge treatment (despeckle, ~3px erode, rounded alpha,
   defringe) ported unchanged from portraits_hd_assemble.py.
-- Outputs: the 4x2 canonical game sheet (2304x1152) + the full 4x4 bank +
+- Outputs: the 4x4 canonical game sheet (2304x2304) + the full 4x4 bank +
   a half-scale review strip.
 
 Usage: python portraits_redo_assemble.py <updir> <prefix> <outdir> <sheetname>
-       <cell-index list for the 8 canonical slots, e.g. 0,1,3,4,5,6,12,7>
+       <16 source-cell indices in PortraitEmotion order, each used exactly once>
 """
 import os
 import sys
@@ -53,7 +53,7 @@ def clean(im):
 def main():
     updir, prefix, outdir, sheetname = sys.argv[1:5]
     slots = [int(s) for s in sys.argv[5].split(",")]
-    assert len(slots) == 8, "need 8 canonical cell indices"
+    assert sorted(slots) == list(range(16)), "need all 16 source cells exactly once in enum order"
     os.makedirs(outdir, exist_ok=True)
 
     raw = {}
@@ -62,6 +62,9 @@ def main():
         raw[i] = Image.open(os.path.join(updir, f"{prefix}__{i}.png")).convert("RGBA")
         i += 1
     print("cells:", len(raw))
+    assert len(raw) == 16, "each approved portrait grid must contain exactly 16 cells"
+    assert len({im.size for im in raw.values()}) == 1, "upscaled cells must share their canvas size"
+    assert all(im.getchannel("A").getbbox() for im in raw.values()), "empty cell is not a portrait"
 
     # union content bbox across every cell, squared + padded, one crop for all
     l = t = 10 ** 9
@@ -83,10 +86,10 @@ def main():
         c = im.crop(box).resize((CELL, CELL), Image.LANCZOS)
         cells[i] = clean(c)
 
-    # canonical 4x2 game sheet: Neutral,Happy,Sad,Angry,Shocked,Worried,Intense,Tech
-    game = Image.new("RGBA", (4 * CELL, 2 * CELL), (0, 0, 0, 0))
+    # Canonical 4x4 sheet; ordinal 7 is Synced, followed by the eight extended emotions.
+    game = Image.new("RGBA", (4 * CELL, 4 * CELL), (0, 0, 0, 0))
     for slot, idx in enumerate(slots):
-        game.paste(cells[idx], ((slot % 4) * CELL, (slot // 4) * CELL), cells[idx])
+        game.paste(cells[idx], ((slot % 4) * CELL, (slot // 4) * CELL))
     game.save(os.path.join(outdir, sheetname + ".png"))
     print("game sheet:", sheetname + ".png")
 
@@ -94,11 +97,11 @@ def main():
     cols, rows = 4, (len(cells) + 3) // 4
     bank = Image.new("RGBA", (cols * CELL, rows * CELL), (0, 0, 0, 0))
     for i, im in cells.items():
-        bank.paste(im, ((i % cols) * CELL, (i // cols) * CELL), im)
+        bank.paste(im, ((i % cols) * CELL, (i // cols) * CELL))
     bank.save(os.path.join(outdir, sheetname + "_Bank.png"))
     print("bank sheet:", sheetname + "_Bank.png")
 
-    review = game.resize((2 * CELL, CELL), Image.LANCZOS)
+    review = game.resize((2 * CELL, 2 * CELL), Image.LANCZOS)
     bg = Image.new("RGB", review.size, (40, 44, 52))
     bg.paste(review, (0, 0), review)
     bg.save(os.path.join(outdir, sheetname + "_review.png"))

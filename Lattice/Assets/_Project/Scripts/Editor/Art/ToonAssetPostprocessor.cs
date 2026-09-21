@@ -13,7 +13,7 @@ namespace Lattice.EditorTools
         {
             if(!Generated)return;
             var importer=(TextureImporter)assetImporter;
-            importer.maxTextureSize=1024;importer.mipmapEnabled=true;
+            importer.maxTextureSize=assetPath.Contains("-sky")||assetPath.Contains("-map")?4096:1024;importer.mipmapEnabled=true;
         }
         Material OnAssignMaterialModel(Material original,Renderer renderer)
         {

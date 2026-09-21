@@ -15,7 +15,30 @@ namespace Lattice.Core
         public bool FlightMode { get; private set; }
         public bool Blocked { get; set; }
         public InputActionMap Active => FlightMode ? Flight : Ground;
-        public Vector2 Move => Blocked ? Vector2.zero : Active["Move"].ReadValue<Vector2>();
+        public Vector2 Move
+        {
+            get
+            {
+                if(Blocked||PadCycling)return Vector2.zero;
+                var action=Active["Move"];
+                // On analog pads the d-pad selects items/targets. Precision exposes its
+                // sole directional control as both leftStick and dpad through the bridge.
+                if(action.activeControl?.device is Gamepad pad&&!PadBridge.StickIsDpad(pad))return pad.leftStick.ReadValue();
+                return action.ReadValue<Vector2>();
+            }
+        }
+        public bool PadCycling => Gamepad.current!=null&&PadBridge.StickIsDpad(Gamepad.current)&&Gamepad.current.leftShoulder.isPressed;
+        public int Cycle(string name)
+        {
+            if(Blocked)return 0;
+            var action=Active[name];
+            if(action.WasPerformedThisFrame())return (int)Mathf.Sign(action.ReadValue<float>());
+            var pad=Gamepad.current;if(pad==null)return 0;
+            // Digital-only Precision uses LB as the cycle modifier; other pads retain d-pad cycling.
+            if(!PadCycling&&PadBridge.StickIsDpad(pad))return 0;
+            if(name=="CycleTarget")return pad.dpad.right.wasPressedThisFrame?1:pad.dpad.left.wasPressedThisFrame?-1:0;
+            return pad.dpad.up.wasPressedThisFrame?1:pad.dpad.down.wasPressedThisFrame?-1:0;
+        }
         public bool SkillMod => Held("SkillMod");
 
         public GameInput()

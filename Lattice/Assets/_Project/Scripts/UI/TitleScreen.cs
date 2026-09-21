@@ -12,7 +12,7 @@ namespace Lattice.UI
     public sealed class TitleScreen:MonoBehaviour
     {
         Canvas canvas;
-        GameObject settings;
+        GameObject settings,savePicker;
         Button settingsButton;
         public bool SettingsOpen=>settings!=null;
         void Start()
@@ -27,15 +27,15 @@ namespace Lattice.UI
             UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
             var buttons=new List<Selectable>();
             var play=MenuButton("New Game",0,()=>StartGame(false)); buttons.Add(play);
-            var cont=MenuButton("Continue",1,()=>StartGame(true));
-            cont.interactable=GameServices.Current.Saves.Exists("autosave"); if(cont.interactable)buttons.Add(cont);
+            var cont=MenuButton("Continue",1,OpenSaves);
+            cont.interactable=System.Array.Exists(new[]{"autosave","slot1","slot2","slot3"},GameServices.Current.Saves.Exists); if(cont.interactable)buttons.Add(cont);
             settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
             buttons.Add(MenuButton("Quit",3,Application.Quit)); UiKit.LinkVertical(buttons.ToArray());
             var hint=UiKit.Text(canvas.transform,"Hint","A / ENTER   CONFIRM     ·     D-PAD / WASD   NAVIGATE",19,UiKit.DimTextColor,TextAlignmentOptions.Left);
             UiKit.Rect(hint.gameObject,new Vector2(0,0),new Vector2(0,0),new Vector2(510,85),new Vector2(840,50));
             EventSystem.current.SetSelectedGameObject(play.gameObject);
             Debug.Log("TITLE_BOOT_OK");
-            if(DevArgs.Has("-smoketest")) StartCoroutine(Capture());
+            if(DevArgs.Has("-smoketest")&&!DevArgs.Has("-route")) StartCoroutine(Capture());
         }
         Button MenuButton(string name,int row,System.Action action)
         {
@@ -57,13 +57,26 @@ namespace Lattice.UI
             UiKit.LinkVertical(volume,back); EventSystem.current.SetSelectedGameObject(volume.gameObject);
         }
         public void CloseSettings(){if(settings==null)return;Destroy(settings);settings=null;EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
-        void Update(){if(settings!=null&&UiActions.Cancel.WasPressedThisFrame())CloseSettings();}
-        void StartGame(bool resume)
+        void Update(){if(UiActions.Cancel.WasPressedThisFrame()){if(settings!=null)CloseSettings();if(savePicker!=null){Destroy(savePicker);savePicker=null;}}}
+        public void StartGame(bool resume)
         {
             if(resume) GameServices.Current.State=GameServices.Current.Saves.Load("autosave")??new GameState();
             else GameServices.Current.NewGame();
-            SceneFlow.Current.LoadZone(GameServices.Current.State.zone);
+            SceneFlow.Current.LoadZone(GameServices.Current.State.zone,GameServices.Current.State.spawn);
             canvas.gameObject.SetActive(false);
+        }
+        void OpenSaves()
+        {
+            savePicker=UiKit.Dim(canvas.transform,.96f).gameObject;var buttons=new List<Selectable>();int row=0;
+            var heading=UiKit.Heading(savePicker.transform,"LoadTitle","CONTINUE YOUR ROUTE",45,UiKit.TextColor);UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,330),new(1200,80));
+            foreach(string slot in new[]{"autosave","slot1","slot2","slot3"})
+            {
+                var state=GameServices.Current.Saves.Load(slot);string id=slot;
+                var button=UiKit.Button(savePicker.transform,slot,state==null?slot+" — Empty":slot+" — "+state.zone.Replace('_',' ')+" — Sync "+state.party[0].level,()=>
+                {var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);canvas.gameObject.SetActive(false);});
+                button.interactable=state!=null;UiKit.Rect(button.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,180-row++*100),new(1200,72));if(button.interactable)buttons.Add(button);
+            }
+            var back=UiKit.Button(savePicker.transform,"Back","B  Back",()=>{Destroy(savePicker);savePicker=null;});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
         IEnumerator Capture()
         {

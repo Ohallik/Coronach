@@ -42,11 +42,12 @@ namespace Lattice.EditorTools
             titleTexture.maxTextureSize=2048;titleTexture.textureCompression=TextureImporterCompression.Compressed;titleTexture.SaveAndReimport();
             var boot=EditorSceneManager.NewScene(NewSceneSetup.EmptyScene,NewSceneMode.Single);
             new GameObject("[Services]",typeof(GameServices),typeof(SceneFlow),typeof(BootLoader));
-            new GameObject("[UI]",typeof(PadFocus));
+            new GameObject("[UI]",typeof(PadFocus),typeof(ScreenFade));
             new GameObject("EventSystem",typeof(EventSystem),typeof(InputSystemUIInputModule));
             var cam=new GameObject("[Camera]",typeof(Camera),typeof(AudioListener));
             cam.tag="MainCamera";cam.GetComponent<Camera>().backgroundColor=new Color(.02f,.03f,.065f);
             cam.GetComponent<Camera>().clearFlags=CameraClearFlags.SolidColor;
+            cam.AddComponent<UnityEngine.Rendering.Universal.UniversalAdditionalCameraData>().renderPostProcessing=true;
             var matPath="Assets/_Project/Settings/LatticeToon.mat";
             var material=AssetDatabase.LoadAssetAtPath<Material>(matPath);
             if(material==null){material=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(material,matPath);}

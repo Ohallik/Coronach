@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: Sorrel
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: Sorrel
+  title: The silent outpost
+  description: 
+  steps:
+  - kind: 1
+    target: Sorrel_Ridges
+    count: 1
+  - kind: 0
+    target: Survivor
+    count: 1
+  - kind: 2
+    target: Burrower
+    count: 1
+  - kind: 3
+    target: WarpKey
+    count: 1
+  rewardXp: 160
+  rewardScrip: 200
+  rewards: []
+  flagsOnComplete:
+  - warpkey

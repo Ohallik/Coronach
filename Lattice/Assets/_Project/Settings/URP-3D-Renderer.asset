@@ -52,9 +52,10 @@ MonoBehaviour:
     probeVolumeBlendStatesCS: {fileID: 0}
   m_RendererFeatures:
   - {fileID: -5963027973875562347}
+  - {fileID: 3580470412705655238}
   m_RendererFeatureMap: 
   m_UseNativeRenderPass: 0
-  postProcessData: {fileID: 0}
+  postProcessData: {fileID: 11400000, guid: 41439944d30ece34e96484bdb6645b55, type: 2}
   m_AssetVersion: 3
   m_PrepassLayerMask:
     serializedVersion: 2
@@ -80,3 +81,17 @@ MonoBehaviour:
   m_DepthTextureFormat: 0
   m_AccurateGbufferNormals: 0
   m_IntermediateTextureMode: 1
+--- !u!114 &3580470412705655238
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ac15dcede34e81418f2e57143e7b99b, type: 3}
+  m_Name: Lattice HD2D
+  m_EditorClassIdentifier: Lattice.Core::Lattice.Core.Hd2dFeature
+  m_Active: 1
+  material: {fileID: 2100000, guid: 6b0a75bbdadd5d343947c2a29fd4b935, type: 2}

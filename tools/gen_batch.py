@@ -87,7 +87,7 @@ def credits_from(text: str) -> int:
 MANIFEST = ROOT / "docs" / "art" / "gen-manifest.json"
 
 
-def lookup_img3d_task(mesh_fbx: Path, prompt_id: str = "P64") -> str | None:
+def lookup_img3d_task(mesh_fbx: Path, prompt_id: str = "LATTICE_P3") -> str | None:
     """Find the image-to-3D task that produced this mesh, from the provenance
     manifest meshy.py maintains. Lets a resumed run rig a mesh it did not itself
     generate, instead of stranding it."""
@@ -234,8 +234,8 @@ def parse_args(argv: list[str] | None = None) -> argparse.Namespace:
     p.add_argument("--manifest", required=True)
     p.add_argument("--only", default="", help="comma-separated names to run")
     p.add_argument("--dry-run", action="store_true")
-    p.add_argument("--prompt-id", default="P64",
-                   help="provenance prompt ID passed to Meshy (default: P64)")
+    p.add_argument("--prompt-id", default="LATTICE_P3",
+                   help="provenance prompt ID passed to Meshy (default: LATTICE_P3)")
     p.add_argument("--report", default=None,
                    help="result ledger path (default: batch_results.json beside manifest)")
     p.add_argument("--stop-on-empty", action=argparse.BooleanOptionalAction, default=True,
@@ -257,7 +257,9 @@ def main(argv: list[str] | None = None) -> int:
         wanted = {n.strip().lower() for n in args.only.split(",")}
         entries = [e for e in entries if e["name"].lower() in wanted]
 
-    print(f"P64_BATCH entries={len(entries)} dry_run={args.dry_run}")
+    if not entries:
+        raise SystemExit("FAILED: empty generation batch; no art gate can pass")
+    print(f"LATTICE_BATCH entries={len(entries)} dry_run={args.dry_run}")
     results, spent = [], 0
     for index, entry in enumerate(entries, 1):
         print(f"[{index}/{len(entries)}] {entry['name']} ({entry['kind']})", flush=True)
@@ -266,7 +268,7 @@ def main(argv: list[str] | None = None) -> int:
         results.append(res)
         print(f"    -> {res['status']} credits={res['credits']} (run total {spent})", flush=True)
         if res["status"] == "out-of-credits" and args.stop_on_empty:
-            print("P64_BATCH_HALT balance exhausted — re-run this same command when it refills; "
+            print("LATTICE_BATCH_HALT balance exhausted — remaining rows are ART_PENDING; "
                   "completed entries are skipped automatically.")
             break
         if not args.dry_run:
@@ -277,11 +279,11 @@ def main(argv: list[str] | None = None) -> int:
     report.write_text(json.dumps(results, indent=1) + "\n", encoding="utf-8")
 
     ok = [r for r in results if r["status"] in ("ok", "already-done")]
-    print(f"\nP64_BATCH_DONE ok={len(ok)}/{len(results)} credits_spent={spent} report={report}")
+    print(f"\nLATTICE_BATCH_DONE ok={len(ok)}/{len(results)} estimated_credits={spent} report={report}")
     for r in results:
         if r["status"] not in ("ok", "already-done", "dry-run"):
             print(f"  !! {r['name']}: {r['status']} {r['notes'][:1]}")
-    return 0
+    return 0 if all(r["status"] in ("ok", "already-done", "dry-run") for r in results) else 1
 
 
 if __name__ == "__main__":
