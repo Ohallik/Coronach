@@ -2,15 +2,15 @@
 
 ## Current work
 
-2026-09-20: P0_TOOLCHAIN_OK is committed. P1 species and hero packet is awaiting Nathan. Both Windows packages contain the complete blockout route from New Game through Tallow Drift. The latest route passed every ordered milestone in 555.5 seconds, ending at the target level 6 with completion saved. Latest suites: 35 EditMode and 15 PlayMode tests, including Continue from every zone, short pad taps through Yarn dialogue, death/retry, pack lunges and Drifter volleys. Both arena smokes passed again with the final enemy behaviors. All eight menu/dialogue/shop captures were opened and corrected. Generated terrain, skies, planet maps and UI are in the scenes; character, enemy, ship and environment models remain blockouts. Meshy spending is zero.
+2026-09-20: P0_TOOLCHAIN_OK is committed and NATHAN_SPECIES_APPROVED is received. Downstream design and generated art production are underway, with more distinctive hero faces required by Nathan's feedback. Both Windows packages contain the complete blockout route from New Game through Tallow Drift. The latest route passed every ordered milestone in 555.5 seconds, ending at level 6 with completion saved. Latest suites: 35 EditMode and 15 PlayMode tests. Both arena smokes passed with the final enemy behaviors; menu/dialogue/shop captures were opened and corrected. Generated terrain, skies, planet maps and UI are in the scenes; models remain blockouts until intake. Meshy spending is zero at approval.
 
 ## Gates
 
 | Gate | Status | Evidence / defect that must fail |
 |---|---|---|
 | P0_TOOLCHAIN_OK | CLOSED | `VERIFY_OK`, `BOOT_SCENES_OK`, `BUILD_OK`; 19/19 EditMode + 3/3 PlayMode; title smoke and inspected 1920x1080 screenshot; physical Logitech attachment in Player.log. |
-| NATHAN_SPECIES_APPROVED | AWAITING NATHAN | Review packet `docs/art/SPECIES.md`; four final generated images below. P2 continues. |
-| P1_DESIGN_OK | PENDING | Hero/species packet inspected. NPC, enemy, ship and environment boards follow approval. |
+| NATHAN_SPECIES_APPROVED | CLOSED | Nathan approved continuing, with more distinctive hero faces required. Exact response in `docs/art/species-approval.json` and D027. |
+| P1_DESIGN_OK | IN PROGRESS | Hero/species packet inspected. NPC, enemy, ship and environment boards underway. |
 | P2_CORE_OK | OPEN | 35 EditMode and 15 PlayMode tests, both arena smokes and the full blockout route passed; physical 60-second feel session remains. |
 | P3_ART_OK | PENDING | Generated asset provenance, humanoid motion, poses and actual renders required. |
 | P4_CONTENT_OK | OPEN | First full ordered route passed. Final generated art, look review and balance remain. |
@@ -19,18 +19,18 @@
 
 ## NATHAN GATE
 
-**P1 approval requested 2026-09-20:** approve or redirect the Vael species, Taren and Sela. Review `docs/art/SPECIES.md` with embedded images:
+**NATHAN_SPECIES_APPROVED, 2026-09-20.** Nathan: "in general the designs of the race are fine. when we actually design the main characters they'll need to be more unique looking faces but that is okay for now. please continue". Approved review images:
 
 - `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-sheet-v2.png`
 - `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/species-faces-v2.png`
 - `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/taren-board.png`
 - `C:/Users/natem/Projects/SpaceRPG/art-src/Generated/P1/refs/sela-board-v2.png`
 
-This is the user-requested gate in `docs/SLICE_PROMPT.md` P1. No approval is inferred from silence. No Vael Meshy credits may be spent until Nathan responds. P2 code, generated UI, all five zone blockouts and the automated route have been built and verified while waiting.
+The user-requested P1 gate is closed by the actual response above. Main-character facial distinctiveness is a production requirement. P2 code, generated UI, all five zone blockouts and the automated route were built and verified while waiting. Paid generation may now proceed within the 1,200-credit cap.
 
 ## BLOCKED
 
-P1 dependent work: approve or redirect the species, Taren and Sela in `docs/art/SPECIES.md`. No paid Meshy requests have been made. Independent core systems, UI art, and the five-zone blockout route are implemented and verified; downstream design and generated model production await this response. Physical controller feel, final artwork, final balance and the remaining gates are not claimed complete.
+No current user-input blocker. Physical controller feel, final artwork, final balance and the remaining gates are not claimed complete. Continue autonomously; no second design approval is required.
 
 ## Art budget
 
@@ -87,7 +87,7 @@ Double-click `Builds/Windows/Lattice.exe` for the release blockout or `Builds/Wi
 
 ### ART_PENDING / unfinished gates
 
-- ART_PENDING: Taren and Sela Natural/Shaped/Flight models; all civilian bodies/retextures; eight enemies including Cantor head/body/tail; three traffic ship classes; the full static environment set. Waiting on P1 before downstream designs and paid generation.
+- ART_PENDING: Taren and Sela Natural/Shaped/Flight models; all civilian bodies/retextures; eight enemies including Cantor head/body/tail; three traffic ship classes; the full static environment set. P1 approval is received; downstream designs and production are underway.
 - ART_PENDING: eight generated portrait grids and their dialogue-box render review. No temporary downloaded faces are used.
 - Texture/skies are generated at the image tool's native returned sizes (tiles 1254 square; panoramas/maps 1774x887), not the 4096x2048 requested in prompts. Provenance records the actual dimensions. Final look review remains open.
 - Main-route progression to level 6 is verified. The T2 comparison, broader balance, release-route physical pad feel and final art performance remain open.

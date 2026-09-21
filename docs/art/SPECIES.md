@@ -1,6 +1,6 @@
 # Vael species and hero approval packet
 
-Status: **NATHAN GATE PENDING**. Generated with the session image tool. No Meshy credits spent.
+Status: **NATHAN_SPECIES_APPROVED**, 2026-09-20. Nathan approved the race and continuing production, with more distinctive main-character faces required in the next design pass. The boards below establish species, palettes and silhouettes; hero facial identities will be refined in production references and portraits. Exact response: `species-approval.json`.
 
 ## Species anatomy and forms
 
@@ -28,4 +28,4 @@ Opened and visually reviewed all four final images. The first species sheet was 
 
 These are design boards for approval, not multi-subject Meshy inputs. After approval, generate isolated single-form, front-view A-pose references with separated digits and limb gaps. Shaped references must show four separately attached folded vane roots, rib-sheathed plumes, and distinct emitter/edge attachments; Unity intake must inspect the actual topology. Palette hex values are authoring targets, not a claim that every antialiased pixel equals the target.
 
-Approve or redirect the species and both heroes. This is the P1 approval explicitly required by `docs/SLICE_PROMPT.md`. P2 blockout implementation continues while the response is pending.
+The P1 approval explicitly required by `docs/SLICE_PROMPT.md` is received. Continue downstream boards and production without a second approval gate.

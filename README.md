@@ -2,7 +2,7 @@
 
 A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cross the Gullet with Taren and Sela.
 
-Current status: **playable blockout; P1 species approval pending**. The final generated models and portraits are not present yet. See [progress](docs/PROGRESS.md) and the [species review packet](docs/art/SPECIES.md). No final release tag has been made.
+Current status: **playable blockout; species approved, generated art production underway**. The final generated models and portraits are not present yet. See [progress](docs/PROGRESS.md) and the [species review packet](docs/art/SPECIES.md). No final release tag has been made.
 
 ## Run
 

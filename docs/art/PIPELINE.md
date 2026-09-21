@@ -1,6 +1,6 @@
 # Generated art intake
 
-Status: code and tools are prepared; **no 3D model or portrait sheet has passed intake**. P1 approval is still absent. `intake.json` is deliberately empty and an empty batch must fail.
+Status: **NATHAN_SPECIES_APPROVED** is recorded in `species-approval.json`; downstream design is underway. Code and tools are prepared; **no 3D model or portrait sheet has passed intake**. `intake.json` is deliberately empty until source models exist, and an empty batch must fail.
 
 1. Record Nathan's actual species/hero response in `docs/DECISIONS.md`. Only then create `docs/art/species-approval.json` with status `NATHAN_SPECIES_APPROVED` and the response. Never create this receipt from silence or an automated decision.
 2. Generate and inspect the downstream references in P1 order. Meshy receives a single isolated pose, not a multi-view design board. Archive images and exact prompts under `art-src/Generated/<batch>/refs`.
