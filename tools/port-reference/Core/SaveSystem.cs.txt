@@ -1,0 +1,163 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Threading.Tasks;
+using Newtonsoft.Json;
+using UnityEngine;
+
+namespace Lattice.Core
+{
+    /// <summary>
+    /// JSON save slots + autosave (plan §4). One file per slot in a directory injected at
+    /// construction (persistentDataPath/Saves in the game; a temp dir in EditMode tests).
+    /// Load never throws on missing/corrupt files — it returns null and logs.
+    /// Writes happen on a background worker (POLISH-14: the 170–240 ms town-arrival
+    /// autosave hitch was this serialize+write on the main thread): Save() snapshots are
+    /// already detached copies, so the worker serializes and writes them in FIFO order
+    /// while the frame carries on. Every read path (Load/Exists/ListSlots/Delete) flushes
+    /// the queue first, so callers never observe a stale slot.
+    /// </summary>
+    public sealed class SaveSystem
+    {
+        public const string AutosaveSlot = "autosave";
+
+        /// <summary>
+        /// POLISH-50B — the reserved dev scratch slot. A dev warp's session state lands here
+        /// and nowhere else (see <see cref="DevSession"/>). Hidden slots are excluded from
+        /// <see cref="ListSlots"/>, so <see cref="LatestSlot"/> — and therefore the title
+        /// screen's Continue — can never surface one. Load/Exists/Delete still address it by
+        /// name, which is what the dev tooling needs.
+        /// </summary>
+        public const string DevScratchSlot = "__devscratch";
+
+        /// <summary>Slot names the player-facing UI must never see. Prefix, so it cannot collide.</summary>
+        public static bool IsHiddenSlot(string slot) =>
+            slot != null && slot.StartsWith("__dev", StringComparison.Ordinal);
+
+        static readonly JsonSerializerSettings JsonSettings = new()
+        {
+            Formatting = Formatting.Indented,
+            NullValueHandling = NullValueHandling.Ignore,
+        };
+
+        readonly string _directory;
+        readonly object _chainLock = new();
+        Task _writeChain = Task.CompletedTask;
+
+        public SaveSystem(string directory)
+        {
+            _directory = directory ?? throw new ArgumentNullException(nameof(directory));
+        }
+
+        public string PathForSlot(string slot) => Path.Combine(_directory, slot + ".json");
+
+        public bool Exists(string slot)
+        {
+            Flush();
+            return File.Exists(PathForSlot(slot));
+        }
+
+        public void Save(string slot, SaveData data)
+        {
+            if (string.IsNullOrWhiteSpace(slot))
+                throw new ArgumentException("slot name required", nameof(slot));
+            data.savedAtUtc = DateTime.UtcNow.ToString("o");
+            var path = PathForSlot(slot);
+            lock (_chainLock)
+            {
+                // FIFO chain: one write at a time, in call order — a burst of saves to the
+                // same slot lands with the last call's contents.
+                _writeChain = _writeChain.ContinueWith(_ => WriteSlotFile(slot, path, data),
+                    TaskContinuationOptions.RunContinuationsAsynchronously);
+            }
+        }
+
+        void WriteSlotFile(string slot, string path, SaveData data)
+        {
+            try
+            {
+                Directory.CreateDirectory(_directory);
+                // Write-then-rename so a crash mid-write never corrupts an existing save.
+                var tmp = path + ".tmp";
+                File.WriteAllText(tmp, JsonConvert.SerializeObject(data, JsonSettings));
+                if (File.Exists(path))
+                    File.Delete(path);
+                File.Move(tmp, path);
+                Debug.Log($"[Lattice] SAVE_OK slot={slot} scene={data.sceneName} path={path}");
+            }
+            catch (Exception e)
+            {
+                // Never fault the chain — later saves must still run.
+                Debug.LogError($"[Lattice] SAVE_WRITE_FAILED slot={slot}: {e}");
+            }
+        }
+
+        /// <summary>Block until every queued write has hit disk (reads, quit, tests).</summary>
+        public void Flush()
+        {
+            Task chain;
+            lock (_chainLock)
+                chain = _writeChain;
+            // Worker never touches the main thread, so a bounded wait cannot deadlock.
+            chain.Wait(TimeSpan.FromSeconds(10));
+        }
+
+        public SaveData Load(string slot)
+        {
+            Flush();
+            var path = PathForSlot(slot);
+            if (!File.Exists(path))
+                return null;
+            try
+            {
+                var data = JsonConvert.DeserializeObject<SaveData>(File.ReadAllText(path), JsonSettings);
+                if (data == null || data.sceneName == null)
+                {
+                    Debug.LogWarning($"[Lattice] save slot '{slot}' is empty/invalid, ignoring");
+                    return null;
+                }
+                return data;
+            }
+            catch (Exception e)
+            {
+                Debug.LogWarning($"[Lattice] save slot '{slot}' failed to parse, ignoring: {e.Message}");
+                return null;
+            }
+        }
+
+        public void Delete(string slot)
+        {
+            Flush(); // a queued write must not resurrect the file after the delete
+            var path = PathForSlot(slot);
+            if (File.Exists(path))
+                File.Delete(path);
+        }
+
+        /// <summary>All readable PLAYER slots, newest first. Hidden dev slots never appear.</summary>
+        public IReadOnlyList<SaveSlotInfo> ListSlots()
+        {
+            Flush();
+            if (!Directory.Exists(_directory))
+                return Array.Empty<SaveSlotInfo>();
+            return Directory.GetFiles(_directory, "*.json")
+                .Select(p => Path.GetFileNameWithoutExtension(p))
+                .Where(s => !IsHiddenSlot(s)) // POLISH-50B: the scratch-slot law
+                .Select(s => (slot: s, data: Load(s)))
+                .Where(t => t.data != null)
+                .Select(t => new SaveSlotInfo
+                {
+                    slot = t.slot,
+                    savedAtUtc = t.data.savedAtUtc,
+                    playtimeSeconds = t.data.playtimeSeconds,
+                    sceneName = t.data.sceneName,
+                    activeCharacterId = t.data.activeCharacterId,
+                })
+                .OrderByDescending(s => s.savedAtUtc, StringComparer.Ordinal) // ISO-8601 sorts lexically
+                .ToList();
+        }
+
+        /// <summary>Most recently written slot name (including autosave), or null.</summary>
+        public string LatestSlot() => ListSlots().FirstOrDefault()?.slot;
+    }
+}

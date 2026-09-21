@@ -1,0 +1,23 @@
+{
+  "name": "Lattice.Editor",
+  "rootNamespace": "Lattice.Editor",
+  "references": [
+    "Lattice.Data",
+    "Lattice.Core",
+    "Lattice.Rpg",
+    "Lattice.Combat",
+    "Lattice.World",
+    "Lattice.Dialogue",
+    "Lattice.UI",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "Unity.ugui",
+    "Unity.RenderPipelines.Core.Runtime",
+    "Unity.RenderPipelines.Universal.Runtime",
+    "Unity.RenderPipelines.Universal.Editor",
+    "Unity.Cinemachine"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}

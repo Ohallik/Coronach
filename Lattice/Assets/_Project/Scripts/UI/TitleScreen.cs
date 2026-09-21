@@ -1,0 +1,85 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using Lattice.Core;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+
+namespace Lattice.UI
+{
+    public sealed class TitleScreen:MonoBehaviour
+    {
+        Canvas canvas;
+        GameObject settings;
+        Button settingsButton;
+        public bool SettingsOpen=>settings!=null;
+        void Start()
+        {
+            canvas=UiKit.CreateCanvas("TitleCanvas",10,transform);
+            var background=new GameObject("KeyArt",typeof(RawImage)); background.transform.SetParent(canvas.transform,false);
+            background.GetComponent<RawImage>().texture=Resources.Load<Texture2D>("UI/Title/key-art");
+            UiKit.Rect(background,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
+            var title=UiKit.Heading(canvas.transform,"Title","LATTICE",105,UiKit.TextColor,TextAlignmentOptions.Left);
+            UiKit.Rect(title.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-235),new Vector2(560,150));
+            var subtitle=UiKit.Text(canvas.transform,"Subtitle","ONE BODY. THREE FORMS.",23,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
+            UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
+            var buttons=new List<Selectable>();
+            var play=MenuButton("New Game",0,()=>StartGame(false)); buttons.Add(play);
+            var cont=MenuButton("Continue",1,()=>StartGame(true));
+            cont.interactable=GameServices.Current.Saves.Exists("autosave"); if(cont.interactable)buttons.Add(cont);
+            settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
+            buttons.Add(MenuButton("Quit",3,Application.Quit)); UiKit.LinkVertical(buttons.ToArray());
+            var hint=UiKit.Text(canvas.transform,"Hint","A / ENTER   CONFIRM     ·     D-PAD / WASD   NAVIGATE",19,UiKit.DimTextColor,TextAlignmentOptions.Left);
+            UiKit.Rect(hint.gameObject,new Vector2(0,0),new Vector2(0,0),new Vector2(510,85),new Vector2(840,50));
+            EventSystem.current.SetSelectedGameObject(play.gameObject);
+            Debug.Log("TITLE_BOOT_OK");
+            if(DevArgs.Has("-smoketest")) StartCoroutine(Capture());
+        }
+        Button MenuButton(string name,int row,System.Action action)
+        {
+            var b=UiKit.Button(canvas.transform,name,name,action);
+            UiKit.Rect(b.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(330,-475-row*92),new Vector2(470,70));return b;
+        }
+        public void OpenSettings()
+        {
+            if(settings!=null)return;
+            settings=UiKit.Dim(canvas.transform,.88f).gameObject;
+            var title=UiKit.Heading(settings.transform,"SettingsTitle","SETTINGS",48,UiKit.TextColor);
+            UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,200),new(700,85));
+            var label=UiKit.Text(settings.transform,"Volume","MASTER VOLUME",26,UiKit.TextColor);
+            UiKit.Rect(label.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,85),new(600,50));
+            var volume=UiKit.Slider(settings.transform,"VolumeSlider",AudioListener.volume,v=>{AudioListener.volume=v;PlayerPrefs.SetFloat("volume",v);});
+            UiKit.Rect(volume.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,15),new(560,40));
+            var back=UiKit.Button(settings.transform,"Back","Back",CloseSettings);
+            UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-120),new(380,65));
+            UiKit.LinkVertical(volume,back); EventSystem.current.SetSelectedGameObject(volume.gameObject);
+        }
+        public void CloseSettings(){if(settings==null)return;Destroy(settings);settings=null;EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
+        void Update(){if(settings!=null&&UiActions.Cancel.WasPressedThisFrame())CloseSettings();}
+        void StartGame(bool resume)
+        {
+            if(resume) GameServices.Current.State=GameServices.Current.Saves.Load("autosave")??new GameState();
+            else GameServices.Current.NewGame();
+            SceneFlow.Current.LoadZone(GameServices.Current.State.zone);
+            canvas.gameObject.SetActive(false);
+        }
+        IEnumerator Capture()
+        {
+            yield return new WaitForSecondsRealtime(3);
+            string path=DevArgs.Value("-screenshot");
+            if(!string.IsNullOrEmpty(path))
+            {
+                Directory.CreateDirectory(Path.GetDirectoryName(path));
+                ScreenCapture.CaptureScreenshot(path);
+                yield return new WaitForSecondsRealtime(1);
+                ScreenCapture.CaptureScreenshot(path);
+                yield return new WaitForSecondsRealtime(1);
+                Debug.Log("SCREENSHOT_OK "+path);
+            }
+            yield return new WaitForSecondsRealtime(6);
+            Debug.Log("TITLE_SMOKE_OK"); Application.Quit();
+        }
+    }
+}

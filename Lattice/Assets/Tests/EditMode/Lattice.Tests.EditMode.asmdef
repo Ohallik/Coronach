@@ -1,0 +1,21 @@
+{
+  "name": "Lattice.Tests.EditMode",
+  "references": [
+    "Lattice.Data",
+    "Lattice.Core",
+    "Lattice.Rpg",
+    "Lattice.Combat",
+    "Lattice.World",
+    "Lattice.Dialogue",
+    "Lattice.UI",
+    "Unity.InputSystem",
+    "Unity.ugui",
+    "Unity.TextMeshPro"
+  ],
+  "optionalUnityReferences": [
+    "TestAssemblies"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ]
+}

@@ -1,0 +1,11 @@
+[
+  {
+    "name": "title-key-art",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/P0/refs/title-key-art.png",
+    "prompt": "art-src/Generated/P0/refs/title-key-art.prompt.txt",
+    "runtime": "Lattice/Assets/_Project/Resources/UI/Title/key-art.png",
+    "inspected": true,
+    "notes": "Cinder Halo around Vorun. Dark left area supports title UI. No species depiction or borrowed visible art."
+  }
+]

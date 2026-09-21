@@ -1,0 +1,729 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using Lattice.Core;
+using Lattice.Data;
+using UnityEngine;
+using Yarn.Unity;
+
+namespace Lattice.Dialogue
+{
+    /// <summary>
+    /// The persistent dialogue service: one Yarn DialogueRunner wired to the custom
+    /// presenters and the game state machine. Scenes call <see cref="Configure"/> with
+    /// their YarnProject + cast + cue bank, then <see cref="StartNode"/>.
+    /// Yarn cutscene commands are registered once here and delegate to the scene's
+    /// <see cref="CutsceneDirector"/> (so re-loading scenes never re-registers handlers).
+    /// </summary>
+    public sealed class DialogueSystem : MonoBehaviour
+    {
+        public static DialogueSystem Instance { get; private set; }
+
+        /// <summary>The scene's cutscene director — target of all staging commands.</summary>
+        public static CutsceneDirector ActiveDirector { get; set; }
+
+        // ---- quest bridge (assigned by the Menus layer; Dialogue stays Quests-agnostic) ----
+        /// <summary>Returns the QuestState int for a quest id (0 = not started).</summary>
+        public static Func<string, int> QuestStateHook;
+        public static Action<string> QuestAcceptHook;
+        public static Action<string> QuestTurnInHook;
+        /// <summary>
+        /// POLISH-52: how many quests the party has actually finished. The epilogue fire
+        /// acknowledges optional deeds, and "you did a lot of things nobody made you do"
+        /// is only sayable if somebody counted. Returns 0 when unbound (tests, tools).
+        /// </summary>
+        public static Func<int> QuestsDoneHook;
+        /// <summary>Grant an item by catalog id (real inventory; supersedes the staged give_item beat).</summary>
+        public static Action<string, int> GiveItemHook;
+
+        // ---- test/smoke hooks ----
+        /// <summary>Lines reveal instantly and auto-advance; options resolve from ScriptedChoices.</summary>
+        public static bool AutoAdvance;
+
+        // ---- POLISH-54: the player-facing skip ----
+        /// <summary>
+        /// True while the player's hold-to-skip is engaged. It changes PRESENTATION ONLY:
+        /// lines reveal whole and advance themselves, scripted waits drain, fades collapse.
+        /// Every command in the node — set_flag, quest_accept, give_item, set_stage, cam,
+        /// bgm, the staging walks — still executes on the same VM in the same order. Skip
+        /// is therefore state-identical to watching BY CONSTRUCTION, not by an audit that
+        /// has to be redone every time a director gains a line. Choices are never skipped
+        /// (<see cref="CutsceneSkip"/> disengages when an option set is presented).
+        /// </summary>
+        public static bool Skipping;
+        /// <summary>With AutoAdvance: options wait until a scripted choice is queued (lets smoke runs screenshot the menu).</summary>
+        public static bool HoldChoices;
+        /// <summary>
+        /// POLISH-59 blip proof (`-blipaudit`): lines &gt; 0 makes the presenter run the
+        /// REAL typewriter reveal — real blips, at fast-forward pace — for that many
+        /// lines even under AutoAdvance, then decrements to 0 and the instant path
+        /// resumes. This is the only way an autopilot route can ever HEAR a blip
+        /// (the reveal loop is otherwise skipped wholesale), so the `-audiocapture`
+        /// WAV of a `-blipaudit` run is the shipped-binary evidence the P50 audit
+        /// said no gate could produce.
+        /// </summary>
+        public static int BlipAuditLines;
+        /// <summary>POLISH-54 evidence rig: seconds to hold each line under AutoAdvance, so a
+        /// staged beat can be FILMED at reading speed instead of flashing past. 0 = off.</summary>
+        public static float AutoAdvancePace;
+        public static readonly Queue<int> ScriptedChoices = new();
+        public static int LinesPresented;
+        public static int PortraitChanges;
+        /// <summary>Gallery capture (POLISH-03): under AutoAdvance, the first line whose text
+        /// contains this marker holds on screen until the marker is cleared.</summary>
+        public static string HoldLineMarker;
+        /// <summary>True while the marker line is being held (the capture window).</summary>
+        public static bool HoldingLine;
+        /// <summary>
+        /// POLISH-54 state-application proof: when armed, every command that can move save
+        /// state appends an ordered entry here. Two runs of one node — one watched, one
+        /// skipped — must produce byte-identical streams, which is a stronger statement
+        /// than "the same flags ended up set": it proves the same effects were applied in
+        /// the same order by the same code. Off in shipped play; the probe arms it.
+        /// </summary>
+        public static bool RecordEffects;
+        public static readonly List<string> EffectLog = new();
+
+        static void Effect(string entry)
+        {
+            if (RecordEffects)
+                EffectLog.Add(entry);
+        }
+
+        public static void ResetCounters()
+        {
+            Skipping = false;
+            LinesPresented = 0;
+            PortraitChanges = 0;
+            ScriptedChoices.Clear();
+            HoldLineMarker = null;
+            HoldingLine = false;
+        }
+
+        public DialogueRunner Runner { get; private set; }
+        /// <summary>A naturally completed Yarn node, excluding aborted/cancelled runs.</summary>
+        public event Action<string> NodeCompleted;
+
+        /// <summary>
+        /// Is a run in flight? The Yarn-type-free form of <c>Runner.IsDialogueRunning</c>,
+        /// so callers outside the YarnSpinner assembly reference (the test asmdefs) can
+        /// ask the question without taking the dependency.
+        /// </summary>
+        public bool IsRunning => Runner != null && Runner.IsDialogueRunning;
+
+        public DialogueUi Ui { get; private set; }
+        /// <summary>The node this run started at (POLISH-54: what the skip is skipping).</summary>
+        public string CurrentNode { get; private set; }
+        public CueBank Cues { get; private set; }
+        /// <summary>Scene-supplied cue banks for director-less staging (acts' cue banks).</summary>
+        public CueBank[] ExtraCues { get; private set; } = Array.Empty<CueBank>();
+
+        readonly Dictionary<string, SpeakerProfile> _cast = new(StringComparer.OrdinalIgnoreCase);
+        YarnProject _project;
+        bool _manageState;
+        IDisposable _fallbackCameraLease;
+        bool _fallbackCameraActive;
+        int _activeStagingRoutines;
+        /// <summary>Staging commands (walks, waits, fades) currently executing. Zero means
+        /// the script is waiting on the player, which is never a stall (bug-20260907-172429).</summary>
+        public int ActiveStagingCommands => _activeStagingRoutines;
+        bool _abortRequested;
+        bool _abortStopIssued;
+        bool _abortCompletionFence;
+
+        internal bool AbortCompletionFenceActive => _abortCompletionFence;
+
+        public static DialogueSystem Ensure()
+        {
+            if (Instance != null)
+                return Instance;
+            Game.Ensure();
+            var go = new GameObject("[Dialogue]");
+            DontDestroyOnLoad(go);
+            Instance = go.AddComponent<DialogueSystem>();
+            Instance.Build();
+            return Instance;
+        }
+
+        void Build()
+        {
+            Ui = gameObject.AddComponent<DialogueUi>();
+
+            Runner = gameObject.AddComponent<DialogueRunner>();
+            var linePresenter = gameObject.AddComponent<LatticeLinePresenter>();
+            linePresenter.ui = Ui;
+            var optionsPresenter = gameObject.AddComponent<LatticeOptionsPresenter>();
+            optionsPresenter.ui = Ui;
+            Runner.DialoguePresenters = new List<DialoguePresenterBase> { linePresenter, optionsPresenter };
+            // Runtime-added DialogueRunner: its serialized UnityEvent fields start null.
+            Runner.onDialogueComplete ??= new UnityEngine.Events.UnityEvent();
+            Runner.onDialogueStart ??= new UnityEngine.Events.UnityEvent();
+            Runner.onDialogueComplete.AddListener(OnDialogueComplete);
+            Runner.onNodeComplete ??= new Yarn.Unity.UnityEventString();
+            Runner.onNodeComplete.AddListener(node =>
+            {
+                if (!_abortRequested && !_abortStopIssued && !_abortCompletionFence)
+                    NodeCompleted?.Invoke(node);
+            });
+
+            CutsceneSkip.Ensure(transform);
+
+            RegisterBuiltins();
+            Debug.Log("[Lattice] DIALOGUE_SYSTEM_OK");
+        }
+
+        void OnDestroy()
+        {
+            ReleaseFallbackCamera("dialogue-system-destroyed", 0f);
+            if (Instance == this)
+                Instance = null;
+        }
+
+        void OnDisable() => ReleaseFallbackCamera("dialogue-system-disabled", 0f);
+
+        // ---------- configuration ----------
+
+        public void Configure(YarnProject project, IEnumerable<SpeakerProfile> cast, CueBank cues,
+            CueBank[] extraCues = null)
+        {
+            if (project != null && project != _project && !Runner.IsDialogueRunning)
+            {
+                Runner.SetProject(project);
+                _project = project;
+            }
+            _cast.Clear();
+            if (cast != null)
+                foreach (var profile in cast)
+                    if (profile != null && !string.IsNullOrEmpty(profile.id))
+                        _cast[profile.id] = profile;
+            Cues = cues;
+            ExtraCues = extraCues ?? Array.Empty<CueBank>();
+        }
+
+        public SpeakerProfile Resolve(string characterName) =>
+            !string.IsNullOrEmpty(characterName) && _cast.TryGetValue(characterName, out var p) ? p : null;
+
+        // ---------- flow ----------
+
+        /// <summary>
+        /// Run a node. With <paramref name="manageState"/> the system transitions
+        /// Explore→Dialogue→Explore (normal NPC talk); cutscenes manage state themselves.
+        /// </summary>
+        public void StartNode(string node, bool manageState = true)
+        {
+            // POLISH-54: staging routing. Boots, watchers and triggers all start their
+            // beats here; if the loaded scene carries a CutsceneDirector for this node,
+            // the beat is STAGED (player hidden, stand-ins woken, cameras owned) instead
+            // of a letterboxed cut over a frozen set. manageState==false is the director
+            // calling back into us — never re-route that, or Play recurses.
+            // POLISH-54: NOBODY TRAMPLES A RUNNING BEAT. Starting a second dialogue on a busy
+            // runner replaces the running one mid-line — and if the running one is a STAGED
+            // beat, its director stays active while the new node's commands arrive, so every
+            // walk, turn and cut resolves against the WRONG STAGE. That is not theoretical:
+            // the Sanctuary probe caught Act6Boot's framework watcher firing into the middle
+            // of the Commander's confrontation, and the log filled with CUTSCENE_MARK_MISSING
+            // for marks that belong to a different beat. Queue instead of trampling; the
+            // watchers that call this all wait on a flag the deferred run will still set.
+            if (manageState && Runner.IsDialogueRunning)
+            {
+                Debug.LogWarning($"[Lattice] DIALOGUE_DEFERRED node={node} reason=runner-busy");
+                StartCoroutine(StartWhenFree(node));
+                return;
+            }
+
+            if (manageState && ActiveDirector == null && !CutsceneDirector.RoutingSuppressed)
+            {
+                var director = CutsceneDirector.ForNode(node);
+                if (director != null && !director.IsRunning)
+                {
+                    director.Play();
+                    return;
+                }
+            }
+
+            _abortRequested = false;
+            _abortStopIssued = false;
+            _abortCompletionFence = false;
+            _manageState = manageState;
+            CurrentNode = node;
+            if (manageState)
+                Game.Manager.States.TransitionTo(GameState.Dialogue);
+            Runner.StartDialogue(node).Forget();
+        }
+
+        /// <summary>
+        /// Hold a start request until the screen is free — the runner idle, no director still
+        /// handing back, and the game out of Dialogue/Cutscene. Bounded: a request that can
+        /// never land says so rather than waiting forever.
+        /// </summary>
+        IEnumerator StartWhenFree(string node)
+        {
+            float deadline = Time.realtimeSinceStartup + 90f;
+            while (Time.realtimeSinceStartup < deadline
+                   && (Runner.IsDialogueRunning
+                       || (ActiveDirector != null && ActiveDirector.IsRunning)
+                       || !Game.IsReady
+                       || Game.Manager.States.Current is GameState.Dialogue or GameState.Cutscene))
+                yield return null;
+            if (Runner.IsDialogueRunning)
+            {
+                Debug.LogError($"[Lattice] DIALOGUE_DEFER_TIMEOUT node={node}");
+                yield break;
+            }
+            yield return null; // let the previous beat's handback settle before taking the stage
+            Debug.Log($"[Lattice] DIALOGUE_DEFERRED_START node={node}");
+            StartNode(node);
+        }
+
+        readonly List<Action> _afterDialogue = new();
+
+        /// <summary>bug-20260907-184128: a one-shot that runs once the conversation that is
+        /// about to start has ended and the state is back in Explore (Thistle's talk opens
+        /// his stall). Cleared by an abort so a cancelled talk never opens a shop.</summary>
+        public void RunAfterDialogue(Action action)
+        {
+            if (action != null)
+                _afterDialogue.Add(action);
+        }
+
+        void OnDialogueComplete()
+        {
+            // POLISH-54: the skip lives exactly as long as the beat it was skipping —
+            // it can never leak into the next line of ordinary conversation.
+            Skipping = false;
+            CutsceneSkip.NoteSeen(CurrentNode);
+            try { ReleaseFallbackCamera("dialogue-complete", .25f); }
+            finally
+            {
+                bool restoreExplore = _manageState;
+                _manageState = false;
+                if (restoreExplore && Game.IsReady
+                                   && Game.Manager.States.Current == GameState.Dialogue)
+                    Game.Manager.States.TransitionTo(GameState.Explore);
+            }
+            if (_afterDialogue.Count > 0)
+            {
+                var pending = _afterDialogue.ToArray();
+                _afterDialogue.Clear();
+                if (_abortStopIssued || _abortRequested)
+                    return;
+                StartCoroutine(RunAfterDialogueWhenExploring(pending));
+            }
+        }
+
+        IEnumerator RunAfterDialogueWhenExploring(Action[] pending)
+        {
+            float deadline = Time.realtimeSinceStartup + 2f;
+            while (Game.IsReady && Game.Manager.States.Current != GameState.Explore
+                                && Time.realtimeSinceStartup < deadline)
+                yield return null;
+            yield return null;
+            if (!Game.IsReady || Game.Manager.States.Current != GameState.Explore)
+                yield break;
+            foreach (var action in pending)
+                try { action(); }
+                catch (Exception exception) { Debug.LogWarning($"[Lattice] AFTER_DIALOGUE_FAIL {exception.GetType().Name}: {exception.Message}"); }
+        }
+
+        /// <summary>Harness/caller-safe replacement for invoking Runner.Stop directly.
+        /// Directorless camera ownership is released even if Yarn does not raise its
+        /// completion event during cancellation.</summary>
+        public void StopAndRestoreCamera(string reason)
+        {
+            try
+            {
+                if (Runner != null && Runner.IsDialogueRunning)
+                    RequestDialogueAbort(reason);
+            }
+            finally
+            {
+                try { ReleaseFallbackCamera(reason, .1f); }
+                finally
+                {
+                    bool restoreExplore = _manageState;
+                    _manageState = false;
+                    if (restoreExplore && Game.IsReady
+                                       && Game.Manager.States.Current == GameState.Dialogue)
+                        Game.Manager.States.TransitionTo(GameState.Explore);
+                }
+            }
+        }
+
+        // ---------- Yarn commands (registered once; delegate to the scene's director,
+        // or to the director-less fallbacks below — Act 2's trigger-fired staged beats
+        // (flashes, the awakening, the springs) run cam/sfx/bgm without a full
+        // CutsceneDirector, so these commands must degrade gracefully, never throw ----------
+
+        static CutsceneDirector Director =>
+            ActiveDirector != null ? ActiveDirector
+                : throw new InvalidOperationException("Yarn staging command used with no active CutsceneDirector");
+
+        void RegisterBuiltins()
+        {
+            // Flags (story state lives in FlagService, not Yarn variables, so it saves/loads).
+            Runner.AddCommandHandler("set_flag", (Action<string, bool>)((key, value) =>
+            {
+                Effect($"set_flag {key}={value}");
+                Game.Manager.Flags.SetBool(key, value);
+            }));
+            Runner.AddFunction("flag", (Func<string, bool>)(key => Game.Manager.Flags.GetBool(key)));
+
+            // Actor staging (director-only; warns and continues without one).
+            Runner.AddCommandHandler("walk", (Action<string, float, float, float>)((actor, x, z, speed) =>
+            {
+                if (ActiveDirector != null) Director.CmdWalk(actor, x, z, speed);
+                else WarnNoDirector("walk");
+            }));
+            Runner.AddCommandHandler("walkw", (Func<string, float, float, float, IEnumerator>)(
+                (actor, x, z, speed) => ActiveDirector != null
+                    ? TrackStagingRoutine(Director.CmdWalkWait(actor, x, z, speed))
+                    : TrackStagingRoutine(NoopRoutine("walkw"))));
+            Runner.AddCommandHandler("face", (Func<string, string, IEnumerator>)((actor, target) =>
+                TrackStagingRoutine(ActiveDirector != null
+                    ? Director.CmdFace(actor, target) : NoopRoutine("face"))));
+            // POLISH-54 mark blocking: <<walkm Roka Dais 1.6>> / <<facem Shaza Throne>>.
+            Runner.AddCommandHandler("walkm", (Func<string, string, float, IEnumerator>)(
+                (actor, mark, speed) => TrackStagingRoutine(ActiveDirector != null
+                    ? Director.CmdWalkMark(actor, mark, speed) : NoopRoutine("walkm"))));
+            Runner.AddCommandHandler("facem", (Func<string, string, IEnumerator>)((actor, mark) =>
+                TrackStagingRoutine(ActiveDirector != null
+                    ? Director.CmdFaceMark(actor, mark) : NoopRoutine("facem"))));
+            Runner.AddCommandHandler("faceyaw", (Func<string, float, IEnumerator>)((actor, yaw) =>
+                TrackStagingRoutine(ActiveDirector != null
+                    ? Director.CmdFaceYaw(actor, yaw) : NoopRoutine("faceyaw"))));
+            Runner.AddCommandHandler("anim", (Action<string, float>)((actor, speed) =>
+            {
+                if (ActiveDirector != null) Director.CmdAnim(actor, speed);
+                else WarnNoDirector("anim");
+            }));
+            Runner.AddCommandHandler("emote", (Action<string, string>)((actor, symbol) =>
+            {
+                if (ActiveDirector != null) Director.CmdEmote(actor, symbol);
+                else WarnNoDirector("emote");
+            }));
+            Runner.AddCommandHandler("actor_visible", (Action<string, bool>)((actor, visible) =>
+            {
+                if (ActiveDirector != null) Director.CmdActorVisible(actor, visible);
+                else WarnNoDirector("actor_visible");
+            }));
+
+            // Camera: director when present, named-vcam fallback otherwise.
+            Runner.AddCommandHandler("cam", (Action<string, float>)((name, blend) =>
+            {
+                if (ActiveDirector != null) Director.CmdCamera(name, blend);
+                else FallbackCamera(name, blend);
+            }));
+
+            // Audio: director's bank when present, the configured banks otherwise.
+            Runner.AddCommandHandler("bgm", (Action<string, float>)((name, fade) =>
+            {
+                if (ActiveDirector != null) { Director.CmdBgm(name, fade); return; }
+                var clip = FindBgm(name);
+                if (clip != null) Game.Audio.PlayBgm(clip, fade);
+                else Debug.LogWarning($"[Lattice] BGM cue '{name}' not found (no director)");
+            }));
+            Runner.AddCommandHandler("bgm_stop", (Action<float>)(fade => Game.Audio.StopBgm(fade)));
+            Runner.AddCommandHandler("sfx", (Action<string, float>)((name, volume) =>
+            {
+                if (ActiveDirector != null) { Director.CmdSfx(name, volume); return; }
+                var clip = FindSfx(name);
+                if (clip != null) Game.Audio.PlaySfx(clip, volume);
+                else Debug.LogWarning($"[Lattice] SFX cue '{name}' not found (no director)");
+            }));
+
+            // Screen FX.
+            Runner.AddCommandHandler("shake", (Action<float>)(intensity => ScreenFx.Ensure().Shake(intensity)));
+            Runner.AddCommandHandler("flash", (Action<float, float>)((seconds, alpha) =>
+                ScreenFx.Ensure().Flash(new Color(1f, 1f, 1f, alpha), seconds)));
+            Runner.AddCommandHandler("letterbox", (Action<bool>)(on => ScreenFx.Ensure().Letterbox(on)));
+            Runner.AddCommandHandler("fadeout", (Func<float, IEnumerator>)(seconds =>
+                TrackStagingRoutine(ScreenFx.Ensure().FadeTo(1f, SkipScale(seconds)))));
+            Runner.AddCommandHandler("fadein", (Func<float, IEnumerator>)(seconds =>
+                TrackStagingRoutine(ScreenFx.Ensure().FadeTo(0f, SkipScale(seconds)))));
+
+            // The built-in wait yields one opaque WaitForSeconds and cannot notice an
+            // abort until its full delay elapses. Use a frame-wise tracked equivalent.
+            Runner.RemoveCommandHandler("wait");
+            Runner.AddCommandHandler("wait", (Func<float, IEnumerator>)(seconds =>
+                TrackStagingRoutine(AbortableWait(seconds))));
+
+            // Items (real inventory arrives Phase 6; the beat is staged now).
+            Runner.AddCommandHandler("give_item", (Action<string>)(itemName =>
+            {
+                Effect($"give_item {itemName}");
+                if (ActiveDirector != null) Director.CmdGiveItem(itemName);
+                // The "potion" icon doubles as the item-get chime key (MetaHub toast
+                // audio); the director path plays its own ItemGet cue instead.
+                else CoreEvents.RaiseToast($"Received: {itemName}", "potion");
+            }));
+
+            // Quests (Phase 6): NPC dialogue drives accept/decline/turn-in through the hooks.
+            Runner.AddFunction("quest_state", (Func<string, int>)(id => QuestStateHook?.Invoke(id) ?? 0));
+            Runner.AddFunction("quests_done", (Func<int>)(() => QuestsDoneHook?.Invoke() ?? 0));
+            Runner.AddCommandHandler("quest_accept", (Action<string>)(id =>
+            {
+                Effect($"quest_accept {id}");
+                QuestAcceptHook?.Invoke(id);
+            }));
+            Runner.AddCommandHandler("quest_turnin", (Action<string>)(id =>
+            {
+                Effect($"quest_turnin {id}");
+                QuestTurnInHook?.Invoke(id);
+            }));
+            Runner.AddCommandHandler("give_item_id", (Action<string, int>)((id, count) =>
+            {
+                Effect($"give_item_id {id}x{count}");
+                GiveItemHook?.Invoke(id, count);
+            }));
+
+            // Story stage (Phase 8): every Mooncreek script branches on the act-1 beat.
+            Runner.AddFunction("stage", (Func<int>)(() => StoryStage.Get()));
+            Runner.AddCommandHandler("set_stage", (Action<int>)(stage =>
+            {
+                Effect($"set_stage {stage}");
+                StoryStage.Set(stage);
+            }));
+            Runner.AddFunction("int_flag", (Func<string, int>)(key => Game.Manager.Flags.GetInt(key, 0)));
+            Runner.AddCommandHandler("set_int_flag", (Action<string, int>)((key, value) =>
+            {
+                Effect($"set_int_flag {key}={value}");
+                Game.Manager.Flags.SetInt(key, value);
+            }));
+        }
+
+        // ---------- director-less fallbacks (Phase 10) ----------
+
+        static void WarnNoDirector(string command) =>
+            Debug.LogWarning($"[Lattice] yarn '{command}' used with no active CutsceneDirector — skipped");
+
+        static IEnumerator NoopRoutine(string command)
+        {
+            WarnNoDirector(command);
+            yield break;
+        }
+
+        /// <summary>
+        /// Yarn clears its cancellation token as soon as presenters finish. Calling
+        /// Stop while an IEnumerator command is still pending can therefore let that
+        /// command resume a stopped VM. Fence cancellation at the command boundary;
+        /// camera/player handback remains synchronous while Yarn stops on the next frame.
+        /// </summary>
+        public void RequestDialogueAbort(string reason)
+        {
+            Skipping = false;
+            if (Runner == null || !Runner.IsDialogueRunning)
+                return;
+            _abortRequested = true;
+            _abortStopIssued = false;
+            if (_activeStagingRoutines == 0)
+            {
+                IssueAbortStop(reason);
+                StartCoroutine(ReleaseAbortFenceNextFrame());
+            }
+        }
+
+        IEnumerator TrackStagingRoutine(IEnumerator routine)
+        {
+            _activeStagingRoutines++;
+            try
+            {
+                while (!_abortRequested && routine != null && routine.MoveNext())
+                    yield return routine.Current;
+            }
+            finally
+            {
+                _activeStagingRoutines = Mathf.Max(0, _activeStagingRoutines - 1);
+                if (_abortRequested)
+                {
+                    IssueAbortStop("staging-command-boundary");
+                    // IssueAbortStop synchronously starts presenter completion. The line
+                    // presenter has observed this true fence and yielded; releasing here
+                    // lets it finish only after OnCommand has observed cancellation.
+                    _abortCompletionFence = false;
+                    _abortRequested = false;
+                }
+            }
+        }
+
+        IEnumerator AbortableWait(float seconds)
+        {
+            float remaining = Mathf.Max(0f, seconds);
+            while (remaining > 0f && !_abortRequested && !Skipping)
+            {
+                remaining -= Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        /// <summary>A scripted fade under skip still happens — it just stops being a beat.</summary>
+        static float SkipScale(float seconds) => Skipping ? Mathf.Min(seconds, 0.05f) : seconds;
+
+        void IssueAbortStop(string reason)
+        {
+            if (_abortStopIssued || Runner == null || !Runner.IsDialogueRunning)
+                return;
+            _abortStopIssued = true;
+            _abortCompletionFence = true;
+            Debug.Log($"[Lattice] DIALOGUE_ABORT_BOUNDARY reason={reason} " +
+                      $"activeCommands={_activeStagingRoutines}");
+            Runner.Stop().Forget();
+        }
+
+        IEnumerator ReleaseAbortFenceNextFrame()
+        {
+            yield return null;
+            _abortCompletionFence = false;
+            _abortRequested = false;
+        }
+
+        AudioClip FindBgm(string name)
+        {
+            var clip = Cues != null ? Cues.Bgm(name) : null;
+            if (clip != null)
+                return clip;
+            foreach (var bank in ExtraCues)
+            {
+                clip = bank != null ? bank.Bgm(name) : null;
+                if (clip != null)
+                    return clip;
+            }
+            return null;
+        }
+
+        AudioClip FindSfx(string name)
+        {
+            var clip = Cues != null ? Cues.Sfx(name) : null;
+            if (clip != null)
+                return clip;
+            foreach (var bank in ExtraCues)
+            {
+                clip = bank != null ? bank.Sfx(name) : null;
+                if (clip != null)
+                    return clip;
+            }
+            return null;
+        }
+
+        /// <summary>
+        /// Named-vcam switch without a director: cutscene vcams follow the CAM_ prefix
+        /// convention; "CAM_Gameplay"/"CM_Gameplay" hands control back to the scene's
+        /// follow camera. Never touches non-CAM_ vcams except to restore CM_Gameplay.
+        /// </summary>
+        void FallbackCamera(string name, float blend)
+        {
+            var brain = Camera.main != null ? Camera.main.GetComponent<Unity.Cinemachine.CinemachineBrain>() : null;
+            if (brain != null)
+                brain.DefaultBlend = new Unity.Cinemachine.CinemachineBlendDefinition(
+                    blend <= 0.01f
+                        ? Unity.Cinemachine.CinemachineBlendDefinition.Styles.Cut
+                        : Unity.Cinemachine.CinemachineBlendDefinition.Styles.EaseInOut,
+                    blend);
+            bool toGameplay = name.Equals("CAM_Gameplay", StringComparison.OrdinalIgnoreCase)
+                || name.Equals("CM_Gameplay", StringComparison.OrdinalIgnoreCase);
+            var all = UnityEngine.Object.FindObjectsByType<Unity.Cinemachine.CinemachineCamera>(
+                FindObjectsInactive.Include, FindObjectsSortMode.None);
+            var activeScene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+            Unity.Cinemachine.CinemachineCamera target = null;
+            Unity.Cinemachine.CinemachineCamera legacyGameplay = null;
+            foreach (var cam in all)
+            {
+                if (cam == null || cam.gameObject.scene != activeScene)
+                    continue;
+                if (toGameplay && cam.name.Equals("CM_Gameplay", StringComparison.OrdinalIgnoreCase))
+                    target = cam;
+                else if (toGameplay && cam.name.Equals("CAM_Gameplay", StringComparison.OrdinalIgnoreCase))
+                    legacyGameplay = cam;
+                else if (!toGameplay && cam.name.Equals(name, StringComparison.OrdinalIgnoreCase))
+                    target = cam;
+            }
+            if (target == null && toGameplay)
+                target = legacyGameplay;
+
+            if (target == null)
+            {
+                string discovered = string.Join(",", Array.ConvertAll(all,
+                    camera => camera != null && camera.gameObject.scene == activeScene ? camera.name : null));
+                if (toGameplay)
+                {
+                    Debug.LogError($"[Lattice] CAMERA_HANDBACK_FAIL owner=DialogueSystem " +
+                                   $"scene={activeScene.name} requested={name} discovered=[{discovered}]");
+                    ReleaseFallbackLeaseOnly("gameplay-camera-missing");
+                }
+                else
+                {
+                    // A miss must never demote the healthy gameplay camera. The dialogue
+                    // continues without the authored shot and completion still owns state.
+                    Debug.LogWarning($"[Lattice] fallback camera '{name}' not found " +
+                                     $"scene={activeScene.name} discovered=[{discovered}]");
+                }
+                return;
+            }
+
+            if (!toGameplay && target != null && !_fallbackCameraActive)
+            {
+                _fallbackCameraLease = CameraOwnership.Acquire(this, $"YarnFallback:{name}");
+                _fallbackCameraActive = true;
+            }
+
+            foreach (var cam in all)
+            {
+                if (cam == null || cam.gameObject.scene != activeScene)
+                    continue;
+                bool gameplay = cam.name.Equals("CM_Gameplay", StringComparison.OrdinalIgnoreCase)
+                                || cam.name.Equals("CAM_Gameplay", StringComparison.OrdinalIgnoreCase);
+                bool staged = cam.name.StartsWith("CAM_", StringComparison.OrdinalIgnoreCase) && !gameplay;
+                if (gameplay || staged)
+                    cam.Priority = cam == target ? (toGameplay ? 20 : 30) : 10;
+            }
+
+            if (toGameplay)
+                ReleaseFallbackLeaseOnly("explicit-gameplay-command");
+        }
+
+        void ReleaseFallbackCamera(string reason, float blend)
+        {
+            if (!_fallbackCameraActive && _fallbackCameraLease == null)
+                return;
+            try
+            {
+                FallbackCamera("CM_Gameplay", blend);
+            }
+            finally
+            {
+                ReleaseFallbackLeaseOnly(reason);
+            }
+        }
+
+        void ReleaseFallbackLeaseOnly(string reason)
+        {
+            if (!_fallbackCameraActive && _fallbackCameraLease == null)
+                return;
+            _fallbackCameraActive = false;
+            var lease = _fallbackCameraLease;
+            _fallbackCameraLease = null;
+            bool restored = true;
+            try
+            {
+                lease?.Dispose();
+            }
+            catch (Exception exception)
+            {
+                restored = false;
+                Debug.LogError($"[Lattice] CAMERA_HANDBACK_FAIL owner=DialogueSystem " +
+                               $"reason={reason} phase=lease error={exception.GetType().Name}");
+            }
+            finally
+            {
+                try { CameraOwnership.ReleaseAll(this); }
+                catch (Exception exception)
+                {
+                    restored = false;
+                    Debug.LogError($"[Lattice] CAMERA_HANDBACK_FAIL owner=DialogueSystem " +
+                                   $"reason={reason} phase=release-all error={exception.GetType().Name}");
+                }
+            }
+            if (restored)
+                Debug.Log($"[Lattice] CAMERA_HANDBACK_OK owner=DialogueSystem reason={reason}");
+        }
+    }
+}

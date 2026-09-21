@@ -1,0 +1,323 @@
+using System.Linq;
+using UnityEngine;
+using UnityEngine.InputSystem;
+
+namespace Lattice.Core
+{
+    /// <summary>
+    /// Gameplay input bindings (keyboard + gamepad), built in code rather than from an
+    /// .inputactions asset — diffs cleanly in git and never depends on editor importers.
+    /// UI navigation is separate: UiActions, the code-built map PadSupport hands every
+    /// scene's InputSystemUIInputModule (PadBridge makes DirectInput pads Gamepads first).
+    /// Keyboard bindings are player-rebindable (settings menu); overrides persist in
+    /// PlayerPrefs and are skipped in batchmode/smoke runs so automation gets stock keys.
+    /// </summary>
+    public sealed class GameInput
+    {
+        const string OverridesKey = "Lattice.BindingOverrides";
+
+        public readonly InputActionAsset Asset;
+        readonly InputAction _move, _interact, _menu, _swap, _cancel, _sprint, _minimap, _battleSpeed, _survey,
+            _menuPrev, _menuNext;
+
+        // ---------------------------------------------------------------
+        // THE EXCLUSIVE CLAIM (bug-20260819-054205 / -054425)
+        // ---------------------------------------------------------------
+        // A modal that owns the screen must own the KEYBOARD, and neither
+        // timeScale nor GameState delivers that. timeScale=0 does not stop
+        // Update(); GameState only silences the consumers that happen to
+        // check it, and the one that did not -- GameMenu, which closes on
+        // Cancel while state==Menu -- let a BACKSPACE typed into the bug
+        // form close the pause menu underneath it. That moved the state to
+        // Explore behind the modal, which re-armed the player controller
+        // (Tab swapped the party), and left the desk restoring a _prevState
+        // that was no longer true: GameState.Menu with no menu on screen,
+        // which is an unrecoverable freeze.
+        //
+        // The claim is here rather than in each consumer because the leak
+        // is not a property of any consumer: 54 sites in 22 files read this
+        // frame and the next one written would leak too. While a claim is
+        // held every accessor reads neutral, so a modal cannot be bypassed
+        // by code that has not heard of it.
+        //
+        // A MonoBehaviour owner is checked through Unity's fake-null: if it is
+        // destroyed without releasing (a scene unload, a crash mid-modal) the
+        // claim drops on the next read instead of bricking the session. A stuck
+        // claim would be worse than the bug it prevents.
+        object _claim;
+
+        /// <summary>True while a modal holds the exclusive claim.</summary>
+        public bool Suppressed
+        {
+            get
+            {
+                // UnityEngine.Object's == is the fake-null check: a DESTROYED owner
+                // compares equal to null while the managed reference is still set.
+                if (_claim is UnityEngine.Object owner && owner == null)
+                    _claim = null;
+                return _claim != null;
+            }
+        }
+
+        /// <summary>The object currently holding the claim, or null.</summary>
+        public object Claimant => Suppressed ? _claim : null;
+
+        /// <summary>
+        /// Take exclusive gameplay input. Every accessor reads neutral until the
+        /// same owner releases. A second claimant while one is held is a bug in
+        /// the caller, not a stacking request — it is logged and refused, so a
+        /// mismatched Release can never hand the keyboard back early.
+        /// </summary>
+        public void Claim(object owner)
+        {
+            if (owner == null)
+                return;
+            if (Suppressed && !ReferenceEquals(_claim, owner))
+            {
+                Debug.LogWarning($"[Lattice] INPUT_CLAIM_CONTESTED held={_claim} wanted={owner}");
+                return;
+            }
+            _claim = owner;
+        }
+
+        /// <summary>Hand gameplay input back. Only the holder may release it.</summary>
+        public void Release(object owner)
+        {
+            if (Suppressed && !ReferenceEquals(_claim, owner))
+                return;
+            _claim = null;
+        }
+
+        // ---------- one edge, one action (bug-20260820-005223 / -000643) ----------
+        //
+        // THE LAW: a single press of Interact may cause exactly ONE thing to happen.
+        //
+        // WasPressedThisFrame() is a LATCH, not a queue: it reads true for every
+        // consumer that asks during that frame. Two of them ask. GameManager.Update
+        // closes an open message panel on an Interact edge; InteractionDetector.Update
+        // fires the interactable under the player on an Interact edge. Neither has an
+        // execution order, so in the order that actually shipped GameManager ran first,
+        // closed the panel, put the state back to Explore — and the detector, still
+        // standing on the same chest, read the SAME latched edge and reopened it.
+        //
+        // The player never gets a frame in Explore, so they cannot walk away, cannot
+        // advance, cannot do anything: every press closes the box and reopens it. That
+        // is bug-20260820-005223, and it ends a playthrough. bug-20260820-000643 is the
+        // same trap wearing the bug desk's clothes — the desk's save/restore is correct.
+        //
+        // The fix is shaped like Claim deliberately: one authority inside GameInput,
+        // and the accessor reads through it, so a consumer cannot re-enter the defect
+        // by forgetting. Consumption is OPT-IN — only a site that ACTS on the edge
+        // spends it — so no polling loop changes behaviour.
+        int _interactConsumedFrame = -1;
+
+        /// <summary>True once this frame's Interact edge has already been spent.</summary>
+        public bool InteractConsumed => _interactConsumedFrame == Time.frameCount;
+
+        /// <summary>Spend this frame's Interact edge. Call it at the moment you act on it.</summary>
+        public void ConsumeInteract() => _interactConsumedFrame = Time.frameCount;
+
+        // The same law for Cancel and Menu. A confirm dialog answers B/Backspace and
+        // Escape through the EventSystem's Cancel event; the menu underneath polls the
+        // same latched edge, so resolving the dialog spends both edges or the menu
+        // would back out (or close) on the very press that dismissed the dialog.
+        int _cancelConsumedFrame = -1, _menuConsumedFrame = -1;
+        public bool CancelConsumed => _cancelConsumedFrame == Time.frameCount;
+        public bool MenuConsumed => _menuConsumedFrame == Time.frameCount;
+        public void ConsumeCancel() => _cancelConsumedFrame = Time.frameCount;
+        public void ConsumeMenu() => _menuConsumedFrame = Time.frameCount;
+
+        public bool SurveyActive => !Suppressed && _survey.IsPressed();
+
+        public GameInput()
+        {
+            Asset = ScriptableObject.CreateInstance<InputActionAsset>();
+            Asset.name = "LatticeControls";
+            var map = Asset.AddActionMap("Gameplay");
+
+            _move = map.AddAction("Move", InputActionType.Value);
+            _move.AddCompositeBinding("2DVector")
+                .With("Up", "<Keyboard>/w").With("Down", "<Keyboard>/s")
+                .With("Left", "<Keyboard>/a").With("Right", "<Keyboard>/d");
+            _move.AddCompositeBinding("2DVector")
+                .With("Up", "<Keyboard>/upArrow").With("Down", "<Keyboard>/downArrow")
+                .With("Left", "<Keyboard>/leftArrow").With("Right", "<Keyboard>/rightArrow");
+            _move.AddBinding("<Gamepad>/leftStick");
+            _move.AddBinding("<Gamepad>/dpad");
+
+            _interact = map.AddAction("Interact", InputActionType.Button);
+            _interact.AddBinding("<Keyboard>/e");
+            _interact.AddBinding("<Keyboard>/enter");
+            _interact.AddBinding("<Gamepad>/buttonSouth");
+
+            _menu = map.AddAction("Menu", InputActionType.Button);
+            _menu.AddBinding("<Keyboard>/escape");
+            _menu.AddBinding("<Gamepad>/start");
+
+            _swap = map.AddAction("SwapCharacter", InputActionType.Button);
+            _swap.AddBinding("<Keyboard>/tab");
+            _swap.AddBinding("<Gamepad>/buttonNorth");
+
+            _cancel = map.AddAction("Cancel", InputActionType.Button);
+            _cancel.AddBinding("<Keyboard>/backspace");
+            _cancel.AddBinding("<Gamepad>/buttonEast");
+
+            _sprint = map.AddAction("Sprint", InputActionType.Button);
+            _sprint.AddBinding("<Keyboard>/leftShift");
+            _sprint.AddBinding("<Keyboard>/rightShift");
+            _sprint.AddBinding("<Gamepad>/leftStickPress");
+
+            _minimap = map.AddAction("Minimap", InputActionType.Button); // POLISH-42 toggle
+            _minimap.AddBinding("<Keyboard>/m");
+            _minimap.AddBinding("<Gamepad>/rightStickPress");
+
+            _survey = map.AddAction("Survey", InputActionType.Button);
+            _survey.AddBinding("<Keyboard>/v");
+            _survey.AddBinding("<Gamepad>/leftShoulder");
+
+            _battleSpeed = map.AddAction("BattleSpeed", InputActionType.Button); // POLISH-57 1x/2x toggle
+            _battleSpeed.AddBinding("<Keyboard>/t");
+            _battleSpeed.AddBinding("<Gamepad>/rightShoulder");
+
+            // Controller pass: turn a menu page / cycle the shop counter. Q and E on the
+            // keyboard, the shoulders on a pad. The shoulders also carry Survey (Explore)
+            // and BattleSpeed (Battle); each state consumes only its own action, so a
+            // menu never surveys and the road never turns a page.
+            _menuPrev = map.AddAction("MenuPrev", InputActionType.Button);
+            _menuPrev.AddBinding("<Keyboard>/q");
+            _menuPrev.AddBinding("<Gamepad>/leftShoulder");
+            _menuNext = map.AddAction("MenuNext", InputActionType.Button);
+            _menuNext.AddBinding("<Keyboard>/e");
+            _menuNext.AddBinding("<Gamepad>/rightShoulder");
+
+            LoadBindingOverrides();
+            Asset.Enable();
+        }
+
+        // Every accessor reads through the claim. This is the whole fix for
+        // bug-20260819-054205: there is no way to poll gameplay input past a
+        // modal that has claimed it, so a consumer cannot leak by forgetting.
+        public Vector2 Move => Suppressed ? Vector2.zero : _move.ReadValue<Vector2>();
+        public bool InteractPressed => !Suppressed && !InteractConsumed && _interact.WasPressedThisFrame();
+        public bool MenuPressed => !Suppressed && !MenuConsumed && _menu.WasPressedThisFrame();
+        public bool SwapPressed => !Suppressed && _swap.WasPressedThisFrame();
+        public bool CancelPressed => !Suppressed && !CancelConsumed && _cancel.WasPressedThisFrame();
+        public bool MenuPrevPressed => !Suppressed && _menuPrev.WasPressedThisFrame();
+        public bool MenuNextPressed => !Suppressed && _menuNext.WasPressedThisFrame();
+
+        /// <summary>
+        /// A modal that HOLDS the claim may still read Cancel through it. The confirm
+        /// dialog claims so the menu underneath cannot answer the same B or Backspace,
+        /// and reads its own answer here. Neutral for everyone else — including the
+        /// holder once it has released.
+        /// </summary>
+        public bool CancelPressedBy(object owner) =>
+            Suppressed && ReferenceEquals(_claim, owner) && !CancelConsumed && _cancel.WasPressedThisFrame();
+        public bool MinimapPressed => !Suppressed && _minimap.WasPressedThisFrame();
+        public bool BattleSpeedPressed => !Suppressed && _battleSpeed.WasPressedThisFrame(); // POLISH-57
+        /// <summary>Held variants — dialogue fast-forward (hold Cancel) and similar.</summary>
+        public bool InteractHeld => !Suppressed && _interact.IsPressed();
+        public bool CancelHeld => !Suppressed && _cancel.IsPressed();
+        public bool SprintHeld => !Suppressed && _sprint.IsPressed();
+
+        bool _sprintLatch;
+
+        /// <summary>
+        /// POLISH-58: the movement consumer's sprint query — a hold by default, a
+        /// latch under the settings toggle (UiPrefs.SprintToggle). The latch drops
+        /// whenever the game leaves Explore so a toggled sprint never survives a
+        /// menu, battle, or cutscene invisibly.
+        /// </summary>
+        public bool SprintActive => UiPrefs.SprintToggle ? _sprintLatch : SprintHeld;
+
+        /// <summary>Once per frame from GameManager.Update.</summary>
+        public void TickSprintToggle(GameState state)
+        {
+            if (!UiPrefs.SprintToggle)
+            {
+                _sprintLatch = false;
+                return;
+            }
+            if (state != GameState.Explore || Suppressed)
+                _sprintLatch = false;
+            else if (_sprint.WasPressedThisFrame())
+                _sprintLatch = !_sprintLatch;
+        }
+        /// <summary>POLISH-54: hold-to-skip a cutscene. Menu (Esc / Start) is free while a
+        /// staged beat owns the screen — the pause menu only opens from Explore — and it is
+        /// the button a player already reaches for when they want out of something.</summary>
+        public bool MenuHeld => !Suppressed && _menu.IsPressed();
+
+        /// <summary>Rebinding UI and prompts: an action by name (Interact/Menu/SwapCharacter/Cancel/Move/MenuPrev/MenuNext…).</summary>
+        public InputAction Find(string actionName) => Asset.FindAction(actionName);
+
+        /// <summary>
+        /// Index of the action's first rebindable keyboard binding: for buttons the primary
+        /// keyboard key, for Move the WASD composite part with the given name (up/down/...).
+        /// Returns -1 if none.
+        /// </summary>
+        public int KeyboardBindingIndex(InputAction action, string compositePart = null)
+        {
+            for (int i = 0; i < action.bindings.Count; i++)
+            {
+                var b = action.bindings[i];
+                if (b.isComposite)
+                    continue;
+                string path = string.IsNullOrEmpty(b.overridePath) ? b.path : b.overridePath;
+                if (!path.StartsWith("<Keyboard>"))
+                    continue;
+                if (compositePart == null && !b.isPartOfComposite)
+                    return i;
+                if (compositePart != null && b.isPartOfComposite &&
+                    string.Equals(b.name, compositePart, System.StringComparison.OrdinalIgnoreCase))
+                    return i;
+            }
+            return -1;
+        }
+
+        public void SaveBindingOverrides()
+        {
+            PlayerPrefs.SetString(OverridesKey, Asset.SaveBindingOverridesAsJson());
+            PromptService.NotifyBindingsChanged(); // POLISH-58: every surface re-renders
+        }
+
+        public void ResetBindingOverrides()
+        {
+            Asset.RemoveAllBindingOverrides();
+            PlayerPrefs.DeleteKey(OverridesKey);
+            PromptService.NotifyBindingsChanged();
+        }
+
+        void LoadBindingOverrides()
+        {
+            // Smoke/test harness and batch runs drive stock keys; a rebound Interact
+            // would silently break every automated walk.
+            if (Application.isBatchMode || System.Environment.GetCommandLineArgs().Contains("-smoketest"))
+                return;
+            string json = PlayerPrefs.GetString(OverridesKey, "");
+            if (string.IsNullOrEmpty(json))
+                return;
+            try
+            {
+                Asset.LoadBindingOverridesFromJson(json);
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogWarning($"[Lattice] Ignoring corrupt binding overrides: {e.Message}");
+                PlayerPrefs.DeleteKey(OverridesKey);
+            }
+        }
+
+        public void Dispose()
+        {
+            _claim = null;
+            Asset.Disable();
+            // EditMode coverage of the claim constructs a real GameInput; Destroy is
+            // illegal outside play mode, so the teardown has to pick the right one.
+            if (Application.isPlaying)
+                Object.Destroy(Asset);
+            else
+                Object.DestroyImmediate(Asset);
+        }
+    }
+}

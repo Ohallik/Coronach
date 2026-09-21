@@ -1,0 +1,525 @@
+using System;
+using System.Collections.Generic;
+using UnityEditor;
+using UnityEngine;
+
+namespace Lattice.EditorTools
+{
+    /// <summary>
+    /// The unification pipeline's import half (plan §3.2). Everything under
+    /// Assets/_Project/Art/Packs/ gets, automatically and on every (re)import:
+    ///  - model: import-time scale normalization (per-pack factor), no cameras/lights,
+    ///  - materials: pack material swapped to the shared Lattice/Toon shader,
+    ///    keeping base map + color. Mixing packs is safe only because of this pass.
+    /// </summary>
+    public sealed class ToonAssetPostprocessor : AssetPostprocessor
+    {
+        const string PacksRoot = "Assets/_Project/Art/Packs/";
+        const string ToonShaderName = "Lattice/Toon";
+
+        // Per-pack import scale: world rule is 1 unit = 1 m; party dogs ~0.5-0.8 u at the shoulder.
+        // Factors are empirical, measured against that rule (see ART_STYLE_GUIDE.md).
+        static readonly Dictionary<string, float> PackScale = new()
+        {
+            { "Quaternius_StylizedNatureMegaKit", 1.0f },
+            { "Quaternius_MedievalVillageMegaKit", 1.0f },
+            { "Quaternius_SciFiEssentialsKit", 1.0f },
+            { "Quaternius_FantasyPropsMegaKit", 1.0f },
+            { "Quaternius_UltimateAnimatedAnimals", 1.0f },
+            { "Quaternius_FarmAnimals", 1.0f },
+            { "Quaternius_LowPolyAnimatedAnimals", 1.0f },
+            { "Quaternius_AnimatedMonsters", 1.0f },
+            { "Quaternius_AnimatedEasyEnemies", 1.0f },
+            { "Quaternius_ModularDungeons_itch", 1.0f },
+            { "Kenney_NatureKit", 1.0f },
+            { "Kenney_HolidayKit", 1.0f },
+            { "Kenney_CastleKit", 1.0f },
+            { "PolyPizza_Villagers", 1.0f },
+            // POLISH-04: bear base + human wardrobe + human animation library.
+            { "Quaternius_UltimateMonsters", 1.0f },
+            { "Quaternius_ModularOutfitsFantasy", 1.0f },
+            { "Quaternius_UniversalAnimationLibrary", 1.0f },
+            // POLISH-61E biome shelf: factors start at 1.0 and are corrected here
+            // (never on scene instances) from the intake bounds probe.
+            { "Kenney_ModularCaveKit", 1.0f },
+            { "Kenney_ModularSpaceKit", 1.0f },
+            { "Kenney_MiniForest", 1.0f },
+            { "FreeGameAssets_DesertMountains", 1.0f },
+            { "JellySquish_OasisPack", 1.0f },
+            { "EmaceArt_RaftOnTheDesert", 1.0f },
+            { "k0rveen_LowPolyRuins", 1.0f },
+            { "KayKit_DungeonRemastered", 1.0f },
+            { "SpaceRobots_LowPolyDesert", 1.0f },
+            { "Palmov_AtmosphericLocations", 1.0f },
+            { "SineVFX_TranslucentCrystals", 1.0f },
+        };
+
+        static bool InPacks(string path) => path.Replace('\\', '/').StartsWith(PacksRoot);
+
+        // POLISH-01: leaf-card materials (canopies built from alpha-cutout cards). The
+        // original toon swap dropped the alpha channel — transparent background pixels
+        // rendered as OPAQUE BLACK shards ("torn black confetti" canopies, backlog #49).
+        // These names mark textures/materials that need alpha clip + double-sided.
+        static bool IsFoliageName(string name)
+        {
+            var n = name.ToLowerInvariant();
+            return n.Contains("leaf") || n.Contains("leaves") || n.Contains("grass")
+                || n.Contains("flower") || n.Contains("frond") || n.Contains("foliage")
+                || n.Contains("ivy") || n.Contains("vine");
+        }
+
+        /// <summary>Pipeline-stage suffixes the Meshy bridge and the rigging lane append
+        /// to one subject's files. Stripping them (repeatedly, from the end) yields the
+        /// subject stem: `Lyra_Rigged` and `Lyra_Meshy_base_color` are both `Lyra`;
+        /// `Desert_WindcatcherCistern_Meshy` is `Desert_WindcatcherCistern`.</summary>
+        static readonly string[] StageSuffixes =
+        {
+            "_base_color", "_quantized", "_meshy", "_rigged", "_fixed", "_retexture",
+            // The concatenated and animation-lane conventions the first cut missed —
+            // omitting them stripped Lyra_MeshyRigged and the P65 *_Static enemies of
+            // their shipped albedos for one sweep. A stage list is part of the gate's
+            // population claim; Polish63AlbedoSubjectTests holds each entry red+green.
+            "_meshyrigged", "_static", "_running", "_walking", "_fbx",
+        };
+
+        /// <summary>P63 i17 (#623): the subject of a generated asset is its FULL stem with
+        /// pipeline-stage suffixes stripped — never the leading token alone. The old
+        /// first-token rule made `Desert_WindcatcherCistern_Meshy` and
+        /// `Desert_SupportHeroes` the same subject (`Desert`), so a forced reimport
+        /// painted the cistern's albedo onto the heroes — the #379 wrong-texture class,
+        /// reachable from any Library rebuild. Region-prefixed packs (P34 postcards)
+        /// name their models `Region_Subject`; the region is not a subject.</summary>
+        public static string SubjectStem(string stem)
+        {
+            bool stripped = true;
+            while (stripped)
+            {
+                stripped = false;
+                foreach (var s in StageSuffixes)
+                {
+                    if (stem.Length > s.Length && stem.EndsWith(s, StringComparison.OrdinalIgnoreCase))
+                    {
+                        stem = stem.Substring(0, stem.Length - s.Length);
+                        stripped = true;
+                    }
+                }
+            }
+            return stem;
+        }
+
+        /// <summary>An albedo may bind to a model only when both reduce to the same
+        /// subject stem AND the model is itself a staged derivative (`X_Rigged`,
+        /// `X_Meshy`, ...). A bare-named model is its own authored subject — the P34
+        /// quantized landmarks are DESIGNED color-only, and handing one a sibling's
+        /// texture repaints shipped art through foreign UVs (#379, #623).</summary>
+        public static bool AlbedoBelongsToModel(string albedoStem, string modelStem)
+        {
+            if (!SubjectStem(albedoStem).Equals(SubjectStem(modelStem), StringComparison.OrdinalIgnoreCase))
+                return false;
+            return !SubjectStem(modelStem).Equals(modelStem, StringComparison.OrdinalIgnoreCase);
+        }
+
+        static string PackOf(string path)
+        {
+            var p = path.Replace('\\', '/');
+            if (!p.StartsWith(PacksRoot)) return null;
+            var rest = p.Substring(PacksRoot.Length);
+            var slash = rest.IndexOf('/');
+            return slash < 0 ? rest : rest.Substring(0, slash);
+        }
+
+        void OnPreprocessModel()
+        {
+            if (!InPacks(assetPath)) return;
+            var importer = (ModelImporter)assetImporter;
+            importer.importCameras = false;
+            importer.importLights = false;
+            importer.importVisibility = false;
+            importer.useFileScale = true;
+            var pack = PackOf(assetPath);
+            if (pack != null && PackScale.TryGetValue(pack, out var scale))
+                importer.globalScale = scale;
+            else if (pack != null && pack.StartsWith("Generated", StringComparison.Ordinal))
+                importer.globalScale = 1.0f;
+            // Google Poly exports (the .obj villagers) are authored ~100× world scale —
+            // an 86-unit cat. The pack's FBX entries (Quaternius/Lousberg) are sane.
+            if (pack == "PolyPizza_Villagers"
+                && assetPath.EndsWith(".obj", StringComparison.OrdinalIgnoreCase))
+                importer.globalScale = 0.01f;
+            // Pack materials are flat-shaded; import them so we can capture color/texture,
+            // then the toon swap below unifies the shading.
+            importer.materialImportMode = ModelImporterMaterialImportMode.ImportStandard;
+        }
+
+        // POLISH-20 (#73) import-gate color corrections, by embedded material name.
+        static readonly Dictionary<string, (Color baseColor, Color? emission)> ColorCorrections = new()
+        {
+            ["dirt"] = (new Color(0.52f, 0.40f, 0.29f), null),        // was salmon 0.89,0.51,0.34
+            ["grass"] = (new Color(0.42f, 0.60f, 0.32f), null),       // was mint 0.17,0.85,0.72
+            ["woodBark"] = (new Color(0.45f, 0.33f, 0.22f), null),    // palm trunks
+            ["leafsGreen"] = (new Color(0.36f, 0.58f, 0.33f), null),  // palm fronds
+            ["wood"] = (new Color(0.55f, 0.41f, 0.28f), null),        // was 1.0,0.56,0.38 salmon-pink
+            // POLISH-21: the #73 class member P20 missed — campfire logs / fence
+            // rails rendered orange safety-plastic (Snowdrift's fire ring petals)
+            ["woodDark"] = (new Color(0.36f, 0.27f, 0.20f), null),    // was salmon 0.77,0.43,0.29
+            ["leafsFall"] = (new Color(0.82f, 0.50f, 0.22f), null),   // tame the neon autumn
+            // #78: dungeon torch class — warm bronze bracket, flame that actually glows
+            ["DarkMetal"] = (new Color(0.24f, 0.19f, 0.13f), null),
+            ["Fire"] = (new Color(1f, 0.58f, 0.20f), new Color(1f, 0.45f, 0.12f) * 1.3f),
+            // #76: the ModularDungeons pack-shared floor material renders columns,
+            // torch claws and shelf masses pitch-black — lift to a readable stone
+            ["Grey_Floor"] = (new Color(0.30f, 0.30f, 0.36f), null),
+            ["DarkGrey_Floor"] = (new Color(0.22f, 0.22f, 0.27f), null),
+        };
+
+        // Runs for every material a model import generates: the toon unification swap.
+        void OnPostprocessMaterial(Material material)
+        {
+            if (!InPacks(assetPath)) return;
+            var toon = Shader.Find(ToonShaderName);
+            if (toon == null)
+            {
+                Debug.LogWarning($"[Lattice] toon shader missing while importing {assetPath}");
+                return;
+            }
+
+            var baseMap = material.HasProperty("_BaseMap") ? material.GetTexture("_BaseMap") : null;
+            if (baseMap == null && material.HasProperty("_MainTex"))
+                baseMap = material.GetTexture("_MainTex");
+            if (baseMap == null)
+                baseMap = FindTextureForMaterial(material.name);
+            var baseColor = material.HasProperty("_BaseColor") ? material.GetColor("_BaseColor")
+                : material.HasProperty("_Color") ? material.GetColor("_Color")
+                : Color.white;
+
+            material.shader = toon;
+            material.SetTexture("_BaseMap", baseMap);
+            material.SetColor("_BaseColor", baseColor);
+
+            // POLISH-20 (#73): several Kenney/Quaternius FBXs export garish source
+            // colors that read as plastic through the toon ramp (salmon 'dirt' wood
+            // and cliff faces, mint-teal 'grass' caps and palm fronds). Correct them
+            // at the import gate so every user of the shared embedded material heals
+            // at once — scene tints stay downstream.
+            if (ColorCorrections.TryGetValue(material.name, out var fix))
+            {
+                material.SetColor("_BaseColor", fix.baseColor);
+                if (fix.emission.HasValue)
+                    material.SetColor("_EmissionColor", fix.emission.Value);
+            }
+
+            // POLISH-61E style-gate retint (probe-judged, docs/polish/P61E-intake):
+            // the k0rveen ruins ship a near-black navy albedo on the arch/column/wall
+            // families and mud-dark rocks — on the toon ramp they render as holes in
+            // the frame. Retint the color families to the world's weathered-stone
+            // register; the sandstone family already reads and stays. The *_glow
+            // slots become Creator cyan emission (obelisks double as ancient tech —
+            // the one Creator vocabulary law).
+            if (PackOf(assetPath) == "k0rveen_LowPolyRuins")
+            {
+                var c = material.GetColor("_BaseColor");
+                bool Near(float r, float g, float b) =>
+                    Mathf.Abs(c.r - r) + Mathf.Abs(c.g - g) + Mathf.Abs(c.b - b) < 0.12f;
+                if (Near(0.16f, 0.19f, 0.38f)) material.SetColor("_BaseColor", new Color(0.60f, 0.58f, 0.52f));
+                else if (Near(0.20f, 0.15f, 0.10f)) material.SetColor("_BaseColor", new Color(0.44f, 0.40f, 0.34f));
+                else if (Near(0.42f, 0.49f, 0.57f)) material.SetColor("_BaseColor", new Color(0.55f, 0.57f, 0.61f));
+                if (material.name.EndsWith("_glow", StringComparison.OrdinalIgnoreCase))
+                {
+                    material.SetColor("_BaseColor", new Color(0.85f, 0.97f, 1f));
+                    material.SetColor("_EmissionColor", new Color(0.25f, 0.9f, 1.0f) * 1.6f);
+                }
+            }
+
+            // POLISH-01: canopy/foliage cards clip their alpha and render double-sided,
+            // so the transparent card background stops rendering as black shards.
+            if (IsFoliageName(material.name) || (baseMap != null && IsFoliageName(baseMap.name)))
+            {
+                material.EnableKeyword("_ALPHATEST_ON");
+                material.SetFloat("_AlphaTest", 1f);
+                material.SetFloat("_Cutoff", 0.4f);
+                material.SetFloat("_Cull", (float)UnityEngine.Rendering.CullMode.Off);
+                // POLISH-61C: foliage rides the region wind (_FbWindG). The height
+                // mask (z, object u) keeps bases planted, so a material shared by
+                // ground pads and canopies sways only where there is height to sway.
+                material.EnableKeyword("_WIND_ON");
+                material.SetFloat("_Wind", 1f);
+                material.SetVector("_WindParams", new Vector4(0.09f, 1.7f, 2.2f, 0.45f));
+            }
+        }
+
+        // POLISH-61C value pass: bake per-vertex AO + the base-darkening gradient
+        // into every STATIC pack mesh at the import gate (VertexValueBake — see
+        // its header for why this replaced the planned Blender lane), then flip
+        // _VCOLOR_ON on the per-FBX embedded materials. A colorless wearer is
+        // impossible because embedded materials never leave the file and every
+        // mesh in the file was just baked. Skinned models are excluded (P60 owns
+        // rigs; a rig's materials must not multiply undefined color).
+        void OnPostprocessModel(GameObject root)
+        {
+            if (!InPacks(assetPath)) return;
+            if (root.GetComponentsInChildren<SkinnedMeshRenderer>(true).Length > 0) return;
+            if (VertexValueBake.Apply(root) == 0) return;
+            var filters = root.GetComponentsInChildren<MeshFilter>(true);
+            foreach (var f in filters)
+                if (f.sharedMesh == null || f.sharedMesh.colors.Length == 0)
+                    return;
+            foreach (var r in root.GetComponentsInChildren<MeshRenderer>(true))
+            {
+                foreach (var m in r.sharedMaterials)
+                {
+                    if (m == null) continue;
+                    m.EnableKeyword("_VCOLOR_ON");
+                    m.SetFloat("_VColor", 1f);
+                }
+            }
+        }
+
+        // FBX exports frequently lose the external texture link. Quaternius naming convention:
+        // material "M_Trim_01" -> texture "T_Trim_01_BaseColor". Resolve by stem within the
+        // pack; fall back to a single shared atlas if the pack has one.
+        Texture2D FindTextureForMaterial(string materialName) =>
+            ResolveAlbedo(assetPath, materialName);
+
+        /// <summary>
+        /// THE ONE ALBEDO AUTHORITY. Static so the bugfix lint can ask the same question
+        /// the importer asks — "does this pack contain the texture this material is
+        /// named for?" — instead of re-implementing the answer and drifting from it.
+        /// </summary>
+        internal static Texture2D ResolveAlbedo(string assetPath, string materialName)
+        {
+            var pack = PackOf(assetPath);
+            if (pack == null) return null;
+
+            // P30 generated FBXs reference Meshy's generic texture_0.png. The bridge
+            // caches collision-safe names beside the model; bind the model-stem base
+            // map here so the import swap proves it preserves generated albedo.
+            if (pack.StartsWith("Generated", StringComparison.Ordinal))
+            {
+                var modelStem = System.IO.Path.GetFileNameWithoutExtension(assetPath);
+                Texture2D sameSubject = null;
+                bool ambiguous = false;
+                foreach (var guid in AssetDatabase.FindAssets("t:Texture2D", new[] { PacksRoot + pack }))
+                {
+                    var p = AssetDatabase.GUIDToAssetPath(guid);
+                    var file = System.IO.Path.GetFileNameWithoutExtension(p);
+                    if (file.Equals(modelStem + "_base_color", StringComparison.OrdinalIgnoreCase))
+                        return AssetDatabase.LoadAssetAtPath<Texture2D>(p);
+                    // POLISH-64: exact-stem alone is too strict for a PIPELINE STAGE
+                    // suffix. Meshy writes the albedo beside the mesh it came from
+                    // (`Lyra_Meshy_base_color.png`), but the file that ships is the
+                    // rigged derivative (`Lyra_Rigged.fbx`) — different stem, same
+                    // subject, same UVs. The pilot rendered as a white silhouette for
+                    // exactly this reason and needed a hand-built material to recover.
+                    //
+                    // Match on the SUBJECT STEM (the full stem with stage suffixes
+                    // stripped — #623) so every stage of one character's chain —
+                    // _Meshy, _Rigged, _Fixed, _Retexture — finds the one albedo that
+                    // belongs to it, and a region prefix shared with an unrelated
+                    // model can never smear a texture across subjects.
+                    if (!file.EndsWith("_base_color", StringComparison.OrdinalIgnoreCase)) continue;
+                    if (!AlbedoBelongsToModel(file, modelStem))
+                        continue;
+                    // Ambiguity is a HARD STOP, not a coin flip. Two albedos under one
+                    // subject token means the token does not identify a subject in this
+                    // pack, and guessing is how #379 painted Crownport's monument onto
+                    // every landmark in the game. Untextured is recoverable; wrong-
+                    // textured shipped for three passes without anyone naming it.
+                    if (sameSubject != null) ambiguous = true;
+                    sameSubject = AssetDatabase.LoadAssetAtPath<Texture2D>(p);
+                }
+                if (sameSubject != null && !ambiguous) return sameSubject;
+            }
+
+            // ------------------------------------------------------------------
+            // bug-20260819-052748 - OLD HOOT RENDERED FLAT WHITE FOR THE WHOLE
+            // OPENING CUTSCENE OF THE GAME, and the reason was a naming convention.
+            //
+            // Unity's OBJ importer names a material after the OBJECT that wears it
+            // with "Mat" appended: the owl arrives as `GreatHornedOwl_meshMat`, the
+            // cat as `Geo_CatMat`. The stem cleanup only stripped `M_`-style
+            // PREFIXES, so the stem stayed "greathornedowl_meshmat", the albedo
+            // beside it is "GreatHornedOwl_BaseColor", and `name.Contains(stem)`
+            // could never be true. No texture, white material, and no gate in this
+            // project able to see it. (The first fix written here stripped `_mat`
+            // WITH an underscore and still missed it - a probe of the real asset,
+            // not a reading of the .mtl, is what produced the actual name.)
+            // ------------------------------------------------------------------
+            var stem = MaterialStem(materialName, assetPath);
+            Texture2D atlasFallback = null;
+            var named = new List<string>();
+            var tokens = new List<string>();
+            foreach (var guid in AssetDatabase.FindAssets("t:Texture2D", new[] { PacksRoot + pack }))
+            {
+                var p = AssetDatabase.GUIDToAssetPath(guid);
+                var name = System.IO.Path.GetFileNameWithoutExtension(p).ToLowerInvariant();
+                if (name.Contains("normal") || name.Contains("_orm") || name.Contains("roughness") || name.Contains("emissive"))
+                    continue;
+                // Candidates, never an early return: these packs ship the SAME albedo
+                // twice (`GreatHornedOwl_BaseColor` AND `Owl_GreatHornedOwl_BaseColor`),
+                // and whichever the asset enumeration reached first is a coin flip, not
+                // an answer. Collected here and chosen deterministically below.
+                if (stem.Length >= 3 && name.Contains(stem) && name.Contains("basecolor"))
+                    named.Add(p);
+                // Not every pack spells "BaseColor". `Tex_Cat.png` is the Cat's albedo
+                // and says so with a whole-word subject token and nothing else. Token
+                // matching (not substring) keeps #379's promise: "cat" may not match
+                // "duplicate".
+                else if (stem.Length >= 3 && HasToken(name, stem))
+                    tokens.Add(p);
+                // POLISH-63 i5 (#379): A PER-MODEL ALBEDO IS NOT AN ATLAS.
+                //
+                // This fallback exists for packs that ship ONE shared palette PNG. It
+                // matched on the substring "texture" — and `Crownport_TextureMonument_Meshy`
+                // is a landmark whose NAME contains that word, because it is the monument
+                // with the texture. Its 4.6 MB albedo was therefore handed to every
+                // untextured material in GeneratedP34Postcards — `salt`, `wood`, `teal`,
+                // `brass` — and painted onto meshes with entirely unrelated UVs. That is
+                // what the fresh-eyes panel filed as an S1 "black-void interior" on the
+                // Tidebrook hero tower: not a hole in the model, Crownport's monument
+                // sampled through a lighthouse's UVs, dark patches and all. Every P34
+                // postcard landmark in the game wore it.
+                //
+                // A file named `<something>_base_color` or `_quantized` is one model's own
+                // albedo by construction (the Meshy bridge writes it beside the FBX), so it
+                // can never be this pack's shared atlas. The stem test above still binds it
+                // to the model it belongs to.
+                // `_base_color` / `_quantized` is the MESHY BRIDGE's per-model convention.
+                // `T_Trim_Metal_BaseColor` is the opposite thing — a trim sheet shared by a
+                // whole pack on purpose — so the test is the snake-case suffix, not the word
+                // "basecolor". Getting this wrong the other way would strip the atlas from
+                // every trim-sheet pack in the project.
+                if (name.EndsWith("_base_color", StringComparison.Ordinal)
+                    || name.EndsWith("_quantized", StringComparison.Ordinal))
+                    continue;
+                if (atlasFallback == null &&
+                    (name.Contains("atlas") || name.Contains("texture") || name.Contains("palette") || name.Contains("colormap")))
+                    atlasFallback = AssetDatabase.LoadAssetAtPath<Texture2D>(p);
+            }
+            var chosen = Choose(named, assetPath) ?? Choose(tokens, assetPath);
+            if (chosen != null)
+                return AssetDatabase.LoadAssetAtPath<Texture2D>(chosen);
+            return atlasFallback;
+        }
+
+        /// <summary>
+        /// The SUBJECT a material name identifies. Exporters wrap that subject in their
+        /// own furniture - Maya's `_meshMat`, Blender's `M_` prefix, a `Geo_` group name
+        /// - and none of it names the thing the texture is OF. What the DCC left behind
+        /// comes off; a name that identifies no subject at all (a default shading group
+        /// like `lambert2SG`) falls back to the model's own file name, which always does.
+        /// </summary>
+        static string MaterialStem(string materialName, string modelPath)
+        {
+            var stem = materialName;
+            foreach (var prefix in new[] { "M_", "MI_", "Mat_", "Geo_", "Mesh_" })
+                if (stem.StartsWith(prefix, StringComparison.OrdinalIgnoreCase))
+                { stem = stem.Substring(prefix.Length); break; }
+            foreach (var suffix in new[] { "_material", "_mat", "_mtl", "material", "mat" })
+                if (stem.Length > suffix.Length
+                    && stem.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                { stem = stem.Substring(0, stem.Length - suffix.Length); break; }
+            foreach (var suffix in new[] { "_mesh", "_geo", "_low", "_lp", "_model" })
+                if (stem.Length > suffix.Length
+                    && stem.EndsWith(suffix, StringComparison.OrdinalIgnoreCase))
+                { stem = stem.Substring(0, stem.Length - suffix.Length); break; }
+
+            var lowered = stem.ToLowerInvariant();
+            var generic = new[] { "lambert", "blinn", "phong", "standardsurface",
+                                  "default", "initialshadinggroup", "none" };
+            if (lowered.Length == 0
+                || System.Array.Exists(generic, g => lowered.StartsWith(g, StringComparison.Ordinal)))
+                lowered = System.IO.Path.GetFileNameWithoutExtension(modelPath).ToLowerInvariant();
+            return lowered;
+        }
+
+        /// <summary>
+        /// One candidate out of several. A file scoped to THIS model by name
+        /// (`Owl_GreatHornedOwl_BaseColor` beside `Owl.obj`) is the pack itself saying
+        /// which copy belongs to which model, so it wins. Otherwise a single candidate is
+        /// the answer and two are a HARD STOP - #379's law: untextured is recoverable,
+        /// wrong-textured shipped for three passes without anyone naming it.
+        /// </summary>
+        static string Choose(List<string> candidates, string modelPath)
+        {
+            if (candidates.Count == 0) return null;
+            var modelStem = System.IO.Path.GetFileNameWithoutExtension(modelPath).ToLowerInvariant();
+            var scoped = candidates.FindAll(c => System.IO.Path.GetFileNameWithoutExtension(c)
+                .ToLowerInvariant().StartsWith(modelStem + "_", StringComparison.Ordinal));
+            if (scoped.Count == 1) return scoped[0];
+            if (candidates.Count == 1) return candidates[0];
+            Debug.LogWarning($"[Lattice] ALBEDO_AMBIGUOUS {modelPath} - {candidates.Count} " +
+                             "candidates, refusing to guess: " +
+                             string.Join(", ", candidates.ConvertAll(System.IO.Path.GetFileName)));
+            return null;
+        }
+
+        /// <summary>
+        /// True when `token` appears in `name` as a whole word — delimited by a
+        /// separator or by the ends of the string. Substring matching is how #379
+        /// painted one landmark's skin across a whole pack.
+        /// </summary>
+        static bool HasToken(string name, string token)
+        {
+            int at = 0;
+            while ((at = name.IndexOf(token, at, StringComparison.Ordinal)) >= 0)
+            {
+                bool leftOk = at == 0 || !char.IsLetterOrDigit(name[at - 1]);
+                int end = at + token.Length;
+                bool rightOk = end >= name.Length || !char.IsLetterOrDigit(name[end]);
+                if (leftOk && rightOk)
+                    return true;
+                at = end;
+            }
+            return false;
+        }
+
+        void OnPreprocessTexture()
+        {
+            if (!InPacks(assetPath)) return;
+            var importer = (TextureImporter)assetImporter;
+            // Pack atlases are tiny gradient palettes; keep them crisp and small.
+            importer.mipmapEnabled = true;
+            importer.wrapMode = TextureWrapMode.Repeat;
+            // POLISH-01: leaf-card textures — dilate color into the transparent pixels
+            // (kills black fringes) and preserve cutout coverage down the mip chain so
+            // canopies don't dissolve at gameplay camera distance.
+            var name = System.IO.Path.GetFileNameWithoutExtension(assetPath);
+            if (IsFoliageName(name))
+            {
+                importer.alphaIsTransparency = true;
+                importer.mipMapsPreserveCoverage = true;
+                importer.alphaTestReferenceValue = 0.4f;
+            }
+        }
+
+        // POLISH-61E style-gate retint for palette-texture packs: the ModularSpaceKit
+        // is one white "colormap" material whose accents live in the palette PNG —
+        // its saturated ORANGE bands break the Creator vocabulary (clean white/
+        // gunmetal + cyan). Remap orange-family pixels to the cyan register at the
+        // import gate; every re-stage re-heals. Value is preserved so the palette's
+        // light/dark banding survives.
+        void OnPostprocessTexture(Texture2D texture)
+        {
+            if (PackOf(assetPath) != "Kenney_ModularSpaceKit") return;
+            var stem = System.IO.Path.GetFileNameWithoutExtension(assetPath);
+            if (!stem.ToLowerInvariant().Contains("colormap")) return;
+            var px = texture.GetPixels();
+            int remapped = 0;
+            for (int i = 0; i < px.Length; i++)
+            {
+                Color.RGBToHSV(px[i], out var h, out var s, out var v);
+                if (h > 0.02f && h < 0.13f && s > 0.35f) // orange band
+                {
+                    px[i] = Color.HSVToRGB(0.52f, s * 0.55f, v); // Creator cyan, calmer
+                    remapped++;
+                }
+            }
+            if (remapped > 0)
+            {
+                texture.SetPixels(px);
+                texture.Apply(true);
+                Debug.Log($"[Lattice] P61E_COLORMAP_REMAP asset={assetPath} px={remapped}");
+            }
+        }
+    }
+}

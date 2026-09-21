@@ -1,0 +1,508 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using Lattice.Core;
+using Lattice.Menus;
+using Lattice.UI;
+using Lattice.World;
+using NUnit.Framework;
+using TMPro;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Layouts;
+using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.InputSystem.Utilities;
+using UnityEngine.SceneManagement;
+using UnityEngine.TestTools;
+using UnityEngine.UI;
+
+namespace Lattice.Tests.PlayMode
+{
+    /// <summary>
+    /// CONTROLLER PASS (2026-09-17) — the live half. Real devices, real frames, no
+    /// InputTestFixture (its reset would orphan the game's own action assets).
+    ///
+    ///  1. A generic HID joystick is bridged into a virtual Gamepad and its buttons reach
+    ///     GameInput and the UI map; it leaves when the joystick leaves.
+    ///  2. The Logitech Precision profile: X/Y drive the d-pad, button 1 is West, 10 is Start.
+    ///  3. The title screen: the pad moves the cursor, skips a greyed Continue, opens the
+    ///     settings, and after backing out the guard (PadFocus) puts the cursor back.
+    ///  4. The pack menu in a real world scene: every page keeps a selection under the
+    ///     shoulders, left reaches the tab column, Y walks the party, a stepper press keeps
+    ///     its row, B answers a confirm dialog without backing the menu out, B leaves a
+    ///     rebind listen and returns to the row, and the shop counter's tabs are reachable.
+    /// </summary>
+    public class PadSupportPlayTests
+    {
+        // ---------- a fake DirectInput pad (the Joystick state layout: int buttons, Vector2 stick) ----------
+
+        [StructLayout(LayoutKind.Sequential)]
+        struct TestJoyState : IInputStateTypeInfo
+        {
+            public int buttons;
+            public Vector2 stick;
+            public FourCC format => new FourCC('J', 'O', 'Y');
+        }
+
+        // Joystick base bits: hat up/down/left/right = 0..3, trigger (HID button 1) = 4.
+        const int HatUp = 1 << 0, HatRight = 1 << 3;
+        static int HidButton(int n) => n == 1 ? 1 << 4 : 1 << (n + 3); // button2 = bit 5 … button12 = bit 15
+
+        static string LayoutJson(string name, bool hat, string matchInterface, string matchProduct)
+        {
+            var sb = new StringBuilder();
+            sb.Append("{ \"name\": \"").Append(name).Append("\", \"extend\": \"Joystick\",");
+            if (matchInterface != null)
+                sb.Append(" \"device\": { \"interface\": \"").Append(matchInterface)
+                  .Append("\", \"product\": \"").Append(matchProduct).Append("\" },");
+            sb.Append(" \"controls\": [");
+            if (hat)
+                sb.Append("{ \"name\": \"hat\", \"layout\": \"Dpad\", \"format\": \"BIT\", \"offset\": 0, \"bit\": 0, \"sizeInBits\": 4 },");
+            for (int n = 2; n <= 12; n++)
+                sb.Append("{ \"name\": \"button").Append(n).Append("\", \"layout\": \"Button\", \"format\": \"BIT\", \"offset\": 0, \"bit\": ")
+                  .Append(n + 3).Append(", \"sizeInBits\": 1 }").Append(n < 12 ? "," : "");
+            sb.Append(" ] }");
+            return sb.ToString();
+        }
+
+        static bool _layoutsRegistered;
+        readonly List<InputDevice> _added = new();
+        InputSettings.BackgroundBehavior _prevBackground;
+#if UNITY_EDITOR
+        InputSettings.EditorInputBehaviorInPlayMode _prevEditorBehavior;
+#endif
+
+        [UnitySetUp]
+        public IEnumerator Boot()
+        {
+            // Headless runs have no window focus; devices would otherwise be muted.
+            _prevBackground = InputSystem.settings.backgroundBehavior;
+            InputSystem.settings.backgroundBehavior = InputSettings.BackgroundBehavior.IgnoreFocus;
+#if UNITY_EDITOR
+            _prevEditorBehavior = InputSystem.settings.editorInputBehaviorInPlayMode;
+            InputSystem.settings.editorInputBehaviorInPlayMode =
+                InputSettings.EditorInputBehaviorInPlayMode.AllDeviceInputAlwaysGoesToGameView;
+#endif
+            PadSupport.Install();
+            if (!PadBridge.Installed)
+                PadBridge.Install();
+            if (!_layoutsRegistered)
+            {
+                InputSystem.RegisterLayout(LayoutJson("LatticeTestPadHat", true, null, null));
+                InputSystem.RegisterLayout(LayoutJson("LatticeTestPrecision", false, "LatticeTest", "Logitech.*Precision.*"));
+                _layoutsRegistered = true;
+            }
+            PromptService.Reset();
+            yield break;
+        }
+
+        [UnityTearDown]
+        public IEnumerator Cleanup()
+        {
+            foreach (var d in _added)
+                if (d != null && d.added)
+                    InputSystem.RemoveDevice(d);
+            _added.Clear();
+            InputSystem.settings.backgroundBehavior = _prevBackground;
+#if UNITY_EDITOR
+            InputSystem.settings.editorInputBehaviorInPlayMode = _prevEditorBehavior;
+#endif
+            PromptService.Reset();
+            if (PadFocus.Current != null)
+                PadFocus.Current.Forget();
+            yield return null;
+        }
+
+        InputDevice Add(string layout)
+        {
+            var d = InputSystem.AddDevice(layout);
+            _added.Add(d);
+            return d;
+        }
+
+        Gamepad AddPad()
+        {
+            var pad = InputSystem.AddDevice<Gamepad>("PadTestGamepad");
+            _added.Add(pad);
+            return pad;
+        }
+
+        static IEnumerator Press(Gamepad pad, GamepadButton button)
+        {
+            InputSystem.QueueStateEvent(pad, new GamepadState().WithButton(button));
+            yield return null;
+            yield return null;
+            InputSystem.QueueStateEvent(pad, new GamepadState());
+            yield return null;
+            yield return null;
+        }
+
+        static GameObject Selected() => EventSystem.current != null ? EventSystem.current.currentSelectedGameObject : null;
+
+        static string Label(GameObject go) =>
+            go != null ? go.GetComponentInChildren<TMP_Text>()?.text : null;
+
+        // ==================== 1. the bridge ====================
+
+        [UnityTest]
+        public IEnumerator BridgedJoystick_IsAGamepadToGameInputAndTheUiMap()
+        {
+            Game.Ensure();
+            var joy = Add("LatticeTestPadHat");
+            Assert.IsInstanceOf<Joystick>(joy, "the test device must be what a DirectInput pad is to Unity: a Joystick");
+            yield return null;
+
+            var pad = PadBridge.PadFor(joy);
+            Assert.IsNotNull(pad, "the bridge never attached: " + PadBridge.Describe());
+            Assert.IsTrue(Gamepad.all.Contains(pad), "the virtual pad must be a real Gamepad on the bus");
+
+            // HID button 2 → South → Interact (GameInput) and Submit (UiActions), same frame.
+            InputSystem.QueueStateEvent(joy, new TestJoyState { buttons = HidButton(2) });
+            yield return null;
+            Assert.IsTrue(pad.buttonSouth.isPressed, "button 2 must read as A on the virtual pad");
+            Assert.AreEqual(pad, Gamepad.current, "a real press makes the virtual pad current (the prompt watch reads it)");
+            Assert.IsTrue(Game.Manager.Input.InteractHeld, "GameInput.Interact must see the bridged A");
+            Assert.IsTrue(UiActions.Submit.IsPressed(), "the UI map's Submit must see the bridged A");
+            Assert.IsFalse(pad.buttonWest.isPressed);
+
+            InputSystem.QueueStateEvent(joy, new TestJoyState());
+            yield return null;
+            Assert.IsFalse(pad.buttonSouth.isPressed, "release must propagate");
+
+            // Stick right + hat up: the stick is the left stick, the hat is the d-pad.
+            InputSystem.QueueStateEvent(joy, new TestJoyState { stick = new Vector2(1f, 0f), buttons = HatUp });
+            yield return null;
+            Assert.Greater(pad.leftStick.ReadValue().x, 0.9f, "stick → leftStick");
+            Assert.IsTrue(pad.dpad.up.isPressed, "hat → dpad");
+            Assert.Greater(Game.Manager.Input.Move.magnitude, 0.9f, "Move binds both");
+            Assert.AreEqual(PromptDevice.Gamepad, PromptService.Device, "the prompt watch flips to pad glyphs");
+
+            InputSystem.QueueStateEvent(joy, new TestJoyState());
+            yield return null;
+
+            InputSystem.RemoveDevice(joy);
+            _added.Remove(joy);
+            yield return null;
+            Assert.IsNull(PadBridge.PadFor(joy), "the virtual pad must leave with its joystick");
+            Assert.IsFalse(Gamepad.all.Contains(pad));
+        }
+
+        [UnityTest]
+        public IEnumerator LogitechPrecision_StickIsTheDpad_ButtonsInLogitechOrder()
+        {
+            Game.Ensure();
+            var joy = InputSystem.AddDevice(new InputDeviceDescription
+            {
+                interfaceName = "LatticeTest",
+                product = "Logitech(R) Precision(TM) Gamepad",
+            });
+            _added.Add(joy);
+            yield return null;
+            Assert.AreEqual("LogitechPrecision", PadBridge.ProfileNameFor(joy), PadBridge.Describe());
+            var pad = PadBridge.PadFor(joy);
+            Assert.IsNotNull(pad);
+
+            InputSystem.QueueStateEvent(joy, new TestJoyState { stick = new Vector2(1f, 0f) });
+            yield return null;
+            Assert.IsTrue(pad.dpad.right.isPressed, "the Precision reports its d-pad on X/Y: right must press dpad right");
+            Assert.Greater(pad.leftStick.ReadValue().x, 0.9f);
+
+            InputSystem.QueueStateEvent(joy, new TestJoyState { buttons = HidButton(1) | HidButton(10) });
+            yield return null;
+            Assert.IsTrue(pad.buttonWest.isPressed, "button 1 is the LEFT face button (X) in Logitech order");
+            Assert.IsTrue(pad.startButton.isPressed, "button 10 is Start");
+            Assert.IsTrue(Game.Manager.Input.MenuHeld, "Start reaches GameInput.Menu");
+
+            InputSystem.QueueStateEvent(joy, new TestJoyState());
+            yield return null;
+        }
+
+        // ==================== 3. the title screen ====================
+
+        [UnityTest]
+        public IEnumerator Title_PadMovesOpensSettings_AndTheGuardRestoresTheCursor()
+        {
+            SceneManager.LoadScene("Title");
+            yield return null;
+            yield return null;
+            yield return new WaitForSeconds(0.5f);
+            Assert.IsTrue(Game.IsReady);
+            Assert.IsNotNull(PadFocus.Current, "the [UI] root must carry the selection guard");
+
+            var pad = AddPad();
+            yield return null;
+            var first = Selected();
+            Assert.IsNotNull(first, "the title screen opens with a selection");
+
+            yield return Press(pad, GamepadButton.DpadDown);
+            var second = Selected();
+            Assert.IsNotNull(second);
+            Assert.AreNotEqual(first, second, "dpad down must move the title cursor");
+            Assert.IsTrue(second.GetComponent<Selectable>().IsInteractable(), "a greyed Continue is not a stop");
+            Assert.AreEqual(PromptDevice.Gamepad, PromptService.Device, "the press must flip the prompt device");
+
+            for (int i = 0; i < 5 && Label(Selected()) != "Settings"; i++)
+                yield return Press(pad, GamepadButton.DpadDown);
+            Assert.AreEqual("Settings", Label(Selected()), "the column must reach Settings");
+            var settingsButton = Selected();
+
+            yield return Press(pad, GamepadButton.South);
+            var menu = Object.FindFirstObjectByType<GameMenu>();
+            Assert.IsNotNull(menu, "A on Settings must open the title settings");
+            Assert.IsTrue(menu.IsOpen && menu.IsTitleMode);
+            Assert.IsNotNull(Selected(), "title settings open with a selection");
+            Assert.AreNotEqual(settingsButton, Selected(), "the cursor moved into the settings pane");
+
+            yield return Press(pad, GamepadButton.East); // Back from the Settings root: close
+            yield return null;
+            Assert.IsTrue(menu == null || !menu.IsOpen, "B must close the title settings");
+
+            // The pane died with the menu, so nothing is selected; the next nudge is
+            // answered by the guard, which puts the cursor back on the title column.
+            yield return Press(pad, GamepadButton.DpadDown);
+            var restored = Selected();
+            Assert.IsNotNull(restored, "PadFocus must restore a title selection after settings close");
+            CollectionAssert.Contains(new[] { "New Game", "Continue", "Settings", "Quit" }, Label(restored),
+                "the restored cursor must be a title button");
+        }
+
+        // ==================== 4. the pack menu, the shop ====================
+
+        [UnityTest]
+        [Timeout(300000)]
+        public IEnumerator PackMenu_EveryPageIsReachable_AndTheModalsAnswerThePad()
+        {
+            yield return LoadWorldScene("MeadowTown");
+            Game.Manager.ResetSession();
+            MeadowBoot.ApplyTestLoadout();
+            var hub = Object.FindFirstObjectByType<MetaHub>();
+            var player = Object.FindFirstObjectByType<PlayerController>();
+            Assert.IsNotNull(hub, "MetaHub missing from MeadowTown");
+            var pad = AddPad();
+            yield return null;
+
+            // Start opens the pack menu with a selection.
+            yield return Press(pad, GamepadButton.Start);
+            Assert.IsTrue(hub.Menu.IsOpen, "Start must open the pack menu");
+            Assert.IsNotNull(Selected(), "the menu opens with a selection");
+
+            // The right shoulder turns every page, and every page keeps a selection —
+            // Help (no rows), an empty bag and an empty Load included.
+            var seen = new List<string>();
+            for (int i = 0; i < 12; i++)
+            {
+                yield return Press(pad, GamepadButton.RightShoulder);
+                seen.Add(hub.Menu.CurrentPage);
+                Assert.IsNotNull(Selected(), $"page {hub.Menu.CurrentPage} left nothing selected");
+            }
+            CollectionAssert.AreEquivalent(
+                new[] { "Party", "Items", "Equip", "Skills", "Quests", "Bestiary", "Finds", "Log", "Help", "Save", "Load", "Settings" },
+                seen, "RB must walk all twelve pages");
+            Assert.AreEqual("Party", hub.Menu.CurrentPage, "twelve turns bring the column round");
+            yield return Press(pad, GamepadButton.LeftShoulder);
+            Assert.AreEqual("Settings", hub.Menu.CurrentPage, "LB turns back (wrapping to the last page)");
+
+            // From a pane row, LEFT reaches the tab column; RIGHT returns to the pane.
+            hub.Menu.OpenPage("Party");
+            yield return null;
+            Assert.IsFalse(Selected().name.StartsWith("Tab_"));
+            yield return Press(pad, GamepadButton.DpadLeft);
+            Assert.IsTrue(Selected() != null && Selected().name.StartsWith("Tab_"),
+                $"left from the pane must reach the tab column (got {Selected()?.name})");
+            yield return Press(pad, GamepadButton.DpadRight);
+            Assert.IsFalse(Selected().name.StartsWith("Tab_"), "right from a tab must enter the pane");
+
+            // Equip: Y walks the party; the member strip is one line above the slots.
+            hub.Menu.OpenPage("Equip");
+            yield return null;
+            Assert.IsTrue(Selected().name.StartsWith("Slot_"), $"Equip seats the cursor on a slot (got {Selected().name})");
+            string before = hub.Menu.FocusMemberId;
+            yield return Press(pad, GamepadButton.North);
+            Assert.AreEqual("Equip", hub.Menu.CurrentPage);
+            Assert.AreNotEqual(before, hub.Menu.FocusMemberId, "Y must cycle the member on Equip");
+            yield return Press(pad, GamepadButton.DpadUp);
+            Assert.IsTrue(Selected().name.StartsWith("Pick_"), $"up from the first slot reaches the member strip (got {Selected().name})");
+
+            // A stepper press keeps its row.
+            hub.Menu.OpenPage("Settings");
+            yield return null;
+            var more = GameObject.Find("More_Master volume");
+            Assert.IsNotNull(more, "the master volume stepper");
+            EventSystem.current.SetSelectedGameObject(more);
+            yield return null;
+            yield return Press(pad, GamepadButton.South);
+            Assert.AreEqual("More_Master volume", Selected()?.name, "a stepper press must not throw the cursor to the top");
+
+            // A confirm dialog answers B itself — and the menu underneath must not back out.
+            var dialog = ConfirmDialog.Show(hub.Menu.transform, "Quit to title?", "…", "Quit", "Stay", () => { });
+            yield return null;
+            Assert.AreEqual("No", Selected()?.name, "the dialog opens on the safe answer");
+            yield return Press(pad, GamepadButton.East);
+            Assert.IsTrue(dialog == null, "B must resolve the dialog");
+            Assert.IsTrue(hub.Menu.IsOpen, "B on the dialog must not also back the menu out (the double-consumed edge)");
+            Assert.AreEqual("Settings", hub.Menu.CurrentPage, "…nor turn its page");
+            Assert.AreEqual("More_Master volume", Selected()?.name, "the dialog restores the cursor it took");
+
+            // A rebind listen: B is the pad exit, and the cursor returns to the row.
+            hub.Menu.OpenPage("Controls");
+            yield return null;
+            var rebind = GameObject.Find("Rebind_Interact");
+            Assert.IsNotNull(rebind);
+            EventSystem.current.SetSelectedGameObject(rebind);
+            yield return null;
+            yield return Press(pad, GamepadButton.South);
+            Assert.IsTrue(KeyRebind.Active, "A on Rebind starts the listen");
+            yield return Press(pad, GamepadButton.East);
+            Assert.IsFalse(KeyRebind.Active, "B must cancel the listen for a pad player");
+            yield return null;
+            Assert.AreEqual("Rebind_Interact", Selected()?.name, "the cursor returns to the row that was rebound");
+
+            hub.Menu.Close();
+            yield return null;
+            Assert.AreEqual(GameState.Explore, Game.Manager.States.Current);
+
+            // The shop counter: RB moves Buy → Sell; up from the list reaches the tab; left walks the tabs.
+            // The keeper speaks a line before the counter opens; this is a navigation test,
+            // so open the counter the way the dialogue command does.
+            CoreEvents.RaiseShopRequested(Object.FindFirstObjectByType<ShopKeeper>().shopId);
+            yield return WaitFor(() => hub.Shop.IsOpen, 5f, "shop did not open");
+            Assert.IsFalse(hub.Shop.IsSelling);
+            yield return Press(pad, GamepadButton.RightShoulder);
+            Assert.IsTrue(hub.Shop.IsSelling, "RB must move Buy → Sell");
+            yield return Press(pad, GamepadButton.DpadUp);
+            Assert.AreEqual("SellTab", Selected()?.name, "up from the list (or the tab itself) is the Sell tab");
+            yield return Press(pad, GamepadButton.DpadLeft);
+            Assert.AreEqual("BuyTab", Selected()?.name, "left walks the tabs");
+            hub.Shop.Close();
+            yield return null;
+        }
+
+        // ==================== 5. the keyboard did not move ====================
+
+        static IEnumerator Tap(Keyboard kb, Key key)
+        {
+            InputSystem.QueueStateEvent(kb, new KeyboardState(key));
+            yield return null;
+            yield return null;
+            InputSystem.QueueStateEvent(kb, new KeyboardState());
+            yield return null;
+            yield return null;
+        }
+
+        /// <summary>
+        /// The controller pass replaced the UI map and rewired the panes; every keyboard
+        /// path a player had before must still answer: arrows and WASD move the title and
+        /// menu cursor, Enter confirms, Escape opens/closes, Backspace backs out, E is still
+        /// Interact in the world, and the two additions (Q/E turn a page in a menu) work.
+        /// </summary>
+        [UnityTest]
+        [Timeout(300000)]
+        public IEnumerator Keyboard_StillDrivesTitleAndPackMenu()
+        {
+            SceneManager.LoadScene("Title");
+            yield return null;
+            yield return null;
+            yield return new WaitForSeconds(0.5f);
+            var kb = InputSystem.AddDevice<Keyboard>("PadTestKeyboard");
+            _added.Add(kb);
+            yield return null;
+
+            var first = Selected();
+            Assert.IsNotNull(first, "the title screen opens with a selection");
+            yield return Tap(kb, Key.DownArrow);
+            var second = Selected();
+            Assert.AreNotEqual(first, second, "down arrow must move the title cursor");
+            yield return Tap(kb, Key.W);
+            Assert.AreEqual(first, Selected(), "W must move it back up");
+            Assert.AreEqual(PromptDevice.Keyboard, PromptService.Device);
+
+            for (int i = 0; i < 5 && Label(Selected()) != "Settings"; i++)
+                yield return Tap(kb, Key.S);
+            Assert.AreEqual("Settings", Label(Selected()), "S walks the column to Settings");
+            yield return Tap(kb, Key.Enter);
+            var menu = Object.FindFirstObjectByType<GameMenu>();
+            Assert.IsNotNull(menu, "Enter on Settings must open the title settings");
+            Assert.IsTrue(menu.IsOpen && menu.IsTitleMode);
+            Assert.IsNotNull(Selected(), "title settings open with a selection");
+            yield return Tap(kb, Key.Escape);
+            yield return null;
+            Assert.IsTrue(menu == null || !menu.IsOpen, "Escape must close the title settings");
+            yield return Tap(kb, Key.DownArrow);
+            CollectionAssert.Contains(new[] { "New Game", "Continue", "Settings", "Quit" }, Label(Selected()),
+                "the guard restores the title cursor for a keyboard too");
+
+            // The world: Escape opens the pack menu, arrows/WASD move, Q/E turn pages,
+            // Backspace backs out, and E is still Interact on the road.
+            yield return LoadWorldScene("MeadowTown");
+            Game.Manager.ResetSession();
+            MeadowBoot.ApplyTestLoadout();
+            var hub = Object.FindFirstObjectByType<MetaHub>();
+            Assert.IsNotNull(hub);
+            yield return null;
+
+            InputSystem.QueueStateEvent(kb, new KeyboardState(Key.E));
+            yield return null;
+            Assert.IsTrue(Game.Manager.Input.InteractHeld, "E is still Interact in Explore");
+            InputSystem.QueueStateEvent(kb, new KeyboardState());
+            yield return null;
+            yield return null;
+
+            yield return Tap(kb, Key.Escape);
+            Assert.IsTrue(hub.Menu.IsOpen, "Escape must open the pack menu");
+            Assert.IsNotNull(Selected());
+            yield return Tap(kb, Key.E);
+            Assert.AreEqual("Items", hub.Menu.CurrentPage, "E turns to the next page inside a menu");
+            yield return Tap(kb, Key.Q);
+            Assert.AreEqual("Party", hub.Menu.CurrentPage, "Q turns back");
+            yield return Tap(kb, Key.LeftArrow);
+            Assert.IsTrue(Selected() != null && Selected().name.StartsWith("Tab_"), "left arrow reaches the tab column");
+            yield return Tap(kb, Key.DownArrow);
+            Assert.AreEqual("Tab_Items", Selected()?.name, "down arrow walks the column");
+            yield return Tap(kb, Key.Enter);
+            Assert.AreEqual("Items", hub.Menu.CurrentPage, "Enter on a tab opens its page");
+            yield return Tap(kb, Key.Backspace);
+            Assert.IsFalse(hub.Menu.IsOpen, "Backspace from a top page closes the menu");
+            Assert.AreEqual(GameState.Explore, Game.Manager.States.Current);
+            yield return Tap(kb, Key.Escape);
+            Assert.IsTrue(hub.Menu.IsOpen);
+            yield return Tap(kb, Key.Escape);
+            Assert.IsFalse(hub.Menu.IsOpen, "Escape closes the menu it opened");
+        }
+
+        // ---------- helpers (the Phase6 shape) ----------
+
+        static IEnumerator LoadWorldScene(string name)
+        {
+            if (Game.IsReady)
+            {
+                float settle = Time.realtimeSinceStartup + 10f;
+                while (Game.Scenes.IsTransitioning && Time.realtimeSinceStartup < settle)
+                    yield return null;
+            }
+            SceneManager.LoadScene(name);
+            yield return null;
+            yield return null;
+            float deadline = Time.realtimeSinceStartup + 15f;
+            while (Time.realtimeSinceStartup < deadline
+                   && (!Game.IsReady
+                       || SceneManager.GetActiveScene().name != name
+                       || Game.Scenes.IsTransitioning
+                       || Game.Manager.States.Current != GameState.Explore))
+                yield return null;
+            Assert.AreEqual(name, SceneManager.GetActiveScene().name, $"{name} did not become the active scene");
+            Assert.AreEqual(GameState.Explore, Game.Manager.States.Current, $"{name} never reached Explore");
+            yield return new WaitForSeconds(0.3f);
+        }
+
+        static IEnumerator WaitFor(System.Func<bool> condition, float seconds, string what)
+        {
+            float deadline = Time.realtimeSinceStartup + seconds;
+            while (!condition() && Time.realtimeSinceStartup < deadline)
+                yield return null;
+            Assert.IsTrue(condition(), $"timed out: {what}");
+        }
+    }
+}

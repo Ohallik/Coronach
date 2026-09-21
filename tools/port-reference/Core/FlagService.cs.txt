@@ -1,0 +1,99 @@
+using System;
+using System.Collections.Generic;
+using System.Text.RegularExpressions;
+
+namespace Lattice.Core
+{
+    /// <summary>
+    /// Typed story/world flags with namespaced keys, e.g. "Story.Act1.ReefLurkerDefeated"
+    /// (plan §4). Keys must contain at least one '.' so every flag lives in a namespace —
+    /// the flag graph for content phases is designed fresh from docs/bible/06-story-flags.md.
+    /// Plain class — EditMode-testable; serialized into SaveData on save.
+    /// </summary>
+    public sealed class FlagService
+    {
+        static readonly Regex KeyPattern = new(@"^\w+(\.\w+)+$", RegexOptions.Compiled);
+
+        readonly Dictionary<string, bool> _bools = new();
+        readonly Dictionary<string, int> _ints = new();
+        readonly Dictionary<string, string> _strings = new();
+
+        /// <summary>Fired with the key whenever any flag changes value.</summary>
+        public event Action<string> Changed;
+
+        public static bool IsValidKey(string key) => key != null && KeyPattern.IsMatch(key);
+
+        public bool GetBool(string key, bool fallback = false) => _bools.TryGetValue(key, out var v) ? v : fallback;
+        public int GetInt(string key, int fallback = 0) => _ints.TryGetValue(key, out var v) ? v : fallback;
+        public string GetString(string key, string fallback = null) => _strings.TryGetValue(key, out var v) ? v : fallback;
+
+        public void SetBool(string key, bool value) => Set(_bools, key, value);
+        public void SetInt(string key, int value) => Set(_ints, key, value);
+        public void SetString(string key, string value) => Set(_strings, key, value);
+
+        void Set<T>(Dictionary<string, T> store, string key, T value)
+        {
+            if (!IsValidKey(key))
+                throw new ArgumentException($"Flag key '{key}' is not namespaced (expected e.g. 'Story.Act1.SomeFlag').");
+            if (store.TryGetValue(key, out var old) && EqualityComparer<T>.Default.Equals(old, value))
+                return;
+            store[key] = value;
+            Changed?.Invoke(key);
+        }
+
+        public void Clear()
+        {
+            _bools.Clear();
+            _ints.Clear();
+            _strings.Clear();
+        }
+
+        public void ExportTo(SaveData data)
+        {
+            data.boolFlags = new Dictionary<string, bool>(_bools);
+            data.intFlags = new Dictionary<string, int>(_ints);
+            data.stringFlags = new Dictionary<string, string>(_strings);
+        }
+
+        public void ImportFrom(SaveData data)
+        {
+            Clear();
+            if (data.boolFlags != null) foreach (var kv in data.boolFlags) _bools[kv.Key] = kv.Value;
+            if (data.intFlags != null) foreach (var kv in data.intFlags) _ints[kv.Key] = kv.Value;
+            if (data.stringFlags != null) foreach (var kv in data.stringFlags) _strings[kv.Key] = kv.Value;
+            MigrateLegacyBools();
+        }
+
+        // ==================== save-compat shims (POLISH-49) ====================
+
+        /// <summary>
+        /// Ids that had to be renamed in a SHIPPED game carry their old state forward
+        /// here. ImportFrom is the single choke point for every load path, so one table
+        /// covers menu loads, Continue, boundary saves and the smoke harness alike.
+        /// </summary>
+        static readonly (string Legacy, string Minted)[] BoolMigrations =
+        {
+            // POLISH-49 / Ground Truth #9: chestId "TunnelCache" was duplicated across
+            // AshTunnels (Act 4) and TradeTunnel (Act 3) — one flag, two chests, so
+            // opening either permanently emptied the other. The Act-3 chest is now
+            // "TradeTunnelCache". A v1.2.0 save that opened EITHER chest observed BOTH
+            // as empty, so the honest carry-forward is legacy -> both: the player never
+            // re-loots a chest they emptied and never finds one they already saw bare.
+            ("World.Chest.TunnelCache", "World.Chest.TradeTunnelCache"),
+        };
+
+        void MigrateLegacyBools()
+        {
+            foreach (var (legacy, minted) in BoolMigrations)
+            {
+                // A post-shim save writes BOTH keys explicitly — never overwrite it.
+                if (_bools.ContainsKey(minted))
+                    continue;
+                if (!_bools.TryGetValue(legacy, out bool set) || !set)
+                    continue;
+                _bools[minted] = true;
+                UnityEngine.Debug.Log($"[Lattice] SAVE_MIGRATE {legacy} -> {minted}");
+            }
+        }
+    }
+}

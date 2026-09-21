@@ -1,0 +1,13 @@
+{
+  "name": "Lattice.Dialogue",
+  "rootNamespace": "Lattice.Dialogue",
+  "references": [
+    "Lattice.Data",
+    "Lattice.Core",
+    "Lattice.Rpg",
+    "YarnSpinner",
+    "YarnSpinner.Unity",
+    "Unity.TextMeshPro",
+    "Unity.ugui"
+  ]
+}

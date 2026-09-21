@@ -1,0 +1,12 @@
+{
+  "name": "Lattice.Core",
+  "rootNamespace": "Lattice.Core",
+  "references": [
+    "Lattice.Data",
+    "Unity.InputSystem",
+    "Unity.ugui",
+    "Unity.TextMeshPro",
+    "Unity.Cinemachine",
+    "Unity.Newtonsoft.Json"
+  ]
+}

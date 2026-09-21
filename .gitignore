@@ -1,0 +1,15 @@
+art-src/
+Builds/
+Lattice/Library/
+Lattice/Temp/
+Lattice/Logs/
+Lattice/obj/
+Lattice/UserSettings/
+Lattice/.vs/
+*.csproj
+*.sln
+tools/meshy/.env
+**/__pycache__/
+.vs/
+*.pidb
+*.user

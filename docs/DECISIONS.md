@@ -1,0 +1,8 @@
+# LATTICE decisions
+
+- 2026-09-20 D001: Follow SLICE_PROMPT and generated-art policy where older Frostbound skill or ASSET_SOURCES suggestions disagree. No Frostbound visual art is copied, except permitted TMP/font resources, input glyphs, particles and sound.
+- 2026-09-20 D002: Port the proven DirectInput bridge before gameplay. Logitech Precision's d-pad is its movement device; cycling targets/items must use a modifier on a digital-only controller so moving never changes targets/items unexpectedly.
+- 2026-09-20 D003: Keep copied code/tools traceable; adapt namespaces and strip Frostbound campaign dependencies. Frostbound remains read-only.
+- 2026-09-20 D004: Gate evidence stays fail-closed. Compilation, state assertions, test XML and visual inspection are separate requirements. A marker alone cannot substitute for gameplay or a render.
+- 2026-09-20 D005: Pin Splines 2.9.1 ([Unity registry](https://packages.unity.com/com.unity.splines) reports minimum 2022.3) and Timeline 1.8.12 (Frostbound's working pin). Keep the requested Unity/URP versions. Shader Graph 17.4 has three unqualified GUID references that fail on 6000.4.7; reproduce Frostbound's working UnityEngine.GUID qualification through `tools/patch_unity_packages.py`, applied to this project's cache before each batch run.
+- 2026-09-20 D006: Generate title key art during P0 so the title screenshot is useful. It depicts Cinder Halo and Vorun, with no unapproved species depiction. Meshy ledger uses the bridge's append-only JSON array format; the 1,200-credit cap is tracked separately and will be enforced before paid requests.

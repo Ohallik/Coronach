@@ -1,0 +1,99 @@
+using System.Collections.Generic;
+using Lattice.Core;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UI;
+using Yarn.Unity;
+
+namespace Lattice.Dialogue
+{
+    /// <summary>
+    /// Presents Yarn choices as a stacked, keyboard/pad/mouse-navigable menu above the
+    /// dialogue panel. Selection: pointer click, UI Submit, or the Interact button.
+    /// Under AutoAdvance (tests/smoke) options resolve from DialogueSystem.ScriptedChoices.
+    /// </summary>
+    public sealed class LatticeOptionsPresenter : DialoguePresenterBase
+    {
+        public DialogueUi ui;
+
+        public override YarnTask OnDialogueStartedAsync() => YarnTask.CompletedTask;
+        public override YarnTask OnDialogueCompleteAsync() => YarnTask.CompletedTask;
+
+        public override YarnTask RunLineAsync(LocalizedLine line, LineCancellationToken token) =>
+            YarnTask.CompletedTask;
+
+        public override async YarnTask<DialogueOption> RunOptionsAsync(DialogueOption[] dialogueOptions,
+            LineCancellationToken cancellationToken)
+        {
+            var available = new List<DialogueOption>();
+            foreach (var option in dialogueOptions)
+                if (option.IsAvailable)
+                    available.Add(option);
+            if (available.Count == 0)
+                return null;
+
+            // ----- auto-advance path (tests / smoke runs) -----
+            if (DialogueSystem.AutoAdvance)
+            {
+                var labelsAuto = new List<string>();
+                foreach (var o in available)
+                    labelsAuto.Add(o.Line.TextWithoutCharacterName.Text);
+                ui.CreateOptions(labelsAuto); // still build the UI so screenshots show the menu
+                while (DialogueSystem.HoldChoices && DialogueSystem.ScriptedChoices.Count == 0
+                       && !cancellationToken.IsNextContentRequested)
+                    await YarnTask.Yield();
+                await YarnTask.Yield();
+                int index = DialogueSystem.ScriptedChoices.Count > 0 ? DialogueSystem.ScriptedChoices.Dequeue() : 0;
+                ui.ClearOptions();
+                return available[Mathf.Clamp(index, 0, available.Count - 1)];
+            }
+
+            // ----- interactive path -----
+            var labels = new List<string>();
+            foreach (var o in available)
+                labels.Add(o.Line.TextWithoutCharacterName.Text);
+            var buttons = ui.CreateOptions(labels);
+
+            DialogueOption chosen = null;
+            for (int i = 0; i < buttons.Length; i++)
+            {
+                var option = available[i];
+                buttons[i].onClick.AddListener(() => chosen = option);
+            }
+
+            var eventSystem = EventSystem.current;
+            if (eventSystem != null && buttons.Length > 0)
+                eventSystem.SetSelectedGameObject(buttons[0].gameObject);
+
+            var input = Game.IsReady ? Game.Manager.Input : null;
+            await YarnTask.Yield(); // don't let the line-advance press double as a confirm
+            while (chosen == null && !cancellationToken.IsNextContentRequested)
+            {
+                // Interact doubles as confirm on the highlighted option (Submit/click also work).
+                if (input != null && input.InteractPressed && eventSystem != null
+                    && eventSystem.currentSelectedGameObject != null)
+                {
+                    var selected = eventSystem.currentSelectedGameObject.GetComponent<Button>();
+                    if (selected != null)
+                    {
+                        // One edge, one action (see GameInput) — choosing the last option
+                        // can end the conversation inside this frame.
+                        input.ConsumeInteract();
+                        selected.onClick.Invoke();
+                    }
+                }
+                await YarnTask.Yield();
+            }
+
+            ui.ClearOptions();
+            if (chosen != null)
+            {
+                var system = DialogueSystem.Instance;
+                var confirm = system != null && system.Cues != null ? system.Cues.Sfx("Confirm") : null;
+                if (confirm != null)
+                    Game.Audio.PlaySfx(confirm);
+            }
+            return chosen;
+        }
+    }
+}

@@ -1,0 +1,9 @@
+{
+  "name": "Lattice.Combat",
+  "rootNamespace": "Lattice.Combat",
+  "references": [
+    "Lattice.Data",
+    "Lattice.Core",
+    "Lattice.Rpg"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "name": "Lattice.UI",
+  "rootNamespace": "Lattice.UI",
+  "references": [
+    "Lattice.Data",
+    "Lattice.Core",
+    "Lattice.Rpg",
+    "Lattice.Combat",
+    "Lattice.World",
+    "Lattice.Dialogue",
+    "Unity.InputSystem",
+    "Unity.TextMeshPro",
+    "Unity.ugui"
+  ]
+}

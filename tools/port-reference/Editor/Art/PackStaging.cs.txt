@@ -1,0 +1,519 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using UnityEditor;
+using UnityEngine;
+
+namespace Lattice.EditorTools
+{
+    /// <summary>
+    /// Copies curated subsets of the downloaded CC0 packs (repo-root art-src/, git-ignored)
+    /// into Assets/_Project/Art/Packs/&lt;PackName&gt;/. Everything that lands there goes through
+    /// ToonAssetPostprocessor on import — that IS the unification pipeline's entry gate.
+    /// Full packs stay in art-src; only what scenes need gets imported.
+    /// </summary>
+    public static partial class PackStaging
+    {
+        const string ArtSrc = @"C:\Users\natem\Projects\SpaceRPG\art-src";
+        const string PacksRoot = "Assets/_Project/Art/Packs";
+
+        // pack folder in art-src -> subpaths (dirs) to stage. Extensions staged: fbx/png/jpg/tga.
+        internal static (string pack, string sub)[] StageEntries => Stage;
+
+        static readonly (string pack, string sub)[] Stage =
+        {
+            ("Quaternius_StylizedNatureMegaKit", @"extracted\FBX (Unity)"),
+            ("Quaternius_StylizedNatureMegaKit", @"extracted\Textures"),
+            ("Quaternius_MedievalVillageMegaKit", @"extracted\Medieval Village MegaKit[Standard]\FBX"),
+            ("Quaternius_MedievalVillageMegaKit", @"extracted\Medieval Village MegaKit[Standard]\Textures"),
+            ("Quaternius_SciFiEssentialsKit", @"extracted\FBX (Unity)"),
+            ("Quaternius_SciFiEssentialsKit", @"extracted\Textures"),
+            ("Quaternius_UltimateAnimatedAnimals", "FBX"),
+            // POLISH-72: the canine clip library. Malbers' Poly Art Wolf ships ~100
+            // Generic takes on a 58-bone canine rig (Pelvis-Spine-Spine1-Spine2-Neck-Head,
+            // Clavicle/UpperArm/Forearm/Hand, Thigh/Calf/HorseLink/Foot, Tail01..05) --
+            // including the TROT that no canine in this project had. Martok wears that
+            // skeleton via the donor graft, so these bind to him by transform path.
+            //
+            // ANIMATIONS ONLY. The pack's models, shaders, materials and Animal Controller
+            // scripts stay in art-src: the project already has one material authority
+            // (LatticeToon) and its own NPC drivers, and importing a second set of both
+            // is how a pack takes over a game. Curated subset, same as every row above.
+            ("MalberS_PolyArtWolf", "Animations"),
+            ("Quaternius_UltimateAnimatedAnimals", "Textures"),
+            ("Quaternius_FantasyPropsMegaKit", @"extracted\Exports\FBX"),
+            ("Quaternius_FantasyPropsMegaKit", @"extracted\Textures"),
+            ("Quaternius_AnimatedMonsters", @"extracted\FBX"),
+            ("Quaternius_AnimatedEasyEnemies", @"extracted\Easy Animated Enemy Pack - Jan 2019\FBX"),
+            ("Quaternius_ModularDungeons_itch", @"extracted\.Updated Modular Dungeon - May 2019\FBX"),
+            ("Kenney_NatureKit", @"Models\FBX format"),
+            // Rigged (unanimated) human bases — village humans, Lily first (Phase 3).
+            ("Quaternius_UniversalBaseCharacters", @"extracted\Universal Base Characters[Standard]\Base Characters\Unity"),
+            ("Quaternius_UniversalBaseCharacters", @"extracted\Universal Base Characters[Standard]\Base Characters\Textures"),
+            ("Quaternius_UniversalBaseCharacters", @"extracted\Universal Base Characters[Standard]\Hairstyles\Origin at 0\FBX (Unity)"),
+            ("Quaternius_UniversalBaseCharacters", @"extracted\Universal Base Characters[Standard]\Hairstyles\Textures"),
+            // Phase 7 villagers: Quaternius farm birds (poly.pizza mirror) + the older
+            // animated animal set (Pig/Pug/Sheep/Llama round out town casts).
+            ("Quaternius_FarmAnimals", "FBX"),
+            ("Quaternius_FarmAnimals", "Textures"),
+            ("Quaternius_LowPolyAnimatedAnimals", @"extracted\FBX"),
+            // Phase 8 Mooncreek villagers: species the Quaternius packs lack (cat, owl,
+            // rabbit, squirrel, duck, ferret) pulled individually from poly.pizza.
+            // Rabbit (Quaternius CC0), Duck (Isa Lousberg CC0); Cat/Owl/Squirrel/Ferret
+            // are Poly by Google CC-BY 3.0 — attribution lives in docs/CREDITS.md.
+            ("PolyPizza_Villagers", "FBX"),
+            ("PolyPizza_Villagers", "Textures"),
+            // POLISH-04 characters: the bear base (Yeti — the manifest's bear plan, CC0
+            // rigged+animated; staged single-file per the curated-subset law), the
+            // modular outfit meshes for the named-human wardrobe, and the Universal
+            // Animation Library (idle/walk clips for the Universal Base rig — human
+            // NPCs finally breathe).
+            // Big\FBX is the full bipedal yeti — the plain FBX\Yeti.fbx is the BLOB
+            // variant (a grinning head on feet; it briefly stood in Snowdrift Station).
+            ("Quaternius_UltimateMonsters", @"Big\FBX\Yeti.fbx"),
+            // POLISH-23 ambient fauna: the two rigged bird bases (CC0, the manifest's
+            // known-gap #1). Standard-res FBX variants — birds render at 0.2u, the
+            // Big meshes buy nothing at that size.
+            ("Quaternius_UltimateMonsters", @"FBX\Birb.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Pigeon.fbx"),
+            // POLISH-64: the enemy-variety intake. Chosen against the MEASURED collision
+            // clusters in docs/polish/P64-models/GATE_ENEMY_MESH.md, not by browsing the
+            // pack — 133 enemies ride 29 meshes, with 17 on the Slime alone. Still a
+            // curated subset per the standing law: these are the meshes that have a named
+            // destination, not the whole 54-file pack.
+            //   blobs/oozes  -> the 17-way Slime tie (BrackenSlime, ToxicOoze, DripSlime…)
+            ("Quaternius_UltimateMonsters", @"FBX\GreenBlob.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\PinkBlob.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\GreenSpikyBlob.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Glub.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Glub_Evolved.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Squidle.fbx"),
+            //   wraiths/wisps -> CrystalWraith (6) + DustDevil (4) + the *Shade tie (4)
+            ("Quaternius_UltimateMonsters", @"FBX\Hywirl.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Ghost.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Ghost_Skull.fbx"),
+            //   fungals -> SporePuff / ToxicPuffball / FungalHulk / GroveShambler
+            ("Quaternius_UltimateMonsters", @"FBX\Mushnub.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Mushnub_Evolved.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\MushroomKing.fbx"),
+            //   plant/thorn -> ThornSprite + the VineStrangler tie (5)
+            ("Quaternius_UltimateMonsters", @"FBX\Cactoro.fbx"),
+            //   golems -> AncientSentinel (6) + AncientGolem (3) + EmberColossus (4)
+            ("Quaternius_UltimateMonsters", @"FBX\Goleling.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Goleling_Evolved.fbx"),
+            //   flyers -> the CavernBat tie (6)
+            ("Quaternius_UltimateMonsters", @"FBX\Armabee.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Armabee_Evolved.fbx"),
+            //   humanoids -> options for the 5-way HunterLieutenant tie. The audit's
+            //   preferred fix there is outfit kitbash on the existing body; these are the
+            //   fallback if a rank needs a genuinely different silhouette.
+            ("Quaternius_UltimateMonsters", @"FBX\Orc.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Ninja.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Tribal.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Wizard.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Demon.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\BlueDemon.fbx"),
+            //   beasts -> ReefLurker/AbyssalHunter (3) + ThornBoar (2) + Monkroose fills
+            //   the missing-species list the code asks for and skips
+            ("Quaternius_UltimateMonsters", @"FBX\Monkroose.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Alpaking.fbx"),
+            ("Quaternius_UltimateMonsters", @"FBX\Frog.fbx"),
+            ("Quaternius_ModularOutfitsFantasy", @"extracted\Modular Character Outfits - Fantasy[Standard]\Exports\FBX (Unity)\Outfits"),
+            ("Quaternius_ModularOutfitsFantasy", @"extracted\Modular Character Outfits - Fantasy[Standard]\Exports\FBX (Unity)\Modular Parts"),
+            ("Quaternius_UniversalAnimationLibrary", @"extracted\Universal Animation Library[Standard]\Unity\UAL1_Standard.fbx"),
+            // POLISH-60 the rig debt: deforming skeletons for the rigless villager
+            // species. P60_Cat is the Quaternius animated Cat (CC0, poly.pizza
+            // /m/qKICY6xla2 — the UltimateMonsters "Cat" is the BLOB variant, not a
+            // town cat). The rest are Blender auto-rigs (tools/blender/p60_autorig.py)
+            // over the existing bodies: Squirrel/Owl/Ferret are Poly-by-Google
+            // CC-BY 3.0 derivatives (attribution stays in docs/CREDITS.md), Duck is
+            // an Isa Lousberg CC0 derivative, Tortoise/Marmot/Crab re-rig the
+            // authored P36/P46 meshes. Clips: Idle + Idle_2 (+ Sleep on Squirrel).
+            ("P60_AnimatedVillagers", "FBX"),
+            // POLISH-60 humans at work: UAL2 (CC0, quaternius.itch.io) carries the
+            // work-loop takes UAL1 lacks (TreeChopping/Farm_*/Idle_FoldArms/Idle_Rail).
+            ("Quaternius_UniversalAnimationLibrary2", @"extracted\Universal Animation Library 2[Standard]\Unity\UAL2_Standard.fbx"),
+            // POLISH-61I: the PURCHASED Source tier (CC0, Nathan 2026-07-30) ends the
+            // two-mesh era — 6 full bodies (Superhero/Regular/Teen × M/F) plus
+            // OnlyHead/UpperBody cut-downs, 19 hairstyles (+19 teen-fitted) and 6
+            // eyebrow styles. Same 130-LimbNode skeleton as the Standard tier (the
+            // Superhero exports are byte-identical), so every UAL retarget rides
+            // unchanged. Bodies from Exports/Unity; hair/brows from the project's
+            // existing Origin-at-0 convention — NEVER the Rigged-to-Head-Bone variant
+            // (a different, judged convention). The `..` hop keeps the staged files in
+            // the same Assets pack folder FindModelExact already searches.
+            ("Quaternius_UniversalBaseCharacters", @"..\Quaternius_UniversalBaseCharacters_Source\Base Characters\Exports\Unity"),
+            ("Quaternius_UniversalBaseCharacters", @"..\Quaternius_UniversalBaseCharacters_Source\Hairstyles\Origin at 0\FBX (Unity)"),
+            // POLISH-61E biome shelf (art-src/P61E_INTAKE.md, acquired 2026-07-29/30).
+            // Kenney kits follow the Kenney_NatureKit convention. The .unitypackage
+            // packs were extracted to art-src/<pack>/extracted by
+            // tools/p61e_extract_pack.py — meshes + palette textures only; prefabs,
+            // materials and shaders never leave the tar (the one-shader law replaces
+            // them at import). Palmov stages its naturalistic kitbash subset only:
+            // Animals (rigged, out of scope), Vehicles (off-canon) and Waters (SW3
+            // owns water) stay on the shelf.
+            ("Kenney_ModularCaveKit", @"Models\FBX format"),
+            ("Kenney_ModularSpaceKit", @"Models\FBX format"),
+            ("Kenney_MiniForest", @"Models\FBX format"),
+            ("FreeGameAssets_DesertMountains", "Fbx"),
+            ("FreeGameAssets_DesertMountains", "Textures"),
+            ("JellySquish_OasisPack", @"JellySquish Oasis Pack - Base Version\Colors.png"),
+            ("EmaceArt_RaftOnTheDesert", @"extracted\EmaceArt - raft on the desert\Meshes"),
+            ("EmaceArt_RaftOnTheDesert", @"extracted\EmaceArt - raft on the desert\Textures"),
+            ("k0rveen_LowPolyRuins", @"extracted\Models"),
+            ("KayKit_DungeonRemastered", @"extracted\Models"),
+            ("KayKit_DungeonRemastered", @"extracted\Textures"),
+            ("SpaceRobots_LowPolyDesert", @"extracted\FBX Files\Flat Colors"),
+            ("SpaceRobots_LowPolyDesert", @"extracted\Materials\Texture"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Environment"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Houses"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Islands"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Lands"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Mountains"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Plants"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Stones"),
+            ("Palmov_AtmosphericLocations", @"extracted\Models\Trees"),
+            ("Palmov_AtmosphericLocations", @"extracted\Textures"),
+            ("SineVFX_TranslucentCrystals", @"extracted\Resources\Meshes"),
+        };
+
+        // POLISH-61E: rows whose source dir mixes formats of the SAME meshes
+        // (JellySquish ships fbx+obj+glb side by side — staging the dir through the
+        // plain Extensions filter would import every mesh twice). `pattern` narrows
+        // the dir enumeration; everything else behaves like Stage.
+        static readonly (string pack, string sub, string pattern)[] StageFiltered =
+        {
+            ("JellySquish_OasisPack", @"JellySquish Oasis Pack - Base Version\Models", "*.fbx"),
+        };
+
+        // POLISH-64: one source file staged under a SECOND name, so it can carry a
+        // second import configuration.
+        //
+        // The UAL takes drive the shipped cast as GENERIC clips, bound to the
+        // Quaternius rig by transform path. The generated anime cast wears Meshy's
+        // 24-bone skeleton, which shares no path with it — the only bridge is
+        // avatar retargeting, and that needs the SAME takes imported as Humanoid.
+        // An import configuration is a property of the file, so a second
+        // configuration requires a second file. Renaming rather than re-authoring
+        // keeps both lanes fed from one source of truth.
+        static readonly (string pack, string sub, string dest)[] StageAs =
+        {
+            ("Quaternius_UniversalAnimationLibrary",
+                @"extracted\Universal Animation Library[Standard]\Unity\UAL1_Standard.fbx",
+                "UAL1_Humanoid.fbx"),
+            ("Quaternius_UniversalAnimationLibrary2",
+                @"extracted\Universal Animation Library 2[Standard]\Unity\UAL2_Standard.fbx",
+                "UAL2_Humanoid.fbx"),
+        };
+
+        // .obj/.mtl: the Poly-by-Google archives ship OBJ, not FBX — Unity's ModelImporter
+        // (and therefore the toon postprocessor) handles both identically.
+        static readonly string[] Extensions = { ".fbx", ".obj", ".mtl", ".png", ".jpg", ".tga" };
+
+        [Serializable]
+        public sealed class GeneratedStageFile
+        {
+            public string source;
+            public string destination;
+        }
+
+        /// <summary>
+        /// Optional exact-file form of unity-stage.json. Legacy two-field markers keep
+        /// their existing Generated&lt;Batch&gt; behavior. P73 uses this reviewed form so
+        /// an opaque cache name cannot choose an arbitrary Assets path and an
+        /// intermediate FBX cannot enter Unity by accident.
+        /// </summary>
+        [Serializable]
+        public sealed class GeneratedStageManifest
+        {
+            public string batch;
+            public string gate;
+            public string prompt_id;
+            public string destinationPack;
+            public string destinationSubpath;
+            public GeneratedStageFile[] files;
+        }
+
+        public static void StagePacks()
+        {
+            try
+            {
+                int total = 0;
+                foreach (var (pack, sub) in Stage)
+                    total += StageOne(pack, sub);
+                foreach (var (pack, sub, pattern) in StageFiltered)
+                    total += StageOne(pack, sub, pattern);
+                foreach (var (pack, sub, dest) in StageAs)
+                    total += StageOne(pack, sub, destName: dest);
+                total += StageGenerated();
+                AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+                Debug.Log($"[Lattice] PACKS_STAGED files={total}");
+                EditorApplication.Exit(0);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Lattice] StagePacks FAILED: {e}");
+                EditorApplication.Exit(1);
+            }
+        }
+
+        internal static int StageOne(string pack, string sub, string pattern = "*", string destName = null)
+        {
+            var srcRoot = Path.GetFullPath(Path.Combine(ArtSrc, pack, sub ?? ""));
+            // Single-file staging (curated-subset law: one model from a 40-model pack).
+            if (File.Exists(srcRoot))
+            {
+                var fileDest = Path.Combine(PacksRoot, pack, destName ?? Path.GetFileName(srcRoot));
+                Directory.CreateDirectory(Path.GetDirectoryName(fileDest)!);
+                if (!File.Exists(fileDest) || new FileInfo(fileDest).Length != new FileInfo(srcRoot).Length)
+                {
+                    File.Copy(srcRoot, fileDest, overwrite: true);
+                    Debug.Log($"[Lattice] staged {pack}/{sub}: 1 file");
+                    return 1;
+                }
+                return 0;
+            }
+            if (!Directory.Exists(srcRoot))
+            {
+                Debug.LogWarning($"[Lattice] pack source missing: {srcRoot}");
+                return 0;
+            }
+
+            // Texture dirs keep a "Textures" parent so Unity's FBX material import can
+            // resolve external textures by its standard sibling-folder search.
+            var destPrefix = Path.GetFileName(srcRoot.TrimEnd('\\', '/')).Equals("Textures", StringComparison.OrdinalIgnoreCase)
+                ? "Textures" : "";
+
+            int copied = 0;
+            bool generated = pack.StartsWith("Generated", StringComparison.Ordinal);
+            foreach (var file in Directory.EnumerateFiles(srcRoot, pattern, SearchOption.AllDirectories))
+            {
+                if (!Extensions.Contains(Path.GetExtension(file).ToLowerInvariant()))
+                    continue;
+                if (generated && IsGeneratedIntermediate(file))
+                    continue;
+                var rel = Path.GetRelativePath(srcRoot, file);
+                var dest = Path.Combine(PacksRoot, pack, destPrefix, rel);
+                Directory.CreateDirectory(Path.GetDirectoryName(dest)!);
+                if (!File.Exists(dest) || new FileInfo(dest).Length != new FileInfo(file).Length)
+                {
+                    File.Copy(file, dest, overwrite: true);
+                    copied++;
+                }
+            }
+            Debug.Log($"[Lattice] staged {pack}/{sub}: {copied} files");
+            return copied;
+        }
+
+        /// <summary>
+        /// P30 generative-art gate. Meshy/Blender outputs cache under
+        /// art-src/Generated/&lt;Batch&gt;/ and may enter Unity only here, becoming the
+        /// isolated pack Assets/_Project/Art/Packs/Generated&lt;Batch&gt;/. The source
+        /// directory name is sanitized so an external batch can never choose an
+        /// arbitrary Assets destination.
+        ///
+        /// Generated files that are PIPELINE INTERMEDIATES, not shipped assets.
+        ///
+        /// The curated-subset law applies to generated content too, and more sharply:
+        /// a Meshy character caches four FBX variants and two 2048 albedos, of which
+        /// exactly one mesh and one texture ever reach the game. Staging the whole
+        /// batch put 981 MB into Assets — against a 1.3 GB repository — for files
+        /// nothing references. art-src keeps them (it is git-ignored and it is the
+        /// provenance cache); Assets gets what ships.
+        ///
+        ///   *_Meshy.fbx            the un-rigged generation output; the rigged
+        ///                          derivative is what every prefab points at
+        ///   *_walking/_running     Meshy's own takes, superseded by the UAL bake
+        ///   *_reference.png        the input photo, not a texture
+        /// </summary>
+        static bool IsGeneratedIntermediate(string file)
+        {
+            var name = Path.GetFileNameWithoutExtension(file);
+            return name.EndsWith("_Meshy", StringComparison.OrdinalIgnoreCase)
+                || name.EndsWith("_Meshy_Rigged", StringComparison.OrdinalIgnoreCase)
+                || name.EndsWith("_walking_fbx", StringComparison.OrdinalIgnoreCase)
+                || name.EndsWith("_running_fbx", StringComparison.OrdinalIgnoreCase)
+                || name.EndsWith("_walking", StringComparison.OrdinalIgnoreCase)
+                || name.EndsWith("_running", StringComparison.OrdinalIgnoreCase)
+                || name.EndsWith("_reference", StringComparison.OrdinalIgnoreCase);
+        }
+
+        static int StageGenerated()
+        {
+            var root = Path.Combine(ArtSrc, "Generated");
+            if (!Directory.Exists(root)) return 0;
+            int total = 0;
+            foreach (var dir in Directory.EnumerateDirectories(root).OrderBy(p => p, StringComparer.Ordinal))
+            {
+                // A generated cache is not automatically an import request. The
+                // Meshy bridge writes this marker for batches that intentionally
+                // enter the quarantine/style gate; older caches remain untouched.
+                if (!File.Exists(Path.Combine(dir, "unity-stage.json"))) continue;
+                var batch = Path.GetFileName(dir);
+                var safe = new string(batch.Where(c => char.IsLetterOrDigit(c) || c == '-' || c == '_').ToArray());
+                if (string.IsNullOrWhiteSpace(safe) || !safe.Equals(batch, StringComparison.Ordinal))
+                    throw new InvalidOperationException($"Unsafe generated batch name: {batch}");
+                total += StageGeneratedBatch(dir, batch, safe);
+            }
+            return total;
+        }
+
+        static int StageGeneratedBatch(string sourceDirectory, string batch, string safeBatch)
+        {
+            string marker = Path.Combine(sourceDirectory, "unity-stage.json");
+            string json = File.ReadAllText(marker);
+            var manifest = JsonUtility.FromJson<GeneratedStageManifest>(json);
+            if (manifest == null)
+                throw new InvalidOperationException(
+                    $"Generated stage marker did not produce an object: '{marker}'");
+
+            // The legacy marker has no destination fields and intentionally stages the
+            // curated batch directory. Once any exact-mapping field is present, however,
+            // a missing/empty files array is a broken exact manifest -- never permission
+            // to fall back to broad staging.
+            bool exactMapping = manifest.files != null
+                || !string.IsNullOrWhiteSpace(manifest.destinationPack)
+                || !string.IsNullOrWhiteSpace(manifest.destinationSubpath);
+            if (!exactMapping)
+                return StageOne("Generated" + safeBatch,
+                    Path.Combine("..", "Generated", batch));
+
+            string[] issues = ValidateGeneratedStageManifest(manifest, batch);
+            if (issues.Length != 0)
+                throw new InvalidOperationException($"Unsafe generated stage manifest '{marker}': "
+                                                    + string.Join("; ", issues));
+
+            string destinationRoot = Path.Combine(PacksRoot, manifest.destinationPack,
+                manifest.destinationSubpath ?? string.Empty);
+            int copied = 0;
+            foreach (GeneratedStageFile file in manifest.files)
+            {
+                string source = SafeChildPath(sourceDirectory, file.source);
+                if (!File.Exists(source))
+                    throw new FileNotFoundException(
+                        $"Generated stage source missing for {batch}: {file.source}", source);
+                string destination = SafeChildPath(destinationRoot, file.destination);
+                Directory.CreateDirectory(Path.GetDirectoryName(destination)!);
+                if (!FilesEqual(source, destination))
+                {
+                    File.Copy(source, destination, overwrite: true);
+                    copied++;
+                }
+            }
+            Debug.Log($"[Lattice] staged Generated{batch}/manifest: {copied} files");
+            return copied;
+        }
+
+        public static string[] ValidateGeneratedStageManifestJson(string json, string batch)
+        {
+            if (string.IsNullOrWhiteSpace(json))
+                return new[] { "manifest JSON is empty" };
+            try
+            {
+                return ValidateGeneratedStageManifest(
+                    JsonUtility.FromJson<GeneratedStageManifest>(json), batch);
+            }
+            catch (Exception exception)
+            {
+                return new[] { "manifest JSON is invalid: " + exception.Message };
+            }
+        }
+
+        static string[] ValidateGeneratedStageManifest(GeneratedStageManifest manifest,
+            string batch)
+        {
+            var issues = new List<string>();
+            if (manifest == null)
+                return new[] { "manifest JSON did not produce an object" };
+            if (!string.Equals(manifest.batch, batch, StringComparison.Ordinal))
+                issues.Add($"batch '{manifest.batch}' != source directory '{batch}'");
+            if (!string.Equals(manifest.gate, "PackStaging", StringComparison.Ordinal))
+                issues.Add($"gate '{manifest.gate}' != PackStaging");
+            if (string.IsNullOrWhiteSpace(manifest.prompt_id))
+                issues.Add("prompt_id is required for an exact generated mapping");
+            if (!IsSafeSegment(manifest.destinationPack)
+                || !manifest.destinationPack.StartsWith("Generated", StringComparison.Ordinal))
+                issues.Add($"unsafe destinationPack '{manifest.destinationPack}'");
+            if (!IsSafeRelativePath(manifest.destinationSubpath, allowEmpty: true))
+                issues.Add($"unsafe destinationSubpath '{manifest.destinationSubpath}'");
+            if (manifest.files == null || manifest.files.Length == 0)
+                issues.Add("files must contain at least one exact mapping");
+            else
+            {
+                var destinations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
+                foreach (GeneratedStageFile file in manifest.files)
+                {
+                    if (file == null || !IsSafeRelativePath(file.source, allowEmpty: false))
+                    {
+                        issues.Add($"unsafe source '{file?.source}'");
+                        continue;
+                    }
+                    if (!IsSafeRelativePath(file.destination, allowEmpty: false))
+                    {
+                        issues.Add($"unsafe destination '{file.destination}'");
+                        continue;
+                    }
+                    string sourceExtension = Path.GetExtension(file.source).ToLowerInvariant();
+                    string destinationExtension = Path.GetExtension(file.destination).ToLowerInvariant();
+                    if (!Extensions.Contains(sourceExtension) || sourceExtension != destinationExtension)
+                        issues.Add($"mapping extension mismatch '{file.source}' -> '{file.destination}'");
+                    if (!destinations.Add(file.destination.Replace('\\', '/')))
+                        issues.Add($"duplicate destination '{file.destination}'");
+                }
+            }
+            return issues.ToArray();
+        }
+
+        static bool IsSafeSegment(string value) => !string.IsNullOrWhiteSpace(value)
+            && value.All(c => char.IsLetterOrDigit(c) || c == '-' || c == '_' || c == '.');
+
+        static bool IsSafeRelativePath(string value, bool allowEmpty)
+        {
+            if (string.IsNullOrWhiteSpace(value))
+                return allowEmpty;
+            if (Path.IsPathRooted(value))
+                return false;
+            string[] segments = value.Replace('\\', '/').Split('/');
+            return segments.Length > 0 && segments.All(segment =>
+                segment != "." && segment != ".." && IsSafeSegment(segment));
+        }
+
+        static string SafeChildPath(string root, string relative)
+        {
+            string absoluteRoot = Path.GetFullPath(root).TrimEnd(Path.DirectorySeparatorChar,
+                Path.AltDirectorySeparatorChar) + Path.DirectorySeparatorChar;
+            string candidate = Path.GetFullPath(Path.Combine(absoluteRoot, relative));
+            if (!candidate.StartsWith(absoluteRoot, StringComparison.OrdinalIgnoreCase))
+                throw new InvalidOperationException($"Path escapes staging root: {relative}");
+            return candidate;
+        }
+
+        static bool FilesEqual(string source, string destination)
+        {
+            if (!File.Exists(destination))
+                return false;
+            var sourceInfo = new FileInfo(source);
+            var destinationInfo = new FileInfo(destination);
+            if (sourceInfo.Length != destinationInfo.Length)
+                return false;
+            const int bufferSize = 1024 * 128;
+            var leftBuffer = new byte[bufferSize];
+            var rightBuffer = new byte[bufferSize];
+            using var left = File.OpenRead(source);
+            using var right = File.OpenRead(destination);
+            while (true)
+            {
+                int leftRead = left.Read(leftBuffer, 0, leftBuffer.Length);
+                int rightRead = right.Read(rightBuffer, 0, rightBuffer.Length);
+                if (leftRead != rightRead)
+                    return false;
+                if (leftRead == 0)
+                    return true;
+                for (int index = 0; index < leftRead; index++)
+                    if (leftBuffer[index] != rightBuffer[index])
+                        return false;
+            }
+        }
+    }
+}

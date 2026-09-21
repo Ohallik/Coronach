@@ -1,0 +1,217 @@
+using Lattice.Core;
+using Lattice.Data;
+using UnityEngine;
+using Yarn.Unity;
+
+namespace Lattice.Dialogue
+{
+    /// <summary>
+    /// Presents Yarn lines through the custom UI: speaker portrait + emotion (from
+    /// #emotion: tags), nameplate, letter-by-letter reveal with per-character voice
+    /// blips, CAPS rendering for human speakers, skip (press) and fast-forward (hold).
+    /// </summary>
+    public sealed class LatticeLinePresenter : DialoguePresenterBase
+    {
+        public DialogueUi ui;
+
+        /// <summary>Seconds fast-forward lingers on a finished line before auto-advancing.</summary>
+        const float FastForwardLinger = 0.12f;
+
+        Sprite _lastPortrait;
+
+        /// <summary>POLISH-50 blip probe: speakers already reported this session.</summary>
+        static readonly System.Collections.Generic.HashSet<string> _blipAudited = new();
+
+        /// <summary>POLISH-59: one-time `-blipaudit` command-line check.</summary>
+        static bool _blipAuditInit;
+
+        public override YarnTask OnDialogueStartedAsync()
+        {
+            // NOT ShowPanel. bug-20260819-052621: a Yarn node "starts" at its first
+            // COMMAND, not its first line, and 308 of the corpus's 364 nodes open with
+            // commands. The game's own Intro opens with six of them — 6.5 s of waits,
+            // fades and camera moves — and for all of that the panel sat on screen with
+            // no speaker, no text, and an Image with no sprite, which Unity draws as a
+            // white square. That is the first thing a new player sees.
+            //
+            // The panel now belongs to the LINE. RunLineAsync raises it.
+            ui.ResetForNewDialogue();
+            return YarnTask.CompletedTask;
+        }
+
+        public override async YarnTask OnDialogueCompleteAsync()
+        {
+            // DialogueSystem holds this only while an aborted IEnumerator command is
+            // returning to Yarn. Keeping presenter completion pending for that boundary
+            // prevents Yarn from clearing its cancellation token too early.
+            while (DialogueSystem.Instance != null
+                   && DialogueSystem.Instance.AbortCompletionFenceActive)
+                await YarnTask.Yield();
+            ui.HidePanel();
+        }
+
+        public override async YarnTask RunLineAsync(LocalizedLine line, LineCancellationToken token)
+        {
+            var system = DialogueSystem.Instance;
+            var profile = system != null ? system.Resolve(line.CharacterName) : null;
+            var emotion = EmotionTags.Parse(line.Metadata);
+            ui.PresentSpeaker(profile, emotion);
+            ui.ShowPanel();   // the panel belongs to the line — see OnDialogueStartedAsync
+            DialogueSystem.LinesPresented++;
+            if (ui.CurrentPortraitSprite != _lastPortrait)
+            {
+                _lastPortrait = ui.CurrentPortraitSprite;
+                DialogueSystem.PortraitChanges++;
+            }
+
+            // POLISH-50 blip probe: one line per speaker per session, log-only. Reports fired
+            // even under AutoAdvance (which skips the reveal loop entirely — so an autopilot
+            // route can never prove blips by hearing them; it can prove the DATA is wired).
+            if (_blipAudited.Add(line.CharacterName ?? "(none)"))
+                Debug.Log($"[Lattice] BLIP_SPEAKER name={line.CharacterName} " +
+                          $"profile={(profile == null ? "NONE" : profile.name)} " +
+                          $"clip={(profile == null || profile.blipClip == null ? "NONE" : profile.blipClip.name)} " +
+                          $"pitch={(profile == null ? 0f : profile.blipPitch):0.##} " +
+                          $"vol={(profile == null ? 0f : profile.blipVolume):0.##}");
+
+            string plain = line.TextWithoutCharacterName.Text;
+            bool human = profile != null && profile.isHuman;
+            // Roka Phase 3 (the Glintstone Vault amplifier): human speech mostly comes
+            // through now — same authored lines, comprehension-with-gaps rendering.
+            // Phase 4 (Ashfen, Lyra): the bridge is FULL — human lines land whole.
+            bool phase3 = Game.IsReady && Game.Manager.Flags.GetBool("Story.Roka.Phase3");
+            bool phase4 = Game.IsReady && Game.Manager.Flags.GetBool("Story.Roka.Phase4");
+            string rendered = human ? CapsSpeech.Render(plain, phase3, phase4) : plain;
+            int total = ui.SetBody(rendered);
+            ui.SetContinueVisible(false);
+            // POLISH-53 (e): the backlog records what the player was SHOWN, so a human
+            // line reads in the log exactly as it read in the panel — CAPS convention and
+            // Roka's comprehension phase included.
+            DialogueHistory.Record(
+                profile != null && !string.IsNullOrWhiteSpace(profile.displayName)
+                    ? profile.displayName : null,
+                rendered, SpeechKind.Dialogue);
+
+            var input = Game.IsReady ? Game.Manager.Input : null;
+            var blip = ui.EnsureBlipSource();
+
+            // POLISH-59: `-blipaudit` runs the REAL reveal (real blips, fast pace) for
+            // the first N lines even under AutoAdvance — the only way a harness route
+            // can ever hear a blip. Parsed once, lazily.
+            if (!_blipAuditInit)
+            {
+                _blipAuditInit = true;
+                if (System.Array.IndexOf(System.Environment.GetCommandLineArgs(), "-blipaudit") >= 0)
+                    DialogueSystem.BlipAuditLines = 12;
+            }
+            bool blipAudit = DialogueSystem.BlipAuditLines > 0
+                && profile != null && profile.blipClip != null && !DialogueSystem.Skipping;
+
+            // ----- reveal -----
+            // POLISH-54: the player-held skip runs the SAME VM at the same speed the
+            // autopilot does. Nothing about the command stream changes — only the reveal
+            // and the wait — which is why skip lands exactly the state watching lands.
+            if ((DialogueSystem.AutoAdvance && !blipAudit) || DialogueSystem.Skipping)
+            {
+                ui.SetVisibleCharacters(total);
+            }
+            else
+            {
+                int revealed = 0, blipCounter = 0, blipsPlayed = 0;
+                float budget = 0f;
+                while (revealed < total)
+                {
+                    if (token.IsNextContentRequested || (input != null && input.InteractPressed))
+                        break; // skip: reveal everything
+
+                    bool fast = token.IsHurryUpRequested || (input != null && input.CancelHeld)
+                        || (blipAudit && DialogueSystem.AutoAdvance);
+                    budget += Time.deltaTime * (fast ? 5f : 1f);
+                    while (budget > 0f && revealed < total)
+                    {
+                        char c = revealed < plain.Length ? plain[revealed] : ' ';
+                        revealed++;
+                        budget -= TypewriterPacing.DelayAfter(plain, revealed - 1);
+                        if (profile != null && TypewriterPacing.IsBlipChar(c) && ++blipCounter % 2 == 1
+                            && profile.blipClip != null)
+                        {
+                            blip.pitch = profile.blipPitch * Random.Range(0.97f, 1.03f);
+                            // Blips ride the SFX slider live (they bypassed it pre-POLISH-14).
+                            blip.PlayOneShot(profile.blipClip,
+                                profile.blipVolume * (Game.IsReady ? Game.Audio.sfxVolume : 1f));
+                            blipsPlayed++;
+                        }
+                    }
+                    ui.SetVisibleCharacters(revealed);
+                    await YarnTask.Yield();
+                }
+                ui.SetVisibleCharacters(total);
+                if (blipAudit)
+                {
+                    DialogueSystem.BlipAuditLines--;
+                    Debug.Log($"[Lattice] BLIP_REVEAL speaker={line.CharacterName} " +
+                              $"clip={profile.blipClip.name} pitch={profile.blipPitch:0.##} blips={blipsPlayed}");
+                }
+            }
+
+            // ----- wait for advance -----
+            // Gallery hold (POLISH-03): the marked line parks here, portrait at full
+            // emphasis and no continue arrow, until the boot captures and releases.
+            bool galleryHold = DialogueSystem.HoldLineMarker != null && plain.IndexOf(
+                DialogueSystem.HoldLineMarker, System.StringComparison.OrdinalIgnoreCase) >= 0;
+            ui.SetContinueVisible(!galleryHold);
+            if (galleryHold)
+            {
+                DialogueSystem.HoldingLine = true;
+                while (DialogueSystem.HoldLineMarker != null)
+                    await YarnTask.Yield();
+                DialogueSystem.HoldingLine = false;
+            }
+            if (DialogueSystem.AutoAdvance || DialogueSystem.Skipping)
+            {
+                await YarnTask.Yield();
+                // The burst rig's pace: never on in play, never on when skipping.
+                if (DialogueSystem.AutoAdvancePace > 0f && !DialogueSystem.Skipping)
+                {
+                    float until = Time.realtimeSinceStartup + DialogueSystem.AutoAdvancePace;
+                    while (Time.realtimeSinceStartup < until && !token.IsNextContentRequested
+                                                             && !DialogueSystem.Skipping)
+                        await YarnTask.Yield();
+                }
+            }
+            else
+            {
+                await YarnTask.Yield(); // don't let the skip press double as the advance press
+                float fastHold = 0f;
+                while (!token.IsNextContentRequested)
+                {
+                    if (DialogueSystem.Skipping)
+                        break; // the hold completed while this line was on screen
+                    if (input != null && input.InteractPressed)
+                    {
+                        // One edge, one action (see GameInput). Advancing the LAST line
+                        // ends the conversation and hands the state back to Explore, and
+                        // InteractionDetector may still run this frame — on the very
+                        // TalkNpc the player is standing in front of. The Yield above is
+                        // the same law, hand-rolled for the skip press; this is the rest
+                        // of it. bug-20260820-005223 is the version that shipped.
+                        input.ConsumeInteract();
+                        break;
+                    }
+                    if (input != null && input.CancelHeld)
+                    {
+                        fastHold += Time.deltaTime;
+                        if (fastHold >= FastForwardLinger)
+                            break;
+                    }
+                    else
+                    {
+                        fastHold = 0f;
+                    }
+                    await YarnTask.Yield();
+                }
+            }
+            ui.SetContinueVisible(false);
+        }
+    }
+}

@@ -1,0 +1,154 @@
+using System;
+using System.Collections;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+namespace Lattice.Core
+{
+    /// <summary>
+    /// Scene loading with fade-to-black transfers. Builds its own full-screen overlay
+    /// (top-most canvas) so no scene needs fade plumbing. Spawn-point routing: the
+    /// requested spawn id is parked in <see cref="PendingSpawnId"/> for the arriving
+    /// scene's WorldSession to consume.
+    /// </summary>
+    public sealed class SceneFlow : MonoBehaviour
+    {
+        /// <summary>
+        /// Optional evidence-rig barrier. Runtime assemblies that depend on Core may
+        /// register a short pre-fade drain without creating a Core-to-UI reference.
+        /// Null in every ordinary player launch.
+        /// </summary>
+        public static Func<bool> InstrumentTransitionHoldRequested;
+        public static Action<string, float> InstrumentTransitionHoldTimedOut;
+        public const float InstrumentTransitionHoldTimeoutSeconds = 1f;
+
+        /// <summary>Set before a transfer; consumed (and cleared) by the arriving scene.</summary>
+        public static string PendingSpawnId;
+
+        /// <summary>
+        /// Exact-position arrival (returning from a battle to the spot on the map where it
+        /// began). Takes precedence over PendingSpawnId; consumed by the arriving scene.
+        /// </summary>
+        public static float[] PendingPositionXyz;
+        public static float PendingYaw;
+
+        /// <summary>
+        /// POLISH-42: how the CURRENT scene was entered, published by WorldSession.Start
+        /// ("BattleReturn" / "SavedPosition" / a spawn id). Menus-side consumers
+        /// (LocationCard's arrival discipline) read it here because the Menus assembly
+        /// cannot reference World.
+        /// </summary>
+        public static string LastArrivalKind = "unknown";
+
+        public float fadeSeconds = 0.4f;
+        public bool IsTransitioning { get; private set; }
+
+        CanvasGroup _fade;
+
+        void Awake()
+        {
+            var canvasGo = new GameObject("FadeOverlay", typeof(Canvas), typeof(CanvasGroup));
+            canvasGo.transform.SetParent(transform, false);
+            var canvas = canvasGo.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            canvas.sortingOrder = 32000; // above all game UI
+
+            var imageGo = new GameObject("Black", typeof(Image));
+            imageGo.transform.SetParent(canvasGo.transform, false);
+            var image = imageGo.GetComponent<Image>();
+            image.color = Color.black;
+            var rect = image.rectTransform;
+            rect.anchorMin = Vector2.zero;
+            rect.anchorMax = Vector2.one;
+            rect.sizeDelta = Vector2.zero;
+
+            _fade = canvasGo.GetComponent<CanvasGroup>();
+            _fade.alpha = 0f;
+            _fade.blocksRaycasts = false;
+            _fade.interactable = false;
+        }
+
+        /// <summary>Fade out, load the scene (single mode), fade back in.</summary>
+        public void LoadScene(string sceneName, string spawnId = null)
+        {
+            if (IsTransitioning)
+            {
+                Debug.LogWarning($"[Lattice] LoadScene({sceneName}) ignored — transfer already in progress");
+                return;
+            }
+            StartCoroutine(Run(sceneName, spawnId));
+        }
+
+        /// <summary>Continue a completed cutscene fade without revealing the old scene.</summary>
+        public void LoadSceneFromBlack(string sceneName, string spawnId = null)
+        {
+            if (IsTransitioning) return;
+            _fade.alpha = 1f;
+            _fade.blocksRaycasts = true;
+            StartCoroutine(Run(sceneName, spawnId, true));
+        }
+
+        IEnumerator Run(string sceneName, string spawnId, bool alreadyBlack = false)
+        {
+            IsTransitioning = true;
+            Debug.Log($"[Lattice] TRANSFER_BEGIN scene={sceneName} spawn={spawnId ?? "(default)"}");
+            // #402, instrument-only: a voice chip can fire in the same frame as a
+            // battle transfer, while VoiceBurst's readable-card capture is delayed by
+            // the 0.16 s entry fade. IsTransitioning has already closed VoiceGate, so
+            // hold this unfaded origin frame only when the armed probe has exact live
+            // evidence pending. The timeout reports INCOMPLETE and releases the game.
+            float instrumentHoldStartedAt = Time.realtimeSinceStartup;
+            while (InstrumentTransitionHoldRequested?.Invoke() == true)
+            {
+                float heldSeconds = Time.realtimeSinceStartup - instrumentHoldStartedAt;
+                if (heldSeconds >= InstrumentTransitionHoldTimeoutSeconds)
+                {
+                    InstrumentTransitionHoldTimedOut?.Invoke(sceneName, heldSeconds);
+                    break;
+                }
+                yield return null;
+            }
+            // Duck the mix under the black: music dips, ambience reaches silence right
+            // as the fade lands — so unloading the old scene's ambience source is
+            // inaudible (it used to cut mid-waveform: an audible click).
+            Game.Audio?.DuckForTransfer(fadeSeconds);
+            if (!alreadyBlack) yield return Fade(1f);
+            else
+            {
+                // The cutscene's own fade already holds the black. Give the director's
+                // handback, its autosave and the last cutscene frame their own frames
+                // before the unload/load frame: stacked on one frame they tripped
+                // PERF_SPIKE (107-126 ms) at the intro -> home seam (bug-20260906-032523).
+                // Nothing is visible under the overlay while these frames pass.
+                for (int settle = 0; settle < 3; settle++) yield return null;
+            }
+
+            PendingSpawnId = spawnId;
+            var op = SceneManager.LoadSceneAsync(sceneName, LoadSceneMode.Single);
+            while (op != null && !op.isDone)
+                yield return null;
+            yield return null; // let the new scene's Awake/Start settle one frame
+
+            Game.Audio?.ReleaseDuck(fadeSeconds);
+            yield return Fade(0f);
+            IsTransitioning = false;
+            Debug.Log($"[Lattice] TRANSFER_DONE scene={sceneName}");
+        }
+
+        IEnumerator Fade(float target)
+        {
+            _fade.blocksRaycasts = true;
+            float start = _fade.alpha;
+            float duration = Mathf.Max(0.01f, fadeSeconds);
+            for (float t = 0f; t < duration; t += Time.unscaledDeltaTime)
+            {
+                // SmoothStep: the one ease family for every full-screen fade (POLISH-14).
+                _fade.alpha = Mathf.Lerp(start, target, Mathf.SmoothStep(0f, 1f, t / duration));
+                yield return null;
+            }
+            _fade.alpha = target;
+            _fade.blocksRaycasts = target > 0.001f;
+        }
+    }
+}

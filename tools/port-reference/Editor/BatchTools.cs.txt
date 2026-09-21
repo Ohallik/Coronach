@@ -1,0 +1,197 @@
+using System;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using Lattice.Core;
+using Lattice.UI;
+using TMPro;
+using UnityEditor;
+using UnityEditor.Build.Reporting;
+using UnityEditor.SceneManagement;
+using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.InputSystem.UI;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
+
+namespace Lattice.EditorTools
+{
+    /// <summary>
+    /// Headless entry points, invoked via:
+    ///   Unity.exe -batchmode -nographics -quit -projectPath ... -executeMethod Lattice.EditorTools.BatchTools.&lt;Method&gt;
+    /// </summary>
+    public static class BatchTools
+    {
+        const string TitleScenePath = "Assets/_Project/Scenes/Title.unity";
+
+        /// <summary>Compile check. Reaching this method at all means scripts compiled; log state and exit 0.</summary>
+        public static void Verify()
+        {
+            Debug.Log($"[Lattice] VERIFY_OK unity={Application.unityVersion} version={GameInfo.Version}");
+            var assemblies = AppDomain.CurrentDomain.GetAssemblies()
+                .Select(a => a.GetName().Name)
+                .Where(n => n.StartsWith("Lattice"))
+                .OrderBy(n => n);
+            Debug.Log("[Lattice] assemblies: " + string.Join(", ", assemblies));
+            EditorApplication.Exit(0);
+        }
+
+        /// <summary>Creates (or recreates) the Title scene and registers it in Build Settings.</summary>
+        public static void CreateTitleScene()
+        {
+            try
+            {
+                BuildTitleSceneInternal();
+                EditorApplication.Exit(0);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Lattice] CreateTitleScene FAILED: {e}");
+                EditorApplication.Exit(1);
+            }
+        }
+
+        /// <summary>Builds the Windows player to Builds/Windows at the repo root.</summary>
+        public static void BuildWindowsPlayer()
+        {
+            try
+            {
+                if (!File.Exists(TitleScenePath))
+                    BuildTitleSceneInternal();
+
+                PlayerSettings.companyName = "Nathan";
+                PlayerSettings.productName = GameInfo.GameName;
+                PlayerSettings.bundleVersion = GameInfo.Version;
+
+                var repoRoot = Path.GetFullPath(Path.Combine(Application.dataPath, "..", ".."));
+                var outputPath = Path.Combine(repoRoot, "Builds", "Windows", "Lattice.exe");
+                Directory.CreateDirectory(Path.GetDirectoryName(outputPath));
+
+                // All enabled build-settings scenes (Title first, showcase/game scenes after).
+                var scenes = EditorBuildSettings.scenes
+                    .Where(s => s.enabled && File.Exists(s.path))
+                    .Select(s => s.path)
+                    .ToArray();
+                if (scenes.Length == 0)
+                    scenes = new[] { TitleScenePath };
+
+                var options = new BuildPlayerOptions
+                {
+                    scenes = scenes,
+                    locationPathName = outputPath,
+                    target = BuildTarget.StandaloneWindows64,
+                    // Unity 6's incremental scene cache produced a player whose final
+                    // level file failed its own corruption check after the P33 Overworld
+                    // grew. Release builds favor correctness over a few cached minutes.
+                    options = BuildOptions.CleanBuildCache,
+                };
+
+                var report = BuildPipeline.BuildPlayer(options);
+                var summary = report.summary;
+                Debug.Log($"[Lattice] BUILD result={summary.result} size={summary.totalSize} errors={summary.totalErrors} output={outputPath}");
+                EditorApplication.Exit(summary.result == BuildResult.Succeeded ? 0 : 1);
+            }
+            catch (Exception e)
+            {
+                Debug.LogError($"[Lattice] BuildWindowsPlayer FAILED: {e}");
+                EditorApplication.Exit(1);
+            }
+        }
+
+        const string TmpEssentialsPackage = "Packages/com.unity.ugui/Package Resources/TMP Essential Resources.unitypackage";
+        const string TmpDefaultFontPath = "Assets/TextMesh Pro/Resources/Fonts & Materials/LiberationSans SDF.asset";
+
+        /// <summary>
+        /// The editor GUI imports TMP Essential Resources via an interactive prompt; headless flows must
+        /// do it explicitly or every TMP text gets a null font and renders nothing.
+        /// </summary>
+        static TMP_FontAsset EnsureTmpEssentials()
+        {
+            var font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(TmpDefaultFontPath);
+            if (font != null)
+                return font;
+
+            Debug.Log("[Lattice] importing TMP Essential Resources");
+            AssetDatabase.ImportPackage(TmpEssentialsPackage, false);
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+
+            font = AssetDatabase.LoadAssetAtPath<TMP_FontAsset>(TmpDefaultFontPath);
+            if (font == null)
+                throw new InvalidOperationException($"TMP essentials import failed: {TmpDefaultFontPath} not found.");
+            return font;
+        }
+
+        /// <summary>Adds a scene to Build Settings without clobbering the rest of the list.</summary>
+        internal static void EnsureSceneInBuild(string scenePath, bool first = false)
+        {
+            var list = new List<EditorBuildSettingsScene>(EditorBuildSettings.scenes);
+            list.RemoveAll(s => s.path == scenePath);
+            var entry = new EditorBuildSettingsScene(scenePath, true);
+            if (first)
+                list.Insert(0, entry);
+            else
+                list.Add(entry);
+            EditorBuildSettings.scenes = list.ToArray();
+        }
+
+        internal static void BuildTitleSceneInternal()
+        {
+            var defaultFont = EnsureTmpEssentials();
+            var scene = EditorSceneManager.NewScene(NewSceneSetup.EmptyScene, NewSceneMode.Single);
+
+            var cameraGo = new GameObject("Main Camera", typeof(Camera), typeof(AudioListener));
+            cameraGo.tag = "MainCamera";
+            var camera = cameraGo.GetComponent<Camera>();
+            camera.orthographic = true;
+            camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.backgroundColor = new Color(0.043f, 0.071f, 0.118f); // near-black frost blue
+            cameraGo.transform.position = new Vector3(0f, 0f, -10f);
+
+            var canvasGo = new GameObject("Canvas", typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));
+            var canvas = canvasGo.GetComponent<Canvas>();
+            canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+            var scaler = canvasGo.GetComponent<CanvasScaler>();
+            scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            scaler.referenceResolution = new Vector2(1920f, 1080f);
+            scaler.matchWidthOrHeight = 0.5f;
+
+            CreateText(canvasGo.transform, "TitleText", GameInfo.GameName.ToUpperInvariant(), defaultFont,
+                fontSize: 140f, new Vector2(0f, 180f), new Vector2(1400f, 220f), new Color(0.78f, 0.90f, 1f));
+            CreateText(canvasGo.transform, "SubtitleText", $"v{GameInfo.Version}", defaultFont,
+                fontSize: 32f, new Vector2(0f, 50f), new Vector2(1400f, 60f), new Color(0.45f, 0.55f, 0.68f));
+
+            new GameObject("EventSystem", typeof(EventSystem), typeof(InputSystemUIInputModule));
+            new GameObject("TitleBoot", typeof(TitleBoot));
+
+            // Menu (New Game / Continue / Quit) builds its buttons at runtime; BGM wired here.
+            var menuGo = new GameObject("TitleMenu", typeof(TitleMenu));
+            menuGo.GetComponent<TitleMenu>().bgm =
+                AssetDatabase.LoadAssetAtPath<AudioClip>("Assets/_Project/Audio/BGM/BGM_Title.ogg");
+
+            Directory.CreateDirectory(Path.GetDirectoryName(TitleScenePath));
+            if (!EditorSceneManager.SaveScene(scene, TitleScenePath))
+                throw new InvalidOperationException($"Failed to save scene to {TitleScenePath}");
+
+            EnsureSceneInBuild(TitleScenePath, first: true);
+            AssetDatabase.SaveAssets();
+            Debug.Log($"[Lattice] TITLE_SCENE_SAVED path={TitleScenePath}");
+        }
+
+        static void CreateText(Transform parent, string name, string text, TMP_FontAsset font, float fontSize,
+            Vector2 anchoredPosition, Vector2 size, Color color)
+        {
+            var go = new GameObject(name, typeof(TextMeshProUGUI));
+            go.transform.SetParent(parent, false);
+            var tmp = go.GetComponent<TextMeshProUGUI>();
+            tmp.font = font;
+            tmp.text = text;
+            tmp.fontSize = fontSize;
+            tmp.alignment = TextAlignmentOptions.Center;
+            tmp.color = color;
+            var rect = tmp.rectTransform;
+            rect.anchorMin = rect.anchorMax = new Vector2(0.5f, 0.5f);
+            rect.anchoredPosition = anchoredPosition;
+            rect.sizeDelta = size;
+        }
+    }
+}
