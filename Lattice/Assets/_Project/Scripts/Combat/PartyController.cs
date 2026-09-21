@@ -40,6 +40,9 @@ namespace Lattice.Combat
         void Update()
         {
             if(members==null||members.Length==0)return;
+            // Loading a save replaces State before the old party is unloaded.
+            // Never copy departing actors back into that newly loaded snapshot.
+            if(SceneFlow.Current!=null&&SceneFlow.Current.Loading)return;
             var state=GameServices.Current.State;
             PromptService.FindInteraction(Active.transform.position);
             if(Time.unscaledTime>=nextStats){RefreshStats();nextStats=Time.unscaledTime+.5f;}

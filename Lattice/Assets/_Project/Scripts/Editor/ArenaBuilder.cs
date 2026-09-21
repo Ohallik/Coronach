@@ -57,7 +57,7 @@ namespace Lattice.EditorTools
             EnemyArchetype[] ai={EnemyArchetype.PackHunter,EnemyArchetype.Swarm,EnemyArchetype.Sentinel,EnemyArchetype.Spitter,EnemyArchetype.Swarm,EnemyArchetype.Spitter,EnemyArchetype.Mine,EnemyArchetype.Serpent};
             DamageType[] weak={DamageType.Plasma,DamageType.Pulse,DamageType.Kinetic,DamageType.Beam,DamageType.Beam,DamageType.Pulse,DamageType.Kinetic,DamageType.Plasma};
             DamageType[] resist={DamageType.Kinetic,DamageType.Beam,DamageType.Plasma,DamageType.Pulse,DamageType.Pulse,DamageType.Beam,DamageType.Plasma,DamageType.Kinetic};
-            for(int i=0;i<names.Length;i++){int n=i;Asset<EnemyDef>(names[i],e=>{e.id=names[n];e.archetype=ai[n];e.weakness=weak[n];e.resistance=resist[n];e.boss=n==3||n==7;e.integrity=e.boss?(n==3?30000:22000):n==2?240:n==1||n==4?40:100;e.breakThreshold=e.boss?(n==3?600:900):80;e.xp=e.boss?240:24;e.speed=n==2?2:3.2f;e.attacks=new[]{n==3||n==5||n==7?ranged:basic};});}
+            for(int i=0;i<names.Length;i++){int n=i;Asset<EnemyDef>(names[i],e=>{e.id=names[n];e.archetype=ai[n];e.weakness=weak[n];e.resistance=resist[n];e.boss=n==3||n==7;e.integrity=e.boss?(n==3?18000:22000):n==2?240:n==1||n==4?40:100;e.breakThreshold=e.boss?(n==3?600:900):80;e.xp=e.boss?240:24;e.speed=n==2?2:3.2f;e.attacks=new[]{n==3||n==5||n==7?ranged:basic};});}
             foreach(string mat in new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal","HuskCore","ChoirResin","CantorPearl"})Asset<MaterialDef>(mat,m=>m.id=m.displayName=mat);
             foreach(string name in names)
             {

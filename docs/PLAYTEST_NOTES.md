@@ -26,6 +26,9 @@ Input source: scripted runtime actions and synthetic pad events in tests. Logite
 - Fresh fail-closed suites: 35 EditMode and 13 PlayMode tests passed, zero skips. Continue resumed all five zone saves with Sela active and the party/flags intact. Cantor body weak points moved in real frames. Short synthetic A taps advanced the real Yarn presenter without automatic advancement.
 - Revised boss sample: Burrower 21.0 s, Cantor 97.8 s with the scripted Sela route. These are measurements, not closed balance targets. The run then failed because travel's 75-second timeout included combat. Travel now excludes nested combat elapsed time while retaining separate combat and overall deadlines; a fresh full run is required.
 - Dialogue no longer loses short presses during text reveal delays. Combat timers stop during pause, and ending a Flash cannot unpause a menu.
+- The 30,000-Integrity Burrower experiment was rejected: repeated partner knockdowns and a 150-second combat timeout. Archive: `Builds/logs/burrower-overlong-rejected.log`. Longer fights do not scale linearly from the short sample; balance remains open.
+- The subsequent 18,000-Integrity Burrower completed in 96.3 seconds. Inspection found a route-driver defect: its 0.08 aim nudge was below GroundMotor's 0.1 facing threshold, so firing could continue in the old direction after a charge. Raise the nudge to 0.15 before using subsequent runs for balance. This changes automated steering, not player controls.
+- Death/retry regression reproduced before the fix: `Builds/logs/retry-regression-red.xml` fails because departing dead actors overwrite the loaded save during the scene fade. Party state synchronization is now suspended while SceneFlow is loading; the full 14-test PlayMode suite passed afterward.
 
 ## Required later sessions
 

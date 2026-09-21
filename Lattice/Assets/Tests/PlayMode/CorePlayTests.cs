@@ -4,6 +4,7 @@ using Lattice.Core;
 using Lattice.Combat;
 using Lattice.Data;
 using Lattice.Dialogue;
+using Lattice.Rpg;
 using Lattice.UI;
 using Lattice.World;
 using NUnit.Framework;
@@ -123,6 +124,23 @@ namespace Lattice.Tests.PlayMode
                 Assert.AreEqual(2,PartyController.Current.members.Length);Assert.AreEqual("Sela",PartyController.Current.Active.character);
                 Assert.AreEqual(3,GameServices.Current.State.party[1].level);Assert.IsTrue(GameServices.Current.Flags.GetBool("resumeProbe"));
             }
+        }
+        [UnityTest]public IEnumerator DefeatRetryRestoresTheSavedPartyWithoutAnotherDefeat()
+        {
+            var saved=GameServices.Current.State;
+            foreach(var member in saved.party)member.integrity=Levels.MaxIntegrity(member.level);
+            GameServices.Current.Saves.Save("autosave",saved);
+            var defeated=PartyController.Current;
+            foreach(var actor in defeated.members)actor.Health.integrity=0;
+            yield return null;yield return null;
+            Assert.IsTrue(GameTime.Paused);Assert.AreEqual("Retry",EventSystem.current.currentSelectedGameObject.name);
+            yield return Press(pad,GamepadButton.South);
+            float until=Time.realtimeSinceStartup+8;
+            while((SceneFlow.Current.Loading||PartyController.Current==defeated)&&Time.realtimeSinceStartup<until)yield return null;
+            yield return new WaitForSecondsRealtime(.25f);
+            Assert.IsFalse(SceneFlow.Current.Loading);Assert.AreNotSame(defeated,PartyController.Current);
+            Assert.IsTrue(PartyController.Current.members.All(a=>a.Health.Alive),"departing dead actors must not overwrite the loaded save during the fade");
+            Assert.IsFalse(GameTime.Paused);Assert.IsFalse(GameInput.Current.Blocked);
         }
         [UnityTest]public IEnumerator CantorHasMovingWeakPointSegmentsAndThreePhases()
         {

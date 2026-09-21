@@ -6,9 +6,9 @@ Current status: **playable blockout; P1 species approval pending**. The final ge
 
 ## Run
 
-Current development player: `Builds/WindowsDev/Lattice.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet.
+Playable checkpoint: `Builds/Windows/Lattice.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet.
 
-The release package is `Builds/Windows/Lattice.exe`; consult `docs/PROGRESS.md` for its current build status. Keep the EXE beside its `Lattice_Data` folder and Unity runtime files.
+The development package is `Builds/WindowsDev/Lattice.exe`; it also supports the arena and verification arguments below. Keep each EXE beside its `Lattice_Data` folder and Unity runtime files. Consult `docs/PROGRESS.md` for open gates.
 
 ## Controls
 
@@ -54,6 +54,7 @@ powershell -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -Dev -Scene Arena
 powershell -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -Dev -Scene Arena_Flight -RequirePad
 powershell -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -Dev -Route slice -RequirePad
 powershell -ExecutionPolicy Bypass -File scripts/performance.ps1
+powershell -ExecutionPolicy Bypass -File scripts/ui-smoke.ps1
 ```
 
 Development player arguments: `-scene`, `-spawn`, `-loadout starter|moon|gullet`, `-route slice`, `-perf <report>`, `-screenshot <png>`. Runtime shortcuts are disabled in release builds. Gates require fresh tests, state assertions and opened screenshots; logs alone are insufficient.

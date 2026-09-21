@@ -63,12 +63,13 @@ Double-click `Builds/Windows/Lattice.exe` for the release blockout or `Builds/Wi
 ### P2 evidence in progress (gate still open)
 
 - EditMode: 35/35 passed, no skips, fresh fail-closed XML. Includes damage, break, levels, equipment/affixes, atomic crafting/inventory, quests, save slots and corruption, pause/Flash arbitration, late quest acceptance and pad translation.
-- PlayMode: 13/13 passed. Ground attack kill, flight projectile kill, measured 8 m dash, form/motor transitions, swap and timed revive, additive dock and flag-gated warp, Yarn line/options/bench command, short A taps during typewriter delays, all six menu tabs, analog lock-on/d-pad separation, actual Continue from all five zones, Cantor segment motion/phases and existing pad/title tests.
+- PlayMode: 14/14 passed. Ground attack kill, flight projectile kill, measured 8 m dash, form/motor transitions, swap and timed revive, additive dock and flag-gated warp, Yarn line/options/bench command, short A taps during typewriter delays, all six menu tabs, analog lock-on/d-pad separation, actual Continue from all five zones, defeat/retry restoring living actors, Cantor segment motion/phases and existing pad/title tests.
 - Test-discovered fixes: Json.NET now replaces initialized collections on load (avoids duplicate Taren); flight dash has a separate duration from cruise clamp; equipped gear/affixes feed runtime stats; one lunge shares its victim set along the path.
-- Earlier arena smoke captures: `Builds/logs/Arena_Ground-screenshot.png` and `Arena_Flight-screenshot.png`, both opened; three kills, swap, and Flash Move assertions passed, Logitech C21A attached. New captures required after current changes.
+- Fresh arena smoke captures: `Builds/logs/Arena_Ground-screenshot.png` and `Arena_Flight-screenshot.png`, both opened after the clock and UI fixes; three kills, swap, and Flash Move assertions passed, Logitech C21A attached.
 - Render review found bloom missing: main camera post-processing was disabled, renderer postProcessData was null, and volume components needed persistent subassets. All fixed in reproducible builders. The emissive cube visibly blooms in the inspected ground arena; ordinary geometry does not.
 - Physical 60-second hands-on controller feel evidence is not available yet. Automated input and attached hardware do not close that requirement.
 - Generated UI art (panel, button, slider/reticle, sixteen items, eight skills) is archived with prompts under `art-src/Generated/P2/refs/`, provenance in `docs/art/image-manifest.json`.
+- Implementation checkpoint committed as `70acfa9` (`P2_CORE_CHECKPOINT`). This deliberately does not claim the physical-feel gate is closed.
 
 ### Route, look and performance evidence
 

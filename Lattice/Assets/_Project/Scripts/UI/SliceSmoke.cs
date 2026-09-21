@@ -113,7 +113,8 @@ namespace Lattice.UI
                 actor.motor.Move(d.magnitude>reach?new Vector2(d.x,d.z).normalized:Vector2.zero,false,true);
                 if(d.magnitude<reach+1)
                 {
-                    actor.motor.Move(new Vector2(d.x,d.z).normalized*.08f,false,true);
+                    // Stay above the motors' 0.1-facing threshold after a boss crosses us.
+                    actor.motor.Move(new Vector2(d.x,d.z).normalized*.15f,false,true);
                     var boss=target.GetComponent<BossController>();
                     if(boss!=null&&boss.Telegraphing&&boss.TelegraphRemaining<.065f)actor.Dodge(d);
                     else if(brain!=null&&brain.Telegraphing&&brain.TelegraphRemaining<.065f&&d.magnitude<4)actor.Dodge(d);
@@ -140,6 +141,16 @@ namespace Lattice.UI
             if(string.IsNullOrEmpty(path))yield break;Directory.CreateDirectory(Path.GetDirectoryName(path));
             ScreenCapture.CaptureScreenshot(path);yield return new WaitForSecondsRealtime(.3f);ScreenCapture.CaptureScreenshot(path);yield return new WaitForSecondsRealtime(.5f);Debug.Log("SCREENSHOT_OK "+path);
         }
-        void Fail(string message){failed=true;Debug.LogError("FAILED: route "+message);Application.Quit(1);}
+        void Fail(string message)
+        {
+            failed=true;
+            var party=PartyController.Current;
+            if(party!=null)
+            {
+                foreach(var actor in party.members)Debug.Log($"ROUTE_FAILURE_PARTY {actor.character} active={actor==party.Active} hp={actor.Health.integrity:0}/{actor.Health.maximum:0} charge={actor.charge:0} state={actor.State} pos={actor.transform.position}");
+                foreach(var enemy in Health.All.Where(h=>h!=null&&!h.friendly&&h.Alive))Debug.Log($"ROUTE_FAILURE_ENEMY {enemy.id} hp={enemy.integrity:0}/{enemy.maximum:0} pos={enemy.transform.position}");
+            }
+            Debug.LogError("FAILED: route "+message);Application.Quit(1);
+        }
     }
 }
