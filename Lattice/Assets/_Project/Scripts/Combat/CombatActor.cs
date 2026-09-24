@@ -22,8 +22,10 @@ namespace Lattice.Combat
         public int FlashGuards{get;private set;}
         public int AttackSequence{get;private set;}
         public float VisualAttackUntil{get;private set;}
+        public string VisualAction{get;private set;}="Idle";
+        public float VisualDuration{get;private set;}
         public readonly float[] cooldowns=new float[4];
-        float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil;
+        float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil,lastComboAt=-99;
         bool guarding,critical,flashConsumed;
         public float GuardDamageMultiplier=>guarding?.35f:1;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
@@ -38,7 +40,7 @@ namespace Lattice.Combat
         }
         public void Guard(bool held)
         {
-            if(held&&!guarding)guardAt=GameTime.Now;
+            if(held&&!guarding){guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
             guarding=held&&!flight; if(guarding)State=ActorState.Guard;else if(State==ActorState.Guard)State=ActorState.Idle;
         }
         public void Stagger(float seconds){if(!Health.Alive)return;State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;guarding=false;}
@@ -46,6 +48,7 @@ namespace Lattice.Combat
         {
             if(GameTime.Paused||!Health.Alive||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
             State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
+            BeginVisual("Dodge",flight?.3f:.25f);
             AudioManager.Play("thrusterFire_000",.16f);
             actionUntil=GameTime.Now+(flight?.3f:.25f);motor.Dash(direction.sqrMagnitude>.01f?direction:motor.Facing,flight?4:3.3f);
             return true;
@@ -97,19 +100,44 @@ namespace Lattice.Combat
         public bool Attack()
         {
             if(!CanAct||GameTime.Now<nextAttack)return false;
-            State=ActorState.Attack;float delay=flight?.17f:.29f;nextAttack=GameTime.Now+delay;actionUntil=GameTime.Now+.08f;
-            combo=(combo+1)%3;Vector3 aim=Aim();
-            AttackSequence++;VisualAttackUntil=Time.time+.42f;
-            AudioManager.Play(flight||character=="Sela"?"laserSmall_000":"impactMetal_000",.18f);
-            if(flight||character=="Sela")Projectile.Fire(transform.position+Vector3.up*.9f+aim*.6f,aim,Packet(rangedDamage*(flight?.38f:.7f),emitterType,12));
-            else Strike(transform.position+Vector3.up*.8f+aim*1.2f,1.65f,Packet(damage*(combo==0?1.25f:1),edgeType,20));
+            if(GameTime.Now-lastComboAt>.9f)combo=0;int stage=combo;combo=(combo+1)%3;lastComboAt=GameTime.Now;
+            State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?.32f:stage==2?.48f:stage==1?.36f:.32f;
+            nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:duration*.85f);
+            Vector3 aim=Aim();BeginVisual(flight||character=="Sela"?"Shoot":"Attack"+(stage+1),duration);
+            if(flight)
+            {
+                AudioManager.Play("laserSmall_000",.18f);
+                Projectile.Fire(transform.position+Vector3.up*.9f+aim*.6f,aim,Packet(rangedDamage*.38f,emitterType,12));
+            }
+            else StartCoroutine(GroundContact(AttackSequence,stage,aim,duration*.46f));
             return true;
+        }
+        void BeginVisual(string action,float duration)
+        {
+            AttackSequence++;VisualAction=action;VisualDuration=duration;VisualAttackUntil=GameTime.Now+duration;
+        }
+        IEnumerator GroundContact(int sequence,int stage,Vector3 direction,float windup)
+        {
+            float at=GameTime.Now+windup;
+            while(GameTime.Now<at)yield return null;
+            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Attack)yield break;
+            while(GameTime.Paused)yield return null;
+            if(character=="Sela")
+            {
+                AudioManager.Play("laserSmall_000",.18f);
+                Projectile.Fire(transform.position+Vector3.up*.9f+direction*.6f,direction,Packet(rangedDamage*.7f,emitterType,12));
+            }
+            else
+            {
+                AudioManager.Play("impactMetal_000",.16f);
+                Strike(transform.position+Vector3.up*.8f+direction*1.2f,1.65f,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20));
+            }
         }
         public bool Lunge()
         {
             if(!CanAct||GameTime.Now<nextAttack)return false;
             State=ActorState.Attack;nextAttack=GameTime.Now+.7f;actionUntil=GameTime.Now+.2f;
-            AttackSequence++;VisualAttackUntil=Time.time+.42f;
+            BeginVisual("Dash",.42f);
             var direction=target!=null&&target.Alive?(target.transform.position-transform.position).normalized:motor.Facing;
             direction.y=0;StartCoroutine(LungePath(direction));return true;
         }
@@ -124,8 +152,24 @@ namespace Lattice.Combat
             if(!CanAct||slot<0||slot>3||cooldowns[slot]>0)return false;
             var definition=GameCatalog.Find<CharacterDef>(character);var skill=definition!=null&&definition.skills.Length>slot?definition.skills[slot]:null;
             float cost=skill!=null?skill.chargeCost:20;if(charge<cost)return false;
-            charge-=cost;cooldowns[slot]=skill!=null?skill.cooldown:slot==3?10:4;State=ActorState.Skill;actionUntil=GameTime.Now+.16f;
+            charge-=cost;cooldowns[slot]=skill!=null?skill.cooldown:slot==3?10:4;State=ActorState.Skill;
+            BeginVisual(slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",slot==0?.5f:slot==1?.4f:.55f);
+            actionUntil=GameTime.Now+(flight?.16f:VisualDuration*.85f);
             float power=1+Mathf.Max(0,resonance-10)*.025f;Vector3 direction=Aim();
+            if(flight)ApplySkill(slot,power,direction);
+            else StartCoroutine(SkillContact(AttackSequence,slot,power,direction));
+            Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
+        }
+        IEnumerator SkillContact(int sequence,int slot,float power,Vector3 direction)
+        {
+            float at=GameTime.Now+VisualDuration*.4f;
+            while(GameTime.Now<at)yield return null;
+            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Skill)yield break;
+            while(GameTime.Paused)yield return null;
+            ApplySkill(slot,power,direction);
+        }
+        void ApplySkill(int slot,float power,Vector3 direction)
+        {
             if(character=="Taren")
             {
                 if(slot==0)Strike(transform.position+direction*2+Vector3.up*.8f,3.4f,Packet(damage*1.7f*power,DamageType.Kinetic,35));
@@ -144,7 +188,6 @@ namespace Lattice.Combat
                 }
                 else refractUntil=GameTime.Now+1.4f;
             }
-            Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
         }
         void Pierce(Vector3 direction,DamagePacket packet,float length)
         {

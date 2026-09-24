@@ -17,6 +17,7 @@ namespace Lattice.UI
         public bool SettingsOpen=>settings!=null;
         void Start()
         {
+            MusicDirector.SetLocation("Title",false);
             canvas=UiKit.CreateCanvas("TitleCanvas",10,transform);
             var background=new GameObject("KeyArt",typeof(RawImage)); background.transform.SetParent(canvas.transform,false);
             background.GetComponent<RawImage>().texture=Resources.Load<Texture2D>("UI/Title/key-art");

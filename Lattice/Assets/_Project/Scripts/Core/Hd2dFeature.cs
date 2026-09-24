@@ -26,13 +26,14 @@ namespace Lattice.Core
                 var camera=frameData.Get<UniversalCameraData>();
                 var profile=ZoneController.Current!=null?ZoneController.Current.definition.hd2dProfile:null;
                 if(profile==null)return;
-                material.SetVector("_PixelGrid",new Vector4(profile.internalWidth,profile.internalHeight,profile.tiltStart,profile.tiltStrength));
                 material.SetColor("_GradeTint",profile.tint);
                 var descriptor=graph.GetTextureDesc(resources.activeColorTexture);
                 descriptor.name="Lattice HD2D";descriptor.clearBuffer=false;
-                descriptor.width=profile.internalWidth;descriptor.height=profile.internalHeight;descriptor.filterMode=FilterMode.Point;
+                if(!profile.nativeResolution){descriptor.width=profile.internalWidth;descriptor.height=profile.internalHeight;}
+                descriptor.filterMode=FilterMode.Point;
+                material.SetVector("_PixelGrid",new Vector4(descriptor.width,descriptor.height,0,0));
                 var target=graph.CreateTexture(descriptor);
-                graph.AddBlitPass(new RenderGraphUtils.BlitMaterialParameters(resources.activeColorTexture,target,material,0),passName:"Lattice pixel / tilt bands");
+                graph.AddBlitPass(new RenderGraphUtils.BlitMaterialParameters(resources.activeColorTexture,target,material,0),passName:"Coronach sharp colour grade");
                 resources.cameraColor=target;
             }
         }

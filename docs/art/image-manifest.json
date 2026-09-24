@@ -1128,5 +1128,21 @@
     ],
     "inspected": true,
     "notes": "Opened: muted broad navy/violet cells with sparse dim cyan veins. Replaces the busy runtime membrane texture; original source retained. In-world look review pending."
+  },
+  {
+    "name": "TarenFlight",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/Coronach-flight/refs/TarenFlight.png",
+    "prompt": "docs/art/coronach-flight-batch.json",
+    "inspected": true,
+    "notes": "Generated isolated spacecraft reference from the corresponding inspected Shaped character board; used by Meshy for a separate flight hull."
+  },
+  {
+    "name": "SelaFlight",
+    "generator": "session image_gen",
+    "source": "art-src/Generated/Coronach-flight/refs/SelaFlight.png",
+    "prompt": "docs/art/coronach-flight-batch.json",
+    "inspected": true,
+    "notes": "Generated isolated spacecraft reference from the corresponding inspected Shaped character board; used by Meshy for a separate flight hull."
   }
 ]

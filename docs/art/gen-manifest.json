@@ -1849,5 +1849,73 @@
       "art-src/Generated/P3-TallowStationHull/TallowStationHull_Meshy.fbx",
       "art-src/Generated/P3-TallowStationHull/TallowStationHull_Meshy_base_color.png"
     ]
+  },
+  {
+    "task": "coronach_flight-img3d-01a0d1c6-ff41-726e-b0bc-f9b30b1a25ef",
+    "task_id": "01a0d1c6-ff41-726e-b0bc-f9b30b1a25ef",
+    "prompt_id": "CORONACH_FLIGHT",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Create ONE isolated complete compact spacecraft as a production reference for Meshy reconstruction, in a single three-quarter FRONT view from 35 degrees above. Wide landscape canvas; entire vehicle centered with clear white margin, filling 80 percent of frame. OPAQUE PURE WHITE background. Flat cel-shaded game art, broad matte color regions. No ground, cast shadow, gloss, highlights, reflections, bloom, gradients, particles, exhaust, labels, text, inset or turnaround. All parts physically attached. This is a Vael alien transforming its living-metal body into a PERSONAL SPACECRAFT, with concealed limbs and a completely streamlined ship silhouette. Absolutely no visible human head, face, feet, legs, fingers, dangling arms or torso. No pilot sitting in it. Retain character identity through armor palette, visor-like sensor band and crest-inspired dorsal fins, not humanoid anatomy. Length 3.0-3.5m, width 0.62-0.72 length, height 0.18-0.25 length. Solid forward nose, compact enclosed hull, rooted swept wings, recessed dark rear engines. The reference image supplies CHARACTER COLORS ONLY; do not reproduce the standing character.\nTaren: powerful broad arrowhead interceptor, warm ivory armor #C7BEAB over deep charcoal slate #273440, copper #AA6945 shoulder-like wing root bands, bold amber-gold branching sync seams #FFB72C. Broad flattened spearhead nose; narrow gold sensor strip like his determined visor; three short swept charcoal/copper dorsal crest fins. Two substantial swept blade-edged wings and two smaller rear stabilizers; white notches between wing tips and rear engine nacelles while roots remain connected. Asymmetric functional detail: starboard wrist-blade becomes a short integrated forward cutting rail; port forearm emitter becomes a compact flush gun port. Pair of rear engine apertures. Tough elegant cutting fighter, clear arrowhead silhouette.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1884692 sha256(base64)=6a57787cde428490>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/Coronach-TarenFlight/TarenFlight_Meshy.fbx",
+    "batch": "Coronach-TarenFlight",
+    "created_at": "2026-09-24T04:57:56+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-24T04:58:21+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/Coronach-TarenFlight/TarenFlight_Meshy.fbx",
+      "art-src/Generated/Coronach-TarenFlight/TarenFlight_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "coronach_flight-img3d-01a0d1c7-6d42-7309-8dfe-7f65855abb21",
+    "task_id": "01a0d1c7-6d42-7309-8dfe-7f65855abb21",
+    "prompt_id": "CORONACH_FLIGHT",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Use case: stylized-concept. Create ONE isolated complete compact spacecraft as a production reference for Meshy reconstruction, in a single three-quarter FRONT view from 35 degrees above. Wide landscape canvas; entire vehicle centered with clear white margin, filling 80 percent of frame. OPAQUE PURE WHITE background. Flat cel-shaded game art, broad matte color regions. No ground, cast shadow, gloss, highlights, reflections, bloom, gradients, particles, exhaust, labels, text, inset or turnaround. All parts physically attached. This is a Vael alien transforming its living-metal body into a PERSONAL SPACECRAFT, with concealed limbs and a completely streamlined ship silhouette. Absolutely no visible human head, face, feet, legs, fingers, dangling arms or torso. No pilot sitting in it. Retain character identity through armor palette, visor-like sensor band and crest-inspired dorsal fins, not humanoid anatomy. Length 3.0-3.5m, width 0.62-0.72 length, height 0.18-0.25 length. Solid forward nose, compact enclosed hull, rooted swept wings, recessed dark rear engines. The reference image supplies CHARACTER COLORS ONLY; do not reproduce the standing character.\nSela: slender twin-boom needle interceptor with swept crescent wings, cool ivory #C8D0D3 armor over deep slate #334756, pale lilac #AE9CCF hull and fin accents, cyan #22F5FF fine branching sync seams. Long tapered central nose and small flattened cyan visor-like sensor band. Two long swept-back ivory/lilac feather-shaped dorsal strakes rooted along aft hull recall her long plume crest. Twin narrow emitter booms attached beside the nose leave clear WHITE gaps ahead of the wing roots; port emitter subtly larger. Wide swept crescent wings balance the long narrow hull; rear twin engines in attached wing roots. Delicate agile ranged-fighter silhouette distinct from a broad arrowhead; engineered living metal, no loose pieces.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1870756 sha256(base64)=115ee84a28f8da93>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/Coronach-SelaFlight/SelaFlight_Meshy.fbx",
+    "batch": "Coronach-SelaFlight",
+    "created_at": "2026-09-24T04:58:24+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-09-24T04:58:49+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/Coronach-SelaFlight/SelaFlight_Meshy.fbx",
+      "art-src/Generated/Coronach-SelaFlight/SelaFlight_Meshy_base_color.png"
+    ]
   }
 ]

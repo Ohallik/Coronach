@@ -76,6 +76,86 @@ namespace Lattice.Tests.PlayMode
             while(enemy!=null&&enemy.Health.Alive&&Time.realtimeSinceStartup<until){actor.Attack();yield return new WaitForSecondsRealtime(.32f);}
             Assert.IsTrue(enemy==null||!enemy.Health.Alive,"real attack volumes must kill the enemy");Assert.Greater(actor.Kills,0);
         }
+        [UnityTest]public IEnumerator GroundContactWaitsForSwingAndDodgeCancelsIt()
+        {
+            // Setup disables partner brains after entering the arena. Let their
+            // already-started wind-ups finish, then clear those unrelated shots.
+            yield return new WaitForSecondsRealtime(.6f);
+            foreach(var projectile in Object.FindObjectsByType<Projectile>(FindObjectsSortMode.None))Object.Destroy(projectile.gameObject);
+            foreach(var hit in Object.FindObjectsByType<HitVolume>(FindObjectsSortMode.None))Object.Destroy(hit.gameObject);
+            yield return null;
+            var actor=PartyController.Current.Active;var enemy=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None)[0];
+            enemy.Health.maximum=enemy.Health.integrity=1000;
+            var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=enemy.transform.position-Vector3.forward*2;cc.enabled=true;
+            actor.motor.Move(Vector2.up,false,false);actor.target=enemy.Health;actor.damage=10;
+            float before=enemy.Health.integrity;Assert.IsTrue(actor.Attack());
+            yield return new WaitForSecondsRealtime(.06f);Assert.AreEqual(before,enemy.Health.integrity,"damage must wait for the swing contact");
+            Assert.IsTrue(actor.Dodge(Vector3.right));yield return new WaitForSecondsRealtime(.4f);
+            Assert.AreEqual(before,enemy.Health.integrity,"a cancelled wind-up must not leave a ghost hit; the motor was deliberately not advanced");
+            Assert.IsTrue(actor.Attack());GameTime.Paused=true;yield return new WaitForSecondsRealtime(.3f);
+            Assert.AreEqual(before,enemy.Health.integrity,"the wind-up must freeze during pause");
+            GameTime.Paused=false;yield return new WaitForSecondsRealtime(.28f);
+            Assert.Less(enemy.Health.integrity,before,"an uninterrupted resumed swing must connect");
+        }
+        [UnityTest]public IEnumerator EarlyComboTapQueuesTheNextDistinctSwing()
+        {
+            var actor=PartyController.Current.Active;actor.GetComponent<PlayerBrain>().AutoPilot=false;
+            yield return Press(pad,GamepadButton.South);Assert.AreEqual("Attack1",actor.VisualAction);
+            yield return new WaitForSecondsRealtime(.12f);yield return Press(pad,GamepadButton.South);
+            yield return new WaitForSecondsRealtime(.22f);
+            Assert.AreEqual("Attack2",actor.VisualAction,"a tap during recovery must survive until the second swing");
+            var animation=actor.GetComponent<FormController>().shaped.GetComponent<GeneratedAnimator>();
+            Assert.AreEqual("Attack2",animation.CurrentAnimation,"the second strike must select its own motion");
+        }
+        [UnityTest]public IEnumerator ShapedVanesAreAttachedToAnimatedBones()
+        {
+            // Allow actions started by the partner during zone entry to recover.
+            yield return new WaitForSecondsRealtime(.6f);
+            foreach(var actor in PartyController.Current.members)
+            {
+                var shaped=actor.GetComponent<FormController>().shaped;var animator=shaped.GetComponentInChildren<Animator>();
+                var vanes=shaped.GetComponent<GeneratedVanes>();Assert.AreEqual(4,vanes.vanes.Length);
+                foreach(var vane in vanes.vanes)
+                    Assert.AreEqual(animator.GetBoneTransform(vane.name.Contains("Upper")?HumanBodyBones.Chest:HumanBodyBones.Hips),vane.parent,"vanes cannot remain at rest while the torso swings");
+                Assert.IsTrue(actor.Attack());
+            }
+            yield return new WaitForSecondsRealtime(.2f);
+            foreach(var actor in PartyController.Current.members)
+                Assert.IsNotNull(actor.GetComponent<FormController>().shaped.GetComponentInChildren<Animator>());
+        }
+        [UnityTest]public IEnumerator FlightUsesDistinctHorizontalShipsAndReturnsToBiped()
+        {
+            yield return Load("Arena_Flight");
+            foreach(var actor in PartyController.Current.members)
+            {
+                var definition=GameCatalog.Find<CharacterDef>(actor.character);var form=actor.GetComponent<FormController>();
+                Assert.AreNotSame(definition.shaped,definition.flight,"flight must have its own ship mesh");
+                Assert.IsNotNull(form.flight.GetComponent<FlightShipMotion>());
+                Assert.IsTrue(form.flight.activeSelf);Assert.IsFalse(form.shaped.activeSelf);Assert.IsFalse(form.natural.activeSelf);
+                Assert.Less(Vector3.Angle(form.flight.transform.up,Vector3.up),30,"flight mesh must stay horizontal instead of rotating a standing humanoid");
+            }
+            yield return Load("Arena_Ground");var ground=PartyController.Current.Active.GetComponent<FormController>();
+            Assert.IsTrue(ground.shaped.activeSelf);Assert.IsFalse(ground.flight.activeSelf);
+            Assert.That(ground.shaped.transform.localScale.x,Is.EqualTo(1).Within(.01f));
+        }
+        [UnityTest]public IEnumerator MusicFollowsTitleTownShopAndMoonWithInterruptedFades()
+        {
+            yield return Load("Hub_Decks");Assert.AreEqual("Hub Town Groove",MusicDirector.Current.Track);
+            yield return new WaitForSecondsRealtime(1.3f);
+            Assert.IsTrue(MusicDirector.Current.ActiveSource.isPlaying);Assert.Greater(MusicDirector.Current.ActiveSource.timeSamples,0);
+            var shop=Object.FindFirstObjectByType<ShopUi>();Assert.IsNotNull(shop);
+            shop.Open(null);Assert.AreEqual("Moonbase Market",MusicDirector.Current.Track);
+            yield return new WaitForSecondsRealtime(.15f);shop.Close();
+            yield return new WaitForSecondsRealtime(.15f);shop.Open(null);shop.Close();
+            Assert.AreEqual("Hub Town Groove",MusicDirector.Current.Track);
+            yield return new WaitForSecondsRealtime(1.3f);Assert.IsTrue(MusicDirector.Current.ActiveSource.isPlaying);
+            Assert.Greater(MusicDirector.Current.ActiveSource.volume,.4f);
+            yield return Load("Sorrel_Ridges");ZoneController.Current.SafePocket(false);
+            Assert.AreEqual("Adventure Awaits",MusicDirector.Current.Track);
+            ZoneController.Current.SafePocket(true);Assert.AreEqual("Hub Town Groove",MusicDirector.Current.Track);
+            SceneFlow.Current.LoadZone("Title");while(SceneFlow.Current.Loading)yield return null;yield return null;
+            Assert.AreEqual("Title Theme",MusicDirector.Current.Track);
+        }
         [UnityTest]public IEnumerator FlightFormMotorFireAndEightMetreLunge()
         {
             yield return Load("Arena_Flight");var actor=PartyController.Current.Active;
@@ -126,6 +206,27 @@ namespace Lattice.Tests.PlayMode
             Assert.Less((leader.transform.position-partner.transform.position).magnitude,18,"boost must not leave the swap partner an encounter behind");
             Vector3 before=leader.transform.position;Assert.IsTrue(party.Swap());
             Assert.Less((party.Active.transform.position-before).magnitude,18);
+        }
+        [UnityTest]public IEnumerator CompanionEvadesTheBurrowerTelegraph()
+        {
+            var party=PartyController.Current;Assert.IsTrue(party.Swap());
+            var companion=party.members[1-party.index];var leader=party.Active;
+            foreach(var actor in party.members)
+            {
+                actor.GetComponent<PlayerBrain>().AutoPilot=true;
+                var cc=actor.GetComponent<CharacterController>();cc.enabled=false;
+                actor.transform.position=new Vector3(200+(actor==leader?5:0),0,-200);cc.enabled=true;
+            }
+            var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Burrower"),new Vector3(200,0,-194));
+            leader.target=enemy.Health;companion.GetComponent<PartnerBrain>().enabled=true;
+            float until=Time.realtimeSinceStartup+10;bool dodged=false;
+            while(Time.realtimeSinceStartup<until&&companion.Health.Alive)
+            {
+                if(companion.State==ActorState.Dodge){dodged=true;break;}
+                yield return null;
+            }
+            Assert.IsTrue(dodged,"a companion must defend against a telegraphed attack instead of repeatedly trading wind-ups for damage");
+            Assert.IsTrue(companion.Health.Alive);
         }
         [UnityTest]public IEnumerator OpeningMenuCancelsBufferedLunge()
         {
@@ -246,6 +347,17 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(PartyController.Current.members.All(a=>a.Health.Alive),"departing dead actors must not overwrite the loaded save during the fade");
             Assert.IsFalse(GameTime.Paused);Assert.IsFalse(GameInput.Current.Blocked);
         }
+        [UnityTest]public IEnumerator GroundBossSettlesWhileWaitingInAttackRange()
+        {
+            // A charge can step onto scenery or a body. At ranged distance the
+            // boss must still fall, otherwise ground shots pass beneath it.
+            var actor=PartyController.Current.Active;var cc=actor.GetComponent<CharacterController>();
+            cc.enabled=false;actor.transform.position=new Vector3(0,0,-20);cc.enabled=true;
+            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Burrower"),new Vector3(0,2,-12));
+            // Physics uses scaled time; a companion Flash during setup can slow it.
+            yield return new WaitForSeconds(.7f);
+            Assert.Less(boss.transform.position.y,.2f,"gravity must run while a ground enemy waits or telegraphs, not only while chasing");
+        }
         [UnityTest]public IEnumerator CantorHasMovingWeakPointSegmentsAndThreePhases()
         {
             yield return Load("Arena_Flight");
@@ -259,6 +371,11 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest]public IEnumerator PackLungeAndDrifterVolleyUseTheirRealAttackPatterns()
         {
+            // Count only this enemy's volley, not a partner shot started during
+            // setup that can expire or be reused from the pool mid-assertion.
+            yield return new WaitForSecondsRealtime(.6f);
+            foreach(var projectile in Object.FindObjectsByType<Projectile>(FindObjectsSortMode.None))Object.Destroy(projectile.gameObject);
+            yield return null;
             var actor=PartyController.Current.Active;var cc=actor.GetComponent<CharacterController>();
             cc.enabled=false;actor.transform.position=new Vector3(0,0,-10);cc.enabled=true;
             var hunter=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Ridgehound"),new Vector3(0,0,-4.5f));

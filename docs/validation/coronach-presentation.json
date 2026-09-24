@@ -1,0 +1,151 @@
+{
+  "reviewedOn": "2026-09-23",
+  "professionalQualityAccepted": false,
+  "humanPhysicalPadPlay": false,
+  "report": "docs/PRESENTATION_REVIEW.md",
+  "story": "docs/STORY_CAMPAIGN.md",
+  "worldPlan": "docs/WORLD_ATLAS.md",
+  "tests": {
+    "editmode": {
+      "path": "Builds/logs/coronach-presentation-editmode.xml",
+      "sha256": "924097ecfc230bf085982ed950d608ad1d6e6bf4307659a04f241671b85ef2dd",
+      "id": "2",
+      "testcasecount": "35",
+      "result": "Passed",
+      "total": "35",
+      "passed": "35",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-09-24 05:57:06Z",
+      "end-time": "2026-09-24 05:57:06Z",
+      "duration": "0.4527551"
+    },
+    "playmode": {
+      "path": "Builds/logs/coronach-presentation-playmode.xml",
+      "sha256": "47a6b837f147229eb7644a1465237aff94608a8f6fd051d6993dcd253b54213a",
+      "id": "2",
+      "testcasecount": "28",
+      "result": "Passed",
+      "total": "28",
+      "passed": "28",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-09-24 05:53:27Z",
+      "end-time": "2026-09-24 05:55:39Z",
+      "duration": "132.4679615"
+    }
+  },
+  "generatedModels": 50,
+  "newShips": 2,
+  "meshCredits": {
+    "spent": 795,
+    "budget": 1200,
+    "remaining": 405
+  },
+  "route": {
+    "log": "Builds/logs/coronach-presentation-route-passed.log",
+    "sha256": "e612260cf4a6c7bb369ef43b1d9e84309939489b0929544caacb35770b708f3a",
+    "elapsedSeconds": 542.1,
+    "level": 6,
+    "bossSeconds": {
+      "Burrower": 45.7,
+      "Cantor": 87.9
+    },
+    "savedCompletion": true,
+    "scope": "Final gameplay code including companion defense and continuous ground-enemy gravity; scripted regression, not human play."
+  },
+  "gravityRegression": {
+    "red": "Builds/logs/coronach-ground-gravity-red.xml",
+    "green": "Builds/logs/coronach-ground-gravity-green.xml"
+  },
+  "physicalAttachment": {
+    "route": true,
+    "releaseTitle": true
+  },
+  "rendering": {
+    "nativeResolution": true,
+    "tiltBlurRemoved": true,
+    "keyPoseViews": 116,
+    "worldCaptures": 18,
+    "folder": "Builds/logs/look/coronach-presentation"
+  },
+  "interactiveReview": {
+    "method": "Ordinary virtual GamepadState events; screenshot decisions with GameTime paused between steps. Captures precede the final companion/gravity corrections.",
+    "ground": "Builds/logs/review-coronach-ground",
+    "flight": "Builds/logs/review-coronach-flight",
+    "town": "Builds/logs/review-coronach-town",
+    "excludedInputFrame": "review-coronach-town/007: lost focus"
+  },
+  "music": [
+    {
+      "source": "Music/Adventure Awaits.ogg",
+      "sha256": "57e8680286fca60ff002583f482594639e1ae2799c782177c66b33e627c33b93",
+      "inCurrentSlice": true
+    },
+    {
+      "source": "Music/Hub Town Groove.ogg",
+      "sha256": "31d6231263578b59f8bf748d6bb16a22f4dc0f7ec208c4441465bad9ae12e3fa",
+      "inCurrentSlice": true
+    },
+    {
+      "source": "Music/Moonbase Market.ogg",
+      "sha256": "d27ed07fc90281e6fdf5404e1c52a24510ad05e20117d007010ef779b3bfda41",
+      "inCurrentSlice": true
+    },
+    {
+      "source": "Music/Riverbed Stomp.ogg",
+      "sha256": "4b8911bd35d397f60dabd9663c6818b4e39324b89836821e85a219e350d38450",
+      "inCurrentSlice": false
+    },
+    {
+      "source": "Music/Seed Shakers of Xylos.ogg",
+      "sha256": "e50fc80f816d0d8e0061b09b25d62c0499a32879277cd1b4d828fe517d86ae85",
+      "inCurrentSlice": false
+    },
+    {
+      "source": "Music/Shop Theme.ogg",
+      "sha256": "40db1122ae4554a9eaa92053903eed75c614a06cd1d0507e9f3d2687310782e8",
+      "inCurrentSlice": false
+    },
+    {
+      "source": "Music/Title Theme.ogg",
+      "sha256": "acbf29d147c28723a8abdd651e0aa92558ac55e062c97156678bd590afbf87e3",
+      "inCurrentSlice": true
+    }
+  ],
+  "performance": {
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "zone": "Gullet_Tunnel",
+    "width": 1920,
+    "height": 1080,
+    "samples": 26333,
+    "minimumEnemies": 12,
+    "seconds": 30.01838493347168,
+    "fps": 877.2290649414062,
+    "medianMs": 1.1026997566223145,
+    "p95Ms": 1.5848994255065918,
+    "p99Ms": 1.854202151298523
+  },
+  "release": {
+    "path": "Builds/Windows/Coronach.exe",
+    "files": 445,
+    "bytes": 824931579,
+    "manifest": "Builds/logs/coronach-presentation-release-manifest.json",
+    "manifestSha256": "300d07c7166fb0a8a0a9439a5aa85693c8ced81df2a3164da773d94d4f76f395",
+    "titleCapture": "Builds/logs/Title-screenshot.png"
+  },
+  "limits": [
+    "Custom attack choreography, directional movement, impact VFX, environment composition and menus remain unfinished.",
+    "Transformation is a mesh collapse/swap/expand, not skeletal mechanical folding.",
+    "Audio playback/state verified; subjective speaker mix and continuous physical-pad feel unverified.",
+    "Campaign locations and future bosses are plans only."
+  ]
+}

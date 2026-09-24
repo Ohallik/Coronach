@@ -2,6 +2,8 @@
 
 Product name: **Coronach**, chosen by Nathan on 2026-09-23. The in-world Lattice retains its name.
 
+Full-game proposal: [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md) and [WORLD_ATLAS.md](WORLD_ATLAS.md). Those documents plan the campaign; the existing Unity slice remains the gameplay workshop. Nathan's 2026-09-23 feedback supersedes the original tilt-shift, humanoid flight silhouette and music deferral below.
+
 Status 2026-09-20. Every proper noun below is a placeholder Nathan can rename; the mechanics are
 the decisions. Companion documents: `ARCHITECTURE.md` (how it is built) and `SLICE_PROMPT.md`
 (the hand-off that builds it).
@@ -22,8 +24,8 @@ the decisions. Companion documents: `ARCHITECTURE.md` (how it is built) and `SLI
    space-faring life. A tunnel is a route between places and a gauntlet in one.
 5. **Tech parts are the loot, fabrication is the second progression.** Combat levels and crafting
    levels are separate ladders.
-6. **HD-2D presentation.** Low-poly 3D rendered as a diorama: low internal resolution, tilt-shift
-   depth of field, bloom on the sync-lines, fixed three-quarter camera.
+6. **Clear diorama presentation.** Stylised 3D at native render resolution, sharp across the
+   gameplay frame, bloom on the sync-lines, fixed three-quarter camera. No tilt-shift blur.
 7. **Every named face has sixteen expressions**, in the natural body and (for Shapers) in the
    Shaped body.
 
@@ -72,9 +74,12 @@ on the off-hand forearm; the **edge** (blade) extends from the main-hand wrist a
 Four **back-vanes** sit folded along the spine. Silhouette: angular, swept collar, still clearly
 the same person (face, plumes, build).
 
-**Flight form (space).** Shaped form with the back-vanes unfolded into four thin thruster wings,
-legs together, body horizontal. Reads as an angelic mech-diver. In **safe** space the vanes sit
-half-folded, weapons retract, lines dim: "civil flight".
+**Flight form (space).** The living-metal body encloses and rearranges into a compact personal
+spacecraft, roughly 3.2 m long. No exposed face, hands or feet. Taren is a broad ivory/copper
+arrowhead with amber seams and a short crest; Sela is a narrow lilac/ivory craft with cyan seams,
+twin emitter booms and long swept crest fins. Hull colours and silhouettes carry character identity.
+The form banks and barrel-rolls; civil flight keeps weapons inactive. The character becomes the
+ship, rather than riding a separate vehicle. Ground back vanes remain attached to the animated body.
 
 ## 3. Cast for the slice
 
@@ -204,13 +209,16 @@ salvage cache in the Gullet.
 - Camera: fixed three-quarter, pitch ≈ 40°, yaw fixed per zone, FOV 30°, hero ≈ 180 px tall at
   1080p. Follow with soft dead-zone on ground; velocity look-ahead and mild zoom-out with speed in
   flight. No player rotation.
-- HD-2D stack (URP): internal 960×540 target with nearest upscale, tilt-shift DoF (top and
-  bottom bands), bloom keyed to emissives, LUT grade per zone, light vignette, toon shading with
-  thin outlines.
+- URP stack: native-resolution colour grade with no screen-band blur, bloom keyed to emissives,
+  light vignette and toon shading with thin outlines. Gameplay readability takes priority over
+  the former miniature-camera effect.
 - Skybox: painted nebula equirect per space zone. Tunnel: scrolling membrane shader on a spline
   tube.
 - UI: sci-fi panel art (generated), pad glyphs, typewriter dialogue with portrait slide-in.
-- Audio: Kenney sci-fi SFX now; Nathan's music later (silence + ambience loops in the slice).
+- Audio: Kenney sci-fi SFX plus Nathan's supplied music. Title Theme on title, Hub Town Groove
+  around the first town, Moonbase Market while shopping, Adventure Awaits in Sorrel's combat
+  area. Music crossfades and restores the previous cue when a shop closes. Other supplied tracks
+  are reserved for the planned regions; see the atlas.
 
 ## 10. Controls
 
@@ -239,4 +247,4 @@ sprint/boost, F item, E interact, Esc menu, M log.
 ## 11. Out of scope for the slice
 
 Story beyond the quest spine, characters three and four, more than one tunnel, console input
-glyphs, localisation, music, cutscene direction beyond portrait dialogue, difficulty modes.
+glyphs, localisation, cutscene direction beyond portrait dialogue, difficulty modes.

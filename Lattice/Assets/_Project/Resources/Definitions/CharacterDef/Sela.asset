@@ -30,7 +30,7 @@ MonoBehaviour:
     fortune: 1
   natural: {fileID: 1742802304090804097, guid: 35e77d1c743aa054f95a146f87149f57, type: 3}
   shaped: {fileID: 8234279475334070785, guid: 59e927a649d4d154693ffe3568316d20, type: 3}
-  flight: {fileID: 8234279475334070785, guid: 59e927a649d4d154693ffe3568316d20, type: 3}
+  flight: {fileID: 729045868671547361, guid: c6a79f19d05299849804e64f6f58cebe, type: 3}
   portraitNatural: {fileID: 11400000, guid: 4c6b711f3f253924b9b045d67577d025, type: 2}
   portraitShaped: {fileID: 11400000, guid: 126611bba38901d489c21cacbb054475, type: 2}
   skills:

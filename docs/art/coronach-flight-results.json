@@ -1,0 +1,26 @@
+[
+ {
+  "name": "TarenFlight",
+  "kind": "static",
+  "prompt_id": "CORONACH_FLIGHT",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0d1c6-ff41-726e-b0bc-f9b30b1a25ef",
+  "output": "art-src\\Generated\\Coronach-TarenFlight\\TarenFlight_Static.fbx"
+ },
+ {
+  "name": "SelaFlight",
+  "kind": "static",
+  "prompt_id": "CORONACH_FLIGHT",
+  "credits": 15,
+  "status": "ok",
+  "notes": [
+   "static: no donor skeleton fits this body; motion is procedural"
+  ],
+  "img3d_task": "01a0d1c7-6d42-7309-8dfe-7f65855abb21",
+  "output": "art-src\\Generated\\Coronach-SelaFlight\\SelaFlight_Static.fbx"
+ }
+]

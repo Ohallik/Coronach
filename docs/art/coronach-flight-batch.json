@@ -1,0 +1,22 @@
+[
+  {
+    "name": "TarenFlight",
+    "kind": "static",
+    "batch": "Coronach-TarenFlight",
+    "ref": "art-src/Generated/Coronach-flight/refs/TarenFlight.png",
+    "height": 3.2,
+    "fit": "depth",
+    "family": "VaelFlight",
+    "prompt": "Use case: stylized-concept. Create ONE isolated complete compact spacecraft as a production reference for Meshy reconstruction, in a single three-quarter FRONT view from 35 degrees above. Wide landscape canvas; entire vehicle centered with clear white margin, filling 80 percent of frame. OPAQUE PURE WHITE background. Flat cel-shaded game art, broad matte color regions. No ground, cast shadow, gloss, highlights, reflections, bloom, gradients, particles, exhaust, labels, text, inset or turnaround. All parts physically attached. This is a Vael alien transforming its living-metal body into a PERSONAL SPACECRAFT, with concealed limbs and a completely streamlined ship silhouette. Absolutely no visible human head, face, feet, legs, fingers, dangling arms or torso. No pilot sitting in it. Retain character identity through armor palette, visor-like sensor band and crest-inspired dorsal fins, not humanoid anatomy. Length 3.0-3.5m, width 0.62-0.72 length, height 0.18-0.25 length. Solid forward nose, compact enclosed hull, rooted swept wings, recessed dark rear engines. The reference image supplies CHARACTER COLORS ONLY; do not reproduce the standing character.\nTaren: powerful broad arrowhead interceptor, warm ivory armor #C7BEAB over deep charcoal slate #273440, copper #AA6945 shoulder-like wing root bands, bold amber-gold branching sync seams #FFB72C. Broad flattened spearhead nose; narrow gold sensor strip like his determined visor; three short swept charcoal/copper dorsal crest fins. Two substantial swept blade-edged wings and two smaller rear stabilizers; white notches between wing tips and rear engine nacelles while roots remain connected. Asymmetric functional detail: starboard wrist-blade becomes a short integrated forward cutting rail; port forearm emitter becomes a compact flush gun port. Pair of rear engine apertures. Tough elegant cutting fighter, clear arrowhead silhouette."
+  },
+  {
+    "name": "SelaFlight",
+    "kind": "static",
+    "batch": "Coronach-SelaFlight",
+    "ref": "art-src/Generated/Coronach-flight/refs/SelaFlight.png",
+    "height": 3.2,
+    "fit": "depth",
+    "family": "VaelFlight",
+    "prompt": "Use case: stylized-concept. Create ONE isolated complete compact spacecraft as a production reference for Meshy reconstruction, in a single three-quarter FRONT view from 35 degrees above. Wide landscape canvas; entire vehicle centered with clear white margin, filling 80 percent of frame. OPAQUE PURE WHITE background. Flat cel-shaded game art, broad matte color regions. No ground, cast shadow, gloss, highlights, reflections, bloom, gradients, particles, exhaust, labels, text, inset or turnaround. All parts physically attached. This is a Vael alien transforming its living-metal body into a PERSONAL SPACECRAFT, with concealed limbs and a completely streamlined ship silhouette. Absolutely no visible human head, face, feet, legs, fingers, dangling arms or torso. No pilot sitting in it. Retain character identity through armor palette, visor-like sensor band and crest-inspired dorsal fins, not humanoid anatomy. Length 3.0-3.5m, width 0.62-0.72 length, height 0.18-0.25 length. Solid forward nose, compact enclosed hull, rooted swept wings, recessed dark rear engines. The reference image supplies CHARACTER COLORS ONLY; do not reproduce the standing character.\nSela: slender twin-boom needle interceptor with swept crescent wings, cool ivory #C8D0D3 armor over deep slate #334756, pale lilac #AE9CCF hull and fin accents, cyan #22F5FF fine branching sync seams. Long tapered central nose and small flattened cyan visor-like sensor band. Two long swept-back ivory/lilac feather-shaped dorsal strakes rooted along aft hull recall her long plume crest. Twin narrow emitter booms attached beside the nose leave clear WHITE gaps ahead of the wing roots; port emitter subtly larger. Wide swept crescent wings balance the long narrow hull; rear twin engines in attached wing roots. Delicate agile ranged-fighter silhouette distinct from a broad arrowhead; engineered living metal, no loose pieces."
+  }
+]

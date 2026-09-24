@@ -58,7 +58,7 @@ UI is built from `UiKit` in code (no hand-authored prefab UI); one material auth
 ## 3. Boot and scene model
 
 - `_Boot.unity` is the persistent scene: `[Services]` (GameState, SaveSystem, SceneFlow,
-  AudioManager, PadSupport), `[UI]` root canvas (HUD, dialogue, menus, fade), `[Camera]`
+  AudioManager, MusicDirector, PadSupport), `[UI]` root canvas (HUD, dialogue, menus, fade), `[Camera]`
   (main camera + Cinemachine brain). Never unloaded.
 - Every playable area is a **zone scene** loaded additively by `SceneFlow.LoadZone(ZoneDef,
   spawnId)` with a fade. A zone scene contains a `ZoneRoot` with its `ZoneDef` reference,
@@ -101,9 +101,10 @@ Skill1–4, LockOn, Boost, Brake, CycleItem, CycleTarget, Interact, Pause, Log),
 
 - `CameraRig`: one Cinemachine camera per zone kind (`GroundFollow`, `FlightFollow`), profiles in
   `CameraProfile` SOs (pitch, yaw, FOV, distance, dead-zone, look-ahead, speed-zoom). Fixed yaw.
-- HD-2D: a URP Renderer Feature `Hd2dFeature` that (1) renders the scene colour into a 960×540
-  target and blits with point filtering, (2) applies a tilt-shift blur (two-band DoF driven by
-  screen Y) after the upscale, plus URP Volume: Bloom (threshold tuned so only emissives bloom),
+- Rendering: `Hd2dFeature` now preserves the native camera target dimensions and applies the
+  zone colour tint without the former screen-Y tilt-shift blur. `nativeResolution` defaults true;
+  legacy low-resolution dimensions remain available in profiles for deliberate future experiments.
+  URP Volume: Bloom (threshold tuned so only emissives bloom),
   Color Lookup per zone, Vignette. Toon shading via `LatticeToon.shader` (ramp + rim + emission
   mask + outline pass). All parameters live in `Hd2dProfile` SOs referenced by `ZoneDef`.
 - Shader stripping law: any shader used at runtime must be referenced by a material asset in a

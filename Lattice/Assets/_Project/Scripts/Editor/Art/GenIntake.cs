@@ -42,7 +42,7 @@ namespace Lattice.EditorTools
             foreach(var row in Rows())Build(row);
             AssetDatabase.SaveAssets();Debug.Log("GEN_INTAKE_OK");
         });
-        static void Build(Row row)
+        internal static void Build(Row row)
         {
             if(!System.Text.RegularExpressions.Regex.IsMatch(row.id,"^[A-Za-z0-9-]+$")||row.size<=0)throw new InvalidOperationException("Invalid id/size "+row.id);
             if(row.folder!="Characters"&&row.folder!="Enemies"&&row.folder!="Ships"&&row.folder!="Environment")throw new InvalidOperationException("Unknown prefab category");
@@ -76,6 +76,9 @@ namespace Lattice.EditorTools
             if(mat==null||mat.GetTexture("_BaseMap")!=albedo)throw new InvalidOperationException("Importer did not bind the unique sibling albedo: "+row.id);
             if(!string.IsNullOrEmpty(row.emission)){mat.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_emission.png"));ColorUtility.TryParseHtmlString(row.emissionColor,out var tint);mat.SetColor("_EmissionColor",tint*1.5f);EditorUtility.SetDirty(mat);}
             var root=new GameObject(row.id);var body=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Model(row)),root.transform);body.name="Body";
+            // Imported model instances reject transform reparenting. Make the derived
+            // Shaped hierarchy editable before attaching its generated vanes to bones.
+            if(row.form=="Shaped")PrefabUtility.UnpackPrefabInstance(body,PrefabUnpackMode.Completely,InteractionMode.AutomatedAction);
             try
             {
                 foreach(var renderer in body.GetComponentsInChildren<Renderer>(true))renderer.sharedMaterials=Enumerable.Repeat(mat,Mathf.Max(1,renderer.sharedMaterials.Length)).ToArray();
@@ -110,15 +113,21 @@ namespace Lattice.EditorTools
                 {
                     var vanes=body.GetComponentsInChildren<Transform>().Where(t=>t.name.StartsWith("Vane_")).OrderBy(t=>t.name).ToArray();
                     if(vanes.Length!=4||vanes.Any(v=>v.GetComponent<MeshFilter>()==null))throw new InvalidOperationException("Shaped hero needs four separate generated vane meshes: "+row.id);
-                    foreach(var vane in vanes)vane.SetParent(animator.GetBoneTransform(vane.name.Contains("Upper")?HumanBodyBones.Chest:HumanBodyBones.Hips),true);
+                    foreach(var vane in vanes)
+                    {
+                        var bone=animator.GetBoneTransform(vane.name.Contains("Upper")?HumanBodyBones.Chest:HumanBodyBones.Hips);
+                        vane.SetParent(bone,true);
+                        if(vane.parent!=bone)throw new InvalidOperationException("Vane failed to attach to animated bone: "+row.id+" "+vane.name);
+                    }
                     var driver=root.AddComponent<Lattice.Combat.GeneratedVanes>();driver.vanes=vanes;driver.folded=vanes.Select(v=>v.localRotation).ToArray();
                     Debug.Log("VANE_PARTS_OK "+row.id+" count=4");
                 }
+                if(row.form=="Flight")root.AddComponent<Lattice.Combat.FlightShipMotion>();
                 Directory.CreateDirectory(Path.GetDirectoryName(Prefab(row)));var prefab=PrefabUtility.SaveAsPrefabAsset(root,Prefab(row));
                 if(!string.IsNullOrEmpty(row.character))
                 {
                     var definition=GameCatalog.Find<CharacterDef>(row.character);if(definition==null)throw new InvalidOperationException("Unknown character "+row.character);
-                    if(row.form=="Natural")definition.natural=prefab;else if(row.form=="Shaped"){definition.shaped=prefab;definition.flight=prefab;}else throw new InvalidOperationException("Unknown form");EditorUtility.SetDirty(definition);
+                    if(row.form=="Natural")definition.natural=prefab;else if(row.form=="Shaped")definition.shaped=prefab;else if(row.form=="Flight")definition.flight=prefab;else throw new InvalidOperationException("Unknown form");EditorUtility.SetDirty(definition);
                 }
                 if(!string.IsNullOrEmpty(row.enemy)){var enemy=GameCatalog.Find<EnemyDef>(row.enemy);if(enemy==null)throw new InvalidOperationException("Unknown enemy");if(row.form=="Body")enemy.bodySegment=prefab;else if(row.form=="Tail")enemy.tailSegment=prefab;else enemy.prefab=prefab;EditorUtility.SetDirty(enemy);}
                 Debug.Log("MODEL_INTAKE_OK "+row.id);
@@ -144,7 +153,7 @@ namespace Lattice.EditorTools
             string path=Dir(row)+row.id+".controller";var controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
             if(controller==null)controller=AnimatorController.CreateAnimatorControllerAtPath(path);
             var machine=controller.layers[0].stateMachine;foreach(var state in machine.states)machine.RemoveState(state.state);
-            foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);if(clip.state=="Idle")machine.defaultState=state;}
+            foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);state.iKOnFeet=row.kind=="biped";if(clip.state=="Idle")machine.defaultState=state;}
             animator.runtimeAnimatorController=controller;animator.applyRootMotion=false;animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;EditorUtility.SetDirty(controller);
         }
         static void VerifyMotion(Row row,Animator animator)

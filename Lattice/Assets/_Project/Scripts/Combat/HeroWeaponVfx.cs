@@ -18,11 +18,11 @@ namespace Lattice.Combat
         }
         void LateUpdate()
         {
-            bool active=actor.Health.Alive&&form.Current==BodyForm.Shaped&&Time.time<actor.VisualAttackUntil;
+            bool active=actor.Health.Alive&&form.Current==BodyForm.Shaped&&Lattice.Core.GameTime.Now<actor.VisualAttackUntil&&actor.VisualAction!="Dodge";
             var animator=active?form.shaped.GetComponentInChildren<Animator>():null;
             for(int i=0;i<2;i++)
             {
-                var line=blades[i];line.enabled=active&&animator!=null&&animator.isHuman;if(!line.enabled)continue;
+                var line=blades[i];line.enabled=active&&i==1&&actor.character=="Taren"&&animator!=null&&animator.isHuman;if(!line.enabled)continue;
                 var hand=animator.GetBoneTransform(i==0?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);var arm=animator.GetBoneTransform(i==0?HumanBodyBones.LeftLowerArm:HumanBodyBones.RightLowerArm);
                 var direction=(hand.position-arm.position).normalized;line.SetPosition(0,hand.position);line.SetPosition(1,hand.position+direction*.2f);line.SetPosition(2,hand.position+direction*.9f);
                 if(sequence!=actor.AttackSequence)CombatVfx.Burst(hand.position,line.startColor,"lunge");

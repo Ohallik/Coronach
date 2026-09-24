@@ -17,6 +17,7 @@ namespace Lattice.Core
         void Apply()
         {
             GameServices.Current.Input.SetFlight(Flight);AudioManager.Zone(Flight);
+            MusicDirector.SetLocation(definition.id,Combat);
             RenderSettings.skybox=definition.skybox;if(Camera.main!=null)Camera.main.clearFlags=definition.skybox!=null?CameraClearFlags.Skybox:CameraClearFlags.SolidColor;
             Changed?.Invoke();
         }

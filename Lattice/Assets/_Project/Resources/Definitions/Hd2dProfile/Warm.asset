@@ -12,10 +12,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 395193f8a19b3cb429f25d560abfd092, type: 3}
   m_Name: Warm
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.Hd2dProfile
-  internalWidth: 960
-  internalHeight: 540
+  nativeResolution: 1
+  internalWidth: 1920
+  internalHeight: 1080
   tiltStart: 0.18
-  tiltStrength: 6
+  tiltStrength: 0
   bloom: 0.45
   bloomThreshold: 1.1
   vignette: 0.16

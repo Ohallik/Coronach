@@ -4,9 +4,11 @@ from pathlib import Path
 sys.path.insert(0,str(Path(__file__).resolve().parent))
 import bpy
 from _common import cli_args, reset, import_model, export_model, write_json
-p=argparse.ArgumentParser();p.add_argument('--input',required=True);p.add_argument('--output',required=True);p.add_argument('--fox',action='store_true');a=p.parse_args(cli_args())
+p=argparse.ArgumentParser();p.add_argument('--input',required=True);p.add_argument('--output',required=True);p.add_argument('--fox',action='store_true');p.add_argument('--set',choices=['original','hero-locomotion','hero-combat'],default='original');a=p.parse_args(cli_args())
 reset();import_model(a.input)
 keep={'Idle','Walk','Attack'} if a.fox else {'Idle_Loop','Walk_Loop','Sword_Attack','Roll','Hit_Chest'}
+if a.set=='hero-locomotion':keep={'Idle_Loop','Walk_Loop','Jog_Fwd_Loop','Sprint_Loop','Sword_Idle','Pistol_Idle_Loop','Pistol_Shoot','Roll','Hit_Chest','Spell_Simple_Shoot'}
+if a.set=='hero-combat':keep={'Sword_Regular_A','Sword_Regular_A_Rec','Sword_Regular_B','Sword_Regular_B_Rec','Sword_Regular_C','Sword_Dash','Sword_Block','Sword_Heavy_Combo','OverhandThrow','Hit_Knockback'}
 for obj in list(bpy.data.objects):
  if obj.type!='ARMATURE':bpy.data.objects.remove(obj,do_unlink=True)
 for action in list(bpy.data.actions):

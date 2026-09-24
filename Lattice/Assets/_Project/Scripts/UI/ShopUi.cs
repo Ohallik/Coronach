@@ -14,8 +14,9 @@ namespace Lattice.UI
         Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="";
         public bool IsOpen=>panel!=null;
         void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);}
-        public void Open(ShopInventory source){inventory=source;page=offset=0;feedback="";GameServices.Current.Input.Blocked=true;Rebuild();}
-        public void Close(){if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;}
+        public void Open(ShopInventory source){inventory=source;page=offset=0;feedback="";GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);Rebuild();}
+        public void Close(){if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;MusicDirector.Shop(this,false);}
+        void OnDisable(){MusicDirector.Shop(this,false);}
         void Switch(){page=1-page;offset=0;feedback="";Rebuild();}
         void Update()
         {

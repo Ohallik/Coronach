@@ -16,6 +16,7 @@ namespace Lattice.Core
             if(Current!=null && Current!=this){Destroy(gameObject);return;}
             Current=this;GameTime.Reset();Input=new GameInput();
             gameObject.AddComponent<AudioManager>();
+            gameObject.AddComponent<MusicDirector>();
             // Retain the original Windows save location across the Coronach product rename.
             var root=DevArgs.Value("-savepath")??Path.Combine(Path.GetDirectoryName(Application.persistentDataPath),"Lattice","Saves");
             Saves=new SaveSystem(root);

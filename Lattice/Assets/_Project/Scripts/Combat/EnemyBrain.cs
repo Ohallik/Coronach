@@ -50,6 +50,10 @@ namespace Lattice.Combat
         }
         void Update()
         {
+            // Charges can step onto geometry or another controller. Settling
+            // cannot depend on the AI choosing to chase again afterward.
+            if(!GameTime.Paused&&Health.Alive&&controller.enabled&&ZoneController.Current!=null&&!ZoneController.Current.Flight&&!GameServices.Current.Input.Blocked)
+                controller.Move(Vector3.down*6*Time.deltaTime);
             if(GameTime.Paused||Passive||lunging||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
             if(boss!=null&&boss.Busy){if(warning!=null)warning.SetActive(false);Telegraphing=false;return;}
             var victim=PartyController.Current.Active;if(!victim.Health.Alive)return;
@@ -106,6 +110,6 @@ namespace Lattice.Combat
             }
             lunging=false;
         }
-        void Move(Vector3 direction,float speed){direction.y=0;if(controller.enabled)controller.Move(direction.normalized*speed*(Time.time<Health.SlowUntil?.4f:1)*Time.deltaTime+(ZoneController.Current.Flight?Vector3.zero:Vector3.down*6*Time.deltaTime));}
+        void Move(Vector3 direction,float speed){direction.y=0;if(controller.enabled)controller.Move(direction.normalized*speed*(Time.time<Health.SlowUntil?.4f:1)*Time.deltaTime);}
     }
 }

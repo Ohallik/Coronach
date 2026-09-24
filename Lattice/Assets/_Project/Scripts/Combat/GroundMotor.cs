@@ -14,7 +14,11 @@ namespace Lattice.Combat
         {
             Vector3 direction=new Vector3(input.x,0,input.y);if(direction.sqrMagnitude>1)direction.Normalize();
             if(direction.sqrMagnitude>.01f){Facing=direction;transform.rotation=Quaternion.LookRotation(direction);}
-            Velocity=direction*speed*(boost?1.55f:1);
+            bool natural=GetComponent<FormController>()?.Current==Lattice.Data.BodyForm.Natural;
+            float pace=natural?(boost?5.4f:2.6f):speed*(boost?1.55f:1);
+            if(actor!=null&&(actor.State==Lattice.Data.ActorState.Attack||actor.State==Lattice.Data.ActorState.Skill))pace*=.35f;
+            if(actor!=null&&actor.State==Lattice.Data.ActorState.Guard)pace*=.5f;
+            Velocity=direction*pace;
             float dt=actor!=null?actor.MotorDelta:Time.deltaTime;
             if(dashTime>0){Velocity=dash;dashTime-=dt;}
             if(controller.enabled)controller.Move((Velocity+Vector3.down*7)*dt);

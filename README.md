@@ -2,11 +2,17 @@
 
 A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cross the Gullet with Taren and Sela.
 
-**slice-v0.1** includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout: 48 production models and eight expression sheets. The full automated route, 52 tests and final-art 1080p performance pass. See [progress](docs/PROGRESS.md) for evidence and the remaining human controller-feel checks.
+The playable slice includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout. The Coronach presentation pass adds native-resolution rendering without distance blur, separate walk/run and combat motions, two generated spacecraft forms and Nathan's music. There are now 50 production models and eight expression sheets. See [progress](docs/PROGRESS.md) for current verification and the remaining controller-feel checks. The original `slice-v0.1` tag is historical.
 
 **Current quality review: not yet at the professional target.** Playing the opening and ground/flight encounters exposed input and partner-following defects, now corrected, plus unfinished environment composition, combat readability and menus. [Play review](docs/PLAY_REVIEW.md) records what was actually played, the fixes, remaining issues and limits of virtual-gamepad testing. The current build includes those corrections; the original tag's results above are historical.
 
+The [Coronach presentation review](docs/PRESENTATION_REVIEW.md) records the latest town, combat and spacecraft checks, including the boss-gravity and companion-defense defects found during regression. [Animation direction](docs/ANIMATION_DIRECTION.md) distinguishes the implemented moveset from the remaining choreography work.
+
 The game is named **Coronach** (formerly LATTICE). The existing Unity project is `Lattice/`; add that folder in Unity Hub and open `Assets/_Project/Scenes/_Boot.unity` to play in the Editor.
+
+Full-game proposals: [story](docs/STORY_CAMPAIGN.md), [world and boss atlas](docs/WORLD_ATLAS.md), and [combat animation direction](docs/ANIMATION_DIRECTION.md). The story follows towns learning to travel as the living routes between worlds migrate. These documents plan the campaign; the playable slice remains the workshop for combat and presentation.
+
+Current music: **Title Theme** on the title, **Hub Town Groove** in town/civil areas, **Moonbase Market** in shops, and **Adventure Awaits** in moon combat. Tracks crossfade and town music resumes when leaving a shop. All seven supplied originals remain in `Music/`; the other three have future uses in the atlas.
 
 ## Run
 
@@ -65,4 +71,4 @@ powershell -ExecutionPolicy Bypass -File scripts/balance.ps1
 
 Development player arguments: `-scene`, `-spawn`, `-loadout starter|moon|gullet`, `-route slice`, `-perf <report>`, `-look <folder>`, `-balance <report>`, `-screenshot <png>`. Runtime shortcuts are disabled in release builds. Gates require fresh tests, state assertions and opened screenshots; logs alone are insufficient. Rebuild the generated world with `scripts/exec.ps1 -Method Lattice.EditorTools.WorldBuilder.BuildFinal -Marker WORLD_GENERATED_OK` before packaging scene changes.
 
-All visible model, portrait, environment, texture and UI art is generated. [Credits](docs/CREDITS.md) record the permitted animation donors, fonts, sounds and particle textures. Meshy production used 765 of the 1,200-credit budget. Raw art, private credentials, build products and Unity caches are excluded from git.
+All visible model, portrait, environment, texture and UI art is generated. [Credits](docs/CREDITS.md) record the permitted animation donors, fonts, sounds and particle textures. Meshy production used 795 of the 1,200-credit budget; 405 remain. Raw art, private credentials, build products and Unity caches are excluded from git.

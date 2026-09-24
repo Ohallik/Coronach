@@ -31,11 +31,11 @@ namespace Lattice.EditorTools
         {
             var ground=Asset<CameraProfile>("Ground",p=>{p.pitch=40;p.yaw=20;p.distance=19.5f;p.deadZone=.4f;});
             var flight=Asset<CameraProfile>("Flight",p=>{p.pitch=48;p.yaw=0;p.distance=26;p.deadZone=.4f;p.lookAhead=.22f;p.speedZoom=.08f;});
-            var warm=Asset<Hd2dProfile>("Warm",p=>{p.tint=new Color(1,.94f,.84f);p.tiltStart=.18f;p.tiltStrength=6;p.bloom=.45f;});
-            var cold=Asset<Hd2dProfile>("Cold",p=>{p.tint=new Color(.82f,.94f,1);p.tiltStart=.18f;p.tiltStrength=7;p.bloom=.7f;});
-            var deck=Asset<Hd2dProfile>("DeckSoft",p=>{p.tint=new Color(.96f,.98f,1);p.tiltStart=.23f;p.tiltStrength=4;p.bloom=.3f;});
-            var halo=Asset<Hd2dProfile>("Halo",p=>{p.tint=new Color(1,.97f,.93f);p.tiltStart=.22f;p.tiltStrength=4.5f;p.bloom=.4f;});
-            var tallow=Asset<Hd2dProfile>("Tallow",p=>{p.tint=new Color(.95f,1,.96f);p.tiltStart=.23f;p.tiltStrength=4;p.bloom=.35f;});
+            var warm=Asset<Hd2dProfile>("Warm",p=>{p.tint=new Color(1,.94f,.84f);p.tiltStart=.18f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.45f;});
+            var cold=Asset<Hd2dProfile>("Cold",p=>{p.tint=new Color(.82f,.94f,1);p.tiltStart=.18f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.7f;});
+            var deck=Asset<Hd2dProfile>("DeckSoft",p=>{p.tint=new Color(.96f,.98f,1);p.tiltStart=.23f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.3f;});
+            var halo=Asset<Hd2dProfile>("Halo",p=>{p.tint=new Color(1,.97f,.93f);p.tiltStart=.22f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.4f;});
+            var tallow=Asset<Hd2dProfile>("Tallow",p=>{p.tint=new Color(.95f,1,.96f);p.tiltStart=.23f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.35f;});
             foreach(var name in new[]{"Arena_Ground","Arena_Flight","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Gullet_Tunnel","TallowApproach","TallowDrift"})
             {
                 bool isFlight=name=="Arena_Flight"||name=="Hub_CinderHalo"||name=="Gullet_Tunnel"||name=="TallowApproach";

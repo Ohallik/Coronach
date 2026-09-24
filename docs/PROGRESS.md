@@ -1,12 +1,26 @@
 # CORONACH slice progress
 
+## Current pass — campaign plan and presentation
+
+2026-09-23: the full-game proposal is now in [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md) and [WORLD_ATLAS.md](WORLD_ATLAS.md): migrating living routes, a convoy of towns, 36 planned destinations and 22 major boss encounters. These documents are plans; the existing Unity slice remains the gameplay workshop.
+
+The playable slice now uses native-resolution surroundings with the tilt blur removed, separate walk/run/sprint clips, a three-strike combo and distinct skill animations with delayed contact and buffered input. Both heroes have new generated spacecraft forms, banking/roll motion and a short form transition. Nathan's four assigned music cues play at the title, town, shops and moon combat, with crossfades. The three other originals are preserved for later locations. Retarget orientation, torso-vane attachment, companion defense and a ground-boss gravity defect were corrected during verification.
+
+Both Windows builds are refreshed. Final verification and opened captures are recorded in [PRESENTATION_REVIEW.md](PRESENTATION_REVIEW.md) and [coronach-presentation.json](validation/coronach-presentation.json). **The professional-quality gate remains open:** bespoke attack choreography, stronger impact feedback, directional movement, environment composition and menus still need work. Ordinary virtual-gamepad review does not establish physical Logitech feel. [ANIMATION_DIRECTION.md](ANIMATION_DIRECTION.md) defines the next combat animation milestone.
+
+Final tests: **35 EditMode + 28 PlayMode passed**, zero skips. The fresh full route passed in **542.1 seconds**, reached level 6, defeated Burrower in **45.7 s** and Cantor in **87.9 s**, docked at Tallow Drift and saved completion. This route includes the final companion/gravity corrections. The Logitech attached in both the route and release-title checks. The editor rendered 116 key-pose/ship views; opened evidence includes the motion/ship contact sheets, all 18 refreshed world captures, interactive town/ground/flight review frames, the final completion screen and the release title.
+
+Final performance: native **1920×1080** Gullet, RTX 5070, at least twelve live enemies, 30.018 s / 26,333 samples. Uncapped mean **877.2 fps**, median **1.103 ms**, p95 **1.585 ms**, p99 **1.854 ms**. The performance capture was opened; normal gameplay retains the 60 fps cap. These measurements apply to this benchmark, not every future campaign map.
+
+Generated production now contains **50 models**. The two new ships cost 30 Meshy credits; total spend is **795/1,200**, leaving **405 credits**.
+
 ## Product name — Coronach
 
 2026-09-23: Nathan named the game **Coronach**. Product settings, the title screen and Windows packaging now use this name. The existing Unity project remains `Lattice/`; existing save slots remain in `Nathan/Lattice/Saves`. Earlier build records below retain their historical filenames. This naming change does not close the open visual-quality or controller-feel gates.
 
 Rename verification: rebuilt release and development players; opened both 1080p title captures and confirmed the longer title fits. Both title runs attached the Logitech. The release recognizes the existing save, whose files remain byte-for-byte unchanged after verification. The focused all-zone save/resume regression passed (1 test, zero skips); the full route and suite were not rerun for this naming change. Evidence: [coronach-rename.json](validation/coronach-rename.json).
 
-## Current review — quality gate reopened
+## Previous review — quality gate reopened
 
 2026-09-21: **QUALITY_REVIEW_REJECTED** after agent-directed play of the opening, a ground encounter, flight combat and menus. The slice does **not** yet meet the professional presentation/feel target. Repetitive environment composition, weak combat silhouettes/feedback and sparse menus remain. The earlier screenshot acceptance below was too lenient and is superseded by [PLAY_REVIEW.md](PLAY_REVIEW.md).
 
@@ -77,7 +91,7 @@ The committed snapshot `docs/validation/slice-v0.1.json` records test counts, ro
 
 All visible models, portraits, environment textures, panoramas, panels and icons are generated. Procedural continuous terrain and tube shell use generated textures. Allowed external resources are skeleton/animation donors, CC0 sounds and particle textures, and TMP fonts; each is listed in docs/CREDITS.md. No additional ART_EXCEPTION is used.
 
-The authoritative Meshy total is the sum of consumed_credits in docs/art/gen-manifest.json: **765 credits**, all paid tasks complete. Raw sources/prompts remain under ignored art-src/Generated/. Native 1254-square textures and 1774×887 panoramas are recorded honestly; five sky/maps have actual 4× Real-ESRGAN derivatives resized to 4096×2048, indexed in docs/art/world-upscale.json.
+The authoritative Meshy total is the sum of consumed_credits in docs/art/gen-manifest.json: **795 credits**, all paid tasks complete. Raw sources/prompts remain under ignored art-src/Generated/. Native 1254-square textures and 1774×887 panoramas are recorded honestly; five sky/maps have actual 4× Real-ESRGAN derivatives resized to 4096×2048, indexed in docs/art/world-upscale.json.
 
 ## Known limits / BLOCKED
 
