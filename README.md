@@ -10,7 +10,7 @@ The [Coronach presentation review](docs/PRESENTATION_REVIEW.md) records the late
 
 The game is named **Coronach** (formerly LATTICE). The existing Unity project is `Lattice/`; add that folder in Unity Hub and open `Assets/_Project/Scenes/_Boot.unity` to play in the Editor.
 
-Full-game proposals: [story](docs/STORY_CAMPAIGN.md), [world and boss atlas](docs/WORLD_ATLAS.md), and [combat animation direction](docs/ANIMATION_DIRECTION.md). The story follows towns learning to travel as the living routes between worlds migrate. These documents plan the campaign; the playable slice remains the workshop for combat and presentation.
+Full-game proposals: [story](docs/STORY_CAMPAIGN.md), [world and boss atlas](docs/WORLD_ATLAS.md), and [combat animation direction](docs/ANIMATION_DIRECTION.md). The overarching story follows the **Severance**: living routes migrate, inhabited systems face separation, and Taren and Sela must bring a convoy of communities through the last shared passage before it is forcibly closed. The major regions, bosses and recurring allies contribute to that same conflict and its resolution. These documents plan the campaign; the playable slice remains the workshop for combat and presentation.
 
 Current music: **Title Theme** on the title, **Hub Town Groove** in town/civil areas, **Moonbase Market** in shops, and **Adventure Awaits** in moon combat. Tracks crossfade and town music resumes when leaving a shop. All seven supplied originals remain in `Music/`; the other three have future uses in the atlas.
 
