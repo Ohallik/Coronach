@@ -1,4 +1,4 @@
-# LATTICE credits
+# CORONACH credits
 
 Original game: Nathan. Original generated art: LATTICE image generation and Meshy pipeline; provenance in `docs/art` and `art-src/Generated` prompt archives.
 

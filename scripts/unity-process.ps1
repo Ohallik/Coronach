@@ -11,7 +11,7 @@ function Stop-LatticeProcessTree {
 }
 function Get-LatticeSaveWriters {
     param([string]$ProjectPath)
-    Get-CimInstance Win32_Process -Filter "Name = 'Lattice.exe' OR Name = 'Unity.exe'" | Where-Object {
-        $_.Name -eq 'Lattice.exe' -or -not $_.CommandLine -or $_.CommandLine.IndexOf($ProjectPath,[StringComparison]::OrdinalIgnoreCase) -ge 0
+    Get-CimInstance Win32_Process -Filter "Name = 'Coronach.exe' OR Name = 'Lattice.exe' OR Name = 'Unity.exe'" | Where-Object {
+        $_.Name -in @('Coronach.exe','Lattice.exe') -or -not $_.CommandLine -or $_.CommandLine.IndexOf($ProjectPath,[StringComparison]::OrdinalIgnoreCase) -ge 0
     }
 }

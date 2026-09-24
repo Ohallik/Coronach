@@ -27,7 +27,7 @@ namespace Lattice.EditorTools
         {
             Directory.CreateDirectory(Scenes);
             PipelineConverter.ConvertTo3DInternal();
-            PlayerSettings.companyName="Nathan";PlayerSettings.productName="Lattice";
+            PlayerSettings.companyName="Nathan";PlayerSettings.productName="Coronach";
             PlayerSettings.defaultScreenWidth=1920;PlayerSettings.defaultScreenHeight=1080;
             PlayerSettings.fullScreenMode=FullScreenMode.Windowed;
             PlayerSettings.runInBackground=true;PlayerSettings.colorSpace=ColorSpace.Linear;
@@ -75,7 +75,7 @@ namespace Lattice.EditorTools
         {
             RegisterScenes();
             var root=Path.GetFullPath(Path.Combine(Application.dataPath,"../.."));
-            var output=Path.Combine(root,"Builds",dev?"WindowsDev":"Windows","Lattice.exe");
+            var output=Path.Combine(root,"Builds",dev?"WindowsDev":"Windows","Coronach.exe");
             Directory.CreateDirectory(Path.GetDirectoryName(output));
             var result=BuildPipeline.BuildPlayer(new BuildPlayerOptions{
                 scenes=EditorBuildSettings.scenes.Where(s=>s.enabled).Select(s=>s.path).ToArray(),

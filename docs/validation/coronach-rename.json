@@ -1,0 +1,67 @@
+﻿{
+    "date":  "2026-09-23",
+    "change":  "Product renamed to Coronach by Nathan",
+    "unityProject":  "Lattice",
+    "productName":  "Coronach",
+    "builds":  {
+                   "result":  "Both builds succeeded; app.info reports Nathan / Coronach",
+                   "development":  "Builds/WindowsDev/Coronach.exe",
+                   "release":  "Builds/Windows/Coronach.exe"
+               },
+    "titleReview":  {
+                        "logitechAttached":  true,
+                        "result":  "CORONACH fits on one line; no clipping or UI overlap",
+                        "existingSaveRecognized":  true,
+                        "release":  "Builds/logs/coronach-title-release.png",
+                        "opened":  true,
+                        "development":  "Builds/logs/coronach-title-dev.png"
+                    },
+    "saveCompatibility":  {
+                              "defaultFilesUnchangedAfterTitleAndTests":  true,
+                              "directory":  "AppData/LocalLow/Nathan/Lattice/Saves"
+                          },
+    "regression":  {
+                       "passed":  1,
+                       "scope":  "Focused save/resume test only; no full route or full suite rerun for this rename",
+                       "failed":  0,
+                       "xml":  "Builds/logs/coronach-save-resume-results.xml",
+                       "result":  "All six scene transitions resume the saved party through Title",
+                       "test":  "Lattice.Tests.PlayMode.CorePlayTests.EveryZoneAutosaveResumesThroughTheTitle",
+                       "skipped":  0
+                   },
+    "qualityGate":  "QUALITY_REVIEW_REJECTED remains open",
+    "artifacts":  [
+                      {
+                          "sha256":  "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7",
+                          "path":  "Builds/Windows/Coronach.exe"
+                      },
+                      {
+                          "sha256":  "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44",
+                          "path":  "Builds/Windows/Coronach_Data/app.info"
+                      },
+                      {
+                          "sha256":  "26501ca5cfc8bb006cdf5aea78460072a83d0763aa65edf25169827a87a4f103",
+                          "path":  "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll"
+                      },
+                      {
+                          "sha256":  "ebf4deceedb73f4a11fb990144c4992a2cf3f71ce5a2c16ab2313625cc9e4cf9",
+                          "path":  "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll"
+                      },
+                      {
+                          "sha256":  "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6",
+                          "path":  "Builds/WindowsDev/Coronach.exe"
+                      },
+                      {
+                          "sha256":  "f7ae03a9c3215cbffc1780311b394a77897a265a83af858444c478e626cdfc64",
+                          "path":  "Builds/logs/coronach-title-release.png"
+                      },
+                      {
+                          "sha256":  "7cb9504420ff4f60380277dd0460df776b5f684afbf3d341b618ae710c1adfc4",
+                          "path":  "Builds/logs/coronach-title-dev.png"
+                      },
+                      {
+                          "sha256":  "66f7f7232e728429f6240dc292b07e392b11132efe7b9fb92fa24c8e109545c6",
+                          "path":  "Builds/logs/coronach-save-resume-results.xml"
+                      }
+                  ]
+}

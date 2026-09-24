@@ -8,7 +8,7 @@ New-Item -ItemType Directory -Force $folder | Out-Null
 $started=[DateTime]::UtcNow
 $playerArgs=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-scene','Arena_Ground','-loadout','moon','-portraitsmoke',$folder,'-savepath',(Join-Path $repo 'Builds/portrait-smoke-saves'),'-logFile',$log)
 # Visible graphics player: hidden-window captures on this machine are black.
-$process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Lattice.exe') -ArgumentList $playerArgs -PassThru
+$process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Coronach.exe') -ArgumentList $playerArgs -PassThru
 try{
     if(-not $process.WaitForExit($TimeoutSec*1000)){throw 'FAILED: portrait smoke timeout'}
     $content=[IO.File]::ReadAllText($log)

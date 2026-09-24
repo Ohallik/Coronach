@@ -3,7 +3,7 @@ $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'unity-process.ps1')
 $repo=Split-Path $PSScriptRoot -Parent
 $folder=if($Dev){'WindowsDev'}else{'Windows'}
-$exe=Join-Path $repo "Builds/$folder/Lattice.exe"
+$exe=Join-Path $repo "Builds/$folder/Coronach.exe"
 $runName=if($Route){"route-$Route"}else{$Scene}
 if($Route -and -not $PSBoundParameters.ContainsKey('TimeoutSec')){$TimeoutSec=900}
 $log=Join-Path $repo "Builds/logs/$runName-player.log"

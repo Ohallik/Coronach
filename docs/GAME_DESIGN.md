@@ -1,4 +1,6 @@
-# LATTICE (working title) — game design, playable-slice scope
+# CORONACH — game design, playable-slice scope
+
+Product name: **Coronach**, chosen by Nathan on 2026-09-23. The in-world Lattice retains its name.
 
 Status 2026-09-20. Every proper noun below is a placeholder Nathan can rename; the mechanics are
 the decisions. Companion documents: `ARCHITECTURE.md` (how it is built) and `SLICE_PROMPT.md`

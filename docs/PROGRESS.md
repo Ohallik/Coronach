@@ -1,4 +1,10 @@
-# LATTICE slice progress
+# CORONACH slice progress
+
+## Product name — Coronach
+
+2026-09-23: Nathan named the game **Coronach**. Product settings, the title screen and Windows packaging now use this name. The existing Unity project remains `Lattice/`; existing save slots remain in `Nathan/Lattice/Saves`. Earlier build records below retain their historical filenames. This naming change does not close the open visual-quality or controller-feel gates.
+
+Rename verification: rebuilt release and development players; opened both 1080p title captures and confirmed the longer title fits. Both title runs attached the Logitech. The release recognizes the existing save, whose files remain byte-for-byte unchanged after verification. The focused all-zone save/resume regression passed (1 test, zero skips); the full route and suite were not rerun for this naming change. Evidence: [coronach-rename.json](validation/coronach-rename.json).
 
 ## Current review — quality gate reopened
 
@@ -44,9 +50,9 @@ Receipt and facial-distinctiveness requirement: D027–D028 in docs/DECISIONS.md
 
 ## Run
 
-Double-click **Builds/Windows/Lattice.exe**. Keep it beside Lattice_Data, UnityPlayer.dll and the other runtime files. Select New Game with the bottom face button, dock at Orrin's office and follow the objective panel. At Tallow Drift, dock, talk to the keeper, then repair/save to finish.
+Double-click **Builds/Windows/Coronach.exe**. Keep it beside Coronach_Data, UnityPlayer.dll and the other runtime files. Select New Game with the bottom face button, dock at Orrin's office and follow the objective panel. At Tallow Drift, dock, talk to the keeper, then repair/save to finish.
 
-Builds/WindowsDev/Lattice.exe contains development probes and diagnostics. Runtime shortcuts are disabled in release. [README](../README.md) has full controls, saves, verification commands and bug reporting.
+Builds/WindowsDev/Coronach.exe contains development probes and diagnostics. Runtime shortcuts are disabled in release. [README](../README.md) has full controls, saves, verification commands and bug reporting.
 
 The Logitech Precision C21A uses its d-pad for movement; **LB + d-pad** cycles targets/items. Synthetic events verify translation/navigation. PAD_BRIDGE_ATTACH vid=046D pid=C21A profile=LogitechPrecision proves real attachment in the graphics player. Neither proves human feel. Windows focus loss can temporarily disable the HID device; the bridge reattaches when enabled again.
 

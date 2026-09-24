@@ -1,4 +1,4 @@
-# LATTICE — technical architecture
+# CORONACH — technical architecture
 
 Status 2026-09-20. Read with `GAME_DESIGN.md`. This is the shape the slice is built in and the
 shape the full game grows from.
@@ -15,7 +15,7 @@ C:\Users\natem\Projects\SpaceRPG\          repo root (git init in P0)
   docs\                                    design, architecture, prompts, credits, progress, handoffs
   scripts\                                 headless.ps1, smoketest.ps1, exec.ps1, blender.ps1
   tools\                                   meshy\ (bridge + .env), gen_batch.py, portraits_*.py, blender\
-  Builds\                                  git-ignored: Windows\Lattice.exe, logs\
+  Builds\                                  git-ignored: Windows\Coronach.exe, logs\
 ```
 
 Fixed facts of this machine: Unity at `C:\Program Files\Unity\Hub\Editor\6000.4.7f1\Editor\Unity.exe`;
@@ -224,7 +224,7 @@ Lanes:
   adjudication.
 - `scripts/exec.ps1 -Method … -Marker …`: Frostbound's `p64-exec.ps1` pattern (wait for the log
   marker, then kill Unity) for asset-heavy editor jobs, with `-Graphics` for renders.
-- `scripts/smoketest.ps1 -Scene <zone> [-Route slice]`: boots `Builds\Windows\Lattice.exe` with
+- `scripts/smoketest.ps1 -Scene <zone> [-Route slice]`: boots `Builds\Windows\Coronach.exe` with
   rendering, asserts markers, writes `Builds\logs\<scene>-screenshot.png`. The screenshot must be
   opened and judged; compare its byte size against neighbours (a 12 KB PNG is a black frame, not
   evidence).

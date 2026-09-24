@@ -7,7 +7,7 @@ $shots=Join-Path $repo $Folder
 New-Item -ItemType Directory -Path $shots -Force | Out-Null
 $started=[DateTime]::UtcNow
 $arguments=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-scene','Hub_CinderHalo','-loadout','starter','-look',$shots,'-savepath',(Join-Path $repo 'Builds/look-saves'),'-logFile',$log)
-$process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Lattice.exe') -ArgumentList $arguments -PassThru
+$process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Coronach.exe') -ArgumentList $arguments -PassThru
 try{
  if(-not $process.WaitForExit($TimeoutSec*1000)){throw 'FAILED: look timeout'}
  $text=[IO.File]::ReadAllText($log)

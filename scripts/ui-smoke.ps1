@@ -2,7 +2,7 @@ param([int]$TimeoutSec=100)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'unity-process.ps1')
 $repo=Split-Path $PSScriptRoot -Parent
-$exe=Join-Path $repo 'Builds/WindowsDev/Lattice.exe'
+$exe=Join-Path $repo 'Builds/WindowsDev/Coronach.exe'
 $folder=Join-Path $repo 'Builds/logs/ui'
 $log=Join-Path $repo 'Builds/logs/ui-smoke.log'
 New-Item -ItemType Directory -Force $folder | Out-Null

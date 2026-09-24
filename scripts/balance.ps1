@@ -7,7 +7,7 @@ $report=Join-Path $repo 'Builds/logs/balance.json'
 $shot=Join-Path $repo 'Builds/logs/balance.png'
 foreach($path in @($log,$report,$shot)){if(Test-Path -LiteralPath $path){Remove-Item -LiteralPath $path}}
 $arguments=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-scene','Arena_Ground','-balance',$report,'-screenshot',$shot,'-savepath',(Join-Path $repo 'Builds/balance-saves'),'-logFile',$log)
-$process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Lattice.exe') -ArgumentList $arguments -PassThru
+$process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Coronach.exe') -ArgumentList $arguments -PassThru
 try{
  if(-not $process.WaitForExit($TimeoutSec*1000)){throw 'FAILED: balance timeout'}
  $text=[IO.File]::ReadAllText($log)

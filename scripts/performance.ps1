@@ -2,7 +2,7 @@ param([int]$TimeoutSec=90)
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'unity-process.ps1')
 $repo=Split-Path $PSScriptRoot -Parent
-$exe=Join-Path $repo 'Builds/WindowsDev/Lattice.exe'
+$exe=Join-Path $repo 'Builds/WindowsDev/Coronach.exe'
 $report=Join-Path $repo 'Builds/logs/perf-gullet.json'
 $shot=Join-Path $repo 'Builds/logs/perf-gullet.png'
 $log=Join-Path $repo 'Builds/logs/perf-gullet.log'

@@ -1,4 +1,4 @@
-# LATTICE playtest notes
+# CORONACH playtest notes
 
 ## 2026-09-21 — agent-directed play review (current)
 

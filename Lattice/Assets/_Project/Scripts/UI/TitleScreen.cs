@@ -21,8 +21,8 @@ namespace Lattice.UI
             var background=new GameObject("KeyArt",typeof(RawImage)); background.transform.SetParent(canvas.transform,false);
             background.GetComponent<RawImage>().texture=Resources.Load<Texture2D>("UI/Title/key-art");
             UiKit.Rect(background,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
-            var title=UiKit.Heading(canvas.transform,"Title","LATTICE",105,UiKit.TextColor,TextAlignmentOptions.Left);
-            UiKit.Rect(title.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-235),new Vector2(560,150));
+            var title=UiKit.Heading(canvas.transform,"Title",Application.productName.ToUpperInvariant(),105,UiKit.TextColor,TextAlignmentOptions.Left);
+            UiKit.Rect(title.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(470,-235),new Vector2(760,150));
             var subtitle=UiKit.Text(canvas.transform,"Subtitle","ONE BODY. THREE FORMS.",23,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
             UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
             var buttons=new List<Selectable>();

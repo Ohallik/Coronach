@@ -16,7 +16,8 @@ namespace Lattice.Core
             if(Current!=null && Current!=this){Destroy(gameObject);return;}
             Current=this;GameTime.Reset();Input=new GameInput();
             gameObject.AddComponent<AudioManager>();
-            var root=DevArgs.Value("-savepath")??Path.Combine(Application.persistentDataPath,"Saves");
+            // Retain the original Windows save location across the Coronach product rename.
+            var root=DevArgs.Value("-savepath")??Path.Combine(Path.GetDirectoryName(Application.persistentDataPath),"Lattice","Saves");
             Saves=new SaveSystem(root);
             Application.targetFrameRate=60;
             AudioListener.volume=PlayerPrefs.GetFloat("volume",1);

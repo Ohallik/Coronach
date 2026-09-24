@@ -1,4 +1,4 @@
-# LATTICE
+# CORONACH
 
 A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cross the Gullet with Taren and Sela.
 
@@ -6,11 +6,13 @@ A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cro
 
 **Current quality review: not yet at the professional target.** Playing the opening and ground/flight encounters exposed input and partner-following defects, now corrected, plus unfinished environment composition, combat readability and menus. [Play review](docs/PLAY_REVIEW.md) records what was actually played, the fixes, remaining issues and limits of virtual-gamepad testing. The current build includes those corrections; the original tag's results above are historical.
 
+The game is named **Coronach** (formerly LATTICE). The existing Unity project is `Lattice/`; add that folder in Unity Hub and open `Assets/_Project/Scenes/_Boot.unity` to play in the Editor.
+
 ## Run
 
-Run `Builds/Windows/Lattice.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet. At Tallow Drift, dock, talk to the keeper, then use the repair console to save and finish.
+Run `Builds/Windows/Coronach.exe`. Select **New Game**, dock at Orrin's office, and follow the objective guide. Talk to Hal for supplies/fabrication and hail Neve before entering the Gullet. At Tallow Drift, dock, talk to the keeper, then use the repair console to save and finish.
 
-The development package is `Builds/WindowsDev/Lattice.exe`; it also supports the arena and verification arguments below. Keep each EXE beside its `Lattice_Data` folder and Unity runtime files. Consult `docs/PROGRESS.md` for open gates.
+The development package is `Builds/WindowsDev/Coronach.exe`; it also supports the arena and verification arguments below. Keep each EXE beside its `Coronach_Data` folder and Unity runtime files. Consult `docs/PROGRESS.md` for open gates.
 
 ## Controls
 
@@ -38,9 +40,9 @@ Keyboard: WASD move, J attack/fire, Space dodge/roll, K guard/lunge, Tab swap, 1
 
 ## Saves and bug reports
 
-Saves: `%USERPROFILE%/AppData/LocalLow/Nathan/Lattice/Saves`. Three manual slots plus autosave. Docking, warp and repair autosave; Party menu saves a manual slot. Continue lists all four. Automated tests use isolated save directories or the runner's save shield.
+Saves: `%USERPROFILE%/AppData/LocalLow/Nathan/Lattice/Saves`. This original save location is retained across the rename. Three manual slots plus autosave. Docking, warp and repair autosave; Party menu saves a manual slot. Continue lists all four. Automated tests use isolated save directories or the runner's save shield.
 
-Report the scene, active character/form, action, expected result, actual result and reproduction steps. Include a screenshot, the affected save, and `%USERPROFILE%/AppData/LocalLow/Nathan/Lattice/Player.log`. Logs are replaced on the next player run.
+Report the scene, active character/form, action, expected result, actual result and reproduction steps. Include a screenshot, the affected save, and `%USERPROFILE%/AppData/LocalLow/Nathan/Coronach/Player.log`. Logs are replaced on the next player run.
 
 ## Build and verify
 
