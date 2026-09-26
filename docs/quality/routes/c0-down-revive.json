@@ -1,0 +1,54 @@
+{
+  "name": "c0-down-revive",
+  "scene": "Arena_Ground",
+  "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "receive real enemy attacks until partner down",
+      "seconds": 40,
+      "buttons": [],
+      "until": "partnerDown"
+    },
+    {
+      "name": "guard and approach downed partner",
+      "seconds": 20,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.25,
+      "buttons": [
+        "West"
+      ],
+      "until": "partyAlive"
+    },
+    {
+      "name": "hold guard after revive",
+      "seconds": 4,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "swap recovered hero",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "resume attacks",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6
+    }
+  ]
+}

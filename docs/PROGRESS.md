@@ -1,5 +1,15 @@
 # CORONACH slice progress
 
+## C0 baseline recorded — September 26 implementation
+
+**C0_BASELINE_RECORDED.** Added continuous ordinary-input recording with per-frame timing, independent bone directions, actual game video/audio, isolated saves and fail-closed route validation. Recorded two 120-second town routes, civil docking/return, both Natural heroes in eight directions, both Shaped heroes in Arena/Sorrel, real dialogue/shop flow and combat down/revive. See [C0-baseline.md](validation/C0-baseline.md) and [C0-recordings.json](validation/C0-recordings.json) for artifacts, hashes, rejected attempts and limits.
+
+Baseline recorder implementation and route checks pass; quality remains **FAILED/OPEN**. The first-station overhead/arrival comparison fails MAP_EYE_TEST. Functional interior/exterior briefs now exist, but no redesigned map is accepted. C1 clean timing and C2 calibrated motion remain open. Camera stops during roughly one third of captured walking samples; an independent constant-speed PlayMode regression fails on the old camera. A wall-contact regression also fails because the motor reports 6.7 m/s against a wall. Red XML/logs are preserved under `Builds/quality/C0/preflight/`.
+
+Ten offline analyzer controls pass, rejecting relevant broken recordings. One Unity test launch exited without results and was rejected; its bounded retry produced the two expected failing regressions. Normal save and backup hashes remain unchanged. No art credits spent: 795/1,200 consumed, 405 remaining.
+
+Codex opened actual dialogue/shop, gameplay, structural and rig stills. **Continuous normal/slow-motion observation, subjective audio audition and physical Logitech feel remain UNVERIFIED**: the native computer-use pipe was unavailable after bounded recovery. Captured artifacts are retained. This is a baseline checkpoint, not a completed workshop or campaign. Development includes the recorder; release will be rebuilt for C1 comparison and again at integrated handoff.
+
 ## Next production pass — September 26 findings
 
 Nathan reports station-walking performance problems, characters running askew in combat form, weak sound effects and inadequate death animations. These are **OPEN**, despite the historical test/route results below. The previous benchmark covered the Gullet only; motion, dialogue and sound observations did not establish complete experience quality.

@@ -1,0 +1,556 @@
+{
+  "name": "c0-motion-arena_ground",
+  "scene": "Arena_Ground",
+  "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "Taren direction 0",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0,
+      "y": 1,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 0",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 1",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0,
+      "y": -1,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 1",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 2",
+      "seconds": 2,
+      "buttons": [],
+      "x": 1,
+      "y": 0,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 2",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 3",
+      "seconds": 2,
+      "buttons": [],
+      "x": -1,
+      "y": 0,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 3",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 4",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0.7071,
+      "y": 0.7071,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 4",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 5",
+      "seconds": 2,
+      "buttons": [],
+      "x": -0.7071,
+      "y": -0.7071,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 5",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 6",
+      "seconds": 2,
+      "buttons": [],
+      "x": -0.7071,
+      "y": 0.7071,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 6",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren direction 7",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0.7071,
+      "y": -0.7071,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "Taren stop 7",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 0",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0,
+      "y": 1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 0",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 1",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0,
+      "y": -1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 1",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 2",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 1,
+      "y": 0,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 2",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 3",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": -1,
+      "y": 0,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 3",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 4",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0.7071,
+      "y": 0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 4",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 5",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": -0.7071,
+      "y": -0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 5",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 6",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": -0.7071,
+      "y": 0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 6",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren sprint 7",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0.7071,
+      "y": -0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Taren sprint stop 7",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Taren lock-on",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "release",
+      "seconds": 0.2,
+      "buttons": []
+    },
+    {
+      "name": "lock movement",
+      "seconds": 2,
+      "buttons": [],
+      "x": 1
+    },
+    {
+      "name": "reverse",
+      "seconds": 2,
+      "buttons": [],
+      "x": -1
+    },
+    {
+      "name": "attack",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6
+    },
+    {
+      "name": "return to run",
+      "seconds": 2,
+      "buttons": [],
+      "y": 1
+    },
+    {
+      "name": "dodge",
+      "seconds": 0.2,
+      "buttons": [
+        "East"
+      ],
+      "y": -1
+    },
+    {
+      "name": "guard",
+      "seconds": 2,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 0",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0,
+      "y": 1,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 0",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 1",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0,
+      "y": -1,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 1",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 2",
+      "seconds": 2,
+      "buttons": [],
+      "x": 1,
+      "y": 0,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 2",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 3",
+      "seconds": 2,
+      "buttons": [],
+      "x": -1,
+      "y": 0,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 3",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 4",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0.7071,
+      "y": 0.7071,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 4",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 5",
+      "seconds": 2,
+      "buttons": [],
+      "x": -0.7071,
+      "y": -0.7071,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 5",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 6",
+      "seconds": 2,
+      "buttons": [],
+      "x": -0.7071,
+      "y": 0.7071,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 6",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela direction 7",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0.7071,
+      "y": -0.7071,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela stop 7",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 0",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0,
+      "y": 1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 0",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 1",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0,
+      "y": -1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 1",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 2",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 1,
+      "y": 0,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 2",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 3",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": -1,
+      "y": 0,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 3",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 4",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0.7071,
+      "y": 0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 4",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 5",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": -0.7071,
+      "y": -0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 5",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 6",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": -0.7071,
+      "y": 0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 6",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela sprint 7",
+      "seconds": 1.5,
+      "buttons": [],
+      "x": 0.7071,
+      "y": -0.7071,
+      "rightTrigger": 1
+    },
+    {
+      "name": "Sela sprint stop 7",
+      "seconds": 0.4,
+      "buttons": []
+    },
+    {
+      "name": "Sela lock-on",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "release",
+      "seconds": 0.2,
+      "buttons": []
+    },
+    {
+      "name": "lock movement",
+      "seconds": 2,
+      "buttons": [],
+      "x": 1
+    },
+    {
+      "name": "reverse",
+      "seconds": 2,
+      "buttons": [],
+      "x": -1
+    },
+    {
+      "name": "attack",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.6
+    },
+    {
+      "name": "return to run",
+      "seconds": 2,
+      "buttons": [],
+      "y": 1
+    },
+    {
+      "name": "dodge",
+      "seconds": 0.2,
+      "buttons": [
+        "East"
+      ],
+      "y": -1
+    },
+    {
+      "name": "guard",
+      "seconds": 2,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.4,
+      "buttons": []
+    }
+  ]
+}

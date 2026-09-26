@@ -9,6 +9,13 @@ namespace Lattice.UI
     {
         IEnumerator Start()
         {
+            QualityRoute quality = null;
+            if (DevArgs.Has("-quality-route"))
+            {
+                quality = ContinuousReview.ReadRoute();
+                if (quality.starterParty) DevLoadout.Apply("starter");
+                gameObject.AddComponent<ContinuousReview>();
+            }
 #if LATTICE_DEV || UNITY_EDITOR
             if(DevArgs.Has("-review"))gameObject.AddComponent<ReviewInput>();
             DevLoadout.Apply(DevArgs.Value("-loadout"));
@@ -19,7 +26,7 @@ namespace Lattice.UI
             if(DevArgs.Has("-balance"))gameObject.AddComponent<BalanceProbe>();
             if(DevArgs.Has("-look"))gameObject.AddComponent<ZoneLookProbe>();
 #endif
-            var zone=DevArgs.Value("-scene");
+            var zone=quality != null ? quality.scene : DevArgs.Value("-scene");
             if(string.IsNullOrEmpty(zone)||zone=="Title") yield return SceneManager.LoadSceneAsync("Title",LoadSceneMode.Additive);
             else SceneFlow.Current.LoadZone(zone);
         }

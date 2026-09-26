@@ -1,0 +1,766 @@
+{
+  "gate": "C0_BASELINE_RECORDED",
+  "implementation": "PASSED",
+  "automated": "PASSED (recording routes; rejected attempts retained)",
+  "observedMotion": "UNVERIFIED",
+  "audioAudition": "UNVERIFIED",
+  "physicalController": "UNVERIFIED",
+  "reviewer": "Codex",
+  "note": "Facing numbers use independent bilateral bone spans but are not yet visually calibrated. These are diagnostics, not C2 acceptance. Capture timings include encoder/readback and checkpoint PNG overhead.",
+  "runs": [
+    {
+      "route": "c0-cinder-dock",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 2821,
+      "refreshHz": 60.0,
+      "seconds": 47.810047399999995,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/c0-cinder-dock-capture-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 669716,
+          "sha256": "978a7907c9f98016dc869b6724551a876194a73e455cae6c0a974bc2dfc87fa4"
+        },
+        "route.json": {
+          "bytes": 9645,
+          "sha256": "d92831338f1bb5d5088fdc525e94a1778d0df7f7ca03ca8a797d3563b2773f09"
+        },
+        "video.mp4": {
+          "bytes": 58470687,
+          "sha256": "453e9196a997bc360b2a6190d792fe6902090fa786768e1bd5c623464cc10f5d"
+        },
+        "mix.wav": {
+          "bytes": 18391084,
+          "sha256": "b40db7e35b80a0fbdd551231052a1f48ec8a5dbfc99caca4ea509bd00b36519e"
+        },
+        "replay.mp4": {
+          "bytes": 59675599,
+          "sha256": "d9a612851b8deebee9a5b0d7c27919e871c92b1846942446dba50a0a50ebf430"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 119,
+          "medianSignedPelvisYaw": 7.562999999999988,
+          "medianSignedChestYaw": 9.399999999999977
+        }
+      ],
+      "heroStates": [
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-motion-arena_ground",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 5203,
+      "refreshHz": 60.0,
+      "seconds": 93.8029371,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/c0-motion-arena_ground-capture-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 1209329,
+          "sha256": "4b6c43b52cca24aa2d0b97bc03ec050e22e8a54478fb8f809f0b37628dca7d83"
+        },
+        "route.json": {
+          "bytes": 50086,
+          "sha256": "12ad4bdae9a10ccf49104b7f43a2950a73310a3d1b942bf48910b480af4f2208"
+        },
+        "video.mp4": {
+          "bytes": 355209015,
+          "sha256": "299f46f7d06461fd81cfaabcb4f9715d354fb93d5907fc66ac08020a8b67472f"
+        },
+        "mix.wav": {
+          "bytes": 36069420,
+          "sha256": "2826a2aaacb6a2588cb32e7360f33bfc59177188202615f48899f932edcdce52"
+        },
+        "replay.mp4": {
+          "bytes": 357509372,
+          "sha256": "92602dec5b804a4add7083fa3b06b3e6572c2d50cf3274490e55e74ebeb3c0dc"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Run",
+          "samples": 1351,
+          "medianSignedPelvisYaw": 28.75303667832077,
+          "medianSignedChestYaw": 16.67395635886976
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "samples": 572,
+          "medianSignedPelvisYaw": 20.69899651859528,
+          "medianSignedChestYaw": 8.039956358869759
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Run",
+          "samples": 1362,
+          "medianSignedPelvisYaw": 27.396956358869772,
+          "medianSignedChestYaw": 17.367456358869774
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "samples": 576,
+          "medianSignedPelvisYaw": 19.85995635886978,
+          "medianSignedChestYaw": 8.855496518595274
+        }
+      ],
+      "heroStates": [
+        "Sela:Attack",
+        "Sela:Dodge",
+        "Sela:Guard",
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Attack",
+        "Taren:Dodge",
+        "Taren:Guard",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-motion-hub_decks",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 4449,
+      "refreshHz": 60.0,
+      "seconds": 79.3098606,
+      "captured": true,
+      "valid": false,
+      "failures": [
+        "attack: scene Hub_CinderHalo expected Hub_Decks",
+        "return to run: scene Hub_CinderHalo expected Hub_Decks",
+        "dodge: scene Hub_CinderHalo expected Hub_Decks",
+        "guard: scene Hub_CinderHalo expected Hub_Decks",
+        "swap: scene Hub_CinderHalo expected Hub_Decks",
+        "release swap: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 0: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 0: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 1: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 1: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 2: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 2: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 3: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 3: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 4: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 4: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 5: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 5: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 6: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 6: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela direction 7: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela stop 7: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 0: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 0: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 1: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 1: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 2: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 2: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 3: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 3: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 4: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 4: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 5: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 5: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 6: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 6: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint 7: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela sprint stop 7: scene Hub_CinderHalo expected Hub_Decks",
+        "Sela lock-on: scene Hub_CinderHalo expected Hub_Decks",
+        "release: scene Hub_CinderHalo expected Hub_Decks",
+        "lock movement: scene Hub_CinderHalo expected Hub_Decks",
+        "reverse: scene Hub_CinderHalo expected Hub_Decks",
+        "attack: scene Hub_CinderHalo expected Hub_Decks",
+        "return to run: scene Hub_CinderHalo expected Hub_Decks",
+        "dodge: scene Hub_CinderHalo expected Hub_Decks",
+        "guard: scene Hub_CinderHalo expected Hub_Decks",
+        "swap: scene Hub_CinderHalo expected Hub_Decks",
+        "release swap: scene Hub_CinderHalo expected Hub_Decks"
+      ],
+      "path": "Builds/quality/C0/c0-motion-hub_decks-capture-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 1056750,
+          "sha256": "aeb3d106e15a41a1c0a109e85e23a31be1bd8bae19f7edcc7fcc17f56b4d179f"
+        },
+        "route.json": {
+          "bytes": 52289,
+          "sha256": "90e9aaa97541c25ab8293768530b323eb37b8120e010dd86d59d6de92f78d8b9"
+        },
+        "video.mp4": {
+          "bytes": 197250923,
+          "sha256": "fbdf639c34dea605a5b275fcfff236a7ebdb9c2b1e44e1ccaa9f590956528e5a"
+        },
+        "mix.wav": {
+          "bytes": 30482476,
+          "sha256": "4e47ee790b6c787c7f4c4f82028f26151048b3e45f4810b836645618fb5b69a5"
+        },
+        "replay.mp4": {
+          "bytes": 199247137,
+          "sha256": "e07a83f907282accfb94381b224164ea695bed396b436997d6c7e0100616cb78"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 1188,
+          "medianSignedPelvisYaw": 7.356661794516128,
+          "medianSignedChestYaw": 8.883309076692939
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 248,
+          "medianSignedPelvisYaw": 29.540956358869778,
+          "medianSignedChestYaw": 54.20799651859525
+        }
+      ],
+      "heroStates": [
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-motion-sorrel_ridges",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 6076,
+      "refreshHz": 60.0,
+      "seconds": 108.702654,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/c0-motion-sorrel_ridges-capture-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 1423226,
+          "sha256": "c8bf60e012bbb53903d681aa1def86fbdae9dbcc09eb59b4b571a369746f9055"
+        },
+        "route.json": {
+          "bytes": 51315,
+          "sha256": "61dacdde0f3474a671a9613eabc24b73ab442a56488e3b70baa8f8e15f7a00ee"
+        },
+        "video.mp4": {
+          "bytes": 393366758,
+          "sha256": "a537fd75f95e6bcd0256797efa6243d2d83e77b2baec69d116848fc37fe4b6c4"
+        },
+        "mix.wav": {
+          "bytes": 41787436,
+          "sha256": "cbb072e284d686866feedeca98efe5761b75784d8734ff4d7cb5464dbc39ec94"
+        },
+        "replay.mp4": {
+          "bytes": 396045338,
+          "sha256": "8e8b6dcc4b66f91cef0ba150dd422245aec49e2cd2d0a81b40c711f5bd7a9885"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Run",
+          "samples": 1347,
+          "medianSignedPelvisYaw": 28.76195635886978,
+          "medianSignedChestYaw": 18.15795635886974
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "samples": 570,
+          "medianSignedPelvisYaw": 20.698496518595263,
+          "medianSignedChestYaw": 9.287496518595276
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 380,
+          "medianSignedPelvisYaw": 6.8155,
+          "medianSignedChestYaw": 7.1484999999999985
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Run",
+          "samples": 1627,
+          "medianSignedPelvisYaw": 27.510036678320773,
+          "medianSignedChestYaw": 20.04695635886975
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "samples": 577,
+          "medianSignedPelvisYaw": 19.856036678320777,
+          "medianSignedChestYaw": 8.857036678320753
+        }
+      ],
+      "heroStates": [
+        "Sela:Attack",
+        "Sela:Dodge",
+        "Sela:Guard",
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Attack",
+        "Taren:Dodge",
+        "Taren:Guard",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-tallow",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 7095,
+      "refreshHz": 60.0,
+      "seconds": 120.1903043,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/c0-tallow-capture-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 1690394,
+          "sha256": "cdcf72629a7dfe4c2db0d2800302730f128b3bcd903574f797aa4345da2d1bca"
+        },
+        "route.json": {
+          "bytes": 16645,
+          "sha256": "bfb6d52ea6fd70e142ca7a9d10c591b6f686ba68dc6283351c29b9696034cfc5"
+        },
+        "video.mp4": {
+          "bytes": 191735352,
+          "sha256": "f286237d40a5add0bb556d0583aa24d46e0c46a2f3f7a0df2dc616a29f7dd255"
+        },
+        "mix.wav": {
+          "bytes": 46194732,
+          "sha256": "141d390c84a74524a87e9833b92650f9a13564b81bede282f3aa437679ddf32f"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 256,
+          "medianSignedPelvisYaw": 14.525930342177077,
+          "medianSignedChestYaw": -9.510920087027188
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 418,
+          "medianSignedPelvisYaw": 16.616079912972793,
+          "medianSignedChestYaw": -10.79789204808921
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 2010,
+          "medianSignedPelvisYaw": 7.064093350580265,
+          "medianSignedChestYaw": 7.962254791026837
+        }
+      ],
+      "heroStates": [
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-decks",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 7271,
+      "refreshHz": 60.0,
+      "seconds": 121.1684619,
+      "captured": true,
+      "valid": false,
+      "failures": [
+        "promenade to market: navigation checkpoint missed",
+        "approach Mira: navigation checkpoint missed",
+        "talk to Mira: dialogue did not open",
+        "choose stock: shop did not open",
+        "sprint to repair: navigation checkpoint missed",
+        "repair doorway: navigation checkpoint missed",
+        "Sela office sprint: navigation checkpoint missed",
+        "office side wall approach: navigation checkpoint missed",
+        "Sela reverse to office: navigation checkpoint missed",
+        "Sela office north: navigation checkpoint missed",
+        "slow public junction: navigation checkpoint missed"
+      ],
+      "path": "Builds/quality/C0/decks-capture-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 1683992,
+          "sha256": "c516d0fe6d13e1962a1afb4ae6bc714f189764a72a1c223c46bb12c7d0db6c56"
+        },
+        "route.json": {
+          "bytes": 16721,
+          "sha256": "26986f125befe24dba87ce0a809c5d0460641b1e0510ac58b14c34a0a67ac385"
+        },
+        "video.mp4": {
+          "bytes": 190439594,
+          "sha256": "3115c57f19532045f1f4c59eebf4986ccafa5c10fea69ac2e6e10b35e096a117"
+        },
+        "mix.wav": {
+          "bytes": 46546988,
+          "sha256": "ba99496af9a21520ae680ad4cb395b854a9f96c5b3537474c57d45233d546024"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 2312,
+          "medianSignedPelvisYaw": 7.59972172878814,
+          "medianSignedChestYaw": 7.682424286222769
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 385,
+          "medianSignedPelvisYaw": 28.444202308234225,
+          "medianSignedChestYaw": 19.14047428172006
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 1602,
+          "medianSignedPelvisYaw": 7.303900846451384,
+          "medianSignedChestYaw": 8.017753189446182
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 385,
+          "medianSignedPelvisYaw": 27.861481297088517,
+          "medianSignedChestYaw": 19.300002284688162
+        }
+      ],
+      "heroStates": [
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-decks",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 7090,
+      "refreshHz": 60.0,
+      "seconds": 120.2234558,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/decks-capture-02",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 1685409,
+          "sha256": "a52e0a5858da15808ee13963a80c9d3633e1dac000e3d6ed25cd23f58e127582"
+        },
+        "route.json": {
+          "bytes": 16721,
+          "sha256": "a6bd89e833e967c008c9e9929f0c91a03a877d39248503861b9226f080871928"
+        },
+        "video.mp4": {
+          "bytes": 234347119,
+          "sha256": "daf9b2ec56d656ddbd7c0e5fd857776e529567718a81bddb721c19c0ec1a6c81"
+        },
+        "mix.wav": {
+          "bytes": 46211116,
+          "sha256": "cea1a5283bc8b82f79869576a67cf7c30c638e186961fdf882632af86ccf74ad"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 1810,
+          "medianSignedPelvisYaw": 7.4719445147878645,
+          "medianSignedChestYaw": 7.674544030937412
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 217,
+          "medianSignedPelvisYaw": 28.92963630223133,
+          "medianSignedChestYaw": 31.72163630223133
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 944,
+          "medianSignedPelvisYaw": 7.273787005507444,
+          "medianSignedChestYaw": 8.511287005507455
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 210,
+          "medianSignedPelvisYaw": 28.383996797543062,
+          "medianSignedChestYaw": 29.431996797543064
+        }
+      ],
+      "heroStates": [
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    },
+    {
+      "route": "c0-down-revive",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 851,
+      "refreshHz": 60.0,
+      "seconds": 14.7389476,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/down-revive-01",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 207698,
+          "sha256": "40adc8f26129e6d61f32a0a5fb85227855dd25ef59182dfa25c754ed6829c177"
+        },
+        "route.json": {
+          "bytes": 4297,
+          "sha256": "9c5de72a24e333774bf2d0dbd48e4aa43ae1fb2d8510a0d36ea42e3830892db0"
+        },
+        "video.mp4": {
+          "bytes": 23509889,
+          "sha256": "025f2e8ab1f5480af524d9c601eccfdb61bfaf1432322a65982d59ee643ec9da"
+        },
+        "mix.wav": {
+          "bytes": 5709868,
+          "sha256": "b08ae56bbad14f2bb418b358c49f2897551d343628d27abd28434bf55f83995c"
+        },
+        "replay.mp4": {
+          "bytes": 23875732,
+          "sha256": "8e9154f3804ea9d2ef10ed1b5a179e2f3594cbfe2950112814a68527eadde05f"
+        }
+      },
+      "uncalibratedFacingVsActor": [],
+      "heroStates": [
+        "Sela:Attack",
+        "Sela:Guard",
+        "Taren:Attack",
+        "Taren:Down",
+        "Taren:Idle"
+      ]
+    },
+    {
+      "route": "c0-motion-hub_decks",
+      "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 3397,
+      "refreshHz": 60.0,
+      "seconds": 62.423834199999995,
+      "captured": true,
+      "valid": true,
+      "failures": [],
+      "path": "Builds/quality/C0/natural-diagnostic-02",
+      "artifacts": {
+        "frames.csv": {
+          "bytes": 871408,
+          "sha256": "f7fa533218a64f2b07a2e8b9dbd9b33ceb2104ad08e0e8bd751ee58a9a5aca1e"
+        },
+        "route.json": {
+          "bytes": 47285,
+          "sha256": "409f1d1b614ec104613a842c7ce456464c64d70898e9402f2aaa5bac0bbcc376"
+        },
+        "video.mp4": {
+          "bytes": 178025999,
+          "sha256": "64fda84f04057dd6738462f6cedda0e9ba960b15481769986cc67d8b7e5e1250"
+        },
+        "mix.wav": {
+          "bytes": 24018988,
+          "sha256": "8192e877eb61f7f4a42d9d6ab1138d611bca884734dbb12a9750ea3b5e40e3f7"
+        },
+        "replay.mp4": {
+          "bytes": 179572401,
+          "sha256": "916c191906b2305dfe469d6261cf8be635ddfde0beaa0d2d09bfedc4c543c77e"
+        }
+      },
+      "uncalibratedFacingVsActor": [
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 535,
+          "medianSignedPelvisYaw": 7.420036678320741,
+          "medianSignedChestYaw": 7.633956358869767
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 248,
+          "medianSignedPelvisYaw": 29.86349651859527,
+          "medianSignedChestYaw": 53.560996518595275
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "samples": 1109,
+          "medianSignedPelvisYaw": 7.111956358869747,
+          "medianSignedChestYaw": 8.018570365422136
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "samples": 244,
+          "medianSignedPelvisYaw": 29.54103667832078,
+          "medianSignedChestYaw": 54.21349651859528
+        }
+      ],
+      "heroStates": [
+        "Sela:Idle",
+        "Sela:Move",
+        "Taren:Idle",
+        "Taren:Move"
+      ]
+    }
+  ]
+}

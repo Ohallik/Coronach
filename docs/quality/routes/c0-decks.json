@@ -1,0 +1,264 @@
+{
+  "name": "c0-decks",
+  "scene": "Hub_Decks",
+  "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "office slow approach",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 0
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "office return turn",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "promenade to market",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "approach Mira",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1.3
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "talk to Mira",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read first line",
+      "seconds": 1.5,
+      "buttons": []
+    },
+    {
+      "name": "next line",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release confirm",
+      "seconds": 0.5,
+      "buttons": []
+    },
+    {
+      "name": "show choices",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release choice",
+      "seconds": 0.5,
+      "buttons": []
+    },
+    {
+      "name": "choose stock",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "shop"
+    },
+    {
+      "name": "inspect stock",
+      "seconds": 3,
+      "buttons": []
+    },
+    {
+      "name": "close shop",
+      "seconds": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world"
+    },
+    {
+      "name": "back to promenade",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "sprint to repair",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "repair doorway",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": -9
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "return through doorway",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "swap to Sela",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "Sela market return",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "Sela office sprint",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "office side wall approach",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "wall contact",
+      "seconds": 3,
+      "buttons": [],
+      "x": -0.939693,
+      "y": -0.34202
+    },
+    {
+      "name": "Sela reverse to office",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "Sela office north",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "Sela 180 turn",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "slow public junction",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "finish at office",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": -5
+      },
+      "rightTrigger": 0
+    }
+  ]
+}

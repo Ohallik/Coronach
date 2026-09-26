@@ -1,0 +1,130 @@
+{
+  "name": "c0-cinder-dock",
+  "scene": "Hub_CinderHalo",
+  "sourceRevision": "6084c88 gameplay + C0 instrumentation",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "office approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 10
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock office",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "arrival settle",
+      "seconds": 2,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "approach launch hatch",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": -9
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "launch",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "back away from office",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 0
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "civil east boost",
+      "seconds": 2,
+      "buttons": [],
+      "x": 1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "brake",
+      "seconds": 3,
+      "buttons": [],
+      "leftTrigger": 1
+    },
+    {
+      "name": "civil reverse",
+      "seconds": 2,
+      "buttons": [],
+      "x": -1
+    },
+    {
+      "name": "brake after reversal",
+      "seconds": 3,
+      "buttons": [],
+      "leftTrigger": 1
+    },
+    {
+      "name": "swap ship",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "Sela thrust",
+      "seconds": 3,
+      "buttons": [],
+      "y": -1
+    },
+    {
+      "name": "Sela brake",
+      "seconds": 3,
+      "buttons": [],
+      "leftTrigger": 1
+    },
+    {
+      "name": "Sela roll",
+      "seconds": 0.2,
+      "buttons": [
+        "East"
+      ],
+      "x": 1
+    },
+    {
+      "name": "release roll",
+      "seconds": 2,
+      "buttons": [],
+      "leftTrigger": 1
+    }
+  ]
+}

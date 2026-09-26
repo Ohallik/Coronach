@@ -10,6 +10,7 @@
     "Lattice.Dialogue",
     "Unity.InputSystem",
     "Unity.TextMeshPro",
-    "Unity.ugui"
+    "Unity.ugui",
+    "Unity.Collections"
   ]
 }
