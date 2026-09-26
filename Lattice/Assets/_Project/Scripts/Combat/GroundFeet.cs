@@ -13,6 +13,8 @@ namespace Lattice.Combat
         {
             public Transform thigh,knee,foot,toe;
             public Vector3 heelOffset,toeOffset,anchor;
+            public Vector3 target,pole;
+            public Quaternion rotation;
             public float side;
             public int contact=-1;
         }
@@ -29,6 +31,7 @@ namespace Lattice.Combat
         CombatActor actor;
         FormController form;
         public float MaximumReachCorrection {get;private set;}
+        public float RequestedSupportDrop {get;private set;}
         void OnEnable(){ResetContacts();}
 
         public void Initialize(Animator rig,Transform root,GroundStrideProfile calibration)
@@ -93,6 +96,18 @@ namespace Lattice.Combat
             float directional=Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0);
             Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,lowerRotation,directional);
             Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,lowerRotation,directional);
+            // Uphill motion raises the root over a rear foot. Keep both final
+            // ankle targets inside their real chain length, including landing
+            // and toe-off, rather than lifting an anchor or snapping a knee.
+            RequestedSupportDrop=Mathf.Max(SupportDrop(left),SupportDrop(right));
+            float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.14f);
+            pelvis.position-=Vector3.up*supportDrop;
+            Complete(left,directional);Complete(right,directional);
+        }
+        void Complete(Leg leg,float directional)
+        {
+            MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,leg.target,leg.pole,directional));
+            leg.foot.rotation=leg.rotation;
         }
         void Apply(Leg leg,string clip,float phase,float stride,bool canPlant,Vector3 direction,Quaternion lowerRotation,float directional)
         {
@@ -115,7 +130,10 @@ namespace Lattice.Combat
                 if(clip=="Walk")
                 {
                     if(phase<.135f){contact=0;weight=Window(phase,0,.135f,.025f);}
-                    else if(phase<.51f){contact=1;weight=Window(phase,.135f,.51f,.03f);}
+                    // Release for the authored toe-off before the opposite
+                    // heel lands. Holding through half a cycle overextends
+                    // the trailing leg as the root climbs a slope.
+                    else if(phase<.45f){contact=1;weight=Window(phase,.135f,.45f,.04f);}
                 }
                 else if(clip=="Run"||clip=="Sprint")
                 {
@@ -146,14 +164,27 @@ namespace Lattice.Combat
                 }
                 // Do not push the visible heel/forefoot below a flat deck during
                 // swing or a transition. Ground normals retain authored foot roll.
-                float sole=Mathf.Min(heel.y,toe.y)+target.y-originalFoot.y;
-                target.y+=Mathf.Max(0,ground.point.y+.003f-sole);
+                // Compare both soles against the local support plane at their
+                // final positions. Reusing the ray's height at the animated
+                // swing point pushed a planted foot uphill on every frame.
+                Vector3 offset=target-originalFoot;
+                float clearance=Mathf.Min(Vector3.Dot(ground.normal,heel+offset-ground.point),
+                    Vector3.Dot(ground.normal,toe+offset-ground.point));
+                target.y+=Mathf.Max(0,.003f-clearance)/Mathf.Max(.2f,ground.normal.y);
             }
             else contact=-1;
             leg.contact=contact;
-            Vector3 pole=lowerRotation*new Vector3(leg.side*.3f,0,1);
-            MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,target,pole,directional));
-            leg.foot.rotation=footRotation;
+            leg.target=target;leg.pole=lowerRotation*new Vector3(leg.side*.3f,0,1);
+            leg.rotation=footRotation;
+        }
+        static float SupportDrop(Leg leg)
+        {
+            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-.002f;
+            Vector3 delta=leg.thigh.position-leg.target;
+            float horizontal=delta.x*delta.x+delta.z*delta.z;
+            if(horizontal>=length*length)return 0;
+            float vertical=Mathf.Sqrt(length*length-horizontal);
+            return Mathf.Max(0,delta.y-vertical);
         }
         static float Window(float phase,float start,float end,float edge)=>
             Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-start)/edge,(end-phase)/edge)));

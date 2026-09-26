@@ -17,7 +17,8 @@ namespace Lattice.Combat
             var party=PartyController.Current;if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.motor==null||GameServices.Current.Input.Blocked)return;
             var active=party.Active;actor.target=active.target;
             if(actor.State==Lattice.Data.ActorState.Stagger){actor.motor.Move(Vector2.zero,false,true);return;}
-            Vector3 goal=active.transform.position-active.motor.Facing*3+Vector3.right*2;
+            var followingRight=Vector3.Cross(Vector3.up,active.motor.Facing).normalized;
+            Vector3 goal=active.transform.position-active.motor.Facing*3+followingRight*2;
             bool fighting=ZoneController.Current!=null&&ZoneController.Current.Combat&&actor.target!=null&&actor.target.Alive;
             float separation=(active.transform.position-transform.position).magnitude;
             if(fighting&&separation<18&&actor.Health.integrity>actor.Health.maximum*.3f)goal=actor.target.transform.position;

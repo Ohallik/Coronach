@@ -69,6 +69,72 @@ namespace Lattice.Tests.PlayMode
             }
             public void Dispose(){foreach(var part in parts)Object.Destroy(part.baked);}
         }
+        [UnityTest] public IEnumerator VisibleSolesStayPlantedOnUphillAndDownhillGround()
+        {
+            GameTime.Reset();
+            var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(60,1,60);
+            var failures=new List<string>();
+            try
+            {
+                foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})foreach(float slope in new[]{10f,-10f})
+                {
+                    floor.transform.rotation=Quaternion.Euler(-slope,0,0);
+                    Vector3 normal=floor.transform.up,surface=floor.transform.position+normal*.5f;
+                    var root=new GameObject("slope stride "+hero,typeof(Health),typeof(CombatActor),typeof(CharacterController),typeof(GroundMotor));
+                    var position=new Vector3(100,0,100);position.y=Vector3.Dot(normal,surface-position)/normal.y+.08f;root.transform.position=position;
+                    var controller=root.GetComponent<CharacterController>();controller.center=Vector3.up;controller.height=2;controller.radius=.4f;
+                    var actor=root.GetComponent<CombatActor>();actor.character=hero;
+                    var motor=root.GetComponent<GroundMotor>();actor.motor=motor;
+                    var definition=GameCatalog.Find<CharacterDef>(hero);
+                    var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
+                    var animator=body.GetComponentInChildren<Animator>();
+                    var left=new SoleProbe(animator,true);var right=new SoleProbe(animator,false);
+                    Physics.SyncTransforms();
+                    try
+                    {
+                        var points=new[]{new List<Vector3>(),new List<Vector3>()};int contacts=0;float drift=0,penetration=0,lift=0;
+                        float started=Time.unscaledTime;
+                        while(Time.unscaledTime-started<3.4f)
+                        {
+                            if(Time.unscaledTime-started>.7f&&!animator.IsInTransition(0))
+                            {
+                                float phase=Mathf.Repeat(animator.GetCurrentAnimatorStateInfo(0).normalizedTime,1);
+                                for(int side=0;side<2;side++)
+                                {
+                                    float p=Mathf.Repeat(phase-side*.5f,1);bool stance=shaped?p>=.08f&&p<=.16f:p>=.2f&&p<=.4f;
+                                    var list=points[side];var point=side==0?left.Point():right.Point();
+                                    if(stance)
+                                    {
+                                        list.Add(point);float clearance=Vector3.Dot(normal,point-surface);
+                                        penetration=Mathf.Max(penetration,-clearance);lift=Mathf.Max(lift,clearance);
+                                    }
+                                    else if(list.Count>0)
+                                    {
+                                        foreach(var a in list)foreach(var b in list)drift=Mathf.Max(drift,Vector3.Distance(a,b));
+                                        if(list.Count>=2)contacts++;list.Clear();
+                                    }
+                                }
+                            }
+                            motor.Move(Vector2.up*(shaped?1:2.6f/6.7f),false,false);
+                            yield return null;
+                        }
+                        string context=hero+(shaped?" Shaped":" Natural")+" slope "+slope;
+                        Debug.Log($"RUNTIME_SLOPE_CASE {context} contacts={contacts} drift={drift:F6} penetration={penetration:F6} lift={lift:F6}");
+                        if(contacts<4)failures.Add(context+" fewer than four real contacts");
+                        if(drift>.05f)failures.Add(context+" planted sole travel "+drift);
+                        if(penetration>.03f)failures.Add(context+" ramp penetration "+penetration);
+                        if(lift>.06f)failures.Add(context+" stance lift "+lift);
+                        if(Mathf.Abs(root.transform.position.y-position.y)<=.8f)failures.Add(context+" did not change elevation");
+                    }
+                    finally{left.Dispose();right.Dispose();Object.Destroy(root);}
+                    yield return null;
+                }
+                Assert.IsEmpty(failures,string.Join("\n",failures));
+            }
+            finally{GameTime.Reset();Object.Destroy(floor);}
+        }
+
         [UnityTest] public IEnumerator VisibleSolesHoldDuringRuntimeLocomotionAndPause()
         {
             GameTime.Reset();

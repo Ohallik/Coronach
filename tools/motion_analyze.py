@@ -26,9 +26,14 @@ def point(row, name):
 
 def cycle_means(curve):
     """Integrate only whole, continuous animation cycles, never three snapshots."""
-    if len(curve)<2 or any(b[0]<=a[0] for a,b in zip(curve,curve[1:])):return []
+    # Repeated phase samples can occur without an Animator tick. Preserve them
+    # in raw evidence, but do not give a zero-length phase interval extra weight.
+    curve=[row for i,row in enumerate(curve) if i==0 or row[0]>curve[i-1][0]]
+    if len(curve)<2 or any(b[0]<a[0] for a,b in zip(curve,curve[1:])):return []
     means=[]
-    for start in range(math.ceil(curve[0][0]),math.floor(curve[-1][0])):
+    # A full period can begin at any phase; integer alignment is unnecessary.
+    for cycle in range(math.floor(curve[-1][0]-curve[0][0]+1e-6)):
+        start=curve[0][0]+cycle
         total_sin=total_cos=0
         for (p,a),(q,b) in zip(curve,curve[1:]):
             lo=max(p,start);hi=min(q,start+1)
@@ -51,6 +56,7 @@ def analyze_motion(run, frames, route, motion):
     step_start={}
     contacts={}
     minimum_y=math.inf
+    segment=0;last_eligible=-2;last_clip=None;last_phase=0
     for i,f in enumerate(frames):
         step=int(f['step']);t=float(f['elapsed'])
         step_start.setdefault(step,t)
@@ -63,6 +69,8 @@ def analyze_motion(run, frames, route, motion):
         config=route['steps'][step]
         if config.get('expectedForm') and f['form']!=config['expectedForm']:
             errors.append(config['name']+': wrong body form')
+        if t-step_start[step]>=.5 and config.get('expectedCharacter') and f['hero']!=config['expectedCharacter']:
+            errors.append(config['name']+': wrong hero')
         if config.get('navigate') or not (config.get('x') or config.get('y')):continue
         if t-step_start[step]<.5 or m['transitioning']!='False' or m['locked']!='False':continue
         if i==0 or frames[i-1]['step']!=f['step']:continue
@@ -70,15 +78,17 @@ def analyze_motion(run, frames, route, motion):
         dx=float(f['x'])-float(previous['x']);dz=float(f['z'])-float(previous['z'])
         speed=math.hypot(dx,dz)/dt
         if speed<.2:continue
+        phase=float(m['phase']);clip=m['clip']
+        if i!=last_eligible+1 or last_clip!=(step,clip) or phase<last_phase-1e-6:segment+=1
+        last_eligible=i;last_clip=(step,clip);last_phase=phase
         travel=math.degrees(math.atan2(dx,dz))
         key=f"{f['hero']} {f['form']} {config['name']} {m['clip']}"
-        group=groups.setdefault(key,dict(samples=0,pelvis=[],torso=[],heading=[],speed=[],curve=[],identity=(f['hero'],f['form'],m['clip'])))
+        group=groups.setdefault(key,dict(samples=0,pelvis=[],torso=[],heading=[],speed=[],curves={},identity=(f['hero'],f['form'],m['clip'])))
         group['samples']+=1;group['speed'].append(speed)
         group['pelvis'].append(angle(float(f['pelvisYaw']),travel))
         group['torso'].append(angle(float(f['chestYaw']),travel))
-        group['curve'].append((float(m['phase']),angle(float(f['chestYaw']),travel)))
+        group['curves'].setdefault(segment,[]).append((phase,angle(float(f['chestYaw']),travel)))
         group['heading'].append(angle(math.degrees(math.atan2(float(f['forwardX']),float(f['forwardZ']))),travel))
-        phase=float(m['phase']);clip=m['clip']
         for side,shift in [('left',0),('right',.55 if clip=='Sprint' else .5)]:
             p=(phase-shift)%1
             central={'Walk':(.20,.40),'Run':(.08,.16),'Sprint':(.10,.15)}.get(clip)
@@ -88,7 +98,7 @@ def analyze_motion(run, frames, route, motion):
                 ground=float(m.get(side+'GroundY','nan'))
                 if not math.isfinite(ground):errors.append('foot surface height unavailable')
                 else:minimum_y=min(minimum_y,pos[1]-ground)
-                contact_key=(step,side,clip,math.floor(phase-shift))
+                contact_key=(step,segment,side,clip,math.floor(phase-shift))
                 contacts.setdefault(contact_key,[]).append(pos)
     cases=[];cycle_coverage=set();required_cycles=set()
     for key,g in groups.items():
@@ -97,7 +107,7 @@ def analyze_motion(run, frames, route, motion):
                   meanTorsoDegrees=average_angle(g['torso']),maxHeadingDegrees=max(abs(x) for x in g['heading']))
         if not all(math.isfinite(case[k]) for k in ['meanSpeed','maxPelvisDegrees','meanTorsoDegrees','maxHeadingDegrees']):errors.append(key+': invalid direction')
         if case['maxPelvisDegrees']>10:errors.append(key+': steady pelvis exceeds 10 degrees')
-        complete=cycle_means(g['curve'])
+        complete=[mean for curve in g['curves'].values() for mean in cycle_means(curve)]
         case['completeTorsoCycles']=complete
         required_cycles.add(g['identity'])
         if complete:cycle_coverage.add(g['identity'])
@@ -108,7 +118,7 @@ def analyze_motion(run, frames, route, motion):
     for key,points in contacts.items():
         if len(points)<2:continue
         maximum=max(math.hypot(a[0]-b[0],a[2]-b[2]) for a in points for b in points)
-        drift.append(dict(step=key[0],side=key[1],clip=key[2],cycle=key[3],samples=len(points),driftMetres=maximum))
+        drift.append(dict(step=key[0],segment=key[1],side=key[2],clip=key[3],cycle=key[4],samples=len(points),driftMetres=maximum))
         if maximum>.05:errors.append(route['steps'][key[0]]['name']+': planted sole travel exceeds 5 cm')
     if not cases:errors.append('no steady free-traversal coverage')
     if not drift:errors.append('no repeated central-stance samples')

@@ -55,6 +55,7 @@ def analyze(run, frames, route, performance=False):
         if not rows: continue
         expected=step.get('expectedScene') or route['scene']
         if rows[-1]['scene'] != expected: errors.append(step['name']+': wrong scene')
+        if step.get('expectedCharacter') and rows[-1]['hero']!=step['expectedCharacter']:errors.append(step['name']+': wrong hero')
         if step.get('expectedForm') and rows[-1]['form']!=step['expectedForm']:errors.append(step['name']+': wrong body form')
         if step.get('navigate') and not step.get('approachPartner'):
             target=(step['point']['x'],step['point']['z'])

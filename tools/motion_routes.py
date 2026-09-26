@@ -5,7 +5,7 @@ from pathlib import Path
 
 destination=Path(__file__).resolve().parents[1]/'docs/quality/routes'
 
-def centre(hero,x,z,seconds=5):
+def centre(hero,x,z,seconds=9):
     return dict(name=hero+' return to clear circulation',seconds=seconds,navigate=True,
                 point=dict(x=x,y=0,z=z),expectedCharacter=hero)
 

@@ -81,5 +81,20 @@ class MotionEvidenceTests(unittest.TestCase):
         for row in data[3]:del row['leftGroundY']
         self.assertIn('foot surface height unavailable',self.result(data)['failures'])
 
+    def test_restarted_clip_contacts_are_separate_strides(self):
+        data=self.fixture()
+        for row in data[3]:
+            t=float(row['elapsed'])
+            if t>=1.25:
+                row['phase']=str(t-1.25)
+                row['leftToeZ']=row['rightToeZ']='10'
+        result=self.result(data)
+        self.assertTrue(result['valid'],result['failures'])
+        self.assertEqual(result['worstContactDriftMetres'],0)
+
+    def test_wrong_hero_cannot_satisfy_the_route(self):
+        data=self.fixture();data[2]['steps'][0]['expectedCharacter']='Sela'
+        self.assertIn('walk: wrong hero',self.result(data)['failures'])
+
 
 if __name__=='__main__':unittest.main()

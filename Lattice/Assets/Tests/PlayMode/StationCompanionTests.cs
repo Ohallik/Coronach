@@ -11,6 +11,29 @@ namespace Lattice.Tests.PlayMode
 {
     public sealed class StationCompanionTests
     {
+        [UnityTest] public IEnumerator FollowerKeepsBodyClearanceForEveryLeaderHeading()
+        {
+            SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
+            DevLoadout.Apply("starter");SceneFlow.Current.LoadZone("Hub_Decks");
+            while(SceneFlow.Current.Loading)yield return null;
+            var party=PartyController.Current;var leader=party.Active;var follower=party.members[1-party.index];
+            leader.GetComponent<PlayerBrain>().AutoPilot=true;
+            var brain=follower.GetComponent<PartnerBrain>();
+            foreach(float angle in new[]{90f,0,45,135,180,225,270,315})
+            {
+                brain.enabled=false;
+                Place(leader,new Vector3(-28,0,3));
+                var direction=Quaternion.Euler(0,angle,0)*Vector3.forward;
+                float until=Time.unscaledTime+.3f;
+                while(Time.unscaledTime<until){leader.motor.Move(new Vector2(direction.x,direction.z),false,false);yield return null;}
+                Place(follower,leader.transform.position-direction*.8f);
+                brain.enabled=true;
+                yield return new WaitForSecondsRealtime(3.2f);
+                float distance=Vector3.Distance(leader.transform.position,follower.transform.position);
+                Assert.That(distance,Is.InRange(2f,5.5f),"heading "+angle+": a settled companion must leave room for both generated bodies");
+            }
+        }
+
         [UnityTest] public IEnumerator DoorJambBlocksABodyButTheOpeningRemainsWalkable()
         {
             SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
