@@ -71,8 +71,17 @@ namespace Lattice.EditorTools
         }
         public static void BuildWindowsPlayer()=>Build(false);
         public static void BuildWindowsDevPlayer()=>Build(true);
+        public static void RefreshDialogue()=>Run(()=>{ImportDialogue();Debug.Log("DIALOGUE_IMPORT_OK");});
+        static void ImportDialogue()
+        {
+            AssetDatabase.ImportAsset("Assets/_Project/Resources/Dialogue/Lattice.yarnproject",ImportAssetOptions.ForceUpdate|ImportAssetOptions.ForceSynchronousImport);
+            var project=Resources.Load<Yarn.Unity.YarnProject>("Dialogue/Lattice");
+            if(project==null||!project.Program.Nodes.ContainsKey("__RuntimeReady")||!project.Program.Nodes.ContainsKey("OrrinFirst"))
+                throw new Exception("Dialogue project is missing required compiled nodes");
+        }
         static void Build(bool dev)=>Run(()=>
         {
+            ImportDialogue();
             RegisterScenes();
             var root=Path.GetFullPath(Path.Combine(Application.dataPath,"../.."));
             var output=Path.Combine(root,"Builds",dev?"WindowsDev":"Windows","Coronach.exe");

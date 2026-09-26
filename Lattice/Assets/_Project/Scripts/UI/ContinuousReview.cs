@@ -8,6 +8,7 @@ using Lattice.Core;
 using Lattice.Dialogue;
 using Lattice.Data;
 using Unity.Profiling;
+using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
@@ -29,7 +30,7 @@ namespace Lattice.UI
             public ActorState state;
             public ActorState partnerState;
             public int step, collections, lines;
-            public long allocation, mainThread, renderThread, batches, memory;
+            public long allocation, mainThread, renderThread, batches, memory, hudNs, hudBytes, audioVoices, sceneObjects, objects;
             public bool focus, paused, blocked;
         }
         [Serializable] sealed class Report
@@ -37,11 +38,24 @@ namespace Lattice.UI
             public string route, sourceRevision, input = "continuous agent-directed virtual gamepad replay", build, unity, cpu, gpu, quality, gpuTiming = "UNAVAILABLE", vrr = "UNVERIFIED";
             public int width, height, frameCap, vSync, samples;
             public double refreshHz, seconds;
-            public bool captured, valid;
+            public bool captured, profiled, valid;
             public string[] failures;
+            public double loadWaitSeconds, settleSeconds;
+            public InteractionResponse[] interactions;
+        }
+        [Serializable] sealed class InteractionResponse
+        {
+            public int step;
+            public string expectedUi;
+            public double inputSeconds, visibleResponseMs=-1;
         }
         readonly List<Sample> samples = new(45000);
         readonly List<string> failures = new();
+        readonly List<InteractionResponse> interactions=new();
+        InteractionResponse interaction;
+        DialoguePanel dialoguePanel;
+        ShopUi shopUi;
+        double loadWaitSeconds;
         readonly Dictionary<Animator, Transform[]> bones = new();
         readonly System.Diagnostics.Stopwatch clock = new();
         QualityRoute route;
@@ -52,10 +66,10 @@ namespace Lattice.UI
         bool recording, arrived;
         double stepStart, previous;
         string folder;
-        ProfilerRecorder allocations, mainThread, renderThread, batches, memory;
+        ProfilerRecorder allocations, mainThread, renderThread, batches, memory, audioVoices, sceneObjects, objects;
         QualityCapture capture;
         Vector3 measuredMotion;
-        bool arrows;
+        bool arrows, profiled, tracing;
 
         public static QualityRoute ReadRoute()
         {
@@ -72,19 +86,40 @@ namespace Lattice.UI
             route = ReadRoute();
             folder = Path.GetFullPath(DevArgs.Value("-quality-output"));
             arrows = DevArgs.Has("-quality-arrows");
+            profiled = DevArgs.Has("-quality-profile");
             Directory.CreateDirectory(folder);
             pad = InputSystem.AddDevice<Gamepad>("CoronachContinuousReview");
             InputSystem.onBeforeUpdate += InputUpdate;
+            double loadStart=Time.realtimeSinceStartupAsDouble;
             while (PartyController.Current == null || SceneFlow.Current.Loading) yield return null;
+            loadWaitSeconds=Time.realtimeSinceStartupAsDouble-loadStart;
             Application.targetFrameRate = route.frameCap;
             QualitySettings.vSyncCount = 0;
             yield return new WaitForSecondsRealtime(route.settleSeconds);
             if (DialogueSystem.Current != null) DialogueSystem.Current.AutoAdvance = false;
+            var available=new List<ProfilerRecorderHandle>();ProfilerRecorderHandle.GetAvailable(available);
+            using(var catalog=new StreamWriter(Path.Combine(folder,"available-counters.txt")))
+                foreach(var handle in available)
+                {
+                    var description=ProfilerRecorderHandle.GetDescription(handle);
+                    catalog.WriteLine(description.Category.Name+" / "+description.Name+" / "+description.UnitType);
+                }
             allocations = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "GC Allocated In Frame");
             memory = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Total Used Memory");
             mainThread = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Main Thread");
             renderThread = ProfilerRecorder.StartNew(ProfilerCategory.Internal, "Render Thread");
             batches = ProfilerRecorder.StartNew(ProfilerCategory.Render, "Batches Count");
+            audioVoices = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio Voices");
+            sceneObjects = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Scene Object Count");
+            objects = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Object Count");
+            GameHud.MeasureCosts = profiled;
+            if(profiled)
+            {
+                UnityEngine.Profiling.Profiler.logFile=Path.Combine(folder,"cpu-ui-render.raw");
+                UnityEngine.Profiling.Profiler.enableBinaryLog=true;
+                UnityEngine.Profiling.Profiler.enabled=true;
+                tracing=true;
+            }
             if (DevArgs.Has("-quality-ffmpeg"))
             {
                 capture = Camera.main.gameObject.AddComponent<QualityCapture>();
@@ -94,7 +129,7 @@ namespace Lattice.UI
             Debug.Log("QUALITY_REPLAY_BEGIN " + route.name);
             for (stepIndex = 0; stepIndex < route.steps.Length; stepIndex++)
             {
-                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;
+                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;
                 Debug.Log("QUALITY_CHECKPOINT_BEGIN " + stepIndex + " " + step.name);
                 while (clock.Elapsed.TotalSeconds - stepStart < step.seconds)
                 {
@@ -105,6 +140,8 @@ namespace Lattice.UI
                 if (capture != null) ScreenCapture.CaptureScreenshot(Path.Combine(folder, stepIndex.ToString("D3") + ".png"));
             }
             recording = false; held = default;
+            StopProfile();
+            GameHud.MeasureCosts=false;
             yield return null;
             if (capture != null) yield return capture.Finish();
             WriteEvidence();
@@ -137,6 +174,11 @@ namespace Lattice.UI
                     if (!Enum.TryParse<GamepadButton>(button, true, out var parsed)) throw new InvalidOperationException("Invalid replay button " + button);
                     held = held.WithButton(parsed);
                 }
+                if(interaction==null&&press&&step.buttons?.Length>0&&!string.IsNullOrEmpty(step.expectedUi))
+                {
+                    interaction=new InteractionResponse{step=stepIndex,expectedUi=step.expectedUi,inputSeconds=clock.Elapsed.TotalSeconds};
+                    interactions.Add(interaction);
+                }
                 pad.MakeCurrent();
             }
             if (pad != null) InputSystem.QueueStateEvent(pad, held);
@@ -146,6 +188,17 @@ namespace Lattice.UI
             if (!recording || PartyController.Current == null) return;
             var actor = PartyController.Current.Active;
             double now = clock.Elapsed.TotalSeconds;
+            if(interaction!=null&&interaction.visibleResponseMs<0)
+            {
+                if(dialoguePanel==null)dialoguePanel=FindFirstObjectByType<DialoguePanel>();
+                if(shopUi==null)shopUi=FindFirstObjectByType<ShopUi>();
+                bool visible=interaction.expectedUi=="dialogue"?dialoguePanel!=null&&dialoguePanel.IsVisible:
+                    interaction.expectedUi=="shop"?shopUi!=null&&shopUi.IsOpen:!GameInput.Current.Blocked;
+                if(visible)interaction.visibleResponseMs=(now-interaction.inputSeconds)*1000;
+            }
+            // Keep the binary trace bounded while retaining the first conversation,
+            // options and shop. HUD counters continue throughout the diagnostic run.
+            if(tracing && now>45)StopProfile();
             if (samples.Count > 0 && samples[^1].hero == actor.character)
                 measuredMotion = (actor.transform.position - samples[^1].player) / Mathf.Max(.001f, (float)(now - previous));
             var animator = actor.GetComponentInChildren<Animator>();
@@ -177,6 +230,9 @@ namespace Lattice.UI
                 collections = GC.CollectionCount(0), allocation = allocations.Valid ? allocations.LastValue : -1,
                 mainThread = mainThread.Valid ? mainThread.LastValue : -1, renderThread = renderThread.Valid ? renderThread.LastValue : -1,
                 batches = batches.Valid ? batches.LastValue : -1, memory = memory.Valid ? memory.LastValue : -1,
+                hudNs=profiled?GameHud.LastUpdateNanoseconds:-1, hudBytes=profiled?GameHud.LastAllocatedBytes:-1,
+                audioVoices=audioVoices.Valid?audioVoices.LastValue:-1,
+                sceneObjects=sceneObjects.Valid?sceneObjects.LastValue:-1, objects=objects.Valid?objects.LastValue:-1,
                 focus = Application.isFocused, paused = GameTime.Paused, blocked = GameInput.Current.Blocked
             });
             previous = now;
@@ -217,6 +273,7 @@ namespace Lattice.UI
             string expected = string.IsNullOrEmpty(step.expectedScene) ? route.scene : step.expectedScene;
             if (SceneFlow.Current.Zone != expected) failures.Add(step.name + ": scene " + SceneFlow.Current.Zone + " expected " + expected);
             if (!string.IsNullOrEmpty(step.expectedCharacter) && PartyController.Current.Active.character != step.expectedCharacter) failures.Add(step.name + ": character mismatch");
+            if (!string.IsNullOrEmpty(step.expectedFlag) && !GameServices.Current.Flags.GetBool(step.expectedFlag)) failures.Add(step.name + ": missing flag "+step.expectedFlag);
             if (step.expectedUi == "dialogue" && !DialogueSystem.Current.Running) failures.Add(step.name + ": dialogue did not open");
             if (step.expectedUi == "world" && GameInput.Current.Blocked) failures.Add(step.name + ": UI did not close");
             if (step.expectedUi == "shop" && FindFirstObjectByType<ShopUi>()?.IsOpen != true) failures.Add(step.name + ": shop did not open");
@@ -240,22 +297,32 @@ namespace Lattice.UI
             if (capture != null && !string.IsNullOrEmpty(capture.Failure)) failures.Add(capture.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
-                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState");
-                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState}"));
+                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects");
+                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects}"));
             }
             var report = new Report { route = route.name, sourceRevision = route.sourceRevision, build = Debug.isDebugBuild ? "Development" : "Release", unity = Application.unityVersion,
                 cpu = SystemInfo.processorType, gpu = SystemInfo.graphicsDeviceName, quality = QualitySettings.names[QualitySettings.GetQualityLevel()],
                 width = Screen.width, height = Screen.height, frameCap = Application.targetFrameRate, vSync = QualitySettings.vSyncCount,
                 refreshHz = Screen.currentResolution.refreshRateRatio.value, samples = samples.Count, seconds = samples.Count > 0 ? samples[^1].elapsed : 0,
-                captured = capture != null, failures = failures.ToArray(), valid = failures.Count == 0 };
+                captured = capture != null, profiled=profiled, failures = failures.ToArray(), valid = failures.Count == 0,
+                loadWaitSeconds=loadWaitSeconds,settleSeconds=route.settleSeconds,interactions=interactions.ToArray() };
             File.WriteAllText(Path.Combine(folder, "run.json"), JsonUtility.ToJson(report, true));
             File.WriteAllText(Path.Combine(folder, "route.json"), JsonUtility.ToJson(route, true));
         }
         void OnDestroy()
         {
+            StopProfile();
             InputSystem.onBeforeUpdate -= InputUpdate;
             if (pad != null && pad.added) InputSystem.RemoveDevice(pad);
-            allocations.Dispose(); mainThread.Dispose(); renderThread.Dispose(); batches.Dispose(); memory.Dispose();
+            allocations.Dispose(); mainThread.Dispose(); renderThread.Dispose(); batches.Dispose(); memory.Dispose(); audioVoices.Dispose(); sceneObjects.Dispose(); objects.Dispose();
+            GameHud.MeasureCosts=false;
+        }
+        void StopProfile()
+        {
+            if(!tracing)return;
+            tracing=false;
+            UnityEngine.Profiling.Profiler.enabled=false;
+            UnityEngine.Profiling.Profiler.logFile="";
         }
     }
 }

@@ -1,6 +1,6 @@
 import copy
 import unittest
-from quality_analyze import analyze
+from quality_analyze import analyze, analyze_segments
 
 class TraversalContract(unittest.TestCase):
     def setUp(self):
@@ -39,5 +39,33 @@ class TraversalContract(unittest.TestCase):
     def test_capture_cannot_pass_clean_performance(self):
         self.run['captured']=True
         self.assertIn('capture overhead disqualifies clean timing',self.result()['failures'])
+    def test_profile_cannot_pass_clean_performance(self):
+        self.run['profiled']=True
+        self.assertIn('profiling overhead disqualifies clean timing',self.result()['failures'])
+    def test_first_and_warm_windows_must_cover_every_step(self):
+        self.route['segments']=[dict(name='incomplete',firstStep=0,stepCount=1)]
+        result=analyze_segments(self.run,self.frames,self.route,True)
+        self.assertIn('segments omit or duplicate route steps',result['failures'])
+    def test_duplicate_window_rejected(self):
+        self.route['segments']=[dict(name='one',firstStep=0,stepCount=2),dict(name='duplicate',firstStep=0,stepCount=2)]
+        self.assertFalse(analyze_segments(self.run,self.frames,self.route,True)['valid'])
+    def test_window_retains_first_use_hitch(self):
+        self.route['segments']=[dict(name='first visit',firstStep=0,stepCount=2)]
+        self.frames[300]['ms']='117'
+        self.assertIn('first visit: hitch budget exceeded',analyze_segments(self.run,self.frames,self.route,True)['failures'])
+    def test_missing_feedback_fails(self):
+        self.route['steps'][0].update(expectedUi='dialogue',buttons=['South'])
+        self.run['interactions']=[]
+        self.assertIn('outbound: UI feedback missing',self.result()['failures'])
+    def test_slow_feedback_fails(self):
+        self.route['steps'][0].update(expectedUi='shop',buttons=['South'])
+        self.run['interactions']=[dict(step=0,expectedUi='shop',visibleResponseMs=101)]
+        self.assertIn('outbound: UI feedback exceeds 100 ms',self.result()['failures'])
+    def test_warmed_feedback_uses_segment_indexes(self):
+        self.route['segments']=[dict(name='warm',firstStep=1,stepCount=1)]
+        self.route['steps'][1].update(expectedUi='shop',buttons=['South'])
+        self.run['interactions']=[dict(step=1,expectedUi='shop',visibleResponseMs=16)]
+        part=analyze_segments(self.run,self.frames,self.route,True)['segments'][0]
+        self.assertNotIn('return: UI feedback missing',part['failures'])
 
 if __name__=='__main__': unittest.main()

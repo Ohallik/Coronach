@@ -11,10 +11,10 @@ namespace Lattice.Dialogue
         public override async YarnTask<DialogueOption> RunOptionsAsync(DialogueOption[] options,LineCancellationToken token)
         {
             var available=options.Where(o=>o.IsAvailable).ToArray();if(available.Length==0)return null;
-            int choice=-1;system.View.Options(available.Select(o=>o.Line.TextWithoutCharacterName.Text).ToArray(),i=>choice=i);
+            int choice=-1;system.PresenterView.Options(available.Select(o=>o.Line.TextWithoutCharacterName.Text).ToArray(),i=>choice=i);
             await YarnTask.Yield();if(system.AutoAdvance)choice=0;
             while(choice<0&&!token.IsNextContentRequested)await YarnTask.Yield();
-            system.View.ClearOptions();return available[choice<0?0:choice];
+            system.PresenterView.ClearOptions();return available[choice<0?0:choice];
         }
     }
 }

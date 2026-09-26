@@ -1,6 +1,6 @@
 # Hub_Decks — first-station reconstruction brief
 
-2026-09-26. **Design OPEN; blockout OPEN; integrated MAP_EYE_TEST OPEN.**
+2026-09-26. **Design implemented; blockout PASSED; integrated MAP_EYE_TEST OPEN.**
 Reviewed by Codex, not Nathan or an independent viewer.
 
 The Decks are a small working neighbourhood made from three retired vessels joined along the inner edge of Cinder Halo. Orrin receives visitors and freight manifests, Mira supplies residents and crews, and Hal repairs their equipment. Housing and shared meals explain why people stay here. The ring carries the connected hulls, power and traffic; it is not a necklace of disconnected floating ornaments.
@@ -32,7 +32,7 @@ All dimensions below are metres. One continuous gravity plane; ordinary adults a
            joined to hull bulkheads, never a gap in the floor.
 ```
 
-Target workshop envelope: roughly 88 × 48 m, three unequal hulls around x=-28, 0, +28. This is the corrected workshop neighbourhood, not the atlas's eventual 320 × 240 m campaign town. A wider map must earn its travel time during C8.
+Target workshop envelope: roughly 80 × 44 m, three occupied hulls around x=-28, 0, +28. This is the corrected workshop neighbourhood, not the atlas's eventual 320 × 240 m campaign town. A wider map must earn its travel time during C8.
 
 Visitor route: office dock → pressure vestibule → arrivals desk → promenade → market or repair reception. Resident route: quiet northern cabin corridor → galley → public promenade. Delivery route: repair dock → receiving → stores → rear service gallery → market stock; no freight through the office or a private cabin. Worker route loops through the service gallery and two end cross-passages back to the public frontage.
 
@@ -50,4 +50,10 @@ Reject blockout for disconnected hull pieces, blind routes, obstructed doors, a 
 
 Opened `Builds/quality/C0/maps-before/Hub_Decks-overhead.png` and `Hub_Decks-arrival.png`: three almost identical enormous tiled bays; props do not establish distinct uses. The first continuous route hit benches across the apparent cross-station walkway. There is no quieter residential branch, usable rear service route, or clear pressure boundary at the front edge. **FAILED.**
 
-After evidence and acceptance: **pending implementation**.
+Blockout iteration: three 24 × 40 m occupied hulls now share 6 m public bridges and 5 m service bridges, with four bounded cabins, a galley, market stock, receiving and repair spaces. Office and repair furniture/people initially obstructed the center aisle; `station/blockout-walk-01` rejected those checkpoints. Moving them into work alcoves cleared the entire public/service/housing route in `blockout-walk-02`.
+
+That second run exposed a separate functional failure: the direct-steering companion remained at the service wall, 30 m behind, so swapping failed the final dock checkpoints. The focused companion regression reproduces 30.730 m separation (`station/companion-red.xml`). Baked collision-derived navigation now passes the unchanged companion regression, and the complete party walk (`blockout-walk-03`) and three-dock exterior loop (`blockout-dock-02`) pass. No teleport or relaxed checkpoint is used. Codex accepts the blockout spatial plan after opening `blockout-03` overhead/arrival/structure views and actual route stills (office, galley, service route and swapped-hero return). Exterior review also rejected hanging exposed beams as leg-like; the lower utility keel is now enclosed and joined to the ring.
+
+Final generated-art evidence and acceptance: **pending**.
+
+Blockout review and exact evidence: [station-blockout.md](../validation/station-blockout.md). Generated furniture must retain the proven clearances. The final eye test and performance rerun remain required.

@@ -16,6 +16,7 @@ namespace Lattice.UI
         Image portrait;
         bool clicked;
         int shownFrame,lastQueuedFrame=-1;
+        public bool IsVisible=>panel!=null&&panel.activeInHierarchy;
         public bool AdvanceRequested
         {
             get{if(Time.frameCount<=shownFrame||!clicked)return false;clicked=false;return true;}

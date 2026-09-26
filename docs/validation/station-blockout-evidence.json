@@ -1,0 +1,38 @@
+[
+  {
+    "run": "Builds/quality/station/blockout-walk-03",
+    "valid": true,
+    "seconds": 124.8519711,
+    "samples": 7429,
+    "artifacts": {
+      "run.json": "220f8cbd636e725a239ae696518deebc1915872bd1f17533dcf2019f751c6ea1",
+      "frames.csv": "9facd8311b206c298bdb878d3fd863d05f532ddbc5e0806e311c683e2f2c4403",
+      "replay.mp4": "0f76d5a12a549f5e029d25ba5203fc0ed1b858f4f344fa1bd575ecdc8189448e",
+      "mix.wav": "fdd2ebd771587585a14157cdea4760bf8d353ae99e7cdb1d8fc9f8ea690f882e"
+    }
+  },
+  {
+    "run": "Builds/quality/station/blockout-dock-02",
+    "valid": true,
+    "seconds": 103.0775462,
+    "samples": 6124,
+    "artifacts": {
+      "run.json": "29a1bb508d3202efcd47e169dabe35e6e2bcf01083ae3ebac0963badca0bbba8",
+      "frames.csv": "6258278a4490bb9dbb54584d24dc17a43b6a332aeed4d17d68206fe2da4de34e",
+      "replay.mp4": "6a14a03fc59a1ad260386fc20ad9c38476f3b992d7732533bf088624b0f5b9e3",
+      "mix.wav": "8759f76d20002cd97d317b24ce83e140d0b5d339cdf18fdecf1d63b013560eef"
+    }
+  },
+  {
+    "run": "Builds/quality/station/tallow-blockout-walk-02",
+    "valid": true,
+    "seconds": 177.7223278,
+    "samples": 10559,
+    "artifacts": {
+      "run.json": "57a5d66349fb0a33f97e968362a101f55303ae4a78e47e29c9b23e9b5ce3090c",
+      "frames.csv": "9a7fa775021bbffbbd8680da78b74674e6f2af310881f487fffca76e074ad234",
+      "replay.mp4": "c3f0204a560c5788c50b9fbb8cc7b5d48432421e280f538a1c8f674321eedbad",
+      "mix.wav": "36a020545b5487c5e5e579e7bfa18897aebbf2aa1a750068196c15cf22cc5b8c"
+    }
+  }
+]

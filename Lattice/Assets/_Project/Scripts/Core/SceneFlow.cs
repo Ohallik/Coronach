@@ -9,6 +9,14 @@ namespace Lattice.Core
         public bool Loading {get;private set;}
         public string Zone {get;private set;}
         public event System.Action<float> FadeChanged;
+        int preparations;
+        public System.IDisposable HoldPreparation()=>new Preparation(this);
+        sealed class Preparation:System.IDisposable
+        {
+            SceneFlow owner;
+            public Preparation(SceneFlow owner){this.owner=owner;owner.preparations++;}
+            public void Dispose(){if(owner==null)return;owner.preparations--;owner=null;}
+        }
         void Awake(){Current=this;}
         public void LoadZone(string scene,string spawn="Arrival")
         {
@@ -26,6 +34,9 @@ namespace Lattice.Core
             if(scene!="Title"&&SceneManager.GetSceneByName("Title").isLoaded)yield return SceneManager.UnloadSceneAsync("Title");
             yield return SceneManager.LoadSceneAsync(scene,LoadSceneMode.Additive);
             Zone=scene; SceneManager.SetActiveScene(SceneManager.GetSceneByName(scene));
+            // Start callbacks can register finite work needed before control/fade-in.
+            yield return null;
+            while(preparations>0)yield return null;
             if(GameServices.Current!=null){GameServices.Current.State.zone=scene;GameServices.Current.State.spawn=spawn;}
             Debug.Log("ZONE_ENTER "+scene);
             for(float t=0;t<0.3f;t+=Time.unscaledDeltaTime){FadeChanged?.Invoke(1-t/0.3f);yield return null;}

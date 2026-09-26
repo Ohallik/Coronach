@@ -18,6 +18,37 @@ namespace Lattice.EditorTools
     {
         public static void Baseline() => BatchTools.Run(() => Run("C0/facing-audit"));
         public static void After() => BatchTools.Run(() => Run("C2/facing-audit"));
+        public static void CalibratedBaseline() => BatchTools.Run(() => Run("C2/calibrated-before"));
+        public static void CompareClipOffsets() => BatchTools.Run(() => {
+            var importer=(ModelImporter)AssetImporter.GetAtPath("Assets/_Project/Art/Animation/HeroLocomotion.fbx");
+            var original=importer.clipAnimations;
+            try {
+                var clips=importer.clipAnimations;
+                foreach(var clip in clips)
+                {
+                    if(clip.name=="Run")clip.rotationOffset=28;
+                    if(clip.name=="Sprint")clip.rotationOffset=20;
+                    if(clip.name=="Walk")clip.rotationOffset=7;
+                }
+                importer.clipAnimations=clips;importer.SaveAndReimport();
+                Run("C2/clip-offset-comparison");
+            } finally {importer.clipAnimations=original;importer.SaveAndReimport();}
+            Debug.Log("CLIP_OFFSET_COMPARISON_OK");
+        });
+        public static void CompareRootOrientation() => BatchTools.Run(() => {
+            const string path="Assets/_Project/Art/Animation/HeroLocomotion.fbx";
+            var importer=(ModelImporter)AssetImporter.GetAtPath(path);
+            var original=importer.clipAnimations;
+            // A bounded diagnostic: no actor/prefab offsets, and always restore imports.
+            try {
+                var candidates=importer.clipAnimations;
+                foreach(var clip in candidates)
+                    if(clip.name=="Idle"||clip.name=="Walk"||clip.name=="Run"||clip.name=="Sprint")clip.keepOriginalOrientation=true;
+                importer.clipAnimations=candidates;importer.SaveAndReimport();
+                Run("C2/original-root-comparison");
+            } finally {importer.clipAnimations=original;importer.SaveAndReimport();}
+            Debug.Log("ROOT_COMPARISON_OK");
+        });
         static void Run(string run)
         {
             string folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality",run));Directory.CreateDirectory(folder);
@@ -47,7 +78,7 @@ namespace Lattice.EditorTools
                         {
                             camera.transform.position=new Vector3(0,6,.01f);camera.transform.LookAt(new Vector3(0,.8f,0),Vector3.forward);
                             Capture(camera,Path.Combine(folder,id+"-"+(shaped?"Shaped":"Natural")+"-"+state+"-top.png"));
-                            camera.transform.position=new Vector3(3,2.8f,5);camera.transform.LookAt(new Vector3(0,1,0));
+                            camera.transform.position=new Vector3(0,1.5f,5);camera.transform.LookAt(new Vector3(0,1,0));
                             Capture(camera,Path.Combine(folder,id+"-"+(shaped?"Shaped":"Natural")+"-"+state+"-front.png"));
                         }
                     }
@@ -67,9 +98,24 @@ namespace Lattice.EditorTools
         static float Yaw(Vector3 v)=>Mathf.Atan2(v.x,v.z)*Mathf.Rad2Deg;
         static void Capture(Camera c,string path)
         {
+            // Manual editor sampling does not advance the GPU skinning frame.
+            // Bake this evaluated pose into temporary renderers so consecutive
+            // captures cannot silently reuse a prior clip's cached skin pose.
+            var skins=UnityEngine.Object.FindObjectsByType<SkinnedMeshRenderer>(FindObjectsSortMode.None);
+            var baked=new List<(GameObject body,Mesh mesh)>();
+            foreach(var skin in skins)
+            {
+                var mesh=new Mesh();skin.BakeMesh(mesh);
+                var body=new GameObject("Evaluated pose",typeof(MeshFilter),typeof(MeshRenderer));
+                body.transform.SetParent(skin.transform,false);body.GetComponent<MeshFilter>().sharedMesh=mesh;
+                body.GetComponent<MeshRenderer>().sharedMaterials=skin.sharedMaterials;
+                skin.enabled=false;baked.Add((body,mesh));
+            }
             var rt=new RenderTexture(640,640,24);c.targetTexture=rt;c.Render();c.Render();var previous=RenderTexture.active;RenderTexture.active=rt;
             var image=new Texture2D(640,640,TextureFormat.RGB24,false);image.ReadPixels(new Rect(0,0,640,640),0,0);image.Apply();File.WriteAllBytes(path,image.EncodeToPNG());
             RenderTexture.active=previous;c.targetTexture=null;UnityEngine.Object.DestroyImmediate(image);UnityEngine.Object.DestroyImmediate(rt);
+            foreach(var part in baked){UnityEngine.Object.DestroyImmediate(part.body);UnityEngine.Object.DestroyImmediate(part.mesh);}
+            foreach(var skin in skins)skin.enabled=true;
         }
     }
 }

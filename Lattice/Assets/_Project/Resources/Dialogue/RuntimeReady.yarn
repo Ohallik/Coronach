@@ -1,0 +1,9 @@
+// Loading-only VM preparation. No commands or narrative side effects.
+title: __RuntimeReady
+---
+Taren: ...
+-> Ready
+    Taren: ...
+-> Ready
+    Taren: ...
+===

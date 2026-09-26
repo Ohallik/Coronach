@@ -20,7 +20,15 @@ $unityArgs=@('-batchmode','-projectPath',$project,'-executeMethod',$Method,'-log
 if(-not $Async){$unityArgs+='-quit'}
 if(-not $Graphics){$unityArgs+='-nographics'}
 $unityArgs+=$ExtraArgs
-$proc=Start-Process -FilePath $unity -ArgumentList $unityArgs -WindowStyle Hidden -PassThru
+$startInfo=New-Object System.Diagnostics.ProcessStartInfo
+$startInfo.FileName=$unity
+$startInfo.Arguments=($unityArgs | ForEach-Object { '"'+([string]$_).Replace('"','\"')+'"' }) -join ' '
+$startInfo.UseShellExecute=$false
+$startInfo.CreateNoWindow=$true
+$proc=New-Object System.Diagnostics.Process
+$proc.StartInfo=$startInfo
+if(-not $proc.Start()){throw 'FAILED: Unity process did not start'}
+Write-Host "UNITY_EXEC pid=$($proc.Id) method=$Method"
 $deadline=[datetime]::UtcNow.AddSeconds($TimeoutSec)
 $green=$false
 try {
@@ -33,7 +41,10 @@ try {
         if($proc.HasExited){break}
         Start-Sleep -Milliseconds 750
     }
-    if(-not $green){throw "FAILED: missing $Marker within ${TimeoutSec}s; $log"}
+    if(-not $green){
+        if($proc.HasExited){$proc.WaitForExit();throw "FAILED: Unity pid=$($proc.Id) exited with code $($proc.ExitCode) before $Marker; $log"}
+        throw "FAILED: missing $Marker within ${TimeoutSec}s; $log"
+    }
     if(-not $proc.WaitForExit(5000)){Stop-LatticeProcessTree $proc.Id}
     Write-Host "$Marker log=$log"
 } finally {if(-not $proc.HasExited){Stop-LatticeProcessTree $proc.Id}}

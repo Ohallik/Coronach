@@ -12,10 +12,16 @@ namespace Lattice.UI
         public int frameCap = 60;
         public bool starterParty = true;
         public QualityStep[] steps;
+        public QualitySegment[] segments;
+    }
+    [Serializable] public sealed class QualitySegment
+    {
+        public string name;
+        public int firstStep, stepCount;
     }
     [Serializable] public sealed class QualityStep
     {
-        public string name, expectedScene, expectedCharacter, expectedUi;
+        public string name, expectedScene, expectedCharacter, expectedUi, expectedFlag;
         public string until;
         public float seconds = 1, x, y, leftTrigger, rightTrigger;
         public bool navigate;

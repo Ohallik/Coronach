@@ -26,7 +26,7 @@ namespace Lattice.EditorTools
                 importer.defaultSampleSettings=settings;importer.forceToMono=false;importer.loadInBackground=true;importer.SaveAndReimport();
             }
             ConfigureDonor("HeroLocomotion",new[]{
-                Spec("Idle","Idle_Loop",true),Spec("Walk","Walk_Loop",true),Spec("Run","Jog_Fwd_Loop",true),Spec("Sprint","Sprint_Loop",true),
+                Spec("Idle","Idle_Loop",true),Spec("Walk","Walk_Loop",true,rotation:7),Spec("Run","Jog_Fwd_Loop",true,rotation:28),Spec("Sprint","Sprint_Loop",true,rotation:20),
                 Spec("CombatIdle","Sword_Idle",true),Spec("RangedIdle","Pistol_Idle_Loop",true,mirror:true),Spec("Shoot","Pistol_Shoot",false,mirror:true),
                 Spec("Dodge","Roll",false,0,30),Spec("Stagger","Hit_Chest",false),Spec("Buff","Spell_Simple_Shoot",false)});
             ConfigureDonor("HeroCombat",new[]{
@@ -56,8 +56,23 @@ namespace Lattice.EditorTools
             }
             AssetDatabase.SaveAssets();Debug.Log("PRESENTATION_INTAKE_OK");
         });
-        struct ClipSpec { public string name,take;public bool loop,mirror;public float start,end; }
-        static ClipSpec Spec(string name,string take,bool loop,float start=0,float end=-1,bool mirror=false)=>new(){name=name,take=take,loop=loop,start=start,end=end,mirror=mirror};
+        public static void AlignLocomotion()=>BatchTools.Run(()=>
+        {
+            var importer=(ModelImporter)AssetImporter.GetAtPath(AnimRoot+"HeroLocomotion.fbx");
+            var clips=importer.clipAnimations;
+            foreach(var clip in clips)
+                if(clip.name=="Walk"||clip.name=="Run"||clip.name=="Sprint")
+                {
+                    // Calibrated against visible generated rigs and independent hip/
+                    // shoulder spans. Keep actor, idle, aiming and attack axes intact.
+                    clip.keepOriginalOrientation=false;
+                    clip.rotationOffset=clip.name=="Walk"?7:clip.name=="Run"?28:20;
+                }
+            importer.clipAnimations=clips;importer.SaveAndReimport();
+            Debug.Log("LOCOMOTION_ALIGNMENT_OK");
+        });
+        struct ClipSpec { public string name,take;public bool loop,mirror;public float start,end,rotation; }
+        static ClipSpec Spec(string name,string take,bool loop,float start=0,float end=-1,bool mirror=false,float rotation=0)=>new(){name=name,take=take,loop=loop,start=start,end=end,mirror=mirror,rotation=rotation};
         static void ConfigureDonor(string name,ClipSpec[] specs)
         {
             string path=AnimRoot+name+".fbx";var importer=(ModelImporter)AssetImporter.GetAtPath(path);
@@ -75,7 +90,7 @@ namespace Lattice.EditorTools
             importer.clipAnimations=specs.Select(spec=>
             {
                 var source=available.Single(c=>c.name.Split('|').Last()==spec.take);
-                return new ModelImporterClipAnimation{name=spec.name,takeName=source.takeName,firstFrame=source.firstFrame+spec.start,lastFrame=spec.end<0?source.lastFrame:Mathf.Min(source.lastFrame,source.firstFrame+spec.end),loopTime=spec.loop,loopPose=spec.loop,mirror=spec.mirror,lockRootRotation=true,lockRootHeightY=true,lockRootPositionXZ=true,keepOriginalOrientation=false,keepOriginalPositionXZ=true,heightFromFeet=true};
+                return new ModelImporterClipAnimation{name=spec.name,takeName=source.takeName,firstFrame=source.firstFrame+spec.start,lastFrame=spec.end<0?source.lastFrame:Mathf.Min(source.lastFrame,source.firstFrame+spec.end),loopTime=spec.loop,loopPose=spec.loop,mirror=spec.mirror,lockRootRotation=true,lockRootHeightY=true,lockRootPositionXZ=true,keepOriginalOrientation=false,rotationOffset=spec.rotation,keepOriginalPositionXZ=true,heightFromFeet=true};
             }).ToArray();
             importer.SaveAndReimport();
             var assets=AssetDatabase.LoadAllAssetsAtPath(path);

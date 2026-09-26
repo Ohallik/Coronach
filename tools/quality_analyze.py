@@ -41,10 +41,17 @@ def analyze(run, frames, route, performance=False):
     hitches={str(t):sum(x>t for x in times) for t in [25,33.3,50,100]}
     if performance:
         if run.get('captured'): errors.append('capture overhead disqualifies clean timing')
+        if run.get('profiled'): errors.append('profiling overhead disqualifies clean timing')
         if duration<120: errors.append('timing route shorter than 120 seconds')
         if percentile(times,.95)>18.5: errors.append('p95 exceeds 18.5 ms')
         if percentile(times,.99)>25: errors.append('p99 exceeds 25 ms')
         if hitches['33.3']>1 or hitches['50']>0: errors.append('hitch budget exceeded')
+        if 'interactions' in run:
+            for i,step in enumerate(route['steps']):
+                if step.get('expectedUi') not in ('dialogue','shop') or not step.get('buttons'):continue
+                responses=[r for r in run['interactions'] if r['step']==i and r['expectedUi']==step['expectedUi']]
+                if len(responses)!=1 or responses[0]['visibleResponseMs']<0:errors.append(step['name']+': UI feedback missing')
+                elif responses[0]['visibleResponseMs']>100:errors.append(step['name']+': UI feedback exceeds 100 ms')
     moving=[]
     for i,d in enumerate(distances,1):
         dt=(elapsed[i]-elapsed[i-1])
@@ -57,7 +64,33 @@ def analyze(run, frames, route, performance=False):
         gcCollections=int(frames[-1]['gcCollections'])-int(frames[0]['gcCollections']),
         gcBytesPerFrameMedian=percentile([int(f['gcBytes']) for f in frames],.5),
         movingSamples=len(moving), stoppedCameraWhileWalking=sum(v<.02 for v in moving),
+        interactions=run.get('interactions','UNMEASURED (legacy recorder)'),
+        worstFrames=[dict(elapsed=float(f['elapsed']),ms=float(f['ms']),checkpoint=route['steps'][int(f['step'])]['name'],
+                          gcBytes=int(f['gcBytes']),gcCollections=int(f['gcCollections']),
+                          mainThreadNs=int(f.get('mainThreadNs',-1)),renderThreadNs=int(f.get('renderThreadNs',-1)))
+                     for f in sorted(frames,key=lambda f:float(f['ms']),reverse=True)[:8]],
         note='Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration.')
+
+def analyze_segments(run, frames, route, performance=False):
+    segments=route.get('segments') or []
+    if not segments: return analyze(run,frames,route,performance)
+    result=analyze(run,frames,route,False)
+    result['segments']=[]
+    covered=[]
+    for segment in segments:
+        start=segment['firstStep'];end=start+segment['stepCount'];covered.extend(range(start,end))
+        rows=[dict(f) for f in frames if start<=int(f['step'])<end]
+        offset=float(rows[0]['elapsed'])-float(rows[0]['ms'])/1000 if rows else 0
+        for row in rows:
+            row['elapsed']=str(float(row['elapsed'])-offset);row['step']=str(int(row['step'])-start)
+        segment_run=dict(run)
+        if 'interactions' in run:segment_run['interactions']=[dict(r,step=r['step']-start) for r in run['interactions'] if start<=r['step']<end]
+        part=analyze(segment_run,rows,dict(route,steps=route['steps'][start:end]),performance)
+        result['segments'].append(dict(name=segment['name'],**part))
+        result['failures'] += [segment['name']+': '+f for f in part['failures']]
+    if sorted(covered)!=list(range(len(route['steps']))):result['failures'].append('segments omit or duplicate route steps')
+    result['valid']=not result['failures']
+    return result
 
 def plot(frames, destination):
     w,h=1600,300; seconds=float(frames[-1]['elapsed']); scale=120
@@ -78,7 +111,7 @@ if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('folder',type=Path);p.add_argument('--performance',action='store_true');args=p.parse_args()
     run=json.loads((args.folder/'run.json').read_text());route=json.loads((args.folder/'route.json').read_text())
     frames=list(csv.DictReader((args.folder/'frames.csv').open()))
-    result=analyze(run,frames,route,args.performance)
+    result=analyze_segments(run,frames,route,args.performance)
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

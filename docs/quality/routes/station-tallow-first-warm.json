@@ -1,0 +1,588 @@
+{
+  "name": "station-tallow-first-warm",
+  "scene": "TallowDrift",
+  "sourceRevision": "station redesign; build hashes in evidence",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "0 arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 port quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 port operator aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 public cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 starboard service",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 starboard quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 arrival return",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "swap release",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "1 arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 port quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 port operator aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 public cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 starboard service",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 starboard quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 arrival return",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "swap release",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "keeper approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1.3
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "keeper conversation",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read keeper",
+      "seconds": 4,
+      "buttons": []
+    },
+    {
+      "name": "keeper advance",
+      "seconds": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "dialogue release",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "close remaining UI",
+      "seconds": 1,
+      "buttons": [
+        "East"
+      ]
+    },
+    {
+      "name": "return south",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "port wall",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "wall contact",
+      "seconds": 3,
+      "buttons": [],
+      "x": -0.939693,
+      "y": -0.34202
+    },
+    {
+      "name": "final arrival",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "second quay crossing",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "quay return",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 port quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 port operator aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 public cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 starboard service",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 starboard quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 arrival return",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "swap release",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "1 arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 port quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 port operator aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 public cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 starboard service",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 starboard quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 arrival return",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "swap release",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "keeper approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1.3
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "keeper conversation",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read keeper",
+      "seconds": 4,
+      "buttons": []
+    },
+    {
+      "name": "keeper advance",
+      "seconds": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "dialogue release",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "close remaining UI",
+      "seconds": 1,
+      "buttons": [
+        "East"
+      ]
+    },
+    {
+      "name": "return south",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "port wall",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "wall contact",
+      "seconds": 3,
+      "buttons": [],
+      "x": -0.939693,
+      "y": -0.34202
+    },
+    {
+      "name": "final arrival",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "second quay crossing",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "quay return",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    }
+  ],
+  "segments": [
+    {
+      "name": "first visit",
+      "firstStep": 0,
+      "stepCount": 30
+    },
+    {
+      "name": "warm lap 1",
+      "firstStep": 30,
+      "stepCount": 30
+    }
+  ]
+}

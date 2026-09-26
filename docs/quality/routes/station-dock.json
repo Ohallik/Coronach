@@ -1,0 +1,220 @@
+{
+  "name": "station-dock",
+  "scene": "Hub_CinderHalo",
+  "sourceRevision": "paired station redesign; build hashes in evidence",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "office attached dock approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -22
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock office",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "interior arrival",
+      "seconds": 2,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "office launch hatch",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -13
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "launch office",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release launch office",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "brake clear of hull",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -31
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "cross approach to market",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -31
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "market attached dock",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -22
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock market",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "market arrival",
+      "seconds": 2,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "market launch hatch",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -13
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "launch market",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release launch market",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "market braking clearance",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -31
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "receiving approach lane",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": -31
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "repair attached dock",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": -22
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock repair",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "repair arrival",
+      "seconds": 2,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "repair launch hatch",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": -13
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "launch repair",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release launch repair",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "repair braking clearance",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": -31
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1
+    }
+  ]
+}

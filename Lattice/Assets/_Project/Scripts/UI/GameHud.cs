@@ -4,6 +4,7 @@ using Lattice.Core;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using Unity.Profiling;
 namespace Lattice.UI
 {
     public sealed class GameHud:MonoBehaviour
@@ -13,6 +14,24 @@ namespace Lattice.UI
         Image hp,charge,thrust,reticle;
         readonly Image[] skillIcons=new Image[4];
         readonly TMP_Text[] skillLabels=new TMP_Text[4];
+        static readonly ProfilerMarker UpdateMarker=new("Coronach.HUD.Refresh");
+        static bool measureCosts,allocationCounterSupported;
+        public static bool MeasureCosts
+        {
+            get=>measureCosts;
+            set
+            {
+                if(value&&!measureCosts)
+                {
+                    long before=System.GC.GetAllocatedBytesForCurrentThread();
+                    var probe=new byte[4096];
+                    allocationCounterSupported=System.GC.GetAllocatedBytesForCurrentThread()-before>=4096;
+                    System.GC.KeepAlive(probe);
+                }
+                measureCosts=value;
+            }
+        }
+        public static long LastUpdateNanoseconds,LastAllocatedBytes=-1;
         void Start()
         {
             canvas=UiKit.CreateCanvas("HUD",5,transform);
@@ -52,6 +71,15 @@ namespace Lattice.UI
             var fill=UiKit.Panel(bg.transform,name,color);var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(360,14));rect.pivot=new(0,.5f);return fill;
         }
         void Update()
+        {
+            if(!MeasureCosts){Refresh();return;}
+            long started=System.Diagnostics.Stopwatch.GetTimestamp();
+            long allocated=System.GC.GetAllocatedBytesForCurrentThread();
+            using(UpdateMarker.Auto())Refresh();
+            LastAllocatedBytes=allocationCounterSupported?System.GC.GetAllocatedBytesForCurrentThread()-allocated:-1;
+            LastUpdateNanoseconds=(long)((System.Diagnostics.Stopwatch.GetTimestamp()-started)*(1e9/System.Diagnostics.Stopwatch.Frequency));
+        }
+        void Refresh()
         {
             var party=PartyController.Current;if(party==null||party.members==null)return;
             canvas.enabled=!GameInput.Current.Blocked;

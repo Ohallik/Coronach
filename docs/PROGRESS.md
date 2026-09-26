@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## C1/C2 implementation and station blockouts - September 26
+
+**C1 OPEN; C2 OPEN; final MAP_EYE_TEST OPEN.** The four clean before-runs reproduce first-dialogue hitches around 60-66 ms. CPU profiling identifies first-use Yarn preparation/JIT; the runner now prepares during the scene fade. The camera dead-zone stop/go and commanded-speed-against-wall regressions pass after targeted fixes. Four independently calibrated hero/form tests reject the original sideways run and pass clip-specific import corrections. See [C1 evidence](validation/C1-station-performance.md) and [C2 evidence](validation/C2-locomotion.md); these are partial corrections, not completed quality gates.
+
+The paired Cinder/Decks blockout replaces disconnected ring ornaments and floating pods with three enclosed occupied hulls, a joined utility keel, public and service bridges, actual cabin volumes, galley, market stock and receiving/repair. Tallow now has visible pressure boundaries, waiting space, stores and bounded rest cabins. Codex reviewed actual unlabelled overhead/section/arrival renders and in-player checkpoint images. The full party walk, all three Cinder dock pairs, and Tallow repair/save/launch/redock routes pass. The redesign exposed a stuck companion; baked navigation now routes it through doors using the existing motor, with a red/green regression. [Blockout review](validation/station-blockout.md) records the failures and resulting checks.
+
+**Blockout spatial review PASSED; final generated-art review pending.** Development currently contains blockout geometry. Release remains the C1 baseline until the integrated rebuild. No workshop/campaign acceptance is claimed. Continuous footage/audio are captured but normal/slow playback, subjective mix audition and physical Logitech feel remain UNVERIFIED because the native pipe is unavailable. Clean timing refuses concurrent editor/build/encoder work; another project's Unity process is left untouched. Saves and music are preserved; generation spending remains 795/1,200 credits.
+
 ## C0 baseline recorded — September 26 implementation
 
 **C0_BASELINE_RECORDED.** Added continuous ordinary-input recording with per-frame timing, independent bone directions, actual game video/audio, isolated saves and fail-closed route validation. Recorded two 120-second town routes, civil docking/return, both Natural heroes in eight directions, both Shaped heroes in Arena/Sorrel, real dialogue/shop flow and combat down/revive. See [C0-baseline.md](validation/C0-baseline.md) and [C0-recordings.json](validation/C0-recordings.json) for artifacts, hashes, rejected attempts and limits.

@@ -63,8 +63,6 @@ namespace Lattice.UI
         IEnumerator Talk(string speaker)
         {
             var npc=FindObjectsByType<Npc>(FindObjectsSortMode.None).FirstOrDefault(n=>n.speaker==speaker);if(npc==null){Fail("missing NPC "+speaker);yield break;}
-            if(SceneFlow.Current.Zone=="Hub_Decks")
-            {yield return Travel(new Vector3(PartyController.Current.Active.transform.position.x,0,-6),1);yield return Travel(new Vector3(npc.transform.position.x,0,-6),1);}
             yield return Travel(npc.transform.position,speaker=="Neve"?5:2.5f);DialogueSystem.Current.AutoAdvance=true;npc.Interact();yield return null;
             float until=Time.realtimeSinceStartup+20;while(DialogueSystem.Current.Running&&Time.realtimeSinceStartup<until)yield return null;
             if(DialogueSystem.Current.Running)Fail("dialogue timeout "+speaker);PrepareParty();
@@ -72,7 +70,6 @@ namespace Lattice.UI
         IEnumerator Use(InteractionPrompt prompt)
         {
             if(failed)yield break;if(prompt==null){Fail("missing interactable");yield break;}
-            if(prompt is DockingPad&&SceneFlow.Current.Zone=="Hub_Decks")yield return Travel(new Vector3(PartyController.Current.Active.transform.position.x,0,-6),1);
             yield return Travel(prompt.transform.position,Mathf.Max(1,prompt.range-.5f));if(failed)yield break;
             if(!prompt.Available)
             {
@@ -84,6 +81,8 @@ namespace Lattice.UI
         IEnumerator Travel(Vector3 goal,float distance)
         {
             float until=Time.realtimeSinceStartup+75;
+            var path=new UnityEngine.AI.NavMeshPath();
+            Vector3[] corners=null;int corner=1;float nextPath=0;
             while(!failed&&Time.realtimeSinceStartup<until)
             {
                 var actor=PartyController.Current.Active;Vector3 delta=goal-actor.transform.position;delta.y=0;if(delta.magnitude<=distance)yield break;
@@ -93,6 +92,21 @@ namespace Lattice.UI
                     yield return FightNearby(28);
                     until+=Time.realtimeSinceStartup-combatStarted;
                     continue;
+                }
+                if(!actor.flight&&GroundNavigation.Current!=null)
+                {
+                    if(Time.realtimeSinceStartup>=nextPath)
+                    {
+                        nextPath=Time.realtimeSinceStartup+.3f;
+                        if(!GroundNavigation.Current.FindPath(actor.transform.position,goal,goal,path))
+                        {Fail("no walking path to "+goal);yield break;}
+                        corners=path.corners;corner=1;
+                    }
+                    if(corners!=null&&corners.Length>1)
+                    {
+                        while(corner<corners.Length-1&&Vector3.Distance(actor.transform.position,corners[corner])<.4f)corner++;
+                        delta=corners[corner]-actor.transform.position;delta.y=0;
+                    }
                 }
                 actor.motor.Move(new Vector2(delta.x,delta.z).normalized,false,delta.magnitude<9);yield return null;
             }
