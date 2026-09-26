@@ -1,6 +1,14 @@
 # CORONACH slice progress
 
-## Current pass — campaign plan and presentation
+## Next production pass — September 26 findings
+
+Nathan reports station-walking performance problems, characters running askew in combat form, weak sound effects and inadequate death animations. These are **OPEN**, despite the historical test/route results below. The previous benchmark covered the Gullet only; motion, dialogue and sound observations did not establish complete experience quality.
+
+[PRODUCTION_PLAN.md](PRODUCTION_PLAN.md) now defines C0–C10: reproduce the defects, fix station frame pacing and locomotion, complete combat/death/flight/audio/dialogue quality gates, validate the workshop, then build and verify the first chapter and connected campaign. [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) is the implementation handoff. The current session inspected code and wrote the plan; it did **not** apply these fixes, rerun runtime checks or rebuild the game. The playable build remains the September 23 implementation.
+
+Start with C0. Record per-frame station traversal evidence and eight-direction Natural/Shaped motion for both heroes before choosing fixes. Do not treat the old Gullet FPS average or pose captures as rejection of Nathan's observations. Meshy remains 795/1,200 spent; this documentation pass incurred no generation cost.
+
+## September 23 pass — campaign plan and presentation
 
 2026-09-23: the full-game proposal is now in [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md) and [WORLD_ATLAS.md](WORLD_ATLAS.md): migrating living routes, a convoy of towns, 36 planned destinations and 22 major boss encounters. These documents are plans; the existing Unity slice remains the gameplay workshop.
 

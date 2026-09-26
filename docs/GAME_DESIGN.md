@@ -2,6 +2,8 @@
 
 Product name: **Coronach**, chosen by Nathan on 2026-09-23. The in-world Lattice retains its name.
 
+Execution and quality: [PRODUCTION_PLAN.md](PRODUCTION_PLAN.md) defines the current workshop fixes and full-game milestones; [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) starts implementation. These supersede earlier assumptions that screenshot/route success alone establishes motion, performance or presentation quality.
+
 Full-game proposal: [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md) and [WORLD_ATLAS.md](WORLD_ATLAS.md). Those documents plan the campaign; the existing Unity slice remains the gameplay workshop. Nathan's 2026-09-23 feedback supersedes the original tilt-shift, humanoid flight silhouette and music deferral below.
 
 Campaign direction: **the Severance**, a migration of living routes that will separate inhabited systems for generations. Taren and Sela must bring a growing convoy of communities and Sorrel's young Choir through the last shared passage before Meret's Stillwater anchor closes it. The main regions and bosses advance that one conflict, with recurring allies, visible consequences and contributions to the final evacuation. Most side stories follow the affected people into their new lives. The campaign sketch and atlas define these connections; the slice quest below remains the current implementation.

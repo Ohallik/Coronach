@@ -2,6 +2,8 @@
 
 A gamepad-first action RPG: fly Cinder Halo, shape for combat on Sorrel, and cross the Gullet with Taren and Sela.
 
+**Next implementation pass:** [production and quality plan](docs/PRODUCTION_PLAN.md) and [copyable session prompt](docs/NEXT_SESSION_PROMPT.md). September 26 reports of station stutter, askew combat locomotion, weak SFX and inadequate deaths are open. The plan fixes and verifies the workshop before building the connected campaign; these latest documentation changes do not include a new build.
+
 The playable slice includes five zones, Taren and Sela, both bosses, fabrication, dialogue, saves and generated art throughout. The Coronach presentation pass adds native-resolution rendering without distance blur, separate walk/run and combat motions, two generated spacecraft forms and Nathan's music. There are now 50 production models and eight expression sheets. See [progress](docs/PROGRESS.md) for current verification and the remaining controller-feel checks. The original `slice-v0.1` tag is historical.
 
 **Current quality review: not yet at the professional target.** Playing the opening and ground/flight encounters exposed input and partner-following defects, now corrected, plus unfinished environment composition, combat readability and menus. [Play review](docs/PLAY_REVIEW.md) records what was actually played, the fixes, remaining issues and limits of virtual-gamepad testing. The current build includes those corrections; the original tag's results above are historical.

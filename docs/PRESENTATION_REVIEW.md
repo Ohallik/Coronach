@@ -1,5 +1,7 @@
 # Coronach presentation pass — 2026-09-23
 
+**September 26 follow-up:** Nathan reports station traversal performance problems, right-facing combat runs, weak SFX and inadequate deaths. These remain open and are addressed by [PRODUCTION_PLAN.md](PRODUCTION_PLAN.md). The records below describe September 23's limited checks; they do not establish station frame pacing, all-direction continuous locomotion or death/audio quality.
+
 The slice now has sharp native-resolution surroundings, a wider animation vocabulary, distinct generated ship forms and Nathan's location music. **The professional-quality gate remains open.** This pass addresses the reported defects; it does not accept the existing environment composition, menus or combat effects as finished.
 
 ## What was inspected and played

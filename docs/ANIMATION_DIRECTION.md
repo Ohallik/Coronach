@@ -2,9 +2,11 @@
 
 2026-09-23. Combat is the next production priority. The current pass replaces the slice's repeated walk/swing animation, but it does not establish final combat quality. Expand the campaign only after the first pair can sustain an enjoyable five-minute encounter.
 
+2026-09-26: Nathan reports bodies facing right while running in combat form and inadequate deaths. The source is not yet diagnosed. [PRODUCTION_PLAN.md](PRODUCTION_PLAN.md), especially C2–C4, now governs continuous motion, facing, stride, combat and death/revive acceptance. Previous key-pose renders do not close these findings.
+
 ## Implemented foundation
 
-- Separate walk, jog and sprint clips, selected and timed from actual motor velocity. Civil walking is 2.6 m/s; holding sprint reaches 5.4 m/s. Combat retains its faster traversal.
+- Separate walk, jog and sprint clips, selected and timed from reported motor velocity. The ground motor currently reports commanded velocity before collision, so this is not yet actual-displacement stride matching; C2 corrects that gap. Civil walking is 2.6 m/s; holding sprint reaches 5.4 m/s. Combat retains its faster traversal.
 - Taren has three different ordinary swings, a stronger third hit, a short combo input buffer, a held guard pose, roll, stagger, cleave, dash and cast motions. Sela has a mirrored left-arm ranged stance and shot plus skill poses.
 - Ground damage waits for the attack wind-up. Dodge and guard cancel a pending swing; pause freezes it. Skills also have a wind-up. The contact window is currently a tuned fraction of action duration, not an authored per-frame weapon trace.
 - The generated Shaped vanes now attach to Chest/Hips. Unity previously rejected parenting into the imported model instance, leaving them behind during torso motion. Intake now unpacks that hierarchy before attaching them and verifies the parent.
