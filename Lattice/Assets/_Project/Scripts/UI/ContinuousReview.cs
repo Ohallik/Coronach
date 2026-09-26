@@ -31,6 +31,7 @@ namespace Lattice.UI
             public ActorState partnerState;
             public int step, collections, lines;
             public long allocation, mainThread, renderThread, batches, memory, hudNs, hudBytes, audioVoices, sceneObjects, objects;
+            public long activeCpu, activeRender, gpuWork, capWait;
             public bool focus, paused, blocked;
         }
         [Serializable] sealed class Report
@@ -38,7 +39,7 @@ namespace Lattice.UI
             public string route, sourceRevision, input = "continuous agent-directed virtual gamepad replay", build, unity, cpu, gpu, quality, gpuTiming = "UNAVAILABLE", vrr = "UNVERIFIED";
             public int width, height, frameCap, vSync, samples;
             public double refreshHz, seconds;
-            public bool captured, profiled, valid;
+            public bool captured, profiled, headroom, census, motion, valid;
             public string[] failures;
             public double loadWaitSeconds, settleSeconds;
             public InteractionResponse[] interactions;
@@ -52,6 +53,17 @@ namespace Lattice.UI
         readonly List<Sample> samples = new(45000);
         readonly List<string> failures = new();
         readonly List<InteractionResponse> interactions=new();
+        struct CensusSample {public double seconds,milliseconds;public string scene;public int objects,sources,playingSources,loopingSources;}
+        readonly List<CensusSample> growth=new();
+        bool census;double nextCensus;
+        struct MotionSample
+        {
+            public double seconds;public int step;public string hero,form,clip;
+            public float phase,stride,leftGroundY,rightGroundY;public bool transitioning,reverse,locked;
+            public Vector3 leftHeel,leftToe,rightHeel,rightToe,target;
+        }
+        bool motion;
+        readonly List<MotionSample> motionSamples=new();
         InteractionResponse interaction;
         DialoguePanel dialoguePanel;
         ShopUi shopUi;
@@ -67,9 +79,11 @@ namespace Lattice.UI
         double stepStart, previous;
         string folder;
         ProfilerRecorder allocations, mainThread, renderThread, batches, memory, audioVoices, sceneObjects, objects;
+        ProfilerRecorder activeCpu,activeRender,gpuWork,capWait;
         QualityCapture capture;
+        double lastScreenshot=-1000;
         Vector3 measuredMotion;
-        bool arrows, profiled, tracing;
+        bool arrows, profiled, tracing, headroom;
 
         public static QualityRoute ReadRoute()
         {
@@ -87,6 +101,9 @@ namespace Lattice.UI
             folder = Path.GetFullPath(DevArgs.Value("-quality-output"));
             arrows = DevArgs.Has("-quality-arrows");
             profiled = DevArgs.Has("-quality-profile");
+            headroom = DevArgs.Has("-quality-headroom");
+            census = DevArgs.Has("-quality-census");
+            motion = DevArgs.Has("-quality-motion");
             Directory.CreateDirectory(folder);
             pad = InputSystem.AddDevice<Gamepad>("CoronachContinuousReview");
             InputSystem.onBeforeUpdate += InputUpdate;
@@ -112,6 +129,16 @@ namespace Lattice.UI
             audioVoices = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio Voices");
             sceneObjects = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Scene Object Count");
             objects = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Object Count");
+            if(headroom)
+            {
+                // Categories come from this player's available-counter catalog.
+                // These FrameTiming counters exclude CPU presentation/cap waits;
+                // the older Main Thread column deliberately retains those waits.
+                activeCpu=ProfilerRecorder.StartNew(ProfilerCategory.Render,"CPU Main Thread Frame Time");
+                activeRender=ProfilerRecorder.StartNew(ProfilerCategory.Render,"CPU Render Thread Frame Time");
+                gpuWork=ProfilerRecorder.StartNew(ProfilerCategory.Render,"GPU Frame Time");
+                capWait=ProfilerRecorder.StartNew(new ProfilerCategory("VSync"),"WaitForTargetFPS");
+            }
             GameHud.MeasureCosts = profiled;
             if(profiled)
             {
@@ -137,7 +164,11 @@ namespace Lattice.UI
                     yield return null;
                 }
                 ValidateStep();
-                if (capture != null) ScreenCapture.CaptureScreenshot(Path.Combine(folder, stepIndex.ToString("D3") + ".png"));
+                if (capture != null && clock.Elapsed.TotalSeconds-lastScreenshot>=route.screenshotInterval)
+                {
+                    ScreenCapture.CaptureScreenshot(Path.Combine(folder, stepIndex.ToString("D3") + ".png"));
+                    lastScreenshot=clock.Elapsed.TotalSeconds;
+                }
             }
             recording = false; held = default;
             StopProfile();
@@ -188,6 +219,16 @@ namespace Lattice.UI
             if (!recording || PartyController.Current == null) return;
             var actor = PartyController.Current.Active;
             double now = clock.Elapsed.TotalSeconds;
+            if(census&&now>=nextCensus)
+            {
+                long started=System.Diagnostics.Stopwatch.GetTimestamp();
+                var entry=new CensusSample{seconds=now,scene=SceneFlow.Current.Zone,
+                    objects=FindObjectsByType<GameObject>(FindObjectsInactive.Include,FindObjectsSortMode.None).Length};
+                foreach(var source in FindObjectsByType<AudioSource>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+                {entry.sources++;if(source.isPlaying)entry.playingSources++;if(source.loop&&source.isPlaying)entry.loopingSources++;}
+                entry.milliseconds=(System.Diagnostics.Stopwatch.GetTimestamp()-started)*1000.0/System.Diagnostics.Stopwatch.Frequency;
+                growth.Add(entry);nextCensus=now+5;
+            }
             if(interaction!=null&&interaction.visibleResponseMs<0)
             {
                 if(dialoguePanel==null)dialoguePanel=FindFirstObjectByType<DialoguePanel>();
@@ -214,6 +255,19 @@ namespace Lattice.UI
                 animationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             }
             var driver = actor.GetComponentInChildren<GeneratedAnimator>();
+            if(motion&&animator!=null&&animator.isHuman&&driver!=null&&driver.strideProfile!=null)
+            {
+                var calibration=driver.strideProfile;
+                Vector3 leftToe=animator.GetBoneTransform(HumanBodyBones.LeftToes).TransformPoint(calibration.leftToe);
+                Vector3 rightToe=animator.GetBoneTransform(HumanBodyBones.RightToes).TransformPoint(calibration.rightToe);
+                motionSamples.Add(new MotionSample{seconds=now,step=stepIndex,hero=actor.character,
+                    form=actor.GetComponent<FormController>().Current.ToString(),clip=driver.CurrentAnimation,
+                    phase=animationTime,stride=driver.StrideScale,transitioning=animator.IsInTransition(0),reverse=driver.ReverseLocomotion,
+                    locked=actor.TargetLocked,target=actor.target!=null?actor.target.transform.position:new Vector3(float.NaN,float.NaN,float.NaN),
+                    leftHeel=animator.GetBoneTransform(HumanBodyBones.LeftFoot).TransformPoint(calibration.leftHeel),
+                    rightHeel=animator.GetBoneTransform(HumanBodyBones.RightFoot).TransformPoint(calibration.rightHeel),
+                    leftToe=leftToe,rightToe=rightToe,leftGroundY=SurfaceY(leftToe),rightGroundY=SurfaceY(rightToe)});
+            }
             var party = PartyController.Current;
             var partner = party.members.Length > 1 ? party.members[1-party.index] : null;
             samples.Add(new Sample {
@@ -233,10 +287,13 @@ namespace Lattice.UI
                 hudNs=profiled?GameHud.LastUpdateNanoseconds:-1, hudBytes=profiled?GameHud.LastAllocatedBytes:-1,
                 audioVoices=audioVoices.Valid?audioVoices.LastValue:-1,
                 sceneObjects=sceneObjects.Valid?sceneObjects.LastValue:-1, objects=objects.Valid?objects.LastValue:-1,
+                activeCpu=Positive(activeCpu),activeRender=Positive(activeRender),gpuWork=Positive(gpuWork),capWait=Positive(capWait),
                 focus = Application.isFocused, paused = GameTime.Paused, blocked = GameInput.Current.Blocked
             });
             previous = now;
         }
+        static long Positive(ProfilerRecorder recorder)=>recorder.Valid&&recorder.LastValue>0?recorder.LastValue:-1;
+        static float SurfaceY(Vector3 sole)=>Physics.Raycast(sole+Vector3.up*.5f,Vector3.down,out var hit,1.5f,~0,QueryTriggerInteraction.Ignore)?hit.point.y:float.NaN;
         void OnGUI()
         {
             if (!arrows || !recording || samples.Count == 0) return;
@@ -273,6 +330,7 @@ namespace Lattice.UI
             string expected = string.IsNullOrEmpty(step.expectedScene) ? route.scene : step.expectedScene;
             if (SceneFlow.Current.Zone != expected) failures.Add(step.name + ": scene " + SceneFlow.Current.Zone + " expected " + expected);
             if (!string.IsNullOrEmpty(step.expectedCharacter) && PartyController.Current.Active.character != step.expectedCharacter) failures.Add(step.name + ": character mismatch");
+            if (!string.IsNullOrEmpty(step.expectedForm) && PartyController.Current.Active.GetComponent<FormController>().Current.ToString() != step.expectedForm) failures.Add(step.name + ": form mismatch");
             if (!string.IsNullOrEmpty(step.expectedFlag) && !GameServices.Current.Flags.GetBool(step.expectedFlag)) failures.Add(step.name + ": missing flag "+step.expectedFlag);
             if (step.expectedUi == "dialogue" && !DialogueSystem.Current.Running) failures.Add(step.name + ": dialogue did not open");
             if (step.expectedUi == "world" && GameInput.Current.Blocked) failures.Add(step.name + ": UI did not close");
@@ -297,17 +355,30 @@ namespace Lattice.UI
             if (capture != null && !string.IsNullOrEmpty(capture.Failure)) failures.Add(capture.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
-                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects");
-                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects}"));
+                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs");
+                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait}"));
             }
             var report = new Report { route = route.name, sourceRevision = route.sourceRevision, build = Debug.isDebugBuild ? "Development" : "Release", unity = Application.unityVersion,
                 cpu = SystemInfo.processorType, gpu = SystemInfo.graphicsDeviceName, quality = QualitySettings.names[QualitySettings.GetQualityLevel()],
                 width = Screen.width, height = Screen.height, frameCap = Application.targetFrameRate, vSync = QualitySettings.vSyncCount,
                 refreshHz = Screen.currentResolution.refreshRateRatio.value, samples = samples.Count, seconds = samples.Count > 0 ? samples[^1].elapsed : 0,
-                captured = capture != null, profiled=profiled, failures = failures.ToArray(), valid = failures.Count == 0,
+                captured = capture != null, profiled=profiled, headroom=headroom, census=census, motion=motion, failures = failures.ToArray(), valid = failures.Count == 0,
                 loadWaitSeconds=loadWaitSeconds,settleSeconds=route.settleSeconds,interactions=interactions.ToArray() };
+            if(headroom)report.gpuTiming=samples.Exists(s=>s.gpuWork>0)?"GPU Frame Time counter (nanoseconds; asynchronous)":"UNAVAILABLE (counter produced no positive samples)";
             File.WriteAllText(Path.Combine(folder, "run.json"), JsonUtility.ToJson(report, true));
             File.WriteAllText(Path.Combine(folder, "route.json"), JsonUtility.ToJson(route, true));
+            if(census)
+            {
+                using var writer=new StreamWriter(Path.Combine(folder,"census.csv"));
+                writer.WriteLine("seconds,scene,sceneGameObjects,audioSources,playingSources,loopingSources,samplingMs");
+                foreach(var s in growth)writer.WriteLine(FormattableString.Invariant($"{s.seconds:F6},{s.scene},{s.objects},{s.sources},{s.playingSources},{s.loopingSources},{s.milliseconds:F6}"));
+            }
+            if(motion)
+            {
+                using var writer=new StreamWriter(Path.Combine(folder,"motion.csv"));
+                writer.WriteLine("elapsed,step,hero,form,clip,phase,stride,transitioning,reverse,locked,leftHeelX,leftHeelY,leftHeelZ,leftToeX,leftToeY,leftToeZ,rightHeelX,rightHeelY,rightHeelZ,rightToeX,rightToeY,rightToeZ,targetX,targetY,targetZ,leftGroundY,rightGroundY");
+                foreach(var s in motionSamples)writer.WriteLine(FormattableString.Invariant($"{s.seconds:F6},{s.step},{s.hero},{s.form},{s.clip},{s.phase:F6},{s.stride:F6},{s.transitioning},{s.reverse},{s.locked},{s.leftHeel.x:F6},{s.leftHeel.y:F6},{s.leftHeel.z:F6},{s.leftToe.x:F6},{s.leftToe.y:F6},{s.leftToe.z:F6},{s.rightHeel.x:F6},{s.rightHeel.y:F6},{s.rightHeel.z:F6},{s.rightToe.x:F6},{s.rightToe.y:F6},{s.rightToe.z:F6},{s.target.x:F6},{s.target.y:F6},{s.target.z:F6},{s.leftGroundY:F6},{s.rightGroundY:F6}"));
+            }
         }
         void OnDestroy()
         {
@@ -315,6 +386,7 @@ namespace Lattice.UI
             InputSystem.onBeforeUpdate -= InputUpdate;
             if (pad != null && pad.added) InputSystem.RemoveDevice(pad);
             allocations.Dispose(); mainThread.Dispose(); renderThread.Dispose(); batches.Dispose(); memory.Dispose(); audioVoices.Dispose(); sceneObjects.Dispose(); objects.Dispose();
+            activeCpu.Dispose();activeRender.Dispose();gpuWork.Dispose();capWait.Dispose();
             GameHud.MeasureCosts=false;
         }
         void StopProfile()

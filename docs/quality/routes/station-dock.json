@@ -13,7 +13,7 @@
       "point": {
         "x": -28,
         "y": 0,
-        "z": -22
+        "z": -25
       },
       "rightTrigger": 0,
       "leftTrigger": 1
@@ -87,7 +87,7 @@
       "point": {
         "x": 0,
         "y": 0,
-        "z": -22
+        "z": -25
       },
       "rightTrigger": 0,
       "leftTrigger": 1
@@ -161,7 +161,7 @@
       "point": {
         "x": 28,
         "y": 0,
-        "z": -22
+        "z": -25
       },
       "rightTrigger": 0,
       "leftTrigger": 1

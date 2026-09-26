@@ -15,6 +15,9 @@ namespace Lattice.Combat
         public string character="Taren";
         public bool flight;
         public Health target;
+        // Assisted attack selection and deliberate target-facing locomotion
+        // are separate: a nearby enemy alone must never turn free running.
+        public bool TargetLocked;
         public IMotor motor;
         public int combo;
         public int Kills{get;private set;}
@@ -30,7 +33,7 @@ namespace Lattice.Combat
         public float GuardDamageMultiplier=>guarding?.35f:1;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
         public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
-        void Awake(){Health=GetComponent<Health>();Health.Died+=(_,__)=>State=ActorState.Down;}
+        void Awake(){Health=GetComponent<Health>();Health.Died+=(_,__)=>{State=ActorState.Down;TargetLocked=false;};}
         void Update()
         {
             if(!Health.Alive)return;

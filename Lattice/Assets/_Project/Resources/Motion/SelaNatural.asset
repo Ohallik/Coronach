@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ee7d15f31656c49a3ee207d49cfc05, type: 3}
+  m_Name: SelaNatural
+  m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GroundStrideProfile
+  leftHeel: {x: 0.001556576, y: 0.044301648, z: 0.12067452}
+  leftToe: {x: -0.013641832, y: 0.100256614, z: 0.023240067}
+  rightHeel: {x: -0.001983234, y: 0.04949781, z: 0.13006799}
+  rightToe: {x: 0.015760241, y: 0.099679336, z: 0.029556233}
+  walkSpeed: 1.1
+  runSpeed: 6.38
+  sprintSpeed: 9.6

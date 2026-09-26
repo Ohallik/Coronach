@@ -15,6 +15,7 @@ namespace Lattice.UI
     public sealed class QualityCapture : MonoBehaviour
     {
         readonly ConcurrentQueue<(int index, byte[] bytes)> video = new();
+        readonly ConcurrentQueue<byte[]> buffers = new();
         readonly List<float[]> audio = new();
         readonly List<string> times = new();
         readonly object audioLock = new();
@@ -32,6 +33,9 @@ namespace Lattice.UI
             folder = output; sampleRate = AudioSettings.outputSampleRate;
             target = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
             target.Create();
+            // Reuse bounded exact-size readback storage. Allocating an 8 MB
+            // array thirty times each second distorted the motion being recorded.
+            for(int i=0;i<12;i++)buffers.Enqueue(new byte[Screen.width*Screen.height*4]);
             encoder = Process.Start(new ProcessStartInfo {
                 FileName = ffmpeg,
                 Arguments = $"-hide_banner -loglevel error -y -f rawvideo -pixel_format rgba -video_size {Screen.width}x{Screen.height} -framerate 30 -i pipe:0 -c:v libx264 -preset ultrafast -crf 18 -pix_fmt yuv420p \"{Path.Combine(folder, "video.mp4")}\"",
@@ -52,12 +56,13 @@ namespace Lattice.UI
                 int index = (int)((Time.realtimeSinceStartupAsDouble - start) * 30);
                 if (index <= lastRequest) continue;
                 if (pending > 3 || video.Count > 6) { failure = "Capture queue overflow; motion recording incomplete"; continue; }
+                if(!buffers.TryDequeue(out var bytes)){failure="Capture buffer pool exhausted; motion recording incomplete";continue;}
                 lastRequest = index; pending++;
                 times.Add(index + "," + (Time.realtimeSinceStartupAsDouble - start).ToString("F6", System.Globalization.CultureInfo.InvariantCulture));
                 ScreenCapture.CaptureScreenshotIntoRenderTexture(target);
                 AsyncGPUReadback.Request(target, 0, TextureFormat.RGBA32, request => {
-                    if (request.hasError) failure = "GPU readback failed";
-                    else video.Enqueue((index, request.GetData<byte>().ToArray()));
+                    if (request.hasError){failure = "GPU readback failed";buffers.Enqueue(bytes);}
+                    else {request.GetData<byte>().CopyTo(bytes);video.Enqueue((index,bytes));}
                     pending--;
                 });
             }
@@ -72,9 +77,12 @@ namespace Lattice.UI
                 {
                     if (!video.TryDequeue(out var frame)) { Thread.Sleep(2); continue; }
                     while (written < frame.index) { var bytes = previous ?? frame.bytes; stream.Write(bytes, 0, bytes.Length); written++; }
-                    stream.Write(frame.bytes, 0, frame.bytes.Length); written++; previous = frame.bytes;
+                    stream.Write(frame.bytes, 0, frame.bytes.Length); written++;
+                    if(previous!=null)buffers.Enqueue(previous);
+                    previous = frame.bytes;
                 }
                 stream.Close();
+                if(previous!=null)buffers.Enqueue(previous);
             }
             catch (Exception e) { failure = "Encoder: " + e.Message; }
         }

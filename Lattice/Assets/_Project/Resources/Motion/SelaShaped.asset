@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6ee7d15f31656c49a3ee207d49cfc05, type: 3}
+  m_Name: SelaShaped
+  m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GroundStrideProfile
+  leftHeel: {x: 0.00045601284, y: 0.051014423, z: 0.147836}
+  leftToe: {x: -0.016704066, y: 0.10416001, z: 0.03106621}
+  rightHeel: {x: 0.013991261, y: 0.13041067, z: 0.08122364}
+  rightToe: {x: 0.010547443, y: 0.11415734, z: 0.028453153}
+  walkSpeed: 1.1
+  runSpeed: 6.3
+  sprintSpeed: 9.45

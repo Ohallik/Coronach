@@ -107,7 +107,8 @@ namespace Lattice.EditorTools
                     if(animator==null)throw new InvalidOperationException("Rigged model has no animator");
                     ConfigureClips(row,animator);
                     var probe=UnityEngine.Object.Instantiate(root);try{VerifyMotion(row,probe.GetComponentInChildren<Animator>());}finally{UnityEngine.Object.DestroyImmediate(probe);}
-                    root.AddComponent<Lattice.Combat.GeneratedAnimator>();
+                    var driver=root.AddComponent<Lattice.Combat.GeneratedAnimator>();
+                    driver.strideProfile=Resources.Load<Lattice.Combat.GroundStrideProfile>("Motion/"+row.id);
                 }
                 if(row.form=="Shaped"&&row.kind=="biped")
                 {
@@ -154,6 +155,7 @@ namespace Lattice.EditorTools
             if(controller==null)controller=AnimatorController.CreateAnimatorControllerAtPath(path);
             var machine=controller.layers[0].stateMachine;foreach(var state in machine.states)machine.RemoveState(state.state);
             foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);state.iKOnFeet=row.kind=="biped";if(clip.state=="Idle")machine.defaultState=state;}
+            if(row.character=="Taren"||row.character=="Sela")StrideCalibration.ConfigureController(controller);
             animator.runtimeAnimatorController=controller;animator.applyRootMotion=false;animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;EditorUtility.SetDirty(controller);
         }
         static void VerifyMotion(Row row,Animator animator)

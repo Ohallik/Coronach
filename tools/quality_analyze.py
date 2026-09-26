@@ -9,6 +9,27 @@ def percentile(values, fraction):
     values = sorted(values)
     return values[max(0, math.ceil(len(values) * fraction) - 1)]
 
+def stability_windows(frames):
+    """Retain all complete minutes, including warmup, for leak review.
+
+    Counters with no provider stay unsupported. A rising allocated heap alone
+    cannot establish a leak; compare object counts and repeated route phases.
+    """
+    result=[]
+    for start in range(0,int(float(frames[-1]['elapsed']))-59,60):
+        rows=[f for f in frames if start<=float(f['elapsed'])<start+60]
+        window={'startSeconds':start,'endSeconds':start+60,'samples':len(rows)}
+        for key in ('memoryBytes','sceneObjects','objects','audioVoices'):
+            # The first ProfilerRecorder sample can be pending (zero) even
+            # though a loaded scene plainly contains objects and memory.
+            # Keep the raw sample and disclose the omitted counter count.
+            minimum=0 if key=='audioVoices' else 1
+            values=[int(f.get(key,-1)) for f in rows if int(f.get(key,-1))>=minimum]
+            window[key]=dict(median=percentile(values,.5),maximum=max(values),minimum=min(values),
+                validSamples=len(values),unavailableOrPendingSamples=len(rows)-len(values)) if values else 'UNSUPPORTED'
+        result.append(window)
+    return result
+
 def analyze(run, frames, route, performance=False):
     errors = list(run.get('failures', []))
     if not run.get('valid'): errors.append('runtime validation rejected')
@@ -34,6 +55,7 @@ def analyze(run, frames, route, performance=False):
         if not rows: continue
         expected=step.get('expectedScene') or route['scene']
         if rows[-1]['scene'] != expected: errors.append(step['name']+': wrong scene')
+        if step.get('expectedForm') and rows[-1]['form']!=step['expectedForm']:errors.append(step['name']+': wrong body form')
         if step.get('navigate') and not step.get('approachPartner'):
             target=(step['point']['x'],step['point']['z'])
             if min(math.dist((float(f['x']),float(f['z'])),target) for f in rows)>step.get('tolerance',.65)+.1:
@@ -65,6 +87,7 @@ def analyze(run, frames, route, performance=False):
         gcBytesPerFrameMedian=percentile([int(f['gcBytes']) for f in frames],.5),
         movingSamples=len(moving), stoppedCameraWhileWalking=sum(v<.02 for v in moving),
         interactions=run.get('interactions','UNMEASURED (legacy recorder)'),
+        stabilityWindows=stability_windows(frames),
         worstFrames=[dict(elapsed=float(f['elapsed']),ms=float(f['ms']),checkpoint=route['steps'][int(f['step'])]['name'],
                           gcBytes=int(f['gcBytes']),gcCollections=int(f['gcCollections']),
                           mainThreadNs=int(f.get('mainThreadNs',-1)),renderThreadNs=int(f.get('renderThreadNs',-1)))
@@ -92,6 +115,60 @@ def analyze_segments(run, frames, route, performance=False):
     result['valid']=not result['failures']
     return result
 
+def analyze_headroom(run, frames, route):
+    result=analyze(run,frames,route,False)
+    errors=result['failures']
+    if not run.get('headroom'): errors.append('headroom counters were not requested')
+    if run.get('frameCap',60)>0 or run.get('vSync',1)!=0: errors.append('headroom requires uncapped VSync-off traversal')
+    if run.get('captured') or run.get('profiled'): errors.append('capture/profile overhead disqualifies headroom')
+    if run.get('census'): errors.append('object census overhead disqualifies headroom')
+    if not frames or float(frames[-1]['elapsed'])<30: errors.append('headroom window shorter than 30 seconds')
+    counters={}
+    # A completed frame cannot take longer than the entire recorded visit,
+    # including load and settle. This only catches impossible counter values;
+    # genuine long frames remain in both statistics and the acceptance check.
+    visit_ms=(float(frames[-1]['elapsed'])+run.get('loadWaitSeconds',0)+run.get('settleSeconds',0))*1000 if frames else 0
+    for key in ('activeCpuNs','activeRenderNs','gpuWorkNs'):
+        values=[int(f.get(key,-1))/1e6 for f in frames if int(f.get(key,-1))>0]
+        if not values:
+            counters[key]='UNSUPPORTED'
+            if key=='activeCpuNs': errors.append('active CPU work was not measured')
+            continue
+        impossible=[dict(elapsed=float(f['elapsed']),nanoseconds=int(f[key])) for f in frames if int(f.get(key,-1))/1e6>visit_ms]
+        counters[key]=dict(samples=len(values),unavailableOrPendingSamples=len(frames)-len(values),
+            p95Ms=percentile(values,.95),p99Ms=percentile(values,.99),worstMs=max(values),impossibleSamples=impossible)
+        if impossible: errors.append(key+': impossible frame duration; counter evidence rejected')
+        if len(values)<len(frames)*.9: errors.append(key+': insufficient valid timing samples')
+        if percentile(values,.95)>14: errors.append(key+': p95 active work exceeds 14 ms')
+    result['headroomCounters']=counters
+    result['valid']=not errors
+    result['note']='FrameTiming work counters exclude CPU cap/presentation waits; asynchronous GPU samples are not assigned to a specific input frame. Unsupported counters remain explicit. Impossible durations reject the counter evidence; raw samples and all positive values remain in the statistics.'
+    return result
+
+def analyze_census(rows, seconds):
+    """Report actual object/source inventories; source counts are not voice counts.
+
+    Growth is reviewed alongside the repeated route phase and memory trace,
+    rather than declaring an arbitrary heap/object change a leak.
+    """
+    errors=[]
+    if not rows: return dict(valid=False,failures=['missing object/source census'],windows=[])
+    times=[float(r['seconds']) for r in rows]
+    if times[0]>2 or seconds-times[-1]>7 or any(b-a>7 or b<=a for a,b in zip(times,times[1:])):
+        errors.append('incomplete object/source census coverage')
+    if any(int(r['sceneGameObjects'])<=0 or not 0<=int(r['loopingSources'])<=int(r['playingSources'])<=int(r['audioSources']) for r in rows):
+        errors.append('invalid object/source inventory')
+    windows=[]
+    for start in range(0,int(seconds)-59,60):
+        group=[r for r in rows if start<=float(r['seconds'])<start+60]
+        window=dict(startSeconds=start,samples=len(group))
+        for key in ('sceneGameObjects','audioSources','playingSources','loopingSources'):
+            values=[int(r[key]) for r in group]
+            window[key]=dict(minimum=min(values),median=percentile(values,.5),maximum=max(values)) if values else 'UNMEASURED'
+        windows.append(window)
+    return dict(valid=not errors,failures=errors,windows=windows,worstSamplingMs=max(float(r['samplingMs']) for r in rows),
+                note='Includes inactive scene objects/sources. Playing sources may each contain multiple one-shot voices. Review growth at comparable warmed route phases; these inventories do not measure the audible mix.')
+
 def plot(frames, destination):
     w,h=1600,300; seconds=float(frames[-1]['elapsed']); scale=120
     points=' '.join(f'{float(f["elapsed"])/seconds*w:.1f},{h-min(scale,float(f["ms"]))/scale*h:.1f}' for f in frames)
@@ -108,10 +185,14 @@ def plot(frames, destination):
     destination.write_text(content)
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('folder',type=Path);p.add_argument('--performance',action='store_true');args=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('folder',type=Path);modes=p.add_mutually_exclusive_group();modes.add_argument('--performance',action='store_true');modes.add_argument('--headroom',action='store_true');args=p.parse_args()
     run=json.loads((args.folder/'run.json').read_text());route=json.loads((args.folder/'route.json').read_text())
     frames=list(csv.DictReader((args.folder/'frames.csv').open()))
-    result=analyze_segments(run,frames,route,args.performance)
+    result=analyze_headroom(run,frames,route) if args.headroom else analyze_segments(run,frames,route,args.performance)
+    if run.get('census'):
+        path=args.folder/'census.csv'
+        census=analyze_census(list(csv.DictReader(path.open())) if path.exists() else [],result['seconds'])
+        result['objectSourceCensus']=census;result['failures']+=census['failures'];result['valid']=not result['failures']
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

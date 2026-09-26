@@ -93,10 +93,15 @@ namespace Lattice.UI
             thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
             if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Health.Alive?"":"  ·  APPROACH TO REVIVE");}
             zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
-            if(a.target!=null&&a.target.Alive)target.text=$"{Readable(a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+(a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"));else target.text="";
+            if(a.target!=null&&a.target.Alive)
+                target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
+                    (a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"))+
+                    "    "+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
+            else target.text="";
             reticle.enabled=a.target!=null&&a.target.Alive;
             if(reticle.enabled)
             {
+                reticle.color=a.TargetLocked?new Color(1,.76f,.3f):new Color(1,1,1,.55f);
                 var screen=Camera.main.WorldToScreenPoint(a.target.transform.position+Vector3.up);
                 RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,screen,null,out var point);reticle.rectTransform.anchoredPosition=point;
             }

@@ -160,6 +160,36 @@ namespace Lattice.Tests.PlayMode
         }
 
         [UnityTest]
+        public IEnumerator GroundLockFacesTheTargetAndUnlockRestoresTravelFacing()
+        {
+            DevLoadout.Apply("starter");SceneFlow.Current.LoadZone("Arena_Ground");
+            while(SceneFlow.Current.Loading)yield return null;
+            yield return new WaitForSecondsRealtime(.7f);
+            foreach(var enemy in Object.FindObjectsByType<Lattice.Combat.EnemyBrain>(FindObjectsSortMode.None))enemy.gameObject.SetActive(false);
+            var party=Lattice.Combat.PartyController.Current;var actor=party.Active;
+            foreach(var member in party.members)member.GetComponent<Lattice.Combat.PartnerBrain>().enabled=false;
+            var target=new GameObject("independent lock direction",typeof(Lattice.Combat.Health));
+            target.transform.position=actor.transform.position+Vector3.forward*8;
+            var pad=AddPad();yield return null;
+            try
+            {
+                yield return Press(pad,GamepadButton.LeftShoulder);
+                InputSystem.QueueStateEvent(pad,new GamepadState{leftStick=Vector2.right});
+                yield return new WaitForSecondsRealtime(.5f);
+                var toward=target.transform.position-actor.transform.position;toward.y=0;
+                Assert.Less(Vector3.Angle(actor.transform.forward,toward),10,
+                    "Deliberate lock must face the independently placed target during sideways travel.");
+                Assert.Greater(actor.motor.Velocity.magnitude,1,"lock must preserve real movement");
+                yield return Press(pad,GamepadButton.LeftShoulder);
+                InputSystem.QueueStateEvent(pad,new GamepadState{leftStick=Vector2.right});
+                yield return new WaitForSecondsRealtime(.5f);
+                Assert.Less(Vector3.Angle(actor.transform.forward,actor.motor.Velocity),10,
+                    "Unlock must return free locomotion to actual travel facing, even with an assisted target selected.");
+            }
+            finally{Object.Destroy(target);InputSystem.QueueStateEvent(pad,new GamepadState());}
+        }
+
+        [UnityTest]
         public IEnumerator BridgedJoystick_IsAGamepadToGameInputAndTheUiMap()
         {
             // Isolate translation from the selected New Game button. UI routing has its own test.

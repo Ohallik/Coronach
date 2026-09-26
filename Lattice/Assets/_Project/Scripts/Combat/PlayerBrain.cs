@@ -17,6 +17,8 @@ namespace Lattice.Combat
             if(GameTime.Paused)return;
             if(actor.State==Lattice.Data.ActorState.Stagger){lungeRequestedUntil=attackRequestedUntil=-1;actor.motor.Move(Vector2.zero,false,true);return;}
             var zone=ZoneController.Current;bool combat=zone!=null&&zone.Combat;
+            if(!combat||actor.target==null||!actor.target.Alive||(actor.target.transform.position-transform.position).sqrMagnitude>900)
+                actor.TargetLocked=false;
             PromptService.FindInteraction(transform.position);
             if(input.Pressed("Interact")&&PromptService.TryInteract()){attackRequestedUntil=-1;return;}
             Vector2 move=input.Move;
@@ -27,7 +29,11 @@ namespace Lattice.Combat
             actor.motor.Move(move,boost,actor.flight&&input.Held("Brake"));
             if(input.Pressed("Swap")&&!input.SkillMod)PartyController.Current.Swap();
             if(!combat)return;
-            if(input.Pressed("LockOn"))actor.target=FindTarget();
+            if(input.Pressed("LockOn"))
+            {
+                if(actor.TargetLocked)actor.TargetLocked=false;
+                else{actor.target=FindTarget();actor.TargetLocked=actor.target!=null;}
+            }
             int cycle=input.Cycle("CycleTarget");if(cycle!=0)CycleTarget(cycle);
             int itemCycle=input.Cycle("CycleItem");if(itemCycle!=0)
             {
@@ -51,7 +57,7 @@ namespace Lattice.Combat
             if(!actor.flight&&input.Pressed("QuickItem"))UseItem();
             if(actor.target==null||!actor.target.Alive)actor.target=FindTarget();
         }
-        void OnDisable(){lungeRequestedUntil=attackRequestedUntil=-1;}
+        void OnDisable(){lungeRequestedUntil=attackRequestedUntil=-1;if(actor!=null)actor.TargetLocked=false;}
         public Health FindTarget()
         {
             Health nearest=null;float best=30*30;
@@ -68,7 +74,7 @@ namespace Lattice.Combat
             var targets=new System.Collections.Generic.List<Health>();
             foreach(var h in Health.All)if(h!=null&&h.Alive&&!h.friendly&&(h.transform.position-transform.position).sqrMagnitude<900)targets.Add(h);
             targets.Sort((a,b)=>Vector3.SignedAngle(transform.forward,a.transform.position-transform.position,Vector3.up).CompareTo(Vector3.SignedAngle(transform.forward,b.transform.position-transform.position,Vector3.up)));
-            if(targets.Count>0)actor.target=targets[(targets.IndexOf(actor.target)+direction+targets.Count)%targets.Count];
+            if(targets.Count>0){actor.target=targets[(targets.IndexOf(actor.target)+direction+targets.Count)%targets.Count];actor.TargetLocked=true;}
         }
         public void UseItem(string id=null)
         {

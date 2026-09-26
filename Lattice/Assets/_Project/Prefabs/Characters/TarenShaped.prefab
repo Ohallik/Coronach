@@ -728,8 +728,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 496f5187abc2dcf47a138e80429b5e90, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GeneratedAnimator
+  strideProfile: {fileID: 11400000, guid: 095c66edb6d19a24e9fe1a6c6f96dcc8, type: 2}
 --- !u!114 &5341178193087774720
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -740,7 +741,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 009ba545081ebd04dbd0745c01d9535b, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GeneratedVanes
   vanes:
   - {fileID: 4129253882596895240}
@@ -1182,7 +1183,7 @@ Animator:
   m_LinearVelocityBlending: 0
   m_StabilizeFeet: 0
   m_AnimatePhysics: 0
-  m_WarningMessage:
+  m_WarningMessage: 
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0

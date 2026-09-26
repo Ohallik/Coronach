@@ -1,0 +1,1441 @@
+{
+  "name": "c2-natural-120",
+  "scene": "Hub_Decks",
+  "sourceRevision": "C2 candidate; exact packaged hashes in each run",
+  "settleSeconds": 8,
+  "screenshotInterval": 8,
+  "frameCap": 120,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "Taren return to clear circulation",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 0 out",
+      "seconds": 0.95,
+      "x": -0.102606,
+      "y": 0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 0 reverse",
+      "seconds": 0.95,
+      "x": 0.102606,
+      "y": -0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 0 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 45 out",
+      "seconds": 0.95,
+      "x": 0.1267855,
+      "y": 0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 45 reverse",
+      "seconds": 0.95,
+      "x": -0.1267855,
+      "y": -0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 45 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 90 out",
+      "seconds": 0.95,
+      "x": 0.2819078,
+      "y": 0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 90 reverse",
+      "seconds": 0.95,
+      "x": -0.2819078,
+      "y": -0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 90 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 135 out",
+      "seconds": 0.95,
+      "x": 0.2718923,
+      "y": -0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 135 reverse",
+      "seconds": 0.95,
+      "x": -0.2718923,
+      "y": 0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 135 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 180 out",
+      "seconds": 0.95,
+      "x": 0.102606,
+      "y": -0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 180 reverse",
+      "seconds": 0.95,
+      "x": -0.102606,
+      "y": 0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 180 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 225 out",
+      "seconds": 0.95,
+      "x": -0.1267855,
+      "y": -0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 225 reverse",
+      "seconds": 0.95,
+      "x": 0.1267855,
+      "y": 0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 225 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 270 out",
+      "seconds": 0.95,
+      "x": -0.2819078,
+      "y": -0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 270 reverse",
+      "seconds": 0.95,
+      "x": 0.2819078,
+      "y": 0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 270 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 315 out",
+      "seconds": 0.95,
+      "x": -0.2718923,
+      "y": 0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 315 reverse",
+      "seconds": 0.95,
+      "x": 0.2718923,
+      "y": -0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren near-zero starts 315 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren return to clear circulation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 0 out",
+      "seconds": 1.2,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 0 reverse",
+      "seconds": 1.2,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 0 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 45 out",
+      "seconds": 1.2,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 45 reverse",
+      "seconds": 1.2,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 45 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 90 out",
+      "seconds": 1.2,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 90 reverse",
+      "seconds": 1.2,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 90 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 135 out",
+      "seconds": 1.2,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 135 reverse",
+      "seconds": 1.2,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 135 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 180 out",
+      "seconds": 1.2,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 180 reverse",
+      "seconds": 1.2,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 180 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 225 out",
+      "seconds": 1.2,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 225 reverse",
+      "seconds": 1.2,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 225 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 270 out",
+      "seconds": 1.2,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 270 reverse",
+      "seconds": 1.2,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 270 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 315 out",
+      "seconds": 1.2,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 315 reverse",
+      "seconds": 1.2,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren ordinary travel 315 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren return to clear circulation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 0 out",
+      "seconds": 0.55,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 0 reverse",
+      "seconds": 0.55,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 0 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 45 out",
+      "seconds": 0.55,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 45 reverse",
+      "seconds": 0.55,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 45 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 90 out",
+      "seconds": 0.55,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 90 reverse",
+      "seconds": 0.55,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 90 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 135 out",
+      "seconds": 0.55,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 135 reverse",
+      "seconds": 0.55,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 135 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 180 out",
+      "seconds": 0.55,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 180 reverse",
+      "seconds": 0.55,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 180 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 225 out",
+      "seconds": 0.55,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 225 reverse",
+      "seconds": 0.55,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 225 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 270 out",
+      "seconds": 0.55,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 270 reverse",
+      "seconds": 0.55,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 270 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 315 out",
+      "seconds": 0.55,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 315 reverse",
+      "seconds": 0.55,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint 315 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren return to clear circulation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren return to clear circulation",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren slow cycle out",
+      "seconds": 5,
+      "x": 0.2819078,
+      "y": 0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren slow cycle return",
+      "seconds": 5,
+      "x": -0.2819078,
+      "y": -0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren cycle stop",
+      "seconds": 1.5,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren travel cycle out",
+      "seconds": 3,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren travel cycle return",
+      "seconds": 3,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren cycle stop",
+      "seconds": 1.5,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint cycle out",
+      "seconds": 3,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren sprint cycle return",
+      "seconds": 3,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren cycle stop",
+      "seconds": 1.5,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "swap to Sela",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "release swap and finish form settling",
+      "seconds": 0.8,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela return to clear circulation",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 0 out",
+      "seconds": 0.95,
+      "x": -0.102606,
+      "y": 0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 0 reverse",
+      "seconds": 0.95,
+      "x": 0.102606,
+      "y": -0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 0 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 45 out",
+      "seconds": 0.95,
+      "x": 0.1267855,
+      "y": 0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 45 reverse",
+      "seconds": 0.95,
+      "x": -0.1267855,
+      "y": -0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 45 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 90 out",
+      "seconds": 0.95,
+      "x": 0.2819078,
+      "y": 0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 90 reverse",
+      "seconds": 0.95,
+      "x": -0.2819078,
+      "y": -0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 90 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 135 out",
+      "seconds": 0.95,
+      "x": 0.2718923,
+      "y": -0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 135 reverse",
+      "seconds": 0.95,
+      "x": -0.2718923,
+      "y": 0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 135 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 180 out",
+      "seconds": 0.95,
+      "x": 0.102606,
+      "y": -0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 180 reverse",
+      "seconds": 0.95,
+      "x": -0.102606,
+      "y": 0.2819078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 180 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 225 out",
+      "seconds": 0.95,
+      "x": -0.1267855,
+      "y": -0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 225 reverse",
+      "seconds": 0.95,
+      "x": 0.1267855,
+      "y": 0.2718923,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 225 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 270 out",
+      "seconds": 0.95,
+      "x": -0.2819078,
+      "y": -0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 270 reverse",
+      "seconds": 0.95,
+      "x": 0.2819078,
+      "y": 0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 270 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 315 out",
+      "seconds": 0.95,
+      "x": -0.2718923,
+      "y": 0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 315 reverse",
+      "seconds": 0.95,
+      "x": 0.2718923,
+      "y": -0.1267855,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela near-zero starts 315 planted stop",
+      "seconds": 0.6,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela return to clear circulation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 0 out",
+      "seconds": 1.2,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 0 reverse",
+      "seconds": 1.2,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 0 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 45 out",
+      "seconds": 1.2,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 45 reverse",
+      "seconds": 1.2,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 45 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 90 out",
+      "seconds": 1.2,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 90 reverse",
+      "seconds": 1.2,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 90 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 135 out",
+      "seconds": 1.2,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 135 reverse",
+      "seconds": 1.2,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 135 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 180 out",
+      "seconds": 1.2,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 180 reverse",
+      "seconds": 1.2,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 180 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 225 out",
+      "seconds": 1.2,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 225 reverse",
+      "seconds": 1.2,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 225 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 270 out",
+      "seconds": 1.2,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 270 reverse",
+      "seconds": 1.2,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 270 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 315 out",
+      "seconds": 1.2,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 315 reverse",
+      "seconds": 1.2,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela ordinary travel 315 planted stop",
+      "seconds": 0.35,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela return to clear circulation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 0 out",
+      "seconds": 0.55,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 0 reverse",
+      "seconds": 0.55,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 0 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 45 out",
+      "seconds": 0.55,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 45 reverse",
+      "seconds": 0.55,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 45 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 90 out",
+      "seconds": 0.55,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 90 reverse",
+      "seconds": 0.55,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 90 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 135 out",
+      "seconds": 0.55,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 135 reverse",
+      "seconds": 0.55,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 135 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 180 out",
+      "seconds": 0.55,
+      "x": 0.3420201,
+      "y": -0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 180 reverse",
+      "seconds": 0.55,
+      "x": -0.3420201,
+      "y": 0.9396926,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 180 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 225 out",
+      "seconds": 0.55,
+      "x": -0.4226183,
+      "y": -0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 225 reverse",
+      "seconds": 0.55,
+      "x": 0.4226183,
+      "y": 0.9063078,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 225 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 270 out",
+      "seconds": 0.55,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 270 reverse",
+      "seconds": 0.55,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 270 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 315 out",
+      "seconds": 0.55,
+      "x": -0.9063078,
+      "y": 0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 315 reverse",
+      "seconds": 0.55,
+      "x": 0.9063078,
+      "y": -0.4226183,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint 315 planted stop",
+      "seconds": 0.7,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela return to clear circulation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -11
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela return to clear circulation",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela slow cycle out",
+      "seconds": 5,
+      "x": 0.2819078,
+      "y": 0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela slow cycle return",
+      "seconds": 5,
+      "x": -0.2819078,
+      "y": -0.102606,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela cycle stop",
+      "seconds": 1.5,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela travel cycle out",
+      "seconds": 3,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela travel cycle return",
+      "seconds": 3,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 0,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela cycle stop",
+      "seconds": 1.5,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint cycle out",
+      "seconds": 3,
+      "x": 0.9396926,
+      "y": 0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela sprint cycle return",
+      "seconds": 3,
+      "x": -0.9396926,
+      "y": -0.3420201,
+      "rightTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela cycle stop",
+      "seconds": 1.5,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    }
+  ]
+}

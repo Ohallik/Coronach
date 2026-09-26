@@ -16,7 +16,7 @@ namespace Lattice.EditorTools
         public static readonly float[] HullX = { -28, 0, 28 };
         public static readonly string[] DockIds = { "Office", "Shop", "Repair" };
         public const float Front = -16, Back = 24, HalfWidth = 12;
-        public const float PublicZ = -3, ServiceZ = 21.5f, DockZ = -19;
+        public const float PublicZ = -3, ServiceZ = 21.5f, DockZ = -22;
         static bool blockout;
 
         public static void Blockout() => BatchTools.Run(() => Build(true));
@@ -69,19 +69,28 @@ namespace Lattice.EditorTools
             for(int side=-1;side<=1;side+=2)
             {
                 float x=-28+side*5;
-                Wall(x,14.5f,1,9,1.1f);
+                // Split the cabin frontage at actual hatch openings; a wall
+                // continuing across the panel looked like a barricaded door.
+                Wall(x,10.475f,1,.95f,1.1f);Wall(x,14.5f,1,1.9f,1.1f);Wall(x,18.525f,1,.95f,1.1f);
                 Wall(-28+side*8.5f,14.5f,7,.4f,1.1f);
                 foreach(float z in new[]{12.25f,16.75f})
                 {
                     var door=Piece("DeckDoorway",new Vector3(x,1.6f,z),new Vector3(3.2f,3.2f,.5f),false);
                     door.transform.rotation=Quaternion.Euler(0,90,0);
+                    if(!grey)StationSurfaces.ClosedHatch(door,90);
+                    else {var panel=Piece("DeckWall",new Vector3(x,1.5f,z),new Vector3(.16f,2.7f,2.2f));panel.name="Closed cabin hatch blockout";}
                     // Closed private rooms have actual volumes behind their frontages.
                     Prop("DeckBench",-28+side*8.5f,z,1);Prop("DeckCrate",-28+side*10,z+1.25f,.8f);
                 }
             }
             // Shared galley: paired seats, central tables and a provision counter.
             for(int side=-1;side<=1;side+=2)
-            {Prop("DeckBench",side*5,12,1);Prop("DeckBench",side*5,17,1);Prop("DeckConsole",side*5,14.5f,.85f);}
+            {
+                Prop("DeckBench",side*5,12,1).transform.rotation=Quaternion.Euler(0,180,0);
+                Prop("DeckBench",side*5,17,1);
+                var table=Prop("DeckCrate",side*5,14.5f,.75f);
+                if(!grey)StationSurfaces.Fit(table,new Vector3(2.4f,.75f,1.4f));
+            }
             Prop("DeckConsole",8,17,1.5f);
             WorldBuilder.Label("ARRIVALS / DOCK OFFICE",new Vector3(-28,.12f,-2),1.2f);
             WorldBuilder.Label("MARKET / GALLEY",new Vector3(0,.12f,-2),1.2f);
@@ -136,7 +145,10 @@ namespace Lattice.EditorTools
         }
         static void Hull(float x,bool exterior)
         {
-            Floor(x,4,24,40);
+            // Different floor finishes follow actual rooms and circulation.
+            Floor(x,-11.5f,24,9,"arrival");Floor(x,-3.5f,24,7,"public");
+            Floor(x,5,24,10,x==28?"work":"rooms");
+            Floor(x,14.5f,24,9,x==28?"work":"quiet");Floor(x,21.5f,24,5,"service");
             // Side bulkheads have openings only at the two enclosed bridge levels.
             foreach(int side in new[]{-1,1})
             {
@@ -161,7 +173,27 @@ namespace Lattice.EditorTools
             // Closed outer pressure hatch; launch is an interaction at the dock.
             // It must not be an unbounded walk off the end of the floor.
             Wall(x,-20,4,.5f,exterior?3.5f:1.1f);
-            if(exterior)Piece("DeckFloor",new Vector3(x,3.65f,-18),new Vector3(4,.5f,4));
+            if(exterior)
+            {
+                Piece("DeckFloor",new Vector3(x,3.65f,-18),new Vector3(4,.5f,4));
+                // The exposed docking apron meets a visible closed pressure hatch.
+                // It sits outside the neck, so its pad is not buried in the hull.
+                Floor(x,-22,7,4,"arrival");
+                if(!blockout)
+                {
+                    var hatch=Piece("DeckDoorway",new Vector3(x,1.6f,-20.3f),new Vector3(4,3.2f,.6f),false);
+                    StationSurfaces.ClosedHatch(hatch,0);
+                    // Enclosed roof plant volume, connected to the utility keel;
+                    // varied crowns make the converted vessels legible outside.
+                    float width=x==-28?10:x==0?12:7,depth=x==28?16:10;
+                    foreach(int side in new[]{-1,1})
+                    {
+                        Piece("DeckWall",new Vector3(x+side*width*.5f,4.65f,14),new Vector3(.3f,1.5f,depth));
+                        Piece("DeckWall",new Vector3(x,4.65f,14+side*depth*.5f),new Vector3(width,1.5f,.3f));
+                    }
+                    Piece("DeckFloor",new Vector3(x,5.5f,14),new Vector3(width,.2f,depth));
+                }
+            }
         }
         static void Bridges(bool exterior)
         {
@@ -181,14 +213,23 @@ namespace Lattice.EditorTools
             if(!solid)foreach(var collider in piece.GetComponentsInChildren<Collider>())UnityEngine.Object.DestroyImmediate(collider);
             return piece;
         }
-        static void Floor(float x,float z,float width,float depth)=>Piece("DeckFloor",new Vector3(x,-.4f,z),new Vector3(width,.8f,depth));
+        static void Floor(float x,float z,float width,float depth,string area="public")
+        {
+            var floor=Piece("DeckFloor",new Vector3(x,-.08f,z),new Vector3(width,.16f,depth));
+            if(!blockout)StationSurfaces.FloorFinish(floor,area);
+        }
         static void Wall(float x,float z,float width,float depth,float height)=>Piece("DeckWall",new Vector3(x,height*.5f,z),new Vector3(width,height,depth));
         static void SplitWall(float x,float z,float width,float opening,float height)
         {float span=(width-opening)*.5f;foreach(int side in new[]{-1,1})Wall(x+side*(opening*.5f+span*.5f),z,span,.5f,height);}
         static void Door(float x,float z)
         {
             if(blockout){foreach(int side in new[]{-1,1})Wall(x+side*2,z,.3f,.6f,3.2f);Piece("DeckWall",new Vector3(x,3.1f,z),new Vector3(4,.3f,.6f));}
-            else Piece("DeckDoorway",new Vector3(x,1.6f,z),new Vector3(4,3.2f,.6f),false);
+            else
+            {
+                var frame=Piece("DeckDoorway",new Vector3(x,1.6f,z),new Vector3(4,3.2f,.6f),false);
+                StationSurfaces.Fit(frame,new Vector3(4,3.2f,.6f));
+                StationSurfaces.DoorwayCollision(frame);
+            }
         }
         static GameObject Prop(string key,float x,float z,float height)=>Piece(key,new Vector3(x,height*.5f,z),new Vector3(2,height,2));
     }

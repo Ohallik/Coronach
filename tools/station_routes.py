@@ -65,13 +65,18 @@ for base,first,warm in [('station-decks',steps,warm_steps),('station-tallow',tal
         print(data['name'],sum(s['seconds'] for s in data['steps']))
 
 write('station-dock','Hub_CinderHalo',[
-    move('office attached dock approach',-28,-22,9,leftTrigger=1),action('dock office',2,['South'],expectedScene='Hub_Decks'),
+    move('office attached dock approach',-28,-25,9,leftTrigger=1),action('dock office',2,['South'],expectedScene='Hub_Decks'),
     action('interior arrival',2,expectedScene='Hub_Decks'),move('office launch hatch',-28,-13,3,expectedScene='Hub_Decks'),
     action('launch office',2,['South']),action('release launch office',.3),move('brake clear of hull',-28,-31,6,leftTrigger=1),
-    move('cross approach to market',0,-31,17,leftTrigger=1),move('market attached dock',0,-22,7,leftTrigger=1),
+    move('cross approach to market',0,-31,17,leftTrigger=1),move('market attached dock',0,-25,7,leftTrigger=1),
     action('dock market',2,['South'],expectedScene='Hub_Decks'),action('market arrival',2,expectedScene='Hub_Decks'),
     move('market launch hatch',0,-13,3,expectedScene='Hub_Decks'),action('launch market',2,['South']),action('release launch market',.3),
     move('market braking clearance',0,-31,6,leftTrigger=1),move('receiving approach lane',28,-31,17,leftTrigger=1),
-    move('repair attached dock',28,-22,7,leftTrigger=1),action('dock repair',2,['South'],expectedScene='Hub_Decks'),
+    move('repair attached dock',28,-25,7,leftTrigger=1),action('dock repair',2,['South'],expectedScene='Hub_Decks'),
     action('repair arrival',2,expectedScene='Hub_Decks'),move('repair launch hatch',28,-13,3,expectedScene='Hub_Decks'),
     action('launch repair',2,['South']),action('release launch repair',.3),move('repair braking clearance',28,-31,6,leftTrigger=1)])
+
+for base in ('station-decks','station-tallow'):
+    data=json.loads((dest/(base+'.json')).read_text())
+    data['name']=base+'-headroom';data['frameCap']=-1
+    (dest/(data['name']+'.json')).write_text(json.dumps(data,indent=2)+'\n')

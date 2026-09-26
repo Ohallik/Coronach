@@ -22,6 +22,7 @@ namespace Lattice.Combat
             for(int i=0;i<members.Length;i++)
             {
                 var m=members[i];m.flight=zone.Flight;m.damageScale=i==index?1:.6f;
+                if(!zone.Combat)m.TargetLocked=false;
                 m.GetComponent<PlayerBrain>().enabled=i==index;m.GetComponent<PartnerBrain>().enabled=i!=index;
                 var ground=m.GetComponent<GroundMotor>();var flight=m.GetComponent<FlightMotor>();ground.enabled=!zone.Flight;flight.enabled=zone.Flight;
                 flight.plane=zone.definition.flightPlane;m.motor=zone.Flight?(IMotor)flight:ground;
@@ -32,7 +33,7 @@ namespace Lattice.Combat
         public bool Swap()
         {
             int next=(index+1)%members.Length;if(next==index||!members[next].Health.Alive)return false;
-            Health target=Active.target;index=next;Active.target=target;Apply();
+            Health target=Active.target;bool locked=Active.TargetLocked;index=next;Active.target=target;Apply();Active.TargetLocked=locked&&target!=null&&target.Alive;
             GameServices.Current.State.activeMember=index;SwapCount++;
             if(ZoneController.Current.Combat)CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35));
             BarkService.Play(Active.character,"swap",true);Debug.Log("SWAP_OK");return true;

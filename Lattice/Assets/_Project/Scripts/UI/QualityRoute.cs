@@ -9,6 +9,7 @@ namespace Lattice.UI
     {
         public string name, scene, sourceRevision;
         public float settleSeconds = 5;
+        public float screenshotInterval;
         public int frameCap = 60;
         public bool starterParty = true;
         public QualityStep[] steps;
@@ -21,7 +22,7 @@ namespace Lattice.UI
     }
     [Serializable] public sealed class QualityStep
     {
-        public string name, expectedScene, expectedCharacter, expectedUi, expectedFlag;
+        public string name, expectedScene, expectedCharacter, expectedForm, expectedUi, expectedFlag;
         public string until;
         public float seconds = 1, x, y, leftTrigger, rightTrigger;
         public bool navigate;

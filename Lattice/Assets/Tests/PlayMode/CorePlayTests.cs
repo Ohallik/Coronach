@@ -76,6 +76,14 @@ namespace Lattice.Tests.PlayMode
             while(enemy!=null&&enemy.Health.Alive&&Time.realtimeSinceStartup<until){actor.Attack();yield return new WaitForSecondsRealtime(.32f);}
             Assert.IsTrue(enemy==null||!enemy.Health.Alive,"real attack volumes must kill the enemy");Assert.Greater(actor.Kills,0);
         }
+        [UnityTest]public IEnumerator ReapplyingCurrentFormDoesNotRestartTheTransformation()
+        {
+            var actor=PartyController.Current.Active;var form=actor.GetComponent<FormController>();
+            Assert.IsFalse(form.Shaping);Assert.AreEqual(BodyForm.Shaped,form.Current);
+            form.Set(form.Current);yield return null;
+            Assert.IsFalse(form.Shaping,"party refresh/swap must not shrink an already settled body into the same form");
+            Assert.That(Vector3.Distance(form.shaped.transform.localScale,Vector3.one),Is.LessThan(.001f));
+        }
         [UnityTest]public IEnumerator GroundContactWaitsForSwingAndDodgeCancelsIt()
         {
             // Setup disables partner brains after entering the arena. Let their

@@ -1,0 +1,2483 @@
+{
+  "date": "2026-09-26",
+  "source": "f04448d plus station surface/collision and timing instrumentation changes; exact packaged hashes retained per run",
+  "status": "C1 OPEN; latest locomotion/floor build needs timing rerun, explicit census and observed motion; Decks GPU counter invalid; Tallow stability focus rejection retained",
+  "runs": [
+    {
+      "path": "Builds/quality/C1/station-after-01-development-decks-1",
+      "route": "station-decks-first-warm",
+      "build": "Development",
+      "captured": false,
+      "profiled": false,
+      "valid": true,
+      "failures": [],
+      "seconds": 250.761388,
+      "samples": 15046,
+      "assemblies": [
+        {
+          "hash": "DC71BFD743F85E43D79CB4A759A4442D001810E4FE16BA4C6409BD7FBFDF81FA",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "54FAC7457892A9953D00F5E6A5C8393DE6FA2DB88FEAC2D1831192CE696198C9",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "FF6EE6D2FC90C6960AFD020F19E6E73CF4F66E04BB7030707B61B10C22462332",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "9D4B8888301316D9FD298F9394D4A87D61B08E4C18312CE8A93C1E6D27CD9515",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "3588E4EA13F04326218C873CD33268F8A14BEDFEBB6C9978A5687BDE75D726C5",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "77D87CB7DF9A183EC3F56EF66F4A057CA2A038513A3059A18533C717909CE435",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "3E65AEA39D9D3065BB60069518C78F19529BC38C53840B31DFA02B9BC0FB6EDD",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "files": [
+        {
+          "name": "frames.csv",
+          "sha256": "dcddf7920370f4b0cd0c3cd7f6c73678ca89299c2e4dc77feff13386c1463dd0",
+          "bytes": 3968215
+        },
+        {
+          "name": "run.json",
+          "sha256": "f7341fd9e6577cf226f2fe88983b483106178669b0e3bbc11e7b4eb15b075dc4",
+          "bytes": 1764
+        },
+        {
+          "name": "route.json",
+          "sha256": "50f201ce5ae01d2fcb4d516b8575f6fb5e6fccabfedd2b16d63fc03b8ba75036",
+          "bytes": 44388
+        },
+        {
+          "name": "analysis.json",
+          "sha256": "8b43daf09051a633819f3915586ba17293b998d13781e87e72a484995a360f0a",
+          "bytes": 14249
+        },
+        {
+          "name": "build.json",
+          "sha256": "c257e6eddd7a038b23f94ecec98691fb57084fdbeff26583eaf7453eedc5f3d8",
+          "bytes": 11481
+        }
+      ],
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "samples": 7480,
+          "seconds": 124.6522429,
+          "p95Ms": 16.9842,
+          "p99Ms": 17.1216,
+          "worstMs": 25.2062,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "samples": 7566,
+          "seconds": 126.10914560000002,
+          "p95Ms": 16.964,
+          "p99Ms": 17.1017,
+          "worstMs": 19.1779,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C1/station-after-01-development-tallow-1",
+      "route": "station-tallow-first-warm",
+      "build": "Development",
+      "captured": false,
+      "profiled": false,
+      "valid": true,
+      "failures": [],
+      "seconds": 240.30892,
+      "samples": 14419,
+      "assemblies": [
+        {
+          "hash": "DC71BFD743F85E43D79CB4A759A4442D001810E4FE16BA4C6409BD7FBFDF81FA",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "54FAC7457892A9953D00F5E6A5C8393DE6FA2DB88FEAC2D1831192CE696198C9",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "FF6EE6D2FC90C6960AFD020F19E6E73CF4F66E04BB7030707B61B10C22462332",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "9D4B8888301316D9FD298F9394D4A87D61B08E4C18312CE8A93C1E6D27CD9515",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "3588E4EA13F04326218C873CD33268F8A14BEDFEBB6C9978A5687BDE75D726C5",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "77D87CB7DF9A183EC3F56EF66F4A057CA2A038513A3059A18533C717909CE435",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "3E65AEA39D9D3065BB60069518C78F19529BC38C53840B31DFA02B9BC0FB6EDD",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "files": [
+        {
+          "name": "frames.csv",
+          "sha256": "f8e96bc799a70daa7ee4ab6cc6050521131d7ff57f9e0d2f477e750777e7d155",
+          "bytes": 3828767
+        },
+        {
+          "name": "run.json",
+          "sha256": "52c62545c40e38595ec3d5f683b2301edf35836e5e2acca2d9aabba2c2752a86",
+          "bytes": 1098
+        },
+        {
+          "name": "route.json",
+          "sha256": "eda938fe27c336515c9ae0fc9138fc0c1c021f65d6f2d9d9e3bcbe021ae9065b",
+          "bytes": 41356
+        },
+        {
+          "name": "analysis.json",
+          "sha256": "0ffeb16a02b18cef5bef9c08bdc943029288e1b15b9eaf133635b5ecf63fe4ae",
+          "bytes": 12848
+        },
+        {
+          "name": "build.json",
+          "sha256": "2f64e1adfc72c1dcfe0fb9d26242287281a0ff6f66162a1179febd8f36312ecc",
+          "bytes": 11481
+        }
+      ],
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "samples": 7208,
+          "seconds": 120.120412,
+          "p95Ms": 16.9558,
+          "p99Ms": 17.0817,
+          "worstMs": 19.8834,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "samples": 7211,
+          "seconds": 120.1885087,
+          "p95Ms": 16.9554,
+          "p99Ms": 17.0655,
+          "worstMs": 18.8828,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C1/station-after-01-release-decks-1",
+      "route": "station-decks-first-warm",
+      "build": "Release",
+      "captured": false,
+      "profiled": false,
+      "valid": true,
+      "failures": [],
+      "seconds": 250.714927,
+      "samples": 15043,
+      "assemblies": [
+        {
+          "hash": "441D65259CF6E33F93312DC9032E235709FF8A6742D078B1F4C84E463A22D9D2",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "ECA56B3FCF6D69AE91A4977D0D1232D66BDE127ED21BFD7F70E24EEA7D55F2F7",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "2B5B9FDDE2C73C28F1E9C3354B87BB676AA8C37C3CE768F1B3B131FE3A12F4A1",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "4DFB844A2D4A48B51B6BCCBBCC8976DFE209BB45F8C711EA72EE4B16E6C8EC59",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "B8361F608537C1B7674FA34C51C10A48AE8C6EFDDA99979747CB703A26E9272E",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "EB4E150770AD095D866BAF4B4C119C4DF8E892A40FA3B6392458C89F1D889D11",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "4E7B562D6FCA5CAD7C5CDA05EDBD49E0A98F1B494431C05297AA8BA09CB3121E",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "files": [
+        {
+          "name": "frames.csv",
+          "sha256": "2451bf218b8d9987f6e6bdb6fbcb354dcc193d507998e436cbf308dd054f603b",
+          "bytes": 3862088
+        },
+        {
+          "name": "run.json",
+          "sha256": "a98a8aa29949792cae7149436fd57320142fcb8f443d18f23028d178113c5a1b",
+          "bytes": 1771
+        },
+        {
+          "name": "route.json",
+          "sha256": "50f201ce5ae01d2fcb4d516b8575f6fb5e6fccabfedd2b16d63fc03b8ba75036",
+          "bytes": 44388
+        },
+        {
+          "name": "analysis.json",
+          "sha256": "bb3768adbe2a8165b30289079182d87b8728d01029b04b2a8aa0ce8e24d51d0d",
+          "bytes": 13544
+        },
+        {
+          "name": "build.json",
+          "sha256": "df8db8deba4430972627efcfac968b4d9d464f718a20ee5b0e42282c59e389af",
+          "bytes": 11477
+        }
+      ],
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "samples": 7478,
+          "seconds": 124.62360190000001,
+          "p95Ms": 16.9456,
+          "p99Ms": 17.0527,
+          "worstMs": 25.3424,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "samples": 7565,
+          "seconds": 126.0913252,
+          "p95Ms": 16.9389,
+          "p99Ms": 17.0479,
+          "worstMs": 18.5305,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C1/station-after-01-release-tallow-1",
+      "route": "station-tallow-first-warm",
+      "build": "Release",
+      "captured": false,
+      "profiled": false,
+      "valid": true,
+      "failures": [],
+      "seconds": 240.165783,
+      "samples": 14410,
+      "assemblies": [
+        {
+          "hash": "441D65259CF6E33F93312DC9032E235709FF8A6742D078B1F4C84E463A22D9D2",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "ECA56B3FCF6D69AE91A4977D0D1232D66BDE127ED21BFD7F70E24EEA7D55F2F7",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "2B5B9FDDE2C73C28F1E9C3354B87BB676AA8C37C3CE768F1B3B131FE3A12F4A1",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "4DFB844A2D4A48B51B6BCCBBCC8976DFE209BB45F8C711EA72EE4B16E6C8EC59",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "B8361F608537C1B7674FA34C51C10A48AE8C6EFDDA99979747CB703A26E9272E",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "EB4E150770AD095D866BAF4B4C119C4DF8E892A40FA3B6392458C89F1D889D11",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "4E7B562D6FCA5CAD7C5CDA05EDBD49E0A98F1B494431C05297AA8BA09CB3121E",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "files": [
+        {
+          "name": "frames.csv",
+          "sha256": "ef8dc5757645b76e60f7c163a172ef6d6c4709f7303eba936762f2f3d92a1b43",
+          "bytes": 3739952
+        },
+        {
+          "name": "run.json",
+          "sha256": "8e4fbd584e06f93abc481489c1c2f8a864d7eb380b06c9e7ef2e07c3ce201f9b",
+          "bytes": 1086
+        },
+        {
+          "name": "route.json",
+          "sha256": "eda938fe27c336515c9ae0fc9138fc0c1c021f65d6f2d9d9e3bcbe021ae9065b",
+          "bytes": 41356
+        },
+        {
+          "name": "analysis.json",
+          "sha256": "eb8b1c9f2b513731a295fcd50323fe43614b7b75b21e31500a66bd2cd926e136",
+          "bytes": 12109
+        },
+        {
+          "name": "build.json",
+          "sha256": "42103675772397b8df729c8b889e7fac2acc3a63a9178ed90427913db5f59e85",
+          "bytes": 11477
+        }
+      ],
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "samples": 7206,
+          "seconds": 120.089957,
+          "p95Ms": 16.9114,
+          "p99Ms": 17.0167,
+          "worstMs": 19.5677,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "samples": 7204,
+          "seconds": 120.0758263,
+          "p95Ms": 16.9177,
+          "p99Ms": 17.0305,
+          "worstMs": 20.3002,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C1/headroom-01-development-decks",
+      "route": "station-decks-headroom",
+      "build": "Development",
+      "captured": false,
+      "profiled": false,
+      "valid": false,
+      "failures": [
+        "gpuWorkNs: impossible frame duration; counter evidence rejected"
+      ],
+      "seconds": 124.53707,
+      "samples": 77779,
+      "assemblies": [
+        {
+          "hash": "9336B864489FFB8706B4B0ECEA85FB91F1EC5AF6391A0338AAC47D63D089BE95",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "54FAC7457892A9953D00F5E6A5C8393DE6FA2DB88FEAC2D1831192CE696198C9",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "FF6EE6D2FC90C6960AFD020F19E6E73CF4F66E04BB7030707B61B10C22462332",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "9D4B8888301316D9FD298F9394D4A87D61B08E4C18312CE8A93C1E6D27CD9515",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "3588E4EA13F04326218C873CD33268F8A14BEDFEBB6C9978A5687BDE75D726C5",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "B6CB01EE58ADBEA1477AA550F1070368151DCDE3467051AAD6284556B2C777D4",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "857939D2582862989241F7EAC979D101E0B9027FCE8D4FD48A05051AEE3CDFAB",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "files": [
+        {
+          "name": "frames.csv",
+          "sha256": "0ca01c7724e8e6e3df5a5f4d3cde9a341fe5926531fdbfef2625431857431c91",
+          "bytes": 22246351
+        },
+        {
+          "name": "run.json",
+          "sha256": "f6e6588d3a079073972cbd35f5e0b64dba12c87bf5957b1ee1d329fa624e7af6",
+          "bytes": 1321
+        },
+        {
+          "name": "route.json",
+          "sha256": "71caffb5fa365c1cd498c178f59aaa0770fd29455f45a0658feb78fb825225c9",
+          "bytes": 22887
+        },
+        {
+          "name": "analysis-counter-validated.json",
+          "sha256": "6e991daa0d90e0b39af11ef2142e3eaaaca360495cb1d322e3199bfcd232dad3",
+          "bytes": 5332
+        },
+        {
+          "name": "build.json",
+          "sha256": "ebe2c215f8d5201739bfc74490f9081a369465c62b404a95b6c657a30d6ca0d4",
+          "bytes": 11481
+        }
+      ],
+      "segments": [],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 77778,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 0.9925,
+          "p99Ms": 1.1258,
+          "worstMs": 10.7781,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 77778,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.9073,
+          "p99Ms": 1.9983,
+          "worstMs": 3.9149,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 72656,
+          "unavailableOrPendingSamples": 5123,
+          "p95Ms": 1.902592,
+          "p99Ms": 2.029056,
+          "worstMs": 1790456079119.5764,
+          "impossibleSamples": [
+            {
+              "elapsed": 31.671624,
+              "nanoseconds": 1790456037195915776
+            },
+            {
+              "elapsed": 73.594834,
+              "nanoseconds": 1790456079119576320
+            }
+          ]
+        }
+      }
+    },
+    {
+      "path": "Builds/quality/C1/headroom-01-development-tallow",
+      "route": "station-tallow-headroom",
+      "build": "Development",
+      "captured": false,
+      "profiled": false,
+      "valid": true,
+      "failures": [],
+      "seconds": 120.018002,
+      "samples": 105704,
+      "assemblies": [
+        {
+          "hash": "9336B864489FFB8706B4B0ECEA85FB91F1EC5AF6391A0338AAC47D63D089BE95",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "54FAC7457892A9953D00F5E6A5C8393DE6FA2DB88FEAC2D1831192CE696198C9",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "FF6EE6D2FC90C6960AFD020F19E6E73CF4F66E04BB7030707B61B10C22462332",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "9D4B8888301316D9FD298F9394D4A87D61B08E4C18312CE8A93C1E6D27CD9515",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "3588E4EA13F04326218C873CD33268F8A14BEDFEBB6C9978A5687BDE75D726C5",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "B6CB01EE58ADBEA1477AA550F1070368151DCDE3467051AAD6284556B2C777D4",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "857939D2582862989241F7EAC979D101E0B9027FCE8D4FD48A05051AEE3CDFAB",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "files": [
+        {
+          "name": "frames.csv",
+          "sha256": "5ccbae94d89bfa299695a94ac02442c54309b485bc2a2c485a528348f36864fe",
+          "bytes": 30290670
+        },
+        {
+          "name": "run.json",
+          "sha256": "f62328740315fac6fd27c7334bb4676a323fa51969d1f09b1d62428cb6d58d91",
+          "bytes": 974
+        },
+        {
+          "name": "route.json",
+          "sha256": "97437c3b396e0ca494423917afaf58d426d5302cffd51b7a3ee3a832a28b5e05",
+          "bytes": 20695
+        },
+        {
+          "name": "analysis-counter-validated.json",
+          "sha256": "d4dd39a56328e6b0caf19f145fe163523ff5e9671a6635eb08c7aa87dd1470f5",
+          "bytes": 4712
+        },
+        {
+          "name": "build.json",
+          "sha256": "2bca1d9940761eb36e47f5e6d5f76191e9fd34bf2d65f138a09b3edd0aa017b9",
+          "bytes": 11481
+        }
+      ],
+      "segments": [],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 105703,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 0.9523,
+          "p99Ms": 1.0847,
+          "worstMs": 9.4404,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 105703,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.181,
+          "p99Ms": 1.2584,
+          "worstMs": 1.638,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 102789,
+          "unavailableOrPendingSamples": 2915,
+          "p95Ms": 1.243392,
+          "p99Ms": 1.348864,
+          "worstMs": 4.085759,
+          "impossibleSamples": []
+        }
+      }
+    },
+    {
+      "path": "Builds/quality/C1/station-stability-01-release-decks-1",
+      "route": "station-decks-ten-minute",
+      "build": "Release",
+      "valid": true,
+      "failures": [],
+      "seconds": 628.92246,
+      "samples": 37734,
+      "assemblies": [
+        {
+          "hash": "28D01B11D2923DAC103BC2758D9D3B77D2251EE62B2CDEDA9DABE376589647BD",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "ECA56B3FCF6D69AE91A4977D0D1232D66BDE127ED21BFD7F70E24EEA7D55F2F7",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "2B5B9FDDE2C73C28F1E9C3354B87BB676AA8C37C3CE768F1B3B131FE3A12F4A1",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "4DFB844A2D4A48B51B6BCCBBCC8976DFE209BB45F8C711EA72EE4B16E6C8EC59",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "B8361F608537C1B7674FA34C51C10A48AE8C6EFDDA99979747CB703A26E9272E",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "48A902BB81DA43D9F50B18013A0AA059EFF7F04FEFA9AAF0D36DA74BD05DE4B3",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "70EE9FFE93FACD72B636A614D6E8F45B925FAAF00239A5C18898D9A0B31AAA6C",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "p95Ms": 16.9305,
+      "p99Ms": 17.0363,
+      "worstMs": 25.3704,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "failures": [],
+          "samples": 7477,
+          "seconds": 124.60580209999999,
+          "distance": 225.33288934742276,
+          "medianMs": 16.6683,
+          "p95Ms": 16.9472,
+          "p99Ms": 17.065,
+          "worstMs": 25.3704,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 4211,
+          "stoppedCameraWhileWalking": 90,
+          "interactions": [
+            {
+              "step": 5,
+              "expectedUi": "dialogue",
+              "inputSeconds": 25.049436,
+              "visibleResponseMs": 3.8021999999990896
+            },
+            {
+              "step": 11,
+              "expectedUi": "shop",
+              "inputSeconds": 37.5670791,
+              "visibleResponseMs": 6.8152999999995245
+            },
+            {
+              "step": 13,
+              "expectedUi": "world",
+              "inputSeconds": 43.5675564,
+              "visibleResponseMs": 0.8648999999962825
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 138555269,
+                "maximum": 140939705,
+                "minimum": 136388227,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 1
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 138685508,
+                "maximum": 141168443,
+                "minimum": 136909493,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 35.0586521,
+              "ms": 25.3704,
+              "checkpoint": "show choices",
+              "gcBytes": -1,
+              "gcCollections": 27,
+              "mainThreadNs": 16665800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 37.573894100000004,
+              "ms": 23.298,
+              "checkpoint": "choose stock",
+              "gcBytes": -1,
+              "gcCollections": 27,
+              "mainThreadNs": 16664900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 25.0532381,
+              "ms": 20.9926,
+              "checkpoint": "talk to Mira",
+              "gcBytes": -1,
+              "gcCollections": 26,
+              "mainThreadNs": 16661200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 109.6064301,
+              "ms": 17.5492,
+              "checkpoint": "swap to Sela",
+              "gcBytes": -1,
+              "gcCollections": 30,
+              "mainThreadNs": 16670000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 30.550374100000003,
+              "ms": 17.5311,
+              "checkpoint": "next line",
+              "gcBytes": -1,
+              "gcCollections": 26,
+              "mainThreadNs": 16661100,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 15.4992621,
+              "ms": 17.2853,
+              "checkpoint": "public bridge to market",
+              "gcBytes": -1,
+              "gcCollections": 26,
+              "mainThreadNs": 16665500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 77.2869291,
+              "ms": 17.2407,
+              "checkpoint": "shared galley",
+              "gcBytes": -1,
+              "gcCollections": 29,
+              "mainThreadNs": 16670500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 70.0034941,
+              "ms": 17.2244,
+              "checkpoint": "service bridge to provisions",
+              "gcBytes": -1,
+              "gcCollections": 28,
+              "mainThreadNs": 16657300,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "failures": [],
+          "samples": 7564,
+          "seconds": 126.07410560000001,
+          "distance": 240.46893653211507,
+          "medianMs": 16.6666,
+          "p95Ms": 16.9303,
+          "p99Ms": 17.0345,
+          "worstMs": 18.4832,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 4551,
+          "stoppedCameraWhileWalking": 97,
+          "interactions": [
+            {
+              "step": 5,
+              "expectedUi": "dialogue",
+              "inputSeconds": 149.6403204,
+              "visibleResponseMs": 0.9055999999816322
+            },
+            {
+              "step": 7,
+              "expectedUi": "shop",
+              "inputSeconds": 155.6571342,
+              "visibleResponseMs": 1.8795000000011441
+            },
+            {
+              "step": 9,
+              "expectedUi": "world",
+              "inputSeconds": 161.6576491,
+              "visibleResponseMs": 0.4864999999938391
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 138906234,
+                "maximum": 141475320,
+                "minimum": 137167021,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 139063318,
+                "maximum": 141747612,
+                "minimum": 137383523,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 33.10373460000001,
+              "ms": 18.4832,
+              "checkpoint": "inspect warm stock",
+              "gcBytes": -1,
+              "gcCollections": 33,
+              "mainThreadNs": 16665600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 31.05321160000001,
+              "ms": 18.1432,
+              "checkpoint": "advance to stock",
+              "gcBytes": -1,
+              "gcCollections": 32,
+              "mainThreadNs": 16670500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 0.20061259999999947,
+              "ms": 17.3681,
+              "checkpoint": "office airlock to promenade",
+              "gcBytes": -1,
+              "gcCollections": 31,
+              "mainThreadNs": 16960100,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 105.55648860000001,
+              "ms": 17.3186,
+              "checkpoint": "Sela port hull boundary",
+              "gcBytes": -1,
+              "gcCollections": 36,
+              "mainThreadNs": 17049800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 25.035423599999987,
+              "ms": 17.3184,
+              "checkpoint": "repeat Mira conversation",
+              "gcBytes": -1,
+              "gcCollections": 32,
+              "mainThreadNs": 16668000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 106.0568386,
+              "ms": 17.3069,
+              "checkpoint": "Sela port hull boundary",
+              "gcBytes": -1,
+              "gcCollections": 36,
+              "mainThreadNs": 16925200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 87.03807859999999,
+              "ms": 17.2635,
+              "checkpoint": "quiet cabin corridor",
+              "gcBytes": -1,
+              "gcCollections": 35,
+              "mainThreadNs": 16992200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 107.0407436,
+              "ms": 17.2125,
+              "checkpoint": "Sela port hull boundary",
+              "gcBytes": -1,
+              "gcCollections": 36,
+              "mainThreadNs": 16955700,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 2",
+          "valid": true,
+          "failures": [],
+          "samples": 7563,
+          "seconds": 126.0599656,
+          "distance": 240.30169427440453,
+          "medianMs": 16.6679,
+          "p95Ms": 16.9346,
+          "p99Ms": 17.0267,
+          "worstMs": 18.9411,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 4550,
+          "stoppedCameraWhileWalking": 99,
+          "interactions": [
+            {
+              "step": 5,
+              "expectedUi": "dialogue",
+              "inputSeconds": 275.732893,
+              "visibleResponseMs": 0.5077000000142107
+            },
+            {
+              "step": 7,
+              "expectedUi": "shop",
+              "inputSeconds": 281.7336396,
+              "visibleResponseMs": 1.7527999999629174
+            },
+            {
+              "step": 9,
+              "expectedUi": "world",
+              "inputSeconds": 287.7349096,
+              "visibleResponseMs": 0.4680000000121254
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 139183751,
+                "maximum": 141861344,
+                "minimum": 137602599,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 139368071,
+                "maximum": 141996965,
+                "minimum": 137806895,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 14.253965600000015,
+              "ms": 18.9411,
+              "checkpoint": "public bridge to market",
+              "gcBytes": -1,
+              "gcCollections": 38,
+              "mainThreadNs": 16670800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 31.055483600000002,
+              "ms": 18.3216,
+              "checkpoint": "advance to stock",
+              "gcBytes": -1,
+              "gcCollections": 38,
+              "mainThreadNs": 16778400,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 13.418900600000029,
+              "ms": 17.2206,
+              "checkpoint": "public bridge to market",
+              "gcBytes": -1,
+              "gcCollections": 37,
+              "mainThreadNs": 16670700,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 109.32587160000003,
+              "ms": 17.2165,
+              "checkpoint": "port wall contact",
+              "gcBytes": -1,
+              "gcCollections": 42,
+              "mainThreadNs": 16670700,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 92.0080246,
+              "ms": 17.2025,
+              "checkpoint": "housing back to office",
+              "gcBytes": -1,
+              "gcCollections": 41,
+              "mainThreadNs": 16818900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 106.82587060000003,
+              "ms": 17.1733,
+              "checkpoint": "Sela port hull boundary",
+              "gcBytes": -1,
+              "gcCollections": 42,
+              "mainThreadNs": 16674600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 65.62351360000002,
+              "ms": 17.1642,
+              "checkpoint": "service bridge to provisions",
+              "gcBytes": -1,
+              "gcCollections": 40,
+              "mainThreadNs": 17013200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 54.20658359999999,
+              "ms": 17.1634,
+              "checkpoint": "workshop center aisle",
+              "gcBytes": -1,
+              "gcCollections": 39,
+              "mainThreadNs": 16659900,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 3",
+          "valid": true,
+          "failures": [],
+          "samples": 7566,
+          "seconds": 126.11032189999997,
+          "distance": 240.32234627784985,
+          "medianMs": 16.6659,
+          "p95Ms": 16.906,
+          "p99Ms": 17.0199,
+          "worstMs": 19.4897,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 4551,
+          "stoppedCameraWhileWalking": 99,
+          "interactions": [
+            {
+              "step": 5,
+              "expectedUi": "dialogue",
+              "inputSeconds": 401.791118,
+              "visibleResponseMs": 0.6023999999911211
+            },
+            {
+              "step": 7,
+              "expectedUi": "shop",
+              "inputSeconds": 407.7915741,
+              "visibleResponseMs": 1.8099999999776628
+            },
+            {
+              "step": 9,
+              "expectedUi": "world",
+              "inputSeconds": 413.80864479999997,
+              "visibleResponseMs": 0.509800000031646
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 139271955,
+                "maximum": 142167455,
+                "minimum": 137320681,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 138914228,
+                "maximum": 141634006,
+                "minimum": 137311633,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 36.321787900000004,
+              "ms": 19.4897,
+              "checkpoint": "inspect warm stock",
+              "gcBytes": -1,
+              "gcCollections": 45,
+              "mainThreadNs": 16665900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 122.01267889999997,
+              "ms": 18.9835,
+              "checkpoint": "warm return loop outbound",
+              "gcBytes": -1,
+              "gcCollections": 49,
+              "mainThreadNs": 16670600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 57.82472789999997,
+              "ms": 18.7257,
+              "checkpoint": "parts store aisle",
+              "gcBytes": -1,
+              "gcCollections": 46,
+              "mainThreadNs": 16665700,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 31.053509899999995,
+              "ms": 18.053,
+              "checkpoint": "advance to stock",
+              "gcBytes": -1,
+              "gcCollections": 44,
+              "mainThreadNs": 16660300,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 41.803937899999994,
+              "ms": 17.6274,
+              "checkpoint": "sprint public bridge to repair",
+              "gcBytes": -1,
+              "gcCollections": 45,
+              "mainThreadNs": 16686000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 88.02555889999996,
+              "ms": 17.3241,
+              "checkpoint": "quiet cabin corridor",
+              "gcBytes": -1,
+              "gcCollections": 47,
+              "mainThreadNs": 17144800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 14.185023899999976,
+              "ms": 17.2812,
+              "checkpoint": "public bridge to market",
+              "gcBytes": -1,
+              "gcCollections": 43,
+              "mainThreadNs": 16670800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 112.22654590000002,
+              "ms": 17.2441,
+              "checkpoint": "Sela full reversal to airlock",
+              "gcBytes": -1,
+              "gcCollections": 48,
+              "mainThreadNs": 16675100,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 4",
+          "valid": true,
+          "failures": [],
+          "samples": 7564,
+          "seconds": 126.07226309999999,
+          "distance": 240.28192643710125,
+          "medianMs": 16.667,
+          "p95Ms": 16.9362,
+          "p99Ms": 17.0269,
+          "worstMs": 18.9897,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 4549,
+          "stoppedCameraWhileWalking": 99,
+          "interactions": [
+            {
+              "step": 5,
+              "expectedUi": "dialogue",
+              "inputSeconds": 527.9013403,
+              "visibleResponseMs": 0.5446000000119966
+            },
+            {
+              "step": 7,
+              "expectedUi": "shop",
+              "inputSeconds": 533.9017160999999,
+              "visibleResponseMs": 2.100900000073125
+            },
+            {
+              "step": 9,
+              "expectedUi": "world",
+              "inputSeconds": 539.9020095999999,
+              "visibleResponseMs": 0.4844000000048254
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 139135803,
+                "maximum": 141826960,
+                "minimum": 137522594,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 139145338,
+                "maximum": 141898766,
+                "minimum": 137585384,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 58.055026099999964,
+              "ms": 18.9897,
+              "checkpoint": "parts store aisle",
+              "gcBytes": -1,
+              "gcCollections": 52,
+              "mainThreadNs": 16665000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 122.2912301,
+              "ms": 18.8507,
+              "checkpoint": "warm return loop inbound",
+              "gcBytes": -1,
+              "gcCollections": 55,
+              "mainThreadNs": 16666500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 31.05362009999999,
+              "ms": 18.5612,
+              "checkpoint": "advance to stock",
+              "gcBytes": -1,
+              "gcCollections": 50,
+              "mainThreadNs": 16678200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 4.81750310000001,
+              "ms": 17.253,
+              "checkpoint": "office slow approach",
+              "gcBytes": -1,
+              "gcCollections": 49,
+              "mainThreadNs": 16673100,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 113.55497709999997,
+              "ms": 17.2031,
+              "checkpoint": "Sela full reversal to airlock",
+              "gcBytes": -1,
+              "gcCollections": 54,
+              "mainThreadNs": 16671400,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 106.7213031,
+              "ms": 17.1874,
+              "checkpoint": "Sela port hull boundary",
+              "gcBytes": -1,
+              "gcCollections": 54,
+              "mainThreadNs": 16670500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 105.6545281,
+              "ms": 17.1577,
+              "checkpoint": "Sela port hull boundary",
+              "gcBytes": -1,
+              "gcCollections": 54,
+              "mainThreadNs": 16667900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 21.717788100000007,
+              "ms": 17.1441,
+              "checkpoint": "public bridge to market",
+              "gcBytes": -1,
+              "gcCollections": 50,
+              "mainThreadNs": 16670600,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        }
+      ],
+      "stabilityWindows": [
+        {
+          "startSeconds": 0,
+          "endSeconds": 60,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 138555269,
+            "maximum": 140939705,
+            "minimum": 136388227,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 1
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 60,
+          "endSeconds": 120,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 138685508,
+            "maximum": 141168443,
+            "minimum": 136909493,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 120,
+          "endSeconds": 180,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 138905210,
+            "maximum": 141475320,
+            "minimum": 137167021,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 180,
+          "endSeconds": 240,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 138780718,
+            "maximum": 141582250,
+            "minimum": 137383523,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 240,
+          "endSeconds": 300,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 139021794,
+            "maximum": 141861344,
+            "minimum": 137602599,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 300,
+          "endSeconds": 360,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 139056225,
+            "maximum": 141996965,
+            "minimum": 137744114,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 360,
+          "endSeconds": 420,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 139433764,
+            "maximum": 142167455,
+            "minimum": 137381389,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 420,
+          "endSeconds": 480,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 138992150,
+            "maximum": 141634006,
+            "minimum": 137311633,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 480,
+          "endSeconds": 540,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 139104541,
+            "maximum": 141826960,
+            "minimum": 137384142,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 540,
+          "endSeconds": 600,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 138967050,
+            "maximum": 141363580,
+            "minimum": 137585384,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        }
+      ],
+      "rawHashes": {
+        "frames.csv": "824550c21882562bc2cb9a4b66aaa6589850cc7d0a87c1be81d67aea7368a072",
+        "run.json": "64ef26d082ebac2e4465ff3e3ab14e6b915bc72eebfbb89367624d6e78c26b99",
+        "analysis.json": "296e5ecfdbaae8e2f78c7ff9fc0e2342ac9a838dded743dff8a8859327e813c6"
+      }
+    },
+    {
+      "path": "Builds/quality/C1/station-stability-01-release-tallow-1",
+      "route": "station-tallow-ten-minute",
+      "build": "Release",
+      "valid": false,
+      "failures": [
+        "focus lost",
+        "lost focus",
+        "runtime validation rejected",
+        "first visit: focus lost",
+        "first visit: lost focus",
+        "first visit: runtime validation rejected",
+        "warm lap 1: focus lost",
+        "warm lap 1: runtime validation rejected",
+        "warm lap 2: focus lost",
+        "warm lap 2: runtime validation rejected",
+        "warm lap 3: focus lost",
+        "warm lap 3: runtime validation rejected",
+        "warm lap 4: focus lost",
+        "warm lap 4: runtime validation rejected"
+      ],
+      "seconds": 600.421281,
+      "samples": 36024,
+      "assemblies": [
+        {
+          "hash": "28D01B11D2923DAC103BC2758D9D3B77D2251EE62B2CDEDA9DABE376589647BD",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "ECA56B3FCF6D69AE91A4977D0D1232D66BDE127ED21BFD7F70E24EEA7D55F2F7",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "2B5B9FDDE2C73C28F1E9C3354B87BB676AA8C37C3CE768F1B3B131FE3A12F4A1",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "4DFB844A2D4A48B51B6BCCBBCC8976DFE209BB45F8C711EA72EE4B16E6C8EC59",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "B8361F608537C1B7674FA34C51C10A48AE8C6EFDDA99979747CB703A26E9272E",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "48A902BB81DA43D9F50B18013A0AA059EFF7F04FEFA9AAF0D36DA74BD05DE4B3",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "70EE9FFE93FACD72B636A614D6E8F45B925FAAF00239A5C18898D9A0B31AAA6C",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "p95Ms": 16.8961,
+      "p99Ms": 16.9954,
+      "worstMs": 20.8729,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": false,
+          "failures": [
+            "focus lost",
+            "lost focus",
+            "runtime validation rejected"
+          ],
+          "samples": 7205,
+          "seconds": 120.0718128,
+          "distance": 147.43783532065387,
+          "medianMs": 16.6649,
+          "p95Ms": 16.911,
+          "p99Ms": 17.0076,
+          "worstMs": 20.8729,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 2928,
+          "stoppedCameraWhileWalking": 74,
+          "interactions": [
+            {
+              "step": 19,
+              "expectedUi": "dialogue",
+              "inputSeconds": 72.08333549999999,
+              "visibleResponseMs": 3.1625000000019554
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3601,
+              "memoryBytes": {
+                "median": 128631764,
+                "maximum": 130904824,
+                "minimum": 126741503,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 1
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 128838992,
+                "maximum": 131125705,
+                "minimum": 127182171,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 17.802032800000003,
+              "ms": 20.8729,
+              "checkpoint": "0 public cross aisle",
+              "gcBytes": -1,
+              "gcCollections": 26,
+              "mainThreadNs": 20532300,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 72.0864978,
+              "ms": 19.7522,
+              "checkpoint": "keeper conversation",
+              "gcBytes": -1,
+              "gcCollections": 28,
+              "mainThreadNs": 16659600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 33.067256799999996,
+              "ms": 19.0629,
+              "checkpoint": "swap",
+              "gcBytes": -1,
+              "gcCollections": 26,
+              "mainThreadNs": 16669900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 55.2515698,
+              "ms": 18.6262,
+              "checkpoint": "1 starboard service",
+              "gcBytes": -1,
+              "gcCollections": 28,
+              "mainThreadNs": 16665900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 80.0849578,
+              "ms": 17.7641,
+              "checkpoint": "keeper advance",
+              "gcBytes": -1,
+              "gcCollections": 29,
+              "mainThreadNs": 16665700,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 96.1856178,
+              "ms": 17.4342,
+              "checkpoint": "port wall",
+              "gcBytes": -1,
+              "gcCollections": 29,
+              "mainThreadNs": 16685000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 68.8671988,
+              "ms": 17.2668,
+              "checkpoint": "keeper approach",
+              "gcBytes": -1,
+              "gcCollections": 28,
+              "mainThreadNs": 16679600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 117.6887608,
+              "ms": 17.2556,
+              "checkpoint": "quay return",
+              "gcBytes": -1,
+              "gcCollections": 31,
+              "mainThreadNs": 16931600,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 1",
+          "valid": false,
+          "failures": [
+            "focus lost",
+            "runtime validation rejected"
+          ],
+          "samples": 7202,
+          "seconds": 120.03962970000002,
+          "distance": 146.6953244739065,
+          "medianMs": 16.6671,
+          "p95Ms": 16.8689,
+          "p99Ms": 16.9663,
+          "worstMs": 18.6617,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 5,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 2912,
+          "stoppedCameraWhileWalking": 65,
+          "interactions": [
+            {
+              "step": 19,
+              "expectedUi": "dialogue",
+              "inputSeconds": 192.1420906,
+              "visibleResponseMs": 0.4276999999888176
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 128963012,
+                "maximum": 131153022,
+                "minimum": 127347862,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 128790979,
+                "maximum": 131151738,
+                "minimum": 127397563,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 81.47296770000001,
+              "ms": 18.6617,
+              "checkpoint": "dialogue release",
+              "gcBytes": -1,
+              "gcCollections": 35,
+              "mainThreadNs": 16665600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 102.44087370000001,
+              "ms": 18.6308,
+              "checkpoint": "final arrival",
+              "gcBytes": -1,
+              "gcCollections": 36,
+              "mainThreadNs": 16666000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 15.884499700000006,
+              "ms": 17.2502,
+              "checkpoint": "0 public cross aisle",
+              "gcBytes": -1,
+              "gcCollections": 31,
+              "mainThreadNs": 16993200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 36.93598770000001,
+              "ms": 17.2184,
+              "checkpoint": "1 port quay",
+              "gcBytes": -1,
+              "gcCollections": 32,
+              "mainThreadNs": 16682000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 60.93692170000001,
+              "ms": 17.1465,
+              "checkpoint": "1 starboard quay",
+              "gcBytes": -1,
+              "gcCollections": 34,
+              "mainThreadNs": 16670800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 20.43470170000002,
+              "ms": 17.1406,
+              "checkpoint": "0 starboard service",
+              "gcBytes": -1,
+              "gcCollections": 32,
+              "mainThreadNs": 16670800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 24.93484070000001,
+              "ms": 17.1379,
+              "checkpoint": "0 starboard quay",
+              "gcBytes": -1,
+              "gcCollections": 32,
+              "mainThreadNs": 16670600,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 4.933965700000016,
+              "ms": 17.1168,
+              "checkpoint": "0 port quay",
+              "gcBytes": -1,
+              "gcCollections": 31,
+              "mainThreadNs": 16665900,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 2",
+          "valid": false,
+          "failures": [
+            "focus lost",
+            "runtime validation rejected"
+          ],
+          "samples": 7207,
+          "seconds": 120.12372609999997,
+          "distance": 146.54927302116013,
+          "medianMs": 16.6687,
+          "p95Ms": 16.9029,
+          "p99Ms": 16.9899,
+          "worstMs": 18.8358,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 2909,
+          "stoppedCameraWhileWalking": 63,
+          "interactions": [
+            {
+              "step": 19,
+              "expectedUi": "dialogue",
+              "inputSeconds": 312.26477969999996,
+              "visibleResponseMs": 0.4707000000507833
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 128808687,
+                "maximum": 131158968,
+                "minimum": 127533063,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 128829409,
+                "maximum": 131162833,
+                "minimum": 127570563,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 24.4030061,
+              "ms": 18.8358,
+              "checkpoint": "0 starboard quay",
+              "gcBytes": -1,
+              "gcCollections": 38,
+              "mainThreadNs": 16665500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 53.08570610000001,
+              "ms": 17.2031,
+              "checkpoint": "1 starboard service",
+              "gcBytes": -1,
+              "gcCollections": 39,
+              "mainThreadNs": 17194900,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 108.2569981,
+              "ms": 17.1802,
+              "checkpoint": "final arrival",
+              "gcBytes": -1,
+              "gcCollections": 41,
+              "mainThreadNs": 16679000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 66.90381310000001,
+              "ms": 17.1761,
+              "checkpoint": "swap release",
+              "gcBytes": -1,
+              "gcCollections": 39,
+              "mainThreadNs": 16670700,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 33.4014961,
+              "ms": 17.1708,
+              "checkpoint": "swap release",
+              "gcBytes": -1,
+              "gcCollections": 38,
+              "mainThreadNs": 16670500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 23.051006099999967,
+              "ms": 17.1489,
+              "checkpoint": "0 starboard service",
+              "gcBytes": -1,
+              "gcCollections": 37,
+              "mainThreadNs": 16839100,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 68.40387910000001,
+              "ms": 17.1297,
+              "checkpoint": "keeper approach",
+              "gcBytes": -1,
+              "gcCollections": 40,
+              "mainThreadNs": 16670000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 71.90398309999998,
+              "ms": 17.1197,
+              "checkpoint": "keeper approach",
+              "gcBytes": -1,
+              "gcCollections": 40,
+              "mainThreadNs": 16670100,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 3",
+          "valid": false,
+          "failures": [
+            "focus lost",
+            "runtime validation rejected"
+          ],
+          "samples": 7204,
+          "seconds": 120.07406040000001,
+          "distance": 146.62891494580924,
+          "medianMs": 16.6675,
+          "p95Ms": 16.8972,
+          "p99Ms": 16.9988,
+          "worstMs": 19.3342,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 2909,
+          "stoppedCameraWhileWalking": 65,
+          "interactions": [
+            {
+              "step": 19,
+              "expectedUi": "dialogue",
+              "inputSeconds": 432.3069805,
+              "visibleResponseMs": 0.43369999997366904
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 129058121,
+                "maximum": 131223708,
+                "minimum": 127153579,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 128913700,
+                "maximum": 131071024,
+                "minimum": 127190708,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 52.25673539999997,
+              "ms": 19.3342,
+              "checkpoint": "1 starboard service",
+              "gcBytes": -1,
+              "gcCollections": 45,
+              "mainThreadNs": 16664000,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 102.2907854,
+              "ms": 17.1653,
+              "checkpoint": "final arrival",
+              "gcBytes": -1,
+              "gcCollections": 47,
+              "mainThreadNs": 16671400,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 52.671229400000016,
+              "ms": 17.1579,
+              "checkpoint": "1 starboard service",
+              "gcBytes": -1,
+              "gcCollections": 45,
+              "mainThreadNs": 16668700,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 69.27198340000001,
+              "ms": 17.1383,
+              "checkpoint": "keeper approach",
+              "gcBytes": -1,
+              "gcCollections": 45,
+              "mainThreadNs": 16719200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 33.986724400000014,
+              "ms": 17.125,
+              "checkpoint": "1 arrival",
+              "gcBytes": -1,
+              "gcCollections": 44,
+              "mainThreadNs": 16789800,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 109.00778839999998,
+              "ms": 17.1193,
+              "checkpoint": "final arrival",
+              "gcBytes": -1,
+              "gcCollections": 47,
+              "mainThreadNs": 16683200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 13.484725400000002,
+              "ms": 17.1135,
+              "checkpoint": "0 public cross aisle",
+              "gcBytes": -1,
+              "gcCollections": 43,
+              "mainThreadNs": 16673300,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 84.7901104,
+              "ms": 17.1036,
+              "checkpoint": "return south",
+              "gcBytes": -1,
+              "gcCollections": 46,
+              "mainThreadNs": 16664900,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        },
+        {
+          "name": "warm lap 4",
+          "valid": false,
+          "failures": [
+            "focus lost",
+            "runtime validation rejected"
+          ],
+          "samples": 7206,
+          "seconds": 120.11205120000005,
+          "distance": 146.68747939613505,
+          "medianMs": 16.6675,
+          "p95Ms": 16.8978,
+          "p99Ms": 17.0094,
+          "worstMs": 19.0734,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 5,
+          "gcBytesPerFrameMedian": -1,
+          "movingSamples": 2910,
+          "stoppedCameraWhileWalking": 63,
+          "interactions": [
+            {
+              "step": 19,
+              "expectedUi": "dialogue",
+              "inputSeconds": 552.4169813999999,
+              "visibleResponseMs": 0.45680000005177135
+            }
+          ],
+          "stabilityWindows": [
+            {
+              "startSeconds": 0,
+              "endSeconds": 60,
+              "samples": 3599,
+              "memoryBytes": {
+                "median": 128945039,
+                "maximum": 131087363,
+                "minimum": 127276849,
+                "validSamples": 3599,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            },
+            {
+              "startSeconds": 60,
+              "endSeconds": 120,
+              "samples": 3600,
+              "memoryBytes": {
+                "median": 128901409,
+                "maximum": 131075100,
+                "minimum": 127339319,
+                "validSamples": 3600,
+                "unavailableOrPendingSamples": 0
+              },
+              "sceneObjects": "UNSUPPORTED",
+              "objects": "UNSUPPORTED",
+              "audioVoices": "UNSUPPORTED"
+            }
+          ],
+          "worstFrames": [
+            {
+              "elapsed": 79.0106672,
+              "ms": 19.0734,
+              "checkpoint": "read keeper",
+              "gcBytes": -1,
+              "gcCollections": 52,
+              "mainThreadNs": 16667500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 36.756454200000064,
+              "ms": 18.9923,
+              "checkpoint": "1 port quay",
+              "gcBytes": -1,
+              "gcCollections": 50,
+              "mainThreadNs": 16660100,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 63.29156219999999,
+              "ms": 17.4437,
+              "checkpoint": "1 arrival return",
+              "gcBytes": -1,
+              "gcCollections": 51,
+              "mainThreadNs": 17100100,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 32.970979200000045,
+              "ms": 17.414,
+              "checkpoint": "0 arrival return",
+              "gcBytes": -1,
+              "gcCollections": 49,
+              "mainThreadNs": 17121500,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 5.71819320000003,
+              "ms": 17.3844,
+              "checkpoint": "0 port quay",
+              "gcBytes": -1,
+              "gcCollections": 48,
+              "mainThreadNs": 17073200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 15.218888200000038,
+              "ms": 17.2636,
+              "checkpoint": "0 public cross aisle",
+              "gcBytes": -1,
+              "gcCollections": 48,
+              "mainThreadNs": 16666300,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 33.037749200000064,
+              "ms": 17.2392,
+              "checkpoint": "swap",
+              "gcBytes": -1,
+              "gcCollections": 49,
+              "mainThreadNs": 16670200,
+              "renderThreadNs": -1
+            },
+            {
+              "elapsed": 14.218819200000041,
+              "ms": 17.1986,
+              "checkpoint": "0 public cross aisle",
+              "gcBytes": -1,
+              "gcCollections": 48,
+              "mainThreadNs": 16670400,
+              "renderThreadNs": -1
+            }
+          ],
+          "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+        }
+      ],
+      "stabilityWindows": [
+        {
+          "startSeconds": 0,
+          "endSeconds": 60,
+          "samples": 3601,
+          "memoryBytes": {
+            "median": 128631764,
+            "maximum": 130904824,
+            "minimum": 126741503,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 1
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 60,
+          "endSeconds": 120,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 128838992,
+            "maximum": 131125705,
+            "minimum": 127182171,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 120,
+          "endSeconds": 180,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 128955981,
+            "maximum": 131153022,
+            "minimum": 127347862,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 180,
+          "endSeconds": 240,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 128790979,
+            "maximum": 131151738,
+            "minimum": 127397563,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 240,
+          "endSeconds": 300,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 128808687,
+            "maximum": 131158968,
+            "minimum": 127533063,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 300,
+          "endSeconds": 360,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 128829409,
+            "maximum": 131162833,
+            "minimum": 127570563,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 360,
+          "endSeconds": 420,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 129076250,
+            "maximum": 131223708,
+            "minimum": 127153579,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 420,
+          "endSeconds": 480,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 128913700,
+            "maximum": 131071024,
+            "minimum": 127190708,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 480,
+          "endSeconds": 540,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 128941871,
+            "maximum": 131087363,
+            "minimum": 127276849,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 540,
+          "endSeconds": 600,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 128880901,
+            "maximum": 131075100,
+            "minimum": 127338943,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        }
+      ],
+      "rawHashes": {
+        "frames.csv": "daf6a13d80179b92e568a003bb16dfca6074d041e804d788e02b7f7830d96d1a",
+        "run.json": "c8650e0a964138095a6e236de9170a42cf123f1791a30d9057ab03565fee7eff",
+        "analysis.json": "ee661f9e106fc7a7b74347cc10a184975970028dc5f5b03ee562652185361b56"
+      }
+    }
+  ]
+}

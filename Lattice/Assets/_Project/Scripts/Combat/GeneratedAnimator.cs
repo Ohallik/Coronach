@@ -15,7 +15,11 @@ namespace Lattice.Combat
         string state;
         int sequence = -1;
         readonly Dictionary<string, float> lengths = new();
+        public GroundStrideProfile strideProfile;
         public string CurrentAnimation => state;
+        public float StrideScale {get;private set;}=1;
+        public bool ReverseLocomotion {get;private set;}
+        public bool IsLocomotion => state=="Idle"||state=="Walk"||state=="Run"||state=="Sprint";
 
         void OnEnable() { previous = transform.position; state = null; sequence = -1; }
         void Start()
@@ -26,6 +30,11 @@ namespace Lattice.Combat
             form = GetComponentInParent<FormController>();
             previous = transform.position;
             if (animator != null && actor != null) animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+            if(animator!=null&&actor!=null&&strideProfile!=null)
+            {
+                var feet=GetComponent<GroundFeet>()??gameObject.AddComponent<GroundFeet>();
+                feet.Initialize(animator,actor.transform,strideProfile);
+            }
         }
         void Update()
         {
@@ -49,12 +58,29 @@ namespace Lattice.Combat
             }
             else if (enemy != null && enemy.Attacking) wanted = "Attack";
             if (!animator.HasState(0, Animator.StringToHash(wanted))) wanted = speed > .12f ? "Walk" : "Idle";
+            bool travelling=wanted=="Walk"||wanted=="Run"||wanted=="Sprint";
+            StrideScale=1;ReverseLocomotion=false;
+            if(strideProfile!=null&&actor?.motor!=null)
+            {
+                if(travelling)
+                {
+                    rate=strideProfile.Cadence(wanted,speed);
+                    StrideScale=strideProfile.Stride(wanted,speed,rate);
+                    ReverseLocomotion=Vector3.Dot(actor.transform.forward,actor.motor.Velocity.normalized)<-.15f;
+                }
+                // A state speed multiplier supports reverse locomotion while
+                // the Animator's global speed and the action clocks stay positive.
+                animator.SetFloat("TravelSign",ReverseLocomotion?-1:1);
+            }
             bool nextAction = visual && sequence != actor.AttackSequence;
             if (state != wanted || nextAction)
             {
                 state = wanted;
                 if (actor != null) sequence = actor.AttackSequence;
-                animator.CrossFadeInFixedTime(wanted, visual ? .045f : .12f, 0, 0);
+                var ground=actor?.motor as GroundMotor;
+                float blend=ground!=null&&ground.Phase==GroundMotor.TravelPhase.Starting?.075f:
+                    wanted=="Idle"?.14f:.1f;
+                animator.CrossFadeInFixedTime(wanted, visual ? .045f : blend, 0, 0);
             }
             if (visual)
             {

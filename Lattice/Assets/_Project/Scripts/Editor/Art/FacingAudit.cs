@@ -96,7 +96,7 @@ namespace Lattice.EditorTools
         static float Foot(Animator a,HumanBodyBones foot,HumanBodyBones toe)
         {var f=a.GetBoneTransform(foot);var t=a.GetBoneTransform(toe);return f!=null&&t!=null?Yaw(t.position-f.position):float.NaN;}
         static float Yaw(Vector3 v)=>Mathf.Atan2(v.x,v.z)*Mathf.Rad2Deg;
-        static void Capture(Camera c,string path)
+        internal static void Capture(Camera c,string path)
         {
             // Manual editor sampling does not advance the GPU skinning frame.
             // Bake this evaluated pose into temporary renderers so consecutive

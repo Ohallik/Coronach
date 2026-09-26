@@ -11,6 +11,21 @@ namespace Lattice.Tests.PlayMode
 {
     public sealed class StationCompanionTests
     {
+        [UnityTest] public IEnumerator DoorJambBlocksABodyButTheOpeningRemainsWalkable()
+        {
+            SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
+            DevLoadout.Apply("starter");SceneFlow.Current.LoadZone("Hub_Decks");
+            while(SceneFlow.Current.Loading)yield return null;
+            var party=PartyController.Current;var actor=party.Active;
+            foreach(var member in party.members){member.GetComponent<PlayerBrain>().AutoPilot=true;member.GetComponent<PartnerBrain>().enabled=false;}
+            Place(actor,new Vector3(-26.3f,0,-9.8f));
+            float until=Time.unscaledTime+1.5f;
+            while(Time.unscaledTime<until){actor.motor.Move(Vector2.up,false,false);yield return null;}
+            Assert.Less(actor.transform.position.z,-7.2f,"The visible office airlock jamb must stop a body, including a following companion.");
+            Place(actor,new Vector3(-28,0,-9.8f));until=Time.unscaledTime+1.5f;
+            while(Time.unscaledTime<until){actor.motor.Move(Vector2.up,false,false);yield return null;}
+            Assert.Greater(actor.transform.position.z,-6.7f,"Door collision must preserve the actual opening instead of sealing it with a box.");
+        }
         [UnityTest] public IEnumerator FollowerLeavesTheServiceGalleryThroughTheHousingDoor()
         {
             SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);

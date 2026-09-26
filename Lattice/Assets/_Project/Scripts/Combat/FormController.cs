@@ -12,6 +12,11 @@ namespace Lattice.Combat
         Coroutine change;
         public void Set(BodyForm form)
         {
+            if(!Shaping&&Current==form)
+            {
+                var visual=form==BodyForm.Natural?natural:form==BodyForm.Shaped?shaped:flight;
+                if(visual!=null&&visual.activeSelf)return;
+            }
             if(change!=null)StopCoroutine(change);change=StartCoroutine(Transition(form));
         }
         IEnumerator Transition(BodyForm form)

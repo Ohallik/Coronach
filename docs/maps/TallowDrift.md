@@ -6,6 +6,8 @@ The generated approach hull is an enclosed beacon/refuge with a forward docking 
 
 Preserve Arrival/Dock IDs, completion/reward behavior and the free repair/save service. Use the existing exterior hull; the interior's local origin corresponds to the hull's central deck, about 15 m north of the exterior origin. Its 25 × 24 m room fits inside the 46 × 42 m outer body. The exterior docking stem at z=5 aligns with the interior's south vestibule at z=-10 after that offset.
 
+That initial fit judgment was too coarse: the main circular body was offset within its overall bounds. The final-art review reopened it and enlarged/recentered the exterior, with an attached airlock/lift tower. See the corrected [Tallow Approach envelope and section](TallowApproach.md). Retain the paragraph above as the rejected design assumption, not proof of fit.
+
 Required circulation: south pressure hatch → clear central arrival aisle → Keeper/help desk → starboard repair alcove. A separate north service strip connects repair stores, life-support controls and private rest cabins. Port-side seating is a refuge waiting area, outside the main cross aisle. The repair operator must reach stores without crossing the launch hatch or a sleeping room. Keep outer boundaries visible and collidable; use the same deliberate low-wall/roof cutaway convention as the Decks while retaining an enclosed exterior.
 
 Before acceptance, inspect an overhead, exterior/section comparison and actual arrival, repair, waiting/rest and service-route views. Walk the public and staff loops, press against every visible boundary, launch and redock. Rerun the 120-second Tallow timing route after changes. No blockout or final pass is claimed yet.

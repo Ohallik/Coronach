@@ -5,6 +5,9 @@ param(
     [switch]$Capture,
     [switch]$Arrows,
     [switch]$Profile,
+    [switch]$Headroom,
+    [switch]$Census,
+    [switch]$Motion,
     [int]$TimeoutSec=780
 )
 $ErrorActionPreference='Stop'
@@ -19,11 +22,17 @@ New-Item -ItemType Directory -Path $folder -Force | Out-Null
 # Inspect and record only; never stop an unrelated process to obtain a pass.
 $cleanTiming=-not $Capture -and -not $Profile
 $interference=@()
-function Get-QualityCompetitors {
-    @(Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe' OR Name = 'UnityShaderCompiler.exe' OR Name = 'bee_backend.exe' OR Name = 'ffmpeg.exe' OR Name = 'ffmpeg-win-x86_64-v7.1.exe'" |
-        Select-Object ProcessId,Name,CommandLine)
+function Get-QualityCompetitors([int]$IgnoreId=0) {
+    @(Get-CimInstance Win32_Process | Where-Object {
+        if($_.ProcessId -eq $IgnoreId){return $false}
+        if($_.Name -match '^UnityCrashHandler(32|64)?\.exe$'){return $false}
+        if($_.Name -match '^(Unity|UnityShaderCompiler|bee_backend|ffmpeg|ffmpeg-win-x86_64-v7.1)\.exe$'){return $true}
+        # A second Unity player can consume the GPU and steal focus just as an editor can.
+        if($_.ExecutablePath){return Test-Path -LiteralPath (Join-Path (Split-Path $_.ExecutablePath -Parent) 'UnityPlayer.dll')}
+        return $false
+    } | Select-Object ProcessId,Name,CommandLine)
 }
-$initialCompetitors=Get-QualityCompetitors
+$initialCompetitors=@(Get-QualityCompetitors)
 @{cleanTiming=$cleanTiming;started=[DateTime]::UtcNow.ToString('o');initial=$initialCompetitors} | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $folder 'environment.json')
 if($cleanTiming -and $initialCompetitors.Count){throw "Clean timing unavailable while editor/build/encoder processes are running; see $folder/environment.json"}
 $routePath=[IO.Path]::GetFullPath((Join-Path $repo $Route))
@@ -33,6 +42,9 @@ $launch=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080
 if ($Capture) { $ffmpeg=(& python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())').Trim(); $launch+=@('-quality-ffmpeg',$ffmpeg) }
 if ($Arrows) { $launch+='-quality-arrows' }
 if ($Profile) { $launch+='-quality-profile' }
+if ($Headroom) { $launch+='-quality-headroom' }
+if ($Census) { $launch+='-quality-census' }
+if ($Motion) { $launch+='-quality-motion' }
 $manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;started=[DateTime]::UtcNow.ToString('o')}
 $assemblyDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data/Managed'
 $manifest.assemblies=@(Get-ChildItem -LiteralPath $assemblyDir -Filter 'Lattice.*.dll' | ForEach-Object { @{name=$_.Name;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })
@@ -50,7 +62,7 @@ try {
     while (-not $process.HasExited) {
         if ([DateTime]::UtcNow -gt $deadline) { throw 'Quality replay timeout' }
         if($cleanTiming -and [DateTime]::UtcNow -ge $nextEnvironmentCheck){
-            foreach($competitor in (Get-QualityCompetitors)){$interference+=@{at=[DateTime]::UtcNow.ToString('o');process=$competitor}}
+            foreach($competitor in (Get-QualityCompetitors -IgnoreId $process.Id)){$interference+=@{at=[DateTime]::UtcNow.ToString('o');process=$competitor}}
             $nextEnvironmentCheck=[DateTime]::UtcNow.AddSeconds(5)
         }
         Start-Sleep -Milliseconds 500
