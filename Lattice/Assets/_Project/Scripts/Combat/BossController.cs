@@ -24,7 +24,7 @@ namespace Lattice.Combat
                 weak.transform.localPosition=new Vector3((i-1)*1.2f,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f;weak.GetComponent<SphereCollider>().isTrigger=true;
                 weak.GetComponent<Hurtbox>().owner=health;weak.GetComponent<Hurtbox>().multiplier=2;
             }
-            health.Died+=(_,__)=>{GameServices.Current.Flags.SetBool("bossdown."+health.id,true);BarkService.Play(PartyController.Current.Active.character,"boss",true);Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");};
+            health.Died+=(_,__)=>{StopAllCoroutines();busy=false;enabled=false;GameServices.Current.Flags.SetBool("bossdown."+health.id,true);BarkService.Play(PartyController.Current.Active.character,"boss",true);Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");};
         }
         void Update()
         {

@@ -14,7 +14,7 @@ namespace Lattice.Combat
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
-            var party=PartyController.Current;if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.motor==null||GameServices.Current.Input.Blocked)return;
+            var party=PartyController.Current;if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.Recovering||actor.motor==null||GameServices.Current.Input.Blocked)return;
             var active=party.Active;actor.target=active.target;
             if(actor.State==Lattice.Data.ActorState.Stagger){actor.motor.Move(Vector2.zero,false,true);return;}
             var followingRight=Vector3.Cross(Vector3.up,active.motor.Facing).normalized;

@@ -9,6 +9,7 @@ namespace Lattice.Combat
         public Health source;
         public Vector3 knockback;
         public bool isCrit;
+        public bool deathAttack;
         public string tag;
     }
     public static class DamageMath

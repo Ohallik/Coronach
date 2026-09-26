@@ -1,0 +1,31 @@
+# C3 combat and death lifecycle - in progress
+
+September 26, 2026. C3 is OPEN. C1/C2 and MAP_EYE_TEST remain open; this is independent lifecycle implementation while continuous observation is unavailable.
+
+Five targeted regressions all reject the current defects in `Builds/quality/C3/lifecycle-red.xml` and `.log`: all eight enemy archetypes disappear before 0.35 s; Taren stays upright after lethal damage; a disabled craft retains 0.657 m/s of live velocity; the defeat menu pauses immediately; a dead owner's pending lunge still kills a 40-integrity target.
+
+The candidate separates gameplay resolution from body cleanup, cancels action work, disables colliders, adds held Down/get-up states and protected recovery, provides revive progress, and delays defeat pause until collapse. Rigid/animal bodies receive a bounded authored fall, flight craft a disabled attitude, and Cantor a sequential segment failure. Scrapmite's explicit death burst remains an allowed exception. Already-launched projectiles retain their flight; pending melee/action contacts cancel with their owner or action sequence.
+
+Owned CC0 UAL1 `Death01` and UAL2 `LayToIdle` are exported as skeleton/animation only into HeroDeath/HeroRevive; visible geometry remains generated. Source libraries in Frostbound are read-only. Export reports confirm zero meshes. Both donor exports and `PresentationUpgrade.Lifecycle` pass intake, retaining existing controller GUIDs and adding repeatable intake rows. No credits spent or music altered.
+
+The unchanged runtime regressions are running against this candidate. No visual, motion, sound, choreography or lifecycle acceptance is claimed yet. Per-move contact/cancel data, actual blade/projectile alignment, reactions, five-minute encounters, boss/retry review and death-reel observation remain required by C3.
+
+
+`lifecycle-candidate01` passes 3/5: delayed defeat, disabled flight/recovery, and cancellation of dead-owner lunge contacts. Enemy corpse verification fails because static generated mesh CPU data is unavailable; lifecycle intake now enables readable mesh data only on current rigid enemy bodies for once-per-death support placement. Environment meshes remain untouched. The grounded revive assertion also fails when the automatic death-swap re-enables companion movement: its first corrected test run reached a walking pelvis rather than a stationary pose. The revised fixture disables that follower again before healing, preserving the standing-height threshold. This explanation is still being checked by the next runtime result; no green is assumed.
+
+
+The corrected stationary fixture passes with all five lifecycle tests in `lifecycle-green` (before the later surface-support additions). Pose review then exposed an instrument bug: the Sentinel's mesh transform scale was applied again to `BakeMesh` output, inflating a 2.3 m body about 240-fold. `poses-01` through `-03` retain the blank/cropped views and the diagnostic comparison. Preview geometry now skins directly through bone matrices; the same correction replaces misleading grafted-animal corpse bounds at runtime. `poses-04` was opened and the Sentinel is visible at its proper scale. Readable CPU mesh data is scoped to current non-biped enemy bodies.
+
+Opened body poses also reveal that hip height alone does not ensure support above the floor. The candidate now prebakes whole generated-body minimum-height curves at 121 phases per Down/Revive take, including folded Shaped vanes, into the existing prefabs without changing their GUIDs or rest transforms. A late pose-support component samples these curves, aligns to the measured ground plane, and blends back to normal locomotion. This avoids per-frame mesh scans during play. `poses-support-01` passes the 27 sampled pose/ground checks; Codex opened Sentinel and Sela Shaped terminal stills. These are framed body views, not a final gameplay-distance death reel. Runtime lifecycle verification of the support additions is running; no integrated build or C3 gate acceptance is claimed.
+
+`lifecycle-support-green` passes all five runtime checks after support curves and bone-matrix corpse placement. This confirms protected stationary get-up, held down poses, disabled flight/recovery, delayed defeat, one-time rewards/cleanup for all eight enemy types and pending-lunge cancellation. The full integrated suites and rebuilt players are still pending.
+
+The independent pose ground-check option rejects uncorrected `TarenNatural Down` at 234.73 mm penetration in `poses-ground-red-01`. The support-enabled pass retains the same 20 mm rejection bound. The full integrated suite is now running after the C2 free-travel correction and lifecycle intake reproducibility hook.
+
+The first integrated run passes 46/47 PlayMode tests, zero skips. Its sole failure is the legacy retry fixture expecting immediate pause after setting integrity directly to zero. It now delivers actual lethal damage, verifies input is blocked while collapse continues, waits up to three seconds for the retry menu, and retains all existing saved-party restoration assertions. The original integrated red result is preserved. Normal autosave and backup hashes remain unchanged.
+
+The updated retry regression passes through the real collapse, menu selection, saved-party reload and return to live unblocked play (`retry-green.xml`). The complete 47-test suite is being rerun.
+
+The final integrated candidate passes **47/47 PlayMode and 39/39 EditMode**, zero skips, in `integrated-02`. The checks include explicit lock-on, free redirected facing, stride/ramps/pause, all lifecycle paths and actual retry/save restoration. Both player builds are now being refreshed; observed gameplay choreography/death quality remains open.
+
+Both development and release players report BUILD_OK for this integrated candidate; packaged executable, assembly and content hashes are recorded in `C3-lifecycle.json`. All 15 checked prefab/controller identities are preserved, donors contain zero meshes, and normal autosave/backup SHA-256 still match. C3 remains OPEN pending actual choreography, contact alignment and observed encounters; C1/C2 and final station review also remain open.

@@ -344,8 +344,13 @@ namespace Lattice.Tests.PlayMode
             foreach(var member in saved.party)member.integrity=Levels.MaxIntegrity(member.level);
             GameServices.Current.Saves.Save("autosave",saved);
             var defeated=PartyController.Current;
-            foreach(var actor in defeated.members)actor.Health.integrity=0;
-            yield return null;yield return null;
+            foreach(var actor in defeated.members)
+                actor.Health.Receive(new DamagePacket{amount=actor.Health.maximum*100,type=DamageType.Pulse});
+            yield return new WaitForSecondsRealtime(.2f);
+            Assert.IsFalse(GameTime.Paused,"collapse must finish before retry pauses the world");
+            Assert.IsTrue(GameInput.Current.Blocked,"defeat must own input throughout collapse");
+            float menuDeadline=Time.realtimeSinceStartup+3;
+            while(!GameTime.Paused&&Time.realtimeSinceStartup<menuDeadline)yield return null;
             Assert.IsTrue(GameTime.Paused);Assert.AreEqual("Retry",EventSystem.current.currentSelectedGameObject.name);
             yield return Press(pad,GamepadButton.South);
             float until=Time.realtimeSinceStartup+8;

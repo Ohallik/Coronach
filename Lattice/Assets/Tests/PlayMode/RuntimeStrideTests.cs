@@ -20,6 +20,41 @@ namespace Lattice.Tests.PlayMode
             public void Move(Vector2 input,bool boost,bool brake){}
             public void Dash(Vector3 direction,float distance){}
         }
+        [UnityTest] public IEnumerator UnlockedBodyFacesMeasuredTravelWhenAContactRedirectsIt()
+        {
+            GameTime.Reset();var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(100,1,100);Physics.SyncTransforms();
+            try
+            {
+                foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})foreach(float angle in new[]{180f,90f})
+                {
+                    var root=new GameObject("redirected free travel",typeof(Health),typeof(CombatActor));root.transform.position=new Vector3(100,0,100);
+                    var actor=root.GetComponent<CombatActor>();actor.character=hero;actor.TargetLocked=false;
+                    Vector3 travel=Quaternion.Euler(0,angle,0)*Vector3.forward;float speed=shaped?6.7f:2.6f;
+                    actor.motor=new Travel{velocity=travel*speed};
+                    var definition=GameCatalog.Find<CharacterDef>(hero);var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
+                    var rig=body.GetComponentInChildren<Animator>();float maximum=0;int samples=0;float started=Time.unscaledTime;
+                    try
+                    {
+                        while(Time.unscaledTime-started<1.4f)
+                        {
+                            if(Time.unscaledTime-started>.45f&&!rig.IsInTransition(0))
+                            {
+                                var span=rig.GetBoneTransform(HumanBodyBones.RightUpperLeg).position-rig.GetBoneTransform(HumanBodyBones.LeftUpperLeg).position;
+                                var visible=Vector3.Cross(span,Vector3.up);visible.y=0;
+                                maximum=Mathf.Max(maximum,Vector3.Angle(visible,travel));samples++;
+                            }
+                            root.transform.position+=travel*speed*Time.unscaledDeltaTime;yield return null;
+                        }
+                        Assert.Greater(samples,5);
+                        Assert.Less(maximum,10,hero+" "+(shaped?"Shaped":"Natural")+" "+angle+": free body must face real travel, even when it differs from requested root heading");
+                    }
+                    finally{Object.Destroy(root);}
+                    yield return null;
+                }
+            }
+            finally{Object.Destroy(floor);GameTime.Reset();}
+        }
         // Independent rendered-mesh probe. It never reads GroundFeet's contact
         // anchor or the profile's marker offsets. BakeMesh also works without
         // retaining every imported mesh's CPU vertex buffer in the player.

@@ -91,7 +91,7 @@ namespace Lattice.UI
             hpLabel.text=$"INTEGRITY   {a.Health.integrity:0} / {a.Health.maximum:0}";
             chargeLabel.text=$"CHARGE   {a.charge:0} / 100";
             thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
-            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Health.Alive?"":"  ·  APPROACH TO REVIVE");}
+            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
             zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
             if(a.target!=null&&a.target.Alive)
                 target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+

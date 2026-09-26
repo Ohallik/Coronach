@@ -26,7 +26,7 @@ namespace Lattice.Combat
         Vector3 previousPosition,previousDirection=Vector3.forward;
         Quaternion previousRotation;
         string previousClip;
-        bool previousReverse;
+        bool previousReverse,previousTargetFacing;
         GeneratedAnimator driver;
         CombatActor actor;
         FormController form;
@@ -62,15 +62,15 @@ namespace Lattice.Combat
             if(!locomotion){ResetContacts();return;}
             var info=animator.GetCurrentAnimatorStateInfo(0);
             Correct(actor.motor.Velocity,driver.CurrentAnimation,info.normalizedTime,driver.StrideScale,
-                animator.IsInTransition(0),GameTime.Paused,driver.ReverseLocomotion);
+                animator.IsInTransition(0),GameTime.Paused,driver.ReverseLocomotion,actor.TargetLocked);
         }
         public void ResetContacts(){if(left!=null)left.contact=right.contact=-1;previousClip=null;previousDirection=Vector3.forward;}
-        public void Correct(Vector3 velocity,string clip,float phase,float stride,bool transitioning,bool paused=false,bool reverse=false)
+        public void Correct(Vector3 velocity,string clip,float phase,float stride,bool transitioning,bool paused=false,bool reverse=false,bool targetFacing=true)
         {
             if(profile==null)return;
-            bool reset=previousClip!=clip||previousReverse!=reverse||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
+            bool reset=previousClip!=clip||previousReverse!=reverse||previousTargetFacing!=targetFacing||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
             if(reset||transitioning){left.contact=right.contact=-1;}
-            previousClip=clip;previousReverse=reverse;previousPosition=heading.position;previousRotation=heading.rotation;
+            previousClip=clip;previousReverse=reverse;previousTargetFacing=targetFacing;previousPosition=heading.position;previousRotation=heading.rotation;
             var local=heading.InverseTransformDirection(velocity);local.y=0;
             if(local.sqrMagnitude>.0025f)previousDirection=local.normalized;
             else if(!paused)previousDirection=Vector3.RotateTowards(previousDirection,Vector3.forward,6*Time.unscaledDeltaTime,0);
@@ -83,9 +83,10 @@ namespace Lattice.Combat
             // normal left/right leg ordering; mirroring its foot path crossed
             // the shins despite apparently excellent contact measurements.
             Vector3 gaitDirection=previousDirection*(reverse?-1:1);
-            float yaw=Mathf.Clamp(Mathf.Atan2(gaitDirection.x,gaitDirection.z)*Mathf.Rad2Deg,-90,90);
+            float yaw=Mathf.Atan2(gaitDirection.x,gaitDirection.z)*Mathf.Rad2Deg;
+            if(targetFacing)yaw=Mathf.Clamp(yaw,-90,90);
             pelvis.rotation=Quaternion.AngleAxis(yaw,heading.up)*pelvis.rotation;
-            foreach(var joint in spine)joint.rotation=Quaternion.AngleAxis(-yaw/spine.Length,heading.up)*joint.rotation;
+            if(targetFacing)foreach(var joint in spine)joint.rotation=Quaternion.AngleAxis(-yaw/spine.Length,heading.up)*joint.rotation;
             Quaternion lowerRotation=heading.rotation*Quaternion.Euler(0,yaw,0);
             Vector3 legDirection=Quaternion.Euler(0,-yaw,0)*gaitDirection;
             // A longer brisk-walk step needs knee room. Lower the animated
@@ -93,7 +94,7 @@ namespace Lattice.Combat
             // past its chain length or accelerating the entire take further.
             if(clip=="Walk")pelvis.position-=heading.up*Mathf.Clamp((stride-1)*.18f,0,.08f);
             MaximumReachCorrection=0;
-            float directional=Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0);
+            float directional=targetFacing?Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0):0;
             Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,lowerRotation,directional);
             Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,lowerRotation,directional);
             // Uphill motion raises the root over a rear foot. Keep both final

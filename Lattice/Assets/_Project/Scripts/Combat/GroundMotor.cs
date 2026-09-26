@@ -18,8 +18,10 @@ namespace Lattice.Combat
         Vector3 dash;float dashTime;
         void Awake(){controller=GetComponent<CharacterController>();controller.minMoveDistance=0;actor=GetComponent<CombatActor>();}
         void OnEnable(){measuredVelocity=DesiredVelocity=travelVelocity=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;}
+        public void Halt(){measuredVelocity=DesiredVelocity=travelVelocity=dash=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;}
         public void Move(Vector2 input,bool boost,bool brake)
         {
+            if(actor!=null&&(!actor.Health.Alive||actor.Recovering)){Halt();return;}
             Vector3 direction=new Vector3(input.x,0,input.y);if(direction.sqrMagnitude>1)direction.Normalize();
             Vector3 look=direction;
             if(actor!=null&&actor.TargetLocked&&actor.target!=null&&actor.target.Alive)

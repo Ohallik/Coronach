@@ -13,7 +13,7 @@ namespace Lattice.Combat
         void Update()
         {
             if(AutoPilot||GameServices.Current==null||actor.motor==null)return;
-            var input=GameServices.Current.Input;if(input.Blocked||!actor.Health.Alive){lungeRequestedUntil=attackRequestedUntil=-1;return;}
+            var input=GameServices.Current.Input;if(input.Blocked||!actor.Health.Alive||actor.Recovering){lungeRequestedUntil=attackRequestedUntil=-1;return;}
             if(GameTime.Paused)return;
             if(actor.State==Lattice.Data.ActorState.Stagger){lungeRequestedUntil=attackRequestedUntil=-1;actor.motor.Move(Vector2.zero,false,true);return;}
             var zone=ZoneController.Current;bool combat=zone!=null&&zone.Combat;

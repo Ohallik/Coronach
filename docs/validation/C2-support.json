@@ -91,6 +91,28 @@
       "failed": "0",
       "skipped": "0",
       "failures": []
+    },
+    {
+      "path": "Builds/quality/C2/redirected-facing-red.xml",
+      "sha256": "f32eb4f7320dd2ed8e2946c95db74df533ebb209f6d931b9ed45c45f3945e06f",
+      "result": "Failed(Child)",
+      "total": "1",
+      "passed": "0",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "  Taren Natural 180: free body must face real travel, even when it differs from requested root heading\n  Expected: less than 10.0f\n  But was:  180.0f\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C2/redirected-facing-and-contact-green.xml",
+      "sha256": "1831f2843ec6a6800cbb98b7f4efe03e168a07345bfde70087639e21e6c58ce2",
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
     }
   ],
   "contactAudits": [

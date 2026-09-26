@@ -5,6 +5,7 @@ using System.Linq;
 using Lattice.Data;
 using Newtonsoft.Json;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 
 namespace Lattice.EditorTools
@@ -49,6 +50,7 @@ namespace Lattice.EditorTools
                 GenIntake.Build(row);
             }
             File.WriteAllText(intake,JsonConvert.SerializeObject(rows,Formatting.Indented)+"\n");
+            InstallLifecycle();
             foreach(string guid in AssetDatabase.FindAssets("t:Hd2dProfile"))
             {
                 var profile=AssetDatabase.LoadAssetAtPath<Hd2dProfile>(AssetDatabase.GUIDToAssetPath(guid));
@@ -56,6 +58,48 @@ namespace Lattice.EditorTools
             }
             AssetDatabase.SaveAssets();Debug.Log("PRESENTATION_INTAKE_OK");
         });
+        public static void Lifecycle()=>BatchTools.Run(()=>
+        {InstallLifecycle();Debug.Log("LIFECYCLE_INTAKE_OK");});
+        static void InstallLifecycle()
+        {
+            foreach(string name in new[]{"HeroDeath","HeroRevive"})
+                PackStaging.StageFile("art-src/Donors/"+name+".fbx","Art/Animation/"+name+".fbx");
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            ConfigureDonor("HeroDeath",new[]{Spec("Down","Death01",false)});
+            ConfigureDonor("HeroRevive",new[]{Spec("Revive","LayToIdle",false)});
+            string intake=Path.Combine(Root,"docs/art/intake.json");
+            var rows=JsonConvert.DeserializeObject<GenIntake.Row[]>(File.ReadAllText(intake));
+            foreach(var row in rows.Where(r=>r.kind!="biped"&&!string.IsNullOrEmpty(r.enemy)))
+            {
+                // Rigid death placement reads actual generated vertices once.
+                // Keep this CPU copy scoped to current enemy bodies, not scenery.
+                var model=(ModelImporter)AssetImporter.GetAtPath("Assets/_Project/Art/Generated/Models/"+row.id+"/"+row.id+"_clean.fbx");
+                if(!model.isReadable){model.isReadable=true;model.SaveAndReimport();}
+            }
+            foreach(var row in rows.Where(r=>r.kind=="biped"&&(r.character=="Taren"||r.character=="Sela"||r.enemy=="SentinelHusk")))
+            {
+                var clips=row.clips.Where(c=>c.state!="Down"&&c.state!="Revive").ToList();
+                clips.Add(new GenIntake.ClipRow{state="Down",path=AnimRoot+"HeroDeath.fbx",name="Down"});
+                if(row.character=="Taren"||row.character=="Sela")
+                    clips.Add(new GenIntake.ClipRow{state="Revive",path=AnimRoot+"HeroRevive.fbx",name="Revive"});
+                row.clips=clips.ToArray();
+                string path="Assets/_Project/Art/Generated/Models/"+row.id+"/"+row.id+".controller";
+                string guid=AssetDatabase.AssetPathToGUID(path);
+                var controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
+                if(controller==null)throw new InvalidOperationException("Missing live controller "+path);
+                var machine=controller.layers[0].stateMachine;
+                foreach(var clip in clips.Where(c=>c.state=="Down"||c.state=="Revive"))
+                {
+                    var state=machine.states.Select(c=>c.state).FirstOrDefault(s=>s.name==clip.state)??machine.AddState(clip.state);
+                    state.motion=AssetDatabase.LoadAllAssetsAtPath(clip.path).OfType<AnimationClip>().Single(c=>c.name==clip.name);
+                    state.iKOnFeet=false;state.speed=1;state.speedParameterActive=false;
+                }
+                EditorUtility.SetDirty(controller);
+                if(guid!=AssetDatabase.AssetPathToGUID(path))throw new InvalidOperationException("Controller GUID changed "+path);
+                LifecycleCalibration.Install(row);
+            }
+            File.WriteAllText(intake,JsonConvert.SerializeObject(rows,Formatting.Indented)+"\n");AssetDatabase.SaveAssets();
+        }
         public static void AlignLocomotion()=>BatchTools.Run(()=>
         {
             var importer=(ModelImporter)AssetImporter.GetAtPath(AnimRoot+"HeroLocomotion.fbx");

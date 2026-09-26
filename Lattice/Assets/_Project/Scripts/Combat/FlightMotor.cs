@@ -11,12 +11,14 @@ namespace Lattice.Combat
         float contactAt,dashRemaining;
         Vector3 dashVelocity;
         public Vector3 Facing{get;private set;}=Vector3.forward;
-        public Vector3 Velocity=>velocity;
+        public Vector3 Velocity=>Core.GameTime.Paused||actor!=null&&(!actor.Health.Alive||actor.Recovering)?Vector3.zero:velocity;
+        public void Halt(){velocity=dashVelocity=Vector3.zero;dashRemaining=0;}
         void Awake(){controller=GetComponent<CharacterController>();controller.minMoveDistance=0;actor=GetComponent<CombatActor>();}
         public static Vector3 Integrate(Vector3 velocity,Vector3 input,float dt,float acceleration,float drag,float max,bool brake)
         {return Vector3.ClampMagnitude((velocity+input*acceleration*dt)*Mathf.Exp(-(brake?9:drag)*dt),max);}
         public void Move(Vector2 input,bool boost,bool brake)
         {
+            if(actor!=null&&(!actor.Health.Alive||actor.Recovering)){Halt();return;}
             Vector3 thrust=Vector3.ClampMagnitude(new Vector3(input.x,0,input.y),1);float dt=actor!=null?actor.MotorDelta:Time.deltaTime;
             if(dashRemaining>0)
             {

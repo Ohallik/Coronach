@@ -15,6 +15,10 @@ for form,scene,point in [('natural','Hub_Decks',(-28,-11)),('shaped','Sorrel_Rid
         if hero=='Sela':
             steps.extend([dict(name='swap to Sela',seconds=.2,buttons=['North'],expectedCharacter='Sela'),
                           dict(name='release swap and finish form settling',seconds=.8)])
+            if form=='natural':
+                align=centre(hero,-28,-3,4)
+                align['name']='Sela align with office opening'
+                steps.append(align)
         start=len(steps)
         steps.append(centre(hero,*point))
         # Natural uses its actual arrival vestibule. Shaped uses the existing

@@ -69,3 +69,6 @@ All CC0 unless noted; licences already recorded in FrostboundUnity `docs/CREDITS
 - Laser swords (mesh + emissive + trail).
 - HD-2D post stack (custom URP render feature: low-res target, tilt-shift DoF, bloom).
 - Music (composer: Nathan).
+
+
+September 26 lifecycle intake: `Art/Animation/HeroDeath.fbx` contains only the owned CC0 UAL1 skeleton/`Death01` take; `HeroRevive.fbx` contains only the owned CC0 UAL2 skeleton/`LayToIdle` take. Existing `UAL-License.txt`/`UAL2-License.txt` cover these exports. `tools/blender/prepare_animation_donor.py --set hero-death|hero-revive` reproduces them; source paths and zero-mesh reports are retained in `art-src/Donors/HeroDeath.json` and `HeroRevive.json`. No donor visible geometry is staged, and no Meshy/image credits or music changes are involved.

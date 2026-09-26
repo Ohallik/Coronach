@@ -6,6 +6,21 @@ namespace Lattice.Combat
     {
         public Transform[] vanes;
         public Quaternion[] folded;
+        public void SetDown(float weight,Vector3 normal)
+        {
+            if(vanes==null||folded==null||vanes.Length!=folded.Length)return;
+            for(int i=0;i<vanes.Length;i++)
+            {
+                var vane=vanes[i];if(vane==null)continue;vane.localRotation=folded[i];
+                if(weight<=0)continue;
+                var size=vane.GetComponent<MeshFilter>().sharedMesh.bounds.size;
+                Vector3 axis=size.y>=size.x&&size.y>=size.z?Vector3.up:size.z>=size.x?Vector3.forward:Vector3.right;
+                float side=Mathf.Sign(transform.InverseTransformPoint(vane.position).x);
+                Vector3 outward=Vector3.ProjectOnPlane(transform.right*side+transform.forward*.2f,normal).normalized;
+                var flat=Quaternion.FromToRotation(vane.TransformDirection(axis),outward)*vane.rotation;
+                vane.rotation=Quaternion.Slerp(vane.rotation,flat,weight);
+            }
+        }
         public void SetForm(BodyForm form)
         {
             if(vanes==null||folded==null||vanes.Length!=folded.Length)return;

@@ -5,6 +5,7 @@ namespace Lattice.Combat
     public sealed class SerpentSegments:MonoBehaviour
     {
         readonly Transform[] segments=new Transform[7];
+        public System.Collections.Generic.IReadOnlyList<Transform> Parts=>segments;
         public const float CenterHeight=1.5f;
         void Start()
         {

@@ -1,0 +1,670 @@
+{
+  "status": "C3 OPEN; targeted candidate verification only",
+  "tests": [
+    {
+      "path": "Builds/quality/C3/lifecycle-red.xml",
+      "sha256": "8912f2c744eef74eb736c63a0da32c5e14ce2dd107bcf4a3e11b46d48d9947be",
+      "result": "Failed(Child)",
+      "total": "5",
+      "passed": "0",
+      "failed": "5",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "BothDownFinishTheirCollapseBeforeTheDefeatMenuPausesPlay",
+          "result": "Failed",
+          "failure": "  defeat menu froze both heroes before their collapse could play\n  Expected: False\n  But was:  True\n"
+        },
+        {
+          "name": "DisabledFlightCraftRemainsRecoverableOnItsFlightPlane",
+          "result": "Failed",
+          "failure": "  disabled craft retains live thrust velocity\n  Expected: less than 0.00999999978f\n  But was:  0.656880617f\n"
+        },
+        {
+          "name": "DownedBodiesHoldTheirPoseAndGetUpBeforeControlReturns",
+          "result": "Failed",
+          "failure": "  Taren Hub_Decks did not visibly collapse\n  Expected: less than 0.615920782f\n  But was:  1.12057817f\n"
+        },
+        {
+          "name": "EnemyResolutionIsImmediateButItsBodyHasAReadableFinish",
+          "result": "Failed",
+          "failure": "  SentinelHusk disappeared before a readable death motion\nRidgehound disappeared before a readable death motion\nScrapmite disappeared before a readable death motion\nShellmine disappeared before a readable death motion\nChoristerDart disappeared before a readable death motion\nChoristerDrifter disappeared before a readable death motion\nBurrower disappeared before a readable death motion\nCantor disappeared before a readable death motion\n  Expected: <empty>\n  But was:  < \"SentinelHusk disappeared before a readable death motion\", \"Ridgehound disappeared before a readable death motion\", \"Scrapmite disappeared before a readable death motion\", \"Shellmine disappeared before a readable death motion\", \"ChoristerDart disappeared before a readable death motion\", \"ChoristerDrifter disappeared before a readable death motion\", \"Burrower disappeared before a readable death motion\", \"Cantor disappeared before a readable death motion\" >\n"
+        },
+        {
+          "name": "LethalResolutionCancelsAlreadyCreatedAndPendingLungeContacts",
+          "result": "Failed",
+          "failure": "  dead owner's delayed lunge still damages\n  Expected: 40.0f\n  But was:  0.0f\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/lifecycle-candidate01.xml",
+      "sha256": "94d822b9235642b04166b633a3b16b044beaa2084e4e45a2861060cf7d2c06db",
+      "result": "Failed(Child)",
+      "total": "5",
+      "passed": "3",
+      "failed": "2",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "BothDownFinishTheirCollapseBeforeTheDefeatMenuPausesPlay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisabledFlightCraftRemainsRecoverableOnItsFlightPlane",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DownedBodiesHoldTheirPoseAndGetUpBeforeControlReturns",
+          "result": "Failed",
+          "failure": "  revive did not return to standing\n  Expected: greater than 0.801077425f\n  But was:  0.681863964f\n"
+        },
+        {
+          "name": "EnemyResolutionIsImmediateButItsBodyHasAReadableFinish",
+          "result": "Failed",
+          "failure": "Unhandled log message: '[Error] Not allowed to access vertices on mesh 'Mesh_0' (isReadable is false; Read/Write must be enabled in import settings)'. Use UnityEngine.TestTools.LogAssert.Expect"
+        },
+        {
+          "name": "LethalResolutionCancelsAlreadyCreatedAndPendingLungeContacts",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/lifecycle-green.xml",
+      "sha256": "99f05a63f59147d4fa493c0617828afe1ffd9a20dc189fb20e3ea8895456d561",
+      "result": "Passed",
+      "total": "5",
+      "passed": "5",
+      "failed": "0",
+      "skipped": "0",
+      "cases": [
+        {
+          "name": "BothDownFinishTheirCollapseBeforeTheDefeatMenuPausesPlay",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DisabledFlightCraftRemainsRecoverableOnItsFlightPlane",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "DownedBodiesHoldTheirPoseAndGetUpBeforeControlReturns",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "EnemyResolutionIsImmediateButItsBodyHasAReadableFinish",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LethalResolutionCancelsAlreadyCreatedAndPendingLungeContacts",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/lifecycle-support-green.xml",
+      "sha256": "4777805f4b3108c1279487346b393a7e3ec605da9a498ed48b93eb1d83ecf9eb",
+      "result": "Passed",
+      "total": "5",
+      "passed": "5",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "Builds/quality/C3/retry-green.xml",
+      "sha256": "922061232d516cf5575a5cde54db08693633fe5a200e485a7429c6fdd4f624f6",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "builds": [
+    {
+      "folder": "Builds/WindowsDev",
+      "result": "BUILD_OK",
+      "source": "integrated candidate after 39884b5; committed with this manifest",
+      "files": [
+        {
+          "path": "Coronach.exe",
+          "bytes": 667648,
+          "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Combat.dll",
+          "bytes": 84992,
+          "sha256": "69728c7731519835a4a49aa7ecb3711887b80481fc8cc45155f19837f1fedae4"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Core.dll",
+          "bytes": 60928,
+          "sha256": "54fac7457892a9953d00f5e6a5c8393de6fa2db88feac2d1831192ce696198c9"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Data.dll",
+          "bytes": 12800,
+          "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Dialogue.dll",
+          "bytes": 20992,
+          "sha256": "9d4b8888301316d9fd298f9394d4a87d61b08e4c18312ce8a93c1e6d27cd9515"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Rpg.dll",
+          "bytes": 15360,
+          "sha256": "3588e4ea13f04326218c873cd33268f8a14bedfebb6c9978a5687bde75d726c5"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.UI.dll",
+          "bytes": 149504,
+          "sha256": "dc9fac61be1dc1727909944d9eff4349b2614bf2eb1e7491c7deaf0fef0c67f2"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.World.dll",
+          "bytes": 18432,
+          "sha256": "bc18bd6439cd7552f5e213414ef749d903ca5578cd7e3fcfaa37dbf785943e34"
+        },
+        {
+          "path": "Coronach_Data/app.info",
+          "bytes": 15,
+          "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+        },
+        {
+          "path": "Coronach_Data/boot.config",
+          "bytes": 355,
+          "sha256": "1f6ce70e3fa4e46bac483614f979fc77574ea1274899ee9559843a5ded406419"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers",
+          "bytes": 267540,
+          "sha256": "93cedbcdfb3b062a053e53c4e22821b951f516d855e7f1a4974012bf90493b6b"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets",
+          "bytes": 1003692,
+          "sha256": "c04d77963529a0ec72ca87471fc51a223df9c67d50fc7636169d6a0ae01cfcd0"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets.resS",
+          "bytes": 6176992,
+          "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a"
+        },
+        {
+          "path": "Coronach_Data/level0",
+          "bytes": 3820,
+          "sha256": "6fb6249c94db50ad8fff9acbe60795faca54363af5b6c8e5c1aa1337da3c0233"
+        },
+        {
+          "path": "Coronach_Data/level1",
+          "bytes": 1136,
+          "sha256": "4b79d7c3201ea57f7d5acbb7c40a87aa5b268ee53dbc7eaff45e6ccb3076ab89"
+        },
+        {
+          "path": "Coronach_Data/level2",
+          "bytes": 1151724,
+          "sha256": "2a1ffc340073335e541c1b9a506b047c7ff8960800da6c0b9dec31e4e65ce442"
+        },
+        {
+          "path": "Coronach_Data/level2.resS",
+          "bytes": 41200,
+          "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+        },
+        {
+          "path": "Coronach_Data/level3",
+          "bytes": 916904,
+          "sha256": "272615b015a5461fee466d1f0c846f92e642edcbe599ea673142b01aebf8e651"
+        },
+        {
+          "path": "Coronach_Data/level4",
+          "bytes": 157084,
+          "sha256": "9133ce5651a439bb6e1a4d5211c2da2074239b3dc3a48ba5ed8e486a495bcbad"
+        },
+        {
+          "path": "Coronach_Data/level4.resS",
+          "bytes": 22528,
+          "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+        },
+        {
+          "path": "Coronach_Data/level5",
+          "bytes": 209428,
+          "sha256": "3c5a68c316c4eff29cf8bfd755e312a7023ec038d7367ec0ea42033b5cabee9c"
+        },
+        {
+          "path": "Coronach_Data/level5.resS",
+          "bytes": 2880,
+          "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+        },
+        {
+          "path": "Coronach_Data/level6",
+          "bytes": 20172,
+          "sha256": "0a2911bbb04bd52587e0d52c05deefc280ab3fb26a5b96bbf168c4106003edee"
+        },
+        {
+          "path": "Coronach_Data/level7",
+          "bytes": 111516,
+          "sha256": "cfa3e744c8719a25882bde8a5adcad27b2629101f64df63dd8963933107ef4d3"
+        },
+        {
+          "path": "Coronach_Data/level8",
+          "bytes": 20652,
+          "sha256": "d5de8e94a4c02407c51b7a3253b41ed06bc26b76a29f730ab874363ad95fee85"
+        },
+        {
+          "path": "Coronach_Data/level9",
+          "bytes": 30940,
+          "sha256": "e60947566b0ca614dc9221e7c1aa86d00d376f3d36f537f46c24cd60d3506f36"
+        },
+        {
+          "path": "Coronach_Data/resources.assets",
+          "bytes": 15884616,
+          "sha256": "ae9febb4c491e472b1242e0a90c81481196b49b6e5ea2db73c914200df5a17b1"
+        },
+        {
+          "path": "Coronach_Data/resources.assets.resS",
+          "bytes": 263319296,
+          "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+        },
+        {
+          "path": "Coronach_Data/resources.resource",
+          "bytes": 8138400,
+          "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+        },
+        {
+          "path": "Coronach_Data/RuntimeInitializeOnLoads.json",
+          "bytes": 4700,
+          "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+        },
+        {
+          "path": "Coronach_Data/ScriptingAssemblies.json",
+          "bytes": 5261,
+          "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets",
+          "bytes": 83648,
+          "sha256": "ad45773cb494df6c1bf3c8125f3fea64744899306349f88ddef7632e558d9ad7"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets.resS",
+          "bytes": 524288,
+          "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+        },
+        {
+          "path": "Coronach_Data/sharedassets1.assets",
+          "bytes": 361,
+          "sha256": "081ff69513e1ccaa73e63920f9d6324821004944c130ad772c6399ee7c3adf71"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets",
+          "bytes": 603360,
+          "sha256": "2d0aec6fc97d6475dd2ce57f9653173caee2777dec54d4e3ee22b39f9a352adb"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets.resS",
+          "bytes": 11042016,
+          "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets",
+          "bytes": 345044,
+          "sha256": "89f786d893fc1b64ed0d3e42774f409224cff7841ccff71fc2a96d99b36a32cc"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets.resS",
+          "bytes": 7071712,
+          "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets",
+          "bytes": 679284,
+          "sha256": "a710ab60dec55227a4cfb0a78c39366f4b8307d28c952c84803bea35b00c20fd"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets.resS",
+          "bytes": 15370464,
+          "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets",
+          "bytes": 367124,
+          "sha256": "4572d73062e2123699a10a6d7341cefcb53ef375c08bba76d818454855849c2f"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets.resS",
+          "bytes": 5151584,
+          "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets",
+          "bytes": 72932,
+          "sha256": "f98b8d680863c6f6c0462388066af28a45ea3fd77215eb1a73be92496e22e7ea"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets.resS",
+          "bytes": 1693152,
+          "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+        },
+        {
+          "path": "Coronach_Data/sharedassets7.assets",
+          "bytes": 8788,
+          "sha256": "ba7e48a884f86f4857464bb83266c70c85bc180daca75a298667df649eccda47"
+        },
+        {
+          "path": "Coronach_Data/sharedassets8.assets",
+          "bytes": 3716,
+          "sha256": "0b57775b86ff2c537ebd41e105fde275aad929b93d4a7299cf7ca4656ab72ec3"
+        },
+        {
+          "path": "Coronach_Data/sharedassets9.assets",
+          "bytes": 2116,
+          "sha256": "c8aca51d4cf00056385d5654aa2f0743424809c7e6727fdce33eca96522e7c61"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/Windows",
+      "result": "BUILD_OK",
+      "source": "integrated candidate after 39884b5; committed with this manifest",
+      "files": [
+        {
+          "path": "Coronach.exe",
+          "bytes": 667648,
+          "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Combat.dll",
+          "bytes": 79360,
+          "sha256": "8a52a3b010b3ef4c7fd817e3bc16e0f3c79e9c9c7bc87b4c7d0487f45a948090"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Core.dll",
+          "bytes": 58368,
+          "sha256": "eca56b3fcf6d69ae91a4977d0d1232d66bde127ed21bfd7f70e24eea7d55f2f7"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Data.dll",
+          "bytes": 12800,
+          "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Dialogue.dll",
+          "bytes": 19968,
+          "sha256": "4dfb844a2d4a48b51b6bccbbcc8976dfe209bb45f8c711ea72ee4b16e6c8ec59"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Rpg.dll",
+          "bytes": 14848,
+          "sha256": "b8361f608537c1b7674fa34c51c10a48ae8c6efdda99979747cb703a26e9272e"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.UI.dll",
+          "bytes": 134144,
+          "sha256": "a7a2208083c65aedf698e8ade2edbdb4cf78f8502f4e684d9e732bcde2f3f3cc"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.World.dll",
+          "bytes": 17920,
+          "sha256": "d385af1191c652e46178f4d2fd13992ec02d0037dd35f8276643611855180195"
+        },
+        {
+          "path": "Coronach_Data/app.info",
+          "bytes": 15,
+          "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+        },
+        {
+          "path": "Coronach_Data/boot.config",
+          "bytes": 156,
+          "sha256": "4ec0188641943b0d63c8de3a9a2e5b702a46decccf9118a417d4b009ca2cb8b2"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers",
+          "bytes": 267540,
+          "sha256": "7240b2ee32eb26f0773cdbad764b92c8c98a9ae335aba5d367f586830b86019d"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets",
+          "bytes": 1003516,
+          "sha256": "2efca2ec79c254d5b315e6f637df483a642b93f18bafda970bbd503620658b30"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets.resS",
+          "bytes": 6174944,
+          "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04"
+        },
+        {
+          "path": "Coronach_Data/level0",
+          "bytes": 3820,
+          "sha256": "d2a035a411be8484b232a6f451afd0f9ac39d5de10ec4e0cbe8a4c139a25e97b"
+        },
+        {
+          "path": "Coronach_Data/level1",
+          "bytes": 1136,
+          "sha256": "5e240b88a84a7c437a7c3b81ef33d12b7e5b7101e9411e74cebb76059924498f"
+        },
+        {
+          "path": "Coronach_Data/level2",
+          "bytes": 1151724,
+          "sha256": "d921842cbc41679766d86c053f70cc4e50d355a8b7b79fb5df62a3f36bf3fe2b"
+        },
+        {
+          "path": "Coronach_Data/level2.resS",
+          "bytes": 41200,
+          "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+        },
+        {
+          "path": "Coronach_Data/level3",
+          "bytes": 916904,
+          "sha256": "e529e8fe1ba32e5f0945171489c7ea7052e8f354fac9f4e6e41d4f2f8d412ce0"
+        },
+        {
+          "path": "Coronach_Data/level4",
+          "bytes": 157084,
+          "sha256": "23c374655f1a8244457e68aa1c267000f6c023686c3bead7ee85c06cb837bb10"
+        },
+        {
+          "path": "Coronach_Data/level4.resS",
+          "bytes": 22528,
+          "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+        },
+        {
+          "path": "Coronach_Data/level5",
+          "bytes": 209428,
+          "sha256": "8fe6dcf611ff9a32bff45dfe72b48b79219aaf7eacaf6611100930dd55175957"
+        },
+        {
+          "path": "Coronach_Data/level5.resS",
+          "bytes": 2880,
+          "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+        },
+        {
+          "path": "Coronach_Data/level6",
+          "bytes": 20172,
+          "sha256": "9cc845be57c3f8cfa38295a7e30ddb0a2791795bd83d41aa777ac2f5a05b8efd"
+        },
+        {
+          "path": "Coronach_Data/level7",
+          "bytes": 111516,
+          "sha256": "8d326b714d7185b2dc9bff5d0c11fefb70a8771506bebe821473e9bea9841e64"
+        },
+        {
+          "path": "Coronach_Data/level8",
+          "bytes": 20652,
+          "sha256": "e5296bf316bdf7134722fb6856f634800293ec6669811bb760c55df14e951a5b"
+        },
+        {
+          "path": "Coronach_Data/level9",
+          "bytes": 30940,
+          "sha256": "307515a8efdfaeb763fafd5c975ba15e4eae9396caaacda7c463daf1c201217e"
+        },
+        {
+          "path": "Coronach_Data/resources.assets",
+          "bytes": 15884616,
+          "sha256": "09117b813e5b0434ff02bfaef91fe52f8da9cb62edd83cec8ddb99ebf97866b7"
+        },
+        {
+          "path": "Coronach_Data/resources.assets.resS",
+          "bytes": 263319296,
+          "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+        },
+        {
+          "path": "Coronach_Data/resources.resource",
+          "bytes": 8138400,
+          "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+        },
+        {
+          "path": "Coronach_Data/RuntimeInitializeOnLoads.json",
+          "bytes": 4700,
+          "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+        },
+        {
+          "path": "Coronach_Data/ScriptingAssemblies.json",
+          "bytes": 5261,
+          "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets",
+          "bytes": 83648,
+          "sha256": "7dbe83dfbc6f8b67fba40ec6c920b9f613af1dfa616ac8e41135eb3a5d6e0812"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets.resS",
+          "bytes": 524288,
+          "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+        },
+        {
+          "path": "Coronach_Data/sharedassets1.assets",
+          "bytes": 361,
+          "sha256": "cb263abffec26790649ea544d4457f11561d9f059bd4b48ba4b690578660ef50"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets",
+          "bytes": 603360,
+          "sha256": "f34fd186eec73a7b4bb402214501de7fb2ef2ce9ad70284803a4b15ec91beb09"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets.resS",
+          "bytes": 11042016,
+          "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets",
+          "bytes": 345044,
+          "sha256": "aba3e3c8738b08f1c803772e477a76328c9543e9114612a50095474e2827c7a7"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets.resS",
+          "bytes": 7071712,
+          "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets",
+          "bytes": 679284,
+          "sha256": "ea3842dc4cb7f5fd21d7a867dc9ad59b28ebda0a7cddae9ec4e9df19b93e50df"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets.resS",
+          "bytes": 15370464,
+          "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets",
+          "bytes": 367124,
+          "sha256": "234b430ec6c36518f608d24e15fe1dce65d2856354d0b4b98b2cfe47cfc25c23"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets.resS",
+          "bytes": 5151584,
+          "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets",
+          "bytes": 72932,
+          "sha256": "b2278f8d3c3f44bc8fcbbc47681e80a4ac6434fc0636d86f945bbd64e6acbc96"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets.resS",
+          "bytes": 1693152,
+          "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+        },
+        {
+          "path": "Coronach_Data/sharedassets7.assets",
+          "bytes": 8788,
+          "sha256": "4167198c281358ede22a49a0313f637b207e74f669c3a436c3f383a71383f69a"
+        },
+        {
+          "path": "Coronach_Data/sharedassets8.assets",
+          "bytes": 3716,
+          "sha256": "58afb066f9995e95a4ab39bc8d60ac7923738ca39eae6ec88f2560e2d8a65470"
+        },
+        {
+          "path": "Coronach_Data/sharedassets9.assets",
+          "bytes": 2116,
+          "sha256": "ce06dd4a98e62b0f3802cc087a5c04dacb0b5f62760a26caf5ee1d09778afe66"
+        }
+      ]
+    }
+  ],
+  "presentation": "Opened isolated lifecycle/ground support poses; continuous video/audio and physical controller feel UNVERIFIED. Ordinary rebuilt-player replays pending.",
+  "poseSupport": {
+    "red": "Builds/quality/C3/poses-ground-red-01",
+    "redFailure": "TarenNatural Down surface penetration -0.23473",
+    "green": "Builds/quality/C3/poses-support-01",
+    "samples": 27,
+    "csvSha256": "0ad1867fd7b76aca549d55fe4e0a1a58685eb56817780e3bef5671c2327fc157",
+    "observation": "Codex opened actual Sentinel and Shaped Sela terminal images. Isolated framing; in-player death reel remains unverified."
+  },
+  "integrated": [
+    {
+      "path": "Builds/quality/C3/integrated-01/playmode-results.xml",
+      "sha256": "a1d76c419cb0472572aa2b82df8538849cec07f973f538a5f8551d6ce4d9ca15",
+      "result": "Failed(Child)",
+      "total": "47",
+      "passed": "46",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "Lattice.Tests.PlayMode.CorePlayTests.DefeatRetryRestoresTheSavedPartyWithoutAnotherDefeat:   Expected: True\n  But was:  False\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/integrated-02/playmode-results.xml",
+      "sha256": "49dcde131b14774308d7038732904a688b3c664f07756a28a70966324889d581",
+      "result": "Passed",
+      "total": "47",
+      "passed": "47",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "Builds/quality/C3/integrated-02/editmode-results.xml",
+      "sha256": "ae01b99e937d61465a92a73495fbea081e9ec251e9425e8b26f5f7dd713c96f3",
+      "result": "Passed",
+      "total": "39",
+      "passed": "39",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "provenance": {
+    "guidAudit": "Builds/quality/C3/guid-provenance.json",
+    "guidChecks": 15,
+    "donors": {
+      "HeroDeath": "owned CC0 Death01; zero meshes",
+      "HeroRevive": "owned CC0 LayToIdle; zero meshes"
+    }
+  },
+  "preservedSaves": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  }
+}

@@ -11,6 +11,9 @@ namespace Lattice.Combat
         public int index;
         public CombatActor Active=>members[index];
         float revive,nextStats;
+        CombatActor reviveTarget;
+        public float ReviveProgress=>reviveTarget!=null?Mathf.Clamp01(revive/2):0;
+        public CombatActor ReviveTarget=>reviveTarget;
         public int SwapCount{get;private set;}
         void Awake(){Current=this;}
         void Start(){Apply();ZoneController.Current.Changed+=Apply;}
@@ -48,11 +51,15 @@ namespace Lattice.Combat
             PromptService.FindInteraction(Active.transform.position);
             if(Time.unscaledTime>=nextStats){RefreshStats();nextStats=Time.unscaledTime+.5f;}
             for(int i=0;i<members.Length&&i<state.party.Count;i++){state.party[i].integrity=members[i].Health.integrity;state.party[i].charge=members[i].charge;}
-            foreach(var m in members)
+            CombatActor nearbyDown=null;
+            if(Active.Health.Alive&&!Active.Recovering&&!GameServices.Current.Input.Blocked)
+                foreach(var m in members)
+                    if(m!=Active&&!m.Health.Alive&&(m.transform.position-Active.transform.position).sqrMagnitude<4){nearbyDown=m;break;}
+            if(nearbyDown!=reviveTarget){revive=0;reviveTarget=nearbyDown;}
+            if(reviveTarget!=null)
             {
-                if(m==Active||m.Health.Alive)continue;
-                if((m.transform.position-Active.transform.position).sqrMagnitude<4){revive+=Time.deltaTime;if(revive>=2){m.Health.Heal(m.Health.maximum*.35f);revive=0;Debug.Log("REVIVE_OK");}}
-                else revive=0;
+                revive+=Time.deltaTime;
+                if(revive>=2){reviveTarget.Health.Heal(reviveTarget.Health.maximum*.35f);revive=0;reviveTarget=null;Debug.Log("REVIVE_OK");}
             }
             if(!Active.Health.Alive)Swap();
         }

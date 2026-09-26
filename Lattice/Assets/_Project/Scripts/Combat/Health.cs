@@ -21,6 +21,7 @@ namespace Lattice.Combat
         public bool Broken=>Time.time<BrokenUntil;
         public event Action<Health,DamagePacket,float> Damaged;
         public event Action<Health,DamagePacket> Died;
+        public event Action<Health> Revived;
         public static event Action<Health,float,bool> DamageNumber;
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
         void OnDisable(){All.Remove(this);}
@@ -44,7 +45,11 @@ namespace Lattice.Combat
             if(!Alive)Died?.Invoke(this,packet);
             return damage;
         }
-        public void Heal(float amount){integrity=Mathf.Clamp(integrity+Mathf.Max(0,amount),0,maximum);}
-        public void ResetFull(){integrity=maximum;BreakMeter=0;BrokenUntil=0;}
+        public void Heal(float amount)
+        {
+            bool wasAlive=Alive;integrity=Mathf.Clamp(integrity+Mathf.Max(0,amount),0,maximum);
+            if(!wasAlive&&Alive){BreakMeter=0;BrokenUntil=SlowUntil=ShieldUntil=0;Revived?.Invoke(this);}
+        }
+        public void ResetFull(){Heal(maximum);BreakMeter=0;BrokenUntil=SlowUntil=ShieldUntil=0;}
     }
 }

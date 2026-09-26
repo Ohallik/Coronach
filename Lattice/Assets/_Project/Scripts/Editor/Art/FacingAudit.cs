@@ -105,9 +105,10 @@ namespace Lattice.EditorTools
             var baked=new List<(GameObject body,Mesh mesh)>();
             foreach(var skin in skins)
             {
-                var mesh=new Mesh();skin.BakeMesh(mesh);
+                var mesh=UnityEngine.Object.Instantiate(skin.sharedMesh);
+                mesh.vertices=GeneratedGeometry.WorldSkinPoints(skin);mesh.RecalculateBounds();mesh.RecalculateNormals();
                 var body=new GameObject("Evaluated pose",typeof(MeshFilter),typeof(MeshRenderer));
-                body.transform.SetParent(skin.transform,false);body.GetComponent<MeshFilter>().sharedMesh=mesh;
+                body.GetComponent<MeshFilter>().sharedMesh=mesh;
                 body.GetComponent<MeshRenderer>().sharedMaterials=skin.sharedMaterials;
                 skin.enabled=false;baked.Add((body,mesh));
             }

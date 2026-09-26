@@ -90,6 +90,16 @@
         "state": "Pulse",
         "path": "Assets/_Project/Art/Animation/HeroCombat.fbx",
         "name": "Pulse"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Revive",
+        "path": "Assets/_Project/Art/Animation/HeroRevive.fbx",
+        "name": "Revive"
       }
     ]
   },
@@ -184,6 +194,16 @@
         "state": "Pulse",
         "path": "Assets/_Project/Art/Animation/HeroCombat.fbx",
         "name": "Pulse"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Revive",
+        "path": "Assets/_Project/Art/Animation/HeroRevive.fbx",
+        "name": "Revive"
       }
     ]
   },
@@ -278,6 +298,16 @@
         "state": "Pulse",
         "path": "Assets/_Project/Art/Animation/HeroCombat.fbx",
         "name": "Pulse"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Revive",
+        "path": "Assets/_Project/Art/Animation/HeroRevive.fbx",
+        "name": "Revive"
       }
     ]
   },
@@ -372,6 +402,16 @@
         "state": "Pulse",
         "path": "Assets/_Project/Art/Animation/HeroCombat.fbx",
         "name": "Pulse"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Revive",
+        "path": "Assets/_Project/Art/Animation/HeroRevive.fbx",
+        "name": "Revive"
       }
     ]
   },
@@ -406,6 +446,11 @@
         "state": "Attack",
         "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
         "name": "Armature|Armature|Armature|Sword_Attack"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
       }
     ]
   },

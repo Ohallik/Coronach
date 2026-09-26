@@ -57,6 +57,20 @@ namespace Lattice.Combat
                 if (form != null && (form.Current == BodyForm.Flight || form.Current == BodyForm.CivilFlight)) { wanted = "Idle"; visual = false; }
             }
             else if (enemy != null && enemy.Attacking) wanted = "Attack";
+            bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive;
+            bool gettingUp=actor!=null&&actor.Recovering;
+            if(down||gettingUp)
+            {
+                wanted=down?"Down":"Revive";visual=false;
+                if(!lengths.TryGetValue(wanted,out float length))
+                {
+                    foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name==wanted){length=clip.length;break;}
+                    if(length>0)lengths[wanted]=length;
+                }
+                float duration=gettingUp?CombatActor.ReviveDuration:actor!=null?CombatActor.DownDuration:1.15f;
+                rate=length>0?length/duration:1;
+                if(down&&state=="Down"&&!animator.IsInTransition(0)&&animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=1)rate=0;
+            }
             if (!animator.HasState(0, Animator.StringToHash(wanted))) wanted = speed > .12f ? "Walk" : "Idle";
             bool travelling=wanted=="Walk"||wanted=="Run"||wanted=="Sprint";
             StrideScale=1;ReverseLocomotion=false;
@@ -66,7 +80,7 @@ namespace Lattice.Combat
                 {
                     rate=strideProfile.Cadence(wanted,speed);
                     StrideScale=strideProfile.Stride(wanted,speed,rate);
-                    ReverseLocomotion=Vector3.Dot(actor.transform.forward,actor.motor.Velocity.normalized)<-.15f;
+                    ReverseLocomotion=actor.TargetLocked&&Vector3.Dot(actor.transform.forward,actor.motor.Velocity.normalized)<-.15f;
                 }
                 // A state speed multiplier supports reverse locomotion while
                 // the Animator's global speed and the action clocks stay positive.

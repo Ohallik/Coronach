@@ -45,8 +45,9 @@ namespace Lattice.Combat
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
             CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"kill");
-            if(definition.id=="Scrapmite")CombatActor.Strike(transform.position+Vector3.up*.6f,2.5f,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse});
-            if(warning!=null)warning.SetActive(false);controller.enabled=false;Destroy(gameObject,.25f);
+            StopAllCoroutines();lunging=false;Telegraphing=false;attackAnimationUntil=0;
+            if(definition.id=="Scrapmite")CombatActor.Strike(transform.position+Vector3.up*.6f,2.5f,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
+            if(warning!=null)warning.SetActive(false);controller.enabled=false;enabled=false;
         }
         void Update()
         {

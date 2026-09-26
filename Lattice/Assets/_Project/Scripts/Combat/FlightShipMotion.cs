@@ -18,7 +18,7 @@ namespace Lattice.Combat
         }
         void LateUpdate()
         {
-            if (actor == null || GameTime.Paused) return;
+            if (actor == null || GameTime.Paused || !actor.Health.Alive || actor.Recovering) return;
             float yaw = actor.transform.eulerAngles.y;
             float turn = Mathf.DeltaAngle(previousYaw, yaw) / Mathf.Max(.001f, Time.unscaledDeltaTime);
             previousYaw = yaw;

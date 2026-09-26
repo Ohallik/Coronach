@@ -30,26 +30,42 @@ namespace Lattice.Combat
         public readonly float[] cooldowns=new float[4];
         float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil,lastComboAt=-99;
         bool guarding,critical,flashConsumed;
+        float recoverUntil;
+        public const float DownDuration=1.05f,ReviveDuration=1.15f;
+        public bool Recovering=>Health.Alive&&GameTime.Now<recoverUntil;
         public float GuardDamageMultiplier=>guarding?.35f:1;
-        public bool CanAct=>!GameTime.Paused&&Health.Alive&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
+        public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
         public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
-        void Awake(){Health=GetComponent<Health>();Health.Died+=(_,__)=>{State=ActorState.Down;TargetLocked=false;};}
+        void Awake(){Health=GetComponent<Health>();Health.Died+=OnDown;Health.Revived+=OnRevive;}
+        void OnDestroy(){Health.Died-=OnDown;Health.Revived-=OnRevive;}
+        void CancelAction()
+        {AttackSequence++;VisualAttackUntil=0;guarding=false;refractUntil=0;critical=false;combo=0;}
+        void Halt()
+        {if(TryGetComponent<GroundMotor>(out var ground))ground.Halt();if(TryGetComponent<FlightMotor>(out var ship))ship.Halt();}
+        void OnDown(Health _,DamagePacket __)
+        {CancelAction();State=ActorState.Down;TargetLocked=false;target=null;recoverUntil=0;Halt();}
+        void OnRevive(Health _)
+        {
+            CancelAction();recoverUntil=GameTime.Now+ReviveDuration;actionUntil=nextAttack=recoverUntil;
+            Health.InvulnerableUntil=Mathf.Max(Health.InvulnerableUntil,recoverUntil+.35f);State=ActorState.Down;Halt();
+        }
         void Update()
         {
-            if(!Health.Alive)return;
+            if(!Health.Alive||Recovering)return;
             if(GameTime.Now>=actionUntil&&State!=ActorState.Guard)State=motor!=null&&motor.Velocity.sqrMagnitude>.1f?ActorState.Move:ActorState.Idle;
             charge=Mathf.Max(0,charge-Time.deltaTime*.4f);thrust=Mathf.Min(100,thrust+Time.deltaTime*17);
             for(int i=0;i<4;i++)cooldowns[i]=Mathf.Max(0,cooldowns[i]-Time.deltaTime);
         }
         public void Guard(bool held)
         {
+            if(!Health.Alive||Recovering){guarding=false;return;}
             if(held&&!guarding){guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
             guarding=held&&!flight; if(guarding)State=ActorState.Guard;else if(State==ActorState.Guard)State=ActorState.Idle;
         }
-        public void Stagger(float seconds){if(!Health.Alive)return;State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;guarding=false;}
+        public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
         {
-            if(GameTime.Paused||!Health.Alive||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
+            if(GameTime.Paused||!Health.Alive||Recovering||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
             State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
             BeginVisual("Dodge",flight?.3f:.25f);
             AudioManager.Play("thrusterFire_000",.16f);
@@ -142,13 +158,19 @@ namespace Lattice.Combat
             State=ActorState.Attack;nextAttack=GameTime.Now+.7f;actionUntil=GameTime.Now+.2f;
             BeginVisual("Dash",.42f);
             var direction=target!=null&&target.Alive?(target.transform.position-transform.position).normalized:motor.Facing;
-            direction.y=0;StartCoroutine(LungePath(direction));return true;
+            direction.y=0;StartCoroutine(LungePath(direction,AttackSequence));return true;
         }
-        IEnumerator LungePath(Vector3 direction)
+        IEnumerator LungePath(Vector3 direction,int sequence)
         {
             Vector3 start=transform.position;motor.Dash(direction,8);
             var victims=new System.Collections.Generic.HashSet<Health>();var packet=Packet(damage,edgeType,28,"lunge");
-            for(int i=0;i<5;i++){while(GameTime.Paused)yield return null;var at=start+direction*(i*1.7f)+Vector3.up*.8f;var hit=Strike(at,1.05f,packet);hit.hit=victims;CombatVfx.Burst(at,character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"lunge");yield return null;}
+            for(int i=0;i<5;i++)
+            {
+                while(GameTime.Paused)yield return null;
+                if(!Health.Alive||sequence!=AttackSequence||State!=ActorState.Attack)yield break;
+                var at=start+direction*(i*1.7f)+Vector3.up*.8f;var hit=Strike(at,1.05f,packet);hit.hit=victims;
+                CombatVfx.Burst(at,character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"lunge");yield return null;
+            }
         }
         public bool Skill(int slot)
         {
@@ -201,7 +223,7 @@ namespace Lattice.Combat
         public static HitVolume Strike(Vector3 position,float radius,DamagePacket packet)
         {
             var go=new GameObject("HitVolume",typeof(HitVolume));go.transform.position=position;
-            var v=go.GetComponent<HitVolume>();v.radius=radius;v.packet=packet;
+            var v=go.GetComponent<HitVolume>();v.radius=radius;v.packet=packet;v.BindOwner();
             return v;
         }
         public void AwardHit(){charge=Mathf.Min(100,charge+7*(1+Mathf.Max(0,resonance-10)*.025f));}

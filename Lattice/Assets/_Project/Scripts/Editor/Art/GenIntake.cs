@@ -125,6 +125,7 @@ namespace Lattice.EditorTools
                 }
                 if(row.form=="Flight")root.AddComponent<Lattice.Combat.FlightShipMotion>();
                 Directory.CreateDirectory(Path.GetDirectoryName(Prefab(row)));var prefab=PrefabUtility.SaveAsPrefabAsset(root,Prefab(row));
+                if(row.kind=="biped"&&row.clips.Any(c=>c.state=="Down"))LifecycleCalibration.Install(row);
                 if(!string.IsNullOrEmpty(row.character))
                 {
                     var definition=GameCatalog.Find<CharacterDef>(row.character);if(definition==null)throw new InvalidOperationException("Unknown character "+row.character);

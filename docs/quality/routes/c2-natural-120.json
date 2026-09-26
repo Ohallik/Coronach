@@ -730,6 +730,18 @@
       "expectedForm": "Natural"
     },
     {
+      "name": "Sela align with office opening",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
       "name": "Sela return to clear circulation",
       "seconds": 9,
       "navigate": true,
