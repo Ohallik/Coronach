@@ -1,0 +1,435 @@
+{
+  "date": "2026-09-27T09:56:08.796189+00:00",
+  "status": "C4 OPEN; staged fold focused source checkpoint",
+  "parent": "5f7598a0306b98b1a422252f3c5649e0cca69de9",
+  "tests": [
+    {
+      "raw": {
+        "path": "Builds/quality/C4/form-stages-red01/playmode-results.xml",
+        "bytes": 13970,
+        "sha256": "f248bca78a79ebee58b6b22b850b3eccc8c203b6641692c8e83f15c7c3ae8270"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "5",
+        "passed": "0",
+        "failed": "5",
+        "skipped": "0",
+        "duration": "15.5017057",
+        "start-time": "2026-09-27 09:45:24Z",
+        "end-time": "2026-09-27 09:45:40Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.BothHeroesFoldAttachedVanesWithoutMiniaturisingTheirBody",
+          "message": "  Taren body collapses instead of folding\n  Expected: (1.00, 1.00, 1.00)\n  But was:  (0.44, 0.44, 0.44)\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.HullWingsFoldBeforeLandingAndReturnToTheirExactGeneratedMesh",
+          "message": "Unhandled log message: '[Error] Not allowed to access vertices on mesh 'Mesh_0' (isReadable is false; Read/Write must be enabled in import settings)'. Use UnityEngine.TestTools.LogAssert.Expect"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.LethalInterruptionLeavesOneFullHullForFlightDefeat",
+          "message": "  death left a live body replacement coroutine\n  Expected: False\n  But was:  True\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.OrdinaryDockInteractionFoldsBeforeSceneFadeAndOpensTheArrival",
+          "message": "  ordinary dock skipped departure folding\n  Expected: True\n  But was:  False\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.TransitionCancelsPendingCombatAndRejectsNewActionsUntilOneBodySettles",
+          "message": "  pending contact survived body replacement\n  Expected: greater than 1\n  But was:  1\n"
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/form-stages-red01/editmode-results.xml",
+        "bytes": 7046,
+        "sha256": "440cae9e09316af65bef29e25820ca0b731137b9205d014877d5ccd5cd0c0b09"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "2",
+        "passed": "0",
+        "failed": "2",
+        "skipped": "0",
+        "duration": "0.0422615",
+        "start-time": "2026-09-27 09:46:34Z",
+        "end-time": "2026-09-27 09:46:34Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.EditMode.FlightFoldAssetTests.ShippedHullRetainsTheGeometryRequiredForFolding(\"Taren\")",
+          "message": "  Taren player discards CPU hull data; editor-only vertex access hides this defect\n  Expected: True\n  But was:  False\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.FlightFoldAssetTests.ShippedHullRetainsTheGeometryRequiredForFolding(\"Sela\")",
+          "message": "  Sela player discards CPU hull data; editor-only vertex access hides this defect\n  Expected: True\n  But was:  False\n"
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/form-stages-green02/playmode-results.xml",
+        "bytes": 19752,
+        "sha256": "233c453b081990c498a8cb817131e22a1d498c5be41b800b90ac181d609e26ad"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "11",
+        "passed": "10",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "45.2144499",
+        "start-time": "2026-09-27 09:50:22Z",
+        "end-time": "2026-09-27 09:51:08Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.OrdinaryDockInteractionFoldsBeforeSceneFadeAndOpensTheArrival",
+          "message": "UnityEngine.MissingReferenceException : The object of type 'Lattice.World.DockingPad' has been destroyed but you are still trying to access it.\nYour script should either check if it is null or you should not destroy the object."
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/form-stages-travel-red01/playmode-results.xml",
+        "bytes": 5779,
+        "sha256": "6d39534a1ed2033eaed08c51d94615d0ef1b879872c2d21cb4e86e4d380f8c57"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "3.0517906",
+        "start-time": "2026-09-27 09:51:53Z",
+        "end-time": "2026-09-27 09:51:56Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.FormStageTests.FoldingStopsAnExistingDashAndHoldsTravelUntilTheBodyIsReady",
+          "message": "  folding body kept travelling under old dash or new input\n  Expected: less than 0.00100000005f\n  But was:  0.363057107f\n"
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/form-stages-green03/playmode-results.xml",
+        "bytes": 18970,
+        "sha256": "d1bef6f4560598e53e6153dcb5c964bdb0bcbd7fd85ae046ad79ebf028b92539"
+      },
+      "result": {
+        "result": "Passed",
+        "total": "12",
+        "passed": "12",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "49.0002309",
+        "start-time": "2026-09-27 09:53:06Z",
+        "end-time": "2026-09-27 09:53:55Z"
+      },
+      "failures": []
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/form-stages-green03/editmode-results.xml",
+        "bytes": 9609,
+        "sha256": "0eb3e73893218f065ea071365fdad3cce0190fb6c4105b92a9486fdab353f203"
+      },
+      "result": {
+        "result": "Passed",
+        "total": "6",
+        "passed": "6",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "0.1028684",
+        "start-time": "2026-09-27 09:54:04Z",
+        "end-time": "2026-09-27 09:54:04Z"
+      },
+      "failures": []
+    }
+  ],
+  "sources": [
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FormContinuityTests.cs",
+      "bytes": 6882,
+      "sha256": "108012905943bb9f998e7b37112a2b22af3b87b8fbd302531a1a64de4ad56526"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Art/Generated/Models/SelaFlight/SelaFlight_clean.fbx.meta",
+      "bytes": 2853,
+      "sha256": "631aedb90b6b24b1b0060906123002de50792167d22b84dad0346fdcaeac9c55"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Art/Generated/Models/TarenFlight/TarenFlight_clean.fbx.meta",
+      "bytes": 2853,
+      "sha256": "ceb66fbe0bd2610b6a2da705507acc36d384147b43564435247c6026ed860911"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "bytes": 15088,
+      "sha256": "b3a59514951c0364d254015dbfd781de55b7731ffc52fc32d78e75f912f20476"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+      "bytes": 2751,
+      "sha256": "6f501fc34f6ce816c28695c03d4c0f7f359a99bfc82e0566aae50e7307ff43ad"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightMotor.cs",
+      "bytes": 5057,
+      "sha256": "a9c2ea46aebdd3edb991b8e3e1f3af429558838e660ff1e8d3aa933f135a9040"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightShipMotion.cs",
+      "bytes": 1700,
+      "sha256": "863efb112dd791365d47484f6deda2d21fd69dbfd485ef8d28e4b1bb376cd606"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightThrusters.cs",
+      "bytes": 3298,
+      "sha256": "4ffadcbfef8e0e988b63e573115e6574da6b3a4784316d097c83b8b9e60f8560"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FormController.cs",
+      "bytes": 5757,
+      "sha256": "78bc3c6593480c17a7418113f27a15cf2f46c37c62d57ec4d95d5f78ca2efb93"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+      "bytes": 10371,
+      "sha256": "6e822fbec983d4432fb991cc3982a500fcf9e56d217ff84e79db92e662f1efb4"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundMotor.cs",
+      "bytes": 5880,
+      "sha256": "d48e7fc57654d4d53b9746a4dd95bd4d963838807464b9839b1f9f62ecfcadea"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Core/SceneFlow.cs",
+      "bytes": 3233,
+      "sha256": "76bfe11c41a02128616997d14ee9532ab94ec45c868f9ff79fe64de7aec77ca2"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/GenIntake.cs",
+      "bytes": 16151,
+      "sha256": "aa12a2e915fb6f675b77282e8522a535c3b37fea4874d2812283746c615050fa"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/World/DockingPad.cs",
+      "bytes": 1282,
+      "sha256": "ee9095163a30565c248c6f82412ad14bcf31474067578d3076fac55693a2eaf1"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FormFold.cs",
+      "bytes": 7905,
+      "sha256": "965f321f4db559840ec5d495a23f0afca82ae5375fe5a9369de7be65e66a2074"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/FormStagingAudit.cs",
+      "bytes": 4526,
+      "sha256": "e4a5b748a70ed91778a9a295cb9593c2271e0f154872c37c09622e28e84048b6"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FormStageTests.cs",
+      "bytes": 8447,
+      "sha256": "71b3f08861ba7d2e4f41915fcbe657102e735c92e22fff9071652a176fdc7c68"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/FlightFoldAssetTests.cs",
+      "bytes": 748,
+      "sha256": "7626137513ea2e639e5a8c04da8b143e1340415fa9d336f66c8115b2ea371d51"
+    }
+  ],
+  "openedStills": [
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Natural-0-side.png",
+      "bytes": 33870,
+      "sha256": "3f226db886cf7421900cf4f10209a3db4b1973732bf3bd4a65537eb03b369d1b"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Natural-50-side.png",
+      "bytes": 34234,
+      "sha256": "795d9e03d3655a2e6e095a8745630b61d72933035e615d323a54b292d370aa64"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Natural-100-side.png",
+      "bytes": 33959,
+      "sha256": "decd3656b37f6e3b651b4aadba76e0ffcf457a05aa389579e6e87ee942983be8"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Natural-100-front.png",
+      "bytes": 25263,
+      "sha256": "93135ac10d4314e5fb3c3eb85b6e285d0995d58872f1a2091eb5bd12d6a6f86d"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Natural-100-top.png",
+      "bytes": 34302,
+      "sha256": "77f5cad76ebd88798f2138d0e6822c90e372a6990688cac2b6b734f40f76ae0c"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Shaped-0-side.png",
+      "bytes": 34458,
+      "sha256": "07650045edc64b15590b4e94515a1d0d93baf29e457251671186b0b52588061e"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Shaped-50-side.png",
+      "bytes": 34633,
+      "sha256": "51a02325fa3e6143a50b48ecce00d7e6050335606089a7142a1796e4108a7d32"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Shaped-100-side.png",
+      "bytes": 35986,
+      "sha256": "895921dd9a9be3d1c5d299b4f15eb40f71a7218657eaac7a3ff8749eca048127"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Shaped-100-front.png",
+      "bytes": 25955,
+      "sha256": "a87f8b1b29d2525ea9a91b5eaa9a5246b0ea335a930ba5bd27f361b6f41c8117"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Shaped-100-top.png",
+      "bytes": 34534,
+      "sha256": "c3dbdfd8477c2f3b79507a60a40f30a382bd194f015c264aac79607039a2ed39"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Flight-0-side.png",
+      "bytes": 42568,
+      "sha256": "c4509fe119d6139e0c03edd1173762d30004cbaa5cdb1eb39ca2e8cd0c36100b"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Flight-50-side.png",
+      "bytes": 48694,
+      "sha256": "ebbcb55a1658ef2e9446d465cd3c73abe69da6a2365374c47ba7055777aa99ca"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Flight-100-side.png",
+      "bytes": 51765,
+      "sha256": "d0d155aa3e7acfebbc7b877fd245f48fecfaeca5c0f825f1ecb42aeb7bb94c47"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Flight-100-front.png",
+      "bytes": 38503,
+      "sha256": "c7298b5c1f2b3f3cfea81ccd31df77cdc290d7b91c1fb95957d5954a83b708be"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Taren-Flight-100-top.png",
+      "bytes": 76797,
+      "sha256": "10c20b4763c362e1f7ca128431b2c16ee39146db863d4f68bba86518e222f067"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Natural-0-side.png",
+      "bytes": 35042,
+      "sha256": "6e3fea7ce6957f4b334d711c806b6bdcb6810b94915bb06f0ba446deae35aa82"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Natural-50-side.png",
+      "bytes": 36374,
+      "sha256": "e14a5ff4a1daa76980c7dd43230b15af73e0f60ee6643bb2fb9af475f8cf1197"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Natural-100-side.png",
+      "bytes": 34658,
+      "sha256": "760b6f7c9560fe138a069fd9f6a7949d52a7d8691b87a267dcb6688acc65b7fe"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Natural-100-front.png",
+      "bytes": 24363,
+      "sha256": "34520978329b958422888a1b506f845ed1607c36d8f4a56025eeefe1a3e77f02"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Natural-100-top.png",
+      "bytes": 28517,
+      "sha256": "6ee794337e1c447103693378cdf40067e8f88ab2a7dd8090f3168530e788ca0f"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Shaped-0-side.png",
+      "bytes": 40869,
+      "sha256": "8dcbd64c5421686dee9e892fb361e2b5db2f672775a7de8cfdc2f5aea644929a"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Shaped-50-side.png",
+      "bytes": 40497,
+      "sha256": "24e3bb24e892e07e467a06dd23a3d163dfeb5c91801b0f869f5170005a396911"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Shaped-100-side.png",
+      "bytes": 38669,
+      "sha256": "ed16cfa361a77fca9a4fd31e57315a733155e2898ee85159ce48f1eccdc0204e"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Shaped-100-front.png",
+      "bytes": 25656,
+      "sha256": "93e1e68c1604954a38a74cd62706b5d0b2911546b4b2c07495ad66ddd2aee835"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Shaped-100-top.png",
+      "bytes": 31981,
+      "sha256": "ce65b425a12550ef64bd287a7797057355945329e7702a1e4fb974bd16eea961"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Flight-0-side.png",
+      "bytes": 41079,
+      "sha256": "56c511e1b0926e0f92b457134b592ad170184e0651d674efccb9ea02453b62e5"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Flight-50-side.png",
+      "bytes": 43818,
+      "sha256": "afd85080c07c33dbb898d6efa1dda9e3a46e12b0b8178b89cb2548688ab59d71"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Flight-100-side.png",
+      "bytes": 49041,
+      "sha256": "33f13b340f5c7b4b647146dd5c187d75bf89ed693d3adb8ff69ef3c99b117da7"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Flight-100-front.png",
+      "bytes": 34381,
+      "sha256": "934d9030b4d192fbab624cc820773cee2843872a3ed4229253aca2205309b2c1"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/Sela-Flight-100-top.png",
+      "bytes": 69609,
+      "sha256": "fd2ddcda661cbf5290686c682cf0b94d380a9e08a7685a7042521febc9c9b020"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-01/Taren-Natural-0-side.png",
+      "bytes": 33870,
+      "sha256": "3f226db886cf7421900cf4f10209a3db4b1973732bf3bd4a65537eb03b369d1b"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-01/Taren-Natural-100-side.png",
+      "bytes": 33959,
+      "sha256": "decd3656b37f6e3b651b4aadba76e0ffcf457a05aa389579e6e87ee942983be8"
+    }
+  ],
+  "renderEvidence": [
+    {
+      "path": "Builds/quality/C4/form-stages-01/editor.log",
+      "bytes": 49046,
+      "sha256": "254cb7dae6e184597d32b4ef7487e9d59669bde9191a1adafac4b5ded00e1650"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/editor.log",
+      "bytes": 45705,
+      "sha256": "e72cfdb63b44ec5a59518ba79072a99e0736576aa6e9b5e54b2c6caf8ea33370"
+    },
+    {
+      "path": "Builds/quality/C4/form-stages-02/geometry.csv",
+      "bytes": 1329,
+      "sha256": "b3891035db12e0bbefd1fff6622d7c53ea6f0690406593caae2ee96c34bd35eb"
+    }
+  ],
+  "humanSaves": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  },
+  "limits": [
+    "Both packages still contain feac4b9",
+    "Full integrated suites and ordinary player recapture pending",
+    "Continuous motion, audio audition and physical controller feel UNVERIFIED"
+  ]
+}

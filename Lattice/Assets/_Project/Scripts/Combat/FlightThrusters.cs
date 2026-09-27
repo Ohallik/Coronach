@@ -36,7 +36,7 @@ namespace Lattice.Combat
         }
         void LateUpdate()
         {
-            if(!actor.flight||!actor.Health.Alive||actor.Recovering){Clear();return;}
+            if(!actor.flight||!actor.Health.Alive||actor.Recovering||GetComponent<FormController>().Shaping){Clear();return;}
             if(GameTime.Paused)return;
             if(flames==null)Prepare();
             drive=Mathf.MoveTowards(drive,motor.EngineDrive,Time.deltaTime*14);

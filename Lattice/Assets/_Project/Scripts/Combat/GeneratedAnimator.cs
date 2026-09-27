@@ -49,6 +49,7 @@ namespace Lattice.Combat
         void Update()
         {
             if (animator == null || !animator.isActiveAndEnabled) return;
+            if (form != null && form.Shaping) { animator.speed = 0; previous = transform.position; return; }
             if (GameTime.Paused) { animator.speed = 0; previous = transform.position; return; }
             float speed = actor?.motor != null ? actor.motor.Velocity.magnitude :
                 Vector3.Distance(transform.position, previous) / Mathf.Max(.001f, Time.deltaTime);

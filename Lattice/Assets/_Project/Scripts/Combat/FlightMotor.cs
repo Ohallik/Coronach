@@ -46,7 +46,7 @@ namespace Lattice.Combat
         }
         public void Move(Vector2 input,bool boost,bool brake)
         {
-            if(actor!=null&&(!actor.Health.Alive||actor.Recovering)){Halt();return;}
+            if(actor!=null&&(!actor.Health.Alive||actor.Recovering||actor.ChangingForm)){Halt();return;}
             if(Core.GameTime.Paused)return;
             Vector3 thrust=Vector3.ClampMagnitude(new Vector3(input.x,0,input.y),1);float dt=actor!=null?actor.MotorDelta:Time.deltaTime;
             thrustFrame=Time.frameCount;engineDrive=thrust.magnitude*(boost?2:1);

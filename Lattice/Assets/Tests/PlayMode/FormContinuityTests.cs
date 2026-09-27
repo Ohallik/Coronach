@@ -27,24 +27,27 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.3f);}
-        [UnityTest] public IEnumerator RepeatingTheRequestedFormDoesNotRestartItsShrinkingBody()
+        [UnityTest] public IEnumerator RepeatingTheRequestedFormDoesNotRestartItsFold()
         {
             form.Set(BodyForm.Natural);yield return new WaitForSecondsRealtime(.15f);
-            float before=form.shaped.transform.localScale.x;Assert.Less(before,.9f);
+            var before=form.shaped.transform.localRotation;Assert.Greater(Quaternion.Angle(before,Quaternion.identity),2,"outgoing body did not start its staged pose");
             form.Set(BodyForm.Natural);
-            Assert.LessOrEqual(form.shaped.transform.localScale.x,before+.05f,"same-form request pops the shrinking body back to full size");
+            Assert.Less(Quaternion.Angle(before,form.shaped.transform.localRotation),.05f,"same-form request pops the posed body");
             yield return new WaitForSecondsRealtime(.55f);
             Assert.IsFalse(form.Shaping,"same request unnecessarily extended the transition");Assert.AreEqual(BodyForm.Natural,form.Current);
             Assert.AreEqual(Vector3.one,form.natural.transform.localScale);
         }
-        [UnityTest] public IEnumerator ReversingBeforeTheSwapGrowsTheExistingBodySmoothly()
+        [UnityTest] public IEnumerator ReversingBeforeTheExchangeOpensTheExistingBodySmoothly()
         {
             form.Set(BodyForm.Natural);yield return new WaitForSecondsRealtime(.15f);
-            float before=form.shaped.transform.localScale.x;form.Set(BodyForm.Shaped);
-            Assert.LessOrEqual(form.shaped.transform.localScale.x,before+.05f,"reversal jumps to full scale immediately");
-            float lowest=before;float deadline=Time.unscaledTime+.7f;
-            while(Time.unscaledTime<deadline){lowest=Mathf.Min(lowest,form.shaped.transform.localScale.x);Assert.IsTrue(form.shaped.activeSelf);yield return null;}
-            Assert.GreaterOrEqual(lowest,before-.05f,"returning to the visible form unnecessarily collapses it first");
+            var before=form.shaped.transform.localRotation;float angle=Quaternion.Angle(before,Quaternion.identity);form.Set(BodyForm.Shaped);
+            Assert.Less(Quaternion.Angle(before,form.shaped.transform.localRotation),.05f,"reversal snaps to the rest pose immediately");
+            float deadline=Time.unscaledTime+.7f;
+            while(Time.unscaledTime<deadline)
+            {
+                Assert.LessOrEqual(Quaternion.Angle(form.shaped.transform.localRotation,Quaternion.identity),angle+.1f,"returning to the visible form unnecessarily folds it further");
+                Assert.IsTrue(form.shaped.activeSelf);Assert.AreEqual(Vector3.one,form.shaped.transform.localScale);yield return null;
+            }
             Assert.AreEqual(BodyForm.Shaped,form.Current);Assert.IsFalse(form.Shaping);Assert.AreEqual(Vector3.one,form.shaped.transform.localScale);
         }
         [UnityTest] public IEnumerator CivilAndCombatFlightKeepTheSameVisibleHull()
@@ -52,14 +55,15 @@ namespace Lattice.Tests.PlayMode
             form.Set(BodyForm.Flight);yield return new WaitForSecondsRealtime(.7f);
             Assert.IsTrue(form.flight.activeSelf);form.Set(BodyForm.CivilFlight);
             Assert.AreEqual(BodyForm.CivilFlight,form.Current,"form semantics should update without rebuilding the same hull");
-            Assert.IsFalse(form.Shaping,"same hull should not perform a shrink/swap/grow");
+            Assert.IsFalse(form.Shaping,"same hull should not restart its transformation");
             Assert.AreEqual(Vector3.one,form.flight.transform.localScale);
         }
         [UnityTest] public IEnumerator PauseFreezesThenCompletesTheSameTransition()
         {
             form.Set(BodyForm.Natural);yield return new WaitForSecondsRealtime(.15f);GameTime.Paused=true;
-            Vector3 before=form.shaped.transform.localScale;yield return new WaitForSecondsRealtime(.25f);
-            Assert.AreEqual(before,form.shaped.transform.localScale);Assert.IsTrue(form.Shaping);
+            var rootPose=form.shaped.transform.localRotation;var vanes=form.shaped.GetComponent<GeneratedVanes>();var vanePose=vanes.vanes[0].localRotation;
+            yield return new WaitForSecondsRealtime(.25f);
+            Assert.AreEqual(rootPose,form.shaped.transform.localRotation);Assert.AreEqual(vanePose,vanes.vanes[0].localRotation);Assert.IsTrue(form.Shaping);
             GameTime.Paused=false;yield return new WaitForSecondsRealtime(.6f);
             Assert.AreEqual(BodyForm.Natural,form.Current);Assert.IsFalse(form.Shaping);Assert.AreEqual(Vector3.one,form.natural.transform.localScale);
         }
@@ -78,8 +82,9 @@ namespace Lattice.Tests.PlayMode
                 foreach(var requested in new[]{BodyForm.Natural,BodyForm.Natural,BodyForm.Shaped,BodyForm.Natural,BodyForm.Flight,BodyForm.CivilFlight})
                 {
                     var visible=target.natural.activeSelf?target.natural:target.shaped.activeSelf?target.shaped:target.flight;
-                    float before=visible.transform.localScale.x;target.Set(requested);
-                    Assert.LessOrEqual(visible.transform.localScale.x,before+.05f,hero.character+" request snapped the visible body scale");
+                    var rotation=visible.transform.localRotation;var position=visible.transform.localPosition;target.Set(requested);
+                    Assert.Less(Quaternion.Angle(rotation,visible.transform.localRotation),.05f,hero.character+" request snapped the visible body pose");
+                    Assert.Less(Vector3.Distance(position,visible.transform.localPosition),.001f);Assert.AreEqual(Vector3.one,visible.transform.localScale);
                     yield return new WaitForSecondsRealtime(.12f);
                     Assert.AreEqual(1,(target.natural.activeSelf?1:0)+(target.shaped.activeSelf?1:0)+(target.flight.activeSelf?1:0));
                 }

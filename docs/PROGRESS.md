@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 staged transformation source checkpoint - September 27
+
+**C4 OPEN.** Full-size humanoids now tuck and fold their attached vanes; generated ship wings fold before replacement and open afterward. Ordinary docking waits for departure folding and opens arrivals during fade-in. Six reproduced runtime failures plus unreadable flight imports are corrected; the focused matrix passes **12/12 PlayMode and 6/6 EditMode, zero skips**. Thirty opened controlled stills support intact candidate geometry, with exchange readability still awaiting player capture. [Evidence](validation/C4-staged-forms.md) retains the failed fixture cleanup and renderer attempt too. Human saves are unchanged. Full suites and both rebuilt players are pending; packages retain `feac4b9`. Disable/overlap, long circuit acceptance, map work and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.
+
 ## C4 long circuit rejection checkpoint - September 27
 
 **C4 OPEN.** Both five-minute civil circuits complete navigation but confirm outside docking range. Both Gullet circuits clear their two chambers; focus loss rejects both, and Sela's later wall strike triggers down/automatic swap/revival. Tallow docks and returns with full focus, but its approach target lies inside the enlarged hull clearance. All five remain rejected. [Evidence](validation/C4-long-circuits-rejected.md) retains exact failures and opened stills, including a newly visible overlap between a live and disabled craft. Revised ordinary approach/tactical inputs await recapture with the staged transformation candidate. Full suites, map work and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.

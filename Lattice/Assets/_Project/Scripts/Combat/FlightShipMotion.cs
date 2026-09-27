@@ -7,18 +7,18 @@ namespace Lattice.Combat
     /// <summary>Presentation only: bank and roll the generated ship without rotating its collider.</summary>
     public sealed class FlightShipMotion : MonoBehaviour
     {
-        CombatActor actor;
+        CombatActor actor;FormController form;
         float previousYaw, bank, rollStart = -10;
         ActorState previousState;
         void OnEnable()
         {
-            actor = GetComponentInParent<CombatActor>();
+            actor = GetComponentInParent<CombatActor>();form=GetComponentInParent<FormController>();
             previousYaw = actor != null ? actor.transform.eulerAngles.y : 0;
             bank = 0; previousState = ActorState.Idle; rollStart = -10;
         }
         void LateUpdate()
         {
-            if (actor == null || GameTime.Paused || !actor.Health.Alive || actor.Recovering) return;
+            if (actor == null || (form!=null&&form.Shaping) || GameTime.Paused || !actor.Health.Alive || actor.Recovering) return;
             float yaw = actor.transform.eulerAngles.y;
             float turn = Mathf.DeltaAngle(previousYaw, yaw) / Mathf.Max(.001f, Time.unscaledDeltaTime);
             previousYaw = yaw;

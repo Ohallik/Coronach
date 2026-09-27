@@ -21,7 +21,7 @@ namespace Lattice.Combat
         public void Halt(){measuredVelocity=DesiredVelocity=travelVelocity=dash=Vector3.zero;dashTime=0;movedFrame=-2;Phase=TravelPhase.Idle;}
         public void Move(Vector2 input,bool boost,bool brake)
         {
-            if(actor!=null&&(!actor.Health.Alive||actor.Recovering)){Halt();return;}
+            if(actor!=null&&(!actor.Health.Alive||actor.Recovering||actor.ChangingForm)){Halt();return;}
             Vector3 direction=new Vector3(input.x,0,input.y);if(direction.sqrMagnitude>1)direction.Normalize();
             Vector3 look=direction;
             if(actor!=null&&actor.TargetLocked&&actor.target!=null&&actor.target.Alive)
@@ -73,7 +73,7 @@ namespace Lattice.Combat
         // an intended path which collision prevented the body from travelling.
         public void MoveAction(Vector3 displacement,Vector3 heading)
         {
-            if(GameTime.Paused||!enabled||!controller.enabled||!actor.Health.Alive)return;
+            if(GameTime.Paused||!enabled||!controller.enabled||!actor.Health.Alive||actor.ChangingForm)return;
             transform.rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(heading),900*Time.unscaledDeltaTime);
             Facing=transform.forward;
             Vector3 before=transform.position;controller.Move(displacement);var actual=transform.position-before;actual.y=0;

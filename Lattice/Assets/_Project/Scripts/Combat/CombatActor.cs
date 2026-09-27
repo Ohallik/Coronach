@@ -38,12 +38,14 @@ namespace Lattice.Combat
         internal void ArmRefract()=>refractUntil=GameTime.Now+1.4f;
         public bool Recovering=>Health.Alive&&GameTime.Now<recoverUntil;
         public float GuardDamageMultiplier=>guarding?.35f:1;
-        public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
+        public bool ChangingForm=>TryGetComponent<FormController>(out var form)&&form.Shaping;
+        public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&!ChangingForm&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
         public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
         void Awake(){Health=GetComponent<Health>();Health.Died+=OnDown;Health.Revived+=OnRevive;}
         void OnDestroy(){Health.Died-=OnDown;Health.Revived-=OnRevive;}
         void CancelAction()
         {AttackSequence++;VisualAttackUntil=0;guarding=false;refractUntil=0;critical=false;combo=0;}
+        internal void BeginFormChange(){CancelAction();Halt();if(Health.Alive&&!Recovering)State=ActorState.Idle;}
         void Halt()
         {if(TryGetComponent<GroundMotor>(out var ground))ground.Halt();if(TryGetComponent<FlightMotor>(out var ship))ship.Halt();}
         void OnDown(Health _,DamagePacket __)
@@ -62,14 +64,14 @@ namespace Lattice.Combat
         }
         public void Guard(bool held)
         {
-            if(!Health.Alive||Recovering){guarding=false;return;}
+            if(!Health.Alive||Recovering||ChangingForm){guarding=false;return;}
             if(held&&!guarding){refractUntil=0;guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
             guarding=held&&!flight; if(guarding)State=ActorState.Guard;else if(State==ActorState.Guard)State=ActorState.Idle;
         }
         public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
         {
-            if(GameTime.Paused||!Health.Alive||Recovering||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
+            if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
             refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
             BeginVisual("Dodge",flight?.3f:.25f);
             AudioManager.Play("thrusterFire_000",.16f);

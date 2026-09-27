@@ -57,6 +57,7 @@ namespace Lattice.EditorTools
             stagedMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_base_color.png"));EditorUtility.SetDirty(stagedMaterial);AssetDatabase.SaveAssets();
             PackStaging.StageFile(row.model,destination+row.id+"_clean.fbx");AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             var importer=(ModelImporter)AssetImporter.GetAtPath(Model(row));
+            if(row.form=="Flight")importer.isReadable=true;
             // A replacement FBX must not retain the old rig's serialized rest pose.
             if(row.kind=="biped")
             {
