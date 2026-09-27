@@ -1,5 +1,7 @@
 # C2 locomotion — implementation in progress
 
+September 26 follow-up: the measured free-travel matrix now passes at 30/60/120 fps for both heroes/forms. [Frame-rate review](C2-frame-rates.md) and [new artifact manifest](C2-player05.json) preserve the four new recordings. Earlier dated pending statements below remain the historical record; watched motion and the full C2 gate remain open.
+
 2026-09-26. Implementation **OPEN**. Targeted facing and collision-speed regressions **PASSED**; continuous motion observation and physical-controller feel **UNVERIFIED**. This is not C2_MOTION_OK.
 
 The donor's baked root orientation leaves the visible hips about 28 degrees right of travel during Run, about 20 during Sprint and 7 during Walk. Independent bilateral hip/shoulder spans, calibrated against actual baked mesh poses, establish the bias. Keeping original root orientation was tested and rejected: it turns the visible body backward and produces inconsistent cycle measurements. No actor or whole-prefab yaw offset was applied.

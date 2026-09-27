@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C2 frame-rate checkpoint - September 26
+
+**C2 OPEN; measured free-travel coverage now passes at 30/60/120 fps for both heroes/forms.** Four new ordinary virtual-gamepad recordings retain focus throughout: Natural/Shaped at 30 fps have 6,695/7,011 samples and measured 33.332 ms median intervals; at 120 fps they have 26,540/27,790 samples and 8.335/8.336 ms intervals. The unchanged direction/cycle/contact analyzer passes all four, with 133/147/151/236 measured stance contacts and no worse than 3.27 mm marker drift. Opened stills cover both heroes at each rate. [Frame-rate evidence](validation/C2-frame-rates.md) distinguishes these calibrated markers from the independent rendered-mesh regressions and retains exact artifact hashes.
+
+The packaged implementation remains `ec0ac23`, with 58/58 PlayMode and 39/39 EditMode integrated results; this checkpoint changes documentation only. Continuous normal/slow video observation, audio audition and physical feel remain UNVERIFIED. Separate-project player activity excludes these captures from clean C1 timing. Lock-on/form-transition review, other C3 work, non-station maps and later gates remain open. Original save hashes remain unchanged.
+
 ## MAP_EYE_TEST - Cinder final spatial pass, September 26
 
 **Hub_CinderHalo and Hub_Decks PASS spatial review.** The final three-dock circuit and full public/service/housing walk now pass with uninterrupted focus on the rebuilt `ec0ac23` release player. Opened actual hatch views confirm closed lower-casing joins; paired exterior/interior comparisons and room views establish attached hulls, matching airlocks, usable public/freight routes, repair/stores, common space and bounded cabins. Both heroes complete the interior return/swap/boundary checks, with real Mira dialogue/shop input. [Final spatial review](validation/station-final.md) and [exact evidence](validation/station-cinder-final.json) preserve prior rejections and reviewer authorship.

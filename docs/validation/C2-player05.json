@@ -1,0 +1,185 @@
+{
+  "date": "2026-09-26 America/Los_Angeles",
+  "status": "C2 OPEN; measured 30/60/120 fps free-travel matrix passed; watched motion unverified",
+  "headAtCapture": "7967f1c04601de90593c884892e7d5dded48d96e",
+  "packagedImplementation": "ec0ac23",
+  "correspondence": "7967f1c changes spatial-review documentation only; build.json preserves exact packaged hashes.",
+  "input": "ordinary continuous agent-directed virtual gamepad replay, both heroes and forms",
+  "records": [
+    {
+      "path": "Builds/quality/C2/player-natural-30-01",
+      "frameCap": 30,
+      "routeValid": true,
+      "routeFailures": [],
+      "valid": true,
+      "samples": 6695,
+      "seconds": 223.459366,
+      "medianMs": 33.3316,
+      "centralContacts": 133,
+      "worstContactDriftMetres": 0.0032603897006330627,
+      "minimumCentralSoleClearance": 0.005999,
+      "focus": {
+        "True": 6695
+      },
+      "openedImages": [
+        "027.png",
+        "067.png",
+        "116.png",
+        "156.png"
+      ],
+      "hashes": {
+        "run.json": "0356471cfeae1fb5efa23d81b12e49eadb30ca16cd9745a1d741b9ef7b6160a6",
+        "route.json": "baf02fa298f8dde9249fd77ce6925ccc639b4a825775a15a0d7d1291e176eb83",
+        "build.json": "3f45e515059e84743cc251d1f46f260fa9f902bcc56b194f4a5bf80c3669fa41",
+        "environment.json": "01dcfeb5110f1972ec865fe2c6c7b045085a7cb466d8597478cefe04e1afc65d",
+        "frames.csv": "b2e399264ed76843eeff60e4fac4ebb7aa9c8c5802c224f856f2bce6dd38bb6f",
+        "motion.csv": "cc9d388a022ef7d9c440b90ee9ffea696da8bebfa6c4e982a2269b7d54cee3db",
+        "motion-analysis.json": "6b10b516f3525e81bc8357dcc90edff88f04e823261c9745702b8cf97fce4d10",
+        "frame-times.svg": "bdce154e6eb5e83bad2ce0837f64fe9d0b88b692d9187f1e3288c848c8d7ba32",
+        "replay.mp4": "538510df834209f8ceb59d657e0bcdba8810d438f9470cfbd67f99ec1c9a183d",
+        "mix.wav": "4ca0c610bd33bb1eef3c9ec6167ef5ce749698f8398015ff13d5958916a9ae88",
+        "player.log": "d0973b44abfbc1e66dbbe1b1027e715d483f8ae4242ea19717f6e3b3b6054ce6",
+        "027.png": "d12485c5028d6d10b0c022e4c928255a09471dc42a169a2943e2a92132facc8f",
+        "067.png": "1bc0cec085c980308c29aabf3bc03786be007e6c57dd9fff9b999542bcf0d27a",
+        "116.png": "d9645018555be6b2560a22eb2d61f94421beea9bd272667e984af118771fe1d2",
+        "156.png": "d001d681190c3f5e5796bf4676cc0ab6ef69682a4e127e98efac37d2f65e469e"
+      }
+    },
+    {
+      "path": "Builds/quality/C2/player-shaped-30-01",
+      "frameCap": 30,
+      "routeValid": true,
+      "routeFailures": [],
+      "valid": true,
+      "samples": 7011,
+      "seconds": 233.748149,
+      "medianMs": 33.3317,
+      "centralContacts": 147,
+      "worstContactDriftMetres": 1.00498756207581e-05,
+      "minimumCentralSoleClearance": 0.005999000000000004,
+      "focus": {
+        "True": 7011
+      },
+      "openedImages": [
+        "036.png",
+        "071.png",
+        "124.png",
+        "159.png"
+      ],
+      "hashes": {
+        "run.json": "5329b5f7b7b399ac3ff52ea6be89ab136000e39747517d73bbe57518874d9426",
+        "route.json": "47cdaf375197b8cca1d7191da2771d0c879af46f9f0805c09abe8bc7185c4161",
+        "build.json": "b541e0e93c75ec0fafe165525224717f3a32eb3584b8963512e060a4b18fde1f",
+        "environment.json": "f1d4d54f655d739180f8c7cd2c920e21c529302eec2d18b9906975aa225ec8af",
+        "frames.csv": "7e7901f41fab765c79ab36fe7228f1d16994ed2a9d7e7d85d58a133784a7f0e2",
+        "motion.csv": "c3d1a0515a6418bf9d7bd92d276136712fb9c6701abfa21f5bf4da044f89c212",
+        "motion-analysis.json": "12c825fdfcd52ee7b737dcc9af21de1ff11e32e79b34fb4c97140ef9d9ad7458",
+        "frame-times.svg": "6ad6783fe040727f7ff6f80ed076397fd73ab7a52d1527e871b1d4b084aa8373",
+        "replay.mp4": "0d23948c54c4fcc3b2d9251f94470134e967602e208fb4c41cf3166b9a3bb9a2",
+        "mix.wav": "dd716c89f8460904c182321f4164b3946d366c6ad37025324e0bfeadb5236d67",
+        "player.log": "4739b0cfa2c40ccf83dd5a174352792b8d10e906ce2d969720542f06df042586",
+        "036.png": "faaa26b225ef429a9472b2227d346205cb3761a58f8ccbf0c0cab63fa0032569",
+        "071.png": "f8ccf6d4d332fa362be8889e2a9215ed78faf858d19cbea48d3a3464de103fb8",
+        "124.png": "b7cf09e5dfba09c2416aa967b39f4916f0f65a024ec7fbd19052f96a6b644b32",
+        "159.png": "b538ed747c6188dac9f89bfe89d062569b406cc7700130f30ef35074aac0d34e"
+      }
+    },
+    {
+      "path": "Builds/quality/C2/player-natural-120-01",
+      "frameCap": 120,
+      "routeValid": true,
+      "routeFailures": [],
+      "valid": true,
+      "samples": 26540,
+      "seconds": 221.289528,
+      "medianMs": 8.3352,
+      "centralContacts": 151,
+      "worstContactDriftMetres": 1.4142135623195562e-05,
+      "minimumCentralSoleClearance": 0.005999,
+      "focus": {
+        "True": 26540
+      },
+      "openedImages": [
+        "027.png",
+        "068.png",
+        "116.png",
+        "157.png"
+      ],
+      "hashes": {
+        "run.json": "2915ecad986e4569afd08bcc95509facf3a3b555614a3f069e1aa162de047870",
+        "route.json": "9693a4e95e7a6b7dd3ea1c6b10689fdd5932b7e8b087050760ce64e212e3b50c",
+        "build.json": "76c96350c86c605b7b36660497ca145aed08b8cbed13f871eddca0e8140556d5",
+        "environment.json": "94b3177ccfaae1808d951fe6e3317a502009a6f8f17a1edc20983050131c27eb",
+        "frames.csv": "5a282a893ecce7cbbacb27a7293cc20ff83021734d8c8ee2b9442e449033eb1a",
+        "motion.csv": "92508e718358f9635eb7665d92065d3c9648e0154a15b3a4d16f656c971efec5",
+        "motion-analysis.json": "5de36e0610d22bf54ce8781f06c8810e8104d90c797f837fdc58c94f6d41204b",
+        "frame-times.svg": "a86cd5d292c48241e0f5d74b56b644126bfaec86e1987fa63dfb30d8ee32d61d",
+        "replay.mp4": "3befe94bda2fe69ba6f75f9eb2d8cd637169b210a4ff213bcb4897d9418b8149",
+        "mix.wav": "05879a6fe1a93374323fd33b51290fea875b4633546970255571175ba63a9417",
+        "player.log": "facd138b2e55f01db6031e688d51fcd6ea0c939a8f271f1dcf77c9f341280909",
+        "027.png": "a2bef56f8776aa36796f58452f570e9642b13723a2d8ea32c2c455a69ced1ca0",
+        "068.png": "9958f3bc60cdcb02abcad568fc0b1c90acdd06df3492c7bb2de3898f55bf383e",
+        "116.png": "2ead899420a0f73e8783380ff8c45212aa0c52522c0c451fc6f0abeb8fba2802",
+        "157.png": "d400b2cd15c3c2599a6954dfdbdf0a696352d849b21c6fad19b0c030b771afcb"
+      }
+    },
+    {
+      "path": "Builds/quality/C2/player-shaped-120-01",
+      "frameCap": 120,
+      "routeValid": true,
+      "routeFailures": [],
+      "valid": true,
+      "samples": 27790,
+      "seconds": 231.738736,
+      "medianMs": 8.3356,
+      "centralContacts": 236,
+      "worstContactDriftMetres": 1.00498756207581e-05,
+      "minimumCentralSoleClearance": 0.005998000000000003,
+      "focus": {
+        "True": 27790
+      },
+      "openedImages": [
+        "036.png",
+        "071.png",
+        "124.png",
+        "159.png"
+      ],
+      "hashes": {
+        "run.json": "53a71958adaceb7cf92973d6f3bfbffe80a8814d843bfaa38dde0f1f32c2a862",
+        "route.json": "cc369bbc7ff692a711c70f1a0403530d16acde2d9822e579d89db773cfec1d4c",
+        "build.json": "58729e25cd2384594c0641242d0db04ed01df5b2bf951783bcd092b3c1d3c20b",
+        "environment.json": "22ac86e58688a3f64f194b932373f96c6c33c9aeb0d35a9dde3488bb2370322b",
+        "frames.csv": "7b1bf4590ea87e1c30f8c7055192b19a5ec4ba8a47a2e76b5cd60f65b4c5988f",
+        "motion.csv": "2b3dceb7093fa232c9b770a1b23057fb5a54c966c46b5f003664a2f30f64e6c9",
+        "motion-analysis.json": "174dec61f30aced4fb972ccbeb2027083d230e98a4774003645c6fab6d6dca5a",
+        "frame-times.svg": "d89a1f0c6cd95bd4393e6d0eeca5280bc7aa65362793dc1c477ba4cc01f532b9",
+        "replay.mp4": "695b050e5243fc5002c2abd2d0b94b6e4a7e5d1ec53cc14b0e217ed7661cbfa6",
+        "mix.wav": "17d7323e18774a4ee2995c53506d709adbc30b742449ce0ba7a2d88b595e8b98",
+        "player.log": "786b5064a47eb4216f18c4ff14cbd277658c8dc2c27565ccc02b205fc595d69f",
+        "036.png": "63babbfefd36a4c2876c0172a30ef37458f4bc0c4831dabbb5f68b2f2956261b",
+        "071.png": "b7e3156265b486e1bb79276f2c381f3ec83b03b0d117bc28de8b66bd396488a0",
+        "124.png": "b5277e381e677dbf714ac2d681b0b39defc1526a92cbf9bee8594ca466b43cd3",
+        "159.png": "f798c3948f52e35c8c601f2f811eef3dff52029a8a815e6d8ff3c09bd6a94c6c"
+      }
+    }
+  ],
+  "earlier60Fps": {
+    "path": "docs/validation/C2-player04.json",
+    "sha256": "59d5a29a01f3e19c0995a0bdd34aa417d367a1943d0e91ea8bf596c0dfd94b28"
+  },
+  "integratedBuildEvidence": {
+    "path": "docs/validation/C3-moving-fire.json",
+    "sha256": "779313a639d34ca010972ff8e8dea0f5be84a9c13e472dff1e8c1c4dcbc04729"
+  },
+  "limits": [
+    "Separate Frostbound player active: not clean C1 timing.",
+    "Calibrated marker measurements are distinct from the separate rendered-mesh regression.",
+    "Opened checkpoint stills do not establish continuous-motion quality.",
+    "Normal/slow video observation, audio audition and physical-controller feel UNVERIFIED.",
+    "This closes frame-rate coverage for free traversal, not every C2 motion/aim/transformation requirement."
+  ],
+  "normalSaveHashes": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  }
+}
