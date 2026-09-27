@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## MAP_EYE_TEST - Cinder final spatial pass, September 26
+
+**Hub_CinderHalo and Hub_Decks PASS spatial review.** The final three-dock circuit and full public/service/housing walk now pass with uninterrupted focus on the rebuilt `ec0ac23` release player. Opened actual hatch views confirm closed lower-casing joins; paired exterior/interior comparisons and room views establish attached hulls, matching airlocks, usable public/freight routes, repair/stores, common space and bounded cabins. Both heroes complete the interior return/swap/boundary checks, with real Mira dialogue/shop input. [Final spatial review](validation/station-final.md) and [exact evidence](validation/station-cinder-final.json) preserve prior rejections and reviewer authorship.
+
+All four station maps now pass spatial MAP_EYE_TEST. **C1 and C7 remain OPEN**, as do the four non-station workshop maps and later production gates. These captured runs are not clean timing. Continuous normal/slow video observation, audio audition and physical-controller feel remain UNVERIFIED. Current integrated suites are 58/58 PlayMode and 39/39 EditMode, both Windows players are rebuilt, and original save hashes are unchanged. No new art spending or music changes.
+
 ## C3 moving-fire candidate - September 26
 
 **C3 OPEN.** Sela's upper body now fires while her legs retain the measured locomotion stride. An independent rendered-sole check rejects the former planted pose (1.8 mm excursion) and passes the new layer at walk/run/sprint, with eight/twelve measured stance contacts and less than 1.2 mm maximum drift. Existing posed release, cover, cancellation, pause and down/revive checks remain green. The first integrated run fails one legacy resumed-melee fixture; standalone/ordered diagnostics pass, and its exact failed pose remains unknown. The fixture now uses a clear explicitly faced pair, retaining the 0.28 s deadline and all assertions. The second full suites pass **58/58 PlayMode and 39/39 EditMode**, zero skips. Both players rebuilt with BUILD_OK. The ordinary-input release route passes all 31 checkpoints with continuous focus; opened frames show stepping legs during fire and the thin revised beam. Those stills do not establish continuous-motion quality. [Moving-fire evidence](validation/C3-moving-fire.md).

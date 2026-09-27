@@ -1,6 +1,6 @@
 # Hub_Decks — first-station reconstruction brief
 
-2026-09-26. **Design implemented; blockout PASSED; integrated MAP_EYE_TEST OPEN.**
+2026-09-26. **Design implemented; blockout PASSED; integrated spatial MAP_EYE_TEST PASSED. C1 pending.**
 Reviewed by Codex, not Nathan or an independent viewer.
 
 The Decks are a small working neighbourhood made from three retired vessels joined along the inner edge of Cinder Halo. Orrin receives visitors and freight manifests, Mira supplies residents and crews, and Hal repairs their equipment. Housing and shared meals explain why people stay here. The ring carries the connected hulls, power and traffic; it is not a necklace of disconnected floating ornaments.
@@ -54,6 +54,8 @@ Blockout iteration: three 24 × 40 m occupied hulls now share 6 m public bridges
 
 That second run exposed a separate functional failure: the direct-steering companion remained at the service wall, 30 m behind, so swapping failed the final dock checkpoints. The focused companion regression reproduces 30.730 m separation (`station/companion-red.xml`). Baked collision-derived navigation now passes the unchanged companion regression, and the complete party walk (`blockout-walk-03`) and three-dock exterior loop (`blockout-dock-02`) pass. No teleport or relaxed checkpoint is used. Codex accepts the blockout spatial plan after opening `blockout-03` overhead/arrival/structure views and actual route stills (office, galley, service route and swapped-hero return). Exterior review also rejected hanging exposed beams as leg-like; the lower utility keel is now enclosed and joined to the ring.
 
-Final generated-art evidence and acceptance: **pending**.
+Final integrated spatial acceptance: **PASSED**, after final-walk-05 and final-docks-07 on the current release package. See the final review below.
 
 Blockout review and exact evidence: [station-blockout.md](../validation/station-blockout.md). Generated furniture must retain the proven clearances. The final eye test and performance rerun remain required.
+
+Final review, September 26: Codex accepts the integrated spatial construction/circulation after complete focused ordinary-input routes `final-docks-07` and `final-walk-05`, opened hatch/room/approach stills and the unlabelled paired overhead/structure comparisons. The lower-casing/bridge seam is closed. Exact evidence and remaining presentation limits: [station-final.md](../validation/station-final.md). Fresh C1 performance, continuous motion/audio observation and the all-map workshop gate remain open.

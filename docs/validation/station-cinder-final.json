@@ -1,0 +1,582 @@
+{
+  "date": "2026-09-27T02:15:17.129505+00:00",
+  "gate": "MAP_EYE_TEST",
+  "zones": [
+    "Hub_CinderHalo",
+    "Hub_Decks"
+  ],
+  "status": "PASSED spatial blockout and integrated-player review",
+  "reviewer": "Codex",
+  "source": "ec0ac23b7ee6f26fb63205dccd40d5112d54d527",
+  "packaging": "docs/validation/C3-moving-fire.json",
+  "limits": "C1 clean performance remains OPEN. Continuous normal/slow video, audio audition and physical feel UNVERIFIED. This accepts spatial coherence only, not C7 professional presentation.",
+  "runs": [
+    {
+      "path": "Builds/quality/station/final-docks-07",
+      "run": {
+        "route": "station-dock",
+        "sourceRevision": "Pressure hatch inspection and boundary contact; exact build hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7156,
+        "refreshHz": 60.0,
+        "seconds": 119.48758149999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1182174000000007,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 7156,
+        "seconds": 119.487582,
+        "distance": 110.9370776857805,
+        "medianMs": 16.667,
+        "p95Ms": 17.1047,
+        "p99Ms": 17.2926,
+        "worstMs": 80.8531,
+        "hitches": {
+          "25": 8,
+          "33.3": 6,
+          "50": 6,
+          "100": 0
+        },
+        "gcCollections": 9,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 943,
+        "stoppedCameraWhileWalking": 75,
+        "interactions": [],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3594,
+            "memoryBytes": {
+              "median": 278860311,
+              "maximum": 305311786,
+              "minimum": 251024501,
+              "validSamples": 3593,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 9.420644,
+            "ms": 80.8531,
+            "checkpoint": "dock office",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16664900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 66.758109,
+            "ms": 75.9996,
+            "checkpoint": "launch market",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16665500,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 21.906012,
+            "ms": 59.7126,
+            "checkpoint": "launch office",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16666600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 111.563527,
+            "ms": 59.5925,
+            "checkpoint": "launch repair",
+            "gcBytes": -1,
+            "gcCollections": 44,
+            "mainThreadNs": 16665800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 99.043198,
+            "ms": 57.4882,
+            "checkpoint": "dock repair",
+            "gcBytes": -1,
+            "gcCollections": 43,
+            "mainThreadNs": 16670300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 54.220582,
+            "ms": 55.875,
+            "checkpoint": "dock market",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16665600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 13.234826,
+            "ms": 28.0427,
+            "checkpoint": "office launch hatch",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 19612800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 17.570253,
+            "ms": 26.9227,
+            "checkpoint": "office closed pressure boundary",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 19038800,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "files": [
+        {
+          "path": "Builds/quality/station/final-docks-07/run.json",
+          "bytes": 818,
+          "sha256": "92cf04a4615759d881660e44f747a0a90f6356266cea117b3685b065eace6a48"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/analysis.json",
+          "bytes": 2770,
+          "sha256": "2ec79c1372ec1d9cc323a1e1a10bb1857f241e369cbb75b6d52646c85fd492a6"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/build.json",
+          "bytes": 11477,
+          "sha256": "e5d72bd89b94e85ed2a9536ec85b5f7b82136710427a1823b6647e367300876d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/environment.json",
+          "bytes": 826,
+          "sha256": "1512955b04b7037d2d4d4d6808c67723296969e5f288a987fb734de640112153"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/route.json",
+          "bytes": 21425,
+          "sha256": "172bafb07757b1a0e5292e5a04f560a3b3657b50e6935e2f194e9ce38ff7f69d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/frames.csv",
+          "bytes": 1962578,
+          "sha256": "e390b838eb1a94396c5b7f7efc12dba8d55e71c2209c91bb21fad11b2c7f262d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/replay.mp4",
+          "bytes": 183363482,
+          "sha256": "9e84a3f89c9a604a4897f96fda6855266afaddbe6c1a2b2e11b86139d164db8e"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/mix.wav",
+          "bytes": 45908012,
+          "sha256": "8e524bc03cab5f469ab63e06f3bc024edcf1546bc36937d04c0e5e531be2d904"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/player.log",
+          "bytes": 5197,
+          "sha256": "ca486f64a324e224616f574296dc04e55c805606777865076f573f82aed627ff"
+        }
+      ],
+      "openedImages": [
+        {
+          "path": "Builds/quality/station/final-docks-07/003.png",
+          "bytes": 1775263,
+          "sha256": "6474412bd0578b5971b94fbd3ef936dc6983b7c4777202d6fec9eed3ed1e268f"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/004.png",
+          "bytes": 1564784,
+          "sha256": "57ec97e0464553fae2afd6f54023c59900e32da6397e334ab8b56449fa59d1bf"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/008.png",
+          "bytes": 1163794,
+          "sha256": "80e5ddc5072530d725f6c13a8bb10739d9e8745985b0ea2947edb53a2aee8abb"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/014.png",
+          "bytes": 1563993,
+          "sha256": "d04b921b275775c4263ae75799209545a2f1be2020e028c7d4a5befa648d5c8d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/024.png",
+          "bytes": 1556918,
+          "sha256": "3c2b6e343adaa56a0a2b6c9da06942182faa2577649122afff0a0c19e05d201c"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-07/028.png",
+          "bytes": 1065212,
+          "sha256": "28b001d94846bced8ee717fc9f0524e423a07f995e9e7df329c807ced9d0055a"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/station/final-walk-05",
+      "run": {
+        "route": "station-decks",
+        "sourceRevision": "paired station redesign; build hashes in evidence",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7477,
+        "refreshHz": 60.0,
+        "seconds": 124.59588509999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0724090999999998,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 5,
+            "expectedUi": "dialogue",
+            "inputSeconds": 25.040101,
+            "visibleResponseMs": 4.343499999997391
+          },
+          {
+            "step": 11,
+            "expectedUi": "shop",
+            "inputSeconds": 37.5737332,
+            "visibleResponseMs": 7.026599999996108
+          },
+          {
+            "step": 13,
+            "expectedUi": "world",
+            "inputSeconds": 43.5739914,
+            "visibleResponseMs": 1.1178000000029442
+          }
+        ]
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 7477,
+        "seconds": 124.595885,
+        "distance": 225.8316744245863,
+        "medianMs": 16.6695,
+        "p95Ms": 17.0922,
+        "p99Ms": 17.2625,
+        "worstMs": 26.8387,
+        "hitches": {
+          "25": 1,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 9,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 4167,
+        "stoppedCameraWhileWalking": 76,
+        "interactions": [
+          {
+            "step": 5,
+            "expectedUi": "dialogue",
+            "inputSeconds": 25.040101,
+            "visibleResponseMs": 4.343499999997391
+          },
+          {
+            "step": 11,
+            "expectedUi": "shop",
+            "inputSeconds": 37.5737332,
+            "visibleResponseMs": 7.026599999996108
+          },
+          {
+            "step": 13,
+            "expectedUi": "world",
+            "inputSeconds": 43.5739914,
+            "visibleResponseMs": 1.1178000000029442
+          }
+        ],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3601,
+            "memoryBytes": {
+              "median": 273930780,
+              "maximum": 301755869,
+              "minimum": 249849248,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 60,
+            "endSeconds": 120,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 308793358,
+              "maximum": 338106078,
+              "minimum": 286381567,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 35.067567,
+            "ms": 26.8387,
+            "checkpoint": "show choices",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16666200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 37.58076,
+            "ms": 23.7726,
+            "checkpoint": "choose stock",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16665600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 25.044445,
+            "ms": 21.2356,
+            "checkpoint": "talk to Mira",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16659400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 0.107086,
+            "ms": 19.867,
+            "checkpoint": "office airlock to promenade",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16664300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 90.081133,
+            "ms": 19.4989,
+            "checkpoint": "service bridge to housing",
+            "gcBytes": -1,
+            "gcCollections": 43,
+            "mainThreadNs": 16665900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 28.67544,
+            "ms": 19.2695,
+            "checkpoint": "talk to Mira",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16664600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 42.909428,
+            "ms": 18.8404,
+            "checkpoint": "inspect stock",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16659900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 4.005587,
+            "ms": 18.0176,
+            "checkpoint": "office slow approach",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16665600,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "files": [
+        {
+          "path": "Builds/quality/station/final-walk-05/run.json",
+          "bytes": 1308,
+          "sha256": "10f5988a2682adc723e4eef2640e8ceb1d10ee0a11e65515eed80655f01bb64f"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/analysis.json",
+          "bytes": 3616,
+          "sha256": "47551c68de3d84f92133ebf57a0a1f201701f4ffa0cc8d29332beeaf4cd230c6"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/build.json",
+          "bytes": 11477,
+          "sha256": "8701cf2c6e028b97be77bb968d1c821a040355ad12eafdb2e16d8b8c05cbf801"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/environment.json",
+          "bytes": 826,
+          "sha256": "6c48ca76b2e8c344d5a5c0929fe2cf9a5709fd002cea684d72602bc919f392f4"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/route.json",
+          "bytes": 23965,
+          "sha256": "ee00c7b3269696ae245c4a28ceeb56297c51f69a869d82454ab3bf4508153ad1"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/frames.csv",
+          "bytes": 2003747,
+          "sha256": "d250daee9c6ce1c4670edf991060b5e4605ca591d408b4aa8d3a01581e2b37a8"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/replay.mp4",
+          "bytes": 315428229,
+          "sha256": "9c08566c6c540835ca624c2f6aeaec16b6538524b32ff8145cabc7b7baf52815"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/mix.wav",
+          "bytes": 47857708,
+          "sha256": "6558ec9b1d1749769796b6d4a56549957aafc8bb81e739282a0e863610463835"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/player.log",
+          "bytes": 4381,
+          "sha256": "aa5929f4440cbdcf3d2de011c74c6008b27e4482e06333c047695d0428f9d268"
+        }
+      ],
+      "openedImages": [
+        {
+          "path": "Builds/quality/station/final-walk-05/001.png",
+          "bytes": 1742341,
+          "sha256": "ff1e9bea9e91d49bc52a2ffd9d82cca441740f3a728e9415abdca5b785e9434c"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/008.png",
+          "bytes": 1909970,
+          "sha256": "39e34853031f0b7309265a78adadae4348f02d976f561e3d2927d07a302cf1bf"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/017.png",
+          "bytes": 1968251,
+          "sha256": "0b82d3195abb5cc96d5745d797b2115de09d5f709f2348da8ffeda94408099e5"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/019.png",
+          "bytes": 1995765,
+          "sha256": "6872c60718c4e8696079e3ad7cb0470eaae85a6ba55cf6ffb9fc1b48f4712cf2"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/021.png",
+          "bytes": 2178237,
+          "sha256": "d34e4fb8740ae35cbf889de6a5ec41de3598e28ebdcdc50b4e4bbf8abc92aa71"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/024.png",
+          "bytes": 2263872,
+          "sha256": "fdf0a8fd37d2bec7506a802bfca051491c4cb41879ce55205372357dba80aa1a"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-05/027.png",
+          "bytes": 1887857,
+          "sha256": "7d9713045fe3fd9f4c7716fce9e06c07c0aa3e78d4b20cc756ed826ef3b90020"
+        }
+      ]
+    }
+  ],
+  "unlabelledComparisons": [
+    {
+      "path": "Builds/quality/station/maps-after-12/Hub_CinderHalo-structure.png",
+      "bytes": 241434,
+      "sha256": "9d5a4714d5e78b63def646d1dd8b69225b24c36b83686feb7c179da01525f8b5"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-12/Hub_CinderHalo-overhead.png",
+      "bytes": 166122,
+      "sha256": "3739350671c09cb24822496235f464b9d8d1855166c33821ccf3ada251caca90"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-12/Hub_Decks-overhead.png",
+      "bytes": 312386,
+      "sha256": "c2a366144bfb4b89b9625f4561b3478e961f39c5c720a018d7f5167185602be1"
+    }
+  ],
+  "currentIntegratedTests": [
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/playmode-results.xml",
+      "bytes": 83081,
+      "sha256": "5bfdf70a02c4990dd75f451dc27f47f335ebb831bb8a2fb794c2079ce74a0cb7",
+      "counts": {
+        "total": "58",
+        "passed": "58",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "429.4397235"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/editmode-results.xml",
+      "bytes": 32291,
+      "sha256": "43befad7eebce792225da46c3534b3301660f129e6f6e4089325b4794e00d6dc",
+      "counts": {
+        "total": "39",
+        "passed": "39",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "0.5647879"
+      },
+      "failures": []
+    }
+  ],
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

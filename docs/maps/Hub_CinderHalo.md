@@ -1,6 +1,6 @@
 # Hub_CinderHalo — exterior of the Decks
 
-2026-09-26. **Design implemented; blockout PASSED; integrated MAP_EYE_TEST OPEN.**
+2026-09-26. **Design implemented; blockout PASSED; integrated spatial MAP_EYE_TEST PASSED. C1 pending.**
 
 Purpose: residential/service vessel neighbourhood and local freight interchange. Visitors fly the inner approach; haulers follow a distinct outer traffic lane. Three dock identities match the Decks. Sorrel's exit lies east; the Gullet beacon lies beyond the north ring. These landmarks must remain visible without labels.
 
@@ -26,3 +26,5 @@ After: the blockout now has a continuous 64-joint ring, three 24 by 40 m hull en
 Codex accepts the spatial blockout, with [review evidence](../validation/station-blockout.md). Final generated surfaces, roof machinery and vessel identity remain to inspect; blockout boxes are not final art. No paid generation is budgeted for this redesign.
 
 The closer final-docks-03 hatch/edge inspection rejects a gap beneath the walking deck: lower casing topped at y=-0.5 while the thin walking floor begins at -0.16; bridge support topped at -1. Before acceptance, extend the casing from -3.5 to 0 and each bridge support from -3 to 0 so both overlap the underside of the sealed floor. Keep the occupied deck, ring, doors and dock coordinates unchanged. Record the visible before/after join and rerun station navigation/docking.
+
+Final review, September 26: Codex accepts the integrated spatial construction/circulation after complete focused ordinary-input routes `final-docks-07` and `final-walk-05`, opened hatch/room/approach stills and the unlabelled paired overhead/structure comparisons. The lower-casing/bridge seam is closed. Exact evidence and remaining presentation limits: [station-final.md](../validation/station-final.md). Fresh C1 performance, continuous motion/audio observation and the all-map workshop gate remain open.
