@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C3 ranged contact candidate - September 26
+
+**C3 OPEN.** Sela's ground needles and Scatter Bloom now release from the posed left wrist. Thread Lance follows a visible beam that stops at static cover and contacts each exposed body once. Red regressions measured the old ordinary/fan origins 0.751/1.137 m from the hand and demonstrated damage through cover. Seven focused ranged checks now pass with 8 cm origins, pause/resume, defensive/death cancellation, short-target contact, covered beam and single piercing contacts; the preceding combined melee/lifecycle/ranged run passed 13/13. The full integrated suites pass **57/57 PlayMode and 39/39 EditMode, zero skips** (`C3/ranged-integrated-01`), including the final station seam geometry; both players rebuilt with BUILD_OK. The 31-checkpoint release ranged route passes with continuous focus. Opened stills confirm the hand attachment but expose a flat beam treatment and a whole-body firing pose during movement, which remain to correct. Normal save and backup hashes remain unchanged. [Ranged evidence](validation/C3-ranged.md) preserves the failing cases and limits.
+
+The latest Cinder docking recapture (`final-docks-06`) opens the corrected casing join successfully but loses focus during the third dock while a separate project's Unity build is active. It remains rejected; Cinder final MAP_EYE_TEST and fresh C1 timing are still open. Normal/slow video observation, audio audition and physical Logitech feel remain UNVERIFIED. No new art spending or music changes.
+
 ## Station pressure/lift checkpoint - September 26
 
 **TallowApproach and TallowDrift pass spatial MAP_EYE_TEST; Cinder final recapture and C1 remain OPEN.** The complete Tallow release route passes all 47 checkpoints, including both heroes, Keeper dialogue, repair/save, launch and redock. Opened unlabelled comparisons and player stills show the aligned shaft/lower cabin, attached apron, bounded refuge, service cells and accessible repair/rest areas. The first station's public/service/housing walk also passes, but closer hatch inspection exposed a lower-casing/bridge gap. That join is now closed in both maintained Cinder scenes and opened renders. Final ordinary-input recapture is pending after focus loss during repeated external Unity activity; rejected traces are retained.

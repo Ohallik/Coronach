@@ -1,0 +1,231 @@
+{
+  "name": "c3-sela-emitter",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "C3 posed emitter candidate; packaged hashes belong to each recording",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "Taren clear southern approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "swap to Sela",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "release swap and settle",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "Sela to firing position",
+      "seconds": 2,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "face north from clear ground",
+      "seconds": 0.15,
+      "x": -0.34202,
+      "y": 0.939693
+    },
+    {
+      "name": "plant at firing position",
+      "seconds": 0.6,
+      "buttons": []
+    },
+    {
+      "name": "needle 1 release",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "needle 1 recovery",
+      "seconds": 0.65,
+      "buttons": []
+    },
+    {
+      "name": "needle 2 release",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "needle 2 recovery",
+      "seconds": 0.65,
+      "buttons": []
+    },
+    {
+      "name": "needle 3 release",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "needle 3 recovery",
+      "seconds": 0.65,
+      "buttons": []
+    },
+    {
+      "name": "Scatter Bloom release",
+      "seconds": 0.24,
+      "buttons": [
+        "RightShoulder",
+        "East"
+      ]
+    },
+    {
+      "name": "Scatter Bloom recovery",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "Thread Lance release",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Thread Lance recovery",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "moving needle 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "moving recovery 1",
+      "seconds": 0.55,
+      "buttons": [],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "moving needle 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "moving recovery 2",
+      "seconds": 0.55,
+      "buttons": [],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "moving needle 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "moving recovery 3",
+      "seconds": 0.55,
+      "buttons": [],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "release movement",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "needle before guard",
+      "seconds": 0.03,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "guard cancel before release",
+      "seconds": 0.7,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "release guard",
+      "seconds": 0.7,
+      "buttons": []
+    },
+    {
+      "name": "needle before dodge",
+      "seconds": 0.03,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "dodge cancel before release",
+      "seconds": 0.3,
+      "buttons": [
+        "East"
+      ],
+      "x": 0.34202,
+      "y": -0.939693
+    },
+    {
+      "name": "dodge recovery",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "return along clear southern approach",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "hold the ordinary view",
+      "seconds": 2,
+      "buttons": []
+    }
+  ]
+}

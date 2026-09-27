@@ -121,8 +121,8 @@ namespace Lattice.Combat
             if(!CanAct||GameTime.Now<nextAttack)return false;
             if(GameTime.Now-lastComboAt>.9f)combo=0;int stage=combo;combo=(combo+1)%3;lastComboAt=GameTime.Now;
             var cut=GroundMove.Cut(stage);
-            State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?.32f:cut.duration;
-            nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:character=="Taren"?cut.recoveryEnd:duration*.85f);
+            State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?GroundMove.Needle.duration:cut.duration;
+            nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:character=="Taren"?cut.recoveryEnd:GroundMove.Needle.recoveryEnd);
             Vector3 aim=Aim();BeginVisual(flight||character=="Sela"?"Shoot":"Attack"+(stage+1),duration);
             if(flight)
             {
@@ -130,24 +130,12 @@ namespace Lattice.Combat
                 Projectile.Fire(transform.position+Vector3.up*.9f+aim*.6f,aim,Packet(rangedDamage*.38f,emitterType,12));
             }
             else if(character=="Taren")GetComponent<MeleeContact>().Begin(cut,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20));
-            else StartCoroutine(GroundContact(AttackSequence,stage,aim,duration*.46f));
+            else GetComponent<RangedContact>().Begin(GroundMove.Needle,aim,Packet(rangedDamage*.7f,emitterType,12));
             return true;
         }
         void BeginVisual(string action,float duration)
         {
             AttackSequence++;VisualAction=action;VisualDuration=duration;VisualAttackUntil=GameTime.Now+duration;
-        }
-        IEnumerator GroundContact(int sequence,int stage,Vector3 direction,float windup)
-        {
-            float at=GameTime.Now+windup;
-            while(GameTime.Now<at)yield return null;
-            while(GameTime.Paused)yield return null;
-            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Attack)yield break;
-            if(character=="Sela")
-            {
-                AudioManager.Play("laserSmall_000",.18f);
-                Projectile.Fire(transform.position+Vector3.up*.9f+direction*.6f,direction,Packet(rangedDamage*.7f,emitterType,12));
-            }
         }
         public bool Lunge()
         {
@@ -175,12 +163,19 @@ namespace Lattice.Combat
             var definition=GameCatalog.Find<CharacterDef>(character);var skill=definition!=null&&definition.skills.Length>slot?definition.skills[slot]:null;
             float cost=skill!=null?skill.chargeCost:20;if(charge<cost)return false;
             charge-=cost;cooldowns[slot]=skill!=null?skill.cooldown:slot==3?10:4;State=ActorState.Skill;
-            BeginVisual(slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",slot==0?.5f:slot==1?.4f:.55f);
+            var rangedMove=slot==0?GroundMove.Lance:GroundMove.Scatter;
+            bool emitterSkill=!flight&&character=="Sela"&&slot<2;
+            BeginVisual(emitterSkill?rangedMove.clip:slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",
+                emitterSkill?rangedMove.duration:slot==0?.5f:slot==1?.4f:.55f);
             actionUntil=GameTime.Now+(flight?.16f:VisualDuration*.85f);
             float power=1+Mathf.Max(0,resonance-10)*.025f;Vector3 direction=Aim();
             if(flight)ApplySkill(slot,power,direction);
             else if(character=="Taren"&&slot==0)
                 GetComponent<MeleeContact>().Begin(GroundMove.Cleave,Packet(damage*1.7f*power,DamageType.Kinetic,35));
+            else if(emitterSkill)
+                GetComponent<RangedContact>().Begin(rangedMove,direction,
+                    Packet(rangedDamage*(slot==0?1.7f:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
+                    slot==0?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
             else StartCoroutine(SkillContact(AttackSequence,slot,power,direction));
             Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
         }
