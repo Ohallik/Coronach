@@ -120,13 +120,17 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest] public IEnumerator OverdriveCueAndTwentyPercentBonusShareExpiryPauseAndDownState()
         {
-            taren.fortune=0;float baseline=taren.Packet(100,DamageType.Pulse,0).amount;
+            // Party stat refresh restores equipped fortune between samples.
+            // Suppress only the critical bonus for each synchronous measurement
+            // so this test isolates Overdrive without rerolling or relaxing it.
+            float Sample(){taren.fortune=0;return taren.Packet(100,DamageType.Pulse,0).amount;}
+            float baseline=Sample();Assert.AreEqual(100,baseline,.001f);
             Assert.IsTrue(taren.Skill(3));yield return new WaitForSecondsRealtime(.65f);
             Assert.IsTrue(taren.Overdriving);Cue(taren,"Overdrive charge",true,2);
-            Assert.AreEqual(baseline*1.2f,taren.Packet(100,DamageType.Pulse,0).amount,.001f);
+            Assert.AreEqual(baseline*1.2f,Sample(),.001f);
             GameTime.Paused=true;yield return new WaitForSecondsRealtime(.7f);Assert.IsTrue(taren.Overdriving);Cue(taren,"Overdrive charge",true,2);GameTime.Paused=false;
             yield return new WaitForSecondsRealtime(9.7f);yield return null;
-            Assert.IsFalse(taren.Overdriving);Cue(taren,"Overdrive charge",false);Assert.AreEqual(baseline,taren.Packet(100,DamageType.Pulse,0).amount,.001f);
+            Assert.IsFalse(taren.Overdriving);Cue(taren,"Overdrive charge",false);Assert.AreEqual(baseline,Sample(),.001f);
             taren.cooldowns[3]=0;taren.charge=100;Assert.IsTrue(taren.Skill(3));yield return new WaitForSecondsRealtime(.65f);
             taren.Health.Receive(new DamagePacket{source=victim.Health,amount=9999,type=DamageType.Pulse});yield return null;yield return null;
             Assert.IsFalse(taren.Health.Alive);Cue(taren,"Overdrive charge",false);

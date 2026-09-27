@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 actual flight contact source checkpoint - September 27
+
+**C4 OPEN.** Three red cases show lunges hitting through cover, from a stationary craft and ahead of actual travel. Lunge and Taren flight dash now resolve from completed motor segments, with cover checks, one hit per target and distance-based visual bursts. The expanded six-case matrix passes. [Contact evidence](validation/C4-flight-contact.md) preserves the failures. Full PlayMode reached **97/98, zero skips**: an existing Overdrive fixture allowed restored fortune to contaminate an exact damage assertion. Its corrected synchronous samples pass 1/1 with the same 100/120 thresholds. Full green and both rebuilt players remain pending; this is a source checkpoint. Development remains Sorrel blockout 06, Release the preceding integrated C3 package. Original saves are unchanged. Ordinary ship routes and transformation regressions are prepared; observation and all open production gates remain pending.
+
 ## C4 flight integration checkpoint - September 26
 
 **C4 OPEN.** Matched 30/60/120 timestep checks reproduce a 10.55% stopping-distance spread. The actual flight motor now integrates thrust/drag and average-velocity travel with bounded calculation steps; the same brake travels 1.334 m at all three rates. Cruise/boost caps and tuning constants remain unchanged. Thrust/reversal, coast and zero-time momentum checks pass. Fresh results: **44/44 full EditMode and 5/5 targeted PlayMode, zero skips**. Original saves are unchanged. [Evidence](validation/C4-flight-integration.md) records the red control, measured behavior change and source/build limits. This is a source checkpoint; full PlayMode and both rebuilt players remain pending. Continuous flight observation, remaining flight/transform work and all earlier open gates remain open.

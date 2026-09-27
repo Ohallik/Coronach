@@ -1,0 +1,177 @@
+{
+  "name": "c4-lunge-sela-ordinary",
+  "scene": "Arena_Flight",
+  "sourceRevision": "C4 actual dash contact candidate; normal starter enemies and isolated saves",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "swap to Sela for this fresh arena",
+      "seconds": 0.12,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.22
+    },
+    {
+      "name": "lock a live flight target",
+      "seconds": 0.12,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedForm": "Flight",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "release target selection",
+      "seconds": 0.15
+    },
+    {
+      "name": "ordinary lunge 1",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "brake and recover lunge 1",
+      "seconds": 0.8,
+      "leftTrigger": 1
+    },
+    {
+      "name": "ordinary lunge 2",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "brake and recover lunge 2",
+      "seconds": 0.8,
+      "leftTrigger": 1
+    },
+    {
+      "name": "ordinary emitter fire",
+      "seconds": 1.4,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1
+    },
+    {
+      "name": "ordinary lunge 3",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "brake and recover lunge 3",
+      "seconds": 0.8,
+      "leftTrigger": 1
+    },
+    {
+      "name": "living party after contact",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "return to lower maneuvering space",
+      "seconds": 20,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -8
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "forward acceleration",
+      "seconds": 0.6,
+      "y": 1
+    },
+    {
+      "name": "unpowered coast",
+      "seconds": 0.6
+    },
+    {
+      "name": "deliberate brake",
+      "seconds": 0.7,
+      "leftTrigger": 1
+    },
+    {
+      "name": "east turn approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 1,
+        "z": -6
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "left thrust reversal",
+      "seconds": 0.5,
+      "x": -1
+    },
+    {
+      "name": "right counter-thrust",
+      "seconds": 0.5,
+      "x": 1
+    },
+    {
+      "name": "brake after reversal",
+      "seconds": 0.7,
+      "leftTrigger": 1
+    },
+    {
+      "name": "roll left",
+      "seconds": 0.12,
+      "x": -1,
+      "buttons": [
+        "East"
+      ]
+    },
+    {
+      "name": "roll recovery",
+      "seconds": 0.55,
+      "leftTrigger": 1
+    },
+    {
+      "name": "boost onset",
+      "seconds": 0.45,
+      "y": -1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "boost release and brake",
+      "seconds": 1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "return to arrival vicinity",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "party present at end",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedCharacter": "Sela",
+      "expectedForm": "Flight"
+    }
+  ]
+}

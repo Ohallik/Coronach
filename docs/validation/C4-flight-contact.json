@@ -1,0 +1,367 @@
+{
+  "status": "C4 OPEN; flight contact SOURCE checkpoint; integrated full pass and player rebuilds pending",
+  "date": "2026-09-27T07:19:01.765384+00:00",
+  "sourceBase": "f9e426610f3988e76c75037c8b3c8dc1e3ed37ab",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "bytes": 14363,
+      "sha256": "e2d6dcb7b8ede83db24b7ebae1797aba6e5a7c6d3ab1e395d82f5c0695028bdc"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightMotor.cs",
+      "bytes": 4548,
+      "sha256": "125d9569bb07f426cb912e94bcc97fc038a957efcf04b218589fa2f28ebf5112"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightDashContact.cs",
+      "bytes": 2619,
+      "sha256": "ec9c76ff4a75d23a1f2dc1c7c10264b264790fe1c1c65ce745ef319d49d9c337"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "bytes": 5184,
+      "sha256": "e5623dbcac6209eae1246864398b630647412f445446eeda855a5890b2d4d600"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightContactTests.cs",
+      "bytes": 7457,
+      "sha256": "9d575cb283a5a8b2d3852446fae4e3c81018fc8fe20e2e3916c870a32f59f1fc"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/GroundBuffTests.cs",
+      "bytes": 14487,
+      "sha256": "0c1aa39e31a018e3f74acf3581eecedf8e049e24faf7c36840ff2d6be3f36ba8"
+    },
+    {
+      "path": "docs/quality/routes/c4-lunge-taren-ordinary.json",
+      "bytes": 3262,
+      "sha256": "a3ded5c67e349ceafb6eeb0adbafb4d2e32ddd87eafd336c2af2a7d55c7f439e"
+    },
+    {
+      "path": "docs/quality/routes/c4-lunge-sela-ordinary.json",
+      "bytes": 3501,
+      "sha256": "9fc6dc8be4c90460b86d892d494f6de998c4c8f8a3237d20c1b13c8ee1af90f8"
+    }
+  ],
+  "runs": [
+    {
+      "folder": "Builds/quality/C4/lunge-contact-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "1",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:00:43Z",
+        "end-time": "2026-09-27 07:00:57Z",
+        "duration": "14.3056718"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C4/lunge-contact-red/CombatActor.cs",
+          "bytes": 14877,
+          "sha256": "6f3ee10e0f0eca733006a43b4dddc240dddd7a07294d8b9e90ccf577a68dee9c"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-red/FlightContactTests.cs",
+          "bytes": 5997,
+          "sha256": "6e5853f75fa3649dac89339997e2232f7d51697a4c92d035d7a370398e669906"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-red/FlightMotor.cs",
+          "bytes": 4222,
+          "sha256": "74ebf9677a71d3635a0930068629639156a75961b3ff318ae71d2107b20338c3"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-red/headless-playtests.log",
+          "bytes": 181954,
+          "sha256": "72306210e8e187b6d9168b0b565239013e3c227f2b9460aaf750cbbe1ae54fcf"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-red/playmode-results.xml",
+          "bytes": 10643,
+          "sha256": "8ed5c2e3b3796843fb45110945896a2180242fab20578c0672d23a1749000233"
+        }
+      ],
+      "failures": [
+        {
+          "name": "BothCraftHitAlongTheirTravelOnlyOnce",
+          "message": "  contact exceeded lunge radius plus victim radius beyond the travelled segment\n  Expected: less than or equal to 1.70000005f\n  But was:  2.66671467f\n"
+        },
+        {
+          "name": "LungeCannotDamageBeyondSolidCover",
+          "message": "  Taren lunge damaged through solid cover (static=True)\n  Expected: 1000\n  But was:  950.0f\n"
+        },
+        {
+          "name": "LungeDamageRequiresActualCraftTravel",
+          "message": "  frame-count lunge samples hit distant space while the craft remains stationary\n  Expected: 1000\n  But was:  950.0f\n"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/lunge-contact-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Passed",
+        "total": "4",
+        "passed": "4",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:02:35Z",
+        "end-time": "2026-09-27 07:02:53Z",
+        "duration": "17.8570273"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C4/lunge-contact-green/CombatActor.cs",
+          "bytes": 14212,
+          "sha256": "54f446100bff73dbcd62e5b42117af2e475bb117ba125288d304745734867363"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-green/FlightContactTests.cs",
+          "bytes": 5997,
+          "sha256": "6e5853f75fa3649dac89339997e2232f7d51697a4c92d035d7a370398e669906"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-green/FlightDashContact.cs",
+          "bytes": 2619,
+          "sha256": "ec9c76ff4a75d23a1f2dc1c7c10264b264790fe1c1c65ce745ef319d49d9c337"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-green/FlightMotor.cs",
+          "bytes": 4548,
+          "sha256": "125d9569bb07f426cb912e94bcc97fc038a957efcf04b218589fa2f28ebf5112"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-green/headless-playtests.log",
+          "bytes": 228757,
+          "sha256": "7449bb424dcb3ac60f01e72694709c21c1360395faf30523b67d55f5d0c8af3f"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-contact-green/playmode-results.xml",
+          "bytes": 7741,
+          "sha256": "7fac693a2a8b875243612aa20ae327c62f88d403312580f9a289d02b11ecb98f"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "folder": "Builds/quality/C4/skill-dash-contact-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Failed(Child)",
+        "total": "6",
+        "passed": "5",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:03:38Z",
+        "end-time": "2026-09-27 07:04:07Z",
+        "duration": "28.8964013"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-red/CombatActor.cs",
+          "bytes": 14212,
+          "sha256": "54f446100bff73dbcd62e5b42117af2e475bb117ba125288d304745734867363"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-red/FlightContactTests.cs",
+          "bytes": 7457,
+          "sha256": "9d575cb283a5a8b2d3852446fae4e3c81018fc8fe20e2e3916c870a32f59f1fc"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-red/FlightDashContact.cs",
+          "bytes": 2619,
+          "sha256": "ec9c76ff4a75d23a1f2dc1c7c10264b264790fe1c1c65ce745ef319d49d9c337"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-red/FlightMotor.cs",
+          "bytes": 4548,
+          "sha256": "125d9569bb07f426cb912e94bcc97fc038a957efcf04b218589fa2f28ebf5112"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-red/headless-playtests.log",
+          "bytes": 212775,
+          "sha256": "1da7a75e5292571efb1a1a604d8ab49316d4701c62bc68afa718bcff89c335fc"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-red/playmode-results.xml",
+          "bytes": 11692,
+          "sha256": "4e8df2e2616b86d2147c8f9b9bef5b641cda551af5f5b0055384577c9be8ff8e"
+        }
+      ],
+      "failures": [
+        {
+          "name": "FlightDashSkillCannotPierceCoverBeforeItsCraftArrives",
+          "message": "  flight dash skill pierced cover without travelling through it\n  Expected: 1000\n  But was:  910.0f\n"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/skill-dash-contact-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Passed",
+        "total": "6",
+        "passed": "6",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:04:50Z",
+        "end-time": "2026-09-27 07:05:20Z",
+        "duration": "29.8382315"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-green/CombatActor.cs",
+          "bytes": 14363,
+          "sha256": "e2d6dcb7b8ede83db24b7ebae1797aba6e5a7c6d3ab1e395d82f5c0695028bdc"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-green/FlightContactTests.cs",
+          "bytes": 7457,
+          "sha256": "9d575cb283a5a8b2d3852446fae4e3c81018fc8fe20e2e3916c870a32f59f1fc"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-green/FlightDashContact.cs",
+          "bytes": 2619,
+          "sha256": "ec9c76ff4a75d23a1f2dc1c7c10264b264790fe1c1c65ce745ef319d49d9c337"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-green/FlightMotor.cs",
+          "bytes": 4548,
+          "sha256": "125d9569bb07f426cb912e94bcc97fc038a957efcf04b218589fa2f28ebf5112"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-green/headless-playtests.log",
+          "bytes": 160752,
+          "sha256": "ccd7a6b9c938a974a257a6ed1d54a061c90d6beb15912b5b74b52a7b358f8512"
+        },
+        {
+          "path": "Builds/quality/C4/skill-dash-contact-green/playmode-results.xml",
+          "bytes": 10212,
+          "sha256": "cfd0b2d56b9393bfaedb8482dcefabf942fd64bcb434d9f5ebef5ee5878dacc2"
+        }
+      ],
+      "failures": []
+    },
+    {
+      "folder": "Builds/quality/C4/contact-integrated-01",
+      "counts": {
+        "id": "2",
+        "testcasecount": "98",
+        "result": "Failed(Child)",
+        "total": "98",
+        "passed": "97",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:05:49Z",
+        "end-time": "2026-09-27 07:17:10Z",
+        "duration": "680.9819555"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C4/contact-integrated-01/GroundBuffTests.cs",
+          "bytes": 14233,
+          "sha256": "f847c4b43fb1b666b603d13636e7f04e7592421c8583190c2c5f51681b8034f0"
+        },
+        {
+          "path": "Builds/quality/C4/contact-integrated-01/headless-playtests.log",
+          "bytes": 2231326,
+          "sha256": "a20815460e844b494b5f6e81ac86955d16e8025cd889a46bde847ff2d6556537"
+        },
+        {
+          "path": "Builds/quality/C4/contact-integrated-01/playmode-results.xml",
+          "bytes": 141844,
+          "sha256": "6e9fb1846a3896a7ffbb1fa61f64addbc3691ecd07b4e3af19049f914d533edf"
+        }
+      ],
+      "failures": [
+        {
+          "name": "OverdriveCueAndTwentyPercentBonusShareExpiryPauseAndDownState",
+          "message": "  Expected: 100.0d +/- 0.0010000000474974513d\n  But was:  105.0d\n"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/overdrive-fixture-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:18:05Z",
+        "end-time": "2026-09-27 07:18:20Z",
+        "duration": "15.151723"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C4/overdrive-fixture-green/GroundBuffTests.cs",
+          "bytes": 14487,
+          "sha256": "0c1aa39e31a018e3f74acf3581eecedf8e049e24faf7c36840ff2d6be3f36ba8"
+        },
+        {
+          "path": "Builds/quality/C4/overdrive-fixture-green/headless-playtests.log",
+          "bytes": 146507,
+          "sha256": "0bcad702ec86b0cd28d3f90e6afb826b58529836a9dbe9044d039e716455b3ee"
+        },
+        {
+          "path": "Builds/quality/C4/overdrive-fixture-green/playmode-results.xml",
+          "bytes": 4423,
+          "sha256": "6e74722caf7fc5982125365f76adf0b702caeef51993845e59c7e58d9062cf29"
+        }
+      ],
+      "failures": []
+    }
+  ],
+  "limits": [
+    "No ordinary capture has run for this contact source checkpoint.",
+    "Development remains Sorrel blockout 06; Release remains the preceding C3 integrated package.",
+    "Normal/slow moving-video observation, actual sound audition and physical controller feel UNVERIFIED.",
+    "All open map/C1-C7 quality gates remain open."
+  ],
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

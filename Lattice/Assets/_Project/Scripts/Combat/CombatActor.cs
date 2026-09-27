@@ -155,19 +155,8 @@ namespace Lattice.Combat
             State=ActorState.Attack;nextAttack=GameTime.Now+.7f;actionUntil=GameTime.Now+.2f;
             BeginVisual("Dash",.42f);
             var direction=target!=null&&target.Alive?(target.transform.position-transform.position).normalized:motor.Facing;
-            direction.y=0;StartCoroutine(LungePath(direction,AttackSequence));return true;
-        }
-        IEnumerator LungePath(Vector3 direction,int sequence)
-        {
-            Vector3 start=transform.position;motor.Dash(direction,8);
-            var victims=new System.Collections.Generic.HashSet<Health>();var packet=Packet(damage,edgeType,28,"lunge");
-            for(int i=0;i<5;i++)
-            {
-                while(GameTime.Paused)yield return null;
-                if(!Health.Alive||sequence!=AttackSequence||State!=ActorState.Attack)yield break;
-                var at=start+direction*(i*1.7f)+Vector3.up*.8f;var hit=Strike(at,1.05f,packet);hit.hit=victims;
-                CombatVfx.Burst(at,character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"lunge");yield return null;
-            }
+            direction.y=0;motor.Dash(direction,8);
+            GetComponent<FlightDashContact>().Begin(Packet(damage,edgeType,28,"lunge"));return true;
         }
         public bool Skill(int slot)
         {
@@ -209,7 +198,11 @@ namespace Lattice.Combat
             if(character=="Taren")
             {
                 if(slot==0)Strike(transform.position+direction*2+Vector3.up*.8f,3.4f,Packet(damage*1.7f*power,DamageType.Kinetic,35));
-                else if(slot==1){motor.Dash(direction,flight?10:6);Pierce(direction,Packet(damage*1.8f*power,DamageType.Plasma,40),flight?10:6);}
+                else if(slot==1)
+                {
+                    motor.Dash(direction,flight?10:6);var packet=Packet(damage*1.8f*power,DamageType.Plasma,40);
+                    if(flight)GetComponent<FlightDashContact>().Begin(packet);else Pierce(direction,packet,6);
+                }
                 else if(slot==2)Strike(transform.position+Vector3.up,5,Packet(damage*1.1f*power,DamageType.Pulse,85));
                 else ArmOverdrive();
             }

@@ -10,6 +10,8 @@ namespace Lattice.Combat
         Vector3 velocity;
         float contactAt,dashRemaining;
         Vector3 dashVelocity;
+        public int DashSequence{get;private set;}
+        public event System.Action<int,Vector3,Vector3> DashMoved;
         public Vector3 Facing{get;private set;}=Vector3.forward;
         public Vector3 Velocity=>Core.GameTime.Paused||actor!=null&&(!actor.Health.Alive||actor.Recovering)?Vector3.zero:velocity;
         public void Halt(){velocity=dashVelocity=Vector3.zero;dashRemaining=0;}
@@ -45,7 +47,12 @@ namespace Lattice.Combat
             if(dashRemaining>0)
             {
                 float step=Mathf.Min(dt,dashRemaining);dashRemaining-=step;
-                velocity=dashVelocity; if(controller.enabled)controller.Move(dashVelocity*step+Vector3.up*(plane-transform.position.y));
+                velocity=dashVelocity;Vector3 before=transform.position;
+                if(controller.enabled&&step>0)
+                {
+                    controller.Move(dashVelocity*step+Vector3.up*(plane-transform.position.y));
+                    DashMoved?.Invoke(DashSequence,before,transform.position);
+                }
                 if(dashRemaining<=0)velocity=Vector3.ClampMagnitude(velocity,maxSpeed);
                 return;
             }
@@ -54,7 +61,7 @@ namespace Lattice.Combat
             if(Facing.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(Facing);
             if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
         }
-        public void Dash(Vector3 direction,float distance){Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;transform.rotation=Quaternion.LookRotation(Facing);}
+        public void Dash(Vector3 direction,float distance){DashSequence++;Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;transform.rotation=Quaternion.LookRotation(Facing);}
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
             // Combatants resolve damage through their attacks. Brushing a partner or a
