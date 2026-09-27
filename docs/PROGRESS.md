@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 long circuit rejection checkpoint - September 27
+
+**C4 OPEN.** Both five-minute civil circuits complete navigation but confirm outside docking range. Both Gullet circuits clear their two chambers; focus loss rejects both, and Sela's later wall strike triggers down/automatic swap/revival. Tallow docks and returns with full focus, but its approach target lies inside the enlarged hull clearance. All five remain rejected. [Evidence](validation/C4-long-circuits-rejected.md) retains exact failures and opened stills, including a newly visible overlap between a live and disabled craft. Revised ordinary approach/tactical inputs await recapture with the staged transformation candidate. Full suites, map work and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.
+
 ## C4 ordinary flight skill review - September 27
 
 **C4 OPEN.** Both players rebuilt from `feac4b9`. Both short release skill routes pass with all four ordinary input activations, full focus (2485/2485 and 2515/2515 samples) and living parties. Opened gameplay frames now show readable attached exhaust, distinct Cleave/Pulse boundaries, airborne net placement and actual-state hull cues. [Evidence](validation/C4-flight-skills-player.md) preserves the substantial pilot damage and separates still-image acceptance from continuous observation. Both new civil repeats are rejected after backing away outside dock interaction range; Taren also loses focus. Long Gullet runs are still in progress. Full integrated PlayMode, staged transformation/disable, map work and later gates remain open. Original saves are unchanged; video/audio observation and physical feel remain UNVERIFIED.
