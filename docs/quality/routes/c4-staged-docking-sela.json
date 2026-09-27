@@ -1,0 +1,98 @@
+{
+  "name": "staged-docking-sela",
+  "scene": "Hub_CinderHalo",
+  "sourceRevision": "a759b1d; correction to fixture expectedScene for the interior walk/release; gameplay inputs and all other assertions unchanged; first rejected capture retained",
+  "settleSeconds": 2,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 0,
+  "steps": [
+    {
+      "name": "swap to Sela through ordinary input",
+      "seconds": 0.15,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.25,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "approach the office pad outside hull clearance",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 1,
+        "z": -26.4
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "close to the ordinary docking prompt",
+      "seconds": 0.9,
+      "y": 1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "brake before docking",
+      "seconds": 0.2,
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock and fold the departing hulls",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "open both natural arrival bodies",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "expectedForm": "Natural",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "walk into the launch vestibule",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -12
+      },
+      "tolerance": 0.35,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "release movement before launch",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "launch through the normal interaction",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_CinderHalo"
+    },
+    {
+      "name": "open both arrival hulls",
+      "seconds": 1.5,
+      "expectedScene": "Hub_CinderHalo",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "both party members survive the round trip",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedCharacter": "Sela"
+    }
+  ]
+}

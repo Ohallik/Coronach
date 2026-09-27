@@ -1,0 +1,442 @@
+{
+  "date": "2026-09-27",
+  "gate": "C4 OPEN",
+  "runtimeSource": "a759b1dafccc2855a8608b66f7ae98f4a3296e01",
+  "fullSuites": {
+    "editmode": {
+      "path": "Builds/quality/C4/staged-integration01/editmode-results.xml",
+      "sha256": "9f632c53ed7acd29dcdf9a9858af069c562d263b7ee0a445d087a9f16ddbff1d",
+      "result": "Passed",
+      "total": "50",
+      "passed": "50",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.2550997"
+    },
+    "playmode": {
+      "path": "Builds/quality/C4/staged-integration01/playmode-results.xml",
+      "sha256": "7ff9c9cfc6a9555e104beff248cce24313bafd65d0945c815fdf176494756390",
+      "result": "Passed",
+      "total": "137",
+      "passed": "137",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "852.1867059"
+    }
+  },
+  "runs": [
+    {
+      "path": "Builds/quality/C4/staged-docking-taren-01",
+      "valid": false,
+      "failures": [
+        "walk into the launch vestibule: scene Hub_Decks expected Hub_CinderHalo",
+        "release movement before launch: scene Hub_Decks expected Hub_CinderHalo"
+      ],
+      "seconds": 18.857512099999997,
+      "samples": 1128,
+      "focusedSamples": 1128,
+      "steps": 10,
+      "last": {
+        "hero": "Taren",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Hub_CinderHalo",
+        "form": "CivilFlight"
+      },
+      "files": {
+        "run.json": "d90ed42d1639719ba47b2668597fd74e6893b95f473b2d9ce0440738c8d292f3",
+        "route.json": "ea3bf8279c7651c617889e54997c97302aa8ceb1fae6289ce03152448230ee22",
+        "frames.csv": "722a3b27976f8fcfcef476a9682e1faf442805ecc8587e1127cd33493cdc9870",
+        "player.log": "be79691dd2c7e7d54e6ea2dbcaba8f8d724b3207fadb745ae7d1d7b6d8b84cfc",
+        "build.json": "09ffa01e4ac2e14f52f526f69149d6fc867915f0cd302b2d34bfa7ea8bd1ffd7",
+        "capture-frames.csv": "5ef186509b08fd03670b5c9bd17b9aa0d8445a32748c31888fc2fdd5aac71b07",
+        "video.mp4": "d0a4fbb8cace8d8903082202a923262dc7475a442d70ec7b81b3c8ca02c078dc",
+        "mix.wav": "2a67c826712801f3d0f239d1458bd3b5492ca6a47deb69a5be5b8195dad9ad2a"
+      }
+    },
+    {
+      "path": "Builds/quality/C4/staged-docking-sela-01",
+      "valid": false,
+      "failures": [
+        "walk into the launch vestibule: scene Hub_Decks expected Hub_CinderHalo",
+        "release movement before launch: scene Hub_Decks expected Hub_CinderHalo"
+      ],
+      "seconds": 19.2792374,
+      "samples": 1153,
+      "focusedSamples": 1153,
+      "steps": 12,
+      "last": {
+        "hero": "Sela",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Hub_CinderHalo",
+        "form": "CivilFlight"
+      },
+      "files": {
+        "run.json": "6278e93ddd200093266dfa989f747508e0d1b76257a58c51026cb4fdfab4ff96",
+        "route.json": "9b62217326458358c9808e1daf4a2832de205e9098dd311a39ced1f0a984e117",
+        "frames.csv": "3814e99b1d3477341ad6bb625df4b558aa0f7a7793ee82b08e75bfcd0c0f8991",
+        "player.log": "81a9e6f52321d50c4e20104785112d9d808933fa4dce3d5d2c437b68a6cb2143",
+        "build.json": "8d19b7bab944ac5502d9ade24eb6632bb6ee86b0a44b3e6c26d48f2cdf9a3cd2",
+        "capture-frames.csv": "111512b006797a2a65ac407462a0f67118eeb50fc7cb151a0029616ba1e562ed",
+        "video.mp4": "7ef063885385aead113e4b9b42129fdcbf57aa7b061c5d0acb4ffdf2d4bbc3f2",
+        "mix.wav": "463a8d147fd7346dc271b7a547803a52a7d60179a0abf63d3ad249371724dfd5"
+      }
+    },
+    {
+      "path": "Builds/quality/C4/form-ordinary-03",
+      "valid": false,
+      "failures": [
+        "Taren settle and reset crossing 1: navigation checkpoint missed",
+        "Taren settle and reset crossing 3: navigation checkpoint missed",
+        "Sela at northern boundary: navigation checkpoint missed",
+        "Sela settle and reset crossing 1: navigation checkpoint missed",
+        "Sela settle and reset crossing 3: navigation checkpoint missed",
+        "Sela settle and reset crossing 4: navigation checkpoint missed"
+      ],
+      "seconds": 43.0905736,
+      "samples": 2587,
+      "focusedSamples": 2587,
+      "steps": 35,
+      "last": {
+        "hero": "Sela",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Sorrel_Ridges",
+        "form": "Natural"
+      },
+      "files": {
+        "run.json": "47663ce7411a8429b540c9a6445890893b2eaf13b26087a1d2a08a70b90ca693",
+        "route.json": "5434936b075a881dcd5f1603ad389a4d5dc46c4d2b241da3853360a7627868c2",
+        "frames.csv": "e0784a407ccdc8c4492cc80d2b20b1ab905e8aa419eace79cd2ba1eaa15e197e",
+        "player.log": "331b38df1478a06632f3f6629098615cfce392e05c3068701d06ce44f943812d",
+        "build.json": "446ddca051867c5b562fc652a305565097c6270c0a984caede605408b1d32cf3",
+        "capture-frames.csv": "50b1703ea4d016f964ca6616d2264cf0428088823ed04a6cae1687dbc81efbc9",
+        "video.mp4": "93adc2059812f0acbcab3c71d4749b14438e9895a6899990b41d3a2498ce9ac7",
+        "mix.wav": "3f699787bf505ebca2848f2e47303958dfc73c80efe0444c564b99484d26aeeb"
+      }
+    },
+    {
+      "path": "Builds/quality/C4/form-ordinary-04",
+      "valid": false,
+      "failures": [
+        "Taren settle and reset crossing 4: navigation checkpoint missed"
+      ],
+      "seconds": 53.4076813,
+      "samples": 3206,
+      "focusedSamples": 3206,
+      "steps": 35,
+      "last": {
+        "hero": "Sela",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Sorrel_Ridges",
+        "form": "Natural"
+      },
+      "files": {
+        "run.json": "b72db8b6b759e66a6e0889a8990e4663a3ee2b2bf5fe3b56ba27b4d9fe386124",
+        "route.json": "4a68024d5475a861031018a4951e67ba2e2e607980d18fd6e0338c8fb53727d1",
+        "frames.csv": "09e028f9f3f9d3ffa397a4d0e161ffe9f553b19ce3d4d024f3032ebd1066dc92",
+        "player.log": "e9cd4861fe975d50a710317473f05ad3e416c2d440fd41c86500fa72ca6900a5",
+        "build.json": "fad94e4daa6ecd883fcaa6a43360bef18878019c73267e50091b67bcc6eb78d8",
+        "capture-frames.csv": "7bb29f614042c16fdf05fc22c0674fbed4fa1fafc7f948c0166d867ca05035cf",
+        "video.mp4": "839d302116bd159ea81944bed792f421efe2741547ef80535f23ef40f9a23ce3",
+        "mix.wav": "0ef5b0fae6a3a8c6aeae9e2fe9ad70299a6a8f56536fdf2dbae1ebb8c7b4d39e"
+      }
+    },
+    {
+      "path": "Builds/quality/C4/staged-docking-taren-02",
+      "valid": true,
+      "failures": [],
+      "seconds": 18.8441534,
+      "samples": 1127,
+      "focusedSamples": 1127,
+      "steps": 10,
+      "last": {
+        "hero": "Taren",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Hub_CinderHalo",
+        "form": "CivilFlight"
+      },
+      "files": {
+        "run.json": "ba1ac31e341f7bdd1ef1273d24b1e9be88a92fbad029f9b0a67bba3fb6a79bc9",
+        "route.json": "b8712e2084192fb6fb57ce601c298c1cb53b35c5ddc7754f0963f30a4b7eb9bb",
+        "frames.csv": "ec6b077bf21dda850b00af8b2ddedd73d985c9b7157cda6fb71f7e8a25e9ab34",
+        "player.log": "4d5786ea199375aac4d19b21e8162f3841d41b7688bb08456d024bed6d1bfa95",
+        "build.json": "a98142df551bc1f3bc41bb04a58e4e2631ece0f9b9dfe79de25336f56e089bd8",
+        "capture-frames.csv": "cf2f55885e4c8ef2989cea2ac3520ed8288603d47243b307336f0c3835822eb1",
+        "video.mp4": "1db292caf9019751e96c009f8bd2e6d2be983ca37f29b2ac19abd5b591e515ef",
+        "mix.wav": "c6c0f4811d2679b69317f861320f7830e75086e31f6131999ee153125aa2cb7e"
+      }
+    },
+    {
+      "path": "Builds/quality/C4/staged-docking-sela-02",
+      "valid": true,
+      "failures": [],
+      "seconds": 19.2788793,
+      "samples": 1152,
+      "focusedSamples": 1152,
+      "steps": 12,
+      "last": {
+        "hero": "Sela",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Hub_CinderHalo",
+        "form": "CivilFlight"
+      },
+      "files": {
+        "run.json": "0a862e0e82615efe8a6cda81d5900cc20b7f821ba3793e2870aba21ab9421ab9",
+        "route.json": "9e3165f128540cf03a36d36f55bc9554216ae9bed1972c3628f0369a2c2ccd41",
+        "frames.csv": "718daf675f877a52961f4f341821c340ccd38a24768213bac0c2f1016e3d855e",
+        "player.log": "a780fde7a3ac4defaa78e436b53ed3d2c247ae1089713253ac1bca389d350eb3",
+        "build.json": "4e9d6b9e79934c1d933091ccfffae4c1eaf6c06ed78aa40b27173e555a8ce28a",
+        "capture-frames.csv": "81f66d0dd0a90e240a64152abd38a1248ea22ca1f2562b79ea3a00bad48055a2",
+        "video.mp4": "21f10ed04cab89fed571afa4409092b4c8fdfa9de4d4ed83f0b40fdf9546b9e7",
+        "mix.wav": "f9250f5103e6b96229dbcedc7184f849f391b856b8dad1aec291cbfb9c8fa07b"
+      }
+    },
+    {
+      "path": "Builds/quality/C4/flight-disabled-taren-01",
+      "valid": true,
+      "failures": [],
+      "seconds": 18.5714191,
+      "samples": 1116,
+      "focusedSamples": 1116,
+      "steps": 9,
+      "last": {
+        "hero": "Taren",
+        "integrity": "42.0",
+        "partnerHealth": "108.0",
+        "scene": "Gullet_Tunnel",
+        "form": "Flight"
+      },
+      "files": {
+        "run.json": "ef6a7418268bd36f7617ae7e4b2ad8ffb6c9a329faddc92c00901990ffaacff8",
+        "route.json": "f656c55ac359c1876d6bcfaff0436bd85d3cd115ea6c440d8115621e64181210",
+        "frames.csv": "2cfcff44fb3082fa2d50f8801f8ff5290269190738de3970fb8daa8785eccfec",
+        "player.log": "c99e5105ae2af08e96d076f5d42c4f58d1ba98def50d01668ef1abf6df662dd3",
+        "build.json": "ce758b7b8b23c93b3248bcd1270969806463770b23405510d132b5c2072f2567",
+        "capture-frames.csv": "48bc4c14cdda4888730c102e80470eca9d0472fb7a582fa5f923e68a6a7114d6",
+        "video.mp4": "24459378f7e746bf6c67246853bbfc563c9042d35d720bf5ad632f066ca7ab43",
+        "mix.wav": "bd96f12b6cbd86c1f8b907b8567f2ec0bf6b69b77f450b6b1c4eaf1e34bf0758"
+      },
+      "disabledSeconds": 6.289414,
+      "revivedSeconds": 10.088149
+    },
+    {
+      "path": "Builds/quality/C4/flight-disabled-sela-01",
+      "valid": true,
+      "failures": [],
+      "seconds": 18.4539719,
+      "samples": 1109,
+      "focusedSamples": 1109,
+      "steps": 11,
+      "last": {
+        "hero": "Sela",
+        "integrity": "30.0",
+        "partnerHealth": "120.0",
+        "scene": "Gullet_Tunnel",
+        "form": "Flight"
+      },
+      "files": {
+        "run.json": "e4652d03ae0fa228c2492c1197fe758337f87e8b574621d7e642d01f4503142b",
+        "route.json": "b4d04a2fb199380724a5bed4a12fbc641179a586961e4278b663f58ea53f36d8",
+        "frames.csv": "63ae06dd9b28f5fb75be2d0f40a546f07d2cf1de43bd7528af368a7e7254c9ef",
+        "player.log": "7c5c05e4a6adcf6bda492614ac776c98358617c4c0b4be9783c0506d7edd6ae7",
+        "build.json": "8bd37670579e785e501b563dc0c6cd853bc0143dd2395131da4602ac6d637c60",
+        "capture-frames.csv": "bbc231a8fb5692dbc910f51a70e4a9fe4151480b295c388c70104b8c88fc1591",
+        "video.mp4": "eb52de8a1d5f2f70f53710590d605184cdfb876d1d084c818a2f2e262d70e9ee",
+        "mix.wav": "fbf547e5e49c3a7749d5d35d05093fdaaf5a6cf4da0badf0e2536b2fcf37817c"
+      },
+      "disabledSeconds": 6.537062,
+      "revivedSeconds": 10.337554
+    },
+    {
+      "path": "Builds/quality/C4/form-ordinary-05",
+      "valid": true,
+      "failures": [],
+      "seconds": 64.52485639999999,
+      "samples": 3873,
+      "focusedSamples": 3873,
+      "steps": 35,
+      "last": {
+        "hero": "Sela",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Sorrel_Ridges",
+        "form": "Natural"
+      },
+      "files": {
+        "run.json": "456ab1ea57779cb935b7ef39c071ee621d8ddebffb25ad908422a4523f9a5d86",
+        "route.json": "59650ce2f9310f30b72ffeae567af4f7705b348e7cc12e9070503dab141ff6b3",
+        "frames.csv": "bc88016935c2aa19fcd6658430f20be2e1ec45df5537bc320f7ac13cc91016b5",
+        "player.log": "4d5781647b4a1caf456ebe5d1f4525ca4e55515e3f42aba31c49c0adc3b69004",
+        "build.json": "6487a0465f2f65d41731b034e431d3bb6c32c0560fea8ee3648b7fa14b6d9624",
+        "capture-frames.csv": "af391e7791cdee018228a4ec8c10f399d5d10f15e2dcb9bc25560ba4147783c1",
+        "video.mp4": "8a5c53f57f75a5d05120183baadb3678431604f2f4950e3a2830619e7bab6db8",
+        "mix.wav": "b336065586a8d681fe97ccd13d1e05b077713a390e310cd8d0a7117db6cd3711"
+      }
+    }
+  ],
+  "openedStills": [
+    {
+      "file": "Builds/quality/C4/staged-docking-taren-02/departure-ship-fold.png",
+      "videoSeconds": 9.318365,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "0969e7e91db5dc1e9af677c46d6eee482e1bc7e9756b39b7fb46f060827b37e2"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-taren-02/arrival-body-opening.png",
+      "videoSeconds": 9.866446,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "b51a7ec5dc697d53564386d0596d52cb4ae1d9ab31f29601c91ff42db391bb81"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-taren-02/departure-body-fold.png",
+      "videoSeconds": 15.53529,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "6f794844a1bab1121f04974e8603a8c592f0ac856c1830faf78f6240a5570794"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-taren-02/arrival-ship-opening.png",
+      "videoSeconds": 16.075499,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "5bcf0fe66a1619af89ec1bf77fbe32bc4d6236aed988dc0594653c1f64fcca37"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-taren-02/restored-flight.png",
+      "videoSeconds": 17.075499,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "d7d68f8480ebe5e937e06b146e77efd59800ec507f5851379afe71eb4f0ecbba"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-sela-02/departure-ship-fold.png",
+      "videoSeconds": 9.717751,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "7d4967121a55349d526b5b1c94e2ddd30c26faf1db6d0414e47d5ab1aa4b2314"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-sela-02/arrival-body-opening.png",
+      "videoSeconds": 10.270137,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "1f9b3b7824066307a30d3d4e149483fc682b7843d87d19032ec1616303df3500"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-sela-02/departure-body-fold.png",
+      "videoSeconds": 15.953187999999999,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "72430b3b168b375a84c13caccecc9badcdbb06f60f01ca2598761c46d4259048"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-sela-02/arrival-ship-opening.png",
+      "videoSeconds": 16.510553,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "0e3b237cf224c0ed22c19c66225dc30663acaa545855a7db28271d0c0a293bdb"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-sela-02/restored-flight.png",
+      "videoSeconds": 17.510553,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "5e06fe27754c2864dc05227cf5672bf2af11ccb947d1788810bd4175ba25268d"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-taren-01/disable-settle.png",
+      "videoSeconds": 6.6394139999999995,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "c5bce18237ffcedc3d251a643a7869f409df7976315ec601cf84a35468a3e3b9"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-taren-01/rescue-signal.png",
+      "videoSeconds": 7.189414,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "d40cd5b438b5d3312428b97bce3e781e416a5c9412a29f16949093a76eaa5840"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-taren-01/rescue-recovery.png",
+      "videoSeconds": 10.338149,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "fa6d0c16af0c77de307cca6ceee8924942a34bef6504ab5f2978d31db20b2de2"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-taren-01/restored-hulls.png",
+      "videoSeconds": 11.488149,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "90e5b1423f18c2bcc8983afbf6c5d5f767ea38fad7274218dd64533c42156397"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-sela-01/disable-settle.png",
+      "videoSeconds": 6.887061999999999,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "983538593306e674c2fcdc596421b0c458678ed669a5c07d9bf2558a7360ba49"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-sela-01/rescue-signal.png",
+      "videoSeconds": 7.437062,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "7e274fceebe32c1ae73c0dbb203b3309e0a2d44f0117d7bccc8049d785c677f0"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-sela-01/rescue-recovery.png",
+      "videoSeconds": 10.587554,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "85a999dd8492474ce5ebf1e63f3bddf720db75c2995b5d43b6583d06b54330c8"
+    },
+    {
+      "file": "Builds/quality/C4/flight-disabled-sela-01/restored-hulls.png",
+      "videoSeconds": 11.737554000000001,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "bacb7feb2ef156e938ea2b0280a91b8d0840a2422a630ed84ecad12d420c476d"
+    },
+    {
+      "file": "Builds/quality/C4/form-ordinary-05/taren-body-closing.png",
+      "videoSeconds": 22.109296,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "47d629d6d865f7a1f6eed551be429417318f0276cc26c0ba30b136ffd2b1ed4a"
+    },
+    {
+      "file": "Builds/quality/C4/form-ordinary-05/taren-body-opening.png",
+      "videoSeconds": 22.419296,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "d565a8f41887b336b293209e1100dc7d96571e3848f4284a4b836fb78d555e2b"
+    },
+    {
+      "file": "Builds/quality/C4/form-ordinary-05/sela-body-closing.png",
+      "videoSeconds": 42.694215,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "6021e2f1f0e932fb38bfa8a189f58f873f18c418f0979207a96bbacc700a8b9b"
+    },
+    {
+      "file": "Builds/quality/C4/form-ordinary-05/sela-body-opening.png",
+      "videoSeconds": 43.004215,
+      "method": "unaltered FFmpeg single-frame extraction; not continuous video viewing",
+      "sha256": "4068ae393f5299a6e47a8a9240d0483f657fa242e4e5af5abf806af1286cca67"
+    },
+    {
+      "file": "Builds/quality/C4/staged-docking-taren-01/004.png",
+      "sha256": "0e290975f0ccc9cca37e8fbbdcdbeb01edcef4ebdfb54eaa63d5ef04cc73ff12"
+    }
+  ],
+  "observations": {
+    "reviewer": "Codex; actual single frames opened with view_image",
+    "motionAtNormalAndSlowSpeed": "UNVERIFIED; continuous playback capability unavailable",
+    "audioAudition": "UNVERIFIED",
+    "physicalLogitechFeel": "UNVERIFIED",
+    "cleanPerformance": "not measured by captured routes",
+    "maps": "Sorrel remains blockout 06; Gullet and arenas remain rejected; rear Cinder ring panel cleanup remains open"
+  },
+  "buildLogs": {
+    "development-build.log": {
+      "file": "Builds/quality/C4/staged-integration01/development-build.log",
+      "sha256": "70d0266af702be992cae4aaccc1cd523d5773982d6943dce05879b065bc11e42"
+    },
+    "release-build.log": {
+      "file": "Builds/quality/C4/staged-integration01/release-build.log",
+      "sha256": "6c3480e870fa9838dd8cd0cf0ccc86d9f10d018b8a29a554832a28bf87bdd98a"
+    }
+  },
+  "preservedSaveHashesVerifiedBeforeShortCaptures": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  }
+}

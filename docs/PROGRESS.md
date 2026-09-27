@@ -1,5 +1,10 @@
 # CORONACH slice progress
 
+## C4 staged form and rescue player checkpoint - September 27
+
+**C4 OPEN.** Full suites pass **137/137 PlayMode and 50/50 EditMode, zero skips**; both Windows players contain `a759b1d`. Both heroes complete ordinary dock/launch and wall-disable/automatic-swap/proximity-revive routes with full focus. The 35-check safe-boundary route also passes after preserving and correcting the old fixture's insufficient reset windows. Twenty-three opened gameplay stills support attached full-size folds and visible, separated rescue hulls. [Evidence](validation/C4-staged-player.md) retains four rejected captures and exact fixes. Casual swap banter during rescue is a new C6 context issue. Saves and music remain unchanged. Long circuits, remaining MAP_EYE_TEST work and later gates remain open; continuous video/audio observation and physical feel remain UNVERIFIED.
+
+
 ## C4 disabled flight source checkpoint - September 27
 
 **C4 OPEN.** Disabled ships keep a solid rescue footprint with damage triggers shut down, settle with a small wing fold, and display a state-driven rescue ring. Recovery starts from the current pose. Reproduced hull overlap, a 57° early-revive jump, absent cue, one-frame pause drift and stale landing cue are corrected. The combined matrix passes **16/16 PlayMode, zero skips**; twelve opened controlled views support the candidate pose/cue. [Evidence](validation/C4-flight-disable.md) separates that review from pending ordinary gameplay. Original saves are unchanged. Full suites and both rebuilt packages are next; players still contain `feac4b9`. Long circuits, map work and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.

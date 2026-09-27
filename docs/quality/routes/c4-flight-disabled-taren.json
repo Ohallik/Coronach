@@ -1,0 +1,72 @@
+{
+  "name": "flight-disabled-taren",
+  "scene": "Gullet_Tunnel",
+  "sourceRevision": "a759b1d; ordinary damaging wall contact, automatic swap and proximity revival, starter party, unchanged AI/health/damage",
+  "settleSeconds": 2,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 0,
+  "steps": [
+    {
+      "name": "ordinary thrust into the combat tunnel wall until disabled",
+      "seconds": 30,
+      "x": 1,
+      "rightTrigger": 1,
+      "until": "partnerDown",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "brake the automatically selected rescuer",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "hold while the disabled hull settles",
+      "seconds": 0.8,
+      "leftTrigger": 1
+    },
+    {
+      "name": "approach the disabled partner without crossing its hull",
+      "seconds": 8,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 3.9,
+      "leftTrigger": 1,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "complete ordinary proximity restoration",
+      "seconds": 5,
+      "leftTrigger": 1,
+      "until": "partyAlive",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "let the repaired craft finish opening",
+      "seconds": 1.5,
+      "leftTrigger": 1
+    },
+    {
+      "name": "swap back to the repaired pilot",
+      "seconds": 0.15,
+      "buttons": [
+        "North"
+      ],
+      "leftTrigger": 1,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "repaired pilot can thrust away from the wall",
+      "seconds": 1,
+      "x": -1,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "brake with both hulls alive",
+      "seconds": 1,
+      "leftTrigger": 1,
+      "until": "partyAlive"
+    }
+  ]
+}
