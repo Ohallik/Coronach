@@ -1,0 +1,9 @@
+# C3 released projectile checkpoint - September 26, 2026
+
+**C3 OPEN.** A released non-piercing projectile now resolves the nearest eligible body or opaque solid surface, including movable props. Physics query order no longer lets a farther body win over an intervening wall. Team membership is captured when fired so energy cannot switch allegiance after its source is destroyed. Active accounting follows enable/disable lifetime, including scene unload; pause still holds released motion.
+
+The first focused run passes 1/4 and fails three relevant broken cases: a solid movable prop allows 50 damage, nearer fixed cover loses to a body in the same sweep (another 50 damage), and scene unload retains one nonexistent live projectile. The original source-cleanup fixture passes because its initial large frame can cross the ally before queued destruction finishes. Holding released energy with pause until destruction is complete exposes the actual defect: the ally loses 10 Integrity. That corrected test fails 0/1 on the unchanged implementation; no expected outcome was relaxed.
+
+After the correction, all **17/17 targeted PlayMode checks pass, zero skips**: four projectile cases, seven posed ranged cases and six break/interruption cases. This includes unobstructed positive controls, nearest-body single contact, pause/resume and released energy after interruption. Original save/backup hashes remain unchanged. [Exact evidence](C3-projectiles.json) retains both red runs, green results and source hashes.
+
+This is a source checkpoint. Both packaged players still contain the preceding 85/39-tested buff implementation (`48bdff9`); full suites and both rebuilds will be refreshed at the next integrated checkpoint. No new continuous footage or sound was observed for this change. Nonhumanoid collapse, other C3 work, non-station MAP_EYE_TEST and later gates remain open.

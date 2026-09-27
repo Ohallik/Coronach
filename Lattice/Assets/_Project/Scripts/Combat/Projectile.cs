@@ -8,6 +8,7 @@ namespace Lattice.Combat
         DamagePacket packet;
         Vector3 velocity;
         float life;
+        bool counted,hasFaction,friendly;
         public static int ActiveCount {get;private set;}
         public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24)
         {
@@ -19,23 +20,28 @@ namespace Lattice.Combat
                 go.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Emission");
             }
             p.transform.position=position;p.packet=damage;p.velocity=direction.normalized*speed;p.life=3;
-            p.gameObject.SetActive(true);ActiveCount++;
+            p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;
+            p.gameObject.SetActive(true);p.counted=true;ActiveCount++;
         }
         void Update()
         {
             if(Lattice.Core.GameTime.Paused)return;
             var delta=velocity*Time.deltaTime;
+            Hurtbox victim=null;float victimDistance=float.PositiveInfinity,coverDistance=float.PositiveInfinity;
             foreach(var hit in Physics.SphereCastAll(transform.position,.15f,velocity.normalized,delta.magnitude,~0,QueryTriggerInteraction.Collide))
             {
-                if(hit.collider.TryGetComponent<Hurtbox>(out var box))
-                {
-                    if(box.owner==null||box.owner==packet.source||packet.source!=null&&box.owner.friendly==packet.source.friendly)continue;
-                    box.Hit(packet);Recycle();return;
-                }
-                if(!hit.collider.isTrigger&&hit.collider.gameObject.isStatic){Recycle();return;}
+                if(CombatCover.Opaque(hit.collider)){coverDistance=Mathf.Min(coverDistance,hit.distance);continue;}
+                if(!hit.collider.TryGetComponent<Hurtbox>(out var box)||box.owner==null||!box.owner.Alive||
+                    box.owner==packet.source||hasFaction&&box.owner.friendly==friendly)continue;
+                if(hit.distance<victimDistance){victimDistance=hit.distance;victim=box;}
             }
+            // Sweep results are unordered. A farther victim may never win over
+            // an earlier wall/body just because physics returned it first.
+            if(!float.IsPositiveInfinity(coverDistance)&&coverDistance<=victimDistance){Recycle();return;}
+            if(victim!=null){victim.Hit(packet);Recycle();return;}
             transform.position+=delta;life-=Time.deltaTime;if(life<=0)Recycle();
         }
-        void Recycle(){ActiveCount=Mathf.Max(0,ActiveCount-1);gameObject.SetActive(false);pool.Push(this);}
+        void OnDisable(){if(counted){counted=false;ActiveCount=Mathf.Max(0,ActiveCount-1);}}
+        void Recycle(){gameObject.SetActive(false);pool.Push(this);}
     }
 }

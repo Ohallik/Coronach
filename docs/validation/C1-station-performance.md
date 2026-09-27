@@ -47,3 +47,8 @@ The initial release stability run `station-stability-01-release-decks-1` complet
 
 
 `station-stability-01-release-tallow-1` completed 600.421 s / 36,024 samples but is **REJECTED**: one sample at 17.802033 s lost focus. Raw p95/p99/worst are 16.8961/16.9954/20.8729 ms, with no interval above 25 ms; those figures do not override the invalid run. All raw evidence remains. The queued census rerun must retain the focus requirement. The analyzer now has 29 passing controls, including absent/incomplete/invalid object-source census rejection and visible sustained-growth reporting.
+
+
+## Final-layout retry after 48bdff9
+
+The September 26 final-layout retry starts without competitors, but another Frostbound batch begins during Decks headroom. The unchanged harness rejects concurrent Unity/build work and focus loss: only 52,064/70,041 samples retain focus, and twelve navigation/dialogue/shop checks fail in 124.530706 seconds. The seven remaining headroom/first-warm/census starts refuse the contaminated environment. No clean performance conclusion is drawn from this run; no unrelated process was stopped. [Exact rejected evidence](C1-final-timing-rejected.json) retains environment/process records and hashes. C1 remains OPEN; current integrated packages contain the 85/39-tested buff checkpoint. The offline analyzer controls still pass 29/29.

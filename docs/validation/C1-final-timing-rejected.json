@@ -1,0 +1,350 @@
+{
+  "status": "C1 OPEN: final-layout timing rejected for concurrent other-project Unity work and focus loss; remaining starts refused",
+  "date": "2026-09-27T05:25:09.620219+00:00",
+  "source": "48bdff9",
+  "openedMovingVideo": false,
+  "focused": 52064,
+  "samples": 70041,
+  "run": {
+    "route": "station-decks-headroom",
+    "sourceRevision": "paired station redesign; build hashes in evidence",
+    "input": "continuous agent-directed virtual gamepad replay",
+    "build": "Development",
+    "unity": "6000.4.7f1",
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "quality": "Ultra",
+    "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+    "vrr": "UNVERIFIED",
+    "width": 1920,
+    "height": 1080,
+    "frameCap": -1,
+    "vSync": 0,
+    "samples": 70041,
+    "refreshHz": 60.0,
+    "seconds": 124.53070559999999,
+    "captured": false,
+    "profiled": false,
+    "headroom": true,
+    "census": false,
+    "motion": false,
+    "valid": false,
+    "failures": [
+      "public bridge to market: navigation checkpoint missed",
+      "approach Mira: navigation checkpoint missed",
+      "talk to Mira: dialogue did not open",
+      "choose stock: shop did not open",
+      "back to public promenade: navigation checkpoint missed",
+      "sprint public bridge to repair: navigation checkpoint missed",
+      "repair public entrance: navigation checkpoint missed",
+      "workshop center aisle: navigation checkpoint missed",
+      "parts store aisle: navigation checkpoint missed",
+      "rear receiving gallery: navigation checkpoint missed",
+      "service bridge to provisions: navigation checkpoint missed",
+      "shared galley: navigation checkpoint missed",
+      "focus lost",
+      "concurrent editor/build/encoder invalidates clean timing"
+    ],
+    "loadWaitSeconds": 1.076225,
+    "settleSeconds": 8.0,
+    "interactions": [
+      {
+        "step": 5,
+        "expectedUi": "dialogue",
+        "inputSeconds": 25.025136399999997,
+        "visibleResponseMs": -1.0
+      },
+      {
+        "step": 11,
+        "expectedUi": "shop",
+        "inputSeconds": 37.5141503,
+        "visibleResponseMs": -1.0
+      },
+      {
+        "step": 13,
+        "expectedUi": "world",
+        "inputSeconds": 43.516287999999996,
+        "visibleResponseMs": 0.2764000000041733
+      }
+    ]
+  },
+  "interference": [
+    {
+      "at": "2026-09-27T05:22:54.6569188Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:22:59.9225377Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:22:59.9225377Z",
+      "process": {
+        "ProcessId": 33332,
+        "Name": "bee_backend.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Data\\Tools\\BuildPipeline\\bee_backend.exe\" --ipc --defer-dag-verification --dagfile=\"Library/Bee/1900b0aE.dag\" --continue-on-failure --profile=\"Library/Bee/backend1.traceevents\" ScriptAssemblies"
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:05.1964686Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:05.1964686Z",
+      "process": {
+        "ProcessId": 33332,
+        "Name": "bee_backend.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Data\\Tools\\BuildPipeline\\bee_backend.exe\" --ipc --defer-dag-verification --dagfile=\"Library/Bee/1900b0aE.dag\" --continue-on-failure --profile=\"Library/Bee/backend1.traceevents\" ScriptAssemblies"
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:10.5003485Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:10.5003485Z",
+      "process": {
+        "ProcessId": 33332,
+        "Name": "bee_backend.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Data\\Tools\\BuildPipeline\\bee_backend.exe\" --ipc --defer-dag-verification --dagfile=\"Library/Bee/1900b0aE.dag\" --continue-on-failure --profile=\"Library/Bee/backend1.traceevents\" ScriptAssemblies"
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:15.7967054Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:15.7967054Z",
+      "process": {
+        "ProcessId": 33332,
+        "Name": "bee_backend.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Data\\Tools\\BuildPipeline\\bee_backend.exe\" --ipc --defer-dag-verification --dagfile=\"Library/Bee/1900b0aE.dag\" --continue-on-failure --profile=\"Library/Bee/backend1.traceevents\" ScriptAssemblies"
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:21.1279284Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:21.1279284Z",
+      "process": {
+        "ProcessId": 33332,
+        "Name": "bee_backend.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Data\\Tools\\BuildPipeline\\bee_backend.exe\" --ipc --defer-dag-verification --dagfile=\"Library/Bee/1900b0aE.dag\" --continue-on-failure --profile=\"Library/Bee/backend1.traceevents\" ScriptAssemblies"
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:26.3675784Z",
+      "process": {
+        "ProcessId": 42160,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" \"-batchmode\" \"-nographics\" \"-projectPath\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound\" \"-logFile\" \"C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\headless-verify.log\" \"-executeMethod\" \"Frostbound.EditorTools.BatchTools.Verify\""
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:31.6461209Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:36.9355678Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:42.2148292Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:47.5244760Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:52.8457501Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:23:58.1364697Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:03.4000508Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:08.6960264Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:13.9845771Z",
+      "process": {
+        "ProcessId": 28980,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.InspectAll -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-InspectAll.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:24.5705891Z",
+      "process": {
+        "ProcessId": 43248,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.ProposeCastFronts -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-ProposeCastFronts.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:29.8495548Z",
+      "process": {
+        "ProcessId": 43248,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.ProposeCastFronts -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-ProposeCastFronts.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:35.1196076Z",
+      "process": {
+        "ProcessId": 43248,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.ProposeCastFronts -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-ProposeCastFronts.log -quit -nographics "
+      }
+    },
+    {
+      "at": "2026-09-27T05:24:40.4113144Z",
+      "process": {
+        "ProcessId": 43248,
+        "Name": "Unity.exe",
+        "CommandLine": "\"C:\\Program Files\\Unity\\Hub\\Editor\\6000.4.7f1\\Editor\\Unity.exe\" -batchmode -projectPath C:\\Users\\natem\\Projects\\FrostboundUnity\\Frostbound -executeMethod Frostbound.EditorTools.Polish73T9Closure.ProposeCastFronts -logFile C:\\Users\\natem\\Projects\\FrostboundUnity\\Builds\\logs\\p64-exec-ProposeCastFronts.log -quit -nographics "
+      }
+    }
+  ],
+  "files": [
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-1/environment.json",
+      "sha256": "8ccafe7027beaa0c10e3c11c2fe5744360c9d2f44d88f27d1fa91dbf6c303e5c",
+      "bytes": 647
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/analysis-diagnostic.json",
+      "sha256": "0dd9939d7cb5421ba656fc7f4434b3d0bb654005dc7ed6c9d8da250879ac3b10",
+      "bytes": 5576
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/available-counters.txt",
+      "sha256": "1e6c83f243c412d015b668534b7619245fa36773b522bcacf8611520484c5355",
+      "bytes": 180593
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/build.json",
+      "sha256": "4765479460be42cd047f9e4dbb2968ae9ed57a3a181dd991d3d14ed23ceef47e",
+      "bytes": 11482
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/environment.json",
+      "sha256": "df182f9c9eddb4fd94e372dc061417fd81cf80239c668598bf72cbb999b555af",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/frames.csv",
+      "sha256": "fad241a9c310f35f91bc3d5d1e3ab8c5a3a266a3d05749834f5c45a82e860ba2",
+      "bytes": 19887348
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/interference.json",
+      "sha256": "dd43b0b78ba0cdce282c3d65daab6e08434561829186d43a2ecfd1d3b0ab9510",
+      "bytes": 14221
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/player.log",
+      "sha256": "4480619a99e69358fc07c1d3bc95f39c31b81efd579133505a735d92704e5133",
+      "bytes": 69645
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/process.txt",
+      "sha256": "e4189b66f524f194658755d2903524801855d53a3e2d6058513996f023184ada",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/route.json",
+      "sha256": "ce142a1b1ab5fe03ccbc8d046923b016018e8f98b396916d4febf87ead6356d2",
+      "bytes": 23974
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-decks-headroom/run.json",
+      "sha256": "fbf4c05a819ae7a6f263e10735a1b732ce51936a657f92abd60a1083da3e9cc3",
+      "bytes": 2779
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-tallow-1/environment.json",
+      "sha256": "2da84705a27b8a3f109294df2764ca0b41c6936936b0a8b3d08a65bc2a5ea0d8",
+      "bytes": 647
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-development-tallow-headroom/environment.json",
+      "sha256": "036206a1675377b81ecccd8a7882c0458b9cf150a8db357e400c84afdabc28f9",
+      "bytes": 647
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-release-decks-1/environment.json",
+      "sha256": "49faa0538af3cd3a034d0e72fcb7a45c9aac0f9c39ed4886b4caa5d669547535",
+      "bytes": 647
+    },
+    {
+      "path": "Builds/quality/C1/station-final-01-release-tallow-1/environment.json",
+      "sha256": "e49af6112d77ed4f11bd88573856c6393af2c57525ad1e97e366cff24ac39b6c",
+      "bytes": 647
+    }
+  ]
+}

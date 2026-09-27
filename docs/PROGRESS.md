@@ -1,10 +1,16 @@
 # CORONACH slice progress
 
+## C3 released projectile checkpoint - September 26
+
+**C3 OPEN.** Projectiles resolve the nearest body/opaque surface, stop on movable props, retain their team after source destruction and reconcile active counts on scene unload. Four red cases reproduce wall penetration, wrong nearest contact, stale accounting and lost allegiance. The combined projectile/ranged/break checks pass **17/17 PlayMode, zero skips**, with original saves unchanged. [Projectile evidence](validation/C3-projectiles.md) records the corrected destruction-order fixture and all red/green results.
+
+This is a source checkpoint; full suites and both player rebuilds await the next integrated checkpoint. Current packages retain `48bdff9` (85/39 integrated). C1 clean timing remains rejected for other-project interference; nonhumanoid death, non-station MAP_EYE_TEST and later gates remain open. Continuous motion/audio observation and physical feel remain UNVERIFIED.
+
 ## C3 posed buffs and counter checkpoint - September 26
 
 **C3 OPEN.** Overdrive and Refract now arm at explicit pose phases with wrist cues tied to their actual state. Interception consumes Refract and starts a posed return shot; deliberate dodge/guard replace the ward. Red cases reject damage through fixed/movable cover, an unposed return and a stolen Flash Move. Near-wall release checks stop energy from appearing beyond the cover. [Buff/counter evidence](validation/C3-ground-buffs.md) retains failures and exact hashes.
 
-Fresh integrated suites pass **85/85 PlayMode and 39/39 EditMode, zero skips**; both Windows players rebuilt with BUILD_OK. The final ordinary release route passes 28 checkpoints with all 3,987 samples focused. Opened frames show both buff cues, expiry, interception, return beam, break/death and retreat; no combat difficulty was changed. Original saves remain unchanged. Continuous normal/slow viewing, actual audio audition and physical feel remain UNVERIFIED. Fresh C1 timing, other C3 work, non-station MAP_EYE_TEST and later gates remain open.
+Fresh integrated suites pass **85/85 PlayMode and 39/39 EditMode, zero skips**; both Windows players rebuilt with BUILD_OK. The final ordinary release route passes 28 checkpoints with all 3,987 samples focused. Opened frames show both buff cues, expiry, interception, return beam, break/death and retreat; no combat difficulty was changed. Original saves remain unchanged. Continuous normal/slow viewing, actual audio audition and physical feel remain UNVERIFIED. Fresh C1 timing, other C3 work, non-station MAP_EYE_TEST and later gates remain open. The final-layout C1 retry is rejected for concurrent other-project Unity work and focus loss; subsequent clean starts refuse that environment. [Rejection record](validation/C1-final-timing-rejected.json).
 
 ## C3 ground skill contact checkpoint - September 26
 

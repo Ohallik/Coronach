@@ -1,0 +1,231 @@
+{
+  "status": "C3 OPEN, source checkpoint; packages still contain buff checkpoint48bdff9",
+  "sourceBase": "48bdff9afaf1577bd60a472def556c1c6f5a2902",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/Projectile.cs",
+      "sha256": "98d3ef4ef884817cc0befe786649834a0d5a8b41c0e887f87c43ab6bdc7397b2",
+      "bytes": 2679
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/ProjectileCoverTests.cs",
+      "sha256": "2fc18c0ed2cf1da79412f36df26533e3d0cd18e96bb2e5f1e83bfddec6b9680f",
+      "bytes": 7904
+    }
+  ],
+  "suites": [
+    {
+      "results": {
+        "path": "Builds/quality/C3/projectile-red/playmode-results.xml",
+        "sha256": "2921c2400ae1d8a1dbf7c1a72e589a5205e4b3b43b0650045c0da05a798f1f8f",
+        "bytes": 11017
+      },
+      "log": {
+        "path": "Builds/quality/C3/projectile-red/playmode.log",
+        "sha256": "998b188f1ba1e1bf57aa88f9cb8184e6ab5f88d3ec1a7be63c08bfdd4e17a7d1",
+        "bytes": 182940
+      },
+      "counts": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "1",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 05:25:45Z",
+        "end-time": "2026-09-27 05:25:59Z",
+        "duration": "13.5276811"
+      },
+      "cases": [
+        {
+          "name": "NearestSurfaceWinsEvenWhenOneFrameCrossesBodiesAndCover",
+          "result": "Failed",
+          "failure": "  nearer opaque cover lost to a body in the same sweep\n  Expected: 1000\n  But was:  950.0f\n"
+        },
+        {
+          "name": "PauseHoldsReleasedProjectileAndSceneUnloadReconcilesActiveCount",
+          "result": "Failed",
+          "failure": "  scene unload left stale live projectile accounting\n  Expected: 0\n  But was:  1\n"
+        },
+        {
+          "name": "ReleasedEnemyShotRetainsItsTeamAfterSourceCleanup",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "ReleasedProjectileCannotPassSolidMovableCover",
+          "result": "Failed",
+          "failure": "  projectile ignored solid movable cover\n  Expected: 1000\n  But was:  950.0f\n"
+        }
+      ]
+    },
+    {
+      "results": {
+        "path": "Builds/quality/C3/projectile-team-red/playmode-results.xml",
+        "sha256": "9594b68f085457a9ef02f5ff0df51e3d7189a309c093d142adf7a83093b4e639",
+        "bytes": 5758
+      },
+      "log": {
+        "path": "Builds/quality/C3/projectile-team-red/playmode.log",
+        "sha256": "0fb0d8eb15c2c062a034056b987499edef50cd74b3c5b9179f7f95cfcd9d1d28",
+        "bytes": 130154
+      },
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 05:27:31Z",
+        "end-time": "2026-09-27 05:27:35Z",
+        "duration": "3.8430957"
+      },
+      "cases": [
+        {
+          "name": "ReleasedEnemyShotRetainsItsTeamAfterSourceCleanup",
+          "result": "Failed",
+          "failure": "  released enemy energy changed teams after its source disappeared\n  Expected: 1000\n  But was:  990.0f\n"
+        }
+      ]
+    },
+    {
+      "results": {
+        "path": "Builds/quality/C3/projectile-green/playmode-results.xml",
+        "sha256": "b02ce76494e013b1e2ccda06f023ad373b7cf63037dee4e2436d6d0fc19b6ab8",
+        "bytes": 26115
+      },
+      "log": {
+        "path": "Builds/quality/C3/projectile-green/playmode.log",
+        "sha256": "5dc453fb14ea63563701228c4accaa378c2bbde9fdce91f27ada95387441ccdf",
+        "bytes": 432746
+      },
+      "counts": {
+        "id": "2",
+        "testcasecount": "17",
+        "result": "Passed",
+        "total": "17",
+        "passed": "17",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 05:28:36Z",
+        "end-time": "2026-09-27 05:30:20Z",
+        "duration": "103.892587"
+      },
+      "cases": [
+        {
+          "name": "AnAlreadyReleasedProjectileSurvivesItsOwnersBreak",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "BreakCancelsAnExistingUnreleasedHitVolume",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "BreakCancelsTheOldTellAndRequiresANewWindup",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "BreakImmediatelyCancelsBothBossSpecialTells",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "BrokenSentinelHasAStableVisiblePoseAndReturnsToIdle",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "SentinelRenderedFeetRestOnWorldGeometryInsteadOfItsOwnCapsule",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "NearestSurfaceWinsEvenWhenOneFrameCrossesBodiesAndCover",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "PauseHoldsReleasedProjectileAndSceneUnloadReconcilesActiveCount",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "ReleasedEnemyShotRetainsItsTeamAfterSourceCleanup",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "ReleasedProjectileCannotPassSolidMovableCover",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "GroundRangedSkillsCancelBeforeRelease",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "GuardDodgeStaggerAndDeathCancelUnreleasedShots",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "LanceStopsAtSolidCoverAndPiercesUnobstructedBodiesOnce",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "NeedleShotsBeginAtThePosedLeftEmitterAndReachAShortTarget",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "PauseHoldsThePosedReleaseAndResumesOneShot",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "ScatterFanStartsAtThePosedEmitter",
+          "result": "Passed",
+          "failure": ""
+        },
+        {
+          "name": "ThinCoverBetweenBodyAndMuzzlePreventsAHiddenShot",
+          "result": "Passed",
+          "failure": ""
+        }
+      ]
+    }
+  ],
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+      "bytes": 914
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745",
+      "bytes": 891
+    }
+  ],
+  "observations": "Targeted runtime regressions only. No new player rebuild or observed moving/audio evidence for this source checkpoint."
+}
