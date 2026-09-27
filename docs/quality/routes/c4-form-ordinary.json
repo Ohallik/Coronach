@@ -1,0 +1,302 @@
+{
+  "name": "c4-form-ordinary",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "C4 form continuity; corrected pivot-based safe boundary and slower reversing input; original missed crossings retained",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "enter the inhabited outpost",
+      "seconds": 13,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      },
+      "tolerance": 0.05
+    },
+    {
+      "name": "natural bodies in the common court",
+      "seconds": 0.5,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "approach the northern safe-pocket edge",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 26
+      },
+      "tolerance": 0.05
+    },
+    {
+      "name": "Taren at northern boundary",
+      "seconds": 2.2,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "tolerance": 0.02,
+      "magnitude": 0.4
+    },
+    {
+      "name": "Taren short exit 1",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Taren immediate return 1",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Taren settle and reset crossing 1",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren short exit 2",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Taren immediate return 2",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Taren settle and reset crossing 2",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren short exit 3",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Taren immediate return 3",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Taren settle and reset crossing 3",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren short exit 4",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Taren immediate return 4",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Taren settle and reset crossing 4",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Taren transition settles inside",
+      "seconds": 0.75,
+      "expectedForm": "Natural",
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "swap during the safe return",
+      "seconds": 0.12,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.25
+    },
+    {
+      "name": "Sela at northern boundary",
+      "seconds": 2.2,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "tolerance": 0.02,
+      "magnitude": 0.4
+    },
+    {
+      "name": "Sela short exit 1",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Sela immediate return 1",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Sela settle and reset crossing 1",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela short exit 2",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Sela immediate return 2",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Sela settle and reset crossing 2",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela short exit 3",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Sela immediate return 3",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Sela settle and reset crossing 3",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela short exit 4",
+      "seconds": 0.3,
+      "x": -0.1368080573302675,
+      "y": 0.3758770483143634
+    },
+    {
+      "name": "Sela immediate return 4",
+      "seconds": 0.3,
+      "x": 0.1368080573302675,
+      "y": -0.3758770483143634
+    },
+    {
+      "name": "Sela settle and reset crossing 4",
+      "seconds": 0.65,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 27.28
+      },
+      "magnitude": 0.4,
+      "tolerance": 0.02,
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela transition settles inside",
+      "seconds": 0.75,
+      "expectedForm": "Natural",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "return to the common court",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      },
+      "tolerance": 0.05
+    },
+    {
+      "name": "both heroes remain available",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedForm": "Natural"
+    }
+  ]
+}

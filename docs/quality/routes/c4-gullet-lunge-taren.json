@@ -1,0 +1,180 @@
+{
+  "name": "c4-gullet-lunge-taren",
+  "scene": "Gullet_Tunnel",
+  "sourceRevision": "Ordinary arrival-to-encounter lunge route; no enemy, party or stat suppression",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "approach chamber from the empty arrival tunnel",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 1,
+        "z": 35
+      },
+      "leftTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Flight"
+    },
+    {
+      "name": "advance lunge 1",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 1",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 2",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 2",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 3",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 3",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 4",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 4",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 5",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 5",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 6",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 6",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 7",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 7",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 8",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 8",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 9",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 9",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 10",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 10",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "brake after the attack chain",
+      "seconds": 1.2,
+      "leftTrigger": 1
+    },
+    {
+      "name": "clear surviving targets with ordinary fire",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1
+    },
+    {
+      "name": "recover party separation",
+      "seconds": 8,
+      "approachPartner": true,
+      "navigate": true,
+      "leftTrigger": 1,
+      "tolerance": 1.8
+    },
+    {
+      "name": "party remains alive",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedCharacter": "Taren"
+    }
+  ]
+}

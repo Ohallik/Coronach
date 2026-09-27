@@ -1,0 +1,2234 @@
+{
+  "status": "C4 OPEN; integrated contact/form checkpoint",
+  "date": "2026-09-27T07:44:20.604499+00:00",
+  "sourceBase": "ebcc803341fa2cb386771554bf8e5cccfce79f82",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FormController.cs",
+      "bytes": 3682,
+      "sha256": "5a70eb558a74d0b81a503853f09a15eee522a7b9d4ea4833b186c249a20c714b"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightMotor.cs",
+      "bytes": 4548,
+      "sha256": "125d9569bb07f426cb912e94bcc97fc038a957efcf04b218589fa2f28ebf5112"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightDashContact.cs",
+      "bytes": 2619,
+      "sha256": "ec9c76ff4a75d23a1f2dc1c7c10264b264790fe1c1c65ce745ef319d49d9c337"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "bytes": 14363,
+      "sha256": "e2d6dcb7b8ede83db24b7ebae1797aba6e5a7c6d3ab1e395d82f5c0695028bdc"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "bytes": 5184,
+      "sha256": "e5623dbcac6209eae1246864398b630647412f445446eeda855a5890b2d4d600"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FormContinuityTests.cs",
+      "bytes": 6171,
+      "sha256": "f454b1b8eb3e3fc54dafadf2d211c2c9628d555a2d301e7f991ca6bbcf9638f1"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightContactTests.cs",
+      "bytes": 7457,
+      "sha256": "9d575cb283a5a8b2d3852446fae4e3c81018fc8fe20e2e3916c870a32f59f1fc"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/GroundBuffTests.cs",
+      "bytes": 14487,
+      "sha256": "0c1aa39e31a018e3f74acf3581eecedf8e049e24faf7c36840ff2d6be3f36ba8"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/FlightIntegrationTests.cs",
+      "bytes": 3719,
+      "sha256": "ca04b33964752e4af2b0e848847faa45743174454101f7d174c76ef0a94f9cfc"
+    }
+  ],
+  "tests": [
+    {
+      "folder": "Builds/quality/C4/form-continuity-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "1",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:19:20Z",
+        "end-time": "2026-09-27 07:19:34Z",
+        "duration": "13.9829297"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/form-continuity-red/playmode-results.xml",
+        "bytes": 10958,
+        "sha256": "3c02d5ad6a4b5c52c2d0b211356f962411879d8c3112914a6565551d4bf019bb"
+      }
+    },
+    {
+      "folder": "Builds/quality/C4/form-continuity-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Passed",
+        "total": "4",
+        "passed": "4",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:20:32Z",
+        "end-time": "2026-09-27 07:20:48Z",
+        "duration": "15.3865791"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/form-continuity-green/playmode-results.xml",
+        "bytes": 8059,
+        "sha256": "cd49c8c65776ebce3ca987c7e01eb617212bb92a04a2fbb089f2bb2f4dc534eb"
+      }
+    },
+    {
+      "folder": "Builds/quality/C4/form-retarget-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Failed(Child)",
+        "total": "6",
+        "passed": "5",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:21:36Z",
+        "end-time": "2026-09-27 07:22:01Z",
+        "duration": "25.1223213"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/form-retarget-red/playmode-results.xml",
+        "bytes": 12088,
+        "sha256": "b923172f75aad9dd2c9c987a61c363739631f6a531ee8bcb556e82591d31b206"
+      }
+    },
+    {
+      "folder": "Builds/quality/C4/form-retarget-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Passed",
+        "total": "6",
+        "passed": "6",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:22:47Z",
+        "end-time": "2026-09-27 07:23:12Z",
+        "duration": "25.0268752"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/form-retarget-green/playmode-results.xml",
+        "bytes": 10606,
+        "sha256": "46c466049a9b6037360dcc6d97d1b10f8b3cfab8c221baefe146298ed501e8a4"
+      }
+    },
+    {
+      "folder": "Builds/quality/C4/c4-integrated-02",
+      "counts": {
+        "id": "2",
+        "testcasecount": "44",
+        "result": "Passed",
+        "total": "44",
+        "passed": "44",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:36:15Z",
+        "end-time": "2026-09-27 07:36:16Z",
+        "duration": "0.3893922"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/c4-integrated-02/editmode-results.xml",
+        "bytes": 37539,
+        "sha256": "33104521afac2a543e2cb2acc340f873624e8d2b692e93ee6b00409c38f21e4e"
+      }
+    },
+    {
+      "folder": "Builds/quality/C4/c4-integrated-02",
+      "counts": {
+        "id": "2",
+        "testcasecount": "104",
+        "result": "Passed",
+        "total": "104",
+        "passed": "104",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:24:07Z",
+        "end-time": "2026-09-27 07:36:05Z",
+        "duration": "718.464794"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/c4-integrated-02/playmode-results.xml",
+        "bytes": 148560,
+        "sha256": "11d355b3591a998b18d26e7599e4cceea8b758bb2a91d26502e3a8fede088841"
+      }
+    }
+  ],
+  "ordinary": [
+    {
+      "folder": "Builds/quality/C4/lunge-taren-ordinary-01",
+      "result": {
+        "route": "c4-lunge-taren-ordinary",
+        "sourceRevision": "C4 actual dash contact candidate; normal starter enemies and isolated saves",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2902,
+        "refreshHz": 60.0,
+        "seconds": 48.342053299999996,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0044004999999996,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focus": 2902,
+      "lastHealth": "96.0",
+      "lastPartnerHealth": "60.0",
+      "lungeKills": 0,
+      "artifacts": [
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/000.png",
+          "bytes": 2115244,
+          "sha256": "f0d6f03fc8fb007008d0f7404b50c4ede46b945f1b3023840a9cccdf0fde8225"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/001.png",
+          "bytes": 2119601,
+          "sha256": "e3c3510797c66e4aa6dc64a5cc5e39551693e8f0af5d38439149f0a9687385c0"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/002.png",
+          "bytes": 2201210,
+          "sha256": "576d83dd4e71979e42fbc459af6780bf53092845c00bf40847673f5d23c2cca7"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/003.png",
+          "bytes": 2193701,
+          "sha256": "44ddbde3becf724a7c4c91b154b016bce0f0ecfd8f7a3df0001d2df066685902"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/004.png",
+          "bytes": 1993733,
+          "sha256": "b12d55b2fa45dd68eafbc6eab0475f1c84a50ae4919ae90723db5fca7f4a5316"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/005.png",
+          "bytes": 1812435,
+          "sha256": "f825cc79f4e2bf925acc5b63654be854c5c270acff0429585c3bcdc17baaca6c"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/006.png",
+          "bytes": 1825504,
+          "sha256": "abd8ca3ed21a75b53a0a1b7a73380da766a7524134a99e68db8f3f0aecc50fee"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/007.png",
+          "bytes": 1597789,
+          "sha256": "0ddb3f3ed2c4c2591fb5ad3e455f525bb8b655b14f6c0ab6fc13ffc24a216683"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/009.png",
+          "bytes": 1054020,
+          "sha256": "da0038db7627ed70439fd1a1c64225fdf3c0537dcdc767972c380421f3391852"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/010.png",
+          "bytes": 2117276,
+          "sha256": "9486638d38c05e93fe176a853df8009df5d2524af2ded2250bbc38e002a90a1a"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/011.png",
+          "bytes": 2112558,
+          "sha256": "ea7e6c5e05d4b734051150c89b0e9dbb9e17f6c535fa83ef6e6f070a0af54baf"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/012.png",
+          "bytes": 2124654,
+          "sha256": "7754a7cb46db8210cf9a9afa52f8ff229a7a74624b39a2ccff5ee37f710154d0"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/013.png",
+          "bytes": 2111633,
+          "sha256": "19f0f30a7fdec000184c3b6ae9b3a61269a72be1495dc72b52fee0f667bf3a13"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/014.png",
+          "bytes": 2134859,
+          "sha256": "0cd1376b8774cb4e1d14e7418cf57a4c9fee7b17a2ebc0912fd4bb0fb79fc456"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/015.png",
+          "bytes": 2112020,
+          "sha256": "11ad1e4123697506bb78b2fae806c87f1d79ee97be6daa7f48d2c6ada20bce7a"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/016.png",
+          "bytes": 2070780,
+          "sha256": "10e4dd08a5126ac7e1114dc550ebd7632b288a4925e612d1b64853aa1f8ef5d0"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/017.png",
+          "bytes": 2082665,
+          "sha256": "ae582a7848f1538bb6c88e465959a68596e65ea5f652073a1a12c44c3de34d2c"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/018.png",
+          "bytes": 2092999,
+          "sha256": "3dc0529445636e4cf9d48207ad673b37b88a341d58158ac70693934e8a07daeb"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/019.png",
+          "bytes": 2122600,
+          "sha256": "9d265a07bbae9ea48e20c3424d982bcfbcd53f16a6ab56a6ca7773095df64b8b"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/020.png",
+          "bytes": 2118430,
+          "sha256": "177545421898398d18c572e873a160145b36a75dfe3516811a05a86a73e901e9"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/021.png",
+          "bytes": 2079686,
+          "sha256": "b23ac0893511a236e25ebd1cc28323426ef348a4072957f1d86f6c2c99dfdf66"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/023.png",
+          "bytes": 2102552,
+          "sha256": "05f0e1bebe848325e265f92fd69125a74fe1264148649a0d9b13e7538c141df3"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/available-counters.txt",
+          "bytes": 14072,
+          "sha256": "bb2853787b01fd92785f873f19da0ec3c2f46e4d37cf3dca1124e06ca31ab135"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/build.json",
+          "bytes": 11478,
+          "sha256": "eee6bff38f2546b4398e2bc2ee60b2c25ecfbdada2f219ba9fe67574bc5ba835"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/capture-frames.csv",
+          "bytes": 21822,
+          "sha256": "f6b77c158593490560455b10238a2de9650940a71a7a6d1d2709d457c9c393f7"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/environment.json",
+          "bytes": 1209,
+          "sha256": "e4af535a25bab03c9c287135f0eda180efd9e7ee6c5ef8ce1e3db823817c7399"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/frames.csv",
+          "bytes": 745393,
+          "sha256": "28893a65ced1bb8ce9496b62abfda528034abb7fa858ab8cde0898fe9845cc4a"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/mix.wav",
+          "bytes": 18571308,
+          "sha256": "a480c9ca7c3c332f21a29a1b0e15a65a7c727e4afc4a771773336a9677f913af"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/player.log",
+          "bytes": 3957,
+          "sha256": "28228533d7fb0f44ad8a70b45afced90cabb8bbeea593213bd54a7d9b2cf9f49"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/process.txt",
+          "bytes": 7,
+          "sha256": "f04b478410bf3e744659314920708866aa0a531cb16d1b2ccf7bfc3846cce5db"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/replay.mp4",
+          "bytes": 91729390,
+          "sha256": "b7e50940de270128c5edb26c2afedbfb18c90232b46f4b5fb8dbb2e20e804115"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/route.json",
+          "bytes": 17878,
+          "sha256": "b138341825a71a6852ab1ca5b916b1c98fbbaa6bef6f4cf330407457f5e8be40"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/run.json",
+          "bytes": 826,
+          "sha256": "365fa7f11a7933cd187030fb083e9012bc037bf1f1d8ee76b6102ec5e2cc72e8"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-taren-ordinary-01/video.mp4",
+          "bytes": 90552074,
+          "sha256": "2ead3b23261c250c65e1b8aa510b2dec39ffca99d8b30d88bd07cfba18ef2499"
+        }
+      ],
+      "contactVerdict": "REJECTED: route passed but no lunge kill; targets died before lunge contact"
+    },
+    {
+      "folder": "Builds/quality/C4/lunge-sela-ordinary-01",
+      "result": {
+        "route": "c4-lunge-sela-ordinary",
+        "sourceRevision": "C4 actual dash contact candidate; normal starter enemies and isolated saves",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2922,
+        "refreshHz": 60.0,
+        "seconds": 48.6739168,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0357613999999997,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focus": 2922,
+      "lastHealth": "96.0",
+      "lastPartnerHealth": "96.0",
+      "lungeKills": 0,
+      "artifacts": [
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/000.png",
+          "bytes": 2151072,
+          "sha256": "a199fa5421e828731dfb566d478fa1a0cdb870e7f57c0c301508fde572a40ac3"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/001.png",
+          "bytes": 2152508,
+          "sha256": "9a220e556e89089ca5a3da27ce10bf34a8fe89bccf02b5f1d7b3f2e65d1a12e0"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/002.png",
+          "bytes": 2154451,
+          "sha256": "310b0affe1b98f73b1e30e6526303af8e9305ce68d1a8868fc691c73e019f82a"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/003.png",
+          "bytes": 2123829,
+          "sha256": "c6fb3515b64a44ba6146d1b739da377de3024ea8acef8757bce1cd0fd50486a6"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/004.png",
+          "bytes": 2224996,
+          "sha256": "b8621b28591da1cec4459563ebb520d00cdf107e953a41fa1814e91c67ae07dd"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/005.png",
+          "bytes": 2230141,
+          "sha256": "c62957cfac8801a7a075f9624f74460129fba14df9596acf15772f67b8df8dab"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/006.png",
+          "bytes": 2232594,
+          "sha256": "02c32ccbb2e52b4231051d6a0ee69bd3c19c9373532ace585710c089c4204501"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/007.png",
+          "bytes": 2192824,
+          "sha256": "c8f0abb2ca46100ef30bb99caa6c51ca8bd14c208d627155418c6dd9a55b9a72"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/008.png",
+          "bytes": 2169221,
+          "sha256": "f0de9b3c91cb421fd6d42f938b169255b058b7fa31e23713b6277caf464bef76"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/009.png",
+          "bytes": 2211582,
+          "sha256": "0837c82d221bff6ed5ab92ec49505b36bc0cada572d70249ed461ae87f150050"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/011.png",
+          "bytes": 2213195,
+          "sha256": "cd4819f657965a55f6fd72613e0f1639f2bd0e488e9c460ded88b10a1c233875"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/012.png",
+          "bytes": 2115519,
+          "sha256": "ba8b4eb57851604052de68f6b515891b4ab1c12f3f7f25cc1492a33c193da0c8"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/013.png",
+          "bytes": 2109652,
+          "sha256": "5a8da6ccd8ff8c94d525e9b1b946007e6a246854c19f7c41ba8438e5f2edae65"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/014.png",
+          "bytes": 2124758,
+          "sha256": "1486adb869c0222119e947416154301e181b4c79bbbea1ccde04ef8179f74575"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/015.png",
+          "bytes": 2115208,
+          "sha256": "431ea2ea440a875fe93b6e2d1fdfc680154c48f5f8a9fda2276e0ad64f5732f9"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/016.png",
+          "bytes": 2137962,
+          "sha256": "2ed2166efeba79593446c2d4a1afea31f59af47fd33ff20eeeadeb8bb27ad1d5"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/017.png",
+          "bytes": 2116122,
+          "sha256": "8cbc6b20feb670ce3973f5560629aece64499789b7f6f4b5333df035d2475ec1"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/018.png",
+          "bytes": 2075466,
+          "sha256": "7959d9a5da935646d1cdf9a6e645c758315740c443d4f2646c23a3547ddf6918"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/019.png",
+          "bytes": 2075890,
+          "sha256": "5e5d1babe7c1cd72579b967c550fad49c47d3614e0ef8ece18610098ba6a46fc"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/020.png",
+          "bytes": 2103669,
+          "sha256": "068b8c308421a20b883c547583e6fe89e2d7641316f31d06c4730107a31d6862"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/021.png",
+          "bytes": 2126118,
+          "sha256": "83439181e3a44c49ed8a87081bedaa1ae0103b23c5ee5a69d1c872596b8a3f8d"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/022.png",
+          "bytes": 2121050,
+          "sha256": "da8f904ddd78d72282b5fc4953908f22dd113a756f15b9b0682d498bfab7c859"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/023.png",
+          "bytes": 2084458,
+          "sha256": "cf09bb3c835dfad33c41d38e626d1b0f3284138e52e6b6c30c97a3fe4715d1f3"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/025.png",
+          "bytes": 2106391,
+          "sha256": "a19e5ca18f0ea028f39521e4bce75a2ea99a6fa002a6d9bf1e9b12fffb77de35"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/available-counters.txt",
+          "bytes": 14072,
+          "sha256": "bb2853787b01fd92785f873f19da0ec3c2f46e4d37cf3dca1124e06ca31ab135"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/build.json",
+          "bytes": 11478,
+          "sha256": "8dc6bef1a14d5b62904012e53330dae65c696127921993ca48ce4a12f4c60384"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/capture-frames.csv",
+          "bytes": 21982,
+          "sha256": "be0b1598177a223f7835c8ffd995b3dc0bbfcb2a1f3880e49a5ecad3c628db7e"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/environment.json",
+          "bytes": 1209,
+          "sha256": "e1e448b3bcf5095b3fcfd1eca0749b477b9adc359ac8bdecc50e106876ca3161"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/frames.csv",
+          "bytes": 746875,
+          "sha256": "7873f0d14092ca05b633ddf62592ca24553e027552713faa262fd68606148025"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/mix.wav",
+          "bytes": 18702380,
+          "sha256": "8fd5bb2041c920d66d893581e6bc38091e6b214c1ae508c3b83ff03859cf67e6"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/player.log",
+          "bytes": 4069,
+          "sha256": "24eb8efeaf17d418737b8dcacc4d7d8e9d858f4fc308b4c3f6f7f950fc93a1f2"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/process.txt",
+          "bytes": 7,
+          "sha256": "aeb7e40b2ebfc688c1754b36ecdf19156382ce6a47a4510a63095a1d4cae35a3"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/replay.mp4",
+          "bytes": 76631787,
+          "sha256": "afc4437433b42d264b02d382fd9900271bb1cecd94fddef6b9b42a6801690437"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/route.json",
+          "bytes": 19370,
+          "sha256": "dc18eb9a66c76da7280ce8a7879101a18a1fb7e474afbec50603610f4c6a70de"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/run.json",
+          "bytes": 817,
+          "sha256": "9a31a57e4e21d982183503c35dc537e42408c42c84ba73df5039947632b4af02"
+        },
+        {
+          "path": "Builds/quality/C4/lunge-sela-ordinary-01/video.mp4",
+          "bytes": 75439147,
+          "sha256": "25ee4c5fbab9df534b4751c3ebed3a00edd0314c15f33176df3ffe942f1af636"
+        }
+      ],
+      "contactVerdict": "REJECTED: route passed but no lunge kill; targets died before lunge contact"
+    },
+    {
+      "folder": "Builds/quality/C4/gullet-lunge-taren-01",
+      "result": {
+        "route": "c4-gullet-lunge-taren",
+        "sourceRevision": "Ordinary arrival-to-encounter lunge route; no enemy, party or stat suppression",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2393,
+        "refreshHz": 60.0,
+        "seconds": 39.8570175,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1192871000000002,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focus": 2393,
+      "lastHealth": "138.0",
+      "lastPartnerHealth": "138.0",
+      "lungeKills": 4,
+      "artifacts": [
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/000.png",
+          "bytes": 1760648,
+          "sha256": "024d36b39a06c20d6baf2d3ebe29243ff7b6bad030e06300afb18f440437d658"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/001.png",
+          "bytes": 1780658,
+          "sha256": "d40662035d12d6bd53861d43198d69371092cfdf92dff96bf701d6eaf3c32ee1"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/002.png",
+          "bytes": 1757593,
+          "sha256": "47940eac5dd5aeab81aaac03fd16216cc880d5635f8fc9d55685fbb624c08ea2"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/003.png",
+          "bytes": 1826061,
+          "sha256": "8b588a14e47e090a77e2a11c2e9233eaa74aee377786ab22b533d1499cde35aa"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/004.png",
+          "bytes": 1777808,
+          "sha256": "9e13149419879f21b17c98bb2a3dc8403fc9debd387de219351f72d7e01490a1"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/005.png",
+          "bytes": 1801915,
+          "sha256": "0b4c1054b713e7c21a0e03896e701179c3da485e0a38ca5ff0ee01a3eb6a6ccc"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/006.png",
+          "bytes": 1786049,
+          "sha256": "68b5eeb289ff761c8e6609c07453da4c23437086f8cf0f33bfc3b64d0dd7fefd"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/007.png",
+          "bytes": 1820627,
+          "sha256": "e4e55a805a63cff1632050a48d028f8153cc3aa8da9e0eae41f4f5b5380001f8"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/008.png",
+          "bytes": 1798077,
+          "sha256": "b6729e8537b398fc8c2f5c392d2fd38a9c1bac8bf15c18027cea87510762e2f0"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/009.png",
+          "bytes": 1850435,
+          "sha256": "1675e96f6364e8457c9fd30ec00bbd415173760c6972fa42ce1ca7f555e847e4"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/010.png",
+          "bytes": 1764718,
+          "sha256": "5be736c57132fbd34828f8e8e09b3ffdca8c6ace18e3d2aca0176258d9fcfc7e"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/011.png",
+          "bytes": 1843139,
+          "sha256": "dfeb04339b8b2fff2136ded14ef40f518d086e52ee929c258835351d330d4ef9"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/012.png",
+          "bytes": 1784551,
+          "sha256": "df084f090e9a44cb730b10c3e926a2db056aea7b660fd4bcb656b51373a1e8f3"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/013.png",
+          "bytes": 1815076,
+          "sha256": "0fdef91ad9428c7ac289e768a520a2b1f53c1608a9f170df7379fbe4e5732d4d"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/014.png",
+          "bytes": 1770322,
+          "sha256": "7416c217dc342805bb75d7718009de4aa8d1927458d01fedf0276b93cefe4a00"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/015.png",
+          "bytes": 1863536,
+          "sha256": "85e7fd4c3874afebeb320c43353fd3872438abe97a0f095c6b2de2e6d7aca02c"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/016.png",
+          "bytes": 1881257,
+          "sha256": "30928b8a40f6ae75567101d18095494c750ca5a96248d0404e7db9086d4426f2"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/017.png",
+          "bytes": 1945007,
+          "sha256": "41ff9d2d61d855fa270ab17c0fa8ab2e2267abfc94c61ab6632b4dc9b9a343b6"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/018.png",
+          "bytes": 1927573,
+          "sha256": "626f783902e3d2161216f46f323918c301c7ee697a178f815294431722a105bd"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/019.png",
+          "bytes": 1927858,
+          "sha256": "bd8d39a5df943526b7c3ce56c0d3bee118a7376248abb7fd9302c7cd5b4a540a"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/020.png",
+          "bytes": 1912486,
+          "sha256": "72dcd6d01c514cd091cefe896a370a75307d2deba5011d40a3223288e3559446"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/021.png",
+          "bytes": 1921924,
+          "sha256": "6d89bbf19b1c2a6175f4032a4c2761846bd97485f3207ae2119537af148de19a"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/022.png",
+          "bytes": 1889746,
+          "sha256": "eeef9f092b9c8cfc5b16b85fb4929678a0c969b29aad848a6fab28f1dea9ffa7"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/024.png",
+          "bytes": 1868658,
+          "sha256": "a1dfc8e4f60a8d1e31964cd384e300c192b3e6048b498505ba482336a7cd4eb1"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/available-counters.txt",
+          "bytes": 14072,
+          "sha256": "bb2853787b01fd92785f873f19da0ec3c2f46e4d37cf3dca1124e06ca31ab135"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/build.json",
+          "bytes": 11478,
+          "sha256": "9f208dafa44ad90999cc5f2b41229e4e87e0b94ca3924954947b8d6064113ca6"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/capture-frames.csv",
+          "bytes": 17742,
+          "sha256": "d9e2d17c757d629b407e46bdddadbfa0da19e971fac84d0239f26e377317e937"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/environment.json",
+          "bytes": 1209,
+          "sha256": "0d5b82ec435ea93d6bc7ea29fe27ae590ad14b23bcac2817b0d890b78a9a5a1f"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/frames.csv",
+          "bytes": 611609,
+          "sha256": "acf2ea3f2f9b05e9aa1df104f3c4fc1ba3fba0b2d4c6c8ff016efb155c1a9ebc"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/mix.wav",
+          "bytes": 15310892,
+          "sha256": "437f1bd6cfd9c8945854ca3adfa058a489321a66d4bb0f1ffceac769c49a29ef"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/player.log",
+          "bytes": 4476,
+          "sha256": "f8c8ee23027393fa582d670daa58591679e8ae78f1ea2b9af5d45bf9748235f5"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/process.txt",
+          "bytes": 7,
+          "sha256": "2ad645914006befccf7c64ef1d5827837982bd87bb67d01e4fe32a3ad63da831"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/replay.mp4",
+          "bytes": 44252732,
+          "sha256": "3554e664e98fcc626a4e50986b9c34d76238355516dc875f44e05caf8f24cf9e"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/route.json",
+          "bytes": 18956,
+          "sha256": "fb6ea3e41f52a874b233823ec5ccf5723d0a41b7d2227d7018b818dfcd8933b2"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/run.json",
+          "bytes": 819,
+          "sha256": "dd2a0e826c71224f3256dbc139812dc94eb30cc9b46117eb9876d11dc5a38a7d"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-taren-01/video.mp4",
+          "bytes": 43268345,
+          "sha256": "731ea2ff322b20d86b5a39f0cbc1db1f6ba74241b259b5e7da26b8a706d3ce02"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/gullet-lunge-sela-01",
+      "result": {
+        "route": "c4-gullet-lunge-sela",
+        "sourceRevision": "Ordinary arrival-to-encounter lunge route; no enemy, party or stat suppression",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2423,
+        "refreshHz": 60.0,
+        "seconds": 40.3558832,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1266516999999991,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focus": 2423,
+      "lastHealth": "124.3",
+      "lastPartnerHealth": "138.0",
+      "lungeKills": 5,
+      "artifacts": [
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/000.png",
+          "bytes": 1848911,
+          "sha256": "d500810c4045ec3ae3e25e9a98c9ca88ec86eccf051c2b8bfb456206f7eb41b3"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/001.png",
+          "bytes": 1850059,
+          "sha256": "0c5a440b3fdf7dae28e027f1cb905bd1bbca3af2c34826f19a72697fedec7321"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/002.png",
+          "bytes": 1759347,
+          "sha256": "0b39ba26a0d7a50582a554ea884dff6b8109ef5ac07743699f9006f149ee7e81"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/003.png",
+          "bytes": 1782318,
+          "sha256": "6e29ca1f28a3e55947fb8ac5aa9b056ddafba4d8ba8bf5b16bebf09aa4a84646"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/004.png",
+          "bytes": 1755966,
+          "sha256": "f2a2ffd78b6391c1356e15ffd2a8dbf42b75b525f67a3dbc30fb66170be5d79c"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/005.png",
+          "bytes": 1827054,
+          "sha256": "8d89e4ecd3e300bc503409edbbd7f30fc9e19745a8253eb9cd403f65c29ce20e"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/006.png",
+          "bytes": 1774430,
+          "sha256": "bc566ba532a81cc9f839e57ba09c4cfe5788dee8b6055b36a6e09cb253a66b92"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/007.png",
+          "bytes": 1802544,
+          "sha256": "693ae2a7d1c47bd2238babed17918fa945a02a1e4eec1146142a92b133a54a74"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/008.png",
+          "bytes": 1784649,
+          "sha256": "0ccf6e4878c9ace695afc8c86572e399d7166784cc2a7bd2fe119a8b9547d3d4"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/009.png",
+          "bytes": 1819667,
+          "sha256": "8d4565860957206f9c2d21af0a754e162f28d378ae6f1eb670f6257dc3d9fd9e"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/010.png",
+          "bytes": 1798260,
+          "sha256": "7f16cea6399b40a4b12930d9711ea29d0031e4963a4ecfa7179fa169170cfc01"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/011.png",
+          "bytes": 1852119,
+          "sha256": "8a2501522eb0f985e848523a4e3f8903e13dbca01920b2adaf19e7ae2a55b1b4"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/012.png",
+          "bytes": 1766268,
+          "sha256": "10a39d4e04e2b8d5d7c0e325a6c985153eec1adaca0d6e0a5ae543855e53e06f"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/013.png",
+          "bytes": 1844983,
+          "sha256": "0eefa05c1d83860aa0d34ad0ec06f955f36d0a522a20aed31ee2633347bee7ef"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/014.png",
+          "bytes": 1794456,
+          "sha256": "bceca0cda9910f9cfd8ca36bf9cdda7ff31146402351cf31d82fc1c9c1466f9a"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/015.png",
+          "bytes": 1824016,
+          "sha256": "2dc311a124ecd3e43bdb2ee4e24909cfb4ca8905c68b37ddd2ef528e623c0bfe"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/016.png",
+          "bytes": 1781403,
+          "sha256": "705f3793494fd055d8f1d9d88cb028378554439f4cdb3ff4b8af98483f8130a8"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/017.png",
+          "bytes": 1884241,
+          "sha256": "2a75a7f400642815f956623290f7822774e215a7f73265db140c03a39c9d7e3a"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/018.png",
+          "bytes": 1890124,
+          "sha256": "bb33e61037bd20d61921b51dfb80b8def9b9f3f8ca31b2ec7386801f6e31fca3"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/019.png",
+          "bytes": 1941424,
+          "sha256": "c998a512b6c19e2fd8f9e7bace70a27280aea26290f10152d4eb22c991e47f2b"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/020.png",
+          "bytes": 1929135,
+          "sha256": "bf99da28ef1926c0382d9211c31978e636b7d97a5e555c0e5f68f139f093c644"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/021.png",
+          "bytes": 1912441,
+          "sha256": "bc28ebf59ca4c8e9d27248e982b3caab1cea96dd3f72451655be01025729847f"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/022.png",
+          "bytes": 1801400,
+          "sha256": "f0b12cf24fdd446ddc93ec2b0a5aab1943b33bd58f1c784954676c8d50f58a6e"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/023.png",
+          "bytes": 1748229,
+          "sha256": "8ce2d93ca35b241e8300ad1495112d19e5c899c7c865015d10f3679d27010e9d"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/024.png",
+          "bytes": 1748929,
+          "sha256": "2c8bd78a571b1f2865b61c70b7f6667bd47343e8fbf40b1708ffb7eb18d932a3"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/026.png",
+          "bytes": 1742034,
+          "sha256": "50c2be04a48dc061678e7836dd70dd7fd2e50352c8f3f2d134bf496673a4a319"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/available-counters.txt",
+          "bytes": 14072,
+          "sha256": "bb2853787b01fd92785f873f19da0ec3c2f46e4d37cf3dca1124e06ca31ab135"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/build.json",
+          "bytes": 11478,
+          "sha256": "2eaffd9fe82fcf2211fd05ecdf9aecdce61234f4835ecd55ddf044f9e24c3521"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/capture-frames.csv",
+          "bytes": 17982,
+          "sha256": "84471a514e730a246c8d5633f96cc800bb21fcd3ec1ed57e8acf02d71a72648b"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/environment.json",
+          "bytes": 1209,
+          "sha256": "b302ec20596c4cda5c67bee4890cae10032d05498927eccdf454889a9ee7a6ef"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/frames.csv",
+          "bytes": 618713,
+          "sha256": "d3c209d5c0169d4200d096b94f875f694a2aaa8945caed0db7bdc61b5fa5f22a"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/mix.wav",
+          "bytes": 15515692,
+          "sha256": "e909ee7a4adce1f4435be22d39f2a073e5ea2075623dc5be8513273034355a26"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/player.log",
+          "bytes": 4599,
+          "sha256": "c3161686ada7053014f46546bb9ab77a22a6697b9e99cce548c59bc22b5598e6"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/process.txt",
+          "bytes": 7,
+          "sha256": "a2e71dfb2f357f36b61806eb1522b7bf989ed1d06d8b2fba003f8cfa70276bfd"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/replay.mp4",
+          "bytes": 46053715,
+          "sha256": "38255fd852edaacc2f1ec529597b4aac35b3d853120e3dd570c120c45aed0b4d"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/route.json",
+          "bytes": 20443,
+          "sha256": "3ffe1e050211788e4ea1b95605816b767bc141dfba7dd90b18e36c685dbf2403"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/run.json",
+          "bytes": 818,
+          "sha256": "43ebb01d3a0fa47eb890494468b466a29b085f6cc9837a2820f64c0e28d9b7e7"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-lunge-sela-01/video.mp4",
+          "bytes": 45052057,
+          "sha256": "f5ec76c56fb52a3842c6e677df0f8230599bb0704ad6e49aae93833e1ef2baeb"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/form-ordinary-01",
+      "result": {
+        "route": "c4-form-ordinary",
+        "sourceRevision": "C4 interrupted form continuity; ordinary safe-pocket crossing, no form API calls",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2171,
+        "refreshHz": 60.0,
+        "seconds": 36.157123,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "Taren transition settles inside: form mismatch",
+          "Sela transition settles inside: form mismatch"
+        ],
+        "loadWaitSeconds": 1.1091459000000001,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focus": 2171,
+      "lastHealth": "120.0",
+      "lastPartnerHealth": "120.0",
+      "lungeKills": 0,
+      "artifacts": [
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/000.png",
+          "bytes": 413079,
+          "sha256": "f7a5967d6ed7e8e14b8dccfc967e008f341810295d8211a52767f9b2431c9941"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/001.png",
+          "bytes": 413764,
+          "sha256": "d4231e1de1d3ad9033972d7efaa8ffc62c958f9fa2a8e9c12439f0f97a3321c2"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/002.png",
+          "bytes": 407485,
+          "sha256": "df2065fffac4a5c2bd89eb7b7614f32fe4ecc87a8cdfee79ae878c94c8b61b0a"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/003.png",
+          "bytes": 457033,
+          "sha256": "3420162027eb44cb28ab01c664c4c3e72a1e0f5b5e8a177743da0e7947d8cd33"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/004.png",
+          "bytes": 451050,
+          "sha256": "ff4f5d016c53badfeaaf1d33a650c1b46104f1edee0a54e19e7b0dfa1df3ccfa"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/005.png",
+          "bytes": 456387,
+          "sha256": "80035647fb8831a6b05cb67d8179e261c3281c7b584869b7bfa8b9aeca3d5d82"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/006.png",
+          "bytes": 452261,
+          "sha256": "0dbb4c11965d813808992096a60b8d0c304a97e80d9971a35deeb6cfb5297c8c"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/007.png",
+          "bytes": 452074,
+          "sha256": "cefad923da52572e0e8307198a20a0bed80897d159bf75baa0b4d6e524947759"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/008.png",
+          "bytes": 449362,
+          "sha256": "d62f018b82d57e2a1e06f32cfe1294521733a84481c06e199274326cecceb511"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/009.png",
+          "bytes": 447749,
+          "sha256": "184db9aa40503696fb4251c4f8461ba680f198085b9dd77bbcc1a997f6d8c7ba"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/010.png",
+          "bytes": 446293,
+          "sha256": "421858736cc3b0a1d6f9d879a1e0a110299156e8dafcd5bc39b0729b4a87df3d"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/011.png",
+          "bytes": 439775,
+          "sha256": "7a5822deffbabcba7392e040b7081c59289cfdf58193666ea1ec59c1f4adce39"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/012.png",
+          "bytes": 442896,
+          "sha256": "a7504f7eba7cb3fa8d7649151f155d81813df652f06de4ae17cf894db9607ec8"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/013.png",
+          "bytes": 454008,
+          "sha256": "5f84ab4e8910f13735948a23de18436a93583625eb2b9769352cd773d412a473"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/014.png",
+          "bytes": 457470,
+          "sha256": "00405e4f89a19292591c1503cd85998a23ac4bae21f62794b8f5bee65f0a123b"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/015.png",
+          "bytes": 464092,
+          "sha256": "41cb4b7cb3a3ffaf1756256b1a5acf630b4d1c3ca57bc3b223dd767ebc88eb6f"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/016.png",
+          "bytes": 451940,
+          "sha256": "55f988d1b3eb93c0707ec41e79dca5d2514a4c0e7ed1a6d2c86cf7d56dfa3175"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/017.png",
+          "bytes": 459943,
+          "sha256": "397839fb9ef0fd29e98f22db530410dfc0ebe4b90339ab8e9ca62d3649ee2df9"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/018.png",
+          "bytes": 458669,
+          "sha256": "43aaa1ff31c8eb469b9be86ce2dd6573ca0887c0851dde99f266ab4f004a5009"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/019.png",
+          "bytes": 443953,
+          "sha256": "ac3f44744a671ec586d81974763171042422977cee97eeb0e808b00ad15bf56d"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/020.png",
+          "bytes": 436433,
+          "sha256": "624db7432686648b4e463f346e37541526c1c5906abe743c67b0c3f65573f7ca"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/021.png",
+          "bytes": 445156,
+          "sha256": "f6da3f7a271c1b8af99fa086eceb2b69c3e4fece8d7ceaf573745c0a0a7122f4"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/022.png",
+          "bytes": 443337,
+          "sha256": "1fe0c7e7492fa9f7bbdb77d284a753231762d42a3cc9ea2ed1e9143b0e8072cb"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/023.png",
+          "bytes": 455724,
+          "sha256": "db415372a448e6e0a438dc2a255ba8dd9a0f9ee4d69ea467d50ba43575dd5ac3"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/024.png",
+          "bytes": 443749,
+          "sha256": "7db211399ccd4ff1f1937554b4f23222301fe7edba3e03343d74ce47f8d694f4"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/026.png",
+          "bytes": 411569,
+          "sha256": "4a302cf5429de080b46217991fccc53d754f7c23a410f5c5a64ad565f95f8e8c"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/available-counters.txt",
+          "bytes": 14072,
+          "sha256": "bb2853787b01fd92785f873f19da0ec3c2f46e4d37cf3dca1124e06ca31ab135"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/build.json",
+          "bytes": 11478,
+          "sha256": "4f54869392af804deda8ce9fd25c2d3eba4aeb3502ac32cb873cf60a813cb2d3"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/capture-frames.csv",
+          "bytes": 15966,
+          "sha256": "92d10eef6224943e2ccd32925cc2e8e9c1cdae7ed416c3d3844287f031b2d183"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/environment.json",
+          "bytes": 1209,
+          "sha256": "c10fa542b7aeef92df89d3af8354cf218da012b232e5eb22f93c9e5ef0d9ec85"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/frames.csv",
+          "bytes": 576505,
+          "sha256": "9729d70182b5e3aa9ac8cd5f5c7dda63e4a3c83eb1f338cf052d10173184264f"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/mix.wav",
+          "bytes": 13893676,
+          "sha256": "3d962c72e757520209273b71ab9288c8ef53d6d19ca9f36911b0b3f86878c5b9"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/player.log",
+          "bytes": 4429,
+          "sha256": "eb84c002ee0dc571af4378b934b0a5dbb17cb620deda1b0035f5d5d143a9afc8"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/process.txt",
+          "bytes": 7,
+          "sha256": "a27dc42eb98e4316398a9189345914edeac3900743b1beeb48552f16677c4b45"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/replay.mp4",
+          "bytes": 22537667,
+          "sha256": "173defe87ca051d68ee679419fbf89f8ad2acb580f507b74b35a82ae6f827039"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/route.json",
+          "bytes": 20486,
+          "sha256": "e501447ac23755d30f22d06efc220709a80f544e235279b5b7fd8e695a9f9c05"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/run.json",
+          "bytes": 935,
+          "sha256": "5a0b45dad8f9dd9a9b8d843dfd3769cb9e5e693c27adfcaf6dbfd340452ad970"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-01/video.mp4",
+          "bytes": 21639657,
+          "sha256": "c871c6833b4a0458c75e3debf129381e286bb1637d46319220a60fa0e26a0c58"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/form-ordinary-02",
+      "result": {
+        "route": "c4-form-ordinary",
+        "sourceRevision": "C4 form continuity; corrected pivot-based safe boundary and slower reversing input; original missed crossings retained",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2585,
+        "refreshHz": 60.0,
+        "seconds": 43.055700099999996,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1093747000000005,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focus": 2585,
+      "lastHealth": "120.0",
+      "lastPartnerHealth": "120.0",
+      "lungeKills": 0,
+      "artifacts": [
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/000.png",
+          "bytes": 413055,
+          "sha256": "1bed2ba47d5308696cb84aafe914ecb4b7aa731d6dcc7e5efa88e9f0e24d8df6"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/001.png",
+          "bytes": 414141,
+          "sha256": "16297a1f8637a5a602e135d7e8d0e06a6f12b70cef3b4516e20f5e3a8c55274c"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/002.png",
+          "bytes": 407370,
+          "sha256": "d95ed071e7311d8d1e05f2e21fdcd6ae9df79d07e01fd9c587fea004798bf68a"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/003.png",
+          "bytes": 392560,
+          "sha256": "84e42f40243e39499893f5aba505931acdacb861a858fb1b9a78a8c1fe640b0b"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/004.png",
+          "bytes": 458945,
+          "sha256": "37daf54ceec761dce85ed5a42c33bfa1d4a7f51cfd542a493eed2d7156484c59"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/005.png",
+          "bytes": 554294,
+          "sha256": "7fb38622e387f540cabb8de20c9f3e63419350441caf3592aa422a37e6e83897"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/006.png",
+          "bytes": 391539,
+          "sha256": "1992d6fe8faafa159d08b659777d4bbb6dcd05d8faadd401445a7cf70bc3cbc8"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/007.png",
+          "bytes": 454797,
+          "sha256": "fb9e20e11269dda2f265c05aae31bd356445d8eb38d8414cad84d71b3483f43b"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/008.png",
+          "bytes": 513848,
+          "sha256": "dc046fcdfbd6bea7fa5960710e2ad2fad0b1a7604783d136b1f78a8e0d6b68b8"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/009.png",
+          "bytes": 381673,
+          "sha256": "95d479759bb5d556f6d5f6e9bcad957e6bb05393170f5df5b715d66b2383ad11"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/010.png",
+          "bytes": 440784,
+          "sha256": "559fe9ef9171919a00ccc424ccc0ecf4969f3a722b6d746aaa0c0f66a1251a32"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/011.png",
+          "bytes": 471176,
+          "sha256": "0865edf85c61c588de5182b0b81bb6b0b7b3ccd2af49048c094c626c8117f889"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/012.png",
+          "bytes": 381432,
+          "sha256": "8433477506173c6b6c74c00d7e6605862ca23de50461dafbf829e5a6c9ad03e0"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/013.png",
+          "bytes": 445583,
+          "sha256": "41994bf33bd32d665b4a15e049f1538f0b25b91c0230a2b84c063482f641b470"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/014.png",
+          "bytes": 482749,
+          "sha256": "e7c62448bb839bf5b63fa46bf5e93a704d6502cdc7d158a81e3bd813075980ef"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/015.png",
+          "bytes": 381246,
+          "sha256": "173be83ca2afeac3267e9e3ce2092e7838b33737650dd309d5f2e332ba14ba92"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/016.png",
+          "bytes": 383476,
+          "sha256": "cad1c4dc9cd52637e1339e4722b032cbc28eaed73f398e311a57801ad8811935"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/017.png",
+          "bytes": 473137,
+          "sha256": "055f8fbdfab472d1b657a00794ff80bcfcad77a1e2fd1b69e80983e0a6e2ecd8"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/018.png",
+          "bytes": 494108,
+          "sha256": "41da8e605b5bc84e708970c7b8c4f24b9d859dc812f0508f05f7dd60e90dd6d3"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/019.png",
+          "bytes": 392117,
+          "sha256": "9b36ca75faee61c51b5d880183a427d9437dcc4cd053f0df5fb32f2eeae3e752"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/020.png",
+          "bytes": 454183,
+          "sha256": "591dcb3e1bb0db03642ad117e3a0b36d992fd2d87506c0e1aa5441c4bda48da4"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/021.png",
+          "bytes": 520584,
+          "sha256": "05b6f45e72a5c2d3d6569653511c3b4d7e80db90812423c2a33d6300eb087e6b"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/022.png",
+          "bytes": 381508,
+          "sha256": "0b33e422e0e758d072bde2cc1a076815c4f56357ac8391c5504ecda4809f3120"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/023.png",
+          "bytes": 441666,
+          "sha256": "f5ad082f364f075e9ef9a08e7f39ad14a1767f20cdb5285616bdefe6818a870b"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/024.png",
+          "bytes": 489138,
+          "sha256": "2044148241546329bee10abb7981b84c64cfafba1a225f591ec93e1744e66f32"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/025.png",
+          "bytes": 382783,
+          "sha256": "0a3313c84cd972c2777b3b7fb0b808b5856a06621b955f55915a58c6475c30a4"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/026.png",
+          "bytes": 441375,
+          "sha256": "124f02a830addbd3adf525e0d4a328d8fe1e155ad0200fb372af251a4f5291aa"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/027.png",
+          "bytes": 501741,
+          "sha256": "adbb67a75f5ed45f59cbed991298082b39c7825b2ef4a38588ca742540f48d84"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/028.png",
+          "bytes": 379329,
+          "sha256": "fa8241015d0c2ee1215e9a527eab994c7c5bd7f9f3a0e32ef60d82b405d949fd"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/029.png",
+          "bytes": 443010,
+          "sha256": "e7a85cb0aa9c563240280ef5856bb97b3166bae5cd58781601d6a9e0c24cf3e6"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/030.png",
+          "bytes": 493075,
+          "sha256": "1091c04aae93698e8d65e46fef283bc53a440d0910c6871bd0e28802b5af7f84"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/031.png",
+          "bytes": 383069,
+          "sha256": "85022ab57c9c49e1666ccbb5dee49ed66a24581128efce9ac3bb602a42aa4ceb"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/032.png",
+          "bytes": 383104,
+          "sha256": "09b28d5dc915505de81e9744f1924fdcea9e76cebe0e5e3ba3e4127c5c5fecfa"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/034.png",
+          "bytes": 412284,
+          "sha256": "60321ef4a6abc973f511644d9da99dc5c4b9b688e2498510ad9f3c07ca780cb2"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/available-counters.txt",
+          "bytes": 14072,
+          "sha256": "bb2853787b01fd92785f873f19da0ec3c2f46e4d37cf3dca1124e06ca31ab135"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/build.json",
+          "bytes": 11478,
+          "sha256": "001440bf6b2717d4e6b8e2183f5976f703ae4dd2311f73cc208d20776cdec60b"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/capture-frames.csv",
+          "bytes": 19278,
+          "sha256": "01e728c7e4d3e19449656dad2854d371fde2259cbd3a94356d7793102acac931"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/environment.json",
+          "bytes": 1209,
+          "sha256": "42fe093dc84bcca1d3de41718e3608a6b4feb80f9e2010eef1025c96fd8adaca"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/frames.csv",
+          "bytes": 687805,
+          "sha256": "25e2a9242a67e86cd9fcb0ee8ad31abee0a1d8238e4738e6ba8c14029e031b7d"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/mix.wav",
+          "bytes": 16556076,
+          "sha256": "66cb31578331e58d05946234d7087129930ec6a1fe662f757114cf518018d223"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/player.log",
+          "bytes": 5510,
+          "sha256": "676b599717b08c78bea40190dc1943e9d9bd9d1ad88dc58adb80877c1b74ea86"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/process.txt",
+          "bytes": 7,
+          "sha256": "c468f4bc99c70ed7333b078f3f85e4d454d43a60dc43ad705ccc4efc96f0361e"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/replay.mp4",
+          "bytes": 29074346,
+          "sha256": "36902f32e46e7d4b578ca222d54fa8b945d1de95d7ba0ba78113d03993d5c4ec"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/route.json",
+          "bytes": 26768,
+          "sha256": "5434936b075a881dcd5f1603ad389a4d5dc46c4d2b241da3853360a7627868c2"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/run.json",
+          "bytes": 862,
+          "sha256": "662340d33e79ea10072a5a7745e9bf9c796147482063505c19df4a90f83cbc6a"
+        },
+        {
+          "path": "Builds/quality/C4/form-ordinary-02/video.mp4",
+          "bytes": 27992444,
+          "sha256": "0a92334e68998f415b83f73be7290c90b0cdd08ce90641257016e39fc3873611"
+        }
+      ]
+    }
+  ],
+  "testArtifacts": [
+    {
+      "path": "Builds/quality/C4/form-continuity-red/FormContinuityTests.cs",
+      "bytes": 4351,
+      "sha256": "7bd4f8fc60636164bb5c352357ef87c1d9e0f4a03a01cd7a6bd66e4c3f676d41"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-red/FormController.cs",
+      "bytes": 2403,
+      "sha256": "536d208cc6f459802869904b5ebdbc04805e71ae6014ffebf510fb699a18973b"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-red/headless-playtests.log",
+      "bytes": 188028,
+      "sha256": "d8c69258d417d3323e6edbdb5e873c4302f4094dd6bd40440ac6f9b5d2d5adcb"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-red/playmode-results.xml",
+      "bytes": 10958,
+      "sha256": "3c02d5ad6a4b5c52c2d0b211356f962411879d8c3112914a6565551d4bf019bb"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-green/FormContinuityTests.cs",
+      "bytes": 4351,
+      "sha256": "7bd4f8fc60636164bb5c352357ef87c1d9e0f4a03a01cd7a6bd66e4c3f676d41"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-green/FormController.cs",
+      "bytes": 3519,
+      "sha256": "b6a497e927981a62a1d9dc6e6f7b1f86b5b67c150b3a1e3dfd7a49fd13c47cc9"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-green/headless-playtests.log",
+      "bytes": 239408,
+      "sha256": "b3d3059928f5f62263b336d088f6c9e6cbb5d060ed69d78b8a3f1e2d70a3902d"
+    },
+    {
+      "path": "Builds/quality/C4/form-continuity-green/playmode-results.xml",
+      "bytes": 8059,
+      "sha256": "cd49c8c65776ebce3ca987c7e01eb617212bb92a04a2fbb089f2bb2f4dc534eb"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-red/FormContinuityTests.cs",
+      "bytes": 6171,
+      "sha256": "f454b1b8eb3e3fc54dafadf2d211c2c9628d555a2d301e7f991ca6bbcf9638f1"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-red/FormController.cs",
+      "bytes": 3519,
+      "sha256": "b6a497e927981a62a1d9dc6e6f7b1f86b5b67c150b3a1e3dfd7a49fd13c47cc9"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-red/headless-playtests.log",
+      "bytes": 223501,
+      "sha256": "84ec1bc6835ea2a5824c347b07beda38b205226599308bae816cdb20223729a0"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-red/playmode-results.xml",
+      "bytes": 12088,
+      "sha256": "b923172f75aad9dd2c9c987a61c363739631f6a531ee8bcb556e82591d31b206"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-green/FormContinuityTests.cs",
+      "bytes": 6171,
+      "sha256": "f454b1b8eb3e3fc54dafadf2d211c2c9628d555a2d301e7f991ca6bbcf9638f1"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-green/FormController.cs",
+      "bytes": 3682,
+      "sha256": "5a70eb558a74d0b81a503853f09a15eee522a7b9d4ea4833b186c249a20c714b"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-green/headless-playtests.log",
+      "bytes": 273318,
+      "sha256": "68cf17ca5dfba5f1cbe415855640c95505aa3e0602658321bfde5559a9121986"
+    },
+    {
+      "path": "Builds/quality/C4/form-retarget-green/playmode-results.xml",
+      "bytes": 10606,
+      "sha256": "46c466049a9b6037360dcc6d97d1b10f8b3cfab8c221baefe146298ed501e8a4"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-02/development-build.log",
+      "bytes": 590502,
+      "sha256": "b2eeda49b787ca04e7b3a6de1953ea85f749c613cdda52e5e51f2fe98d8bbb88"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-02/editmode-results.xml",
+      "bytes": 37539,
+      "sha256": "33104521afac2a543e2cb2acc340f873624e8d2b692e93ee6b00409c38f21e4e"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-02/headless-playtests.log",
+      "bytes": 2341965,
+      "sha256": "49870fd9cc61dc51eecab99c63e8f4ac26804c5d71ba2619ec4b3fb6f139cd88"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-02/headless-tests.log",
+      "bytes": 77196,
+      "sha256": "50cd984e0235ba09f81b1d8c9bb94735dcaab8737f9441d37bb0a5a938badbb3"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-02/playmode-results.xml",
+      "bytes": 148560,
+      "sha256": "11d355b3591a998b18d26e7599e4cceea8b758bb2a91d26502e3a8fede088841"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-02/release-build.log",
+      "bytes": 591162,
+      "sha256": "a45aa0de3f77ef5686ce92f6be9c1e550781e7173551a95819eb61e053e0750c"
+    }
+  ],
+  "openedStills": {
+    "reviewer": "Codex",
+    "method": "Actual local PNGs opened with view_image; no normal/slow video or audio audition",
+    "paths": [
+      "Builds/quality/C4/lunge-taren-ordinary-01/003.png",
+      "Builds/quality/C4/lunge-taren-ordinary-01/006.png",
+      "Builds/quality/C4/lunge-sela-ordinary-01/003.png",
+      "Builds/quality/C4/lunge-sela-ordinary-01/023.png",
+      "Builds/quality/C4/gullet-lunge-taren-01/009.png",
+      "Builds/quality/C4/gullet-lunge-taren-01/013.png",
+      "Builds/quality/C4/gullet-lunge-taren-01/024.png",
+      "Builds/quality/C4/gullet-lunge-sela-01/011.png",
+      "Builds/quality/C4/gullet-lunge-sela-01/015.png",
+      "Builds/quality/C4/gullet-lunge-sela-01/026.png",
+      "Builds/quality/C4/form-ordinary-01/012.png",
+      "Builds/quality/C4/form-ordinary-02/004.png",
+      "Builds/quality/C4/form-ordinary-02/006.png",
+      "Builds/quality/C4/form-ordinary-02/020.png",
+      "Builds/quality/C4/form-ordinary-02/034.png"
+    ]
+  },
+  "packages": {
+    "Windows": [
+      {
+        "path": "Builds/Windows/Coronach.exe",
+        "bytes": 667648,
+        "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Combat.dll",
+        "bytes": 102400,
+        "sha256": "cd2e04efd33743c337b5463105b4b6375485cab6fb5405248a30c3971b030493"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll",
+        "bytes": 58880,
+        "sha256": "ec3ec527265ed31ee9fd1baabad6fbdee1060b1157c31f6cafcd95f8fba6a771"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Data.dll",
+        "bytes": 12800,
+        "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "bytes": 19968,
+        "sha256": "6f6e4df49911db50b1b350c630abe8ac3bad2ba1e4d78a7f3de3c2b50cd2a421"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "bytes": 14848,
+        "sha256": "af0b0a655bb7bf9cc097a172b4683aef40aefed1195ce86dda76bb87b1472ab9"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll",
+        "bytes": 134656,
+        "sha256": "67a4aab480d9e85e6d12883bcf6f7ae7123c0cca78c5b2b04759abc00e7cdce8"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.World.dll",
+        "bytes": 17920,
+        "sha256": "2d15fc97dc77a69ad6a08fbca78af86e3664a4d00f8459d09d1759faf83798be"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/app.info",
+        "bytes": 15,
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/boot.config",
+        "bytes": 156,
+        "sha256": "88edf6359447350b7a0e9d3d04abd49caf69a2569e95f0548d07abb9ea405c2d"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers",
+        "bytes": 268596,
+        "sha256": "8f1f256edad02707f35d21d99fa5cffcfdf434a2bda6c3f398c37ace7e36e581"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets",
+        "bytes": 1005180,
+        "sha256": "32651b96444476b733625fad80ac1598ad26191443fcb257d5915b8993a272dc"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets.resS",
+        "bytes": 6174944,
+        "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level0",
+        "bytes": 3820,
+        "sha256": "0ef53274a7dc02888ce99e96e83505fd99bbbeda4a465c2dc74a79fe776c5688"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level1",
+        "bytes": 1136,
+        "sha256": "c0b1e9c298639251b6e581ebf435c6980502a8f664383ec4b23c648c4b1b267a"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2",
+        "bytes": 1151724,
+        "sha256": "98872fcc7177ac91337ef344a8e6f4700c66c2bc721fb3234783606245ff8d5a"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2.resS",
+        "bytes": 41200,
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level3",
+        "bytes": 923184,
+        "sha256": "ce8dac6b770fab0e287aceaafb0c65e45051c969766b0d29bd55ffe1700ea8fc"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4",
+        "bytes": 69660,
+        "sha256": "f2d67e61a9d974c590b0b7181c7ad3b9fbdae5b2c49fe225449f77470092cdd8"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4.resS",
+        "bytes": 71488,
+        "sha256": "bcff8e91378a756c959c746df0585258d739268a5854c81512cda89e0d91fda2"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5",
+        "bytes": 209428,
+        "sha256": "5ee0d059adfd33ddb58e19579baa2262ab3846ae8660acba88db7c04f28a0c55"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5.resS",
+        "bytes": 2880,
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level6",
+        "bytes": 20172,
+        "sha256": "93e44fbbb6e4ddaaaecde1081cc4acf28a94cea226ba307c2ec481d222d53c06"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level7",
+        "bytes": 123548,
+        "sha256": "f543c9a96f29eff2ecb55ca079920560150fab59944e8f363507b5ce64c4e960"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level8",
+        "bytes": 20604,
+        "sha256": "ea3a80e721ae1f7293556059c72187031ea7c575451798cfc2af2ca3b7415a4b"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level9",
+        "bytes": 30940,
+        "sha256": "8ab8b237c287c0b5caeab81c46650eeea5ac77ac5f81c40f3a5b416232dced08"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets",
+        "bytes": 15926344,
+        "sha256": "8510a58d432faaa7f5c77f10ef0c7fa1e35393c5afaed78f2c5dcd582f275441"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets.resS",
+        "bytes": 263319296,
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.resource",
+        "bytes": 8138400,
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "bytes": 4700,
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/ScriptingAssemblies.json",
+        "bytes": 5261,
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets",
+        "bytes": 83648,
+        "sha256": "b0150ca7e87d8e12807eead0cfb7add7d198d2ac364dbf6c980e307fb99d6bc9"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets.resS",
+        "bytes": 524288,
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets1.assets",
+        "bytes": 361,
+        "sha256": "d44bbc4ffd67c9a23e08ac07de29b054c4fb8420302f31992855a1909eec3cb7"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets",
+        "bytes": 603360,
+        "sha256": "f10afea03bab3140db6316b58463482edef213e5731b41bdba0a9ee80e17bdb1"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets.resS",
+        "bytes": 11042016,
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets",
+        "bytes": 345044,
+        "sha256": "65654345898274d8e66ff10c72ba43b5675140cf5e3b5b235086753f8c725a02"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets.resS",
+        "bytes": 7071712,
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets",
+        "bytes": 4447956,
+        "sha256": "2119713dc2315e4f7a6cf419059b23d11d4647fbf862145a6ca176b2cceb3e05"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets",
+        "bytes": 367124,
+        "sha256": "e570d34d5a0c7310b839c5c3a168112b07fde4dd6f4f7ce46be771be662305b5"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets.resS",
+        "bytes": 5151584,
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets",
+        "bytes": 72932,
+        "sha256": "be9df3be08c0614274f082c8c96cb154b7acd7b0121c15b2753c936a717f650c"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets.resS",
+        "bytes": 1693152,
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets7.assets",
+        "bytes": 10580,
+        "sha256": "7c7ee492f3a648f5d11f4dda4bf631b6e1e3fee069df1add9b4dad7fccbfd44e"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets8.assets",
+        "bytes": 291380,
+        "sha256": "f8d4a1273e4fd812e3ad6d2dd29220bbba623038cbd5fbb7a01b1c5d7ae9656d"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets8.assets.resS",
+        "bytes": 6805632,
+        "sha256": "00e83c97790274f2cf9a5bbaa73ac79d2564851e14787ee1c242b5ed458722be"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets9.assets",
+        "bytes": 2116,
+        "sha256": "9cb2fcae118d0f21fa6b13f8e2c5afcb23fc4cfd54392454063a54c7e581dbd4"
+      }
+    ],
+    "WindowsDev": [
+      {
+        "path": "Builds/WindowsDev/Coronach.exe",
+        "bytes": 667648,
+        "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Combat.dll",
+        "bytes": 109568,
+        "sha256": "2e3fb13615244741723f7f6f5e02744290d316adde472900b5200e660bd752fd"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Core.dll",
+        "bytes": 60928,
+        "sha256": "9ec0e2a7f12a8d246df3f1d349928037523f61513312fcd9ec704432d8dde59f"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Data.dll",
+        "bytes": 12800,
+        "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "bytes": 20992,
+        "sha256": "9838089f97685c09fe146e70e2606b97889f3ba0f09a023634d43dc7fa25ff75"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "bytes": 15360,
+        "sha256": "d67b3147d912f7a93fb745e20e440dd2e66e082317882ae99d7a6964d9fed3f3"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.UI.dll",
+        "bytes": 157696,
+        "sha256": "894cda01dc68cd2c511ef1d6e792dbb0e6efe68aa1b0118760cc5e031c4b1e32"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.World.dll",
+        "bytes": 18944,
+        "sha256": "c96a61da3dd9726c4213d39468a182fd77ba79c63e519cdf449883737e100095"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/app.info",
+        "bytes": 15,
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/boot.config",
+        "bytes": 355,
+        "sha256": "5d7562b05acb7b409e77bb80b89af5933fa1420ed725b08613b863a322ceadc0"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers",
+        "bytes": 268596,
+        "sha256": "7b4864a46037a07c566231a9ff4450d5e147e9c621835b9cae6aa82c03458386"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets",
+        "bytes": 1005372,
+        "sha256": "b8007d3b8cec6ce652cd6ad94054f97d88150d2e8bbe3911a540ade383574965"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets.resS",
+        "bytes": 6176992,
+        "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level0",
+        "bytes": 3820,
+        "sha256": "3b8081c0e04590c8d0ab49b9d601e68ccabf548a4026a469c386d6c1704b9906"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level1",
+        "bytes": 1136,
+        "sha256": "a0794c268e1487a29e3bff95175f9a5c53d4ec795bb8f47228abc7d4da658f92"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2",
+        "bytes": 1151724,
+        "sha256": "d1cea458cf48a0aee693344debd12a88aaf117caa2a90486cfc58d383bc14144"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2.resS",
+        "bytes": 41200,
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level3",
+        "bytes": 923184,
+        "sha256": "be783721e1778a7692dabbf68cc2f3de50058127dab3ad9ca67426907a0525d6"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4",
+        "bytes": 69660,
+        "sha256": "9c316cfc2993b7daac61c429c30dafd1a70e9cca03b6f26cf7f5001998a1efbe"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4.resS",
+        "bytes": 71488,
+        "sha256": "bcff8e91378a756c959c746df0585258d739268a5854c81512cda89e0d91fda2"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5",
+        "bytes": 209428,
+        "sha256": "ae248117d2f85821774876aacc1aae60e5a59e652aa3a56ed21524ba9541afff"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5.resS",
+        "bytes": 2880,
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level6",
+        "bytes": 20172,
+        "sha256": "37a5a7c9ee6d13f1d39da3d38bbab2ebe9acd78a31a7a563168b3bb597a01ec4"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level7",
+        "bytes": 123548,
+        "sha256": "84f3d3b12817b0c2ed2d1763a5a392445e829eefb0fa31031553cc2ebcb67234"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level8",
+        "bytes": 20604,
+        "sha256": "789248ea3475d5185b4c60c392693697496bb65ba3f2a1bfbadf343cf976a810"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level9",
+        "bytes": 30940,
+        "sha256": "a3266b3b362bb609f84962efa2e8d071a75d7f751814418272bc5d58b6b4fb19"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets",
+        "bytes": 15926344,
+        "sha256": "439432b6334fda6bf4379932a7d414b787201eed5abd0ea8c5c0be7d485fb116"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets.resS",
+        "bytes": 263319296,
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.resource",
+        "bytes": 8138400,
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "bytes": 4700,
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/ScriptingAssemblies.json",
+        "bytes": 5261,
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets",
+        "bytes": 83648,
+        "sha256": "e98783fc8fdb22f8f83d61b0cdff385b9f12ba199f0cf49c20f45cf27e025825"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets.resS",
+        "bytes": 524288,
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets1.assets",
+        "bytes": 361,
+        "sha256": "c99333434165ac60de01375e797e5922b6926a663673944b40f827faac6e051b"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets",
+        "bytes": 603360,
+        "sha256": "6ed44616aadf730ea65ecf75dfdcc2d85c12d6abe42763da6f8d6508fa466adf"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets.resS",
+        "bytes": 11042016,
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets",
+        "bytes": 345044,
+        "sha256": "69e0f376699874d8c04c25deb33bb4aeb27fa91636ed4f9bdae2a7e61d5d0387"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets.resS",
+        "bytes": 7071712,
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets",
+        "bytes": 4447956,
+        "sha256": "9deabdcb63140b7e1bba107e1eeec257449e169accb31f0686d3e003b00a064d"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets",
+        "bytes": 367124,
+        "sha256": "4bc813b2562ded1264c86539608b4c24c31dee1afa025a0086fd46ae03d1683e"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets.resS",
+        "bytes": 5151584,
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets",
+        "bytes": 72932,
+        "sha256": "ec8353525f00e995db856967eddcff4fd0513111120e6cfb1ebca403e0cf7a64"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets.resS",
+        "bytes": 1693152,
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets7.assets",
+        "bytes": 10580,
+        "sha256": "1d7fe59fce35a3b2b81f1692cfe79f619421c7bbbea68e66b74d334c7971a7a6"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets8.assets",
+        "bytes": 291380,
+        "sha256": "87ab50b467f52a61c94a18715e57c3f567e60a2d07b57629093e953f03175535"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets8.assets.resS",
+        "bytes": 6805632,
+        "sha256": "00e83c97790274f2cf9a5bbaa73ac79d2564851e14787ee1c242b5ed458722be"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets9.assets",
+        "bytes": 2116,
+        "sha256": "d68747c368d8bb2483c88a28ce9d4d85db19afc4c41c15f3ef90ef9a6a745cf3"
+      }
+    ]
+  },
+  "humanSaves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ],
+  "limits": [
+    "C4 OPEN",
+    "Sorrel is blockout; full map acceptance OPEN",
+    "Arena_Flight and Gullet spatial rejection OPEN",
+    "Long civil/Gullet circuits pending",
+    "Normal/slow motion observation UNVERIFIED",
+    "Actual mix audition UNVERIFIED",
+    "Physical Logitech feel UNVERIFIED",
+    "Opened Gullet regroup frames show intersecting hulls; collision/spacing needs correction"
+  ]
+}

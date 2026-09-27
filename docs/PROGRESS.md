@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 integrated flight/contact/form checkpoint - September 27
+
+**C4 OPEN.** Repeated and reversed form requests no longer reset the visible body's scale; Civil/Combat flight retains its live hull. Both stages of reproduced failures and the six-case correction are retained. Full suites pass **104/104 PlayMode and 44/44 EditMode, zero skips**, and both Windows players rebuilt. Ordinary Gullet routes record four Taren and five Sela lunge kills with full focus and living parties; two preceding arena runs pass movement but fail contact coverage. The corrected 35-check safe-boundary route passes for both heroes after the first route's missed crossings are rejected. Opened regroup stills expose intersecting ship hulls, which remains an explicit C4 defect. [Integrated evidence](validation/C4-flight-integrated.md) records hashes, original-save preservation and observed limits. Sorrel remains a blockout in both packages. Staged folding, remaining flight work, non-station MAP_EYE_TEST and later production gates remain open; continuous video/audio observation and physical feel remain UNVERIFIED.
+
 ## C5 signal-check tooling checkpoint - September 27
 
 **C5 OPEN.** A repeatable, read-only captured-mix checker now retains FFmpeg true-peak/loudness logs and source hashes. Seven controls pass after a rounded-ceiling case first reproduces a false acceptance. First-minute Decks and Sorrel captures measure -7.4/-9.3 dBTP, below the unchanged -1 dBTP ceiling. [Evidence](validation/C5-signal-check.md) separates these numerical baselines from required sound design and listening. Actual audition remains UNVERIFIED; no game audio or music changed. C4's full integration run remains in progress; this tooling commit does not change either player package or close a production gate.
