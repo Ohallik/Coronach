@@ -21,6 +21,8 @@ The following hull checkpoint replaces the humanoid flight capsule with measured
 
 The subsequent integrated review passes 118/118 PlayMode and 48/48 EditMode and rebuilds both players. Opened ordinary Gullet regroup frames now show separate craft, but gameplay-sized thrust frames reject exhaust readability: the connected effect is too faint. Both long civil routes dock, yet retain focus/approach failures; a whole-route pass is still pending. [Integrated hull review](validation/C4-flight-hulls-integrated.md) and [actual flight rules](FLIGHT_DIRECTION.md) separate these findings from unobserved motion and physical feel.
 
+The flight skill checkpoint adds visible Cleave/Pulse releases, a nose-launched bounded net that retains flight altitude and faction, and anticipated buffs with actual-state hull cues. Both players rebuilt from `feac4b9`. Both short ordinary four-skill routes pass with full focus and living parties; twelve opened gameplay stills now support exhaust and skill-boundary readability. [Ordinary skill review](validation/C4-flight-skills-player.md). Full integrated PlayMode, longer circuits and watched continuous motion remain pending.
+
 ## Next choreography targets
 
 | Fighter / move | Silhouette and purpose | Required mechanical distinction |
