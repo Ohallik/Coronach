@@ -101,9 +101,16 @@ namespace Lattice.Tests.PlayMode
             foreach(var hit in Object.FindObjectsByType<HitVolume>(FindObjectsSortMode.None))Object.Destroy(hit.gameObject);
             yield return null;
             var actor=PartyController.Current.Active;var enemy=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None)[0];
+            // Test cancellation/resume against a clear, explicitly faced body.
+            // Incidental arena AI placement is not a defined contact fixture.
+            var enemyController=enemy.GetComponent<CharacterController>();enemyController.enabled=false;
+            enemy.transform.position=new Vector3(0,-.12f,-10);enemyController.enabled=true;
             enemy.Health.maximum=enemy.Health.integrity=1000;
-            var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=enemy.transform.position-Vector3.forward*2;cc.enabled=true;
+            var cc=actor.GetComponent<CharacterController>();cc.enabled=false;
+            actor.transform.SetPositionAndRotation(enemy.transform.position-Vector3.forward*2,Quaternion.identity);cc.enabled=true;
+            Physics.SyncTransforms();
             actor.motor.Move(Vector2.up,false,false);actor.target=enemy.Health;actor.damage=10;
+            Debug.Log($"RESUMED_MELEE setup actor={actor.transform.position:F5} enemy={enemy.transform.position:F5} overlaps={string.Join(",",Physics.OverlapSphere(actor.transform.position+Vector3.up,.6f).Where(c=>c.gameObject.isStatic).Select(c=>c.name))}");
             float before=enemy.Health.integrity;Assert.IsTrue(actor.Attack());
             yield return new WaitForSecondsRealtime(.06f);Assert.AreEqual(before,enemy.Health.integrity,"damage must wait for the swing contact");
             Assert.IsTrue(actor.Dodge(Vector3.right));yield return new WaitForSecondsRealtime(.4f);
@@ -111,6 +118,8 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(actor.Attack());GameTime.Paused=true;yield return new WaitForSecondsRealtime(.3f);
             Assert.AreEqual(before,enemy.Health.integrity,"the wind-up must freeze during pause");
             GameTime.Paused=false;yield return new WaitForSecondsRealtime(.28f);
+            var posed=actor.GetComponentInChildren<Animator>();var phase=posed.GetCurrentAnimatorStateInfo(0);
+            Debug.Log($"RESUMED_MELEE finish actor={actor.transform.position:F5} enemy={enemy.transform.position:F5} gap={Vector3.Distance(actor.transform.position,enemy.transform.position):F5} hp={enemy.Health.integrity} state={actor.State} clip={actor.VisualAction} phase={phase.normalizedTime:F5} transitioning={posed.IsInTransition(0)}");
             Assert.Less(enemy.Health.integrity,before,"an uninterrupted resumed swing must connect");
         }
         [UnityTest]public IEnumerator EarlyComboTapQueuesTheNextDistinctSwing()

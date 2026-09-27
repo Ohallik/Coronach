@@ -61,7 +61,7 @@ namespace Lattice.Combat
             bool locomotion=actor.Health.Alive&&!actor.flight&&(form==null||!form.Shaping)&&driver.IsLocomotion;
             if(!locomotion){ResetContacts();return;}
             var info=animator.GetCurrentAnimatorStateInfo(0);
-            Correct(actor.motor.Velocity,driver.CurrentAnimation,info.normalizedTime,driver.StrideScale,
+            Correct(actor.motor.Velocity,driver.LocomotionAnimation,info.normalizedTime,driver.StrideScale,
                 animator.IsInTransition(0),GameTime.Paused,driver.ReverseLocomotion,actor.TargetLocked);
         }
         public void ResetContacts(){if(left!=null)left.contact=right.contact=-1;previousClip=null;previousDirection=Vector3.forward;}

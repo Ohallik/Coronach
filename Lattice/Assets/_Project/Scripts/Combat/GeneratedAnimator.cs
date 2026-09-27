@@ -14,14 +14,19 @@ namespace Lattice.Combat
         Vector3 previous;
         string state;
         int sequence = -1;
+        int emitterLayer=-1,emitterSequence=-1;
+        bool upperShot;
+        float emitterWeight;
         readonly Dictionary<string, float> lengths = new();
         public GroundStrideProfile strideProfile;
-        public string CurrentAnimation => state;
+        public string CurrentAnimation => upperShot?"Shoot":state;
+        public string LocomotionAnimation => state;
+        public int ActionLayer => upperShot?emitterLayer:0;
         public float StrideScale {get;private set;}=1;
         public bool ReverseLocomotion {get;private set;}
         public bool IsLocomotion => state=="Idle"||state=="Walk"||state=="Run"||state=="Sprint";
 
-        void OnEnable() { previous = transform.position; state = null; sequence = -1; }
+        void OnEnable() { previous = transform.position; state = null; sequence = emitterSequence = -1;upperShot=false;emitterWeight=0; }
         void Start()
         {
             animator = GetComponentInChildren<Animator>();
@@ -30,6 +35,7 @@ namespace Lattice.Combat
             form = GetComponentInParent<FormController>();
             previous = transform.position;
             if (animator != null && actor != null) animator.updateMode = AnimatorUpdateMode.UnscaledTime;
+            if(animator!=null)emitterLayer=animator.GetLayerIndex("Emitter");
             if(animator!=null&&actor!=null&&strideProfile!=null)
             {
                 var feet=GetComponent<GroundFeet>()??gameObject.AddComponent<GroundFeet>();
@@ -46,6 +52,7 @@ namespace Lattice.Combat
             string wanted = speed > .12f ? "Walk" : "Idle";
             float rate = speed > .12f ? Mathf.Clamp(speed / 2.1f, .7f, 1.5f) : 1;
             bool visual = false;
+            upperShot=false;
             if (actor != null)
             {
                 if (speed > 7.5f) { wanted = "Sprint"; rate = Mathf.Clamp(speed / 7.4f, .8f, 1.55f); }
@@ -53,7 +60,8 @@ namespace Lattice.Combat
                 if (actor.State == ActorState.Guard) { wanted = "Guard"; rate = 1; }
                 if (actor.State == ActorState.Stagger) { wanted = "Stagger"; rate = 1; }
                 visual = GameTime.Now < actor.VisualAttackUntil && actor.State != ActorState.Stagger && actor.State != ActorState.Guard;
-                if (visual) wanted = actor.VisualAction;
+                upperShot=visual&&actor.character=="Sela"&&!actor.flight&&actor.VisualAction=="Shoot"&&emitterLayer>=0;
+                if (visual&&!upperShot) wanted = actor.VisualAction;
                 if (form != null && (form.Current == BodyForm.Flight || form.Current == BodyForm.CivilFlight)) { wanted = "Idle"; visual = false; }
             }
             else if (enemy != null && enemy.Attacking) wanted = "Attack";
@@ -61,7 +69,7 @@ namespace Lattice.Combat
             bool gettingUp=actor!=null&&actor.Recovering;
             if(down||gettingUp)
             {
-                wanted=down?"Down":"Revive";visual=false;
+                wanted=down?"Down":"Revive";visual=false;upperShot=false;
                 if(!lengths.TryGetValue(wanted,out float length))
                 {
                     foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name==wanted){length=clip.length;break;}
@@ -86,7 +94,8 @@ namespace Lattice.Combat
                 // the Animator's global speed and the action clocks stay positive.
                 animator.SetFloat("TravelSign",ReverseLocomotion?-1:1);
             }
-            bool nextAction = visual && sequence != actor.AttackSequence;
+            bool fullAction=visual&&!upperShot;
+            bool nextAction = fullAction && sequence != actor.AttackSequence;
             if (state != wanted || nextAction)
             {
                 state = wanted;
@@ -94,9 +103,9 @@ namespace Lattice.Combat
                 var ground=actor?.motor as GroundMotor;
                 float blend=ground!=null&&ground.Phase==GroundMotor.TravelPhase.Starting?.075f:
                     wanted=="Idle"?.14f:.1f;
-                animator.CrossFadeInFixedTime(wanted, visual ? .045f : blend, 0, 0);
+                animator.CrossFadeInFixedTime(wanted, fullAction ? .045f : blend, 0, 0);
             }
-            if (visual)
+            if (fullAction)
             {
                 if (!lengths.TryGetValue(wanted, out float length))
                 {
@@ -107,6 +116,25 @@ namespace Lattice.Combat
                 rate = length > 0 ? length / Mathf.Max(.1f, actor.VisualDuration) : 1;
             }
             animator.speed = rate;
+            if(emitterLayer>=0)
+            {
+                bool interrupted=actor==null||!actor.Health.Alive||actor.Recovering||actor.State==ActorState.Guard||actor.State==ActorState.Stagger||actor.State==ActorState.Dodge||actor.flight;
+                emitterWeight=interrupted?0:Mathf.MoveTowards(emitterWeight,upperShot?1:0,Time.unscaledDeltaTime/.045f);
+                animator.SetLayerWeight(emitterLayer,emitterWeight);
+                if(upperShot)
+                {
+                    if(!lengths.TryGetValue("Shoot",out float length))
+                    {
+                        foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name=="Shoot"){length=clip.length;break;}
+                        if(length>0)lengths["Shoot"]=length;
+                    }
+                    // Global speed belongs to stride; the shot layer retains
+                    // its own action duration through a relative multiplier.
+                    animator.SetFloat("EmitterRate",length/Mathf.Max(.1f,actor.VisualDuration)/Mathf.Max(.01f,rate));
+                    if(emitterSequence!=actor.AttackSequence)
+                    {emitterSequence=actor.AttackSequence;animator.Play("Shoot",emitterLayer,0);}
+                }
+            }
         }
     }
 }

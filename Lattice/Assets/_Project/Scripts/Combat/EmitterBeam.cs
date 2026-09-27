@@ -8,7 +8,7 @@ namespace Lattice.Combat
     // Reuse one renderer per emitter; released energy survives owner cancellation.
     public sealed class EmitterBeam : MonoBehaviour
     {
-        LineRenderer line;Material material;float until;
+        LineRenderer line,core;Material material;float until;
         readonly HashSet<Health> victims=new();
         public void Fire(Vector3 origin,Vector3 direction,DamagePacket packet,float length)
         {
@@ -18,9 +18,13 @@ namespace Lattice.Combat
                 var go=new GameObject("Emitter beam");go.transform.SetParent(transform,false);
                 line=go.AddComponent<LineRenderer>();line.positionCount=2;line.useWorldSpace=true;
                 line.startWidth=line.endWidth=.18f;line.numCapVertices=3;
-                material=new Material(Resources.Load<Material>("Effects/flare_01"));
-                material.SetTexture("_BaseMap",Texture2D.whiteTexture);line.sharedMaterial=material;
+                line.sharedMaterial=Resources.Load<Material>("Effects/flare_01");
+                var center=new GameObject("Emitter core");center.transform.SetParent(transform,false);
+                core=center.AddComponent<LineRenderer>();core.positionCount=2;core.useWorldSpace=true;
+                core.startWidth=core.endWidth=.035f;core.numCapVertices=3;core.sortingOrder=1;
+                material=new Material(line.sharedMaterial);material.SetTexture("_BaseMap",Texture2D.whiteTexture);core.sharedMaterial=material;
                 line.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                core.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             }
             var contacts=Physics.SphereCastAll(origin,.09f,direction,length,~0,QueryTriggerInteraction.Collide);
             float distance=length;bool blocked=false;
@@ -31,7 +35,8 @@ namespace Lattice.Combat
                     !contact.collider.TryGetComponent<Hurtbox>(out _)&&contact.distance<=distance)
                 {distance=contact.distance;blocked=true;}
             line.SetPosition(0,origin);line.SetPosition(1,origin+direction*distance);
-            line.startColor=line.endColor=new Color(.12f,.85f,1,1);line.enabled=true;until=GameTime.Now+.15f;
+            core.SetPosition(0,origin);core.SetPosition(1,origin+direction*distance);
+            Tint(1);line.enabled=core.enabled=true;until=GameTime.Now+.15f;
             foreach(var contact in contacts)
             {
                 if(contact.distance>distance||blocked&&contact.distance>=distance)continue;
@@ -44,10 +49,15 @@ namespace Lattice.Combat
         {
             if(line==null||!line.enabled||GameTime.Paused)return;
             float remaining=until-GameTime.Now;
-            if(remaining<=0){line.enabled=false;return;}
-            line.startColor=line.endColor=new Color(.12f,.85f,1,Mathf.Clamp01(remaining/.15f));
+            if(remaining<=0){line.enabled=core.enabled=false;return;}
+            Tint(Mathf.Clamp01(remaining/.15f));
         }
-        void OnDisable(){if(line!=null)line.enabled=false;}
+        void Tint(float alpha)
+        {
+            line.startColor=line.endColor=new Color(.1f,.8f,1.1f,.6f*alpha);
+            core.startColor=core.endColor=new Color(1.3f,2.2f,2.8f,alpha);
+        }
+        void OnDisable(){if(line!=null)line.enabled=false;if(core!=null)core.enabled=false;}
         void OnDestroy(){if(material!=null)Destroy(material);}
     }
 }

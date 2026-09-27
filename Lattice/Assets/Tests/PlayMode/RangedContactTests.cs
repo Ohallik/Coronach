@@ -29,7 +29,11 @@ namespace Lattice.Tests.PlayMode
             {
                 if(Vector3.Distance(projectile.transform.position,transform.position)>3||!seen.Add(projectile))continue;
                 errors.Add(Vector3.Distance(projectile.transform.position,hand.position));
-                phases.Add(rig.GetCurrentAnimatorStateInfo(0).normalizedTime);
+                float phase=rig.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                for(int layer=1;layer<rig.layerCount;layer++)
+                    if(rig.GetLayerWeight(layer)>.5f&&rig.GetCurrentAnimatorStateInfo(layer).IsName("Shoot"))
+                        phase=rig.GetCurrentAnimatorStateInfo(layer).normalizedTime;
+                phases.Add(phase);
             }
         }
     }

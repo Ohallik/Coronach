@@ -9,7 +9,7 @@ namespace Lattice.Combat
     public sealed class RangedContact : MonoBehaviour
     {
         public enum Pattern { Needle, Fan, Lance }
-        CombatActor actor;Animator rig;Health aimedTarget;EmitterBeam beam;
+        CombatActor actor;Animator rig;GeneratedAnimator driver;Health aimedTarget;EmitterBeam beam;
         Pattern pattern;ActorState actionState;
         GroundMove move;DamagePacket packet;Vector3 aim;
         int sequence;bool pending;
@@ -18,7 +18,7 @@ namespace Lattice.Combat
         {
             move=definition;aim=direction;packet=damage;sequence=actor.AttackSequence;
             pattern=shotPattern;actionState=actor.State;
-            rig=GetComponentInChildren<Animator>();pending=true;
+            rig=GetComponentInChildren<Animator>();driver=rig!=null?rig.GetComponentInParent<GeneratedAnimator>():null;pending=true;
             // Keep the selected target for this action, including its body height.
             // Free fire stays horizontal; acquiring another target during windup
             // must not redirect a shot behind the posed arm.
@@ -36,8 +36,9 @@ namespace Lattice.Combat
             if(!actor.Health.Alive||actor.Recovering||actor.flight||sequence!=actor.AttackSequence||actor.State!=actionState)
             {pending=false;return;}
             if(GameTime.Paused||rig==null||!rig.isActiveAndEnabled||!rig.isHuman)return;
-            var state=rig.GetCurrentAnimatorStateInfo(0);
-            if(rig.IsInTransition(0)&&rig.GetNextAnimatorStateInfo(0).IsName(move.clip))state=rig.GetNextAnimatorStateInfo(0);
+            int layer=driver!=null?driver.ActionLayer:0;
+            var state=rig.GetCurrentAnimatorStateInfo(layer);
+            if(rig.IsInTransition(layer)&&rig.GetNextAnimatorStateInfo(layer).IsName(move.clip))state=rig.GetNextAnimatorStateInfo(layer);
             if(!state.IsName(move.clip)||state.normalizedTime<move.contactStart)return;
             pending=false;
             var hand=rig.GetBoneTransform(HumanBodyBones.LeftHand);

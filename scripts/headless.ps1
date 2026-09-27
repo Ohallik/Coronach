@@ -322,6 +322,10 @@ $IsTestRun = $Mode -in @("tests", "playtests")
 $testLaunchNotBeforeUtc = [datetime]::MinValue
 try {
     if ($ShieldPlaytestSaves) {
+        $unrestored = @(Get-ChildItem -LiteralPath $LogDir -Directory -Filter 'playmode-human-saves-backup-*')
+        if ($unrestored.Count -gt 0) {
+            throw "PlayMode save shield found an unrestored human save stash; restore it before testing: $($unrestored.FullName -join ', ')"
+        }
         $conflicts = @(Get-LatticeSaveWriters $ProjectPath)
         if ($conflicts.Count -gt 0) {
             throw "PlayMode save shield requires no running Lattice player/editor: $($conflicts.ProcessId -join ',')"
@@ -425,6 +429,7 @@ finally {
     if ($ShieldPlaytestSaves) {
         $liveWriters = @(Get-LatticeSaveWriters $ProjectPath)
         if ($SafeToClearPlaytestSaves -and $liveWriters.Count -gt 0) {
+            $liveWriters | Select-Object ProcessId,Name,CommandLine | Format-List | Out-Host
             throw "PlayMode cleanup refused while a save writer is alive; human stash remains at $SaveBackup"
         }
         if ($SafeToClearPlaytestSaves -and (Test-Path -LiteralPath $SaveDir)) {

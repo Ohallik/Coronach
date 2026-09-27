@@ -243,6 +243,7 @@ namespace Lattice.UI
             if (samples.Count > 0 && samples[^1].hero == actor.character)
                 measuredMotion = (actor.transform.position - samples[^1].player) / Mathf.Max(.001f, (float)(now - previous));
             var animator = actor.GetComponentInChildren<Animator>();
+            var driver = actor.GetComponentInChildren<GeneratedAnimator>();
             float pelvis = float.NaN, chest = float.NaN, animationTime = 0;
             if (animator != null && animator.isHuman)
             {
@@ -252,17 +253,16 @@ namespace Lattice.UI
                     bones[animator] = b;
                 }
                 pelvis = SkeletalYaw(b[0], b[1]); chest = SkeletalYaw(b[2], b[3]);
-                animationTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+                animationTime = animator.GetCurrentAnimatorStateInfo(driver!=null?driver.ActionLayer:0).normalizedTime;
             }
-            var driver = actor.GetComponentInChildren<GeneratedAnimator>();
             if(motion&&animator!=null&&animator.isHuman&&driver!=null&&driver.strideProfile!=null)
             {
                 var calibration=driver.strideProfile;
                 Vector3 leftToe=animator.GetBoneTransform(HumanBodyBones.LeftToes).TransformPoint(calibration.leftToe);
                 Vector3 rightToe=animator.GetBoneTransform(HumanBodyBones.RightToes).TransformPoint(calibration.rightToe);
                 motionSamples.Add(new MotionSample{seconds=now,step=stepIndex,hero=actor.character,
-                    form=actor.GetComponent<FormController>().Current.ToString(),clip=driver.CurrentAnimation,
-                    phase=animationTime,stride=driver.StrideScale,transitioning=animator.IsInTransition(0),reverse=driver.ReverseLocomotion,
+                    form=actor.GetComponent<FormController>().Current.ToString(),clip=driver.LocomotionAnimation,
+                    phase=animator.GetCurrentAnimatorStateInfo(0).normalizedTime,stride=driver.StrideScale,transitioning=animator.IsInTransition(0),reverse=driver.ReverseLocomotion,
                     locked=actor.TargetLocked,target=actor.target!=null?actor.target.transform.position:new Vector3(float.NaN,float.NaN,float.NaN),
                     leftHeel=animator.GetBoneTransform(HumanBodyBones.LeftFoot).TransformPoint(calibration.leftHeel),
                     rightHeel=animator.GetBoneTransform(HumanBodyBones.RightFoot).TransformPoint(calibration.rightHeel),

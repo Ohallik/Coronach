@@ -1,0 +1,1008 @@
+{
+  "date": "2026-09-27T02:07:34.498449+00:00",
+  "gate": "C3 OPEN",
+  "sourceBase": "656214cad29ad4f0ed8257370ffda258047233f2",
+  "sourceNote": "Candidate source hashes below; this manifest is committed with the candidate. Final station geometry is retained from 742e79c.",
+  "input": "Agent-directed virtual gamepad for player recording; direct-action PlayMode fixtures for contact regression",
+  "observation": "Opened stills only. Normal/slow continuous observation, audio audition and physical controller feel UNVERIFIED.",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+      "bytes": 7637,
+      "sha256": "f4f4edc0bbeb3e2b35cdc3653919f315d8ccb4ba18b439d026c54b2f4ce005fb"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+      "bytes": 13121,
+      "sha256": "dd6ff01add3d17fe810755536ac9cbb32b0564b2c8e93321d30ead78c5907675"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/RangedContact.cs",
+      "bytes": 3561,
+      "sha256": "5f0c886ae00cad1ee3295a74d6f0a9481938291aa2e591b77425dc49ba35accf"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/EmitterBeam.cs",
+      "bytes": 3581,
+      "sha256": "b94928d15c9bbee97b39de2f82f21fc7332db6eccbe587d725611b450b2bb412"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/ContinuousReview.cs",
+      "bytes": 27566,
+      "sha256": "c3b5f0eb48e0b45c178097dd880601a3f211d989352c77c8d380d5d5617926a8"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/GenIntake.cs",
+      "bytes": 15773,
+      "sha256": "c47b6ed97f2c654e09dbb44209843afde674cb23f60d8768250792114ee7aa97"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/RangedLayerSetup.cs",
+      "bytes": 2902,
+      "sha256": "9a1f457970bb3c0391bc6b5cc48cddfa820fba4bee7f6cda20dc7cc6716c4e30"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Art/Animation/SelaEmitter.mask",
+      "bytes": 355,
+      "sha256": "1f4c8fc7b221df6d3a6dbbbeb17291bcfe95ae496d113915cc29b27c1641bef2"
+    },
+    {
+      "path": "scripts/headless.ps1",
+      "bytes": 24515,
+      "sha256": "e22298b5317a4e2d56fdc1bd1b8f5396f7dcf4dee7a710e97412756829b8a2a3"
+    },
+    {
+      "path": "docs/quality/routes/c3-sela-emitter.json",
+      "bytes": 4492,
+      "sha256": "4a156f268f93bade3ecebc77d0cd7ef548756cc91f3d7db1db87044636f7897d"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/CorePlayTests.cs",
+      "bytes": 34720,
+      "sha256": "cea43661f379065a76951afb10fff5de2966a6742df27e43de03046b56a229e7"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/RangedContactTests.cs",
+      "bytes": 14504,
+      "sha256": "2e41235af2478b50f484e10234d51289661b9b3c8ddbfb13d9cb9766f7575386"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/RuntimeStrideTests.cs",
+      "bytes": 21509,
+      "sha256": "ba20ad0bd50924c6bbf1cbfb527d9680da99b1c2d7957060a8641c065455c048"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Art/Generated/Models/SelaNatural/SelaNatural.controller",
+      "bytes": 17052,
+      "sha256": "68b82f534aa3d5056f0f344d4f2c0a251860fd33e77c1df2536bb4093146c625"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Art/Generated/Models/SelaShaped/SelaShaped.controller",
+      "bytes": 17045,
+      "sha256": "5eb4fcf4b12a91a43ce6a1065e630e86fb26b6cb0d6684b2b8c1e6589e0d2f39"
+    }
+  ],
+  "focusedTests": [
+    {
+      "results": {
+        "path": "Builds/quality/C3/moving-fire-red/results.xml",
+        "bytes": 5286,
+        "sha256": "baac856c74d99fa0167c5b462415bc0f543ea8eb02ffda51cc8a34dcfa8f9ffa",
+        "counts": {
+          "total": "1",
+          "passed": "0",
+          "failed": "1",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "4.2238716"
+        },
+        "failures": [
+          {
+            "name": "Lattice.Tests.PlayMode.RuntimeStrideTests.MovingEmitterFireKeepsVisibleLegStride",
+            "message": "  speed 2.6 foot 0: firing pins a planted leg pose to the moving body\n  Expected: in range (0.25,2.5)\n  But was:  0.00175476074f\n"
+          }
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/moving-fire-red/player.log",
+        "bytes": 87853,
+        "sha256": "ce6bbf366d6bc2454d83c72f733be582bc2b6ac3e40ca9d5bd16fca7c8150a23"
+      }
+    },
+    {
+      "results": {
+        "path": "Builds/quality/C3/moving-fire-candidate01/results.xml",
+        "bytes": 13617,
+        "sha256": "15a1b089d65dc47cfa163bc30137da841e309f56f3dfe4a1cb563477009bccb0",
+        "counts": {
+          "total": "8",
+          "passed": "8",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "54.4861189"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/moving-fire-candidate01/player.log",
+        "bytes": 272381,
+        "sha256": "8ba5692dd2cdf88e724069660d3db681cfbcd4c41dc91e779b4c4bc8b5b846cb"
+      }
+    },
+    {
+      "results": {
+        "path": "Builds/quality/C3/moving-fire-candidate02/results.xml",
+        "bytes": 17899,
+        "sha256": "51b8abe6645f9c6742d036c7574323a17bec2aab03aefae1f74196854a8e1dc2",
+        "counts": {
+          "total": "10",
+          "passed": "10",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "120.0386975"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/moving-fire-candidate02/player.log",
+        "bytes": 341291,
+        "sha256": "6b734fb27a05e9d5bdf2bb140ffe7bcdcc34a8d6a2e58e4e05a888cde24e500d"
+      }
+    },
+    {
+      "results": {
+        "path": "Builds/quality/C3/moving-fire-candidate03/results.xml",
+        "bytes": 4052,
+        "sha256": "a06dd6aab2ff66e3201fd594fe990deba704fa775845aac70be6644303d90b62",
+        "counts": {
+          "total": "1",
+          "passed": "1",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "13.2314892"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/moving-fire-candidate03/player.log",
+        "bytes": 85687,
+        "sha256": "6f13eb9e5d0922dd96600108a54e0da4b6c2f116c5d1530e9e3269d08385c2a6"
+      }
+    }
+  ],
+  "earlierFullRun": {
+    "path": "Builds/quality/C3/moving-fire-integrated-01/playmode-results.xml",
+    "bytes": 84291,
+    "sha256": "7fca6e72f290734b2f0e4015c8b8c0fe954597da2b7fbb78b1d5a10eac4df3e9",
+    "counts": {
+      "total": "58",
+      "passed": "57",
+      "failed": "1",
+      "skipped": "0",
+      "result": "Failed(Child)",
+      "duration": "429.6543908"
+    },
+    "failures": [
+      {
+        "name": "Lattice.Tests.PlayMode.CorePlayTests.GroundContactWaitsForSwingAndDodgeCancelsIt",
+        "message": "  an uninterrupted resumed swing must connect\n  Expected: less than 1000.0f\n  But was:  1000.0f\n"
+      }
+    ]
+  },
+  "diagnostics": [
+    {
+      "path": "Builds/quality/C3/resumed-melee-diagnostic01/playmode-results.xml",
+      "bytes": 4452,
+      "sha256": "a768c030733037fd6961d64001ba946679d0eddc418e34b521d272cbdaabed9b",
+      "counts": {
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "4.6204216"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/resumed-melee-diagnostic02/playmode-results.xml",
+      "bytes": 42819,
+      "sha256": "e2a88208e6d83278b00739698b50713e2344faadb3b132c912262749d1158654",
+      "counts": {
+        "total": "28",
+        "passed": "28",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "158.0263205"
+      },
+      "failures": []
+    }
+  ],
+  "saveShieldControl": {
+    "path": "Builds/quality/C3/moving-fire-integrated-01/save-shield-contract.log",
+    "bytes": 1218,
+    "sha256": "0809f18c25b2479eae959923b02d1b0f3c9b50167c83831c4284f465ae7f128c"
+  },
+  "integratedTests": [
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/playmode-results.xml",
+      "bytes": 83081,
+      "sha256": "5bfdf70a02c4990dd75f451dc27f47f335ebb831bb8a2fb794c2079ce74a0cb7",
+      "counts": {
+        "total": "58",
+        "passed": "58",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "429.4397235"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/editmode-results.xml",
+      "bytes": 32291,
+      "sha256": "43befad7eebce792225da46c3534b3301660f129e6f6e4089325b4794e00d6dc",
+      "counts": {
+        "total": "39",
+        "passed": "39",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "0.5647879"
+      },
+      "failures": []
+    }
+  ],
+  "integratedLogs": [
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/playmode.log",
+      "bytes": 1239774,
+      "sha256": "2100e2c1b36654dfea7cae0b6c53d62f1ff7f70ad0da4441d18c50ac21ce0a13"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/editmode.log",
+      "bytes": 77454,
+      "sha256": "8aedbbdd3d1e9403bd58da5f7ee3dff9edda4c9340bbefb1bd01bfb1a5cef576"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/build-development.log",
+      "bytes": 592154,
+      "sha256": "5d9aae97a23b31294ad465c02b65acfa0ee601668a2a4f7c71e62ba222ef01fe"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-integrated-02/build-release.log",
+      "bytes": 589023,
+      "sha256": "00f6db5bb594b4601052592d99d3bdbed3f728fb392109c49bc81170ede36b0c"
+    }
+  ],
+  "packages": {
+    "WindowsDev": [
+      {
+        "path": "Builds/WindowsDev/Coronach.exe",
+        "bytes": 667648,
+        "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Combat.dll",
+        "bytes": 92672,
+        "sha256": "cdd9a55ee399b1723bf98db89a6fa24957be9068d2e0fd783477afa154246063"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Core.dll",
+        "bytes": 60928,
+        "sha256": "54fac7457892a9953d00f5e6a5c8393de6fa2db88feac2d1831192ce696198c9"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Data.dll",
+        "bytes": 12800,
+        "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "bytes": 20992,
+        "sha256": "9d4b8888301316d9fd298f9394d4a87d61b08e4c18312ce8a93c1e6d27cd9515"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "bytes": 15360,
+        "sha256": "3588e4ea13f04326218c873cd33268f8a14bedfebb6c9978a5687bde75d726c5"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.UI.dll",
+        "bytes": 149504,
+        "sha256": "38840e2674a37ca4181c3c293b3fbb99811465deb6bd9d3d54bb9de8a7857bd4"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.World.dll",
+        "bytes": 18432,
+        "sha256": "72dc69a8534b59ea7f9c9aa3f8fafa11a8bdd4f323e682dc029ab8cf28e1a532"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/app.info",
+        "bytes": 15,
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/boot.config",
+        "bytes": 354,
+        "sha256": "bbfac96b1e60ba57cf859b08173cb144ac0aa89e851f3ba5206f2d8f0b612a1d"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers",
+        "bytes": 267780,
+        "sha256": "1effbfb46e72456c52a9c1ea99e47229506e9cf5a4dae17e9b32b35aac852eb9"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets",
+        "bytes": 1004188,
+        "sha256": "db47e23005cab0c9e85d9be23a298a315c972b2791904aba0d10d04ee6612ea9"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets.resS",
+        "bytes": 6176992,
+        "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level0",
+        "bytes": 3820,
+        "sha256": "76c8b4747d9384e15f04a8d6d3901a1fa06d108501cea610acb389cf44a423c4"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level1",
+        "bytes": 1136,
+        "sha256": "5c83a5b4fba3e3cbdd2f64f7b91bf8d1827bb4438b870d1af44ead0395c95e38"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2",
+        "bytes": 1151724,
+        "sha256": "d933685d31a0a4cb5c00930843602645928b5d9b54fa89750f9855595d4c8ab3"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2.resS",
+        "bytes": 41200,
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level3",
+        "bytes": 923096,
+        "sha256": "2e73b70c09f7f02a1d34f9e8f5c4db1e9ed846ebe1f39c7865dc5e9fab7eb47e"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4",
+        "bytes": 157084,
+        "sha256": "4f6d7d2611d01242cd26626cd52ffcbbdcd2a7e5dd8c41d91cd9a78dbec49c25"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4.resS",
+        "bytes": 22528,
+        "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5",
+        "bytes": 209428,
+        "sha256": "ef87dbb045a3380b9e4003a1a0c89444cd57edcdb4665de215b1db4667908f9d"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5.resS",
+        "bytes": 2880,
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level6",
+        "bytes": 20172,
+        "sha256": "9383c7e2a9e69293527b092eeed8b1b73588d187c939079612e51a2728fd520c"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level7",
+        "bytes": 123548,
+        "sha256": "b8e6e8766944cb7158c8184354830d88a571977aabb8f6bc4341b3328d6d46a9"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level8",
+        "bytes": 20652,
+        "sha256": "b87e14b8f057f49b4bbb18a54e6056f05e31f6ef17214da6eac0e3bc84c44299"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level9",
+        "bytes": 30940,
+        "sha256": "64aa5eee4e69bacb318c2a60ce7256c210b0071c074841f897cdaf81eca19070"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets",
+        "bytes": 15885256,
+        "sha256": "a240948fc2275723b196945ff6deaadf62ac7904dd4266ec94062955f665d99c"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets.resS",
+        "bytes": 263319296,
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.resource",
+        "bytes": 8138400,
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "bytes": 4700,
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/ScriptingAssemblies.json",
+        "bytes": 5261,
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets",
+        "bytes": 83648,
+        "sha256": "815ad8e8a905e7e4cb3921be60c8d57baff97f4af0cde24e5744789ef56bd900"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets.resS",
+        "bytes": 524288,
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets1.assets",
+        "bytes": 361,
+        "sha256": "1a304745884b3a8c1bca72da93fe9735f78a1662298913d6205f76dcc14fb7a3"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets",
+        "bytes": 603360,
+        "sha256": "4fe46b42b4983e4f05e1a12858f9fc9e05ec1ee0ca77c08f318410e7af653fff"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets.resS",
+        "bytes": 11042016,
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets",
+        "bytes": 345044,
+        "sha256": "7d0d9c2cb1a4a7b4af6fc01097fb30f98d270c454f9d0fd4e5e03904717dd018"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets.resS",
+        "bytes": 7071712,
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets",
+        "bytes": 679284,
+        "sha256": "24017a18f6fc270886623d6569c4955635230bb1395db0fc9530c937e554e626"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets.resS",
+        "bytes": 15370464,
+        "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets",
+        "bytes": 367124,
+        "sha256": "ac7c875ec020ac8a9c5ddd6ee408d250172cb7166d3db1af56826582a63df355"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets.resS",
+        "bytes": 5151584,
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets",
+        "bytes": 72932,
+        "sha256": "c23c381c0568e1d9a373c8bf8bc9809b21517d3ab6cc70c2b732352184e9382e"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets.resS",
+        "bytes": 1693152,
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets7.assets",
+        "bytes": 10580,
+        "sha256": "c9acd9dd60db2dbe0ee791772de57f0365c07316f260e00c09c0320103500bb5"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets8.assets",
+        "bytes": 3716,
+        "sha256": "d841d3e3b5ea6e1247e0d4f2fc58eb9d6d8e1c482c04c91237f21096b6c20649"
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets9.assets",
+        "bytes": 2116,
+        "sha256": "5580a032b9613dc315f15fbe2d418468465f8003ff2c8c207a6b39688309a615"
+      }
+    ],
+    "Windows": [
+      {
+        "path": "Builds/Windows/Coronach.exe",
+        "bytes": 667648,
+        "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Combat.dll",
+        "bytes": 86016,
+        "sha256": "edd8aee6f438b5196585bab2df53217359ba8f39019bfb06b86e779af0bec3f1"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll",
+        "bytes": 58368,
+        "sha256": "eca56b3fcf6d69ae91a4977d0d1232d66bde127ed21bfd7f70e24eea7d55f2f7"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Data.dll",
+        "bytes": 12800,
+        "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "bytes": 19968,
+        "sha256": "4dfb844a2d4a48b51b6bccbbcc8976dfe209bb45f8c711ea72ee4b16e6c8ec59"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "bytes": 14848,
+        "sha256": "b8361f608537c1b7674fa34c51c10a48ae8c6efdda99979747cb703a26e9272e"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll",
+        "bytes": 134656,
+        "sha256": "f650f9057c84ecdfbbee839870da07a045691ad8113a3e4d15ac1fc4b2511d63"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.World.dll",
+        "bytes": 17920,
+        "sha256": "dc7246fb733623029459a3b25809eb016f0e244a8c62c17156fcec03a348f103"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/app.info",
+        "bytes": 15,
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/boot.config",
+        "bytes": 156,
+        "sha256": "a42f57704cf674b4c8e79c30821b00331a816f6a14f3d17df7ce3f3da718f702"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers",
+        "bytes": 267780,
+        "sha256": "55ab073f6c7e87fc3c3ff20507ee7f87ffb0e2cd4cf3a306bfb5f3c4d1b0bc57"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets",
+        "bytes": 1004012,
+        "sha256": "c0cae7d8f0c01ab6d9e330648842352bab8f17d3f7f3c4e2010fd81c37bad2d2"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets.resS",
+        "bytes": 6174944,
+        "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level0",
+        "bytes": 3820,
+        "sha256": "63a12b17075584a39bbabc765bf5add48b66467beb7230f00fc2a4e47ec03c26"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level1",
+        "bytes": 1136,
+        "sha256": "f85c7843d22bd25f5deb78b8064734d102b206f899ed30c36020e0a5370ea0b0"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2",
+        "bytes": 1151724,
+        "sha256": "a909e2f170b824dd0b6f698c30a2d7e95df2245e767cbac299332ca6bbf85682"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2.resS",
+        "bytes": 41200,
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level3",
+        "bytes": 923096,
+        "sha256": "51373687735bf005fdec2540924206d1890eb2432624e8ce72f5bc8641719020"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4",
+        "bytes": 157084,
+        "sha256": "7a0bc0c6449964c997b9728b9cdc307817d5220e4255a08d4f55b14b56631dbc"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4.resS",
+        "bytes": 22528,
+        "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5",
+        "bytes": 209428,
+        "sha256": "69cb12af3fb325954070edc152f4eda2defe86592316662d094dec5d762295df"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5.resS",
+        "bytes": 2880,
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level6",
+        "bytes": 20172,
+        "sha256": "066709a65510ea0b38b3a2b36ac74bbfafd7c432facc32d9a4925a2a191e368d"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level7",
+        "bytes": 123548,
+        "sha256": "54ee5e2ec47fdfcdbc7e1881e67c107242ea9f60ca71306da5f2a273b332bee7"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level8",
+        "bytes": 20652,
+        "sha256": "e384ab1fdba460785036521d1814af673cfba492c601170442e169038be927c1"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level9",
+        "bytes": 30940,
+        "sha256": "121463577d19c3225e11ca1a5842e5384b3f3d8e08d02a2a39b3f53d54e3af68"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets",
+        "bytes": 15885256,
+        "sha256": "e6bb7034daced53bba1d0effd496f90e943c6f0932deaf83a7c74f7ce77e92df"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets.resS",
+        "bytes": 263319296,
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.resource",
+        "bytes": 8138400,
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "bytes": 4700,
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/ScriptingAssemblies.json",
+        "bytes": 5261,
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets",
+        "bytes": 83648,
+        "sha256": "8632ade5ba22fc5d092a662f85bc8d0581b6e36a030ca2f2f7c87f93001f98b9"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets.resS",
+        "bytes": 524288,
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets1.assets",
+        "bytes": 361,
+        "sha256": "592501e858ea7355910e66548d53418f267714438075f306babb67e487bac8eb"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets",
+        "bytes": 603360,
+        "sha256": "5157923d11311e950de1bad341b42de256c8d08c8d7809a189c7aea9c0da15cb"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets.resS",
+        "bytes": 11042016,
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets",
+        "bytes": 345044,
+        "sha256": "28adc059e4fe1041ff501e8598b848fe8181d64dfb6c7bdc6ad4334ca60bc622"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets.resS",
+        "bytes": 7071712,
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets",
+        "bytes": 679284,
+        "sha256": "9f97239aaa23931ce80c58724080ea57037326510728956c601039002a654c76"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets.resS",
+        "bytes": 15370464,
+        "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets",
+        "bytes": 367124,
+        "sha256": "8c3d2195200b7e6a9e00ccce13c198f0ade50e14c41b1b49f3a348a2dedf11d3"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets.resS",
+        "bytes": 5151584,
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets",
+        "bytes": 72932,
+        "sha256": "121ba4571e45259094fd2b4596ef8b5cc858d92563525b30e559e8701f026d12"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets.resS",
+        "bytes": 1693152,
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets7.assets",
+        "bytes": 10580,
+        "sha256": "123f4f156d74cdf6901a254790531494d883a66bdd9d19ed7964048be4dc50e6"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets8.assets",
+        "bytes": 3716,
+        "sha256": "c1979125bbc70961b5752b4ae3d9873a18091c61f78a661c8e6974d411b1fcd0"
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets9.assets",
+        "bytes": 2116,
+        "sha256": "8185b8227b3d133290361090e6e57e052f7678959862142d8bff56426eb4eb99"
+      }
+    ]
+  },
+  "player": {
+    "run": {
+      "route": "c3-sela-emitter",
+      "sourceRevision": "C3 posed emitter candidate; packaged hashes belong to each recording",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Release",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 1979,
+      "refreshHz": 60.0,
+      "seconds": 33.0672771,
+      "captured": true,
+      "profiled": false,
+      "headroom": false,
+      "census": false,
+      "motion": true,
+      "valid": true,
+      "failures": [],
+      "loadWaitSeconds": 1.0723711999999992,
+      "settleSeconds": 8.0,
+      "interactions": []
+    },
+    "analysis": {
+      "valid": true,
+      "failures": [],
+      "samples": 1979,
+      "seconds": 33.067277,
+      "distance": 41.89832911107013,
+      "medianMs": 16.6778,
+      "p95Ms": 17.0376,
+      "p99Ms": 17.2311,
+      "worstMs": 73.3366,
+      "hitches": {
+        "25": 2,
+        "33.3": 2,
+        "50": 2,
+        "100": 0
+      },
+      "gcCollections": 3,
+      "gcBytesPerFrameMedian": -1,
+      "movingSamples": 91,
+      "stoppedCameraWhileWalking": 8,
+      "interactions": [],
+      "stabilityWindows": [],
+      "worstFrames": [
+        {
+          "elapsed": 21.414322,
+          "ms": 73.3366,
+          "checkpoint": "guard cancel before release",
+          "gcBytes": -1,
+          "gcCollections": 38,
+          "mainThreadNs": 73455600,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 22.854585,
+          "ms": 73.1645,
+          "checkpoint": "dodge cancel before release",
+          "gcBytes": -1,
+          "gcCollections": 39,
+          "mainThreadNs": 68607000,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 9.0274,
+          "ms": 18.8096,
+          "checkpoint": "swap to Sela",
+          "gcBytes": -1,
+          "gcCollections": 37,
+          "mainThreadNs": 16669600,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 13.192417,
+          "ms": 18.58,
+          "checkpoint": "needle 1 recovery",
+          "gcBytes": -1,
+          "gcCollections": 38,
+          "mainThreadNs": 16666000,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 22.766425,
+          "ms": 18.4246,
+          "checkpoint": "needle before dodge",
+          "gcBytes": -1,
+          "gcCollections": 39,
+          "mainThreadNs": 16665800,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 17.042182,
+          "ms": 18.4018,
+          "checkpoint": "Thread Lance release",
+          "gcBytes": -1,
+          "gcCollections": 38,
+          "mainThreadNs": 16669800,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 2.741363,
+          "ms": 18.2759,
+          "checkpoint": "Taren clear southern approach",
+          "gcBytes": -1,
+          "gcCollections": 37,
+          "mainThreadNs": 16919800,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 9.00859,
+          "ms": 18.2727,
+          "checkpoint": "swap to Sela",
+          "gcBytes": -1,
+          "gcCollections": 37,
+          "mainThreadNs": 16666800,
+          "renderThreadNs": -1
+        }
+      ],
+      "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+    },
+    "files": [
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/run.json",
+        "bytes": 802,
+        "sha256": "7ebdc839252d8214baad75a869919a5fd9a8fd7e755c2e36b504bbf5db9b51b8"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/analysis.json",
+        "bytes": 2403,
+        "sha256": "b32839f74bb2845fedb6ae72c29ad0f6a1a4db875943156a3b417c7aaa530036"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/frames.csv",
+        "bytes": 523109,
+        "sha256": "4ac61939033c57e508c16db0f032fff198a7a26d7eb6e30af75d772ebddc2d1f"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/route.json",
+        "bytes": 23439,
+        "sha256": "80243abfc49f54d203a854e697d146bc3dccd90c6926633cc6b92179791a7e79"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/build.json",
+        "bytes": 11477,
+        "sha256": "85a859d188895a6a0a47654706f93b70292bae0fb909049e1855e71f5aa5ae86"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/environment.json",
+        "bytes": 830,
+        "sha256": "2616b324e9bf104101793783582ae51355bde8f865e4812a3a70e107b8add816"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/player.log",
+        "bytes": 4323,
+        "sha256": "9b1511a8c08b0f7eed0d93dd7acbfccbc7781c30141235df86c7f91812425c92"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/replay.mp4",
+        "bytes": 61102613,
+        "sha256": "20d7e65873ac1f3d38a62eebc53d657c256cf69c9bf0a75797db2f1384767b24"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/video.mp4",
+        "bytes": 60277451,
+        "sha256": "f26b8f1eccfdc25115435254bd5ce64a5efbad516e533db83436ae98c0a47296"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/mix.wav",
+        "bytes": 12722220,
+        "sha256": "8a71d57d91ee258fee6abc84b3a7acfaf2f660a908aec5ad5081fcf483422284"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/capture-frames.csv",
+        "bytes": 14470,
+        "sha256": "b8124ef245044a181a12291ded0a47613c267c232d950fe17c8c25d10c9a743a"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/capture.txt",
+        "bytes": 160,
+        "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+      },
+      {
+        "path": "Builds/quality/C3/moving-fire-player-01/motion.csv",
+        "bytes": 423734,
+        "sha256": "bb73e25ed0072643cc6a08e38bab1c44658c54ceee51264f3dab803f59f2b55b"
+      }
+    ]
+  },
+  "openedImages": [
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/006.png",
+      "bytes": 3219659,
+      "sha256": "b205be0524ce17704c5a6f8a5649bbf8a3e0cbc8e2d54f3bca939ae19132443f"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/012.png",
+      "bytes": 3218724,
+      "sha256": "22d73b94d1a0ffb7e1ab9d76760be71db283793ed94a0dc2a7b41226a2d8e6b0"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/014.png",
+      "bytes": 3218427,
+      "sha256": "6ec211e81cc2877c19f803146b1f47684fbcc24fc07cd57b73ed070f0450dadc"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/016.png",
+      "bytes": 3219601,
+      "sha256": "0d1b414c0455299f84bdcf74efd34b9296e2933a394af3b883cd8ca3aacdf550"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/018.png",
+      "bytes": 3222581,
+      "sha256": "d88bd6632d033ad4c24431db6737c55201edd958d3cbd09e8e405d9b07551acb"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/020.png",
+      "bytes": 3220638,
+      "sha256": "9de87c930aaad8a81a9f1f6d4561006d8f66e160d0ce129584576a39176f0d67"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/022.png",
+      "bytes": 3224858,
+      "sha256": "851d393aea7d99d0390f35fcc1a90de1c1890a028a9a95898dc9284cb072c103"
+    },
+    {
+      "path": "Builds/quality/C3/moving-fire-player-01/026.png",
+      "bytes": 3224797,
+      "sha256": "291ce8c62fd6c7aef1d2baa4d12997b5710960467672ea656b0a77795be5648e"
+    }
+  ],
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

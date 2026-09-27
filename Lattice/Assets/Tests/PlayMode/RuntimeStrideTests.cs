@@ -104,6 +104,90 @@ namespace Lattice.Tests.PlayMode
             }
             public void Dispose(){foreach(var part in parts)Object.Destroy(part.baked);}
         }
+        [UnityTest] public IEnumerator MovingEmitterFireKeepsVisibleLegStride()
+        {
+            GameTime.Reset();var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            floor.transform.position=new Vector3(200,-.5f,200);floor.transform.localScale=new Vector3(120,1,240);
+            Physics.SyncTransforms();
+            try
+            {
+                foreach(float speed in new[]{2.6f,6.7f,10.8f})
+                {
+                    var root=new GameObject("moving emitter stride",typeof(Health),typeof(CombatActor),typeof(RangedContact));
+                    root.transform.position=new Vector3(200,0,200);
+                    var actor=root.GetComponent<CombatActor>();actor.character="Sela";actor.Health.friendly=true;
+                    actor.motor=new Travel{velocity=Vector3.forward*speed};
+                    var body=Object.Instantiate(GameCatalog.Find<CharacterDef>("Sela").shaped,root.transform);
+                    var rig=body.GetComponentInChildren<Animator>();var left=new SoleProbe(rig,true);var right=new SoleProbe(rig,false);
+                    try
+                    {
+                        float started=Time.unscaledTime,nextShot=started+1,shotAt=-10;
+                        var minimum=new[]{float.PositiveInfinity,float.PositiveInfinity};
+                        var maximum=new[]{float.NegativeInfinity,float.NegativeInfinity};int sampled=0,shots=0,contacts=0;
+                        var stances=new[]{new List<Vector3>(),new List<Vector3>()};float drift=0;
+                        while(Time.unscaledTime-started<4.2f)
+                        {
+                            if(Time.unscaledTime>=nextShot&&actor.Attack())
+                            {shotAt=Time.unscaledTime;nextShot=shotAt+.34f;shots++;}
+                            float afterShot=Time.unscaledTime-shotAt;
+                            var feet=new[]{left.Point(),right.Point()};
+                            if(Time.unscaledTime-started>1&&!rig.IsInTransition(0))
+                            {
+                                float phase=Mathf.Repeat(rig.GetCurrentAnimatorStateInfo(0).normalizedTime,1);
+                                for(int side=0;side<2;side++)
+                                {
+                                    float p=Mathf.Repeat(phase-side*(speed>7.5f?.55f:.5f),1);
+                                    bool planted=speed<3.1f?p>=.2f&&p<=.4f:p>=.08f&&p<=.16f;
+                                    var samples=stances[side];
+                                    if(planted)samples.Add(feet[side]);
+                                    else if(samples.Count>0)
+                                    {
+                                        foreach(var a in samples)foreach(var b in samples)
+                                            drift=Mathf.Max(drift,new Vector2(a.x-b.x,a.z-b.z).magnitude);
+                                        if(samples.Count>=2)contacts++;samples.Clear();
+                                    }
+                                }
+                            }
+                            // Measure the actual generated soles during the
+                            // braced middle of the shot, away from its blend.
+                            if(afterShot>=.12f&&afterShot<=.24f)
+                            {
+                                for(int side=0;side<2;side++)
+                                {
+                                    float forward=root.transform.InverseTransformPoint(feet[side]).z;
+                                    minimum[side]=Mathf.Min(minimum[side],forward);maximum[side]=Mathf.Max(maximum[side],forward);
+                                    Assert.GreaterOrEqual(feet[side].y,-.03f,"moving-fire sole penetrates the ground");
+                                }
+                                sampled++;
+                            }
+                            root.transform.position+=Vector3.forward*speed*Time.unscaledDeltaTime;yield return null;
+                        }
+                        Assert.GreaterOrEqual(shots,8);Assert.GreaterOrEqual(sampled,20);
+                        Assert.GreaterOrEqual(contacts,4,"moving fire lacks repeated actual stance contacts");
+                        Assert.LessOrEqual(drift,.05f,"moving-fire stance slides over the ground");
+                        for(int side=0;side<2;side++)
+                            Assert.That(maximum[side]-minimum[side],Is.InRange(.25f,2.5f),
+                                $"speed {speed} foot {side}: firing pins a planted leg pose to the moving body");
+                        TestContext.WriteLine($"MOVING_FIRE speed={speed} leftStride={maximum[0]-minimum[0]:F6} rightStride={maximum[1]-minimum[1]:F6} contacts={contacts} drift={drift:F6}");
+                        GameTime.Paused=true;yield return null;
+                        var wrist=rig.GetBoneTransform(HumanBodyBones.LeftHand);
+                        Vector3 pausedLeft=left.Point(),pausedRight=right.Point(),pausedHand=wrist.position;
+                        var phases=new float[rig.layerCount];
+                        for(int layer=0;layer<phases.Length;layer++)phases[layer]=rig.GetCurrentAnimatorStateInfo(layer).normalizedTime;
+                        yield return new WaitForSecondsRealtime(.2f);
+                        Assert.Less(Vector3.Distance(pausedLeft,left.Point()),.003f,"moving-fire left sole changes during pause");
+                        Assert.Less(Vector3.Distance(pausedRight,right.Point()),.003f,"moving-fire right sole changes during pause");
+                        Assert.Less(Vector3.Distance(pausedHand,wrist.position),.003f,"posed emitter changes during pause");
+                        for(int layer=0;layer<phases.Length;layer++)
+                            Assert.That(rig.GetCurrentAnimatorStateInfo(layer).normalizedTime,Is.EqualTo(phases[layer]).Within(.001f));
+                        GameTime.Paused=false;
+                    }
+                    finally{left.Dispose();right.Dispose();Object.Destroy(root);}
+                    yield return null;
+                }
+            }
+            finally{GameTime.Reset();Object.Destroy(floor);}
+        }
         [UnityTest] public IEnumerator VisibleSolesStayPlantedOnUphillAndDownhillGround()
         {
             GameTime.Reset();
