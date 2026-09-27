@@ -120,14 +120,16 @@ namespace Lattice.Combat
         {
             if(!CanAct||GameTime.Now<nextAttack)return false;
             if(GameTime.Now-lastComboAt>.9f)combo=0;int stage=combo;combo=(combo+1)%3;lastComboAt=GameTime.Now;
-            State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?.32f:stage==2?.48f:stage==1?.36f:.32f;
-            nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:duration*.85f);
+            var cut=GroundMove.Cut(stage);
+            State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?.32f:cut.duration;
+            nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:character=="Taren"?cut.recoveryEnd:duration*.85f);
             Vector3 aim=Aim();BeginVisual(flight||character=="Sela"?"Shoot":"Attack"+(stage+1),duration);
             if(flight)
             {
                 AudioManager.Play("laserSmall_000",.18f);
                 Projectile.Fire(transform.position+Vector3.up*.9f+aim*.6f,aim,Packet(rangedDamage*.38f,emitterType,12));
             }
+            else if(character=="Taren")GetComponent<MeleeContact>().Begin(cut,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20));
             else StartCoroutine(GroundContact(AttackSequence,stage,aim,duration*.46f));
             return true;
         }
@@ -139,17 +141,12 @@ namespace Lattice.Combat
         {
             float at=GameTime.Now+windup;
             while(GameTime.Now<at)yield return null;
-            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Attack)yield break;
             while(GameTime.Paused)yield return null;
+            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Attack)yield break;
             if(character=="Sela")
             {
                 AudioManager.Play("laserSmall_000",.18f);
                 Projectile.Fire(transform.position+Vector3.up*.9f+direction*.6f,direction,Packet(rangedDamage*.7f,emitterType,12));
-            }
-            else
-            {
-                AudioManager.Play("impactMetal_000",.16f);
-                Strike(transform.position+Vector3.up*.8f+direction*1.2f,1.65f,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20));
             }
         }
         public bool Lunge()
@@ -182,6 +179,8 @@ namespace Lattice.Combat
             actionUntil=GameTime.Now+(flight?.16f:VisualDuration*.85f);
             float power=1+Mathf.Max(0,resonance-10)*.025f;Vector3 direction=Aim();
             if(flight)ApplySkill(slot,power,direction);
+            else if(character=="Taren"&&slot==0)
+                GetComponent<MeleeContact>().Begin(GroundMove.Cleave,Packet(damage*1.7f*power,DamageType.Kinetic,35));
             else StartCoroutine(SkillContact(AttackSequence,slot,power,direction));
             Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
         }
@@ -189,8 +188,8 @@ namespace Lattice.Combat
         {
             float at=GameTime.Now+VisualDuration*.4f;
             while(GameTime.Now<at)yield return null;
-            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Skill)yield break;
             while(GameTime.Paused)yield return null;
+            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Skill)yield break;
             ApplySkill(slot,power,direction);
         }
         void ApplySkill(int slot,float power,Vector3 direction)

@@ -70,7 +70,15 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(BodyForm.Shaped,actor.GetComponent<FormController>().Current);
             Assert.IsInstanceOf<GroundMotor>(actor.motor);Assert.IsTrue(GameInput.Current.Ground.enabled);
             var enemy=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None)[0];
+            // The arena AI has already approached during scene setup. Behind its
+            // incidental position can be inside a crystal: controller depenetration
+            // then moves the fighter out of reach. Isolate this motor/contact check
+            // in the clear southern lane; cover and retreat have separate checks.
+            yield return new WaitForSecondsRealtime(.4f);
+            var enemyController=enemy.GetComponent<CharacterController>();enemyController.enabled=false;
+            enemy.transform.position=new Vector3(0,-.12f,-10);enemyController.enabled=true;enemy.Health.ResetFull();
             var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=enemy.transform.position-Vector3.forward*2;cc.enabled=true;
+            Physics.SyncTransforms();
             actor.motor.Move(Vector2.up,false,false);actor.target=enemy.Health;
             float until=Time.realtimeSinceStartup+5;
             while(enemy!=null&&enemy.Health.Alive&&Time.realtimeSinceStartup<until){actor.Attack();yield return new WaitForSecondsRealtime(.32f);}

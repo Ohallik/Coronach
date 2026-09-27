@@ -1,0 +1,85 @@
+{
+  "status": "C2 OPEN; 60 fps route/measurement checks passed; 30/120 and watched motion pending",
+  "records": [
+    {
+      "path": "Builds/quality/C2/player-natural-60-04",
+      "source": "d0deb1aacda7ed13a9fee7d803817e091b704098",
+      "buildManifest": "docs/validation/C3-lifecycle.json",
+      "routeValid": true,
+      "routeFailureCount": 0,
+      "motionValid": true,
+      "seconds": 222.1643115,
+      "samples": 13312,
+      "focus": {
+        "True": 13312
+      },
+      "centralContacts": 150,
+      "worstContactDriftMetres": 1.4142135624451636e-05,
+      "minimumCentralSoleClearance": 0.005999,
+      "hashes": {
+        "build.json": "403f4348d65ea01be95d46fc602018ca4380694155f474c25d43892ab48795c6",
+        "run.json": "3301b953989ed8b4b72b7ec26aec83841285dc65533160b402608207dbdaa853",
+        "route.json": "d5883d64fae998c9342543f79a95a852c68640b6e5d5218fb6159f36f8a66f2e",
+        "frames.csv": "5eeb8f77e8cb493541ce7ba734a5fcc0c987b11747fec055b95476f83204ebe5",
+        "motion.csv": "ca878a12e872bf86823668f6954ee5db45e6e20b1dd285b179db62c9b3a81014",
+        "motion-analysis.json": "55b34da68c2d72424575c0480621f2253d9ff20a84ae2927cedbe2ef3808f4cb"
+      }
+    },
+    {
+      "path": "Builds/quality/C2/player-shaped-60-04",
+      "source": "d0deb1aacda7ed13a9fee7d803817e091b704098",
+      "buildManifest": "docs/validation/C3-lifecycle.json",
+      "routeValid": false,
+      "routeFailureCount": 88,
+      "motionValid": false,
+      "seconds": 232.61412719999998,
+      "samples": 13933,
+      "focus": {
+        "True": 12199,
+        "False": 1734
+      },
+      "centralContacts": 179,
+      "worstContactDriftMetres": 9.999999999621423e-06,
+      "minimumCentralSoleClearance": 0.005999000000000004,
+      "hashes": {
+        "build.json": "a5487de0108230697a509e825369b04bc410e92930be73aac102afb9c420be58",
+        "run.json": "7fc37fbd034fb0f5d31197ee586b4c6b3d091618f62a908fee5b1b76ab552c84",
+        "route.json": "23c94b43a96ba431439d822f944bea404a44f6ab87a425d60da348ee2479ae7c",
+        "frames.csv": "b94755468afe835efd0aabdb0fd6864ae2426caad1f09754e849744f8839aeb2",
+        "motion.csv": "509dbcccaf28b2fe2b3bd7fb3442b215d4856fbaca9f61a736f1e7fce010a8e8",
+        "motion-analysis.json": "b1bfc08113b53df51415c5e488bababe7e86a59979c90ae0dcca5f7d0547c743"
+      }
+    },
+    {
+      "path": "Builds/quality/C2/player-shaped-60-05",
+      "source": "d0deb1aacda7ed13a9fee7d803817e091b704098",
+      "buildManifest": "docs/validation/C3-lifecycle.json",
+      "routeValid": true,
+      "routeFailureCount": 0,
+      "motionValid": true,
+      "seconds": 232.64327409999999,
+      "samples": 13954,
+      "focus": {
+        "True": 13954
+      },
+      "centralContacts": 219,
+      "worstContactDriftMetres": 1.00498756207581e-05,
+      "minimumCentralSoleClearance": 0.005999000000000004,
+      "hashes": {
+        "build.json": "c4be826459a0cd61c3bd36f657cdd5ededfaf889b4dcc4614760f2c01af14b9e",
+        "run.json": "3c405de463755ce586faf620b674381f2bcc00df2f912030811f16f9c097315b",
+        "route.json": "23c94b43a96ba431439d822f944bea404a44f6ab87a425d60da348ee2479ae7c",
+        "frames.csv": "29a2609c538e86020386ec5d4701e6adbd8ff2cb4a30ce449d17668434331b96",
+        "motion.csv": "037e436644990856cae67fd48dd48adb08f3fed3622b7c6af61ae73aed89bec7",
+        "motion-analysis.json": "c639c4d74996a66894ffec7fd301fd43f41e69266e2ed13179ce7918deddf4eb"
+      }
+    }
+  ],
+  "openedImages": [
+    "player-natural-60-04/000.png",
+    "player-natural-60-04/089.png",
+    "player-shaped-60-05/071.png",
+    "player-shaped-60-05/124.png"
+  ],
+  "limits": "Recorded agent-directed virtual input. Capture timings are not clean C1 evidence. Continuous normal/slow video, audio audition and physical controller feel UNVERIFIED."
+}

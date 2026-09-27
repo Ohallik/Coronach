@@ -1,0 +1,689 @@
+{
+  "status": "C3 OPEN; integrated contact candidate passes 50/50 PlayMode and 39/39 EditMode; both Windows players rebuilt",
+  "packagedBuild": "Candidate in this commit; exact binaries, managed assemblies and content hashes below",
+  "tests": [
+    {
+      "path": "Builds/quality/C3/contact-edge-red.xml",
+      "sha256": "8edfd926c0f7fa12b9cc7f81a2898ab3afa235cf1c9a49687bac75e5f85f89f9",
+      "result": "Failed(Child)",
+      "total": "1",
+      "passed": "0",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "MeleeDamageStaysOnTheVisibleSweptEdge:   melee damages a body beyond the visible edge and its swept path\n  Expected: less than or equal to 0.200000003f\n  But was:  2.57532048f\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/contact-edge-green.xml",
+      "sha256": "b1e7c1fbd3c6b811b05c74775187ea7ba492c119038c75bfa311a3d425cae051",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/contact-cancel-candidate01.xml",
+      "sha256": "533fd9972f0ecf942afc059b9cb642fd034de64ea49ed154a590299f4c87732d",
+      "result": "Failed(Child)",
+      "total": "1",
+      "passed": "0",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "GroundContactWaitsForSwingAndDodgeCancelsIt:   an uninterrupted resumed swing must connect\n  Expected: less than 1000.0f\n  But was:  1000.0f\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/contact-candidate02.xml",
+      "sha256": "df3b90321e9e705b44ddb0ca37b4f972939b4aff581ee39f2dac6e2affea6836",
+      "result": "Failed(Child)",
+      "total": "4",
+      "passed": "3",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "GroundContactWaitsForSwingAndDodgeCancelsIt:   an uninterrupted resumed swing must connect\n  Expected: less than 1000.0f\n  But was:  1000.0f\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/contact-candidate03.xml",
+      "sha256": "e6657e22ddfd45c1717eb40eddd1a8b849c336bc93dca71233d40cc9b22cdcf0",
+      "result": "Passed",
+      "total": "5",
+      "passed": "5",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/contact-isolated-green.xml",
+      "sha256": "d65518f0bcd63c973415eac222018f9f4ac9358be920bd88d71900c07019e6ef",
+      "result": "Passed",
+      "total": "2",
+      "passed": "2",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/contact-integrated-01/playmode-results.xml",
+      "sha256": "cc37a9c370c8347c9de274c2921f49aedeae92784ae464c573fd5d33aef75267",
+      "result": "Failed(Child)",
+      "total": "49",
+      "passed": "48",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "GroundFormMotorAndAttackKillAnEnemy:   real attack volumes must kill the enemy\n  Expected: True\n  But was:  False\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/contact-kill-ordered-red.xml",
+      "sha256": "146ca0c22655f17f75f3d34b68b8bd711ab8928cb5aeaba410bdfe2af82e0f33",
+      "result": "Failed(Child)",
+      "total": "27",
+      "passed": "26",
+      "failed": "1",
+      "skipped": "0",
+      "failures": [
+        "GroundFormMotorAndAttackKillAnEnemy:   real attack volumes must kill the enemy\n  Expected: True\n  But was:  False\n"
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/contact-candidate04.xml",
+      "sha256": "b3d61001ba72f792e50c7b0191e673ce2682bd69ef95bc32e377455b83989cf1",
+      "result": "Passed",
+      "total": "6",
+      "passed": "6",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/contact-integrated-02/playmode-results.xml",
+      "sha256": "d5e8b0f6d47ae95ebb9e61d2ba32f46646072d62b0e0ad397b8492a70fc55171",
+      "result": "Passed",
+      "total": "50",
+      "passed": "50",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/contact-integrated-02/editmode-results.xml",
+      "sha256": "1c8d3e61da7762dd42dca9faf4e6486a2ee8623b2824b285f78af9a29ff9528c",
+      "result": "Passed",
+      "total": "39",
+      "passed": "39",
+      "failed": "0",
+      "skipped": "0",
+      "failures": []
+    }
+  ],
+  "audit": {
+    "rawPoses": "Builds/quality/C3/attack-poses-01",
+    "wristAxes": "Builds/quality/C3/attack-poses-02",
+    "visibleCandidate": "Builds/quality/C3/attack-wrist-poses-01",
+    "review": "Codex opened Attack1/2/3 and Sela shot stills. No continuous choreography acceptance."
+  },
+  "rejectedLaunches": [
+    {
+      "path": "Builds/quality/C3/contact-lifecycle-launch-rejected.log",
+      "sha256": "142a29de7350157bcd973494ae3339231742ccc5363ce6355cdd6630ea434408",
+      "reason": "Editor exited -1 without test XML; no result accepted"
+    },
+    {
+      "path": "Builds/quality/C3/contact-lifecycle-retry-rejected.log",
+      "sha256": "09f60a0155515fb1015ce737750f30ee9152f89cdac4016d7037a446a73e7575",
+      "reason": "Editor exited -1 without test XML; no result accepted"
+    }
+  ],
+  "diagnosis": {
+    "trace": "Builds/quality/C3/contact-kill-ordered-red.log",
+    "cause": "The legacy kill fixture put Taren inside CrystalClusterB behind an incidental AI position. One controller Move depenetrated him from 2 m nominal distance to 2.2765 m; the target remained stationary throughout. The new visible blade did not reach; several trajectories were also blocked by the crystal.",
+    "repair": "Move the same actor/enemy pair into the clear southern arena lane, wait for already-started AI work, restore enemy full health. Keep original 5 s timeout and kill/reward assertions. Add covered/retreat/clear-target checks plus old-sphere fault controls in the test assembly."
+  },
+  "builds": [
+    {
+      "folder": "Builds/WindowsDev",
+      "result": "BUILD_OK",
+      "source": "Contact candidate after d0deb1a; committed with this manifest",
+      "files": [
+        {
+          "path": "Coronach.exe",
+          "bytes": 667648,
+          "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Combat.dll",
+          "bytes": 88576,
+          "sha256": "739966908ccc45c0510a7a58ffe6e05fa4a4cad34ad283d4fe5e8c23df6c4263"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Core.dll",
+          "bytes": 60928,
+          "sha256": "54fac7457892a9953d00f5e6a5c8393de6fa2db88feac2d1831192ce696198c9"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Data.dll",
+          "bytes": 12800,
+          "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Dialogue.dll",
+          "bytes": 20992,
+          "sha256": "9d4b8888301316d9fd298f9394d4a87d61b08e4c18312ce8a93c1e6d27cd9515"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Rpg.dll",
+          "bytes": 15360,
+          "sha256": "3588e4ea13f04326218c873cd33268f8a14bedfebb6c9978a5687bde75d726c5"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.UI.dll",
+          "bytes": 149504,
+          "sha256": "c65afb0ecc0a9d658b8e4293ecc7de30021493367ea95a33848d53243bd84db9"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.World.dll",
+          "bytes": 18432,
+          "sha256": "4511f78d884ea344c702df3cc422970218b88f935243c4fc151eb573b21b5345"
+        },
+        {
+          "path": "Coronach_Data/app.info",
+          "bytes": 15,
+          "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+        },
+        {
+          "path": "Coronach_Data/boot.config",
+          "bytes": 355,
+          "sha256": "556accda56d12c6db2d89a5e12569f8dcc28b327c0a32ed3531896120f3c3fc7"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers",
+          "bytes": 267668,
+          "sha256": "4687fd9f400d271c0ae871258049845579298a7f22905054fc39715150e8cd16"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets",
+          "bytes": 1003932,
+          "sha256": "424134c416983edb8e9395e80e74176f7c98fdd025910192965ff6070c51fab7"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets.resS",
+          "bytes": 6176992,
+          "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a"
+        },
+        {
+          "path": "Coronach_Data/level0",
+          "bytes": 3820,
+          "sha256": "fb9e3e816882c2bdd0f06168b073faaf629cfd366a39962eb200602e1d31e37c"
+        },
+        {
+          "path": "Coronach_Data/level1",
+          "bytes": 1136,
+          "sha256": "52dc421a467a39d97427c5b80234d723fa45720119d4345ea6d8ed7cd65d1730"
+        },
+        {
+          "path": "Coronach_Data/level2",
+          "bytes": 1151724,
+          "sha256": "b7c19aec5be809cbbf60c14160396e5cde55a72842e5c020b49e420e33afdbbd"
+        },
+        {
+          "path": "Coronach_Data/level2.resS",
+          "bytes": 41200,
+          "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+        },
+        {
+          "path": "Coronach_Data/level3",
+          "bytes": 916904,
+          "sha256": "9aa7dcd3e3566cb80d1308bc1d729f46bbb5744b6d2000520b6ac04201f28319"
+        },
+        {
+          "path": "Coronach_Data/level4",
+          "bytes": 157084,
+          "sha256": "00ca080b7431f6bc7eec2337b05b9c5f3f7d759eec22e85c9a8fddad156b31c6"
+        },
+        {
+          "path": "Coronach_Data/level4.resS",
+          "bytes": 22528,
+          "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+        },
+        {
+          "path": "Coronach_Data/level5",
+          "bytes": 209428,
+          "sha256": "6cafc58e07f70e3ec8554abbdf62dc909c3754f70689790f757b21f1e485c3fd"
+        },
+        {
+          "path": "Coronach_Data/level5.resS",
+          "bytes": 2880,
+          "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+        },
+        {
+          "path": "Coronach_Data/level6",
+          "bytes": 20172,
+          "sha256": "cd04d76a3c91e97bb914a88d46dfcf511b95f3890673dd95b99173ab413236ef"
+        },
+        {
+          "path": "Coronach_Data/level7",
+          "bytes": 111516,
+          "sha256": "e163a0e40a90ea10277696d863aff9a40a2340c986ef50b0d009bf86f5dfc375"
+        },
+        {
+          "path": "Coronach_Data/level8",
+          "bytes": 20652,
+          "sha256": "b3692b2981a179cf94589c6e70590c524e2a655b962d8fbd602091d5b9c455d6"
+        },
+        {
+          "path": "Coronach_Data/level9",
+          "bytes": 30940,
+          "sha256": "85a13dc5b9bcc3f47573ccf080674260c55156f5d71c3197fcc7ed4d83655a66"
+        },
+        {
+          "path": "Coronach_Data/resources.assets",
+          "bytes": 15884616,
+          "sha256": "78bca15f9dfee4a1b8e0cca644c762325e73779922d7eea17547355e202fab15"
+        },
+        {
+          "path": "Coronach_Data/resources.assets.resS",
+          "bytes": 263319296,
+          "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+        },
+        {
+          "path": "Coronach_Data/resources.resource",
+          "bytes": 8138400,
+          "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+        },
+        {
+          "path": "Coronach_Data/RuntimeInitializeOnLoads.json",
+          "bytes": 4700,
+          "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+        },
+        {
+          "path": "Coronach_Data/ScriptingAssemblies.json",
+          "bytes": 5261,
+          "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets",
+          "bytes": 83648,
+          "sha256": "c1a4d483f1bc92c4c18c7657f5078bf7d5e5157e44b722c22ab1576fcc784d08"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets.resS",
+          "bytes": 524288,
+          "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+        },
+        {
+          "path": "Coronach_Data/sharedassets1.assets",
+          "bytes": 361,
+          "sha256": "7def8107814a8fc2f49ab8b6665c056ed8a0305a4cf22a21acd057053bb1ae44"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets",
+          "bytes": 603360,
+          "sha256": "a1f0da373b6c357f6db474428aa4d519554cf6cec050dce73213e071d698307d"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets.resS",
+          "bytes": 11042016,
+          "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets",
+          "bytes": 345044,
+          "sha256": "c587f556088cb60c7403362b750750f2c84e8497ed07c213b0748465a7379010"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets.resS",
+          "bytes": 7071712,
+          "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets",
+          "bytes": 679284,
+          "sha256": "60a097e7f674b1c72cc72dd9aaa9d94b472d91b04040195bad165ada6eb0a1fc"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets.resS",
+          "bytes": 15370464,
+          "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets",
+          "bytes": 367124,
+          "sha256": "dc8e280f7c193e78fcc17a78a8271a1bb78279834089adb2f4abd30f8f105121"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets.resS",
+          "bytes": 5151584,
+          "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets",
+          "bytes": 72932,
+          "sha256": "ddcdf1ddd069b5e5523558e344da49a01ace2952d756e54a18b78f07f31a0a62"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets.resS",
+          "bytes": 1693152,
+          "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+        },
+        {
+          "path": "Coronach_Data/sharedassets7.assets",
+          "bytes": 8788,
+          "sha256": "2ece32eaa453716e4f6faf0304c4cb122982217803b4a44a9358ce55efdbc2c2"
+        },
+        {
+          "path": "Coronach_Data/sharedassets8.assets",
+          "bytes": 3716,
+          "sha256": "d82bbdf1aca7b3a73758b5bd3a61b275a9da44301d705506d511c90b2c831e79"
+        },
+        {
+          "path": "Coronach_Data/sharedassets9.assets",
+          "bytes": 2116,
+          "sha256": "abb6aa2040c2c48904df1c0f3f672f56809f2db79d630b4ca21054b7a9ab0b74"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/Windows",
+      "result": "BUILD_OK",
+      "source": "Contact candidate after d0deb1a; committed with this manifest",
+      "files": [
+        {
+          "path": "Coronach.exe",
+          "bytes": 667648,
+          "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Combat.dll",
+          "bytes": 82432,
+          "sha256": "572e547262dea6abf14a5e1e5b0f0d0f3359b91bf55b856fd4cd361a4a5c5ff4"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Core.dll",
+          "bytes": 58368,
+          "sha256": "eca56b3fcf6d69ae91a4977d0d1232d66bde127ed21bfd7f70e24eea7d55f2f7"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Data.dll",
+          "bytes": 12800,
+          "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Dialogue.dll",
+          "bytes": 19968,
+          "sha256": "4dfb844a2d4a48b51b6bccbbcc8976dfe209bb45f8c711ea72ee4b16e6c8ec59"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.Rpg.dll",
+          "bytes": 14848,
+          "sha256": "b8361f608537c1b7674fa34c51c10a48ae8c6efdda99979747cb703a26e9272e"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.UI.dll",
+          "bytes": 134144,
+          "sha256": "f6528d47affc1db868b665fa16f6519ebb87a0c0b56b41f1482f20bc13a81a6a"
+        },
+        {
+          "path": "Coronach_Data/Managed/Lattice.World.dll",
+          "bytes": 17920,
+          "sha256": "a2d9ce0e64baa162b1c48cc30d337b49ce96f664fa053632586c03cf0f71dbe7"
+        },
+        {
+          "path": "Coronach_Data/app.info",
+          "bytes": 15,
+          "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+        },
+        {
+          "path": "Coronach_Data/boot.config",
+          "bytes": 156,
+          "sha256": "d8212503995e9ed26ff761a2c53f7a64f99a5b069664b6e46fac6b60ae268f5d"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers",
+          "bytes": 267668,
+          "sha256": "6855edd7236c44315269d968aa55197111a3563a6379d5a08f26976550d925f7"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets",
+          "bytes": 1003756,
+          "sha256": "7f74943680f409726b37fed10f967e4f56799b2fbc790ddc7423ae4aae203789"
+        },
+        {
+          "path": "Coronach_Data/globalgamemanagers.assets.resS",
+          "bytes": 6174944,
+          "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04"
+        },
+        {
+          "path": "Coronach_Data/level0",
+          "bytes": 3820,
+          "sha256": "f60bf80f89dfb5b7edf19aedb473fa626705398b3d54eb049815ab45949c9414"
+        },
+        {
+          "path": "Coronach_Data/level1",
+          "bytes": 1136,
+          "sha256": "4b79d7c3201ea57f7d5acbb7c40a87aa5b268ee53dbc7eaff45e6ccb3076ab89"
+        },
+        {
+          "path": "Coronach_Data/level2",
+          "bytes": 1151724,
+          "sha256": "58bdd8957d9112fd045d53c1d59d678492f03fcaed24f6cf7630dc929c8e4bf7"
+        },
+        {
+          "path": "Coronach_Data/level2.resS",
+          "bytes": 41200,
+          "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+        },
+        {
+          "path": "Coronach_Data/level3",
+          "bytes": 916904,
+          "sha256": "d9e89a59c18c42ec83e982b6634cd1c3c1e15708bc70ca91b896ce2385591b6e"
+        },
+        {
+          "path": "Coronach_Data/level4",
+          "bytes": 157084,
+          "sha256": "4b7d5cf6f303791e5e5403bb682112306b1d4dca093db2ca923933241f482eca"
+        },
+        {
+          "path": "Coronach_Data/level4.resS",
+          "bytes": 22528,
+          "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+        },
+        {
+          "path": "Coronach_Data/level5",
+          "bytes": 209428,
+          "sha256": "0f0ef9c9b5900a230c46d8a5861d12a1f608d28c9446c3a3f393800f3569410e"
+        },
+        {
+          "path": "Coronach_Data/level5.resS",
+          "bytes": 2880,
+          "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+        },
+        {
+          "path": "Coronach_Data/level6",
+          "bytes": 20172,
+          "sha256": "10d71507af1e5471488a6ed882eff027987fd1f2734ef27bc96a71e7202ea901"
+        },
+        {
+          "path": "Coronach_Data/level7",
+          "bytes": 111516,
+          "sha256": "b11b0a321ee8a958fd1f519e8b25f678768f01b5e5da3298dc1141c8d3584e43"
+        },
+        {
+          "path": "Coronach_Data/level8",
+          "bytes": 20652,
+          "sha256": "dc6951c62214a59351e23e99be9d343f5548d3230c15724a567b0cfd32aa596e"
+        },
+        {
+          "path": "Coronach_Data/level9",
+          "bytes": 30940,
+          "sha256": "11e02dd155ea618e9c545b996846416e82506876a714944ac3eb2a0e32685e3c"
+        },
+        {
+          "path": "Coronach_Data/resources.assets",
+          "bytes": 15884616,
+          "sha256": "b6f946c416eda7a8153f49ed92a8e7734bf035357de956ac75d8f03f94a6ea08"
+        },
+        {
+          "path": "Coronach_Data/resources.assets.resS",
+          "bytes": 263319296,
+          "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+        },
+        {
+          "path": "Coronach_Data/resources.resource",
+          "bytes": 8138400,
+          "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+        },
+        {
+          "path": "Coronach_Data/RuntimeInitializeOnLoads.json",
+          "bytes": 4700,
+          "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+        },
+        {
+          "path": "Coronach_Data/ScriptingAssemblies.json",
+          "bytes": 5261,
+          "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets",
+          "bytes": 83648,
+          "sha256": "6d6bc60392df5fe9b5263c0086cb08fdd98d5cdb32a10fb65907e5ae96381ad2"
+        },
+        {
+          "path": "Coronach_Data/sharedassets0.assets.resS",
+          "bytes": 524288,
+          "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+        },
+        {
+          "path": "Coronach_Data/sharedassets1.assets",
+          "bytes": 361,
+          "sha256": "081ff69513e1ccaa73e63920f9d6324821004944c130ad772c6399ee7c3adf71"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets",
+          "bytes": 603360,
+          "sha256": "871ddfeb431f1f84ff1f025c9f3b8afc3c71c2983bc539e305ca49220794d5f8"
+        },
+        {
+          "path": "Coronach_Data/sharedassets2.assets.resS",
+          "bytes": 11042016,
+          "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets",
+          "bytes": 345044,
+          "sha256": "07df6fc16a7566cd6da5e09234053e031603f8b05d559dc505749bdcbc65c7d5"
+        },
+        {
+          "path": "Coronach_Data/sharedassets3.assets.resS",
+          "bytes": 7071712,
+          "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets",
+          "bytes": 679284,
+          "sha256": "634a9c92c7ee267e252d9fd0fad1ad4f529dfa0798719328285b5f69b2838544"
+        },
+        {
+          "path": "Coronach_Data/sharedassets4.assets.resS",
+          "bytes": 15370464,
+          "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets",
+          "bytes": 367124,
+          "sha256": "f9268e98f58abb38e88d0e65954f9a7b67aaf04a0a0ccc03b116c56a1fb67616"
+        },
+        {
+          "path": "Coronach_Data/sharedassets5.assets.resS",
+          "bytes": 5151584,
+          "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets",
+          "bytes": 72932,
+          "sha256": "73b2dd33f97de18ea002396ceed822831bf5735e42f2adf0e89f37edeaa77daf"
+        },
+        {
+          "path": "Coronach_Data/sharedassets6.assets.resS",
+          "bytes": 1693152,
+          "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+        },
+        {
+          "path": "Coronach_Data/sharedassets7.assets",
+          "bytes": 8788,
+          "sha256": "4b06499c27a2bc4081139943468c99cdd82eb8f1e9192c0370493e9f3e6547ed"
+        },
+        {
+          "path": "Coronach_Data/sharedassets8.assets",
+          "bytes": 3716,
+          "sha256": "9cd36f0c5cf9d28e95c663e10017055d1ed552aa607c00935d6d00f31f6eef41"
+        },
+        {
+          "path": "Coronach_Data/sharedassets9.assets",
+          "bytes": 2116,
+          "sha256": "40fda79884263211bd2a9cda2fb678ff143336f91dd68e7a3817275e06a7b600"
+        }
+      ]
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "bytes": 4865,
+      "sha256": "ab6d0631e58cc263ecb8a7da2ab5c1f4416044bd290600e3280a139314b9616f"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "bytes": 13373,
+      "sha256": "e2a96adb8ade6fed97c7c488edb31369fa0bc43ab133968ea50e0766dcbcb494"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundMove.cs",
+      "bytes": 829,
+      "sha256": "2f1105901946a06eb712da754f2129fd7f180891ab87918d9b3154bf3c1871fa"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/HeroWeaponVfx.cs",
+      "bytes": 2841,
+      "sha256": "d1e7b993e77a89838d3962afb731870ced83cfeaf728d383d8ba995e4688f6b6"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/MeleeContact.cs",
+      "bytes": 3843,
+      "sha256": "fbe422d2b3b9537dcb0bb669ba19c6a1f93e8efc92baeaff63c262d792de75d7"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/PartnerBrain.cs",
+      "bytes": 3953,
+      "sha256": "06886d22f226acf78487899461e3ce4528a69bb2cef030855db20341e7cc71e6"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/AttackContactTests.cs",
+      "bytes": 9118,
+      "sha256": "3ab9b09f1e13aadd5b72c9eff6e6cdf26139390ecb8fef832267b407ccda512a"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/CorePlayTests.cs",
+      "bytes": 33555,
+      "sha256": "f104e0a53c17a840d88fd3b01e666c0319ab888f7a9d26831dda964b1b0afbf1"
+    }
+  ],
+  "preservedSaves": [
+    {
+      "path": "autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

@@ -23,7 +23,9 @@ namespace Lattice.Combat
             float separation=(active.transform.position-transform.position).magnitude;
             if(fighting&&separation<18&&actor.Health.integrity>actor.Health.maximum*.3f)goal=actor.target.transform.position;
             var d=goal-transform.position;
-            float distance=d.magnitude,stop=fighting?(actor.character=="Sela"&&!actor.flight?7.5f:2.2f):1.5f;
+            // Ground melee closes to the actual wrist edge. The old 2.2 m
+            // stand-off relied on the removed oversized invisible hit sphere.
+            float distance=d.magnitude,stop=fighting?(actor.flight?2.2f:actor.character=="Sela"?7.5f:1.35f):1.5f;
             if(!actor.flight&&GroundNavigation.Current!=null&&!fighting)
             {
                 if(Time.unscaledTime>=nextPath)
