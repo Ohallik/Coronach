@@ -1,0 +1,996 @@
+{
+  "date": "2026-09-26",
+  "reviewer": "Codex",
+  "status": "Tallow spatial review passed; Cinder final join recapture and C1 OPEN",
+  "sourceParent": "8492a15546a660447512d98d9bfdc42b13d4b7c9",
+  "sourceScope": "Station pressure/lift and Cinder casing-join candidate in this commit",
+  "observation": "Actual unlabelled editor renders and player stills opened. Agent-directed virtual input. Normal/slow playback, audio audition and physical Logitech feel UNVERIFIED.",
+  "tests": [
+    {
+      "path": "Builds/quality/station/pressure-integrated-01/playmode-results.xml",
+      "sha256": "c72736a505811661277f20c0c2fb358234d0d9078c84881849d7d710db6912b4",
+      "scope": "Full suite before the final lower-casing/bridge seam adjustment",
+      "result": "Passed",
+      "total": "50",
+      "passed": "50",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "Builds/quality/station/pressure-integrated-01/editmode-results.xml",
+      "sha256": "df95f986b0cbe0c53c566a9b22acec0e8f09c7f058f4c275ed44f729e797bbaa",
+      "scope": "Full suite before the final lower-casing/bridge seam adjustment",
+      "result": "Passed",
+      "total": "39",
+      "passed": "39",
+      "failed": "0",
+      "skipped": "0"
+    },
+    {
+      "path": "Builds/quality/station/pressure-integrated-02/station-tests.xml",
+      "sha256": "ec87182c0411dc9ca91aedc4b0830a408bf7375fc37a6aa6ff7e03ba6b46071e",
+      "scope": "Post-seam station companion, jamb and circulation regression",
+      "result": "Passed",
+      "total": "3",
+      "passed": "3",
+      "failed": "0",
+      "skipped": "0"
+    }
+  ],
+  "runs": [
+    {
+      "name": "final-tallow-03",
+      "run": {
+        "route": "station-tallow-map",
+        "sourceRevision": "Aligned pressure lift; exact packaged hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 10652,
+        "refreshHz": 60.0,
+        "seconds": 177.5943371,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0708224000000004,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 19,
+            "expectedUi": "dialogue",
+            "inputSeconds": 72.122599,
+            "visibleResponseMs": 2.848200000002521
+          },
+          {
+            "step": 36,
+            "expectedUi": "world",
+            "inputSeconds": 142.2591952,
+            "visibleResponseMs": 5.804799999992838
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-tallow-03/run.json",
+          "sha256": "45450bd798fd886d7cc951c37bd24bec50d7e8f783f66fce50132f72971ae26d"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-03/build.json",
+          "sha256": "ea1794d53df7314d281a73b2728b33d743f1e7510788113978cef32462860285"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-03/route.json",
+          "sha256": "06f2e1318b7a8bd406e56efc7a546c59fa7d49848a545dfe3f67343de2670eb8"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-03/frames.csv",
+          "sha256": "ce26389a679e9a781b68ad2e2d04dd958c25fde212d96e32b3ef06236e66b11c"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-03/analysis.json",
+          "sha256": "b71b1032b45014eef955d23489f98ec28c5469eaf4617e3133fdc113f59d97bb"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-03/replay.mp4",
+          "sha256": "09be1b9bc1d1c04f4de7cb7796d96f81a9e1820bf57f4b1e1a1980f7683b4a14"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-03/mix.wav",
+          "sha256": "95858678ab5cf36dfab48163a694bb5da206eb442dd5a426883801a3c85e331b"
+        }
+      ]
+    },
+    {
+      "name": "final-walk-03",
+      "run": {
+        "route": "station-decks",
+        "sourceRevision": "paired station redesign; build hashes in evidence",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7475,
+        "refreshHz": 60.0,
+        "seconds": 124.5980563,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "dock vestibule return: navigation checkpoint missed",
+          "swap to Sela: character mismatch",
+          "Sela port hull boundary: navigation checkpoint missed",
+          "Sela full reversal to airlock: navigation checkpoint missed",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0554123999999998,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 5,
+            "expectedUi": "dialogue",
+            "inputSeconds": 25.0393255,
+            "visibleResponseMs": 4.294199999996806
+          },
+          {
+            "step": 11,
+            "expectedUi": "shop",
+            "inputSeconds": 37.5730273,
+            "visibleResponseMs": 7.284399999996083
+          },
+          {
+            "step": 13,
+            "expectedUi": "world",
+            "inputSeconds": 43.589351,
+            "visibleResponseMs": 0.9787999999986141
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-walk-03/run.json",
+          "sha256": "8bd50bf470354316ce5d3ebbeee270421463bd3f4cd358af32430a8603d2bce0"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-03/build.json",
+          "sha256": "aae3da1aa7f2ee626b91452585a02d5e3171cba7e2759cb902633caccb51f2b8"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-03/route.json",
+          "sha256": "ee00c7b3269696ae245c4a28ceeb56297c51f69a869d82454ab3bf4508153ad1"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-03/frames.csv",
+          "sha256": "1d1f3b765bc5eeb31234173d4e330e7876b229e6022ea450e1fa8475e6c7789c"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-03/analysis.json",
+          "sha256": "a6b2a7794f3daad11b58076dd8e32f4e5fe4a98b878ed2bfe48bee1547f953a7"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-03/replay.mp4",
+          "sha256": "e12d3920e12aefc309737c2fb324db38b5ad2feac4d3703146245a644ebcd49b"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-03/mix.wav",
+          "sha256": "902e56ca07e23e17ea0a63607c1a8bf278ea3b744b8beae59e2b997f9018c9d5"
+        }
+      ]
+    },
+    {
+      "name": "final-walk-04",
+      "run": {
+        "route": "station-decks",
+        "sourceRevision": "paired station redesign; build hashes in evidence",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7483,
+        "refreshHz": 60.0,
+        "seconds": 124.69469029999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.052502599999999,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 5,
+            "expectedUi": "dialogue",
+            "inputSeconds": 25.0393045,
+            "visibleResponseMs": 4.033099999997347
+          },
+          {
+            "step": 11,
+            "expectedUi": "shop",
+            "inputSeconds": 37.6053256,
+            "visibleResponseMs": 6.91969999999742
+          },
+          {
+            "step": 13,
+            "expectedUi": "world",
+            "inputSeconds": 43.621902,
+            "visibleResponseMs": 0.8946999999963623
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-walk-04/run.json",
+          "sha256": "f7ce0d0717f39e5d748020500e2fa1d076943039679f5e97fbdbc54d53c07725"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-04/build.json",
+          "sha256": "eb2e8907e2751584ba6729ea49f96fbe626d3e36f47bd179159384b7a80dd799"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-04/route.json",
+          "sha256": "ee00c7b3269696ae245c4a28ceeb56297c51f69a869d82454ab3bf4508153ad1"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-04/frames.csv",
+          "sha256": "18af5c1fb7b7e38183abd4cb4971bc3e6b66e63eb13222fad6e09e3927753405"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-04/analysis.json",
+          "sha256": "1c6f84154cf52170646b573f27adc9b9ee59e02a693d48dc951de68e68ff9846"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-04/replay.mp4",
+          "sha256": "5a5673d56f2b5db60c74bed490c9e94913234ff6c79fd4d892956b74651cdca5"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-04/mix.wav",
+          "sha256": "8a4dd2f5dce4ea4400b22122ca6f946b44e069fd3e52739005135d27928ea7eb"
+        }
+      ]
+    },
+    {
+      "name": "final-docks-03",
+      "run": {
+        "route": "station-dock",
+        "sourceRevision": "Pressure hatch inspection and boundary contact; exact build hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7160,
+        "refreshHz": 60.0,
+        "seconds": 119.5472411,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0706300999999998,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-docks-03/run.json",
+          "sha256": "7c5aabb0cd4cc75972bc01fc1e9d214a4ec9217341cafcdf1f9fad823fd0cde6"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-03/build.json",
+          "sha256": "9c29561c04ccc6c2ff7fa50dd643f5cda7c43f4221806ffef5a4df59b5f5c44d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-03/route.json",
+          "sha256": "172bafb07757b1a0e5292e5a04f560a3b3657b50e6935e2f194e9ce38ff7f69d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-03/frames.csv",
+          "sha256": "e18b8bbffe957d154ed4d2206c7e72a2bd86fba11453dba00cfad2d4f2b09111"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-03/analysis.json",
+          "sha256": "ebe7b76965d5d74435357c27945d05f123986c88d1759428d16c52f6484b1f12"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-03/replay.mp4",
+          "sha256": "d9ca727ae19158ceb8463402221317bf6494db5f897ae446fd2bbd986c2ba8cd"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-03/mix.wav",
+          "sha256": "b96f5a67325be2473368955c9d122fbb36c8fe10248342ba98b85323e59429d8"
+        }
+      ]
+    },
+    {
+      "name": "final-docks-04",
+      "run": {
+        "route": "station-dock",
+        "sourceRevision": "Pressure hatch inspection and boundary contact; exact build hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7170,
+        "refreshHz": 60.0,
+        "seconds": 119.5418514,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "office attached dock approach: navigation checkpoint missed",
+          "dock office: scene Hub_CinderHalo expected Hub_Decks",
+          "interior arrival: scene Hub_CinderHalo expected Hub_Decks",
+          "office launch hatch: navigation checkpoint missed",
+          "office launch hatch: scene Hub_CinderHalo expected Hub_Decks",
+          "office closed pressure boundary: scene Hub_CinderHalo expected Hub_Decks",
+          "office return to launch control: navigation checkpoint missed",
+          "office return to launch control: scene Hub_CinderHalo expected Hub_Decks",
+          "brake clear of hull: navigation checkpoint missed",
+          "cross approach to market: navigation checkpoint missed",
+          "market attached dock: navigation checkpoint missed",
+          "dock market: scene Hub_CinderHalo expected Hub_Decks",
+          "market arrival: scene Hub_CinderHalo expected Hub_Decks",
+          "market launch hatch: navigation checkpoint missed",
+          "market launch hatch: scene Hub_CinderHalo expected Hub_Decks",
+          "market closed pressure boundary: scene Hub_CinderHalo expected Hub_Decks",
+          "market return to launch control: navigation checkpoint missed",
+          "market return to launch control: scene Hub_CinderHalo expected Hub_Decks",
+          "market braking clearance: navigation checkpoint missed",
+          "receiving approach lane: navigation checkpoint missed",
+          "repair attached dock: navigation checkpoint missed",
+          "dock repair: scene Hub_CinderHalo expected Hub_Decks",
+          "repair arrival: scene Hub_CinderHalo expected Hub_Decks",
+          "repair launch hatch: navigation checkpoint missed",
+          "repair launch hatch: scene Hub_CinderHalo expected Hub_Decks",
+          "repair closed pressure boundary: scene Hub_CinderHalo expected Hub_Decks",
+          "repair return to launch control: navigation checkpoint missed",
+          "repair return to launch control: scene Hub_CinderHalo expected Hub_Decks",
+          "launch repair: scene Hub_Decks expected Hub_CinderHalo",
+          "release launch repair: scene Hub_Decks expected Hub_CinderHalo",
+          "repair braking clearance: navigation checkpoint missed",
+          "repair braking clearance: scene Hub_Decks expected Hub_CinderHalo",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0848559999999998,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-docks-04/run.json",
+          "sha256": "cc34a2c63619fb76cebd6c650d7cea74e35b79e4d396c689e37c3d7eeb3d3218"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-04/build.json",
+          "sha256": "98290af72b60ed3979d510d95468e2c700e89b50416311e8108638f5772a35fd"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-04/route.json",
+          "sha256": "172bafb07757b1a0e5292e5a04f560a3b3657b50e6935e2f194e9ce38ff7f69d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-04/frames.csv",
+          "sha256": "76868b490bb8968564b3574bca857bd9155f84967b4afa1ee658471e4e2d8d5e"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-04/analysis.json",
+          "sha256": "d71219a242a19632591d553eb0cae23a4c76b803e0d02520721401181255dd5f"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-04/replay.mp4",
+          "sha256": "67d3438e2f2b5ca1c35ab863429e147a8711a4caf35d78a4e9aa78fb9c53086d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-04/mix.wav",
+          "sha256": "c5189c7ecc9fdf5b6d9056a09051d5c01a750fca71eb7b5d2ae2b28c6ceb824d"
+        }
+      ]
+    },
+    {
+      "name": "final-docks-05",
+      "run": {
+        "route": "station-dock",
+        "sourceRevision": "Pressure hatch inspection and boundary contact; exact build hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7155,
+        "refreshHz": 60.0,
+        "seconds": 119.56837069999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "office return to launch control: navigation checkpoint missed",
+          "launch office: scene Hub_Decks expected Hub_CinderHalo",
+          "release launch office: scene Hub_Decks expected Hub_CinderHalo",
+          "brake clear of hull: navigation checkpoint missed",
+          "brake clear of hull: scene Hub_Decks expected Hub_CinderHalo",
+          "cross approach to market: navigation checkpoint missed",
+          "cross approach to market: scene Hub_Decks expected Hub_CinderHalo",
+          "market attached dock: navigation checkpoint missed",
+          "market attached dock: scene Hub_Decks expected Hub_CinderHalo",
+          "market launch hatch: navigation checkpoint missed",
+          "market return to launch control: navigation checkpoint missed",
+          "launch market: scene Hub_Decks expected Hub_CinderHalo",
+          "release launch market: scene Hub_Decks expected Hub_CinderHalo",
+          "market braking clearance: navigation checkpoint missed",
+          "market braking clearance: scene Hub_Decks expected Hub_CinderHalo",
+          "receiving approach lane: navigation checkpoint missed",
+          "receiving approach lane: scene Hub_Decks expected Hub_CinderHalo",
+          "repair attached dock: navigation checkpoint missed",
+          "repair attached dock: scene Hub_Decks expected Hub_CinderHalo",
+          "repair launch hatch: navigation checkpoint missed",
+          "repair return to launch control: navigation checkpoint missed",
+          "launch repair: scene Hub_Decks expected Hub_CinderHalo",
+          "release launch repair: scene Hub_Decks expected Hub_CinderHalo",
+          "repair braking clearance: navigation checkpoint missed",
+          "repair braking clearance: scene Hub_Decks expected Hub_CinderHalo",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0875667999999994,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-docks-05/run.json",
+          "sha256": "c767ba06e6bbc4b9210d5994b47fc983d55c188834d88f2993ef55b5a947818f"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-05/build.json",
+          "sha256": "6e00b4b9bc0d1acc5636ad6e279be671eb57e971ed5ee4efd7a28a390dd1e596"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-05/route.json",
+          "sha256": "172bafb07757b1a0e5292e5a04f560a3b3657b50e6935e2f194e9ce38ff7f69d"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-05/frames.csv",
+          "sha256": "18a8241a4b97105eb81a64b276022e08144cac9178925bf72879aa785663d3f4"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-05/analysis.json",
+          "sha256": "ef7ff5b3968568b93b6d973fa24184d3bb77f97217888e0c7230854a76ad08f7"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-05/replay.mp4",
+          "sha256": "c3aaad6d9cc5d2ff44166905de913d65cb576deeeeaa635382c8acc70b11f7f8"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-05/mix.wav",
+          "sha256": "c5dcb67becc92ab9ab5904e4fbc10ab2f793c53777eff83666b0fb0efd463380"
+        }
+      ]
+    }
+  ],
+  "openedStills": [
+    {
+      "path": "Builds/quality/station/maps-after-11/Hub_Decks-arrival.png",
+      "sha256": "5faa6fac1fe13e54770df5e3c5340b94a578e1463561fc3224bb4b064d52a4aa"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/Hub_Decks-overhead.png",
+      "sha256": "ae35453c6b8b34a0b8c476ab3f46f78685fb6a620971bd8449b462f0aaf304f1"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/Hub_CinderHalo-overhead.png",
+      "sha256": "f8ea41fe4a17b921775e43e46fe3c8ff73c0cfc29e1eef38ab01982b85fbbe7a"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/Hub_CinderHalo-structure.png",
+      "sha256": "9e1cc40430626a832bebd0e2f7c50b6cb6164baf9b7df13e5643f9c867a4f7d6"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowDrift-arrival.png",
+      "sha256": "2f1db6d03519b5c5e99f8ac925760e8bd0b159ca89da37ba31c9b5ab3c49d441"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowDrift-overhead.png",
+      "sha256": "d1dd2829ec64bc76f67399f071de60de51813f3f49f2af74ba6a431f22c6518e"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowApproach-arrival.png",
+      "sha256": "22e3e409c66414e5d56901608cd716d1a2b362f95de3e21b4f62282dfec105da"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowApproach-structure.png",
+      "sha256": "df817577d6962e893ba5792676f13d11732f6af5bca25a7f3864082bb308e8b6"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-12/Hub_Decks-arrival.png",
+      "sha256": "09043a265237a0049a496bff31a3c0e880055dc3a5ffaf06c71f6f5560062864"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-12/Hub_CinderHalo-arrival.png",
+      "sha256": "5e2db2c83639ef9e8d9f89c858edb064f4ab14eea35db5ad8dabb2815065c949"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/000.png",
+      "sha256": "44ddc4b0e42bf2316530679177a0a8393d72f5cb0327f50f9faad7781e4b4166"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/001.png",
+      "sha256": "798c12a475b1f18c9072d694f7094c35eec039830a8277f1070f3cc71da0b5f6"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/035.png",
+      "sha256": "20df5d9c6302ef4f866fda128c95b8ff3a1221894d45b3b974eb729298abc917"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/041.png",
+      "sha256": "9f5dd36fb4a01573dfd6de151eae28b61d9dfc13854c617064a639f05a7740d0"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/043.png",
+      "sha256": "2623d6219d70ff2edaf62f5003f6c437ae05600b7b6da6d6dbc2a57235b72da0"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/044.png",
+      "sha256": "accc2a69aaf5917b62ad2a2b9201ab70760acc103568b4c2f2fb0c53b867bdc0"
+    },
+    {
+      "path": "Builds/quality/station/final-tallow-03/046.png",
+      "sha256": "0a81458992f9d37d7f107f45127e0ceb5f6316a6d306ca413a78d39abb4eae61"
+    },
+    {
+      "path": "Builds/quality/station/final-walk-04/017.png",
+      "sha256": "0b52f5c25086679759b9487da77b2340cfb880175bbf86d2b81e52c3ec5b3c6a"
+    },
+    {
+      "path": "Builds/quality/station/final-walk-04/019.png",
+      "sha256": "168198894c941557d113b707f5da58af73953bc9b8b81c7226f28047de7067f0"
+    },
+    {
+      "path": "Builds/quality/station/final-walk-04/021.png",
+      "sha256": "b800fd58e76bc7f63f84949512732cf44dd7cf62f2dd869c94e49248cdb57e9c"
+    },
+    {
+      "path": "Builds/quality/station/final-walk-04/024.png",
+      "sha256": "979b2a4fed068c7dc514799c306e56282d1d4a8cf8596ee53d8fdd4ec9899d46"
+    },
+    {
+      "path": "Builds/quality/station/final-walk-04/027.png",
+      "sha256": "8e5796f110e12250eb6412da2d4265a6b9cd4b2908f729ef517bc86bbc43ea7c"
+    },
+    {
+      "path": "Builds/quality/station/final-docks-03/003.png",
+      "sha256": "a3101a4fa182dd620663ea8a2728edb312d6917ddaabaff7b917a11efbec3f87"
+    },
+    {
+      "path": "Builds/quality/station/final-docks-03/004.png",
+      "sha256": "f05f890f177bb7b63a39b68b8f241a39fb2b330bb8e9e07abf78d3eda7ab9405"
+    },
+    {
+      "path": "Builds/quality/station/final-docks-03/005.png",
+      "sha256": "ff914c65609b3dff5efe0464d30901de5c7d4d07e7b64e4689d5d22382e04b7e"
+    },
+    {
+      "path": "Builds/quality/station/final-docks-04/004.png",
+      "sha256": "b991943856e4d2f652da216f08ff3c6114053510fc446c8612d5017c2e2bdb9a"
+    }
+  ],
+  "sourceFiles": [
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Hub_CinderHalo.unity",
+      "sha256": "acb9569f79a692b14d81c72d46d457f7ed5b850b2c178e192e26a92e3197f987"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Hub_Decks-Navigation.asset",
+      "sha256": "cc0ac1423bbc3ef0e0d1ce14511f2256396507ccd8f45a94508d4f2e5e7d4363"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Hub_Decks.unity",
+      "sha256": "ab88ec0f05e10c8d56623cf7f7c9dd781dc07f88d3d9926f1efea1c18bf8402b"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/TallowApproach.unity",
+      "sha256": "06608d497c62d87c48f7a4dd31e4411e07d86e2898354861df9a17c371bdf609"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/TallowDrift-Navigation.asset",
+      "sha256": "90cae9ad68e2532348a3ff1038f7c602ecb539e8686788f7c36eaa899fcb3ad1"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/TallowDrift.unity",
+      "sha256": "c9e32440b91c80b8384e41e3a5aee9f2a09aca953775e849a7b34a38a9007b4b"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+      "sha256": "5ef4aa042fb11f20c4af8436dbc357bdf4e2e9ea219f70001becbda19d7dfc6d"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/StationRedesign.cs",
+      "sha256": "005e8b2988d5116e72dece031e227ead6aaa2d5fabc1130282903138e5a2e90d"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/TallowRedesign.cs",
+      "sha256": "d7bb2db4a0c7786a315e909ba07184cd3bf36181261c3d214ccaf41b1be5f9ae"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/StationPressureEntries.cs",
+      "sha256": "be01b6f025508266e1336ff7866647426cab3953a4b050cef87890f8faa31773"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/StationPressureEntries.cs.meta",
+      "sha256": "ddf19b9220d1fd01b316fb31996f436950061fd6bcc3890ad2cdd1ed9fd5db99"
+    }
+  ],
+  "builds": [
+    {
+      "build": "WindowsDev",
+      "files": [
+        {
+          "path": "Builds/WindowsDev/Coronach.exe",
+          "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/app.info",
+          "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/boot.config",
+          "sha256": "d4e8e4b6b353d656719a0e20921c01122b10a73083e6f60941b2b2234881b01c"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets",
+          "sha256": "424134c416983edb8e9395e80e74176f7c98fdd025910192965ff6070c51fab7"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets.resS",
+          "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/level2.resS",
+          "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/level4.resS",
+          "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/level5.resS",
+          "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/resources.assets",
+          "sha256": "28f9db8c7ad41d83e09a26e47dcadb0c5f3b8a9af282d8ba41c594e1d92c566c"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/resources.assets.resS",
+          "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/resources.resource",
+          "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/RuntimeInitializeOnLoads.json",
+          "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/ScriptingAssemblies.json",
+          "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets",
+          "sha256": "c1a4d483f1bc92c4c18c7657f5078bf7d5e5157e44b722c22ab1576fcc784d08"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets.resS",
+          "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets1.assets",
+          "sha256": "7def8107814a8fc2f49ab8b6665c056ed8a0305a4cf22a21acd057053bb1ae44"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets",
+          "sha256": "a1f0da373b6c357f6db474428aa4d519554cf6cec050dce73213e071d698307d"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets.resS",
+          "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets",
+          "sha256": "0bdc0426e8acca24a2681b9ded8073958aa46803afe933ed9840e53527019b37"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets.resS",
+          "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets",
+          "sha256": "60a097e7f674b1c72cc72dd9aaa9d94b472d91b04040195bad165ada6eb0a1fc"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets.resS",
+          "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets",
+          "sha256": "dc8e280f7c193e78fcc17a78a8271a1bb78279834089adb2f4abd30f8f105121"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets.resS",
+          "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets",
+          "sha256": "ddcdf1ddd069b5e5523558e344da49a01ace2952d756e54a18b78f07f31a0a62"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets.resS",
+          "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets7.assets",
+          "sha256": "933dc6ea7ac861f7ee9abb91df5553b1ffcb0a467669c90f1d4a5cb81c2e980a"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets8.assets",
+          "sha256": "d82bbdf1aca7b3a73758b5bd3a61b275a9da44301d705506d511c90b2c831e79"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/sharedassets9.assets",
+          "sha256": "abb6aa2040c2c48904df1c0f3f672f56809f2db79d630b4ca21054b7a9ab0b74"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Combat.dll",
+          "sha256": "739966908ccc45c0510a7a58ffe6e05fa4a4cad34ad283d4fe5e8c23df6c4263"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Core.dll",
+          "sha256": "54fac7457892a9953d00f5e6a5c8393de6fa2db88feac2d1831192ce696198c9"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Data.dll",
+          "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Dialogue.dll",
+          "sha256": "9d4b8888301316d9fd298f9394d4a87d61b08e4c18312ce8a93c1e6d27cd9515"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Rpg.dll",
+          "sha256": "3588e4ea13f04326218c873cd33268f8a14bedfebb6c9978a5687bde75d726c5"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.UI.dll",
+          "sha256": "c65afb0ecc0a9d658b8e4293ecc7de30021493367ea95a33848d53243bd84db9"
+        },
+        {
+          "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.World.dll",
+          "sha256": "4511f78d884ea344c702df3cc422970218b88f935243c4fc151eb573b21b5345"
+        }
+      ]
+    },
+    {
+      "build": "Windows",
+      "files": [
+        {
+          "path": "Builds/Windows/Coronach.exe",
+          "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/app.info",
+          "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/boot.config",
+          "sha256": "75b009bf512e53402049dbc9934f8ca7d277453cfc2b611932f7482919d87b7c"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets",
+          "sha256": "7f74943680f409726b37fed10f967e4f56799b2fbc790ddc7423ae4aae203789"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets.resS",
+          "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/level2.resS",
+          "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/level4.resS",
+          "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/level5.resS",
+          "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/resources.assets",
+          "sha256": "b6f946c416eda7a8153f49ed92a8e7734bf035357de956ac75d8f03f94a6ea08"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/resources.assets.resS",
+          "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/resources.resource",
+          "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/RuntimeInitializeOnLoads.json",
+          "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/ScriptingAssemblies.json",
+          "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets0.assets",
+          "sha256": "6d6bc60392df5fe9b5263c0086cb08fdd98d5cdb32a10fb65907e5ae96381ad2"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets0.assets.resS",
+          "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets1.assets",
+          "sha256": "081ff69513e1ccaa73e63920f9d6324821004944c130ad772c6399ee7c3adf71"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets2.assets",
+          "sha256": "871ddfeb431f1f84ff1f025c9f3b8afc3c71c2983bc539e305ca49220794d5f8"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets2.assets.resS",
+          "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets3.assets",
+          "sha256": "0046b88009faf779ced9f8c74700f3b5e5f8267ae52f5e071a583f4a26367569"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets3.assets.resS",
+          "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets4.assets",
+          "sha256": "634a9c92c7ee267e252d9fd0fad1ad4f529dfa0798719328285b5f69b2838544"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets4.assets.resS",
+          "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets5.assets",
+          "sha256": "f9268e98f58abb38e88d0e65954f9a7b67aaf04a0a0ccc03b116c56a1fb67616"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets5.assets.resS",
+          "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets6.assets",
+          "sha256": "73b2dd33f97de18ea002396ceed822831bf5735e42f2adf0e89f37edeaa77daf"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets6.assets.resS",
+          "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets7.assets",
+          "sha256": "65879173eafe280168d8aa5a96a29497ec4a6d2f9fec07e342d14152143943b6"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets8.assets",
+          "sha256": "9cd36f0c5cf9d28e95c663e10017055d1ed552aa607c00935d6d00f31f6eef41"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/sharedassets9.assets",
+          "sha256": "40fda79884263211bd2a9cda2fb678ff143336f91dd68e7a3817275e06a7b600"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Combat.dll",
+          "sha256": "572e547262dea6abf14a5e1e5b0f0d0f3359b91bf55b856fd4cd361a4a5c5ff4"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll",
+          "sha256": "eca56b3fcf6d69ae91a4977d0d1232d66bde127ed21bfd7f70e24eea7d55f2f7"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Data.dll",
+          "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Dialogue.dll",
+          "sha256": "4dfb844a2d4a48b51b6bccbbcc8976dfe209bb45f8c711ea72ee4b16e6c8ec59"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Rpg.dll",
+          "sha256": "b8361f608537c1b7674fa34c51c10a48ae8c6efdda99979747cb703a26e9272e"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll",
+          "sha256": "f6528d47affc1db868b665fa16f6519ebb87a0c0b56b41f1482f20bc13a81a6a"
+        },
+        {
+          "path": "Builds/Windows/Coronach_Data/Managed/Lattice.World.dll",
+          "sha256": "a2d9ce0e64baa162b1c48cc30d337b49ce96f664fa053632586c03cf0f71dbe7"
+        }
+      ]
+    }
+  ],
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+      "unchanged": true
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745",
+      "unchanged": true
+    }
+  ]
+}

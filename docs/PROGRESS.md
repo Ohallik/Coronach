@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Station pressure/lift checkpoint - September 26
+
+**TallowApproach and TallowDrift pass spatial MAP_EYE_TEST; Cinder final recapture and C1 remain OPEN.** The complete Tallow release route passes all 47 checkpoints, including both heroes, Keeper dialogue, repair/save, launch and redock. Opened unlabelled comparisons and player stills show the aligned shaft/lower cabin, attached apron, bounded refuge, service cells and accessible repair/rest areas. The first station's public/service/housing walk also passes, but closer hatch inspection exposed a lower-casing/bridge gap. That join is now closed in both maintained Cinder scenes and opened renders. Final ordinary-input recapture is pending after focus loss during repeated external Unity activity; rejected traces are retained.
+
+Fresh integrated regression passed **50/50 PlayMode and 39/39 EditMode, zero skips**, before the final lower-casing adjustment (`pressure-integrated-01`). After that geometry-only adjustment, **3/3 station regressions pass**, zero skips (`pressure-integrated-02`); both players rebuilt with BUILD_OK. The full suite has not been rerun after the last seam adjustment. Normal autosave and backup hashes remain unchanged. No new art credits or music changes. [Spatial review](validation/station-final.md), [earlier rejected geometry](validation/station-final02.json) and [packaged evidence](validation/station-pressure.json) keep actual observations separate from route results. Continuous normal/slow playback, audio audition and physical Logitech feel remain UNVERIFIED.
+
 ## C1/C2 implementation and station blockouts - September 26
 
 **C1 OPEN; C2 OPEN; final MAP_EYE_TEST OPEN.** The four clean before-runs reproduce first-dialogue hitches around 60-66 ms. CPU profiling identifies first-use Yarn preparation/JIT; the runner now prepares during the scene fade. The camera dead-zone stop/go and commanded-speed-against-wall regressions pass after targeted fixes. Four independently calibrated hero/form tests reject the original sideways run and pass clip-specific import corrections. See [C1 evidence](validation/C1-station-performance.md) and [C2 evidence](validation/C2-locomotion.md); these are partial corrections, not completed quality gates.

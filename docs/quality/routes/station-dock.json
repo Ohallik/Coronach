@@ -1,7 +1,7 @@
 {
   "name": "station-dock",
   "scene": "Hub_CinderHalo",
-  "sourceRevision": "paired station redesign; build hashes in evidence",
+  "sourceRevision": "Pressure hatch inspection and boundary contact; exact build hashes in each run",
   "settleSeconds": 8,
   "frameCap": 60,
   "starterParty": true,
@@ -34,14 +34,33 @@
     },
     {
       "name": "office launch hatch",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -18.25
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "office closed pressure boundary",
+      "seconds": 1.5,
+      "x": 0.34202,
+      "y": -0.939693,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "office return to launch control",
       "seconds": 3,
       "navigate": true,
       "point": {
         "x": -28,
         "y": 0,
-        "z": -13
+        "z": -15.5
       },
-      "rightTrigger": 0,
       "expectedScene": "Hub_Decks"
     },
     {
@@ -108,14 +127,33 @@
     },
     {
       "name": "market launch hatch",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -18.25
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "market closed pressure boundary",
+      "seconds": 1.5,
+      "x": 0.34202,
+      "y": -0.939693,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "market return to launch control",
       "seconds": 3,
       "navigate": true,
       "point": {
         "x": 0,
         "y": 0,
-        "z": -13
+        "z": -15.5
       },
-      "rightTrigger": 0,
       "expectedScene": "Hub_Decks"
     },
     {
@@ -182,14 +220,33 @@
     },
     {
       "name": "repair launch hatch",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 28,
+        "y": 0,
+        "z": -18.25
+      },
+      "rightTrigger": 0,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "repair closed pressure boundary",
+      "seconds": 1.5,
+      "x": 0.34202,
+      "y": -0.939693,
+      "buttons": [],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "repair return to launch control",
       "seconds": 3,
       "navigate": true,
       "point": {
         "x": 28,
         "y": 0,
-        "z": -13
+        "z": -15.5
       },
-      "rightTrigger": 0,
       "expectedScene": "Hub_Decks"
     },
     {

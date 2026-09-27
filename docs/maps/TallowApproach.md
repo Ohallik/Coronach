@@ -1,6 +1,6 @@
 # Tallow Approach - exterior pressure envelope
 
-2026-09-26. Reviewer: Codex. Paired with [Tallow Drift](TallowDrift.md). **Final MAP_EYE_TEST OPEN.**
+2026-09-26. Reviewer: Codex. Paired with [Tallow Drift](TallowDrift.md). **MAP_EYE_TEST PASSED for corrected layout and final spatial review.**
 
 The beacon's circular pressure body houses the refuge, its Keeper, repair service, stores and private rest cabins. The long external arm serves beacon utilities; it is not a corridor the visitor must cross. Arrivals use a short dock apron and enclosed pressure-transfer tower above the occupied deck. The tower and support beams meet the generated outer shell. A scene transfer represents the airlock/lift descent; the matching interior launch vestibule remains at the south end of the refuge.
 
@@ -14,7 +14,7 @@ OVERHEAD (north up, local flight coordinates)
           |  rear cabins/stores   |
           |  waiting / repair     |
           |    pressure tower     |
-          \--------[PAD]---------/  pad (0, 5)
+          \--------[PAD]---------/  pad (0, 0.5)
                     |
                clear approach
               Arrival (0, -25)
@@ -38,3 +38,13 @@ Preserve Arrival/Dock IDs and completion/save behavior. Do not present overall m
 
 
 The final-art section was checked against actual world-space triangles, exported read-only as `station/tallow-envelope.obj`. A 1 m section grid across the 25 by 24 m deck finds the shallowest bottom near -9.78 m and the occupied roof above -5.3 m, apart from the malformed local roof opening beneath the fitted inspection cover. A shared floor near -9.4 m leaves 3.5 m clear occupancy below the roof; -10 m was too low at the northeast corner and has been corrected in the section. This is a broad spatial fit check, not an engineering simulation. The detached-looking black roof triangles were visible in `maps-after-05`; a larger generated inspection cover hides that patch in the opened `maps-after-06` arrival. Final ordinary-player evidence remains required.
+
+## Pressure-transfer alignment correction
+
+The final-02 ordinary-player review exposed a mismatch hidden by the broad shell-fit check: the existing tower occupied exterior z=7.5..12.5 while the interior arrival bay maps to exterior z=3..8 (interior z=-12..-7 plus the 15 m origin). The rebuilt tower and apron move 4.5 m forward, retain Arrival/Dock IDs, and place the dock at z=0.5 with return at -8.5. The shaft enclosure reaches the occupied deck near y=-9.4; its roof stays at +3.65. The lower cabin exits north through the existing central arrival opening; the upper dock enters from the south. Fit the interior cabin to x=+/-2.5, add matching closed front pressure hatch, and put life-support cells with service hatches on either side. The adjoining public routes remain outside the cabin. Final eye and docking checks remain OPEN.
+
+Opened `station/maps-after-11/TallowApproach-{arrival,structure}.png` with the paired `TallowDrift-{arrival,overhead}.png`. The apron beams visibly meet the outer shell; the tower descends into it. The cabin footprint and the exterior shaft now agree, and the closed front panel reads as a pressure boundary. This editor inspection clears the identified alignment contradiction; rebuilt-player traversal is still required.
+
+## Final spatial review
+
+Codex accepts the corrected pressure-lift/refuge arrangement after opening the unlabelled maps-after-11 comparisons and final-tallow-03 release arrival, repair/service, launch and redock views. The complete 47-checkpoint ordinary-input route passes in 177.594 s, including both heroes, repair/save and return. [Final review](../validation/station-final.md) records concrete observations and prior rejections. The historical OPEN notes above document the iterations before this review. C1 reruns, watched continuous motion, audio audition and physical controller feel remain separate pending checks.

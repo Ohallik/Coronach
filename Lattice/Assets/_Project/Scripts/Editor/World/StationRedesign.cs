@@ -97,6 +97,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("RECEIVING / REPAIR",new Vector3(28,.12f,-2),1.2f);
             WorldBuilder.Label("CABINS 01–04",new Vector3(-28,.12f,16),1);
             WorldBuilder.Label("SERVICE / STORES",new Vector3(16,.12f,22),1);
+            if(!grey)StationPressureEntries.Cinder();
             StationNavigationBake.Bake("Hub_Decks");
             WorldBuilder.Save(scene,"Hub_Decks");
         }
@@ -165,14 +166,16 @@ namespace Lattice.EditorTools
             // Close the utility keel. Bare hanging beams read as legs; the lower
             // pressure casing also makes the contact with the ring continuous.
             Piece("DeckFloor",new Vector3(x,-3.5f,4),new Vector3(24,.8f,40));
-            foreach(int side in new[]{-1,1})Piece("DeckWall",new Vector3(x+side*12,-2,4),new Vector3(.55f,3,40));
-            foreach(float end in new[]{Front,Back})Piece("DeckWall",new Vector3(x,-2,end),new Vector3(24,3,.55f));
+            // The casing reaches the underside of the walking deck. The old
+            // top at -0.5 left a visible open seam below the thin floor.
+            foreach(int side in new[]{-1,1})Piece("DeckWall",new Vector3(x+side*12,-1.75f,4),new Vector3(.55f,3.5f,40));
+            foreach(float end in new[]{Front,Back})Piece("DeckWall",new Vector3(x,-1.75f,end),new Vector3(24,3.5f,.55f));
             if(exterior) Piece("DeckFloor",new Vector3(x,3.65f,4),new Vector3(24,.5f,40));
             // The short dock neck is enclosed to the vestibule, not a floating launch disc.
             Floor(x,-18,4,4);Wall(x-2,-18,.5f,4,exterior?3.5f:1.1f);Wall(x+2,-18,.5f,4,exterior?3.5f:1.1f);
             // Closed outer pressure hatch; launch is an interaction at the dock.
             // It must not be an unbounded walk off the end of the floor.
-            Wall(x,-20,4,.5f,exterior?3.5f:1.1f);
+            if(exterior||blockout)Wall(x,-20,4,.5f,exterior?3.5f:1.1f);
             if(exterior)
             {
                 Piece("DeckFloor",new Vector3(x,3.65f,-18),new Vector3(4,.5f,4));
@@ -201,7 +204,7 @@ namespace Lattice.EditorTools
             {
                 Floor(x,passage.z,4,passage.width);
                 foreach(int side in new[]{-1,1})Wall(x,passage.z+side*passage.width*.5f,4,.5f,exterior?3.5f:1.1f);
-                Piece("DeckWall",new Vector3(x,-2,passage.z),new Vector3(4,2,passage.width));
+                Piece("DeckWall",new Vector3(x,-1.5f,passage.z),new Vector3(4,3,passage.width));
                 if(exterior)Piece("DeckFloor",new Vector3(x,3.65f,passage.z),new Vector3(4,.5f,passage.width));
             }
         }

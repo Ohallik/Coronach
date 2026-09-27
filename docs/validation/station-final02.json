@@ -1,0 +1,333 @@
+{
+  "reviewer": "Codex",
+  "status": "Final MAP_EYE_TEST OPEN; final-02 routes complete but pressure-entry alignment rejected; maps-after-11 editor corrections inspected",
+  "observation": "Actual stills opened; ordinary-input traversal recorded; normal/slow playback and audio audition UNVERIFIED",
+  "runs": [
+    {
+      "name": "final-walk-02",
+      "run": {
+        "route": "station-decks",
+        "sourceRevision": "paired station redesign; build hashes in evidence",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 7476,
+        "refreshHz": 60.0,
+        "seconds": 124.57939429999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0733251,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 5,
+            "expectedUi": "dialogue",
+            "inputSeconds": 25.040034499999997,
+            "visibleResponseMs": 4.179800000002842
+          },
+          {
+            "step": 11,
+            "expectedUi": "shop",
+            "inputSeconds": 37.5565445,
+            "visibleResponseMs": 6.385999999999115
+          },
+          {
+            "step": 13,
+            "expectedUi": "world",
+            "inputSeconds": 43.556942,
+            "visibleResponseMs": 1.0389999999986799
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-walk-02/run.json",
+          "sha256": "03db99f64a7963255917566379e1e01df337bc17f065dc324fca3198898f2095"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/build.json",
+          "sha256": "e8dbbdfcf7b0f3275c4d0055e1019dec9a93494114d5e33b3d6a8b79f9b90d06"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/frames.csv",
+          "sha256": "afc5f9bfead738928667433ef588e3da1a8b342553802619143b9c117f154dfd"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/route.json",
+          "sha256": "ee00c7b3269696ae245c4a28ceeb56297c51f69a869d82454ab3bf4508153ad1"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/analysis.json",
+          "sha256": "d9140a5112b2e2e7fd7f864ed7b9061312a15b8498a21b11baf3ead4bb86ca36"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/replay.mp4",
+          "sha256": "51e5aaa9fa30941acee4d107c5e1de04e2281efe75d22f1bfbfc42c3b7e5a186"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/mix.wav",
+          "sha256": "257b1e58ee430a86d5a32f6f5a871b8a61a306663d8f1b8d4fa0db602be92720"
+        }
+      ],
+      "openedStills": [
+        {
+          "path": "Builds/quality/station/final-walk-02/001.png",
+          "sha256": "e389e2e55c9ea24b91ba736ee89d265caa8d2749ec4cf9e2b76486477189f23b"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/015.png",
+          "sha256": "b6905e47ca61428cc69923d28c6f91dc2537f9fc1b1b1ae4b1b912d82217711d"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/017.png",
+          "sha256": "5cbd26d4f8dcc8aebd20ced51f4f7f9ee4e4c9fcf372d51f78ecc92a216eaa98"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/019.png",
+          "sha256": "b0dc44dc304e90662802d3405c34873b258da75a2a26d02afe6b935733503683"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/021.png",
+          "sha256": "29737ebb727f6d897f17b81d4a405fbe5d77b2fd72e7eea78e23b70e909f9511"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/022.png",
+          "sha256": "01bf40cf6859bbf0be80db5c7579de7370beb18b587b2e8a6d3bf6cf9c5b8f9c"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/024.png",
+          "sha256": "74dff58cdd587e0c3d1d693d997e8f21f75514d8b4922eb96c6f239853100ad7"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/public-bridge.png",
+          "sha256": "6f14586717370a12af807923e8f1e83d7e329d47d31d084e16caf0911074839b"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/service-bridge.png",
+          "sha256": "4173c07be55173db7e95ad1d493b58458f33c789ef810d0574b9412baf72ac10"
+        },
+        {
+          "path": "Builds/quality/station/final-walk-02/housing-service.png",
+          "sha256": "4788275032d52592066e1588328236addffa02d73ca7c287eb4b72a4b58977cf"
+        }
+      ]
+    },
+    {
+      "name": "final-docks-02",
+      "run": {
+        "route": "station-dock",
+        "sourceRevision": "paired station redesign; build hashes in evidence",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 6168,
+        "refreshHz": 60.0,
+        "seconds": 103.0254322,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0888190000000004,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-docks-02/run.json",
+          "sha256": "2032f355b5962e622282f20fd1c8621a59c2adbab98dd353796a0ec20e46d8ae"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/build.json",
+          "sha256": "2b8c796c4ec369c88e295a6bea36f349ccb0a2c311b50e467a49247c748e577e"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/frames.csv",
+          "sha256": "0eca49fef12ff9b02c470e8090201e85cdcca39967f5e3b1dd3c3cfab118341b"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/route.json",
+          "sha256": "7803fcb2e6370d262efee0642897a54b1c792e0c48507f1eb7f12570f1d31439"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/analysis.json",
+          "sha256": "9275f8dcb8783cda27bee4ab9ef94bf75fdf3db6fb59d6acc8958935b60a0c82"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/replay.mp4",
+          "sha256": "df6152000cef1c79fd1cb84b83d7eb78b49bc2fc89b574b97181a71d153db699"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/mix.wav",
+          "sha256": "a50684ee22f8ac00f85f328915ab1441319429abdf8d21a3ab2bf007e084c10a"
+        }
+      ],
+      "openedStills": [
+        {
+          "path": "Builds/quality/station/final-docks-02/000.png",
+          "sha256": "5cfb95ccf8fadd55c4016ab5b68ae16c047277b3895539a70aabba32f729935f"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/007.png",
+          "sha256": "9833343845329a5e3f08eda84d6502cfeb4c7c6907ee6debefc4c54272b9d608"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/016.png",
+          "sha256": "b94012dbb005cc839b7e6a702c44f91a4a07add0d7151577ddaa94d8a4e61d47"
+        },
+        {
+          "path": "Builds/quality/station/final-docks-02/022.png",
+          "sha256": "8753cc8f386fc45f535e0149a5d9f705a8c456a1e04b270ccd634929c0778762"
+        }
+      ]
+    },
+    {
+      "name": "final-tallow-02",
+      "run": {
+        "route": "station-tallow-map",
+        "sourceRevision": "paired station redesign; build hashes in evidence",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 10642,
+        "refreshHz": 60.0,
+        "seconds": 177.42934889999998,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0374837000000001,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 19,
+            "expectedUi": "dialogue",
+            "inputSeconds": 72.09167649999999,
+            "visibleResponseMs": 3.072700000004147
+          },
+          {
+            "step": 36,
+            "expectedUi": "world",
+            "inputSeconds": 142.144993,
+            "visibleResponseMs": 5.645700000002307
+          }
+        ]
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/station/final-tallow-02/run.json",
+          "sha256": "0ae9e718e47400014730bc13e92c7cb369fc5c93b1fea80e7c616cf523ab7263"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/build.json",
+          "sha256": "ea20c0714ebca72912b95c07e32c27e5e613dffc3f2e5e73176fcf9cff46272c"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/frames.csv",
+          "sha256": "c37df5c900cd3897133f3144827d257500d26bae3b1a9f606007a149bf93ca56"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/route.json",
+          "sha256": "e551f30c3b348b23174b02b9291a9951a77299112fd5d7df566b3d2c21cd7d51"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/analysis.json",
+          "sha256": "1eabcee958e78459f5ccc384ae04e89f75e646b97b95c6b3b970b7da7c09ce7c"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/replay.mp4",
+          "sha256": "1f4979e1f05548950b72e5faa03e92b715f82cd5efe09e83d64b196d581e2ef1"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/mix.wav",
+          "sha256": "13bc2d1e22446f5fb2fcc6923840876621bb060fd6340b389830e1b7f2100ac9"
+        }
+      ],
+      "openedStills": [
+        {
+          "path": "Builds/quality/station/final-tallow-02/000.png",
+          "sha256": "b047f6ce843de1f66570dbba2797617b90c0557f30bb77293a406a03c3d1fbfe"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/002.png",
+          "sha256": "e52b5b9bdfd22e597aaa0dc0564535cc86f0bd61f1dfc6b75e5bc478e48681c3"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/006.png",
+          "sha256": "7bb7261661a832afc5a5d4a344863ba3c1c71f80ff7f307ef7768d63bfc167dd"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/035.png",
+          "sha256": "0db80fca2e9b76c244fbcb25d4c5c838d3a296af742d2268dd355a08968bf07d"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/043.png",
+          "sha256": "8a98fab6f5551bc0883557669d450244524883c98b55c2ebc69c88ec2ac4e5f2"
+        },
+        {
+          "path": "Builds/quality/station/final-tallow-02/044.png",
+          "sha256": "8a1fe72e0563b42a9b3a6c9f27577deb5d167b70721803dc7815065d35ba1419"
+        }
+      ]
+    }
+  ],
+  "editorCorrections": [
+    {
+      "path": "Builds/quality/station/maps-after-11/Hub_Decks-arrival.png",
+      "sha256": "5faa6fac1fe13e54770df5e3c5340b94a578e1463561fc3224bb4b064d52a4aa"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowDrift-arrival.png",
+      "sha256": "2f1db6d03519b5c5e99f8ac925760e8bd0b159ca89da37ba31c9b5ab3c49d441"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowDrift-overhead.png",
+      "sha256": "d1dd2829ec64bc76f67399f071de60de51813f3f49f2af74ba6a431f22c6518e"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowApproach-arrival.png",
+      "sha256": "22e3e409c66414e5d56901608cd716d1a2b362f95de3e21b4f62282dfec105da"
+    },
+    {
+      "path": "Builds/quality/station/maps-after-11/TallowApproach-structure.png",
+      "sha256": "df817577d6962e893ba5792676f13d11732f6af5bca25a7f3864082bb308e8b6"
+    }
+  ]
+}

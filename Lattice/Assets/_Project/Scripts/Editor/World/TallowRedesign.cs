@@ -12,6 +12,9 @@ namespace Lattice.EditorTools
         public static void Final()=>BatchTools.Run(()=>{Build();AssetDatabase.SaveAssets();Debug.Log("TALLOW_REDESIGN_OK");});
         public static void Exterior()=>BatchTools.Run(()=>{BuildExterior();AssetDatabase.SaveAssets();Debug.Log("TALLOW_EXTERIOR_OK");});
         static bool grey;
+        // Interior z=-12..-7 is the five-metre pass-through lift cabin.
+        // With the shared +15 m origin it occupies exterior z=3..8.
+        public const float InteriorOriginZ=15,LiftFrontZ=3,LiftBackZ=8,DockZ=.5f;
         public static void Build(bool blockout=false)
         {
             grey=blockout;
@@ -20,7 +23,7 @@ namespace Lattice.EditorTools
         static void BuildExterior()
         {
             var approach=WorldBuilder.Begin("TallowApproach");
-            WorldBuilder.Spawn("Arrival",new Vector3(0,1,-25));WorldBuilder.Spawn("Dock",new Vector3(0,1,-4));
+            WorldBuilder.Spawn("Arrival",new Vector3(0,1,-25));WorldBuilder.Spawn("Dock",new Vector3(0,1,DockZ-9));
             // The antenna/arms skew the mesh bounds. The occupied circular body
             // was centred near (-3.8,10.8), not the wrapper origin (0,15).
             // Recenter and enlarge that body so the deck's corners fit its rim.
@@ -32,19 +35,19 @@ namespace Lattice.EditorTools
             roofCover.name="Roof inspection cover";
             // A short pressure-transfer tower joins the flight plane to the
             // lower refuge deck. Its dock apron is physically mounted to it.
-            WorldBuilder.Piece("DeckFloor",new Vector3(0,-.25f,5),new Vector3(6,.5f,5));
+            WorldBuilder.Piece("DeckFloor",new Vector3(0,-.25f,DockZ),new Vector3(6,.5f,5));
             foreach(int side in new[]{-1,1})
             {
-                WorldBuilder.Piece("DeckWall",new Vector3(side*2.5f,-1.25f,10),new Vector3(.45f,9.5f,5));
-                WorldBuilder.Piece("DeckWall",new Vector3(side*2,-2,5),new Vector3(.4f,3,5));
-                WorldBuilder.Piece("DeckWall",new Vector3(side*1.8f,1.75f,7.5f),new Vector3(1.4f,3.5f,.5f));
+                WorldBuilder.Piece("DeckWall",new Vector3(side*2.5f,-3,(LiftFrontZ+LiftBackZ)*.5f),new Vector3(.45f,13,5));
+                WorldBuilder.Piece("DeckWall",new Vector3(side*2,-3.25f,DockZ),new Vector3(.4f,5.5f,5));
+                WorldBuilder.Piece("DeckWall",new Vector3(side*1.8f,1.75f,LiftFrontZ),new Vector3(1.4f,3.5f,.5f));
             }
-            WorldBuilder.Piece("DeckWall",new Vector3(0,-1.25f,12.5f),new Vector3(5,9.5f,.5f));
-            WorldBuilder.Piece("DeckWall",new Vector3(0,-3,7.5f),new Vector3(5,6,.5f));
-            WorldBuilder.Piece("DeckFloor",new Vector3(0,3.65f,10),new Vector3(5,.3f,5));
-            var hatch=WorldBuilder.Piece("DeckDoorway",new Vector3(0,1.6f,7.5f),new Vector3(3,3.2f,.5f),"Rock",false);
+            WorldBuilder.Piece("DeckWall",new Vector3(0,-3,LiftBackZ),new Vector3(5,13,.5f));
+            WorldBuilder.Piece("DeckWall",new Vector3(0,-4.75f,LiftFrontZ),new Vector3(5,9.5f,.5f));
+            WorldBuilder.Piece("DeckFloor",new Vector3(0,3.65f,(LiftFrontZ+LiftBackZ)*.5f),new Vector3(5,.3f,5));
+            var hatch=WorldBuilder.Piece("DeckDoorway",new Vector3(0,1.6f,LiftFrontZ),new Vector3(3,3.2f,.5f),"Rock",false);
             StationSurfaces.ClosedHatch(hatch,0);
-            WorldBuilder.Dock("Dock — Tallow Drift",new Vector3(0,1,5),"TallowDrift","Arrival");
+            WorldBuilder.Dock("Dock — Tallow Drift",new Vector3(0,1,DockZ),"TallowDrift","Arrival");
             WorldBuilder.Label("TALLOW DRIFT",new Vector3(0,5,12));WorldBuilder.Save(approach,"TallowApproach");
         }
         static void BuildInterior()
@@ -54,10 +57,20 @@ namespace Lattice.EditorTools
             var floor=Piece("DeckFloor",new Vector3(0,-.08f,0),new Vector3(25,.16f,24));
             if(!grey)StationSurfaces.FloorFinish(floor,"quiet");
             // Consistent cutaway convention: actual colliding hull walls, roof omitted.
-            Wall(-12.5f,0,.6f,24);Wall(12.5f,0,.6f,24);Wall(0,-12,25,.6f);
+            Wall(-12.5f,0,.6f,24);Wall(12.5f,0,.6f,24);
+            if(grey)Wall(0,-12,25,.6f);
+            else {Wall(-7,-12,11,.6f);Wall(7,-12,11,.6f);}
             Piece("DeckWall",new Vector3(0,1.75f,12),new Vector3(25,3.5f,.6f));
             WorldBuilder.Dock("Launch — Tallow approach",new Vector3(0,0,-10),"TallowApproach","Dock");
-            foreach(int side in new[]{-1,1})Wall(side*7.4f,-7,10.2f,.5f);
+            foreach(int side in new[]{-1,1})
+            {
+                Wall(side*2.5f,-9.5f,.5f,5);
+                Wall(side*10.65f,-7,3.7f,.5f);Wall(side*4.2f,-7,4,.5f);
+                Door(side*7.5f,-7,2.6f);
+                if(!grey)StationSurfaces.ClosedHatch(GameObject.Find("Life support hatch "+side),0);
+                else Piece("DeckWall",new Vector3(side*7.5f,1.5f,-7),new Vector3(2.2f,2.7f,.16f));
+                Prop("DeckConsole",side*7.5f,-10,1.5f);
+            }
             Door(0,-7,4.4f);
             var keeper=WorldBuilder.Npc("Keeper",new Vector3(0,0,4));keeper.postFlag="sliceComplete";
             Prop("DeckConsole",-7,5,1.5f);
@@ -85,6 +98,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("REFUGE / KEEPER",new Vector3(-6,.12f,1),.9f);
             WorldBuilder.Label("REPAIR / STORES",new Vector3(7,.12f,1),.9f);
             WorldBuilder.Label("SERVICE / REST CABINS",new Vector3(0,.12f,7.5f),.9f);
+            if(!grey)StationPressureEntries.Tallow();
             StationNavigationBake.Bake("TallowDrift");
             WorldBuilder.Save(scene,"TallowDrift");
         }
@@ -98,7 +112,7 @@ namespace Lattice.EditorTools
         static void Wall(float x,float z,float width,float depth)=>Piece("DeckWall",new Vector3(x,.55f,z),new Vector3(width,1.1f,depth));
         static void Door(float x,float z,float width)
         {
-            if(!grey){var frame=Piece("DeckDoorway",new Vector3(x,1.6f,z),new Vector3(width,3.2f,.5f),false);StationSurfaces.Fit(frame,new Vector3(width,3.2f,.5f));if(z==9)frame.name="Private rest hatch "+(x<0?-1:1);else StationSurfaces.DoorwayCollision(frame);return;}
+            if(!grey){var frame=Piece("DeckDoorway",new Vector3(x,1.6f,z),new Vector3(width,3.2f,.5f),false);StationSurfaces.Fit(frame,new Vector3(width,3.2f,.5f));if(z==9)frame.name="Private rest hatch "+(x<0?-1:1);else if(z==-7&&x!=0)frame.name="Life support hatch "+(x<0?-1:1);else StationSurfaces.DoorwayCollision(frame);return;}
             foreach(int side in new[]{-1,1})Piece("DeckWall",new Vector3(x+side*width*.5f,1.6f,z),new Vector3(.25f,3.2f,.5f));
             Piece("DeckWall",new Vector3(x,3.1f,z),new Vector3(width,.25f,.5f));
         }

@@ -1,7 +1,7 @@
 {
   "name": "station-tallow-map",
   "scene": "TallowDrift",
-  "sourceRevision": "paired station redesign; build hashes in evidence",
+  "sourceRevision": "Aligned pressure lift; exact packaged hashes in each run",
   "settleSeconds": 8,
   "frameCap": 60,
   "starterParty": true,
@@ -425,7 +425,7 @@
       "point": {
         "x": 0,
         "y": 0,
-        "z": -3
+        "z": -7.5
       },
       "rightTrigger": 0,
       "leftTrigger": 1,
@@ -438,7 +438,7 @@
       "point": {
         "x": 0,
         "y": 0,
-        "z": 2
+        "z": -2.5
       },
       "rightTrigger": 0,
       "leftTrigger": 1,

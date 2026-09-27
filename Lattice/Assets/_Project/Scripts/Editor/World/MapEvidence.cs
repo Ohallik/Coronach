@@ -70,10 +70,10 @@ namespace Lattice.EditorTools
                 Shot(camera, folder, zone + "-overhead", center, Quaternion.Euler(90,0,0), scale);
                 Shot(camera, folder, zone + "-structure", center, Quaternion.Euler(25,15,0), scale);
                 Shot(camera, folder, zone + "-arrival", zone == "Hub_Decks" ? (redesigned?new Vector3(-28,0,-11):new Vector3(-20,0,-3)) : zone == "Hub_CinderHalo" ? (redesigned?new Vector3(-28,1,-28):new Vector3(-20,1,3)) : Vector3.zero, Quaternion.Euler(40,20,0), exterior ? 22 : 7);
-                if(zones!=null)
+                if(zones!=null||zone=="TallowDrift")
                 {
                     foreach(var spawn in Object.FindObjectsByType<Lattice.Core.SpawnPoint>(FindObjectsSortMode.None))
-                        if(spawn.id=="Arrival"){Shot(camera,folder,zone+"-arrival",spawn.transform.position,Quaternion.Euler(40,20,0),zone=="Gullet_Tunnel"||zone=="Arena_Flight"?22:12);break;}
+                        if(spawn.id=="Arrival"){Shot(camera,folder,zone+"-arrival",spawn.transform.position,Quaternion.Euler(40,20,0),zone=="TallowDrift"?7:zone=="Gullet_Tunnel"||zone=="Arena_Flight"?22:12);break;}
                 }
             }
             Debug.Log("MAP_EVIDENCE_OK " + folder);
