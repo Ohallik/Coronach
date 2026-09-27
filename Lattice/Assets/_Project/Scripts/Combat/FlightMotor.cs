@@ -15,7 +15,29 @@ namespace Lattice.Combat
         public void Halt(){velocity=dashVelocity=Vector3.zero;dashRemaining=0;}
         void Awake(){controller=GetComponent<CharacterController>();controller.minMoveDistance=0;actor=GetComponent<CombatActor>();}
         public static Vector3 Integrate(Vector3 velocity,Vector3 input,float dt,float acceleration,float drag,float max,bool brake)
-        {return Vector3.ClampMagnitude((velocity+input*acceleration*dt)*Mathf.Exp(-(brake?9:drag)*dt),max);}
+        {
+            if(dt<=0)return velocity;
+            float damping=brake?9:Mathf.Max(0,drag),decay=Mathf.Exp(-damping*dt);
+            // Integrate constant thrust with drag, rather than applying all
+            // thrust at the beginning of the frame and damping it immediately.
+            float thrustTime=damping>.0001f?(1-decay)/damping:dt;
+            return Vector3.ClampMagnitude(velocity*decay+input*(acceleration*thrustTime),max);
+        }
+        public static Vector3 Advance(ref Vector3 velocity,Vector3 input,float dt,float acceleration,float drag,float max,bool brake)
+        {
+            if(dt<=0)return Vector3.zero;
+            // Bound the speed-cap/turn integration interval independently of
+            // render rate. Average velocity preserves travel during braking;
+            // using only the end velocity shortened every slower frame.
+            int steps=Mathf.Max(1,Mathf.CeilToInt(dt*120));float step=dt/steps;
+            Vector3 displacement=Vector3.zero;
+            for(int i=0;i<steps;i++)
+            {
+                Vector3 before=velocity;velocity=Integrate(velocity,input,step,acceleration,drag,max,brake);
+                displacement+=(before+velocity)*(.5f*step);
+            }
+            return displacement;
+        }
         public void Move(Vector2 input,bool boost,bool brake)
         {
             if(actor!=null&&(!actor.Health.Alive||actor.Recovering)){Halt();return;}
@@ -27,10 +49,10 @@ namespace Lattice.Combat
                 if(dashRemaining<=0)velocity=Vector3.ClampMagnitude(velocity,maxSpeed);
                 return;
             }
-            velocity=Integrate(velocity,thrust,dt,acceleration*(boost?2.1f:1),drag,maxSpeed*(boost?1.9f:1),brake);
+            Vector3 displacement=Advance(ref velocity,thrust,dt,acceleration*(boost?2.1f:1),drag,maxSpeed*(boost?1.9f:1),brake);
             if(thrust.sqrMagnitude>.01f)Facing=thrust.normalized;
             if(Facing.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(Facing);
-            if(controller.enabled)controller.Move(velocity*dt+Vector3.up*(plane-transform.position.y));
+            if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
         }
         public void Dash(Vector3 direction,float distance){Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;transform.rotation=Quaternion.LookRotation(Facing);}
         void OnControllerColliderHit(ControllerColliderHit hit)

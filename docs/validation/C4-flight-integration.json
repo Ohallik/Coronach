@@ -1,0 +1,541 @@
+{
+  "status": "C4 OPEN; flight integration source checkpoint",
+  "sourceBase": "b083bcf478fedb6107508620d67e5cdc6d7a047a",
+  "date": "2026-09-27T06:59:24.867424+00:00",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightMotor.cs",
+      "bytes": 4222,
+      "sha256": "74ebf9677a71d3635a0930068629639156a75961b3ff318ae71d2107b20338c3"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/FlightIntegrationTests.cs",
+      "bytes": 3719,
+      "sha256": "ca04b33964752e4af2b0e848847faa45743174454101f7d174c76ef0a94f9cfc"
+    }
+  ],
+  "runs": [
+    {
+      "folder": "Builds/quality/C4/integration-red",
+      "files": [
+        {
+          "path": "Builds/quality/C4/integration-red/editmode-results.xml",
+          "bytes": 6957,
+          "sha256": "4cc2e9f1c6210e9da6c1d7f4cfcc6e044fab69b96225f5a79624401a600c6ae0"
+        },
+        {
+          "path": "Builds/quality/C4/integration-red/FlightIntegrationTests.cs",
+          "bytes": 2601,
+          "sha256": "27ec84866b2be32ea5b2564409c588088d1019b5894ad1d67dda1dc5e6843534"
+        },
+        {
+          "path": "Builds/quality/C4/integration-red/FlightMotor.cs",
+          "bytes": 3319,
+          "sha256": "fa2f5cbc25837d63e30c89afe902072b079653a41328237237f96418bfd36d71"
+        },
+        {
+          "path": "Builds/quality/C4/integration-red/headless-tests.log",
+          "bytes": 152793,
+          "sha256": "2a66d9d93314a44643e17b7897a8bcb289267fa6bd2d8115e3840a9a348aadbb"
+        }
+      ],
+      "tests": [
+        {
+          "file": "editmode-results.xml",
+          "counts": {
+            "id": "2",
+            "testcasecount": "3",
+            "result": "Failed(Child)",
+            "total": "3",
+            "passed": "2",
+            "failed": "1",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-09-27 06:54:45Z",
+            "end-time": "2026-09-27 06:54:45Z",
+            "duration": "0.0274707"
+          },
+          "cases": [
+            {
+              "name": "BrakingDistanceAgreesAtThirtySixtyAndOneTwentyFrames",
+              "result": "Failed",
+              "output": "brake fps=30 distance=1.143318 velocity=0.000000\nbrake fps=60 distance=1.235833 velocity=0.000000\nbrake fps=120 distance=1.283958 velocity=0.000000\n",
+              "failure": "  same two-second brake input exceeds C4's five-percent travel spread\n  Expected: less than 0.0500000007f\n  But was:  0.105479568f\n"
+            },
+            {
+              "name": "FreeThrustTravelAndReversalAgreeAcrossFrameRates",
+              "result": "Passed",
+              "output": "turn fps=120 position=(-5.589956, 0.000000, -15.289030) velocity=(-0.000657, 0.000000, -0.000253)\nturn fps=60 position=(-5.649236, 0.000000, -15.318380) velocity=(-0.000660, 0.000000, -0.000256)\nturn fps=30 position=(-5.767691, 0.000000, -15.378540) velocity=(-0.000667, 0.000000, -0.000263)\n",
+              "failure": null
+            },
+            {
+              "name": "ZeroTimeDoesNotChangePositionOrMomentum",
+              "result": "Passed",
+              "output": "Saving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n",
+              "failure": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/integration-green",
+      "files": [
+        {
+          "path": "Builds/quality/C4/integration-green/editmode-results.xml",
+          "bytes": 5646,
+          "sha256": "5f214c33e001a9c0698a5c5353f1201abdc1ff90cb6719e2b37912865be45d7a"
+        },
+        {
+          "path": "Builds/quality/C4/integration-green/FlightIntegrationTests.cs",
+          "bytes": 2601,
+          "sha256": "27ec84866b2be32ea5b2564409c588088d1019b5894ad1d67dda1dc5e6843534"
+        },
+        {
+          "path": "Builds/quality/C4/integration-green/FlightMotor.cs",
+          "bytes": 4222,
+          "sha256": "74ebf9677a71d3635a0930068629639156a75961b3ff318ae71d2107b20338c3"
+        },
+        {
+          "path": "Builds/quality/C4/integration-green/headless-tests.log",
+          "bytes": 44316,
+          "sha256": "1a8eae0d0de1659abea3098314b53db4ad153c40be6743a5d5fd42c2dd583b4f"
+        }
+      ],
+      "tests": [
+        {
+          "file": "editmode-results.xml",
+          "counts": {
+            "id": "2",
+            "testcasecount": "3",
+            "result": "Passed",
+            "total": "3",
+            "passed": "3",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-09-27 06:55:58Z",
+            "end-time": "2026-09-27 06:55:58Z",
+            "duration": "0.0377244"
+          },
+          "cases": [
+            {
+              "name": "BrakingDistanceAgreesAtThirtySixtyAndOneTwentyFrames",
+              "result": "Passed",
+              "output": "brake fps=30 distance=1.333958 velocity=0.000000\nbrake fps=60 distance=1.333958 velocity=0.000000\nbrake fps=120 distance=1.333957 velocity=0.000000\n",
+              "failure": null
+            },
+            {
+              "name": "FreeThrustTravelAndReversalAgreeAcrossFrameRates",
+              "result": "Passed",
+              "output": "turn fps=120 position=(-5.621367, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252)\nturn fps=60 position=(-5.621357, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252)\nturn fps=30 position=(-5.621367, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252)\n",
+              "failure": null
+            },
+            {
+              "name": "ZeroTimeDoesNotChangePositionOrMomentum",
+              "result": "Passed",
+              "output": "Saving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n",
+              "failure": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C4/integration-extended",
+      "files": [
+        {
+          "path": "Builds/quality/C4/integration-extended/editmode-results.xml",
+          "bytes": 37538,
+          "sha256": "d92c02c80d2ad950fc71d2827d8b140d39dd1c09cff99eed029bc929ead347ab"
+        },
+        {
+          "path": "Builds/quality/C4/integration-extended/FlightIntegrationTests.cs",
+          "bytes": 3719,
+          "sha256": "ca04b33964752e4af2b0e848847faa45743174454101f7d174c76ef0a94f9cfc"
+        },
+        {
+          "path": "Builds/quality/C4/integration-extended/FlightMotor.cs",
+          "bytes": 4222,
+          "sha256": "74ebf9677a71d3635a0930068629639156a75961b3ff318ae71d2107b20338c3"
+        },
+        {
+          "path": "Builds/quality/C4/integration-extended/headless-playtests.log",
+          "bytes": 171683,
+          "sha256": "b624495bb125c03740793774417baa9f3d5819954c2640d17e79bc3778a28867"
+        },
+        {
+          "path": "Builds/quality/C4/integration-extended/headless-tests.log",
+          "bytes": 79369,
+          "sha256": "cf860061f890b993cd92dadc70a399a6e71c5a2ae2d695b2b8604d831b9f8090"
+        },
+        {
+          "path": "Builds/quality/C4/integration-extended/playmode-results.xml",
+          "bytes": 10604,
+          "sha256": "1a4c6073bb1b523d6973b571c8d480243e6488db83ab37a0f4005a446df08eb9"
+        }
+      ],
+      "tests": [
+        {
+          "file": "editmode-results.xml",
+          "counts": {
+            "id": "2",
+            "testcasecount": "44",
+            "result": "Passed",
+            "total": "44",
+            "passed": "44",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-09-27 06:57:16Z",
+            "end-time": "2026-09-27 06:57:17Z",
+            "duration": "0.5360596"
+          },
+          "cases": [
+            {
+              "name": "BrokenCriticalAndWeakPointMultiply",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DamageHonorsWeaknessAndResistance(Beam,150)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DamageHonorsWeaknessAndResistance(Pulse,50)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DamageHonorsWeaknessAndResistance(Kinetic,100)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "EquippedWeaponUpgradeAndAffixAffectOnlyItsAttack",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "FabricationRequiresBenchAndConsumesOnceThenAwardsDisciplineXp",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "FinishingFlashCannotUnpauseAMenu",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "FlightCoastsAndBrakeReducesVelocity",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "GatheringBeforeAcceptingQuestStillCountsAfterCrafting",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "InventoryPaymentIsAtomicAndAggregatesDuplicateIngredients",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "LevelsCapAtTenAndRetainRemainder",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "OnlyOneGameplayMapEnabled",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "QuestSequenceAndRewardsAreExactlyOnce",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "SaveRoundTripAllSlotsAndCorruption",
+              "result": "Passed",
+              "output": "SAVE_OK slot=slot1 zone=Gullet_Tunnel\nSAVE_OK slot=slot2 zone=Gullet_Tunnel\nSAVE_OK slot=slot3 zone=Gullet_Tunnel\nSAVE_OK slot=autosave zone=Gullet_Tunnel\n",
+              "failure": null
+            },
+            {
+              "name": "SyncedPortraitTagPreservesSlotSeven",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "WeaknessDoublesBreakNotResistance",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "BrakingDistanceAgreesAtThirtySixtyAndOneTwentyFrames",
+              "result": "Passed",
+              "output": "brake fps=30 distance=1.333958 velocity=0.000000\nbrake fps=60 distance=1.333958 velocity=0.000000\nbrake fps=120 distance=1.333957 velocity=0.000000\n",
+              "failure": null
+            },
+            {
+              "name": "FreeThrustTravelAndReversalAgreeAcrossFrameRates",
+              "result": "Passed",
+              "output": "turn fps=120 position=(-5.621367, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252) travel=65.517090\nturn fps=60 position=(-5.621357, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252) travel=65.516080\nturn fps=30 position=(-5.621367, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252) travel=65.512020\n",
+              "failure": null
+            },
+            {
+              "name": "UnpoweredCoastAgreesWithItsContinuousDragCurve",
+              "result": "Passed",
+              "output": "coast fps=30 distance=12.429930 velocity=2.677547\ncoast fps=60 distance=12.429930 velocity=2.677547\ncoast fps=120 distance=12.429930 velocity=2.677547\n",
+              "failure": null
+            },
+            {
+              "name": "ZeroTimeDoesNotChangePositionOrMomentum(6.0f)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "ZeroTimeDoesNotChangePositionOrMomentum(22.0f)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Taren\",False)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Taren\",True)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Sela\",False)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Sela\",True)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(1,X)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(2,A)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(3,Circle)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(4,Y)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(5,LeftShoulder)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(6,RightShoulder)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(9,Select)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(10,Start)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(11,LeftStick)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(12,RightStick)",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "DirectInputProfile_TriggersAreTheFloatFields",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "HatSwitch_DrivesTheDpad_AndStickPassesThrough",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "MenuPageActions_HaveGlyphsOnBothDevices",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "NoSceneBuilderMakesAnEventSystemWithoutTheInputSystemModule",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "PrecisionProfile_TheStickIsTheDpad",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "ResolveProfile_FallsBackToDirectInputOrder",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "ResolveProfile_KnowsTheLogitechPrecisionByProductName",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "Snapshot_ButtonBitsAreOneBased",
+              "result": "Passed",
+              "output": null,
+              "failure": null
+            },
+            {
+              "name": "UiActions_SpeakOnlyKeyboardPointerAndGamepad",
+              "result": "Passed",
+              "output": "Saving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n",
+              "failure": null
+            }
+          ]
+        },
+        {
+          "file": "playmode-results.xml",
+          "counts": {
+            "id": "2",
+            "testcasecount": "5",
+            "result": "Passed",
+            "total": "5",
+            "passed": "5",
+            "failed": "0",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-09-27 06:57:47Z",
+            "end-time": "2026-09-27 06:58:24Z",
+            "duration": "36.637631"
+          },
+          "cases": [
+            {
+              "name": "FlightFormMotorFireAndEightMetreLunge",
+              "result": "Passed",
+              "output": "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\n[Lattice] PAD_UI_ATTACH scene=Arena_Flight modules=1\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Flight\nFORM Flight\nFORM Flight\nCOMBAT_KILL ChoristerDart\nCOMBAT_KILL ChoristerDart\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+              "failure": null
+            },
+            {
+              "name": "FlightPartnerKeepsUpWithBoostBeforeSwap",
+              "result": "Passed",
+              "output": "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\n[Lattice] PAD_UI_ATTACH scene=Arena_Flight modules=1\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Flight\nFORM Flight\nFORM Flight\nCOMBAT_KILL ChoristerDart\nSWAP_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+              "failure": null
+            },
+            {
+              "name": "FlightUsesDistinctHorizontalShipsAndReturnsToBiped",
+              "result": "Passed",
+              "output": "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\n[Lattice] PAD_UI_ATTACH scene=Arena_Flight modules=1\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Flight\nFORM Flight\nFORM Flight\nCOMBAT_KILL ChoristerDart\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+              "failure": null
+            },
+            {
+              "name": "FlightWallContactHurtsOnlyInCombatZones",
+              "result": "Passed",
+              "output": "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\n[Lattice] PAD_UI_ATTACH scene=Hub_CinderHalo modules=1\nMUSIC_CUE Hub Town Groove\nDIALOGUE_PREPARED\nZONE_ENTER Hub_CinderHalo\nSAVE_OK slot=autosave zone=Hub_CinderHalo\nFORM CivilFlight\nFORM CivilFlight\n[Lattice] PAD_UI_ATTACH scene=Arena_Flight modules=1\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Flight\nFORM Flight\nFORM Flight\nCOMBAT_KILL ChoristerDart\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+              "failure": null
+            },
+            {
+              "name": "DisabledFlightCraftRemainsRecoverableOnItsFlightPlane",
+              "result": "Passed",
+              "output": "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\n[Lattice] PAD_UI_ATTACH scene=Arena_Flight modules=1\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Flight\nFORM Flight\nFORM Flight\nSWAP_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n",
+              "failure": null
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "No ordinary player capture for this numerical checkpoint.",
+    "No continuous motion observation, sound audition or physical feel acceptance.",
+    "Full PlayMode and rebuilt player pair pending; Development remains Sorrel blockout 06, Release preceding C3 integrated checkpoint."
+  ],
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

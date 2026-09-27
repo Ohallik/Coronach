@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 flight integration checkpoint - September 26
+
+**C4 OPEN.** Matched 30/60/120 timestep checks reproduce a 10.55% stopping-distance spread. The actual flight motor now integrates thrust/drag and average-velocity travel with bounded calculation steps; the same brake travels 1.334 m at all three rates. Cruise/boost caps and tuning constants remain unchanged. Thrust/reversal, coast and zero-time momentum checks pass. Fresh results: **44/44 full EditMode and 5/5 targeted PlayMode, zero skips**. Original saves are unchanged. [Evidence](validation/C4-flight-integration.md) records the red control, measured behavior change and source/build limits. This is a source checkpoint; full PlayMode and both rebuilt players remain pending. Continuous flight observation, remaining flight/transform work and all earlier open gates remain open.
+
 
 ## MAP Sorrel blockout checkpoint - September 26
 
