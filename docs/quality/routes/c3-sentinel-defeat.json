@@ -1,0 +1,177 @@
+{
+  "name": "c3-sentinel-defeat",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "C3 settled corpse candidate; exact source and package hashes belong to each recording",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "clear southern approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -7
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "east outer trail",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0,
+        "z": -7
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "follow outer ridge to upper workings",
+      "seconds": 19,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0,
+        "z": 87
+      }
+    },
+    {
+      "name": "turn into Sentinel approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 87
+      }
+    },
+    {
+      "name": "enter Sentinel territory",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 101
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "settle beside Sentinel",
+      "seconds": 0.2,
+      "buttons": []
+    },
+    {
+      "name": "lock onto Sentinel",
+      "seconds": 0.15,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "release lock input",
+      "seconds": 0.2,
+      "buttons": []
+    },
+    {
+      "name": "Pulse Break input",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "post-Pulse 0.5 seconds",
+      "seconds": 0.5,
+      "buttons": []
+    },
+    {
+      "name": "post-Pulse 1.1 seconds",
+      "seconds": 0.6,
+      "buttons": []
+    },
+    {
+      "name": "post-Pulse 1.7 seconds",
+      "seconds": 0.6,
+      "buttons": []
+    },
+    {
+      "name": "post-Pulse 2.3 seconds",
+      "seconds": 0.6,
+      "buttons": []
+    },
+    {
+      "name": "post-Pulse 3.6 seconds",
+      "seconds": 1.3,
+      "buttons": []
+    },
+    {
+      "name": "cut one",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut one recovery",
+      "seconds": 0.42,
+      "buttons": []
+    },
+    {
+      "name": "cut two",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut two recovery",
+      "seconds": 0.42,
+      "buttons": []
+    },
+    {
+      "name": "cut three",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut three recovery",
+      "seconds": 0.52,
+      "buttons": []
+    },
+    {
+      "name": "finish remaining resistance",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55
+    },
+    {
+      "name": "terminal body hold",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "return toward outer trail",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0,
+        "z": 87
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped",
+      "expectedFlag": "clear.Sorrel_10"
+    }
+  ]
+}

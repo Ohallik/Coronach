@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C3 settled corpse checkpoint - September 26
+
+**C3 OPEN.** Sentinel's terminal pose now settles its raised legs instead of hanging from an extended arm. A new side-view/height control rejects the former pose. Baked mesh calibration and a gradual visual tilt lower the hips from 0.708 m to 0.472 m; real mesh clearance stays at 0.012 m on flat and both 10-degree slopes. The targeted suite passes **4/4**, including hero down/get-up, grounded break/recovery, stable hold and pause. [Corpse evidence](validation/C3-sentinel-corpse.md).
+
+The rebuilt release player passes 23 ordinary-input checkpoints with 3,744 focused samples. Opened collapse/terminal/cleanup/return frames confirm the specific correction. Saves remain unchanged. Full suites and the development build still predate this targeted correction and will be refreshed at the next integrated checkpoint. Normal/slow motion viewing, audio audition and physical feel remain UNVERIFIED. Other C3 work, four non-station maps and later gates remain open.
+
 ## C3 Sentinel reaction checkpoint - September 26
 
 **C3 OPEN.** Sentinel now holds an inspected recoil pose while broken and returns on recovery. A red body test rejects ordinary idle during break; the new live pose moves its head 19.6 cm, holds through pause and recovers without moving the gameplay root. Actual generated-mesh support corrects 14.8 cm of idle penetration. The first support attempt incorrectly hit its own capsule; that rejection and a new height bound are retained. Revised support ignores combatants, passes actual-world sole checks and 484 independently cross-checked pose samples. Intake preserves the controller/prefab GUIDs. [Reaction evidence](validation/C3-sentinel-reaction.md).

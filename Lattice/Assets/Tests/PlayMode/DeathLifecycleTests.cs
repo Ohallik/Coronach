@@ -36,6 +36,46 @@ namespace Lattice.Tests.PlayMode
         static void Place(CombatActor actor,Vector3 position)
         {var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=position;cc.enabled=true;Physics.SyncTransforms();}
 
+        [UnityTest] public IEnumerator SentinelCorpseSettlesOnFlatAndSlopedFloorsWithoutMovingItsGameplayRoot()
+        {
+            yield return Load("Arena_Flight");
+            foreach(float slope in new[]{0f,10f,-10f})
+            {
+                var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.name="Corpse support fixture";
+                floor.transform.SetPositionAndRotation(new Vector3(50,.5f,-10),Quaternion.Euler(0,0,slope));
+                floor.transform.localScale=new Vector3(8,1,8);Physics.SyncTransforms();
+                var plane=floor.transform.TransformPoint(Vector3.up*.5f);var normal=floor.transform.up;
+                var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("SentinelHusk"),plane);enemy.Passive=true;
+                enemy.transform.rotation=Quaternion.Euler(0,slope==0?0:135,0);
+                yield return new WaitForSecondsRealtime(.25f);
+                var root=enemy.transform.position;var rig=enemy.GetComponentInChildren<Animator>();
+                enemy.Health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=10000,type=DamageType.Pulse});
+                yield return new WaitForSecondsRealtime(1.45f);
+                Assert.IsNotNull(enemy,"corpse must remain for its settled hold");
+                float Height(HumanBodyBones bone)=>Vector3.Dot(rig.GetBoneTransform(bone).position-plane,normal);
+                float hip=Height(HumanBodyBones.Hips),foot=Mathf.Min(Height(HumanBodyBones.LeftFoot),Height(HumanBodyBones.RightFoot));
+                Assert.That(hip,Is.InRange(.2f,.5f),"terminal pelvis must settle close to the floor");
+                Assert.That(foot,Is.InRange(.1f,.45f),"terminal legs must not hang above the floor");
+                float minimum=float.PositiveInfinity;
+                foreach(var skin in enemy.GetComponentsInChildren<SkinnedMeshRenderer>())
+                {
+                    var mesh=new Mesh();skin.BakeMesh(mesh);
+                    var world=Matrix4x4.TRS(skin.transform.position,skin.transform.rotation,Vector3.one);
+                    foreach(var vertex in mesh.vertices)minimum=Mathf.Min(minimum,Vector3.Dot(world.MultiplyPoint3x4(vertex)-plane,normal));
+                    Object.Destroy(mesh);
+                }
+                Assert.That(minimum,Is.InRange(-.03f,.04f),"settled body must contact the floor without penetration");
+                Assert.Less(Vector3.Distance(root,enemy.transform.position),.001f,"settling must only move the visual body");
+                var held=rig.GetBoneTransform(HumanBodyBones.Hips).position;
+                GameTime.Paused=true;yield return new WaitForSecondsRealtime(.3f);
+                Assert.Less(Vector3.Distance(held,rig.GetBoneTransform(HumanBodyBones.Hips).position),.005f,"paused corpse moves");
+                GameTime.Paused=false;yield return new WaitForSecondsRealtime(.2f);
+                Assert.Less(Vector3.Distance(held,rig.GetBoneTransform(HumanBodyBones.Hips).position),.005f,"terminal corpse keeps drifting");
+                Debug.Log($"SENTINEL_CORPSE slope={slope} hips={hip:F5} foot={foot:F5} minimum={minimum:F5}");
+                Object.Destroy(enemy.gameObject);Object.Destroy(floor);yield return null;
+            }
+        }
+
         [UnityTest] public IEnumerator EnemyResolutionIsImmediateButItsBodyHasAReadableFinish()
         {
             var failures=new List<string>();var actor=PartyController.Current.Active;

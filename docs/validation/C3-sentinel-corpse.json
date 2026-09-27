@@ -1,0 +1,655 @@
+{
+  "gate": "C3 OPEN; Sentinel corpse correction checkpoint",
+  "sourceBase": "71d51ec2ac6ac1533501dedb575f7992475d94d5",
+  "date": "2026-09-27T03:22:05.043748+00:00",
+  "source": [
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/DeathLifecycleTests.cs",
+      "sha256": "ea4bb4a46a57ea2432133f72a5e4eeb667b072675ed61f3246b9b2a3b8bdf3c5",
+      "bytes": 13586
+    },
+    {
+      "path": "Lattice/Assets/_Project/Prefabs/Enemies/SentinelHusk.prefab",
+      "sha256": "970f4d48f2c9b82396194896d3c2025ce7c890d377ae38aa740997a601f4d204",
+      "bytes": 132557
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundLifecycleSupport.cs",
+      "sha256": "5b5570a22e12d68a9633cd3d4a6abdfb7a1c6dca4bb95b204b617a2903b1a959",
+      "bytes": 4248
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/LifecycleCalibration.cs",
+      "sha256": "e8449d08d09f529b942613767ebe4d44254d24da035e0c79b67e66626a4eb1ac",
+      "bytes": 5537
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/LifecyclePoseAudit.cs",
+      "sha256": "813501204294690c00c9ea1ea189c1ebc35e27a1fb462f1f57a41c4044faad00",
+      "bytes": 11446
+    },
+    {
+      "path": "docs/quality/routes/c3-sentinel-defeat.json",
+      "sha256": "ed3f73b2507aa04a8334c6c326c20ccc20c2e05178680c368faf7946b2cffebb",
+      "bytes": 3492
+    }
+  ],
+  "priorRejection": {
+    "path": "docs/validation/C3-sentinel-reaction.json",
+    "sha256": "d08fe7cdb6aae82183ed4eb1bdf5dc4292e00887d8063e42e13350de14cf5c2d",
+    "bytes": 40681
+  },
+  "poses": [
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-01/editor.log",
+      "sha256": "8a35acfae847c830adb7552c79ff74ea89871643725ec216ef741b306d61a5c1",
+      "bytes": 66538
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-01/poses.csv",
+      "sha256": "234f4dd5c1fbba282cf5831b2e7d5c4c1f6fc6b5ee92d8a06d40757596dc6849",
+      "bytes": 1023
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-01/bones.csv",
+      "sha256": "8441f5aca2ea912481a65d55e9a4bfc101f86385bba1b58523814954311ac706",
+      "bytes": 6817
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-rest-red/editor.log",
+      "sha256": "d597b3eebeb29b52782ddb7e9d0fcb435bac1f902681d8046e456afe8d6e8761",
+      "bytes": 49020
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-rest-red/poses.csv",
+      "sha256": "f814165cc43e1c4ed4ba9fd7b20414477f71c43733ab01dc59b6dfe0df1598e4",
+      "bytes": 890
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-rest-red/bones.csv",
+      "sha256": "bffeee1a1af841647cf434e0d5047c39611ba8e6f0d0052d0d593f6d3c8e00c6",
+      "bytes": 5808
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-01/editor.log",
+      "sha256": "0e64a4c311db9ebdf7e5b512a08fc44ed119eb99e7c651d5b6a88160d0e379bc",
+      "bytes": 40276
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-01/poses.csv",
+      "sha256": "69be9121b385e170f93faf432132b9f59b77abf0107bd7e6ab6958b523d719b3",
+      "bytes": 1026
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-01/bones.csv",
+      "sha256": "00a24cf6744ced4d9193a877d4caa8fb7505d77d5c7d2312444664a61d887a6f",
+      "bytes": 6808
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-02/editor.log",
+      "sha256": "2a8c5f72ab52d79a2d8684af5dac242566c01a318ebf4e2cab62d9248ffb44d4",
+      "bytes": 51090
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-02/poses.csv",
+      "sha256": "69be9121b385e170f93faf432132b9f59b77abf0107bd7e6ab6958b523d719b3",
+      "bytes": 1026
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-02/bones.csv",
+      "sha256": "00a24cf6744ced4d9193a877d4caa8fb7505d77d5c7d2312444664a61d887a6f",
+      "bytes": 6808
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-green/editor.log",
+      "sha256": "d29f5f912781b1668a074be1d3ecbcd56ba66067cda066295fbe9a7797880ed0",
+      "bytes": 56869
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-green/poses.csv",
+      "sha256": "b482ad77eea3da03622d0ebe4322be6923d8be89bd38c3dbd124c7e8c89dde4f",
+      "bytes": 1025
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-green/bones.csv",
+      "sha256": "d82da422e5c9aab37e92a7dab56c8bb0407f57444d587df2d25ea8c1e2333115",
+      "bytes": 6807
+    }
+  ],
+  "red": "Legacy support passes minimum vertex but new terminal bound rejects hips=0.7079296 m. The observed legs hang at 0.67031/0.99105 m.",
+  "green": "Intake settles the terminal mesh around its hips by pitch 18 / roll -12 degrees, blended through Down phase .45-.9. Final hips 0.47220 m, lower ankle 0.26774 m, minimum rendered surface 0.01200 m on flat and +/-10 degree floors. No gameplay-root movement; pause/hold pass.",
+  "openedPoses": [
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-01/SentinelHusk-Down-1.00-side.png",
+      "sha256": "0731de97696b5fe71c973cae2c801a5285c883800a975b1330e4472918b766d5",
+      "bytes": 60418
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-01/SentinelHusk-Down-0.65.png",
+      "sha256": "9fa913f2d9b0a6fd16888fc6873c3c5ee8ea625471bb3cf088f43583d8993bbf",
+      "bytes": 59148
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-01/SentinelHusk-Down-1.00-side.png",
+      "sha256": "913234a9bedd6fffcbf54ab424ab5570f9eaa1cbf8839c3360cc7033a45a6d50",
+      "bytes": 67621
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-01/SentinelHusk-Down-1.00.png",
+      "sha256": "7f1607fb3e7262f8877c2ef5db257550dc5041c95673dcc638d9b7b62787ec15",
+      "bytes": 75874
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-01/SentinelHusk-Down-0.65.png",
+      "sha256": "92a20d9912f830657cdb586461ea74edf486ddc775e03af8fe9db67fe85f9593",
+      "bytes": 66614
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-settle-probe-02/SentinelHusk-Down-1.00-side.png",
+      "sha256": "17a2a0413932bdbd5dee33fd107e40cf5a3e39ac3c68e9f51d8c0864d38aff14",
+      "bytes": 69514
+    },
+    {
+      "path": "Builds/quality/C3/sentinel-corpse-poses-green/SentinelHusk-Down-1.00-side.png",
+      "sha256": "06b6e844f16504b100b650947d46a1abeb8991a7a9037bc0dfc399dcd9ddae96",
+      "bytes": 69511
+    }
+  ],
+  "targeted": {
+    "files": [
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-runtime-green/playmode-results.xml",
+        "sha256": "1cd472b0c7fcc631a3deb67847174d6156fa9cbc650354a7a7bcc9d054b8c2cc",
+        "bytes": 9744
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-runtime-green/playmode.log",
+        "sha256": "d368ab325af7a0bd6f30fd39c76a637a1186a536f979e18e4288f49799ef38e7",
+        "bytes": 227737
+      }
+    ],
+    "results": {
+      "total": "4",
+      "passed": "4",
+      "failed": "0",
+      "skipped": "0",
+      "result": "Passed"
+    }
+  },
+  "player": {
+    "run": {
+      "route": "c3-sentinel-defeat",
+      "sourceRevision": "C3 settled corpse candidate; exact source and package hashes belong to each recording",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Release",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": 60,
+      "vSync": 0,
+      "samples": 3744,
+      "refreshHz": 60.0,
+      "seconds": 62.3746892,
+      "captured": true,
+      "profiled": false,
+      "headroom": false,
+      "census": false,
+      "motion": false,
+      "valid": true,
+      "failures": [],
+      "loadWaitSeconds": 1.0885615,
+      "settleSeconds": 8.0,
+      "interactions": []
+    },
+    "analysis": {
+      "valid": true,
+      "failures": [],
+      "samples": 3744,
+      "seconds": 62.374689,
+      "distance": 200.53034524786852,
+      "medianMs": 16.6663,
+      "p95Ms": 17.1318,
+      "p99Ms": 17.3493,
+      "worstMs": 22.8797,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "gcCollections": 6,
+      "gcBytesPerFrameMedian": -1,
+      "movingSamples": 44,
+      "stoppedCameraWhileWalking": 6,
+      "interactions": [],
+      "stabilityWindows": [
+        {
+          "startSeconds": 0,
+          "endSeconds": 60,
+          "samples": 3601,
+          "memoryBytes": {
+            "median": 263799422,
+            "maximum": 294375666,
+            "minimum": 240010835,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 1
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        }
+      ],
+      "worstFrames": [
+        {
+          "elapsed": 41.812904,
+          "ms": 22.8797,
+          "checkpoint": "enter Sentinel territory",
+          "gcBytes": -1,
+          "gcCollections": 40,
+          "mainThreadNs": 16662800,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 45.827614,
+          "ms": 20.7741,
+          "checkpoint": "post-Pulse 0.5 seconds",
+          "gcBytes": -1,
+          "gcCollections": 40,
+          "mainThreadNs": 16666200,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 42.442851,
+          "ms": 19.5659,
+          "checkpoint": "enter Sentinel territory",
+          "gcBytes": -1,
+          "gcCollections": 40,
+          "mainThreadNs": 16663100,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 11.641672,
+          "ms": 19.2418,
+          "checkpoint": "east outer trail",
+          "gcBytes": -1,
+          "gcCollections": 38,
+          "mainThreadNs": 16662000,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 35.642249,
+          "ms": 19.0348,
+          "checkpoint": "follow outer ridge to upper workings",
+          "gcBytes": -1,
+          "gcCollections": 40,
+          "mainThreadNs": 16658400,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 42.592365,
+          "ms": 18.7257,
+          "checkpoint": "enter Sentinel territory",
+          "gcBytes": -1,
+          "gcCollections": 40,
+          "mainThreadNs": 16665900,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 45.625447,
+          "ms": 18.5741,
+          "checkpoint": "Pulse Break input",
+          "gcBytes": -1,
+          "gcCollections": 40,
+          "mainThreadNs": 16666600,
+          "renderThreadNs": -1
+        },
+        {
+          "elapsed": 60.059571,
+          "ms": 18.3791,
+          "checkpoint": "return toward outer trail",
+          "gcBytes": -1,
+          "gcCollections": 42,
+          "mainThreadNs": 16665700,
+          "renderThreadNs": -1
+        }
+      ],
+      "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+    },
+    "focusedSamples": 3744,
+    "files": [
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/build.json",
+        "sha256": "4ecd709519ea30d83244230c0449b21f2ab415acff49b7939c4150a2cf63c615",
+        "bytes": 11477
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/environment.json",
+        "sha256": "4730b7a7c31999fc6742ccd4b727b84e8f488870ad5aff701655997d2c6f5657",
+        "bytes": 828
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/run.json",
+        "sha256": "4e537beb77327020678d92090cb70a049317663805c6edee3c1a812cb70b8471",
+        "bytes": 814
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/analysis.json",
+        "sha256": "ef80b25268e1f05772a2cb0cf1614d994233216faf69902c84c997141f58abb5",
+        "bytes": 2836
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/route.json",
+        "sha256": "2b95b10e23edaed9f172a2fe978c6f62080bdf1da655ec2143b9b284c61acb70",
+        "bytes": 17172
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/frames.csv",
+        "sha256": "6b97788de0ebda34a76cb66443dd8cf5786cc10d4ff014af0ca35be96dcf1423",
+        "bytes": 993868
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/player.log",
+        "sha256": "09d6feb8450b29940fed97697d2c82e215bdc465f82a0a4d0158e1d72f4efbf0",
+        "bytes": 3978
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/replay.mp4",
+        "sha256": "cd092be18cf724ea5ac50ad440b7fdaa0d70f4cb5df041312fa275901f912f7f",
+        "bytes": 151207736
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/mix.wav",
+        "sha256": "360f3546877ede13fa2bb642819a610715c9f1cc2b3cece3f8ee3e2de41f8a42",
+        "bytes": 23953452
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/build-release.log",
+        "sha256": "1429848b57baeb124f262e3314354b953169bcf0964e5b85de4957c70d0e8ede",
+        "bytes": 599515
+      }
+    ],
+    "opened": [
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/009.png",
+        "sha256": "909619cd9a5d026b144314f83763d4d7a95c5ea4d3651293da0f1049757f685d",
+        "bytes": 3230399
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/010.png",
+        "sha256": "0e7d4db09db209b88258e54a01877140faf3bccd5f3b1b81eb8bcfea8f59d937",
+        "bytes": 3229121
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/011.png",
+        "sha256": "ace68d08da57db15e32fa8c8a005593e6412e55d5729e2b668390acf7921f13d",
+        "bytes": 3229750
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/013.png",
+        "sha256": "75f0967808bc9711ff13727c9645af73ba7a30d4c07f2ccb72b3f43d926420bb",
+        "bytes": 3208608
+      },
+      {
+        "path": "Builds/quality/C3/sentinel-corpse-player-01/022.png",
+        "sha256": "4cb34e3b4c030ed08337f8be4092d10b48fdc2dcf846f6c19b13fafc75bdb600",
+        "bytes": 3119188
+      }
+    ]
+  },
+  "releasePackage": [
+    {
+      "path": "Builds/Windows/Coronach.exe",
+      "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7",
+      "bytes": 667648
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Combat.dll",
+      "sha256": "0b77e833ace7c45d54055407ea158bcaaff7d225877cfbdf559896699fe4c92b",
+      "bytes": 87552
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll",
+      "sha256": "eca56b3fcf6d69ae91a4977d0d1232d66bde127ed21bfd7f70e24eea7d55f2f7",
+      "bytes": 58368
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Data.dll",
+      "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1",
+      "bytes": 12800
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Dialogue.dll",
+      "sha256": "4dfb844a2d4a48b51b6bccbbcc8976dfe209bb45f8c711ea72ee4b16e6c8ec59",
+      "bytes": 19968
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Rpg.dll",
+      "sha256": "b8361f608537c1b7674fa34c51c10a48ae8c6efdda99979747cb703a26e9272e",
+      "bytes": 14848
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll",
+      "sha256": "799e061d25eb476278eb305698c587efa10b6997dbac0c623d6119d230ded3b0",
+      "bytes": 134656
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/Managed/Lattice.World.dll",
+      "sha256": "96412729801e3483abfc71072d1b8ac29a724712e86f0eb709b6bfc1a98daa96",
+      "bytes": 17920
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/app.info",
+      "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44",
+      "bytes": 15
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/boot.config",
+      "sha256": "ff8cedf52c1356d4d604db355c8e11ca38948e59a7966fd014536200277d8b41",
+      "bytes": 156
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/globalgamemanagers",
+      "sha256": "3dea9fa43f1046c5097d08d870e820404b9cd227f03a146dc973d3a60a5ca82f",
+      "bytes": 267828
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets",
+      "sha256": "be230c17e5813fd2551c8f74788e85ae5d6ddc4d0b0ce994e6bbe27d35215855",
+      "bytes": 1004012
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets.resS",
+      "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04",
+      "bytes": 6174944
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level0",
+      "sha256": "63a12b17075584a39bbabc765bf5add48b66467beb7230f00fc2a4e47ec03c26",
+      "bytes": 3820
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level1",
+      "sha256": "f85c7843d22bd25f5deb78b8064734d102b206f899ed30c36020e0a5370ea0b0",
+      "bytes": 1136
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level2",
+      "sha256": "a909e2f170b824dd0b6f698c30a2d7e95df2245e767cbac299332ca6bbf85682",
+      "bytes": 1151724
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level2.resS",
+      "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b",
+      "bytes": 41200
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level3",
+      "sha256": "741da004fb3832def1a8e1b1ddb5754681142d16d13e42c8797abd2d0e8d954e",
+      "bytes": 923184
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level4",
+      "sha256": "7a0bc0c6449964c997b9728b9cdc307817d5220e4255a08d4f55b14b56631dbc",
+      "bytes": 157084
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level4.resS",
+      "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875",
+      "bytes": 22528
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level5",
+      "sha256": "69cb12af3fb325954070edc152f4eda2defe86592316662d094dec5d762295df",
+      "bytes": 209428
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level5.resS",
+      "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9",
+      "bytes": 2880
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level6",
+      "sha256": "066709a65510ea0b38b3a2b36ac74bbfafd7c432facc32d9a4925a2a191e368d",
+      "bytes": 20172
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level7",
+      "sha256": "54ee5e2ec47fdfcdbc7e1881e67c107242ea9f60ca71306da5f2a273b332bee7",
+      "bytes": 123548
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level8",
+      "sha256": "e384ab1fdba460785036521d1814af673cfba492c601170442e169038be927c1",
+      "bytes": 20652
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/level9",
+      "sha256": "121463577d19c3225e11ca1a5842e5384b3f3d8e08d02a2a39b3f53d54e3af68",
+      "bytes": 30940
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/resources.assets",
+      "sha256": "abeebde945058022a3ec8faca116855033b701538304919d54b157b96f66a52b",
+      "bytes": 15899416
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/resources.assets.resS",
+      "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af",
+      "bytes": 263319296
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/resources.resource",
+      "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710",
+      "bytes": 8138400
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/RuntimeInitializeOnLoads.json",
+      "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3",
+      "bytes": 4700
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/ScriptingAssemblies.json",
+      "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959",
+      "bytes": 5261
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets0.assets",
+      "sha256": "8632ade5ba22fc5d092a662f85bc8d0581b6e36a030ca2f2f7c87f93001f98b9",
+      "bytes": 83648
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets0.assets.resS",
+      "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36",
+      "bytes": 524288
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets1.assets",
+      "sha256": "592501e858ea7355910e66548d53418f267714438075f306babb67e487bac8eb",
+      "bytes": 361
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets2.assets",
+      "sha256": "5157923d11311e950de1bad341b42de256c8d08c8d7809a189c7aea9c0da15cb",
+      "bytes": 603360
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets2.assets.resS",
+      "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184",
+      "bytes": 11042016
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets3.assets",
+      "sha256": "28adc059e4fe1041ff501e8598b848fe8181d64dfb6c7bdc6ad4334ca60bc622",
+      "bytes": 345044
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets3.assets.resS",
+      "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5",
+      "bytes": 7071712
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets4.assets",
+      "sha256": "98957f7aca8aebad1978fe102a035eb1d49b31de4a21a5fd2c2c4a1289c01f1e",
+      "bytes": 679300
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets4.assets.resS",
+      "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b",
+      "bytes": 15370464
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets5.assets",
+      "sha256": "8c3d2195200b7e6a9e00ccce13c198f0ade50e14c41b1b49f3a348a2dedf11d3",
+      "bytes": 367124
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets5.assets.resS",
+      "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c",
+      "bytes": 5151584
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets6.assets",
+      "sha256": "121ba4571e45259094fd2b4596ef8b5cc858d92563525b30e559e8701f026d12",
+      "bytes": 72932
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets6.assets.resS",
+      "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec",
+      "bytes": 1693152
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets7.assets",
+      "sha256": "123f4f156d74cdf6901a254790531494d883a66bdd9d19ed7964048be4dc50e6",
+      "bytes": 10580
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets8.assets",
+      "sha256": "c1979125bbc70961b5752b4ae3d9873a18091c61f78a661c8e6974d411b1fcd0",
+      "bytes": 3716
+    },
+    {
+      "path": "Builds/Windows/Coronach_Data/sharedassets9.assets",
+      "sha256": "8185b8227b3d133290361090e6e57e052f7678959862142d8bff56426eb4eb99",
+      "bytes": 2116
+    }
+  ],
+  "integrationLimit": "Targeted 4/4 and rebuilt release route are fresh. Last full 64/64 and 39/39 suites predate this change; development player still contains preceding reaction checkpoint. Refresh both at the next integrated checkpoint.",
+  "observation": "Codex opened before/after side poses and ordinary player collapse/hold/cleanup/return stills. Settled legs no longer hang above the floor. Continuous normal/slow viewing, audio audition and physical feel remain UNVERIFIED. Foreign-project player activity excludes clean C1 timing.",
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+      "bytes": 914
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745",
+      "bytes": 891
+    }
+  ]
+}

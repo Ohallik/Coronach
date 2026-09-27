@@ -8,6 +8,7 @@ namespace Lattice.Combat
     {
         public AnimationCurve downSurface,reviveSurface;
         public AnimationCurve idleSurface,walkSurface,attackSurface,staggerSurface;
+        public Vector3 downRestEuler,downRestPivot;
         Animator animator;GeneratedVanes vanes;Transform heading;
         readonly RaycastHit[] supportHits=new RaycastHit[16];
         Vector3 origin;Quaternion rotation;
@@ -22,6 +23,13 @@ namespace Lattice.Combat
         public static float VaneWeight(string state,float phase)=>state=="Down"?Mathf.Clamp01(phase/.25f):
             state=="Revive"?1-Mathf.Clamp01((phase-.55f)/.45f):0;
         static float VaneWeight(AnimatorStateInfo state)=>VaneWeight(state.IsName("Down")?"Down":state.IsName("Revive")?"Revive":"",Phase(state));
+        public static float RestWeight(string state,float phase)=>state=="Down"?Mathf.SmoothStep(0,1,Mathf.InverseLerp(.45f,.9f,phase)):0;
+        static float RestWeight(AnimatorStateInfo state)=>RestWeight(state.IsName("Down")?"Down":"",Phase(state));
+        public void RestPose(float weight,out Quaternion tilt,out Vector3 offset)
+        {
+            tilt=Quaternion.Slerp(Quaternion.identity,Quaternion.Euler(downRestEuler),weight);
+            offset=downRestPivot-tilt*downRestPivot;
+        }
         bool FindGround(out RaycastHit ground)
         {
             ground=default;float nearest=float.PositiveInfinity;
@@ -37,15 +45,17 @@ namespace Lattice.Combat
         void LateUpdate()
         {
             if(animator==null||heading==null||downSurface==null||reviveSurface==null)return;
-            var state=animator.GetCurrentAnimatorStateInfo(0);float surface=Surface(state),fold=VaneWeight(state);
+            var state=animator.GetCurrentAnimatorStateInfo(0);float surface=Surface(state),fold=VaneWeight(state),rest=RestWeight(state);
             bool supported=Supported(state);
             if(animator.IsInTransition(0))
             {
                 var next=animator.GetNextAnimatorStateInfo(0);float blend=Mathf.Clamp01(animator.GetAnimatorTransitionInfo(0).normalizedTime);
                 surface=Mathf.Lerp(surface,Surface(next),blend);fold=Mathf.Lerp(fold,VaneWeight(next),blend);
+                rest=Mathf.Lerp(rest,RestWeight(next),blend);
                 supported|=Supported(next);
             }
-            transform.localPosition=origin;transform.localRotation=rotation;
+            RestPose(rest,out var tilt,out var offset);
+            transform.localPosition=origin+rotation*offset;transform.localRotation=rotation*tilt;
             Vector3 normal=Vector3.up;
             if(supported&&FindGround(out var ground))
             {

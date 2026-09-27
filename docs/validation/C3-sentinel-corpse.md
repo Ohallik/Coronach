@@ -1,0 +1,11 @@
+# C3 Sentinel settled corpse checkpoint
+
+September 26. C3 remains OPEN. The [preceding player recording](C3-sentinel-reaction.md) exposes a terminal body hanging above the ground despite a passing minimum-vertex check. A new side-view audit confirms hips at 0.708 m and ankles at 0.670/0.991 m. The added terminal-height check rejects that state.
+
+Intake now finds a bounded resting tilt from the actual retargeted generated mesh, minimizing supported pelvis height around its hip pivot. Sentinel's result is 18 degrees pitch and -12 degrees roll. The correction blends through Down phase 0.45–0.9; the surface curve is rebaked for that pose. Runtime uses the baked data and changes only the visual body. Existing prefab/controller GUIDs, gameplay resolution and rewards remain intact.
+
+The targeted suite passes **4/4, zero skips**, covering the new corpse test, grounded idle/break, held break/recovery and hero down/get-up. On flat and both 10-degree slopes the actual rendered surface rests 0.012 m above the plane, hips are 0.472 m and the lower ankle is 0.268 m. The gameplay root remains fixed and the terminal pose holds during pause and afterward. The old pose rejection remains preserved.
+
+Codex opened the old and corrected side views, then rebuilt the release player and completed the ordinary-input Sorrel defeat route: **23 checkpoints, 62.375 seconds, 3,744 focused samples and 200.53 m travel**. Opened 009 shows collapse; 010/011 show the settled legs and forearm armor against the terrain; 013 shows cleanup and 022 the safe return. This corrects the specific floating terminal pose. The companion still causes the early break and lethal shot, so this route does not establish a break recovery interval.
+
+[Exact source and artifact hashes](C3-sentinel-corpse.json). Original autosave and backup remain unchanged. This is a targeted checkpoint: the last full 64/64 PlayMode and 39/39 EditMode suites predate this correction, and the development player remains at the preceding reaction checkpoint. Full suites and both packages will be refreshed at the next integrated checkpoint. Normal/slow video viewing, audio audition and physical-controller feel remain UNVERIFIED; remaining C3 choreography, non-station maps and later gates remain OPEN.
