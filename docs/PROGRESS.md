@@ -1,5 +1,12 @@
 # CORONACH slice progress
 
+## C3 ground creature support checkpoint - September 26
+
+**C3 OPEN.** Ridgehound, Scrapmite and Burrower now support their actual mesh throughout collapse on flat/sloped floors and use individually inspected resting poses. Red regressions expose both mid-fall penetration and bodies propped on extremities; the corrected nine-case matrix passes clearance, body-height, pause, hold and root-position checks. [Creature evidence](validation/C3-ground-creatures.md) retains rejected captures, the actual geometry audit and opened player views.
+
+Fresh integrated suites pass **90/90 PlayMode and 39/39 EditMode, zero skips**. Both Windows players rebuilt, including the preceding projectile correction. The ordinary release route passes all 43 checkpoints with 2,672/2,672 samples focused: three Ridgehounds die, their bodies hold/clear, and both heroes return to the safe pocket. The first route's wrong Shaped expectation inside that pocket remains preserved as a rejected fixture. Original saves are unchanged. Rigid limbs, fuller creature reactions and flight defeat remain open; normal/slow video viewing, sound audition and physical feel remain UNVERIFIED. Other-project Unity work again prevents clean C1 timing. The four non-station maps and later gates remain open; isolated map drafts are prepared for the next geometry pass.
+
+
 ## C3 released projectile checkpoint - September 26
 
 **C3 OPEN.** Projectiles resolve the nearest body/opaque surface, stop on movable props, retain their team after source destruction and reconcile active counts on scene unload. Four red cases reproduce wall penetration, wrong nearest contact, stale accounting and lost allegiance. The combined projectile/ranged/break checks pass **17/17 PlayMode, zero skips**, with original saves unchanged. [Projectile evidence](validation/C3-projectiles.md) records the corrected destruction-order fixture and all red/green results.

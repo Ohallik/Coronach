@@ -1,0 +1,1068 @@
+{
+  "status": "C3 OPEN; ground creature support and resting pose checkpoint",
+  "sourceBase": "6f0dba0d150dee55c413d8b8ebf2be346414c3a8",
+  "date": "2026-09-27T06:09:41.543401+00:00",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+      "bytes": 9828,
+      "sha256": "82e728a00834cdbc76242dbbbf64f10b7de59b92e721ace0363aefa108eba31b"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/CreatureDefeatTests.cs",
+      "bytes": 6191,
+      "sha256": "97bac7cb9e75598b64042d2393b4ed2c47f54597ed9357f43c332ddacc25b6f7"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+      "bytes": 8112,
+      "sha256": "52da7ace7a4e2bd5f89b21a7be6652862c2909b3309e6971097ed11221d02fdc"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/BootLoader.cs",
+      "bytes": 1594,
+      "sha256": "986349ac63b0ced438b1e14c20be2021273e5b4fa3ec3d28d8a90608a3db7482"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/Lattice.UI.asmdef",
+      "bytes": 343,
+      "sha256": "e89323ad39edba86a6f74a0f2a6114b6ad20aa56e793d5e6c176bd24af049cb8"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/CreatureRestAudit.cs",
+      "bytes": 5459,
+      "sha256": "772eefb134965e3717dc4476ab88863aa1bb3617791be2d21bae8d3e2a337692"
+    },
+    {
+      "path": "docs/quality/routes/c3-creature-ordinary.json",
+      "bytes": 4864,
+      "sha256": "3bcb7582f1f1ec578999f4b35e063deb4bc27024cc9129321b2a45c8613260af"
+    }
+  ],
+  "targeted": [
+    {
+      "file": {
+        "path": "Builds/quality/C3/creature-ground-red/playmode-results.xml",
+        "bytes": 8175,
+        "sha256": "8d621c355baffe642c35066f67be6c0c8fd2fc46f9370b797a192cb80a5142c4"
+      },
+      "log": {
+        "path": "Builds/quality/C3/creature-ground-red/playmode.log",
+        "bytes": 236688,
+        "sha256": "1f575ad35a2f5cbf3adcb78adbd8669210caaf9b98a63d9dafbc3de75f1b0037"
+      },
+      "counts": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "19.7720148",
+        "start-time": "2026-09-27 05:31:44Z",
+        "end-time": "2026-09-27 05:32:03Z"
+      },
+      "failures": [
+        {
+          "name": "GroundCreaturesKeepTheirActualMeshAboveTheFloorThroughCollapseAndHold",
+          "message": "  Ridgehound slope=0 mesh penetrates -0.04988m at 0.49999s\nRidgehound slope=10 mesh penetrates -0.13447m at 0.43977s\nRidgehound slope=-10 mesh penetrates -0.11489m at 0.01668s\nRidgehound slope=-10 corpse floats/penetrates 0.07095m\nScrapmite slope=0 mesh penetrates -0.14926m at 0.36666s\nScrapmite slope=10 mesh penetrates -0.24714m at 0.33334s\nScrapmite slope=-10 mesh penetrates -0.13726m at 0.01667s\nScrapmite slope=-10 corpse floats/penetrates 0.07365m\nBurrower slope=10 mesh penetrates -0.43162m at 1.51677s\nBurrower slope=10 corpse floats/penetrates -0.43162m\nBurrower slope=-10 mesh penetrates -0.05149m at 0.01666s\nBurrower slope=-10 corpse floats/penetrates 0.48086m\n  Expected: <empty>\n  But was:  < \"Ridgehound slope=0 mesh penetrates -0.04988m at 0.49999s\", \"Ridgehound slope=10 mesh penetrates -0.13447m at 0.43977s\", \"Ridgehound slope=-10 mesh penetrates -0.11489m at 0.01668s\", \"Ridgehound slope=-10 corpse floats/penetrates 0.07095m\", \"Scrapmite slope=0 mesh penetrates -0.14926m at 0.36666s\", \"Scrapmite slope=10 mesh penetrates -0.24714m at 0.33334s\", \"Scrapmite slope=-10 mesh penetrates -0.13726m at 0.01667s\", \"Scrapmite slope=-10 corpse floats/penetrates 0.07365m\", \"Burrower slope=10 mesh penetrates -0.43162m at 1.51677s\", \"Burrower slope=10 corpse floats/penetrates -0.43162m\"... >\n"
+        }
+      ],
+      "measurements": [
+        "CREATURE_COLLAPSE Ridgehound slope=0 minimum=-0.049884 at=0.499992 terminal=0.025001",
+        "CREATURE_COLLAPSE Ridgehound slope=10 minimum=-0.134475 at=0.439774 terminal=-0.021706",
+        "CREATURE_COLLAPSE Ridgehound slope=-10 minimum=-0.114893 at=0.016675 terminal=0.070948",
+        "CREATURE_COLLAPSE Scrapmite slope=0 minimum=-0.149256 at=0.366659 terminal=0.025000",
+        "CREATURE_COLLAPSE Scrapmite slope=10 minimum=-0.247139 at=0.333338 terminal=-0.015113",
+        "CREATURE_COLLAPSE Scrapmite slope=-10 minimum=-0.137263 at=0.016674 terminal=0.073650",
+        "CREATURE_COLLAPSE Burrower slope=0 minimum=0.000000 at=0.016666 terminal=0.025000",
+        "CREATURE_COLLAPSE Burrower slope=10 minimum=-0.431622 at=1.516769 terminal=-0.431622",
+        "CREATURE_COLLAPSE Burrower slope=-10 minimum=-0.051490 at=0.016665 terminal=0.480863"
+      ]
+    },
+    {
+      "file": {
+        "path": "Builds/quality/C3/creature-ground-green/playmode-results.xml",
+        "bytes": 5430,
+        "sha256": "de7b568bee434ccea1e40085ffa21b3eab4cf6a491c6898465fbea078408ee1e"
+      },
+      "log": {
+        "path": "Builds/quality/C3/creature-ground-green/playmode.log",
+        "bytes": 180868,
+        "sha256": "453f324a1d78294d4d8fe1bc592e720db0745445890c2ea02ce5c0d92d9690c1"
+      },
+      "counts": {
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "19.7077438",
+        "start-time": "2026-09-27 05:33:56Z",
+        "end-time": "2026-09-27 05:34:16Z"
+      },
+      "failures": [],
+      "measurements": [
+        "CREATURE_COLLAPSE Ridgehound slope=0 minimum=0.024995 at=0.466660 terminal=0.025005",
+        "CREATURE_COLLAPSE Ridgehound slope=10 minimum=0.024993 at=0.349996 terminal=0.025003",
+        "CREATURE_COLLAPSE Ridgehound slope=-10 minimum=0.024992 at=0.433338 terminal=0.025004",
+        "CREATURE_COLLAPSE Scrapmite slope=0 minimum=0.024995 at=0.716667 terminal=0.025004",
+        "CREATURE_COLLAPSE Scrapmite slope=10 minimum=0.024994 at=0.716658 terminal=0.024996",
+        "CREATURE_COLLAPSE Scrapmite slope=-10 minimum=0.024998 at=0.366670 terminal=0.025001",
+        "CREATURE_COLLAPSE Burrower slope=0 minimum=0.025000 at=1.283335 terminal=0.025000",
+        "CREATURE_COLLAPSE Burrower slope=10 minimum=0.024999 at=0.583338 terminal=0.025001",
+        "CREATURE_COLLAPSE Burrower slope=-10 minimum=0.024997 at=0.866570 terminal=0.025002"
+      ]
+    },
+    {
+      "file": {
+        "path": "Builds/quality/C3/creature-rest-red/playmode-results.xml",
+        "bytes": 8412,
+        "sha256": "58d87bba6d897ba2b7a025866073f6e422ffa31ca6521272a6b09a351937af14"
+      },
+      "log": {
+        "path": "Builds/quality/C3/creature-rest-red/headless-playtests.log",
+        "bytes": 249090,
+        "sha256": "8fd322b034b860736d76841b767944661c51be17ede22d578389a7f3e24e7eb4"
+      },
+      "counts": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "19.7759054",
+        "start-time": "2026-09-27 05:51:07Z",
+        "end-time": "2026-09-27 05:51:27Z"
+      },
+      "failures": [
+        {
+          "name": "GroundCreaturesKeepTheirActualMeshAboveTheFloorThroughCollapseAndHold",
+          "message": "  Ridgehound slope=0 body remains propped up: centroid=0.66205m limit=0.52m\nRidgehound slope=10 body remains propped up: centroid=0.66205m limit=0.52m\nRidgehound slope=-10 body remains propped up: centroid=0.66205m limit=0.52m\nScrapmite slope=0 body remains propped up: centroid=0.83249m limit=0.48m\nScrapmite slope=10 body remains propped up: centroid=0.84128m limit=0.48m\nScrapmite slope=-10 body remains propped up: centroid=0.85366m limit=0.48m\nBurrower slope=0 body remains propped up: centroid=1.45098m limit=1.10m\nBurrower slope=10 body remains propped up: centroid=1.45098m limit=1.10m\nBurrower slope=-10 body remains propped up: centroid=1.45098m limit=1.10m\n  Expected: <empty>\n  But was:  < \"Ridgehound slope=0 body remains propped up: centroid=0.66205m limit=0.52m\", \"Ridgehound slope=10 body remains propped up: centroid=0.66205m limit=0.52m\", \"Ridgehound slope=-10 body remains propped up: centroid=0.66205m limit=0.52m\", \"Scrapmite slope=0 body remains propped up: centroid=0.83249m limit=0.48m\", \"Scrapmite slope=10 body remains propped up: centroid=0.84128m limit=0.48m\", \"Scrapmite slope=-10 body remains propped up: centroid=0.85366m limit=0.48m\", \"Burrower slope=0 body remains propped up: centroid=1.45098m limit=1.10m\", \"Burrower slope=10 body remains propped up: centroid=1.45098m limit=1.10m\", \"Burrower slope=-10 body remains propped up: centroid=1.45098m limit=1.10m\" >\n"
+        }
+      ],
+      "measurements": [
+        "CREATURE_COLLAPSE Ridgehound slope=0 minimum=0.024993 at=0.650003 terminal=0.025005 centroid=0.662054",
+        "CREATURE_COLLAPSE Ridgehound slope=10 minimum=0.024995 at=0.633342 terminal=0.025003 centroid=0.662053",
+        "CREATURE_COLLAPSE Ridgehound slope=-10 minimum=0.024991 at=0.399998 terminal=0.025001 centroid=0.662052",
+        "CREATURE_COLLAPSE Scrapmite slope=0 minimum=0.025000 at=0.666674 terminal=0.025000 centroid=0.832489",
+        "CREATURE_COLLAPSE Scrapmite slope=10 minimum=0.024999 at=0.033329 terminal=0.025004 centroid=0.841279",
+        "CREATURE_COLLAPSE Scrapmite slope=-10 minimum=0.024996 at=0.583334 terminal=0.024997 centroid=0.853664",
+        "CREATURE_COLLAPSE Burrower slope=0 minimum=0.025000 at=1.349995 terminal=0.025000 centroid=1.450978",
+        "CREATURE_COLLAPSE Burrower slope=10 minimum=0.024999 at=0.583334 terminal=0.025001 centroid=1.450979",
+        "CREATURE_COLLAPSE Burrower slope=-10 minimum=0.024997 at=0.833336 terminal=0.025002 centroid=1.450979"
+      ]
+    },
+    {
+      "file": {
+        "path": "Builds/quality/C3/creature-rest-green/playmode-results.xml",
+        "bytes": 5593,
+        "sha256": "d7499fab14c9ab33b6a0a8a1700df9ead7938a3b9ea271bcb0ee60763fb874a6"
+      },
+      "log": {
+        "path": "Builds/quality/C3/creature-rest-green/headless-playtests.log",
+        "bytes": 181079,
+        "sha256": "28523fda7c5ae1ef7bd9d6c47488a4ad9d88d0cc61cb13981c76922565118771"
+      },
+      "counts": {
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "19.6561376",
+        "start-time": "2026-09-27 05:51:52Z",
+        "end-time": "2026-09-27 05:52:12Z"
+      },
+      "failures": [],
+      "measurements": [
+        "CREATURE_COLLAPSE Ridgehound slope=0 minimum=0.024970 at=0.900002 terminal=0.024971 centroid=0.427855",
+        "CREATURE_COLLAPSE Ridgehound slope=10 minimum=0.024993 at=0.433339 terminal=0.025013 centroid=0.427899",
+        "CREATURE_COLLAPSE Ridgehound slope=-10 minimum=0.024988 at=0.783335 terminal=0.025012 centroid=0.427898",
+        "CREATURE_COLLAPSE Scrapmite slope=0 minimum=0.024998 at=0.533253 terminal=0.025000 centroid=0.393791",
+        "CREATURE_COLLAPSE Scrapmite slope=10 minimum=0.024995 at=0.433332 terminal=0.025001 centroid=0.403687",
+        "CREATURE_COLLAPSE Scrapmite slope=-10 minimum=0.024996 at=0.383343 terminal=0.024999 centroid=0.406521",
+        "CREATURE_COLLAPSE Burrower slope=0 minimum=0.024997 at=1.100002 terminal=0.025000 centroid=0.949883",
+        "CREATURE_COLLAPSE Burrower slope=10 minimum=0.024997 at=1.249994 terminal=0.025000 centroid=0.949882",
+        "CREATURE_COLLAPSE Burrower slope=-10 minimum=0.024997 at=0.649998 terminal=0.024998 centroid=0.949882"
+      ]
+    }
+  ],
+  "integrated": [
+    {
+      "file": {
+        "path": "Builds/quality/C3/creature-integrated-01/playmode-results.xml",
+        "bytes": 129504,
+        "sha256": "344fb32bdee0e5a015279f169d8fdd8cf72281945f3b9b9a0f27ac1480fe642a"
+      },
+      "log": {
+        "path": "Builds/quality/C3/creature-integrated-01/headless-playtests.log",
+        "bytes": 2108081,
+        "sha256": "f45b744cdf2bd27fcd5913e3f86e9d96695ee4e00e865bea5ce141f2fe8fc5a9"
+      },
+      "counts": {
+        "result": "Passed",
+        "total": "90",
+        "passed": "90",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "640.5117305",
+        "start-time": "2026-09-27 05:55:32Z",
+        "end-time": "2026-09-27 06:06:12Z"
+      },
+      "failures": [],
+      "measurements": [
+        "CREATURE_COLLAPSE Ridgehound slope=0 minimum=0.024971 at=0.916672 terminal=0.024971 centroid=0.427855",
+        "CREATURE_COLLAPSE Ridgehound slope=10 minimum=0.024996 at=0.500000 terminal=0.025013 centroid=0.427899",
+        "CREATURE_COLLAPSE Ridgehound slope=-10 minimum=0.024986 at=0.500000 terminal=0.025012 centroid=0.427898",
+        "CREATURE_COLLAPSE Scrapmite slope=0 minimum=0.024994 at=0.400009 terminal=0.024999 centroid=0.381595",
+        "CREATURE_COLLAPSE Scrapmite slope=10 minimum=0.024996 at=0.323105 terminal=0.024999 centroid=0.379036",
+        "CREATURE_COLLAPSE Scrapmite slope=-10 minimum=0.024997 at=0.500000 terminal=0.024999 centroid=0.383861",
+        "CREATURE_COLLAPSE Burrower slope=0 minimum=0.024997 at=1.095749 terminal=0.025000 centroid=0.949883",
+        "CREATURE_COLLAPSE Burrower slope=10 minimum=0.024997 at=1.500015 terminal=0.025000 centroid=0.949882",
+        "CREATURE_COLLAPSE Burrower slope=-10 minimum=0.024997 at=1.479630 terminal=0.024998 centroid=0.949882"
+      ]
+    },
+    {
+      "file": {
+        "path": "Builds/quality/C3/creature-integrated-01/editmode-results.xml",
+        "bytes": 32288,
+        "sha256": "806b1a2f53977d1a7eb86691bee57b276de80674b6ada68b465ae953d90e0cec"
+      },
+      "log": {
+        "path": "Builds/quality/C3/creature-integrated-01/headless-tests.log",
+        "bytes": 77216,
+        "sha256": "52017e85e95f03bbac935188ae72bffa01ce3c08818e66270159e5e658925a63"
+      },
+      "counts": {
+        "result": "Passed",
+        "total": "39",
+        "passed": "39",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "0.3449015",
+        "start-time": "2026-09-27 06:06:21Z",
+        "end-time": "2026-09-27 06:06:21Z"
+      },
+      "failures": [],
+      "measurements": []
+    }
+  ],
+  "rejectedProbeBuild": {
+    "path": "Builds/quality/C3/creature-probe-build-red/build.log",
+    "bytes": 63245,
+    "sha256": "af15fedafd388ca9aeae07cf4c1502a81c25def26aeb4f3beced722bbdd3aced"
+  },
+  "builds": [
+    {
+      "path": "Builds/quality/C3/creature-integrated-01/build-development.log",
+      "bytes": 558532,
+      "sha256": "7c2c6dff74cf84627351c9d6e3dd8b1ed165efa9af186808032c053bd86dca86"
+    },
+    {
+      "path": "Builds/quality/C3/creature-integrated-01/build-release.log",
+      "bytes": 590078,
+      "sha256": "d5020f21c568ea9aa08c3ebae550944b07fcdb259b30b7e3e4844b5568bba8d5"
+    }
+  ],
+  "diagnostics": [
+    {
+      "folder": "Builds/quality/C3/creature-reel-03",
+      "method": "Direct lethal diagnostic, not ordinary-input play",
+      "captureFailure": "",
+      "snapshotCount": 78,
+      "files": [
+        {
+          "path": "Builds/quality/C3/creature-reel-03/build.json",
+          "bytes": 4034,
+          "sha256": "c3c511437b0b78f66c5f502129087e0b21485b62f0e84f1a67cf3c5933dcb810"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower--10-100.png",
+          "bytes": 318891,
+          "sha256": "e361f15a30518429827fff4cb420326a8d3445145b97675b325e2280bb508aec"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower--10-25.png",
+          "bytes": 333242,
+          "sha256": "3449049dc25ed43991410c48b1b7ee7a1f209b23375f7454791997a8e27cb1b6"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower--10-50.png",
+          "bytes": 339144,
+          "sha256": "cae81ec8e60e208822d7172c833b7e319bc7112f8223a3c83eb74feef18650dd"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower--10-75.png",
+          "bytes": 325290,
+          "sha256": "43beebb21c682c8fae8e24711fe7bbeffe70b990c3cac2bb339a76532f07dd23"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower--10-side-held.png",
+          "bytes": 270935,
+          "sha256": "cf4cb3f0fef0e2a4927335b9194126165e8207466c181dd8503dbf10166f9805"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower--10-standing.png",
+          "bytes": 327095,
+          "sha256": "ddbfdda10a0afd766c8aae4be8f1f3467cef2f1a66d1364cd61f9b2772ce1543"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-0-100.png",
+          "bytes": 326014,
+          "sha256": "e3f47fd720f09a49d71453026de5857439b3843aae7171141b92db8b163d32a1"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-0-25.png",
+          "bytes": 316514,
+          "sha256": "8d7df3c1579f42f14a7ee74f91a6bb3df200c943f26e7c68a4326bee8c8bccaf"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-0-50.png",
+          "bytes": 319210,
+          "sha256": "1fa7e8c74b8fb9612b7c3b9242ad7fbba4d82f0503558aeeb31a66bd814ac6c1"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-0-75.png",
+          "bytes": 325194,
+          "sha256": "5b1c92550f53cb3762ecff8f41973e2e44fc5f7647a59d75f84cc39e318302c1"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-0-side-held.png",
+          "bytes": 306614,
+          "sha256": "d2b57bbcb4b7658076b03afc6a24737c621066b4fc1f36b1322244334b0875c1"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-0-standing.png",
+          "bytes": 319008,
+          "sha256": "b8df7be320ba7fbd8150f544610c041666d404275d7979fe1dff23df381a1920"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-10-100.png",
+          "bytes": 316003,
+          "sha256": "77603b433600f0d6642982c667db53aaf1a8fcf30962fe0e0b6d1ab6e381c6f4"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-10-25.png",
+          "bytes": 328719,
+          "sha256": "9083b091aa02084b6f342ef885fff2a20d99636990ae2cd1b3d939b159bed019"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-10-50.png",
+          "bytes": 338091,
+          "sha256": "db4a45534b552a92bbf0161f0bf929debf32c9056c8e1debb8a5678499e81345"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-10-75.png",
+          "bytes": 319547,
+          "sha256": "3c23105da3980b19037942076fed6aa1dc3213a6486def4c817ef14204c3ff87"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-10-side-held.png",
+          "bytes": 267761,
+          "sha256": "d4b73e5b5ace161b55f05ec62062fac6d27aa8910ea44962039524b21623b337"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Burrower-10-standing.png",
+          "bytes": 318732,
+          "sha256": "6d765cb79c6e9673d80d53302c400ccf25f992ded1451883ab3e406422221ddf"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Cantor-0-100.png",
+          "bytes": 239231,
+          "sha256": "e7cd829f889ed7bf56248fd4a2904363d3848fb4ae8132d5095a11a508157fb9"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Cantor-0-25.png",
+          "bytes": 228097,
+          "sha256": "10d10e3970d6b1cb2c296c7727c3a8282380a680b94983ff97755596a1d2326d"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Cantor-0-50.png",
+          "bytes": 232189,
+          "sha256": "1a766a695d60348920e58e32da6a2467b73611ea06fef5c0be9598dfb526f67e"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Cantor-0-75.png",
+          "bytes": 237037,
+          "sha256": "35ca8435da255331d54bb83e8578e48ab8fd056ddc15cca16b342f671166f29c"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Cantor-0-side-held.png",
+          "bytes": 209178,
+          "sha256": "7c496969acf225907d2b91a6f85c7916dc236358516007666d418661fc6cb2cf"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Cantor-0-standing.png",
+          "bytes": 225087,
+          "sha256": "1b602ba07eb2c0399204703bcbadefb552bc2b3fdd99fb7ef961022136072b82"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/capture-frames.csv",
+          "bytes": 12016,
+          "sha256": "b1eef8a9cdf3760d2ad6656708eba9765b0698df08cc335fa29d87f74e4edeb1"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDart-0-100.png",
+          "bytes": 140656,
+          "sha256": "39fdef5bd83dc9b28a3c478cffc1d9a2cbaaaa80065101963d6967e87488ffe7"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDart-0-25.png",
+          "bytes": 137197,
+          "sha256": "5cad46c3a11451bdbace78585f55562054846f7de02b15531f92baf0837ff54f"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDart-0-50.png",
+          "bytes": 141428,
+          "sha256": "3febe5a8fcc5fbec05851da169bfb49fa0585e8a442d6edf4271636e2fd96560"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDart-0-75.png",
+          "bytes": 142403,
+          "sha256": "9dc4c35e51f9a1037d19521ed01e2989c140e81db16d6907fe90f99121ebc555"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDart-0-side-held.png",
+          "bytes": 106153,
+          "sha256": "9db45b2dc1b594b4cc0608cabd56cc79710811f42e2856b51cc539672d30bdab"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDart-0-standing.png",
+          "bytes": 135696,
+          "sha256": "3da856c501d6181ef9abe6ae91acde59261edb6393219079deb3b01d034c6caf"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDrifter-0-100.png",
+          "bytes": 329189,
+          "sha256": "604d152bf14db3785cf7948d078e7eceffd71da85c807a3cbff8037802ac0e6f"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDrifter-0-25.png",
+          "bytes": 312306,
+          "sha256": "7c61162e11e4806b0b4e5d20d28605c4d11de982c5fc931270abcb7f72695569"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDrifter-0-50.png",
+          "bytes": 312288,
+          "sha256": "f6643cc09e776689478cf11e2a86aadf676f101dd81839976b49cf76b652ad2d"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDrifter-0-75.png",
+          "bytes": 323331,
+          "sha256": "8b727d70ab26e4dc300efc477d3ff5367ae43ad35b8200c8c2643431d0055f3f"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDrifter-0-side-held.png",
+          "bytes": 367637,
+          "sha256": "61d435e02fca709f9bfec7522d99726dfe335007767aa7a25310579dacbc5af7"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/ChoristerDrifter-0-standing.png",
+          "bytes": 307068,
+          "sha256": "f25805fe361311e14bb8fdbef0aa8af39b43cee36be56ab0f14cbe3738b98fac"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/mix.wav",
+          "bytes": 10747948,
+          "sha256": "8942b50d5121da55845a93e08391f0e354c9e70692f54bf4604d0ef96ed60e23"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/player.log",
+          "bytes": 53154,
+          "sha256": "fd335780124a3bb3ddcf8be79cec8fa692e1afc3295a1cc2a133297f91bce6b9"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/replay.mp4",
+          "bytes": 15270834,
+          "sha256": "f784530169305f3f5d103d62938e0785ed861109ff3e1b7bb067cc7124a94d41"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/report.json",
+          "bytes": 21188,
+          "sha256": "6a607b4cb9841611c5eeafaa53815691e5494aaf12f83ea8e88f1c0ae62fa3da"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound--10-100.png",
+          "bytes": 337265,
+          "sha256": "7243dc4310e05c0dd8ab714da9e36a8494024479e3fb6c5f1d2a91cebfd5e6e3"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound--10-25.png",
+          "bytes": 336829,
+          "sha256": "7c03f088a030e8a03bef2025e12297a2d3a4edaf8503827035c3311ecc937a1e"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound--10-50.png",
+          "bytes": 326619,
+          "sha256": "b0a46c50fdcc4a086f73c0f0cb6f8cd8fdb2b8630f101e4f59435c2ca36f42b5"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound--10-75.png",
+          "bytes": 331666,
+          "sha256": "5a7fd89cda3b707687e4f055bc6f4486a8c9646529eb40caa39584e82227a1ef"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound--10-side-held.png",
+          "bytes": 234007,
+          "sha256": "8850151c7564e482cbfffde5fc910bd6d8714f34e53510947a7c5f7a7ba339eb"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound--10-standing.png",
+          "bytes": 323609,
+          "sha256": "08da364a74d984742248bca5bd638558fcb3d244b5a764efebcad69381c2d6e4"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-0-100.png",
+          "bytes": 305696,
+          "sha256": "40b8ac8a6c3333dcd0dc59091e0cdbd65f3899eded796eac64d49f86ae3187ac"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-0-25.png",
+          "bytes": 327613,
+          "sha256": "606b56355c236cc9f1fd02c3c5444d3af07aeb31a9a706a3c49a61d06881170b"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-0-50.png",
+          "bytes": 335521,
+          "sha256": "45ba99203c4c38f6b59f3c261076fa81edaebc54ee5a1f8e0700556f922b1cad"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-0-75.png",
+          "bytes": 317814,
+          "sha256": "6b0504a0267687c6ed56e78abdd6513f97da4cf8991f14293d53458068743cb8"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-0-side-held.png",
+          "bytes": 233335,
+          "sha256": "ff9c4f6fa0a64a70b1b35dcc9d17296f5f29de8a250dca0e503735efd07fba2c"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-0-standing.png",
+          "bytes": 309756,
+          "sha256": "44612947c8597bb4283038b07dc0f4cd147a9788451bdf4ee145db75a27b6d21"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-10-100.png",
+          "bytes": 307385,
+          "sha256": "13e8d0c5dfeb372b75c9db903308b068c19a2ff2c4fd596aefe10c53cdeedd2f"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-10-25.png",
+          "bytes": 321612,
+          "sha256": "90c128de6e6e0c09126f2703d2491a590d624493a7726dfd134428a34c838e3a"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-10-50.png",
+          "bytes": 313756,
+          "sha256": "6c2171208d4d7b9ed6fd9eee6be6a543e5ced3293f0657aa09eb79600fb35f79"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-10-75.png",
+          "bytes": 311289,
+          "sha256": "8846229d660b573864b44b18b265e70445b4b54568fcf83f3d43962aa16f800b"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-10-side-held.png",
+          "bytes": 225655,
+          "sha256": "c64e4a1fd4413facabdf4dd3c1426a9873c76b9e991dd4b189282bd2b42831d8"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Ridgehound-10-standing.png",
+          "bytes": 316761,
+          "sha256": "13656a3fb514d0c90fa3fdeb5c0145be424f48e8dbb4af0b6633694803063166"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite--10-100.png",
+          "bytes": 284367,
+          "sha256": "c612a0665ce0800f5686ff78f7e1eac592f7f6bbff86ad6c57b98cd811748762"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite--10-25.png",
+          "bytes": 314047,
+          "sha256": "ecfba9d0c8468f848b20731a29b600e83c071009a8c3eeb5d103194bcafebcc0"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite--10-50.png",
+          "bytes": 317148,
+          "sha256": "13874ae54b6e488769358eb05ea1f28cb99118f19917f4ab73e319b394d311c3"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite--10-75.png",
+          "bytes": 257824,
+          "sha256": "5bb6957171cb8c9d0c865e2fece466fa0b6db03f3aa28177759d6b2521960ee3"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite--10-side-held.png",
+          "bytes": 195350,
+          "sha256": "87a51c0f83df96b8543403481d1a5d60d0459418b98931daf0abc62d788308a9"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite--10-standing.png",
+          "bytes": 273017,
+          "sha256": "7e414102c3420ca2d4dd78c1ddb2b016cae260a5326a6a667c783e3bf63a475a"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-0-100.png",
+          "bytes": 284027,
+          "sha256": "d8454c4ac0f4f0c65a562a96a8de10d69f4820e264444a35d4b3731e8df8c66c"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-0-25.png",
+          "bytes": 236478,
+          "sha256": "506a2ecfa76fd9855c03fafc3d0c7c79c8bd1b93c8230c2f331e989fbe80fdd0"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-0-50.png",
+          "bytes": 291829,
+          "sha256": "02c5376eb1c7cba41fa08ecffd8bf00fc85ddf65bbb25e360fe12556304c8ce6"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-0-75.png",
+          "bytes": 299894,
+          "sha256": "24b6f545825b6dedea254621ba722eb0729ee62ec5547928b9c6795394509742"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-0-side-held.png",
+          "bytes": 184733,
+          "sha256": "be9a15b69268c209400f9d46aee57e088c88773ad30f2a7a6f6cd5e69c4d90ad"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-0-standing.png",
+          "bytes": 250676,
+          "sha256": "48b0bafb4dcfb1fecd9ec05b4d5420805a88bdef8d3a1e7d67f3be8fa5485b91"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-10-100.png",
+          "bytes": 256117,
+          "sha256": "876a7b4aac0a60e644f0e43b673729366863dbdb4db17c8b90e8fee2b17cbeb6"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-10-25.png",
+          "bytes": 301451,
+          "sha256": "6d9befa395bec1fb963d851ea01a01d1909f195c1e7c3a8f36fab7812fd5f4e4"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-10-50.png",
+          "bytes": 300338,
+          "sha256": "8664974516ad1afd5220c297dd3a2c211147016c981d1ad7751d459b88023fff"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-10-75.png",
+          "bytes": 242325,
+          "sha256": "c806fb26d26be176af3876fa38c4745f32930ca994ced6fc18f4263ae7ebc03d"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-10-side-held.png",
+          "bytes": 182121,
+          "sha256": "36ff243a5d376118265afbc68179c56caf4790e9fddd43d808174904dcfe0d38"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Scrapmite-10-standing.png",
+          "bytes": 256565,
+          "sha256": "8a75a4c4273e3acf9ab87b94da1982e2a54af7717b689f2ecaf492223340fcb9"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Shellmine-0-100.png",
+          "bytes": 239676,
+          "sha256": "acb532901e2e85aa093ba5f6d73b9e6eb06ae1d28f8e4d0ac8caaaec35b9c17b"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Shellmine-0-25.png",
+          "bytes": 231863,
+          "sha256": "eb029aee146af55df0fd7e71dd79e4ac96c8b3f62ba2f324b41b9427d3fcf707"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Shellmine-0-50.png",
+          "bytes": 227147,
+          "sha256": "6af0f2a3b6cd02f799afcf24b55def87e3dd21c1944fe1c71668b9a5531e09d9"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Shellmine-0-75.png",
+          "bytes": 236887,
+          "sha256": "b0a41cd6590c178f927e6ddf69496cd35e4ae69d45ae8c1739a1ee450ade9db5"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Shellmine-0-side-held.png",
+          "bytes": 233663,
+          "sha256": "414ab8f2f95bbed5e82d25d98ee5ad4865f9bfd9f69371e2a2b12ae4c7843258"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/Shellmine-0-standing.png",
+          "bytes": 236114,
+          "sha256": "ea78aa6de58966cc3c03faf6ff100415f66c92c7fef16b944dc6d5c619963e78"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-03/video.mp4",
+          "bytes": 14578708,
+          "sha256": "93afa946aaecd858067777314258bceac85a763e940c4b4adaa8b6b06bc60e02"
+        }
+      ],
+      "opened": [
+        "Ridgehound-0-100.png",
+        "Ridgehound-0-side-held.png",
+        "Scrapmite-0-100.png",
+        "Scrapmite-0-side-held.png",
+        "Burrower-0-100.png",
+        "Burrower-10-side-held.png",
+        "Burrower--10-side-held.png",
+        "Ridgehound-10-50.png",
+        "Scrapmite--10-50.png"
+      ]
+    }
+  ],
+  "priorDiagnosticRejections": [
+    {
+      "folder": "Builds/quality/C3/creature-reel-01",
+      "reason": "Screenshot scheduling raced lethal damage and camera changes; slope side view occluded by floor; HUD/camera contamination.",
+      "files": [
+        {
+          "path": "Builds/quality/C3/creature-reel-01/report.json",
+          "bytes": 21191,
+          "sha256": "6af8d30a4fe700923de09ce922fcf55ce791e62064eb1e6f01b67ed6746b3ce5"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-01/build.json",
+          "bytes": 4034,
+          "sha256": "6279ae880b1c9cb3274803c330cf545d180eac4a1c1c8ef8772fd31b92f320b8"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-01/player.log",
+          "bytes": 53156,
+          "sha256": "9d232ebb83eed2199ef8978043274213dd149db0b37983abc99f04f312e1ce90"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/C3/creature-reel-02",
+      "reason": "Capture fixed but opened ground corpses propped on paw/leg/jaw; rejected despite minimum clearance.",
+      "opened": [
+        "Ridgehound-0-100.png",
+        "Ridgehound-0-side-held.png",
+        "Scrapmite-0-100.png",
+        "Scrapmite-0-side-held.png",
+        "Burrower-10-100.png",
+        "Burrower-10-side-held.png"
+      ],
+      "files": [
+        {
+          "path": "Builds/quality/C3/creature-reel-02/report.json",
+          "bytes": 21199,
+          "sha256": "99c2102642f878b9031359287333b8875bd94e58e11df3bb8b5e3897c2873afe"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-02/build.json",
+          "bytes": 4034,
+          "sha256": "862732d55449cfc85b7c2292b7da1ede8cbf4e7b65beeca5622cf4042129dbc7"
+        },
+        {
+          "path": "Builds/quality/C3/creature-reel-02/player.log",
+          "bytes": 54598,
+          "sha256": "28000d1d2acb567ed27cb5a008f858e3a4afffe19840733fdd9b1606f5962809"
+        }
+      ]
+    }
+  ],
+  "restAudit": {
+    "files": [
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Burrower-prior-side.png",
+        "bytes": 98281,
+        "sha256": "2ed23b42c52be5d33d8f9c2339896ad0aa26965886ad8f91d1bdff26ba00d9df"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Burrower-prior.png",
+        "bytes": 103627,
+        "sha256": "32317d4a40ac9aa28ce33710b3aadddaed2a5c146a9485fdcf51caf70701a339"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Burrower-settled-side.png",
+        "bytes": 100695,
+        "sha256": "67c1c8ee77af9e1c9a1b5f5f7729b9451c44dda705b5f8046d4cc32205b41ad8"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Burrower-settled.png",
+        "bytes": 101064,
+        "sha256": "20e169973e4a12b225925633c5b14df78e620ac75a24b5a28cca554ad428a58d"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/editor.log",
+        "bytes": 63745,
+        "sha256": "f4fcc613aabd81ef721afc890e101130f3807797cfd5a7dc65f98ae4be597ca3"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/rest.csv",
+        "bytes": 308,
+        "sha256": "d877cf71cceaeb3df19aff77d885d4028d534843baed71d3479c430eee631759"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Ridgehound-prior-side.png",
+        "bytes": 68582,
+        "sha256": "a8772171ab2b3b9cd1142e2d31ef0dda80f037f81214dbc29001051fa7a59e10"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Ridgehound-prior.png",
+        "bytes": 93921,
+        "sha256": "cae8fdda20a411900dfdc3c88fedef884e0ea61ee591e693990334c348c237f9"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Ridgehound-settled-side.png",
+        "bytes": 68021,
+        "sha256": "8e6aff35d644480f53a129a6cbd061737b52d11905d40ad72c0b676c9f81d245"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Ridgehound-settled.png",
+        "bytes": 87464,
+        "sha256": "033580f454cf3b000277dbbaa76d3e183d3fae3a44cd20a2ab06a8e22d700a17"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Scrapmite-prior-side.png",
+        "bytes": 72776,
+        "sha256": "ab62fa9fc951bf8546c7dd443af260b6b468e2102bea5fd3e6db73933ba37df2"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Scrapmite-prior.png",
+        "bytes": 76486,
+        "sha256": "c0ea3d113497f5ecaf410b7327d7fb265b3e8968783cc5862515a08c35671957"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Scrapmite-settled-side.png",
+        "bytes": 54498,
+        "sha256": "1ac4ed37b752078a0c2e909e553177476e56752778f0e006893a7b36912a58c8"
+      },
+      {
+        "path": "Builds/quality/C3/creature-rest-01/Scrapmite-settled.png",
+        "bytes": 83327,
+        "sha256": "e5a0b4d68bd2b259d35e449405ba3b882d3b8cd60006142ec18244a1fe083993"
+      }
+    ],
+    "opened": [
+      "Ridgehound-settled.png",
+      "Ridgehound-settled-side.png",
+      "Scrapmite-settled.png",
+      "Scrapmite-settled-side.png",
+      "Burrower-settled.png",
+      "Burrower-settled-side.png"
+    ],
+    "method": "Offline actual-geometry candidate search followed by opened front/side review; no runtime search."
+  },
+  "ordinary": [
+    {
+      "folder": "Builds/quality/C3/creature-ordinary-01",
+      "run": {
+        "route": "c3-creature-ordinary",
+        "sourceRevision": "C3 ground collapse candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2456,
+        "refreshHz": 60.0,
+        "seconds": 44.507486199999995,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "confirm Sela safe return: form mismatch"
+        ],
+        "loadWaitSeconds": 1.0928946000000002,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "focusedSamples": 2456,
+      "steps": 43,
+      "kills": [
+        "COMBAT_KILL Ridgehound",
+        "COMBAT_KILL Ridgehound",
+        "COMBAT_KILL Ridgehound"
+      ],
+      "finalState": {
+        "hero": "Sela",
+        "form": "Natural",
+        "integrity": "120.0",
+        "partnerHealth": "66.0"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/run.json",
+          "bytes": 871,
+          "sha256": "f8ba7d9bfe63fd497768183a5df8b7e4fb6cba447d9bf5b436c6503e9e734cd3"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/route.json",
+          "bytes": 31974,
+          "sha256": "818c6b1dfbf4c107d359f1c1c645817c00f90522cb147a3a97d15ae8db5f06d0"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/frames.csv",
+          "bytes": 670262,
+          "sha256": "fc2cd25e05ffc8df1988610b8a06826bd871cdb28f804a595cdccad15c9f1e7b"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/player.log",
+          "bytes": 94408,
+          "sha256": "60a509eb26717b8e69df40a2aba42316e0523cf2942c3d12a1cb9b627dc2ac0e"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/build.json",
+          "bytes": 11481,
+          "sha256": "1737184b0692ceb895348114f994ca4a29362a493ce7cc7090283d2e92782a72"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/video.mp4",
+          "bytes": 116196056,
+          "sha256": "c12ec3d3e392ad5bc321ed4916356fd7c5013d8273e685ff63f5633bb0959b47"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/mix.wav",
+          "bytes": 17145900,
+          "sha256": "be3e56a7ea904effdac33de935dfeff68da9714c043f8cf9cf693a27f0dfe4b0"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-01/replay.mp4",
+          "bytes": 117308915,
+          "sha256": "4eb3d9e589369898e46daa048545ff06f69d3c65cc325b7d09522c3ea3104c6a"
+        }
+      ],
+      "opened": [
+        "006.png",
+        "010.png",
+        "014.png",
+        "018.png",
+        "040.png",
+        "042.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/C3/creature-ordinary-02",
+      "run": {
+        "route": "c3-creature-ordinary",
+        "sourceRevision": "C3 ground collapse candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2672,
+        "refreshHz": 60.0,
+        "seconds": 44.505528899999995,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0870781999999997,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "focusedSamples": 2672,
+      "steps": 43,
+      "kills": [
+        "COMBAT_KILL Ridgehound",
+        "COMBAT_KILL Ridgehound",
+        "COMBAT_KILL Ridgehound"
+      ],
+      "finalState": {
+        "hero": "Sela",
+        "form": "Natural",
+        "integrity": "120.0",
+        "partnerHealth": "66.0"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/run.json",
+          "bytes": 811,
+          "sha256": "4cd8f2abcc00cf737e4cc7af8dbee49757491828e93330034337cd1fa7dbe6d3"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/route.json",
+          "bytes": 31975,
+          "sha256": "b3c6be8cabd14e7e320f7089916b1d73532cde0642d5651ab9509f70d8e6b649"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/frames.csv",
+          "bytes": 711045,
+          "sha256": "d2eaccfd327281dbf2cd1e01abcf3581da4e46c2a1a85dfa06e677820fe5ac5c"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/player.log",
+          "bytes": 5022,
+          "sha256": "29ab4e108455c4f42a709675fea21b025720b638ec327a7c837bf01b15d2c1bf"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/build.json",
+          "bytes": 11477,
+          "sha256": "a5aa309e50e25411d4b46a7cadba1c710a978cdd188554881bc6e6ba0dedd59b"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/video.mp4",
+          "bytes": 115705617,
+          "sha256": "b544a868649138c9b17f7dc57259be0b3976daa2e2f31af9a8a522c2e3701734"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/mix.wav",
+          "bytes": 17096748,
+          "sha256": "1f37b2e5564b155554be2732106a48fabeda0edfcaf0fc3e1e9c18b0d45a7893"
+        },
+        {
+          "path": "Builds/quality/C3/creature-ordinary-02/replay.mp4",
+          "bytes": 116786744,
+          "sha256": "bd27babcdba58b654e143ec322ad8c33c754ad4488a65e4e398b8bcf562ef277"
+        }
+      ],
+      "opened": [
+        "005.png",
+        "006.png",
+        "008.png",
+        "010.png",
+        "014.png",
+        "040.png",
+        "042.png"
+      ]
+    }
+  ],
+  "limits": [
+    "Opened stills by Codex, not independent/human acceptance.",
+    "Direct-lethal diagnostic is not ordinary play.",
+    "Continuous normal/slow moving-video observation, actual audio audition and physical Logitech feel UNVERIFIED.",
+    "Ground limbs still rigid during collapse; fuller creature reaction/motion and mechanical light shutdown remain open.",
+    "Flight archetypes retain previous behavior; their captured poses are not accepted here.",
+    "C1 timing and non-station MAP_EYE_TEST remain open."
+  ],
+  "preservedSaves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

@@ -11,6 +11,7 @@
     "Unity.InputSystem",
     "Unity.TextMeshPro",
     "Unity.ugui",
-    "Unity.Collections"
+    "Unity.Collections",
+    "Unity.Cinemachine"
   ]
 }

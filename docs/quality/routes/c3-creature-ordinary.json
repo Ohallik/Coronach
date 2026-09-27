@@ -1,0 +1,269 @@
+{
+  "name": "c3-creature-ordinary",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "C3 ground collapse candidate; exact package hashes in recording",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "leave landing for outpost",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      }
+    },
+    {
+      "name": "walk the haul approach",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 32
+      }
+    },
+    {
+      "name": "enter Ridgehound territory",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 40
+      }
+    },
+    {
+      "name": "lock onto the pack",
+      "seconds": 0.15,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "release lock input",
+      "seconds": 0.2
+    },
+    {
+      "name": "Arc Cleave",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "cleave contact and recovery",
+      "seconds": 0.7
+    },
+    {
+      "name": "cut 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 1 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 2 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 3 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 4 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 5 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 6",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 6 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 7",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 7 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "cut 8",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "cut 8 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "guard next charge",
+      "seconds": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "Ember Step through pack",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "East"
+      ]
+    },
+    {
+      "name": "dash recovery",
+      "seconds": 0.6
+    },
+    {
+      "name": "finish cut 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "finish cut 1 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "finish cut 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "finish cut 2 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "finish cut 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "finish cut 3 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "finish cut 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "finish cut 4 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "finish cut 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "finish cut 5 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "finish cut 6",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "finish cut 6 recovery",
+      "seconds": 0.47
+    },
+    {
+      "name": "allow remaining companion contact",
+      "seconds": 2
+    },
+    {
+      "name": "inspect cleared ground",
+      "seconds": 1.5,
+      "expectedFlag": "clear.Sorrel_4"
+    },
+    {
+      "name": "return to inhabited safe pocket",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      }
+    },
+    {
+      "name": "swap after return",
+      "seconds": 0.18,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "confirm Sela safe return",
+      "seconds": 0.4,
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural",
+      "expectedFlag": "clear.Sorrel_4"
+    }
+  ]
+}

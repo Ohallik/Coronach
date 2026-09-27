@@ -25,6 +25,7 @@ namespace Lattice.UI
             if(DevArgs.Has("-portraitsmoke"))gameObject.AddComponent<PortraitSmoke>();
             if(DevArgs.Has("-balance"))gameObject.AddComponent<BalanceProbe>();
             if(DevArgs.Has("-look"))gameObject.AddComponent<ZoneLookProbe>();
+            if(DevArgs.Has("-creature-defeat"))gameObject.AddComponent<CreatureDefeatProbe>();
 #endif
             var zone=quality != null ? quality.scene : DevArgs.Value("-scene");
             if(string.IsNullOrEmpty(zone)||zone=="Title") yield return SceneManager.LoadSceneAsync("Title",LoadSceneMode.Additive);
