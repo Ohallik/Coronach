@@ -14,5 +14,8 @@ namespace Lattice.Combat
         public static GroundMove Needle=>new("Shoot",.32f,.46f,.46f,.272f);
         public static GroundMove Scatter=>new("Shoot",.4f,.46f,.46f,.34f);
         public static GroundMove Lance=>new("Shoot",.5f,.46f,.46f,.425f);
+        public static GroundMove EmberDash=>new("Dash",.55f,.25f,.78f,.495f);
+        public static GroundMove Pulse=>new("Buff",.55f,.46f,.46f,.49f);
+        public static GroundMove StaticNet=>new("Pulse",.65f,.255f,.255f,.56f);
     }
 }

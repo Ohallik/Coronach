@@ -68,5 +68,18 @@ namespace Lattice.Combat
             measuredVelocity=Time.unscaledDeltaTime>0?displacement/Time.unscaledDeltaTime:Vector3.zero;
         }
         public void Dash(Vector3 direction,float distance){dash=direction.normalized*distance/.16f;dashTime=.16f;Facing=direction.normalized;}
+        // Authored action travel is evaluated from the posed clip, then passed
+        // through the same controller as ordinary movement. Never damage along
+        // an intended path which collision prevented the body from travelling.
+        public void MoveAction(Vector3 displacement,Vector3 heading)
+        {
+            if(GameTime.Paused||!enabled||!controller.enabled||!actor.Health.Alive)return;
+            transform.rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(heading),900*Time.unscaledDeltaTime);
+            Facing=transform.forward;
+            Vector3 before=transform.position;controller.Move(displacement);var actual=transform.position-before;actual.y=0;
+            if(movedFrame!=Time.frameCount)measuredVelocity=Vector3.zero;
+            movedFrame=Time.frameCount;
+            if(Time.unscaledDeltaTime>0)measuredVelocity+=actual/Time.unscaledDeltaTime;
+        }
     }
 }

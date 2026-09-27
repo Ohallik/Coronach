@@ -165,9 +165,13 @@ namespace Lattice.Combat
             charge-=cost;cooldowns[slot]=skill!=null?skill.cooldown:slot==3?10:4;State=ActorState.Skill;
             var rangedMove=slot==0?GroundMove.Lance:GroundMove.Scatter;
             bool emitterSkill=!flight&&character=="Sela"&&slot<2;
+            bool posedSkill=!flight&&(character=="Taren"&&(slot==1||slot==2)||character=="Sela"&&slot==2);
+            var groundSkill=character=="Sela"?GroundMove.StaticNet:slot==1?GroundMove.EmberDash:GroundMove.Pulse;
             BeginVisual(emitterSkill?rangedMove.clip:slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",
                 emitterSkill?rangedMove.duration:slot==0?.5f:slot==1?.4f:.55f);
+            if(posedSkill){VisualAction=groundSkill.clip;VisualDuration=groundSkill.duration;VisualAttackUntil=GameTime.Now+groundSkill.duration;}
             actionUntil=GameTime.Now+(flight?.16f:VisualDuration*.85f);
+            if(posedSkill)actionUntil=GameTime.Now+groundSkill.recoveryEnd;
             float power=1+Mathf.Max(0,resonance-10)*.025f;Vector3 direction=Aim();
             if(flight)ApplySkill(slot,power,direction);
             else if(character=="Taren"&&slot==0)
@@ -176,6 +180,13 @@ namespace Lattice.Combat
                 GetComponent<RangedContact>().Begin(rangedMove,direction,
                     Packet(rangedDamage*(slot==0?1.7f:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
                     slot==0?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
+            else if(posedSkill)
+            {
+                var packet=character=="Taren"?Packet(damage*(slot==1?1.8f:1.1f)*power,slot==1?DamageType.Plasma:DamageType.Pulse,slot==1?40:85):
+                    Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
+                GetComponent<GroundSkillContact>().Begin(groundSkill,direction,packet);
+                if(character=="Taren"&&slot==1)GetComponent<MeleeContact>().Begin(groundSkill,packet);
+            }
             else StartCoroutine(SkillContact(AttackSequence,slot,power,direction));
             Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
         }

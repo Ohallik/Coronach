@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C3 ground skill contact checkpoint - September 26
+
+**C3 OPEN.** Ember Dash now follows real collision-limited travel and its posed wrist edge; Pulse contact follows its visible expanding crest; Static Net visibly leaves the throwing hand and stops at cover. Pending casts cancel, released effects finish, pause holds them, and field/wave surfaces respect cover. Red tests reject future-path damage, teleported Net, hidden close-hand releases and the padded texture's misleading radius. Sentinel's redundant pellet activation bursts are removed while its persistent armor cue remains. [Ground-skill evidence](validation/C3-ground-skills.md) retains failed attempts and exact hashes.
+
+Fresh integrated suites pass **77/77 PlayMode and 39/39 EditMode, zero skips**; both Windows players rebuilt with BUILD_OK. Final ordinary release routes pass 30 skill and 22 armor checkpoints, all samples focused. Opened frames establish readable seed/wave/field, posed dash, Net in combat and armor cleanup. The named Pulse encounter step happens after the clear; its actual contact is established by tests. Original saves remain unchanged. Continuous normal/slow viewing, audio audition and physical feel remain UNVERIFIED. Refract/buffs, other C3 work, non-station MAP_EYE_TEST and later gates remain open.
+
 ## C3 ordinary recoil and armor checkpoint - September 26
 
 **C3 OPEN.** Sentinel now has a short torso recoil distinct from full break, with smaller motion while armored and unchanged walking-leg stride. Its protective ring persists for the actual armor state and clears on expiry, break or death. Stronger motion exposed a one-frame pause advance; immediate animator pause notification fixes the unchanged regression. Failed donor-only attempts, fixture corrections and visual observations are retained in [hit/armor evidence](validation/C3-sentinel-hit.md).

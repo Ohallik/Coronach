@@ -1,0 +1,194 @@
+{
+  "name": "c3-ground-skills",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "C3 ground skill candidate; exact package hashes in recording",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "clear southern approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -7
+      }
+    },
+    {
+      "name": "face north",
+      "seconds": 0.15,
+      "x": -0.34202,
+      "y": 0.939693
+    },
+    {
+      "name": "plant feet",
+      "seconds": 0.5
+    },
+    {
+      "name": "Pulse cast and release",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse expanding wave",
+      "seconds": 0.12
+    },
+    {
+      "name": "Pulse outer wave",
+      "seconds": 0.12
+    },
+    {
+      "name": "Pulse recovery",
+      "seconds": 0.65
+    },
+    {
+      "name": "Ember Dash anticipation",
+      "seconds": 0.15,
+      "buttons": [
+        "RightShoulder",
+        "East"
+      ]
+    },
+    {
+      "name": "Ember Dash travel",
+      "seconds": 0.16
+    },
+    {
+      "name": "Ember Dash blade contact",
+      "seconds": 0.12
+    },
+    {
+      "name": "Ember Dash recovery",
+      "seconds": 0.65
+    },
+    {
+      "name": "swap to Sela",
+      "seconds": 0.15,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.3
+    },
+    {
+      "name": "Static Net throw",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Net seed flight",
+      "seconds": 0.12
+    },
+    {
+      "name": "Net landing",
+      "seconds": 0.22
+    },
+    {
+      "name": "Net hold",
+      "seconds": 1
+    },
+    {
+      "name": "move to west ridge approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -35,
+        "y": 0,
+        "z": -7
+      }
+    },
+    {
+      "name": "follow west path",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -35,
+        "y": 0,
+        "z": 38
+      }
+    },
+    {
+      "name": "Net into Ridgehound encounter",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Net encounter seed",
+      "seconds": 0.12
+    },
+    {
+      "name": "Net encounter landing",
+      "seconds": 0.3
+    },
+    {
+      "name": "fight within the field",
+      "seconds": 2.4,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.42
+    },
+    {
+      "name": "swap to Taren in encounter",
+      "seconds": 0.15,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "release swap input",
+      "seconds": 0.3
+    },
+    {
+      "name": "Pulse in encounter",
+      "seconds": 0.3,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter expansion",
+      "seconds": 0.16
+    },
+    {
+      "name": "recover after pulse",
+      "seconds": 0.7
+    },
+    {
+      "name": "finish ordinary melee",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.5
+    },
+    {
+      "name": "return to southern trail",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": -35,
+        "y": 0,
+        "z": -7
+      }
+    }
+  ]
+}

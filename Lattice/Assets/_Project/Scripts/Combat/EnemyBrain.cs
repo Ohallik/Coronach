@@ -54,7 +54,11 @@ namespace Lattice.Combat
                 nextAttack=Mathf.Max(nextAttack,Health.BrokenUntil);
             }
             else if(Health.Alive&&definition.archetype==EnemyArchetype.Sentinel&&packet.type==definition.resistance)
-            {Health.ShieldUntil=Time.time+2;CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"shape");}
+            {
+                // The attached ward carries the protective state. Re-emitting
+                // forty large rings for every pellet hid the hit silhouette.
+                Health.ShieldUntil=Time.time+2;
+            }
         }
         void CancelAttack()
         {

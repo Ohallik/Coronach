@@ -27,7 +27,7 @@ namespace Lattice.Combat
             form.shaped=definition!=null&&definition.shaped!=null?Object.Instantiate(definition.shaped,root.transform):Visual("Shaped",PrimitiveType.Capsule,root.transform,new Vector3(.85f,.95f,.8f),Vector3.up*.95f,material);
             form.flight=definition!=null&&definition.flight!=null?Object.Instantiate(definition.flight,root.transform):Visual("Flight",PrimitiveType.Capsule,root.transform,new Vector3(.7f,.9f,.7f),Vector3.up*.75f,material);
             form.shaped.SetActive(false);form.flight.SetActive(false);
-            root.AddComponent<HeroWeaponVfx>();root.AddComponent<MeleeContact>();root.AddComponent<RangedContact>();root.AddComponent<PlayerBrain>();root.AddComponent<PartnerBrain>();root.AddComponent<DefeatPresentation>();return actor;
+            root.AddComponent<HeroWeaponVfx>();root.AddComponent<MeleeContact>();root.AddComponent<RangedContact>();root.AddComponent<GroundSkillContact>();root.AddComponent<PlayerBrain>();root.AddComponent<PartnerBrain>();root.AddComponent<DefeatPresentation>();return actor;
         }
         public static EnemyBrain Enemy(EnemyDef definition,Vector3 position)
         {

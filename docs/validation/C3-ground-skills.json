@@ -1,0 +1,2011 @@
+{
+  "status": "C3 OPEN; posed ground skill contact and cover checkpoint",
+  "sourceBase": "dfcb3f97b76d91ae46e7be9aac9bfabc8d8efe3a",
+  "date": "2026-09-27T04:46:17.031443+00:00",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "sha256": "593be4dd1a3f45a861a6dd51785bb455e475f6352467bd34e00c747c8248b23d",
+      "bytes": 5046
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "sha256": "2df0856120d9919d944b3142b39a8f1e2ff528fcc52318a1f448c4ac5e46987e",
+      "bytes": 14283
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundMove.cs",
+      "sha256": "bc8275927df9af0dca6ea3260fe28b2161ec5b7cfa34c6feff17e6f4a20910e9",
+      "bytes": 1285
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundMotor.cs",
+      "sha256": "4e91f3d1502283c9a81be86fc01c332afa02a2a09678120abc1789e1ad01ea1c",
+      "bytes": 5840
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundSkillContact.cs",
+      "sha256": "3e478fb10fb078dc28581f784a4bac306746836599434b20f2a151b19292cb1c",
+      "bytes": 3228
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatCover.cs",
+      "sha256": "e050c1d16d57f9e94e633e3e3be4f4b2916f63186b338f2a6f029a5965e55f05",
+      "bytes": 1034
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundRing.cs",
+      "sha256": "15ab491703352ea67f54c41482066fbdf7e63ad079d562cbddb43dc2070c9d7d",
+      "bytes": 2965
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/MeleeContact.cs",
+      "sha256": "fbe422d2b3b9537dcb0bb669ba19c6a1f93e8efc92baeaff63c262d792de75d7",
+      "bytes": 3843
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/PulseWave.cs",
+      "sha256": "04b325ae0b7dc2f90b347de61875a9c13eb3552e0a4b0f526cb5a7538c418f70",
+      "bytes": 1665
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/NetSeed.cs",
+      "sha256": "24a5912d2a7e7e1691c560aa350d5721cba4cecb1ce9ad17d5fce2a8d3250bcc",
+      "bytes": 3129
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/PulseField.cs",
+      "sha256": "208cdce98567b9547d02de9dcefe40816072bebecd49ae2dda35229a4b1ea971",
+      "bytes": 1165
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+      "sha256": "02d4c7432dc9ffb1451e887120979c52890394f923f5122fbc128ac0dd5e97d4",
+      "bytes": 8411
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/AttackPoseAudit.cs",
+      "sha256": "91144f74e9b737e389a20500b268f68e9cb3cbdc5fe92b91d91ebea4457736ad",
+      "bytes": 4941
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/GroundSkillTests.cs",
+      "sha256": "3966388679030ca2a8e86833677c593ebe67c10048f3b496c1de1eef0c04c46c",
+      "bytes": 15997
+    },
+    {
+      "path": "docs/quality/routes/c3-ground-skills.json",
+      "sha256": "05d6ee542c6200fd35d2ef4a473ec3c959db97f25b865d750f0fc330cffb3e49",
+      "bytes": 3685
+    }
+  ],
+  "targeted": [
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-cover-red/playmode-results.xml",
+          "sha256": "ce8fb7267cc2c5e010b138a56d6739982bad0d6be7b2fcab9c1a17b8b1b7a027",
+          "bytes": 11494
+        },
+        "counts": {
+          "total": "4",
+          "passed": "1",
+          "failed": "3",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "21.0839541"
+        },
+        "failures": [
+          {
+            "name": "EmberDashCannotDamageBeyondTheWallThatStopsItsBody",
+            "message": "  dash damaged an enemy beyond its blocking wall\n  Expected: 1000\n  But was:  865.0f\n"
+          },
+          {
+            "name": "PulseRequiresAnUnobstructedPathToItsVictim",
+            "message": "  Pulse bypassed solid cover\n  Expected: 1000\n  But was:  945.0f\n"
+          },
+          {
+            "name": "StaticNetCannotAppearThroughCoverAtADistantTarget",
+            "message": "  Static Net teleported through cover to its remote target\n  Expected: 1000\n  But was:  986.5f\n"
+          }
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-cover-red/playmode.log",
+        "sha256": "6df08b1e1f7e3d4b4a081ad096d569fcc4090ad24e1af6c2f5065a31491f332f",
+        "bytes": 189636
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-cover-green/playmode-results.xml",
+          "sha256": "05b25b7ee8d7f14c66532561ce62a24493d5083e201539194a8ba448e76bbdf3",
+          "bytes": 6886
+        },
+        "counts": {
+          "total": "3",
+          "passed": "3",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "14.4931057"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-cover-green/playmode.log",
+        "sha256": "5db4cfac6ef0c54e224142dc1087ecfa4068f8cc8d39920f8a025ce1ad95213e",
+        "bytes": 226044
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-targeted-green/playmode-results.xml",
+          "sha256": "94d3752e553d828c4597d74527f9c11f18b5f6fd27ea9680b6de5a566f1bc3df",
+          "bytes": 13491
+        },
+        "counts": {
+          "total": "8",
+          "passed": "8",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "39.0044499"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-targeted-green/playmode.log",
+        "sha256": "6f90bcce76438619cc891661888fc290f4031a58b5aef2aee954c28887707f46",
+        "bytes": 307848
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-field-red/playmode-results.xml",
+          "sha256": "8530c6a932dee150ac78116ced3243df0593917bf0e426027f219f7ec050963f",
+          "bytes": 5764
+        },
+        "counts": {
+          "total": "1",
+          "passed": "0",
+          "failed": "1",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "3.985896"
+        },
+        "failures": [
+          {
+            "name": "StaticNetCannotAppearThroughCoverAtADistantTarget",
+            "message": "  visible field advertises damage beyond its blocking wall\n  Expected: less than 2.01999998f\n  But was:  5.75502157f\n"
+          }
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-field-red/playmode.log",
+        "sha256": "cbd70945b06459431b99cbf2fd9834a8357de2f9e6894c9cd37b1b931fdfa3dd",
+        "bytes": 127864
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-presentation-green/playmode-results.xml",
+          "sha256": "17c58f566e4bf715c70e01024e4be5a2b9dc73e6671622b9cf6417d10c675dd0",
+          "bytes": 13491
+        },
+        "counts": {
+          "total": "8",
+          "passed": "8",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "39.0824463"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-presentation-green/playmode.log",
+        "sha256": "fa7cd37e428af834b282fcd21118a7fed6651ee6d4c692169ecb54cf80402ca7",
+        "bytes": 263173
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-wave-red/playmode-results.xml",
+          "sha256": "f44c8c94e940624dbc738784c80ffa6a2c33ad0a96059b2eb5c54ef9559c12af",
+          "bytes": 12133
+        },
+        "counts": {
+          "total": "1",
+          "passed": "0",
+          "failed": "1",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "3.8687248"
+        },
+        "failures": [
+          {
+            "name": "PulseDamageFollowsTheVisibleWaveAndHitsOnce",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'PulseWave' on game object 'Pulse wave'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          }
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-wave-red/playmode.log",
+        "sha256": "dcb7b62eba458786dafffe77d2846f801023aad0ea572e81a1bf7b81986a188b",
+        "bytes": 137987
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-ring-init-red/playmode-results.xml",
+          "sha256": "b3f4ac2a6f0eb5e79279e0fc0c08126ad72553bdbd9b5aaa502d45f0fead582b",
+          "bytes": 45528
+        },
+        "counts": {
+          "total": "8",
+          "passed": "2",
+          "failed": "6",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "34.8268515"
+        },
+        "failures": [
+          {
+            "name": "NearThrowCoverCannotBeBypassedByTheAnimatedHand",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'GroundRing' on game object 'StaticNet'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          },
+          {
+            "name": "NetIsReleasedAtTheForwardHandAndHasABoundedThrowRange",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'GroundRing' on game object 'StaticNet'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          },
+          {
+            "name": "PauseHoldsCastAndReleasedEnergyThenResumesOneEffect",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'GroundRing' on game object 'Pulse wave'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          },
+          {
+            "name": "PulseDamageFollowsTheVisibleWaveAndHitsOnce",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'GroundRing' on game object 'Pulse wave'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          },
+          {
+            "name": "PulseRequiresAnUnobstructedPathToItsVictim",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'GroundRing' on game object 'Pulse wave'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          },
+          {
+            "name": "StaticNetCannotAppearThroughCoverAtADistantTarget",
+            "message": "Unhandled log message: '[Exception] UnityException: CreateImpl is not allowed to be called from a MonoBehaviour constructor (or instance field initializer), call it in Awake or Start instead. Called from MonoBehaviour 'GroundRing' on game object 'StaticNet'.\nSee \"Script Serialization\" page in the Unity Manual for further details.'. Use UnityEngine.TestTools.LogAssert.Expect"
+          }
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-ring-init-red/playmode.log",
+        "sha256": "004445facab1b6d23e6ac66f5689de4e0daab4bb581bc01ee80e8dde57bf1d45",
+        "bytes": 384437
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-radius-green/playmode-results.xml",
+          "sha256": "17fef53920fc0f18450725120b3dcbcd8254a952ec53292a84c2a0c5d3e11ec8",
+          "bytes": 13531
+        },
+        "counts": {
+          "total": "8",
+          "passed": "8",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "39.3798561"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-radius-green/playmode.log",
+        "sha256": "adf6e680d81e1657ebd2ee96f448b1bc4ce590f96755141a3d5756939568c906",
+        "bytes": 310924
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/ground-skills-close-cover-green/playmode-results.xml",
+          "sha256": "90f70e94b80179ff92d978370723805ed9065e18b8ad9b4c78f3d97cccb77447",
+          "bytes": 13620
+        },
+        "counts": {
+          "total": "8",
+          "passed": "8",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "42.2313554"
+        },
+        "failures": []
+      },
+      "log": {
+        "path": "Builds/quality/C3/ground-skills-close-cover-green/playmode.log",
+        "sha256": "798e5138d63102de5527942fad6db40175bafb8e2f435232eed35d64e7c223ef",
+        "bytes": 360574
+      }
+    }
+  ],
+  "particleTexture": {
+    "path": "Lattice/Assets/_Project/Art/Particles/circle_02.png",
+    "sha256": "8a2112a6a5610c7cdcbfe8af0a5162b42dfb3431c63f494743945337b7981e51",
+    "bytes": 43380
+  },
+  "textureMeasurement": {
+    "path": "Builds/quality/C3/ground-skills-texture-padding.json",
+    "sha256": "c44bd23549f2a29efe6a9090137162f0304ef77b2d29aa63041af2e672b977b2",
+    "bytes": 1176
+  },
+  "poses": [
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/editor.log",
+      "sha256": "03940a2853d98f33d85f89a6feac0c0d2d4ead39515366938bb2df1fe9e3fdb5",
+      "bytes": 57274
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/poses.csv",
+      "sha256": "92b00b2eb152885f652ae70051bf9467ce0d8baada11323633a870b5ce5cb2a9",
+      "bytes": 79981
+    }
+  ],
+  "openedPoses": [
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/TarenShaped-Dash-20.png",
+      "sha256": "2f0e3d8bed350b76068056abdc5ac48595e085950bebad635d39409f3629b488",
+      "bytes": 60633
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/TarenShaped-Dash-30.png",
+      "sha256": "7210836c87c9133ac8a1fc1a1ff23fcd079d0c8519866b6498cf827a6efedb34",
+      "bytes": 60276
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/TarenShaped-Dash-40.png",
+      "sha256": "4bfff7c56844057d95d65f3c15bb839764af9b4f8f2187eb22d7de6a04759e56",
+      "bytes": 60926
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/TarenShaped-Buff-30.png",
+      "sha256": "5dbb1e0a5d0aa37ca931840152738be90a740f42297cfa7d218ef5068e0d14bc",
+      "bytes": 67456
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Pulse-10.png",
+      "sha256": "b884d3b6299f447324fe38617f1d259a13508508f82585b4af23e3a58245e420",
+      "bytes": 59200
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Pulse-20.png",
+      "sha256": "2f6382e158322cf68958c2d362e45ff276626e3cdc721897ed6eb61c30b6a2ca",
+      "bytes": 65589
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Pulse-30.png",
+      "sha256": "57d410a9d8833f466c599e958087e09bc7124d841ead4f39bbaf8b4078d15368",
+      "bytes": 65952
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Pulse-40.png",
+      "sha256": "d82901f437b9826ad44d80531154257001ac50b605bbb1abb7d93c8fe57940bd",
+      "bytes": 61999
+    }
+  ],
+  "rejectedIntegrated": {
+    "file": {
+      "path": "Builds/quality/C3/ground-skills-integrated-01/playmode-results.xml",
+      "sha256": "dbc232c6fcac2f19a3588c7b604eb3d8a51e7686f2ec67f1b62aca48cb511b22",
+      "bytes": 111150
+    },
+    "counts": {
+      "total": "77",
+      "passed": "76",
+      "failed": "1",
+      "skipped": "0",
+      "result": "Failed(Child)",
+      "duration": "547.9762525"
+    },
+    "failures": [
+      {
+        "name": "NearThrowCoverCannotBeBypassedByTheAnimatedHand",
+        "message": "  the throwing wrist spawned energy beyond close cover\n  Expected: 1000\n  But was:  986.5f\n"
+      }
+    ]
+  },
+  "rejectedIntegratedLog": {
+    "path": "Builds/quality/C3/ground-skills-integrated-01/playmode.log",
+    "sha256": "396065fa0f03bc95acad5abc1b7522f9aecab42aab26b3b87aa4bbb165ffa979",
+    "bytes": 1741855
+  },
+  "integrated": [
+    {
+      "file": {
+        "path": "Builds/quality/C3/ground-skills-integrated-02/playmode-results.xml",
+        "sha256": "8721f7fcc3792c95310a022787b53e5972f6478f426874b4d14a85cd1abf79d5",
+        "bytes": 109752
+      },
+      "counts": {
+        "total": "77",
+        "passed": "77",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "553.3538559"
+      },
+      "failures": []
+    },
+    {
+      "file": {
+        "path": "Builds/quality/C3/ground-skills-integrated-02/editmode-results.xml",
+        "sha256": "9eb5fc6ba9810f351cd1aa42fda6c378ae409acb0cde2b64dddb02fe36f4e4a3",
+        "bytes": 32287
+      },
+      "counts": {
+        "total": "39",
+        "passed": "39",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "0.3441187"
+      },
+      "failures": []
+    }
+  ],
+  "integratedLogs": [
+    {
+      "path": "Builds/quality/C3/ground-skills-integrated-02/playmode.log",
+      "sha256": "329a199d99efd7768f6eba4b97726c5d475ba1bb8416e38fe0ad0330aef4f8b8",
+      "bytes": 1706579
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-integrated-02/editmode.log",
+      "sha256": "882cbe7f571572f731178442aece7107ea6adb01b3ae63f18569e07817bf5342",
+      "bytes": 77163
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-integrated-02/build-development.log",
+      "sha256": "322727ba7ea0d2b54ca27aeabd02e3755746a6ed995df513904698ea530e0211",
+      "bytes": 592941
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-integrated-02/build-release.log",
+      "sha256": "eaebcfae3eef96806a1218c009428f625f58c773b6efae6f3ae5f2d297d7a036",
+      "bytes": 590404
+    }
+  ],
+  "packages": {
+    "WindowsDev": [
+      {
+        "path": "Builds/WindowsDev/Coronach.exe",
+        "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6",
+        "bytes": 667648
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Combat.dll",
+        "sha256": "5ecc85c78bb1a8f87613d562d1c565374f0f3d875e87a70c7eab75477b4dcc5d",
+        "bytes": 104448
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Core.dll",
+        "sha256": "9ec0e2a7f12a8d246df3f1d349928037523f61513312fcd9ec704432d8dde59f",
+        "bytes": 60928
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Data.dll",
+        "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332",
+        "bytes": 12800
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "sha256": "9838089f97685c09fe146e70e2606b97889f3ba0f09a023634d43dc7fa25ff75",
+        "bytes": 20992
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "sha256": "d67b3147d912f7a93fb745e20e440dd2e66e082317882ae99d7a6964d9fed3f3",
+        "bytes": 15360
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.UI.dll",
+        "sha256": "2de688c9bd24e05e076c9e658e773087d0251d88386a107fc63066952e44242e",
+        "bytes": 149504
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.World.dll",
+        "sha256": "b1088ea760f0b64f47f45dff3e8fbea442c74aa99635730325e6f57c1b8ac61e",
+        "bytes": 18432
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/app.info",
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44",
+        "bytes": 15
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/boot.config",
+        "sha256": "df869a2994a16557161dfacd4a88d61e1eb1f3e60ccd9b3f654f340234d253ee",
+        "bytes": 355
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers",
+        "sha256": "2af3cabb75e2995325ace2c4bdf9323808975c7e848afeff4ad7108c915bf8bc",
+        "bytes": 268164
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets",
+        "sha256": "903642d0a1751b747f887e7ee2562717309824ad2224488b4e942d7162ded10e",
+        "bytes": 1004956
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets.resS",
+        "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a",
+        "bytes": 6176992
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level0",
+        "sha256": "8da8fb5d0c9f1a9e5160e3183fa9c7ed7155734f5e60cc692b3b6dd006789726",
+        "bytes": 3820
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level1",
+        "sha256": "be3c0b514523492e46c7ac05815be1442479bb523ef332aea5c726615fa63666",
+        "bytes": 1136
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2",
+        "sha256": "093778e485c281baa26496db66b94b631569dc446d0b497febe70d082f9735cc",
+        "bytes": 1151724
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2.resS",
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b",
+        "bytes": 41200
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level3",
+        "sha256": "267c3d8e2d624c0f50046a38a09b905462406bc09745c92514bf05df797aa696",
+        "bytes": 923184
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4",
+        "sha256": "05f0180439211698633f815f4947a3d089a27f1cef6e176e2a17ef9ecb61fe86",
+        "bytes": 157084
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4.resS",
+        "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875",
+        "bytes": 22528
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5",
+        "sha256": "2fe3b438935c27aaf4571fb949177caad407eb97ad298467d989d2e149c0aa80",
+        "bytes": 209428
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5.resS",
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9",
+        "bytes": 2880
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level6",
+        "sha256": "cc8d288c42c95a5c927ac0c284cbbe18a7c01ee3f26b86ae95b0d43f2d9c7a9d",
+        "bytes": 20172
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level7",
+        "sha256": "0ad5e3ba8ca8d0e9bfc898ae6fc3e4a41c5c798f6a7a8d05de988b54bd605f81",
+        "bytes": 123548
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level8",
+        "sha256": "46686c4153bca68eb7a5fadd91b3a225e5ab419e637a36029da4a795794bac26",
+        "bytes": 20652
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level9",
+        "sha256": "7651c21046653d9d6f1178a19b6dcea75f26446b06c17dbac1bed8b416e9d6c8",
+        "bytes": 30940
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets",
+        "sha256": "80f8d33c14c9ee648efc2d1be889187739b07e4cec735231345666f9da7917ca",
+        "bytes": 15924680
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets.resS",
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af",
+        "bytes": 263319296
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.resource",
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710",
+        "bytes": 8138400
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3",
+        "bytes": 4700
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/ScriptingAssemblies.json",
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959",
+        "bytes": 5261
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets",
+        "sha256": "8e3d336791155eecaad7ae0043983c6371bd657613a76b0292d61d41a59a149d",
+        "bytes": 83648
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets.resS",
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36",
+        "bytes": 524288
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets1.assets",
+        "sha256": "df98d356261ed894f8eacd06f77417d3cdf8dd663232ae5d820f448cc43035ee",
+        "bytes": 361
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets",
+        "sha256": "6afe7a872ab2afb04f7ef9ac54eb9359b62a4d92af448f44bd6a37826668d499",
+        "bytes": 603360
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets.resS",
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184",
+        "bytes": 11042016
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets",
+        "sha256": "4bb38f675d1980486a9d9191d615f3c0e4771069e093214ef850b43375c745bf",
+        "bytes": 345044
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets.resS",
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5",
+        "bytes": 7071712
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets",
+        "sha256": "58737cafe04f34a5c3f7cca4317d186a51590c426c05ae23d36f0a575729d9da",
+        "bytes": 679316
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets.resS",
+        "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b",
+        "bytes": 15370464
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets",
+        "sha256": "b3087a2b973adcbf376b091c06671415ad9657d0968b605c4cc2b3eed860cbc5",
+        "bytes": 367124
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets.resS",
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c",
+        "bytes": 5151584
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets",
+        "sha256": "00a04946871f2476559c6d73ae0206f1411b110e9baf797ed30995e5229f1af7",
+        "bytes": 72932
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets.resS",
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec",
+        "bytes": 1693152
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets7.assets",
+        "sha256": "5d17167986429546e8d0f7dc9b95a92da11620fad8d0ad5e0df4c73b7e5f135b",
+        "bytes": 10580
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets8.assets",
+        "sha256": "8c5d1cf1c0ac299969f214ad7ac0f1b952d341eceacb0fdf9349e93d44de164a",
+        "bytes": 3716
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets9.assets",
+        "sha256": "2b4f6f4986c07b1f6ddbb921440074739ba68f1872cd0c3f5cb9b6ee0ef333d2",
+        "bytes": 2116
+      }
+    ],
+    "Windows": [
+      {
+        "path": "Builds/Windows/Coronach.exe",
+        "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7",
+        "bytes": 667648
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Combat.dll",
+        "sha256": "4a7db7dc4354d65163384fc450fb699d7dadd14b4c21fa7f0a4b36e3dbd90e71",
+        "bytes": 97280
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll",
+        "sha256": "ec3ec527265ed31ee9fd1baabad6fbdee1060b1157c31f6cafcd95f8fba6a771",
+        "bytes": 58880
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Data.dll",
+        "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1",
+        "bytes": 12800
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "sha256": "6f6e4df49911db50b1b350c630abe8ac3bad2ba1e4d78a7f3de3c2b50cd2a421",
+        "bytes": 19968
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "sha256": "af0b0a655bb7bf9cc097a172b4683aef40aefed1195ce86dda76bb87b1472ab9",
+        "bytes": 14848
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll",
+        "sha256": "0606ea0f39c8feae93354a830c58fbe0c4b53632fe09759e14182995c567d2cd",
+        "bytes": 134656
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.World.dll",
+        "sha256": "cfa27daec34d0b7bfbb5e937bb2a9cf9e6645bf57b5726a047bbe86070145ba1",
+        "bytes": 17920
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/app.info",
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44",
+        "bytes": 15
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/boot.config",
+        "sha256": "56a4793a13b1adb1c9b3b1a9637aacac0538d8c4c12ad0d94a519c10dc2f7876",
+        "bytes": 156
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers",
+        "sha256": "e291d8a0951a87c9d2db4beed0bc998d832c877bc25a97585290025d3cc2f183",
+        "bytes": 268164
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets",
+        "sha256": "4a7b6ea84b564524cb41a4fc8b568d32ff060aca7aa7b93687dbbc3f5e015e15",
+        "bytes": 1004780
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets.resS",
+        "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04",
+        "bytes": 6174944
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level0",
+        "sha256": "ec1fc460e1285454d813b17d93b3adde7a429e6bb46de4a8999a52f5230e7b6c",
+        "bytes": 3820
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level1",
+        "sha256": "02e21eae860d5ab392c5c68fb44d2355a4f98a12e03a328d7147a6a2165f2cf4",
+        "bytes": 1136
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2",
+        "sha256": "4b30b3f0155dda2e02678f5bf21d3507e1195b91c607b9c69f0695382aaf9980",
+        "bytes": 1151724
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2.resS",
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b",
+        "bytes": 41200
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level3",
+        "sha256": "82a95538d8e6dd00213162469dfcf3707e6d8d39b77dce31b126ed6ea32a0def",
+        "bytes": 923184
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4",
+        "sha256": "c20ab77ba4e9fb34a0c67d8dacac36789220ba3d5a471d58e6779bc44d54b153",
+        "bytes": 157084
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4.resS",
+        "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875",
+        "bytes": 22528
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5",
+        "sha256": "e9bf32b19b40d247f2a468b9115a5e5fdc33f1735fd782d519858242a155faf6",
+        "bytes": 209428
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5.resS",
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9",
+        "bytes": 2880
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level6",
+        "sha256": "00bc1ba70d97dc04430d13518a17f2f901a54a0cea95e35a1e6d3b3556b5dc7d",
+        "bytes": 20172
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level7",
+        "sha256": "18f561c5af50b49b326b59f94cd06e4ab2305bb933b1b9e433edc3ccdf4f96a4",
+        "bytes": 123548
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level8",
+        "sha256": "0fac520b638f43586026a1d33cea7d6eb69d46256b2631673bedc6316efa31d5",
+        "bytes": 20652
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level9",
+        "sha256": "b636f88a4fcfac1ddc43d0bfc803c5b73b06d70f7c93069c28ea6bf4b6c826df",
+        "bytes": 30940
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets",
+        "sha256": "49029ae0fb1e5a9d0a89bab7f8d940d5023aa46bf57064b34e73a6bfd9c0fcff",
+        "bytes": 15924680
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets.resS",
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af",
+        "bytes": 263319296
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.resource",
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710",
+        "bytes": 8138400
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3",
+        "bytes": 4700
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/ScriptingAssemblies.json",
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959",
+        "bytes": 5261
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets",
+        "sha256": "9696b6ecd735fe4cc6bff2390dd1340e97191bcd5e6c614e498410079d048a76",
+        "bytes": 83648
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets.resS",
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36",
+        "bytes": 524288
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets1.assets",
+        "sha256": "24a6575213cfe6407d9b12b1e88d8ef28ca2d678df8c4b87181664b4e6e2f7ec",
+        "bytes": 361
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets",
+        "sha256": "4d61e77261f7a53c13cf5b2b09296123d7fbfd2afc6d0c7a180b92474ba32ef3",
+        "bytes": 603360
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets.resS",
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184",
+        "bytes": 11042016
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets",
+        "sha256": "505a4d71dafd5010ef2fe6e90a74ffd4ff1efdded0f72494f78d7c032fbd4f58",
+        "bytes": 345044
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets.resS",
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5",
+        "bytes": 7071712
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets",
+        "sha256": "c6cf90193ddc4e861cf283665c0b12524424fb6dd03f370986ea7d9d34d39c99",
+        "bytes": 679316
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets.resS",
+        "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b",
+        "bytes": 15370464
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets",
+        "sha256": "58b53768899b15db301b916adcecd789cd0926c10a22205243b2719888a5c664",
+        "bytes": 367124
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets.resS",
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c",
+        "bytes": 5151584
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets",
+        "sha256": "93c9f87c94f8625038bedc89b48148983201062ede693692dba2611ef56c3535",
+        "bytes": 72932
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets.resS",
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec",
+        "bytes": 1693152
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets7.assets",
+        "sha256": "e21691358d76f139436be63e6b7ff9ff35c0d5fcbab3a159f917939d87e45413",
+        "bytes": 10580
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets8.assets",
+        "sha256": "7e8c027c6d834a8d259092f82c93ee5d313c2d4a50ed603acf03db6568a8f32f",
+        "bytes": 3716
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets9.assets",
+        "sha256": "8013a7def23e63919d1ee4df24bd9f7c5afc38af571b49a87f816ced6f1f5716",
+        "bytes": 2116
+      }
+    ]
+  },
+  "player": [
+    {
+      "run": {
+        "route": "c3-ground-skills",
+        "sourceRevision": "C3 ground skill candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2811,
+        "refreshHz": 60.0,
+        "seconds": 46.8255437,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0703929000000008,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 2811,
+        "seconds": 46.825544,
+        "distance": 141.23013123365214,
+        "medianMs": 16.6569,
+        "p95Ms": 17.1121,
+        "p99Ms": 17.3102,
+        "worstMs": 34.8879,
+        "hitches": {
+          "25": 1,
+          "33.3": 1,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 5,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 40,
+        "stoppedCameraWhileWalking": 13,
+        "interactions": [],
+        "stabilityWindows": [],
+        "worstFrames": [
+          {
+            "elapsed": 12.922005,
+            "ms": 34.8879,
+            "checkpoint": "move to west ridge approach",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16671400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 28.999033,
+            "ms": 23.705,
+            "checkpoint": "fight within the field",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16661000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 25.579395,
+            "ms": 21.574,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16663300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.708593,
+            "ms": 21.5509,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16670200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 27.362075,
+            "ms": 20.6827,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16665800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 11.040142,
+            "ms": 19.793,
+            "checkpoint": "move to west ridge approach",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16657700,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 22.659764,
+            "ms": 18.8383,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16670000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.972457,
+            "ms": 18.5306,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16661600,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focus": 2811,
+      "files": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/build.json",
+          "sha256": "c16473a6d71f8e85771f7fc08d515a8a53d58ffe5eb2ae53a399de4222930445",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/environment.json",
+          "sha256": "b8509da9826067bbd39f0ec2a5bdd5da6471e2496a7dacc27711e36ce8c835b9",
+          "bytes": 531
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/run.json",
+          "sha256": "c0a51d35bc4eac85931189685317acaf8191f4a975bc3ed55f3e6a778260a93d",
+          "bytes": 795
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/analysis.json",
+          "sha256": "656eedc1a98fac5489f953cea205176c489d7976f79da4ed1d052d6299e99a74",
+          "bytes": 2413
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/route.json",
+          "sha256": "dc32a54f588097ff6732c479b55fda01a4bb63cd557e1c22cadd19e36865f967",
+          "bytes": 22448
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/frames.csv",
+          "sha256": "de7b1846b5c346c5677b8132abe6608f9fbe550433a6c8f5b5dec1a5be89c034",
+          "bytes": 750472
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/player.log",
+          "sha256": "eda91b4fe710768c3c826c65b8ba9438ee3e2f2854453e0649b2588e46271525",
+          "bytes": 4479
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/replay.mp4",
+          "sha256": "26de160a37c027bced40040d51d0f02b2cec322e62d2d4dc29c216e78fa176f1",
+          "bytes": 131257755
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/mix.wav",
+          "sha256": "f5dc334c1914f4e4c538022ab2856ab714fdd5a42185e8401cf5b5afd4d10900",
+          "bytes": 17997868
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/004.png",
+          "sha256": "25cf2c891d3948075b5d0f9450819eefc7c98fb427eda75ee0b0831ab5c4d673",
+          "bytes": 3218545
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/005.png",
+          "sha256": "3e6fd7706666ce661d24d7e979c2c507d936707f2e6f3d8fa15ef61d6d8e84e0",
+          "bytes": 3217859
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/009.png",
+          "sha256": "5bd0181088a0ded662f2c656fddc0109b1e95805ee5bf26d042b07620f6e881f",
+          "bytes": 3210417
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/013.png",
+          "sha256": "449d578a6aa26b067198a5f1ab0189913044fd417d5c0a88e9d384a157ed2e6a",
+          "bytes": 3213643
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/014.png",
+          "sha256": "8cb367f09fece5d702fe0841f5218afc7145d9ddfc0bfc7b12831fd66dc70947",
+          "bytes": 3218841
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/015.png",
+          "sha256": "da3d960d82cadceebe95fad715164185a06e31f7d46d1bf6c7f00f109a70c7ae",
+          "bytes": 3228415
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/016.png",
+          "sha256": "77299e2c81058f24b24c812899f565e19802a009e0f503c0e7688e4a274ec926",
+          "bytes": 3233247
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/021.png",
+          "sha256": "9d54972e10fe1a7248328ac4839d7ecaa3a89934e5e3e81228e47483e77b798b",
+          "bytes": 3242851
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-01/026.png",
+          "sha256": "c94c5c5f8f10afc5ca1ba5d09480ee69b0874386030c54a214f0eecc8a1a5e00",
+          "bytes": 3235305
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-ground-skills",
+        "sourceRevision": "C3 ground skill candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2812,
+        "refreshHz": 60.0,
+        "seconds": 46.8425138,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.100802700000001,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 2812,
+        "seconds": 46.842514,
+        "distance": 139.3218461889345,
+        "medianMs": 16.6658,
+        "p95Ms": 17.1204,
+        "p99Ms": 17.334,
+        "worstMs": 22.5162,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 5,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 49,
+        "stoppedCameraWhileWalking": 16,
+        "interactions": [],
+        "stabilityWindows": [],
+        "worstFrames": [
+          {
+            "elapsed": 28.978051,
+            "ms": 22.5162,
+            "checkpoint": "fight within the field",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16660900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.708985,
+            "ms": 21.6704,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16665200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 25.558685,
+            "ms": 20.4853,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16662100,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 27.325441,
+            "ms": 20.442,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16666000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.974125,
+            "ms": 19.8563,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16665400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 8.707015,
+            "ms": 19.6306,
+            "checkpoint": "Static Net throw",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16665300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 31.906929,
+            "ms": 19.059,
+            "checkpoint": "Pulse in encounter",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16666100,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 11.190116,
+            "ms": 18.7876,
+            "checkpoint": "move to west ridge approach",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16660800,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focus": 2812,
+      "files": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/build.json",
+          "sha256": "bcee5f171eaa61a249d6e3ba3059be80baf17825a12685e66b25a7068cb5540b",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/environment.json",
+          "sha256": "74ad119e2ff0c16187571ba6874d217b46754858b55a98860c39c60d1586dd20",
+          "bytes": 529
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/run.json",
+          "sha256": "dcf0cd676ac2742231dc4b8d1fc92199182be1879a0a475b5877cba826c3e1b0",
+          "bytes": 794
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/analysis.json",
+          "sha256": "2011f222ce728c38ff5a801abc0a77c6f11b97224fcb9d35e1c88483ad687dd7",
+          "bytes": 2402
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/route.json",
+          "sha256": "dc32a54f588097ff6732c479b55fda01a4bb63cd557e1c22cadd19e36865f967",
+          "bytes": 22448
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/frames.csv",
+          "sha256": "7a7f91480bcbdb54f9d848cede73d9380de46ac4c098bdb818ff4ce202df6e15",
+          "bytes": 751902
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/player.log",
+          "sha256": "b7807fecbc3dc4178dd0017e3136d30b5f4c19a320e1f07f8c67f54b12d47318",
+          "bytes": 4479
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/replay.mp4",
+          "sha256": "10feba86689e1e591f1708cc50fea9b9a4bec33cc1194ba5a98ac552ba2c7cc3",
+          "bytes": 130672697
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/mix.wav",
+          "sha256": "2ae8604722ab05dac10f12077784edfa99dd58498132026561c81795f4ef986c",
+          "bytes": 18006060
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/004.png",
+          "sha256": "8df82f25cd9e441eb348782079ac15bbb04fd832b159fb2d2798f3644ef23f11",
+          "bytes": 3211238
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/014.png",
+          "sha256": "2f92d86d48ea8e60a8e0ca105b26c2c468e45bd1a21c92a1cc2865977565f1dd",
+          "bytes": 3221713
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-02/016.png",
+          "sha256": "d1133176bbdfbb7efd93201901034ad234f7388449de5ad44a53a51a5796fff6",
+          "bytes": 3233569
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-ground-skills",
+        "sourceRevision": "C3 ground skill candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2811,
+        "refreshHz": 60.0,
+        "seconds": 46.8220107,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0702506000000005,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 2811,
+        "seconds": 46.822011,
+        "distance": 139.37404939649278,
+        "medianMs": 16.6631,
+        "p95Ms": 17.158,
+        "p99Ms": 17.3649,
+        "worstMs": 30.4588,
+        "hitches": {
+          "25": 1,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 5,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 50,
+        "stoppedCameraWhileWalking": 16,
+        "interactions": [],
+        "stabilityWindows": [],
+        "worstFrames": [
+          {
+            "elapsed": 34.468001,
+            "ms": 30.4588,
+            "checkpoint": "finish ordinary melee",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 17020700,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 28.977257,
+            "ms": 22.5408,
+            "checkpoint": "fight within the field",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16660400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.708529,
+            "ms": 21.3428,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16660500,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 25.558453,
+            "ms": 20.5885,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16665900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 27.357994,
+            "ms": 20.3419,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16666500,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 11.207163,
+            "ms": 20.0479,
+            "checkpoint": "move to west ridge approach",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16669800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.973879,
+            "ms": 19.8869,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16660600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 43.69133,
+            "ms": 19.0842,
+            "checkpoint": "return to southern trail",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16665900,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focus": 2811,
+      "files": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/build.json",
+          "sha256": "9cdf3d2eff1a8d7c3fd52aeb47efcb5ca918b8cb262659cbb9612ae09b06f39d",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/environment.json",
+          "sha256": "eac5d6b1a81d9b19a0ee9a9cdd5eafac03816c2ebea78604c1da0ae66e327e3f",
+          "bytes": 617
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/run.json",
+          "sha256": "ea0d15a8a52676f61f02c5168386b11353a005bf74ebac61bb5b782210586542",
+          "bytes": 795
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/analysis.json",
+          "sha256": "a05703c908018f07bf244957439cd743c0249f66f1cf3e0ed4b24a9e0fa27589",
+          "bytes": 2416
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/route.json",
+          "sha256": "dc32a54f588097ff6732c479b55fda01a4bb63cd557e1c22cadd19e36865f967",
+          "bytes": 22448
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/frames.csv",
+          "sha256": "e0068306433cc11b057066e74e71c84a3e572c950676748c761c63a2dc1694ea",
+          "bytes": 750573
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/player.log",
+          "sha256": "c6ea7630e4c3858e65d25178ee2ff0b4c79bf0da80a332575ced270164c2bd5c",
+          "bytes": 4479
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/replay.mp4",
+          "sha256": "dc26f64642f2a8da10a72fa6120b08bb1d9db73ed0d025bb8107851aee2b6fed",
+          "bytes": 130638244
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/mix.wav",
+          "sha256": "faf3b2f0478a684b83cd6f980d916f7bf77d04cdb90d176f6ac4376305ea51b0",
+          "bytes": 17997868
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/004.png",
+          "sha256": "1c29087ea578216906152621739a73ebf551db3e6fa2394c9843dea2ef37f0e1",
+          "bytes": 3216412
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/014.png",
+          "sha256": "39a11c40986ad93125744a8a321d62aedb3a1db0d8f371b13dc37230a933b317",
+          "bytes": 3219325
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/016.png",
+          "sha256": "6102fd0c3fcbfc0ba46fafac9d9b155546011e0f272cf953365472dd6005b33a",
+          "bytes": 3231157
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-03/026.png",
+          "sha256": "e54b83c10bc2f5481ac9369f5ac7e14e4a1dd6d1dcc795c516717e380d97580e",
+          "bytes": 3229208
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-ground-skills",
+        "sourceRevision": "C3 ground skill candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2811,
+        "refreshHz": 60.0,
+        "seconds": 46.8244215,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1245522000000006,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 2811,
+        "seconds": 46.824422,
+        "distance": 139.4409542595326,
+        "medianMs": 16.6755,
+        "p95Ms": 17.1617,
+        "p99Ms": 17.4646,
+        "worstMs": 22.9694,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 5,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 49,
+        "stoppedCameraWhileWalking": 16,
+        "interactions": [],
+        "stabilityWindows": [],
+        "worstFrames": [
+          {
+            "elapsed": 29.179738,
+            "ms": 22.9694,
+            "checkpoint": "fight within the field",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16666000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 25.578359,
+            "ms": 21.7285,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16665600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 27.377884,
+            "ms": 21.1436,
+            "checkpoint": "follow west path",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16665700,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.69148,
+            "ms": 20.6714,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16666600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.95715,
+            "ms": 19.773,
+            "checkpoint": "Pulse cast and release",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16666700,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 11.174056,
+            "ms": 19.6366,
+            "checkpoint": "move to west ridge approach",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 16689900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 31.909378,
+            "ms": 19.3446,
+            "checkpoint": "Pulse in encounter",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16672200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 8.723289,
+            "ms": 19.0919,
+            "checkpoint": "Net seed flight",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16661600,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focus": 2811,
+      "files": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/build.json",
+          "sha256": "20d9deae142af58719a600b06f8f2d0430c6545afe88989759797cc5d35c3aa4",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/environment.json",
+          "sha256": "aff33b7e98b36d6d2bca631af81f957197b0c837af5db469bc23ac437779d432",
+          "bytes": 623
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/run.json",
+          "sha256": "1797a7aba64052259ab62a086e5256e32a0c75f1d95dfc5200a518ecdb400e5c",
+          "bytes": 795
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/analysis.json",
+          "sha256": "e43101482707dbcf12c02acaef6531b4abfac27544f5fb4a43e06cc599b08b42",
+          "bytes": 2401
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/route.json",
+          "sha256": "dc32a54f588097ff6732c479b55fda01a4bb63cd557e1c22cadd19e36865f967",
+          "bytes": 22448
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/frames.csv",
+          "sha256": "45cd485e6579b7da1b752e08f0c810ed558f01654c5a3e5c78b37cc44d0dd255",
+          "bytes": 751653
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/player.log",
+          "sha256": "2c35c96ecb3ca4ca53c22430c2c9dce9fc12e39c685dd4a5f4885901f112120f",
+          "bytes": 4479
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/replay.mp4",
+          "sha256": "14801e5c2b785f961f9a2625525d81c88026e27b3f0c78de1ae6d7383283c069",
+          "bytes": 130918281
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/mix.wav",
+          "sha256": "bf8aa2afef307ccb2b213e5b39715a13304e9e17eebd96e824a059e56157dbf8",
+          "bytes": 17997868
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/004.png",
+          "sha256": "06328ba636db214f8acf771f6088385ad638279f9d40f959a5f52ce46052ac85",
+          "bytes": 3221148
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/009.png",
+          "sha256": "32099a2d96fdcf24c162a1f64b6fefe41eb6a33d7fc309de1d95851381c12f15",
+          "bytes": 3213296
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/014.png",
+          "sha256": "07cc7497edd44c37cdc6ef77176fcb0487626edcb0e1839fe2ae0142d8fce2de",
+          "bytes": 3220715
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/016.png",
+          "sha256": "46a5987551902bbb822ac270ca62d98e9f44da2edc5ce7c32d73a2415d71c2c4",
+          "bytes": 3248079
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/021.png",
+          "sha256": "822b624ded5e55f2ce2b1eb637d521e51e642ec99b0d33fdee2f2667d31317ae",
+          "bytes": 3260743
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/026.png",
+          "sha256": "205a62a614772e5fae8579043d00ff8db54d4db10afde4b58ab0a6a604f00b19",
+          "bytes": 3250977
+        },
+        {
+          "path": "Builds/quality/C3/ground-skills-player-04/029.png",
+          "sha256": "8d8c41e8cca02d6977ee5a52aece162cb0fd8d2ba15650e923eb7f976911073f",
+          "bytes": 3219337
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-sentinel-armor",
+        "sourceRevision": "C3 ordinary recoil and persistent armor candidate; exact source/package hashes belong to the recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 3256,
+        "refreshHz": 60.0,
+        "seconds": 54.2500383,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0698781999999998,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 3256,
+        "seconds": 54.250038,
+        "distance": 199.26535246998307,
+        "medianMs": 16.6699,
+        "p95Ms": 17.0985,
+        "p99Ms": 17.3797,
+        "worstMs": 30.2464,
+        "hitches": {
+          "25": 1,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 5,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 41,
+        "stoppedCameraWhileWalking": 9,
+        "interactions": [],
+        "stabilityWindows": [],
+        "worstFrames": [
+          {
+            "elapsed": 16.236481,
+            "ms": 30.2464,
+            "checkpoint": "east outer trail",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 20051300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 41.919491,
+            "ms": 24.4564,
+            "checkpoint": "approach armor sentry",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16667400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 49.053138,
+            "ms": 24.3272,
+            "checkpoint": "retreat to ridge",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 21402900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 6.495852,
+            "ms": 23.2618,
+            "checkpoint": "east outer trail",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16679300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 44.182868,
+            "ms": 21.0891,
+            "checkpoint": "Scatter Bloom into armor resistance",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16669300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 46.416065,
+            "ms": 20.9207,
+            "checkpoint": "ordinary companion melee observation 9",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16669300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 44.315205,
+            "ms": 19.7672,
+            "checkpoint": "release Scatter input",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16669800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 41.031256,
+            "ms": 19.4776,
+            "checkpoint": "swap to Sela before the encounter",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16667600,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focus": 3256,
+      "files": [
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/build.json",
+          "sha256": "d13aa173c6449e1f1182de2d5c0627b2f1fada6443c465a20ddf958077ec99c1",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/environment.json",
+          "sha256": "84c45cd863add7a40459839eccf5af5878e1773bf319520bc25edb7e2c54179c",
+          "bytes": 123
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/run.json",
+          "sha256": "f66e25140c3212ac8c7cc708775687de03ba2307d3cf524a796cdb1f470e7af2",
+          "bytes": 839
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/analysis.json",
+          "sha256": "c0f67009963ad3ae2490eaf532fcc602f1fc2d31e078433fbf52f5f0c65c8275",
+          "bytes": 2444
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/route.json",
+          "sha256": "b488fe1cc8c02b47b4715c672fcad916246e5b784026b36c62538d9c7bcf70db",
+          "bytes": 16597
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/frames.csv",
+          "sha256": "e02d83fe0b3502f8fc2713ec60b9448ba18de2cb723c22e187d3084b83d423fc",
+          "bytes": 861656
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/player.log",
+          "sha256": "ad44e6eee6d112eac94cc90d731ccb24a7d4454cee3f37d5d1934cd9a189148c",
+          "bytes": 4247
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/replay.mp4",
+          "sha256": "bfad23d32959ab930b5eb513a2d64b1e4f89b457c063aaec805fd3106f8efc17",
+          "bytes": 146297342
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/mix.wav",
+          "sha256": "f2b7e563df31be8dee6dc391e668e47978ec3108fa1e418ad077c79bb6b23487",
+          "bytes": 20848684
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/008.png",
+          "sha256": "0a011c37ceef44808e12c0ffdbfa0eb71a07e5f0c71f85dfe20b2de995ca7795",
+          "bytes": 3239798
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/010.png",
+          "sha256": "1bfec10ff2fa7c05341d3ef3e47bd71ebcedf94b38dbc838a0d2499b00fb625c",
+          "bytes": 3228662
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/011.png",
+          "sha256": "083ac4a17d94a51cc37a7ea3c80a1473dcb11c291964d7264c7241c646fbf22a",
+          "bytes": 3227432
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/012.png",
+          "sha256": "6a87ea593f393c09bb4f11862c0f4f545c0b36ff8bfa8138568b165dbc70d9fb",
+          "bytes": 3226326
+        },
+        {
+          "path": "Builds/quality/C3/sentinel-armor-player-02/021.png",
+          "sha256": "b5eb115e52bc5cb6e06d43c6c9fc583a387ae91d6d918954fdfadb19e53e20f6",
+          "bytes": 3119649
+        }
+      ]
+    }
+  ],
+  "observation": "Codex opened the listed actual pose/player screenshots. Final skill04 shows calibrated soft Pulse ring, actual dash pose, visible Net seed, persistent field, Net during a real fight and return. The step named Pulse in encounter is after encounter clear, so it does not establish a living Pulse victim in that recording. Armor02 shows one persistent ring without the redundant pellet bursts, removal at break and return. Prior player01/02/03 presentation attempts remain rejected as documented. Continuous normal/slow video viewing, actual audio audition and physical Logitech feel UNVERIFIED. These captures do not accept C1 timing, Sorrel spatial design or the complete C3 gate.",
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+      "bytes": 914
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745",
+      "bytes": 891
+    }
+  ]
+}

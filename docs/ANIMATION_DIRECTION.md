@@ -8,7 +8,7 @@
 
 - Separate walk, jog and sprint clips, selected and timed from actual post-collision unscaled motor displacement. C2 adds generated-sole calibration, bounded two-bone contact correction, deliberate lock-on side/back stepping and short physical start/braking phases; independent flat/ramp/heading tests pass, with ordinary-player and watched-motion acceptance still open. Civil walking is 2.6 m/s; holding sprint reaches 5.4 m/s. Combat retains its faster traversal.
 - Taren has three different ordinary swings, a stronger third hit, a short combo input buffer, a held guard pose, roll, stagger, cleave, dash and cast motions. Sela has a mirrored left-arm ranged stance and shot plus skill poses. A masked firing layer preserves her moving leg stride; the base and action clocks remain independent, with rendered-sole/pause regression and ordinary-player still evidence in C3-moving-fire.
-- Ground damage waits for the attack wind-up. Taren's cuts/Arc Cleave sweep the visible wrist edge during move-specific animation phases. Sela's needles, Scatter Bloom and Thread Lance release from the posed left hand; the lance stops at cover along its visible path. Dodge, guard, stagger and death cancel pending work, and pause holds it. Other skills still use timed contact; full per-move choreography/cancel data and observed motion remain open. See [C3 ranged evidence](validation/C3-ranged.md).
+- Ground damage waits for the attack wind-up. Taren's cuts/Arc Cleave sweep the visible wrist edge during move-specific animation phases. Sela's needles, Scatter Bloom and Thread Lance release from the posed left hand; the lance stops at cover along its visible path. Dodge, guard, stagger and death cancel pending work, and pause holds it. Ember Dash now moves through the controller during its posed blade sweep; Pulse releases a visible expanding wave, and Static Net throws a visible, cover-limited seed. Overdrive and Refract still use timed activation; their complete buff/counter choreography and observed motion remain open. See [C3 ranged evidence](validation/C3-ranged.md).
 - The generated Shaped vanes now attach to Chest/Hips. Unity previously rejected parenting into the imported model instance, leaving them behind during torso motion. Intake now unpacks that hierarchy before attaching them and verifies the parent.
 - Flight uses two dedicated generated spacecraft: Taren's broad ivory/black/amber hull and Sela's narrow cyan/violet swept hull. Banking, boost pitch and barrel roll act on the visible ship, leaving the gameplay collider stable. The transition collapses one form and expands the next over 0.6 seconds; it is not yet a skeletal panel-folding transformation.
 
@@ -41,3 +41,15 @@ Names and future mechanics above are proposals. Existing four-skill data remains
 5. Review a full five-minute ground encounter and a flight encounter on the physical Logitech, including rapid taps, movement while attacking, guard/dodge cancellation and character swap. Automated route completion and static pose renders cannot close that feel check.
 
 The current visual-quality rejection remains open. Environment composition, detailed hand/cloth deformation, character-specific movement and attack effects still need work.
+
+## C3 ground skill contact checkpoint
+
+The current existing skills have these explicit contact windows. These implementation values do not accept continuous motion or the proposed future moveset above.
+
+| Move | Action take and duration | Contact / travel | Recovery ends |
+|---|---|---|---|
+| Ember Dash | Dash, 0.55 s | Root travels through collision at phases 0.25?0.75; visible wrist edge contacts at 0.25?0.78 | 0.495 s |
+| Pulse | Buff/open-hand cast, 0.55 s | Phase 0.46 releases a 0.28 s wave to 5 m; one hit per exposed victim | 0.49 s |
+| Static Net | Pulse/throw, 0.65 s | Phase 0.255 releases from right hand; 0.34 s arc, at most 6 m, solid cover stops placement | 0.56 s |
+
+Ground cast work cancels on owner/action interruption; already released energy completes its bounded lifetime. Pause holds both. Particle ring crests are mapped to their actual damage boundary, accounting for the owned texture's padding; cover clips the visible surface as well as the damage. [Ground skill evidence](validation/C3-ground-skills.md) retains functional and visual rejections. Existing four-skill definitions remain authoritative; no extra move is unlocked by this checkpoint.

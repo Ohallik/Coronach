@@ -8,11 +8,8 @@ namespace Lattice.Combat
         float nextPulse;
         void Start()
         {
-            var field=ActorFactory.Visual("NetField",PrimitiveType.Quad,transform,new Vector3(radius*2,radius*2,1),Vector3.up*.1f,"Emission");
-            field.transform.localRotation=Quaternion.Euler(90,0,0);
-            var renderer=field.GetComponent<Renderer>();renderer.sharedMaterial=Resources.Load<Material>("Effects/circle_02");
-            var tint=new MaterialPropertyBlock();tint.SetColor("_BaseColor",new Color(.12f,.85f,1,.8f));renderer.SetPropertyBlock(tint);
-            renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            var ring=gameObject.AddComponent<GroundRing>();ring.Initialize(radius);
+            ring.Draw(radius,new Color(.12f,.85f,1,.8f));
         }
         void Update()
         {
@@ -21,7 +18,9 @@ namespace Lattice.Combat
             if(Time.time<nextPulse)return;nextPulse=Time.time+1;
             foreach(var health in Health.All.ToArray())
             {
-                if(health==null||health.friendly||!health.Alive||(health.transform.position-transform.position).sqrMagnitude>radius*radius)continue;
+                if(health==null||!health.Alive||health==packet.source||packet.source!=null&&health.friendly==packet.source.friendly||
+                    (health.transform.position-transform.position).sqrMagnitude>radius*radius||
+                    !CombatCover.Clear(transform.position+Vector3.up*.75f,health.transform.position+Vector3.up*.75f))continue;
                 health.SlowUntil=Time.time+1.2f;health.Receive(packet);
             }
         }

@@ -38,7 +38,8 @@ namespace Lattice.EditorTools
                 if(DevArgs.Has("-wrist-edge"))edgeMaterial.SetTexture("_BaseMap",Texture2D.whiteTexture);
                 edge.sharedMaterial=edgeMaterial;edge.positionCount=2;edge.startWidth=.08f;edge.endWidth=.02f;
                 edge.startColor=edge.endColor=new Color(1,.65f,.12f);
-                foreach(string state in id=="TarenShaped"?new[]{"Attack1","Attack2","Attack3","Cleave"}:new[]{"Shoot"})
+                foreach(string state in DevArgs.Has("-skill-poses")?new[]{"Dash","Pulse","Buff"}:
+                    id=="TarenShaped"?new[]{"Attack1","Attack2","Attack3","Cleave"}:new[]{"Shoot"})
                 {
                     var clip=clips.Single(c=>c.name==state);var graph=PlayableGraph.Create("Attack pose");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
                     var playable=AnimationClipPlayable.Create(graph,clip);playable.SetApplyFootIK(false);
