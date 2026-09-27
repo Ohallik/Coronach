@@ -1,0 +1,133 @@
+{
+  "status": "C3 OPEN; enemy-break interruption targeted checkpoint",
+  "sourceBase": "04737bd14d8cfd333253dd3c8fc130f11a82c867",
+  "sources": {
+    "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs": "9c07c3ef5373f2bb9ac735eaa76e8c5187c6bd8447a98fe38831681e0c92718d",
+    "Lattice/Assets/_Project/Scripts/Combat/BossController.cs": "8cc51bad41d0b5f04aa27e0efed123653a00334a84127aaabad6482896ba3ccb",
+    "Lattice/Assets/_Project/Scripts/Combat/HitVolume.cs": "0ab8d71da4bdaa0c582ad7f68407bcc7c9ebb81faf91a41f9c88f6ec2472467f",
+    "Lattice/Assets/Tests/PlayMode/EnemyBreakTests.cs": "3204b5a8429fa8bd40f9b54586043b7b88fc5ea3e7df874aa3f0cbb054ecaeed"
+  },
+  "records": [
+    {
+      "path": "Builds/quality/C3/enemy-break-red",
+      "result": "Failed(Child)",
+      "passed": 0,
+      "failed": 2,
+      "skipped": 0,
+      "hashes": {
+        "playmode-results.xml": "d6510adb0700c0afdd55834a6bb87b4fe0cec96d291b575c5f77e5e49f21f585",
+        "playmode.log": "bac96e2f31109ac2ba7aa0d17f0fe707c6d2b9bd8685fb02ed84f5c6345c5408"
+      },
+      "tests": [
+        {
+          "name": "BreakCancelsAnExistingUnreleasedHitVolume",
+          "result": "Failed",
+          "failure": "  a broken enemy's already-created pending volume still damages\n  Expected: 120.0f\n  But was:  110.0f\n"
+        },
+        {
+          "name": "BreakCancelsTheOldTellAndRequiresANewWindup",
+          "result": "Failed",
+          "failure": "  SentinelHusk retained the pre-break attack tell\nSentinelHusk retained the visible pre-break warning\nSentinelHusk recovered without a fresh visible tell\nSentinelHusk released an old hit immediately after break\nRidgehound retained the pre-break attack tell\nRidgehound retained the visible pre-break warning\nRidgehound recovered without a fresh visible tell\nRidgehound released an old hit immediately after break\nChoristerDrifter retained the pre-break attack tell\nChoristerDrifter retained the visible pre-break warning\nChoristerDrifter recovered without a fresh visible tell\n  Expected: <empty>\n  But was:  < \"SentinelHusk retained the pre-break attack tell\", \"SentinelHusk retained the visible pre-break warning\", \"SentinelHusk recovered without a fresh visible tell\", \"SentinelHusk released an old hit immediately after break\", \"Ridgehound retained the pre-break attack tell\", \"Ridgehound retained the visible pre-break warning\", \"Ridgehound recovered without a fresh visible tell\", \"Ridgehound released an old hit immediately after break\", \"ChoristerDrifter retained the pre-break attack tell\", \"ChoristerDrifter retained the visible pre-break warning\"... >\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/enemy-break-green-01",
+      "result": "Passed",
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "hashes": {
+        "playmode-results.xml": "fe0d219dea01aa1991c8f9adef9c10215eaa8388269a6d76223ba8720e56836c",
+        "playmode.log": "bdbe3ca021ead9ca19f805504c399717e437bb8647f934f51d538bc0f3afafa4"
+      },
+      "tests": [
+        {
+          "name": "BreakCancelsAnExistingUnreleasedHitVolume",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "BreakCancelsTheOldTellAndRequiresANewWindup",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/enemy-break-boss-red",
+      "result": "Failed(Child)",
+      "passed": 1,
+      "failed": 1,
+      "skipped": 0,
+      "hashes": {
+        "playmode-results.xml": "4e453b49ff0e390760edc54be5e3ecd55e697e42f06b5a0ad6dd3d93482be487",
+        "playmode.log": "18d5d86cc26ef1f83417dc53092190deb992930bfc5fba4ade52394be6d81f71"
+      },
+      "tests": [
+        {
+          "name": "AnAlreadyReleasedProjectileSurvivesItsOwnersBreak",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "BreakImmediatelyCancelsBothBossSpecialTells",
+          "result": "Failed",
+          "failure": "  Burrower special tell survives break\nCantor special tell survives break\n  Expected: <empty>\n  But was:  < \"Burrower special tell survives break\", \"Cantor special tell survives break\" >\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/enemy-break-green-02",
+      "result": "Passed",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "hashes": {
+        "playmode-results.xml": "e8f29f627414024152c1457260d7b7bbf367876926b7e9c19098cf5d058b7fd4",
+        "playmode.log": "230c37f632ee8e38ea9ea9658a6485f1d2819518dacad479e5b177cc1e02bd7d"
+      },
+      "tests": [
+        {
+          "name": "GroundContactWaitsForSwingAndDodgeCancelsIt",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "LethalResolutionCancelsAlreadyCreatedAndPendingLungeContacts",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "AnAlreadyReleasedProjectileSurvivesItsOwnersBreak",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "BreakCancelsAnExistingUnreleasedHitVolume",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "BreakCancelsTheOldTellAndRequiresANewWindup",
+          "result": "Passed",
+          "failure": null
+        },
+        {
+          "name": "BreakImmediatelyCancelsBothBossSpecialTells",
+          "result": "Passed",
+          "failure": null
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Targeted direct-action PlayMode fixtures; not ordinary player input or watched motion.",
+    "Full integrated suites, both rebuilt players and presentation review pending after this change.",
+    "Current packaged players remain ec0ac23."
+  ],
+  "normalSaveHashes": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  }
+}

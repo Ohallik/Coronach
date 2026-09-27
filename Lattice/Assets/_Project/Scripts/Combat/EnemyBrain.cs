@@ -37,7 +37,25 @@ namespace Lattice.Combat
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
             if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit();
-            if(definition.archetype==EnemyArchetype.Sentinel&&packet.type==definition.resistance){Health.ShieldUntil=Time.time+2;CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"shape");}
+            if(Health.Broken)
+            {
+                CancelAttack();Health.ShieldUntil=0;
+                // Recovery can begin a new tell; it must never release the
+                // expired strike that was interrupted three seconds earlier.
+                nextAttack=Mathf.Max(nextAttack,Health.BrokenUntil);
+            }
+            else if(Health.Alive&&definition.archetype==EnemyArchetype.Sentinel&&packet.type==definition.resistance)
+            {Health.ShieldUntil=Time.time+2;CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"shape");}
+        }
+        void CancelAttack()
+        {
+            StopAllCoroutines();lunging=false;Telegraphing=false;strikeAt=attackAnimationUntil=0;
+            if(warning!=null)warning.SetActive(false);
+        }
+        void OnDestroy()
+        {
+            if(Health==null)return;
+            Health.Damaged-=OnDamaged;Health.Died-=OnDeath;
         }
         void OnDeath(Health _,DamagePacket packet)
         {
@@ -45,7 +63,7 @@ namespace Lattice.Combat
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
             CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"kill");
-            StopAllCoroutines();lunging=false;Telegraphing=false;attackAnimationUntil=0;
+            CancelAttack();
             if(definition.id=="Scrapmite")CombatActor.Strike(transform.position+Vector3.up*.6f,2.5f,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
             if(warning!=null)warning.SetActive(false);controller.enabled=false;enabled=false;
         }

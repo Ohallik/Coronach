@@ -12,7 +12,7 @@ namespace Lattice.Combat
         {sourcePresent=packet.source!=null;if(sourcePresent&&packet.source.TryGetComponent(out owner))sequence=owner.AttackSequence;}
         void Update()
         {
-            if(sourcePresent&&(packet.source==null||!packet.source.Alive&&!packet.deathAttack)||owner!=null&&sequence!=owner.AttackSequence)
+            if(sourcePresent&&(packet.source==null||!packet.deathAttack&&(!packet.source.Alive||packet.source.Broken))||owner!=null&&sequence!=owner.AttackSequence)
             {Destroy(gameObject);return;}
             if(Lattice.Core.GameTime.Paused)return;
             foreach(var col in Physics.OverlapSphere(transform.position,radius,~0,QueryTriggerInteraction.Collide))

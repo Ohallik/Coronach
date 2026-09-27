@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C3 enemy-break interruption checkpoint - September 26
+
+**C3 OPEN.** Red tests reproduce post-break damage from a pending contact, retained enemy warnings and immediate untelegraphed recovery attacks. Break now cancels pending enemy contacts and attack work, drops Sentinel's shield and requires a fresh tell. Both bosses' special attack state also cancels on break after a separate red regression. Released projectiles retain their intended flight. The combined focused checks pass **6/6, zero skips**; normal saves restore unchanged. [Break evidence](validation/C3-enemy-break.md) preserves exact red/green traces. This is a source checkpoint: fresh full suites, package rebuilds and reaction presentation remain pending; existing players still contain `ec0ac23`.
+
 ## C2 frame-rate checkpoint - September 26
 
 **C2 OPEN; measured free-travel coverage now passes at 30/60/120 fps for both heroes/forms.** Four new ordinary virtual-gamepad recordings retain focus throughout: Natural/Shaped at 30 fps have 6,695/7,011 samples and measured 33.332 ms median intervals; at 120 fps they have 26,540/27,790 samples and 8.335/8.336 ms intervals. The unchanged direction/cycle/contact analyzer passes all four, with 133/147/151/236 measured stance contacts and no worse than 3.27 mm marker drift. Opened stills cover both heroes at each rate. [Frame-rate evidence](validation/C2-frame-rates.md) distinguishes these calibrated markers from the independent rendered-mesh regressions and retains exact artifact hashes.

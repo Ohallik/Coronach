@@ -17,7 +17,7 @@ namespace Lattice.Combat
         void Start()
         {
             health=GetComponent<Health>();brain=GetComponent<EnemyBrain>();
-            nextSpecial=Time.time+5;health.Damaged+=(_,__,amount)=>{if(engaged<0&&amount>0)engaged=Time.realtimeSinceStartup;};
+            nextSpecial=Time.time+5;health.Damaged+=OnDamaged;
             for(int i=0;i<3;i++)
             {
                 var weak=new GameObject("WeakPoint_"+i,typeof(SphereCollider),typeof(Hurtbox));weak.transform.SetParent(transform,false);
@@ -26,6 +26,14 @@ namespace Lattice.Combat
             }
             health.Died+=(_,__)=>{StopAllCoroutines();busy=false;enabled=false;GameServices.Current.Flags.SetBool("bossdown."+health.id,true);BarkService.Play(PartyController.Current.Active.character,"boss",true);Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");};
         }
+        void OnDamaged(Health _,DamagePacket packet,float amount)
+        {
+            if(engaged<0&&amount>0)engaged=Time.realtimeSinceStartup;
+            if(!health.Broken)return;
+            StopAllCoroutines();busy=false;strikeAt=0;
+            nextSpecial=Mathf.Max(nextSpecial,health.BrokenUntil+.5f);
+        }
+        void OnDestroy(){if(health!=null)health.Damaged-=OnDamaged;}
         void Update()
         {
             if(GameTime.Paused||health==null||!health.Alive)return;
