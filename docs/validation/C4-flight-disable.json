@@ -1,0 +1,230 @@
+{
+  "date": "2026-09-27T10:06:07.245962+00:00",
+  "status": "C4 OPEN; disabled flight source checkpoint",
+  "parent": "dc6b7f19d5c46a9f8e61a743906b4ac1c9786640",
+  "tests": [
+    {
+      "raw": {
+        "path": "Builds/quality/C4/flight-disable-red01/playmode-results.xml",
+        "bytes": 9631,
+        "sha256": "2c05637aedce93f820bc5588e1f2cc7146afa2943039d531ea0d7e76b389927d"
+      },
+      "log": {
+        "path": "Builds/quality/C4/flight-disable-red01/headless-playtests.log",
+        "bytes": 199633,
+        "sha256": "1d12df972bbc1cfd6a88c321c38d4bda433da88cbc6a9bb41c9b893a790a95f7"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "skipped": "0",
+        "duration": "10.8318692",
+        "start-time": "2026-09-27 09:58:31Z",
+        "end-time": "2026-09-27 09:58:42Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.FlightDisableTests.DisabledHullStopsItsLivePartnerWithoutRemainingDamageable",
+          "message": "  live craft passes through recoverable generated hull\n  Expected: greater than or equal to 3.43000007f\n  But was:  0.0106081963f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FlightDisableTests.EarlyReviveStartsFromTheVisibleFailurePoseWithoutAJump",
+          "message": "  early revive jumped to a terminal pose it never reached\n  Expected: less than 8.0f\n  But was:  57.0563507f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FlightDisableTests.RescueSignalHoldsDuringPauseAndClearsAfterRecovery",
+          "message": "  recoverable craft has no visible rescue signal\n  Expected: not null\n  But was:  null\n"
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/flight-disable-green01/playmode-results.xml",
+        "bytes": 18358,
+        "sha256": "8e8ec8b4f2e9c74e1a79f49892966a0053bf7105c3ec6ac1f1875e239e05c8cb"
+      },
+      "log": {
+        "path": "Builds/quality/C4/flight-disable-green01/headless-playtests.log",
+        "bytes": 346724,
+        "sha256": "d6be434b67917b5bcc99b683ef44f504162f000b8a1219b93f05344747c6156c"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "10",
+        "passed": "9",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "54.2042289",
+        "start-time": "2026-09-27 09:59:53Z",
+        "end-time": "2026-09-27 10:00:47Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.FlightDisableTests.RescueSignalHoldsDuringPauseAndClearsAfterRecovery",
+          "message": "  Expected: (0.08263, 0.00854, -0.18263, 0.97967)\n  But was:  (0.08113, 0.00933, -0.18718, 0.97892)\n"
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/flight-disable-boundary-red01/playmode-results.xml",
+        "bytes": 5762,
+        "sha256": "1802fe951a85e9d7111ab78c6d1f7e1fc5b68710e608aa31cb0e913a1383453c"
+      },
+      "log": {
+        "path": "Builds/quality/C4/flight-disable-boundary-red01/headless-playtests.log",
+        "bytes": 152122,
+        "sha256": "06c9dd5ba881d6bd91ae8f2959d2f85422631378a3b9ff967285c8270e5ef3e5"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "4.1205331",
+        "start-time": "2026-09-27 10:01:56Z",
+        "end-time": "2026-09-27 10:02:00Z"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.FlightDisableTests.LandingADisabledPartnerRemovesItsFlightSignalAndSolidHull",
+          "message": "  landed body retains a floating ship rescue ring\n  Expected: False\n  But was:  True\n"
+        }
+      ]
+    },
+    {
+      "raw": {
+        "path": "Builds/quality/C4/flight-disable-green02/playmode-results.xml",
+        "bytes": 24826,
+        "sha256": "142e7261a7bda5dabbe85083b09225507e91158bf6ad70d60c10d66c20e38b3f"
+      },
+      "log": {
+        "path": "Builds/quality/C4/flight-disable-green02/headless-playtests.log",
+        "bytes": 344255,
+        "sha256": "1da7ba586b66cf4087763838a52b3bcc6ba744ac2f89fab65b48524e5ecfac62"
+      },
+      "result": {
+        "result": "Passed",
+        "total": "16",
+        "passed": "16",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "81.4819561",
+        "start-time": "2026-09-27 10:02:37Z",
+        "end-time": "2026-09-27 10:03:59Z"
+      },
+      "failures": []
+    }
+  ],
+  "sources": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+      "bytes": 2831,
+      "sha256": "6eba4a586b07c1b82e49d6eb322e007e883a7dda8c5d9d4fbb3cdc75379fded5"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+      "bytes": 11056,
+      "sha256": "c494623ff183558a944826cd19affedf82710d3083db93b8fcf6be7cb94eb401"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightEnergyArc.cs",
+      "bytes": 1842,
+      "sha256": "ccbb90166aa48d8d722b29bced05007c912d226979bfce897e35f47b970782aa"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FormController.cs",
+      "bytes": 6178,
+      "sha256": "b17623a01f41f17db7688f7060f2d179f17cd57ebea279f3b8487a060018efbd"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightDisableTests.cs",
+      "bytes": 7055,
+      "sha256": "0abfbce063eabb6eb0c8c4d80bd09d77d48074c01edea0baaa911e430979d834"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightFailurePresentation.cs",
+      "bytes": 3818,
+      "sha256": "15d85943aba3bd848db538afd6985bf2d39e3e40686bfa79cd2c86d27d0a4db4"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/FlightDisableAudit.cs",
+      "bytes": 2989,
+      "sha256": "62d0886bd8cc58d0ad90bb3ceb19cd0409754b1c3ba338ed3520487723306b0b"
+    }
+  ],
+  "openedStills": [
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Taren-down-15-front.png",
+      "bytes": 61726,
+      "sha256": "4943582ae9ac441fbf5a660d2bd78dd9886b0f53f67007106dcacbff6e3b3c62"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Taren-down-55-side.png",
+      "bytes": 54846,
+      "sha256": "184fd6365f06f0762b9d22d49b46752d05664276ca5112330a691c5e80b2cede"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Taren-down-105-front.png",
+      "bytes": 62976,
+      "sha256": "6bb723d477bbbb0933c0dbb8031d7d506d26fe5926ce327c87e9b1e0c0b3367c"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Taren-down-105-top.png",
+      "bytes": 138007,
+      "sha256": "d3dbe6e87e0af79e654a21afc817c0132f3e72b15df6df793ec96a06bd0cf0d4"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Taren-recover-55-top.png",
+      "bytes": 146135,
+      "sha256": "64b357982f0aaf7e41c1d079b8c023e3abe530f998520a7166cdf97fb95c3a8c"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Taren-restored-top.png",
+      "bytes": 110856,
+      "sha256": "9a9bd25a81c667a853e15be9089e067d0912f4e59da754193ec9185ac3ce258a"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Sela-down-15-front.png",
+      "bytes": 50453,
+      "sha256": "cf72ae913a3fa31ea219ffde2216506cab5b3d7d7b84dcaaf52422b781b55d4d"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Sela-down-55-side.png",
+      "bytes": 65675,
+      "sha256": "432c210868c29501926b509e1cf8c8a16188ef3bb36a5a23368b1674a0ff32ab"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Sela-down-105-front.png",
+      "bytes": 59842,
+      "sha256": "b616e8cb66fcc111544631d0b39adbf88d6f3d387eb2b7813e09af2caa80d503"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Sela-down-105-top.png",
+      "bytes": 118856,
+      "sha256": "4a316edc6e5b869400e6c5671fc294add14af3100af7098ef6f7f042d600ca83"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Sela-recover-55-top.png",
+      "bytes": 123444,
+      "sha256": "443e3d53bfae4714bfc113cb7e5e6ef4c915e66ee0c559dca809da53a18a4448"
+    },
+    {
+      "path": "Builds/quality/C4/flight-disable-poses01/Sela-restored-top.png",
+      "bytes": 87313,
+      "sha256": "ffac194101a0bf9daca41e97796b69de162a1745bb7323ba70110c0a559e49e9"
+    }
+  ],
+  "humanSaves": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  },
+  "limits": [
+    "Both packages still contain feac4b9",
+    "Full integrated suites and ordinary player recapture pending",
+    "Continuous motion, audio audition and physical controller feel UNVERIFIED"
+  ]
+}

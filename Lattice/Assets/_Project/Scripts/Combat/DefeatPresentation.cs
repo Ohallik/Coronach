@@ -17,6 +17,7 @@ namespace Lattice.Combat
         Quaternion originRotation,terminalRotation;
         Vector3 supportPoint,supportNormal;Vector3[] supportVertices;
         Transform[] sections;Vector3[] sectionOrigins;Quaternion[] sectionRotations;
+        FlightFailurePresentation flightFailure;
         void Awake()
         {
             health=GetComponent<Health>();actor=GetComponent<CombatActor>();enemy=GetComponent<EnemyBrain>();
@@ -32,7 +33,14 @@ namespace Lattice.Combat
                 enemy.definition.id=="SentinelHusk"?1.15f:enemy.definition.id=="Ridgehound"?.9f:.75f;
             hold=enemy!=null&&enemy.definition.boss?1.65f:1.15f;
             colliders=GetComponentsInChildren<Collider>(true);collisionEnabled=new bool[colliders.Length];
-            for(int i=0;i<colliders.Length;i++){collisionEnabled[i]=colliders[i].enabled;colliders[i].enabled=false;}
+            for(int i=0;i<colliders.Length;i++)
+            {
+                collisionEnabled[i]=colliders[i].enabled;
+                // A recoverable ship still occupies space. Its damage trigger
+                // shuts down, while its motionless hull stops a rescuer passing
+                // through it. Ground corpses and enemies retain their cleanup.
+                colliders[i].enabled=actor!=null&&actor.flight&&colliders[i] is CharacterController&&collisionEnabled[i];
+            }
             foreach(var motion in GetComponentsInChildren<ProceduralMotion>())motion.enabled=false;
             if(TryGetComponent<SerpentSegments>(out var segments))
             {
@@ -48,7 +56,12 @@ namespace Lattice.Combat
                 animator.updateMode=AnimatorUpdateMode.UnscaledTime;
                 if(rigid)animator.enabled=false;
             }
-            if(actor!=null&&actor.flight)visual=GetComponent<FormController>().flight.transform;
+            if(actor!=null&&actor.flight)
+            {
+                var form=GetComponent<FormController>();form.FinishForDefeat();visual=form.flight.transform;
+                flightFailure=GetComponent<FlightFailurePresentation>()??gameObject.AddComponent<FlightFailurePresentation>();
+                flightFailure.Begin(actor,visual,packet);return;
+            }
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
             bool airborne=actor!=null&&actor.flight||enemy!=null&&enemy.definition.id.StartsWith("Chorister");
@@ -129,26 +142,36 @@ namespace Lattice.Combat
             return result;
         }
         void BeginRecovery(Health _)
-        {if(!down)return;recovering=true;started=GameTime.Now;}
+        {
+            if(!down)return;recovering=true;started=GameTime.Now;
+            if(flightFailure!=null)flightFailure.BeginRecovery();
+        }
         void LateUpdate()
         {
             if(!down)return;
             float elapsed=GameTime.Now-started;
+            if(flightFailure!=null)
+            {
+                if(!health.Alive)
+                    for(int i=0;i<colliders.Length;i++)if(colliders[i] is CharacterController)colliders[i].enabled=actor.flight&&collisionEnabled[i];
+                flightFailure.Advance(elapsed,recovering);
+            }
             if(recovering)
             {
-                if(rigid&&visual!=null)
+                if(flightFailure==null&&rigid&&visual!=null)
                 {
                     float t=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/CombatActor.ReviveDuration));
                     visual.localPosition=Vector3.Lerp(terminal,origin,t);visual.localRotation=Quaternion.Slerp(terminalRotation,originRotation,t);
                 }
                 if(elapsed>=CombatActor.ReviveDuration)
                 {
+                    if(flightFailure!=null)flightFailure.Finish();
                     for(int i=0;i<colliders.Length;i++)if(colliders[i]!=null)colliders[i].enabled=collisionEnabled[i];
                     down=recovering=false;
                 }
                 return;
             }
-            if(rigid&&visual!=null)
+            if(flightFailure==null&&rigid&&visual!=null)
             {
                 float t=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/duration));
                 visual.localPosition=Vector3.Lerp(origin,terminal,t);visual.localRotation=Quaternion.Slerp(originRotation,terminalRotation,t);

@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 disabled flight source checkpoint - September 27
+
+**C4 OPEN.** Disabled ships keep a solid rescue footprint with damage triggers shut down, settle with a small wing fold, and display a state-driven rescue ring. Recovery starts from the current pose. Reproduced hull overlap, a 57° early-revive jump, absent cue, one-frame pause drift and stale landing cue are corrected. The combined matrix passes **16/16 PlayMode, zero skips**; twelve opened controlled views support the candidate pose/cue. [Evidence](validation/C4-flight-disable.md) separates that review from pending ordinary gameplay. Original saves are unchanged. Full suites and both rebuilt packages are next; players still contain `feac4b9`. Long circuits, map work and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.
+
 ## C4 staged transformation source checkpoint - September 27
 
 **C4 OPEN.** Full-size humanoids now tuck and fold their attached vanes; generated ship wings fold before replacement and open afterward. Ordinary docking waits for departure folding and opens arrivals during fade-in. Six reproduced runtime failures plus unreadable flight imports are corrected; the focused matrix passes **12/12 PlayMode and 6/6 EditMode, zero skips**. Thirty opened controlled stills support intact candidate geometry, with exchange readability still awaiting player capture. [Evidence](validation/C4-staged-forms.md) retains the failed fixture cleanup and renderer attempt too. Human saves are unchanged. Full suites and both rebuilt players are pending; packages retain `feac4b9`. Disable/overlap, long circuit acceptance, map work and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.

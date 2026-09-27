@@ -30,6 +30,6 @@ namespace Lattice.Combat
                 edge.SetPosition(i,local);
             }
         }
-        void OnDestroy(){if(material!=null)Destroy(material);}
+        void OnDestroy(){if(material!=null){if(Application.isPlaying)Destroy(material);else DestroyImmediate(material);}}
     }
 }

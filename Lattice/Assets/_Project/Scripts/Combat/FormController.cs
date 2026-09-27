@@ -21,6 +21,12 @@ namespace Lattice.Combat
         {
             var incoming=Visual(form);var visible=Visible;
             bool arriving=first&&SceneFlow.Current!=null&&SceneFlow.Current.DockArrival;first=false;
+            if(health!=null&&!health.Alive)
+            {
+                requested=form;if(pose!=null)pose.Restore();pose=null;weight=exchange=0;Shaping=departing=false;
+                Show(form);if(incoming==flight){flight.transform.localPosition=Vector3.up*.8f;flight.transform.localRotation=Quaternion.identity;}
+                return;
+            }
             if(arriving)
             {
                 requested=form;Show(form);Shaping=true;weight=1;exchange=0;stage=Stage.Opening;
@@ -102,10 +108,11 @@ namespace Lattice.Combat
                 Debug.Log("FORM "+requested);
             }
         }
-        void OnDown(Health _,DamagePacket packet)
+        void OnDown(Health _,DamagePacket packet)=>FinishForDefeat();
+        internal void FinishForDefeat()
         {
-            // Defeat presentation subscribes after this component. Give it the
-            // one full-size body matching the active motor/collision rules.
+            // Safe both from the lethal event and before defeat captures its
+            // pose: no reliance on subscription order for the visible body.
             if(!Shaping)return;
             if(pose!=null)pose.Restore();Show(requested);
             if(Visible==flight){flight.transform.localPosition=Vector3.up*.8f;flight.transform.localRotation=Quaternion.identity;}
