@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C3 posed buffs and counter checkpoint - September 26
+
+**C3 OPEN.** Overdrive and Refract now arm at explicit pose phases with wrist cues tied to their actual state. Interception consumes Refract and starts a posed return shot; deliberate dodge/guard replace the ward. Red cases reject damage through fixed/movable cover, an unposed return and a stolen Flash Move. Near-wall release checks stop energy from appearing beyond the cover. [Buff/counter evidence](validation/C3-ground-buffs.md) retains failures and exact hashes.
+
+Fresh integrated suites pass **85/85 PlayMode and 39/39 EditMode, zero skips**; both Windows players rebuilt with BUILD_OK. The final ordinary release route passes 28 checkpoints with all 3,987 samples focused. Opened frames show both buff cues, expiry, interception, return beam, break/death and retreat; no combat difficulty was changed. Original saves remain unchanged. Continuous normal/slow viewing, actual audio audition and physical feel remain UNVERIFIED. Fresh C1 timing, other C3 work, non-station MAP_EYE_TEST and later gates remain open.
+
 ## C3 ground skill contact checkpoint - September 26
 
 **C3 OPEN.** Ember Dash now follows real collision-limited travel and its posed wrist edge; Pulse contact follows its visible expanding crest; Static Net visibly leaves the throwing hand and stops at cover. Pending casts cancel, released effects finish, pause holds them, and field/wave surfaces respect cover. Red tests reject future-path damage, teleported Net, hidden close-hand releases and the padded texture's misleading radius. Sentinel's redundant pellet activation bursts are removed while its persistent armor cue remains. [Ground-skill evidence](validation/C3-ground-skills.md) retains failed attempts and exact hashes.

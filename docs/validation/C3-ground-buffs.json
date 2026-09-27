@@ -1,0 +1,1758 @@
+{
+  "status": "C3 OPEN; posed buff and Refract checkpoint",
+  "sourceBase": "e0a1ffd1e31d527bf459f6006a13cb306bbe45dc",
+  "date": "2026-09-27T05:21:27.243958+00:00",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "sha256": "9db5da09fa479676e767494efefc0252623d43b76813792d5b71bbf14c6c6ba4",
+      "bytes": 5145
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "sha256": "6f3ee10e0f0eca733006a43b4dddc240dddd7a07294d8b9e90ccf577a68dee9c",
+      "bytes": 14877
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundMove.cs",
+      "sha256": "947c998730c614758a69164ba9d4f2fd763f079db0e1c3690df93ed5887ca3d5",
+      "bytes": 1536
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundSkillContact.cs",
+      "sha256": "a1bb54a6aca29c3c3df4bb5b8028897d9e3c3978f925b83ad2d871c38fe41937",
+      "bytes": 3678
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/RangedContact.cs",
+      "sha256": "59fad8ece6b66e31d26fce49637d9a12391931f825ef6fbf368eb41128e94bcd",
+      "bytes": 4004
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/EmitterBeam.cs",
+      "sha256": "b3e10db58ab90cccb123ebd570207861d85860d0fb919c380a912a5fd2549b74",
+      "bytes": 3542
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/HeroBuffPresentation.cs",
+      "sha256": "f07af845fc0229ff33117c807f24d7ba7bd788f6cbcffe3ab049152fefef035b",
+      "bytes": 3209
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/GroundBuffTests.cs",
+      "sha256": "f847c4b43fb1b666b603d13636e7f04e7592421c8583190c2c5f51681b8034f0",
+      "bytes": 14233
+    },
+    {
+      "path": "docs/quality/routes/c3-ground-buffs.json",
+      "sha256": "d933649d2e8d2ff15ea7647d35e1c0733e07f49d8751de950d02f18efe876bf6",
+      "bytes": 3850
+    }
+  ],
+  "targeted": [
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/buffs-red/playmode-results.xml",
+          "sha256": "17d21a0f6a7e3c786f843016bfc957a8f873e60381ecd2f401d49071305ffcf7",
+          "bytes": 9739
+        },
+        "counts": {
+          "total": "3",
+          "passed": "0",
+          "failed": "3",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "11.3195886"
+        },
+        "failures": [
+          {
+            "name": "ExplicitDodgeReplacesAnArmedRefractWindow",
+            "message": "  armed Refract stole the deliberate Flash Move\n  Expected: 1\n  But was:  0\n"
+          },
+          {
+            "name": "RefractBlocksOneIncomingHitButItsReturnBeamCannotCrossCover",
+            "message": "  Refract returned hidden damage through solid cover\n  Expected: 1000\n  But was:  905.5f\n"
+          },
+          {
+            "name": "RefractReturnWaitsForAnActualInterceptionAndThePosedEmitter",
+            "message": "  actual interception must start the return-shot pose\n  Expected string length 5 but was 4. Strings differ at index 0.\n  Expected: \"Shoot\"\n  But was:  \"Buff\"\n  -----------^\n"
+          }
+        ],
+        "observations": [
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n"
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/buffs-red/playmode.log",
+        "sha256": "ef09b8ae42e723341b1ffa080247a4142387b76b9a853f8e49fe83a87459b49a",
+        "bytes": 171538
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/buffs-counter-green/playmode-results.xml",
+          "sha256": "2bea0409ea83c318d54ef262c9945166f1903a1650874439f2ac642ce04854ea",
+          "bytes": 6907
+        },
+        "counts": {
+          "total": "3",
+          "passed": "3",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "13.9656364"
+        },
+        "failures": [],
+        "observations": [
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nFLASH_MOVE_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nREFRACT handError=0.080000 releaseDelay=0.233337\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n"
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/buffs-counter-green/playmode.log",
+        "sha256": "be74b94c16c625a389bd5d2636dd72750de1e2a5eb2f6d435d374e6deec4e1cd",
+        "bytes": 218747
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/buffs-targeted-green/playmode-results.xml",
+          "sha256": "0b866b4029d65f2dd37786b1d143c24b1d2e691f970b6c17ff26c22ec12fbe38",
+          "bytes": 33047
+        },
+        "counts": {
+          "total": "22",
+          "passed": "22",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "130.9323818"
+        },
+        "failures": [],
+        "observations": [
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Taren slot=4\nSKILL_OK Taren slot=4\nARM Taren delay=0.316672\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nARM Sela delay=0.233450\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nFLASH_MOVE_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Taren slot=4\nSKILL_OK Taren slot=4\nSWAP_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nREFRACT handError=0.080000 releaseDelay=0.233334\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nFLASH_GUARD_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n"
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/buffs-targeted-green/playmode.log",
+        "sha256": "30d2a4b365381601c7e6050d65a93fc792a475f0c070eecbdc621ad99b9cc40d",
+        "bytes": 658888
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/buffs-movable-cover-red/playmode-results.xml",
+          "sha256": "68982a619ec3ca85043616df1147ae068a6ea886dba69c706238dfe5e2fe4a2b",
+          "bytes": 5669
+        },
+        "counts": {
+          "total": "1",
+          "passed": "0",
+          "failed": "1",
+          "skipped": "0",
+          "result": "Failed(Child)",
+          "duration": "4.3138333"
+        },
+        "failures": [
+          {
+            "name": "RefractReturnStopsAtMovableAndNearCover",
+            "message": "  solid cover was ignored at 2\n  Expected: 1000\n  But was:  905.5f\n"
+          }
+        ],
+        "observations": [
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml\n"
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/buffs-movable-cover-red/playmode.log",
+        "sha256": "e45de3da58c02954dd67a7a66397ba13c48934b07d29aca8b34fc4ee36f9594a",
+        "bytes": 128473
+      }
+    },
+    {
+      "results": {
+        "file": {
+          "path": "Builds/quality/C3/buffs-cover-green/playmode-results.xml",
+          "sha256": "326eeb2a6492c791703b5ca804810ff68373ef923b555649e51b3303ecfce31f",
+          "bytes": 34373
+        },
+        "counts": {
+          "total": "23",
+          "passed": "23",
+          "failed": "0",
+          "skipped": "0",
+          "result": "Passed",
+          "duration": "138.951315"
+        },
+        "failures": [],
+        "observations": [
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Taren slot=4\nSKILL_OK Taren slot=4\nARM Taren delay=0.316663\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nARM Sela delay=0.233334\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nFLASH_MOVE_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Taren slot=4\nSKILL_OK Taren slot=4\nSWAP_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nREFRACT handError=0.080000 releaseDelay=0.233330\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+          "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nFLASH_GUARD_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n"
+        ]
+      },
+      "log": {
+        "path": "Builds/quality/C3/buffs-cover-green/playmode.log",
+        "sha256": "a4f993ab53bacbf050e661db4602db143c4c430ba078ec5a707974fdc8f4397f",
+        "bytes": 649823
+      }
+    }
+  ],
+  "integrated": [
+    {
+      "file": {
+        "path": "Builds/quality/C3/buffs-integrated-01/playmode-results.xml",
+        "sha256": "ecb54bce7afb50d74142b7d48e709299a565ede4f8a0c8d67dd64fe5e0bacdf7",
+        "bytes": 120834
+      },
+      "counts": {
+        "total": "85",
+        "passed": "85",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "606.7481514"
+      },
+      "failures": [],
+      "observations": [
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Taren slot=4\nSKILL_OK Taren slot=4\nARM Taren delay=0.316650\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nARM Sela delay=0.233337\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nFLASH_MOVE_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Taren slot=4\nSKILL_OK Taren slot=4\nSWAP_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nREFRACT handError=0.080000 releaseDelay=0.233337\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n",
+        "[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\nDEV_LOADOUT_OK starter\n[Lattice] PAD_UI_ATTACH scene=Arena_Ground modules=1\nMUSIC_CUE Adventure Awaits\nDIALOGUE_PREPARED\nZONE_ENTER Arena_Ground\nFORM Shaped\nFORM Shaped\nSKILL_OK Sela slot=4\nSKILL_OK Sela slot=4\nFLASH_GUARD_OK\n[Lattice] PAD_UI_ATTACH scene=_Boot modules=1\n[Lattice] PAD_UI_ATTACH scene=Title modules=1\nMUSIC_CUE Title Theme\nTITLE_BOOT_OK\n"
+      ]
+    },
+    {
+      "file": {
+        "path": "Builds/quality/C3/buffs-integrated-01/editmode-results.xml",
+        "sha256": "512225d75f10028ffa85f997950a8330a6911cf4b7741c3eb4db11ae90dcf7f0",
+        "bytes": 32279
+      },
+      "counts": {
+        "total": "39",
+        "passed": "39",
+        "failed": "0",
+        "skipped": "0",
+        "result": "Passed",
+        "duration": "0.3611438"
+      },
+      "failures": [],
+      "observations": []
+    }
+  ],
+  "integratedLogs": [
+    {
+      "path": "Builds/quality/C3/buffs-integrated-01/playmode.log",
+      "sha256": "cad5d91693f64b08de79f93fa4f55667687a12f62bca505211a50a89948dbb87",
+      "bytes": 1924033
+    },
+    {
+      "path": "Builds/quality/C3/buffs-integrated-01/editmode.log",
+      "sha256": "734424c589581b0d94c1017e1db7d430400599e1b06617425cd71b66467f3318",
+      "bytes": 77456
+    },
+    {
+      "path": "Builds/quality/C3/buffs-integrated-01/build-development.log",
+      "sha256": "49d6eaff9fff325bfe2ccc265390f07eccfe1a90409904cb097b5bf872c90902",
+      "bytes": 593306
+    },
+    {
+      "path": "Builds/quality/C3/buffs-integrated-01/build-release.log",
+      "sha256": "d1e176e239bdd2ffcd9191990df0fb4da53c9ca4bdb6d76e01443c8d9c661631",
+      "bytes": 558896
+    }
+  ],
+  "packages": {
+    "WindowsDev": [
+      {
+        "path": "Builds/WindowsDev/Coronach.exe",
+        "sha256": "f76f2b3c76a5951b76b4c5a38528f7f8df23795525d8836acc286e437b58bbf6",
+        "bytes": 667648
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Combat.dll",
+        "sha256": "c2659e8de3165c4cb2da771fe3d1b7bb26158f5f7d5265951780439b3bde134e",
+        "bytes": 105984
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Core.dll",
+        "sha256": "9ec0e2a7f12a8d246df3f1d349928037523f61513312fcd9ec704432d8dde59f",
+        "bytes": 60928
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Data.dll",
+        "sha256": "ff6ee6d2fc90c6960afd020f19e6e73cf4f66e04bb7030707b61b10c22462332",
+        "bytes": 12800
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "sha256": "9838089f97685c09fe146e70e2606b97889f3ba0f09a023634d43dc7fa25ff75",
+        "bytes": 20992
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "sha256": "d67b3147d912f7a93fb745e20e440dd2e66e082317882ae99d7a6964d9fed3f3",
+        "bytes": 15360
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.UI.dll",
+        "sha256": "b6133e92bf35caafc2d50cf21910ba9a76b08aeb852dedce4d017e134b56f0cd",
+        "bytes": 149504
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/Managed/Lattice.World.dll",
+        "sha256": "723a0cccfe46ea1a6935826d35e4c5489dd050b57f953bab66d649ed75e22083",
+        "bytes": 18432
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/app.info",
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44",
+        "bytes": 15
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/boot.config",
+        "sha256": "e5d6d2172c3c4c56aafb72257938cd49cb682363ac0dae7ff6c8e3c96b56e176",
+        "bytes": 355
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers",
+        "sha256": "d086f1cf555e66489462486500b3340f3d53ec9b518e68d701d57e09e20971c5",
+        "bytes": 268228
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets",
+        "sha256": "63287826b45c79a6fd1218acc301b41f5b1687e284708ffc0748d695a06ff556",
+        "bytes": 1005100
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/globalgamemanagers.assets.resS",
+        "sha256": "f122983b2e999b7f97c5b76ff4a4d07663df0407e3d921d2826aa61d3671a70a",
+        "bytes": 6176992
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level0",
+        "sha256": "475b96389d0ddd39976aac450f5a36ed645769980bb7db2101fab320e5bc0532",
+        "bytes": 3820
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level1",
+        "sha256": "f63608c286b380777728a742c6f23d792af8950addfe50eeb090a1f6d2175b5a",
+        "bytes": 1136
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2",
+        "sha256": "4f55d0f2c3fa53d9ee9e40358aae0c6d4caa3ff07dd7257ea025f8f42e97026c",
+        "bytes": 1151724
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level2.resS",
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b",
+        "bytes": 41200
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level3",
+        "sha256": "06e3fcff3c9dbdcc1b94e5e7a05ccc48fd7357655f8e261b1580a9e59ae84106",
+        "bytes": 923184
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4",
+        "sha256": "fe1725afe40bc32933f1acd3372fd57cfa812285e9dd766297cbacdf969c7a68",
+        "bytes": 157084
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level4.resS",
+        "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875",
+        "bytes": 22528
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5",
+        "sha256": "3f3273f2e541df3c56c0265510f6207caed5c7be219d635c328ff79401035c15",
+        "bytes": 209428
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level5.resS",
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9",
+        "bytes": 2880
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level6",
+        "sha256": "279a832c8a70685f8632c5286afbb468e6fab88cfe8914a07a2f01c938eeddd4",
+        "bytes": 20172
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level7",
+        "sha256": "97986679df776645bbe82792f860786f598b76ff7574d72da3fddd0392306775",
+        "bytes": 123548
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level8",
+        "sha256": "5d402759b28c3a142172e002134fff792a06fbbd0a16c2c3bc96fcf7a87f7f23",
+        "bytes": 20652
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/level9",
+        "sha256": "417f372e99dbf16e7af70d237a07bdef98236d2dca005faa39f36bdf5b1ee660",
+        "bytes": 30940
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets",
+        "sha256": "13a10df97c0ddf8444d66eceb859f5e3671e6c78b1ca8aa5a43747f08bc37dd5",
+        "bytes": 15924680
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.assets.resS",
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af",
+        "bytes": 263319296
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/resources.resource",
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710",
+        "bytes": 8138400
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3",
+        "bytes": 4700
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/ScriptingAssemblies.json",
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959",
+        "bytes": 5261
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets",
+        "sha256": "074bc2789747f948cfe20057b8688a56a0238eb0418b89bfe7ef3fb871514ece",
+        "bytes": 83648
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets0.assets.resS",
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36",
+        "bytes": 524288
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets1.assets",
+        "sha256": "435cdc3123fbb1bf06cfd7daa621dd087aa7058451fc6f6a5c1bdab214454029",
+        "bytes": 361
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets",
+        "sha256": "579a9b905d4d287f44b5fa706970bebd4cf65447aab0f3dc332654eb0aab4103",
+        "bytes": 603360
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets2.assets.resS",
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184",
+        "bytes": 11042016
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets",
+        "sha256": "3014d1f80c737428623d0a4ceb51034b665e7589d916fd67d1a78e668f3e5855",
+        "bytes": 345044
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets3.assets.resS",
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5",
+        "bytes": 7071712
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets",
+        "sha256": "d4b22d04b070e494a959cd3def67760eefe32c3947795f07f2ec85e70f4d2155",
+        "bytes": 679316
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets4.assets.resS",
+        "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b",
+        "bytes": 15370464
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets",
+        "sha256": "bfdfd86926c0dc6ffd9fc51f7711993fa2df8d7e3736fdea6ffc4cbd1413998d",
+        "bytes": 367124
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets5.assets.resS",
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c",
+        "bytes": 5151584
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets",
+        "sha256": "5f58876ac1e8ac0a043b319942a213d0edf23665495263bc7164851250a69a12",
+        "bytes": 72932
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets6.assets.resS",
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec",
+        "bytes": 1693152
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets7.assets",
+        "sha256": "f6e8fa405e0beeb8327cba7c8c16e925dfba48ef3799709ed7b914f726f91173",
+        "bytes": 10580
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets8.assets",
+        "sha256": "4cc06c5c35b97c74d1dafae5af553568532091dc9a0ec04c0a21c5f5e12c6f24",
+        "bytes": 3716
+      },
+      {
+        "path": "Builds/WindowsDev/Coronach_Data/sharedassets9.assets",
+        "sha256": "402aaad3c932882677a217780c6fcd8660429673e7a1eaaaaecdf699cb4c5c38",
+        "bytes": 2116
+      }
+    ],
+    "Windows": [
+      {
+        "path": "Builds/Windows/Coronach.exe",
+        "sha256": "16726f6bc281a100105ae80f982a21a9332c870340bcd2e1d89bd82b76dd33c7",
+        "bytes": 667648
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Combat.dll",
+        "sha256": "5ad9eefbbe6cf6f461fc2f3fe3e956f81b0297ea3f9b08ea18a30aef6645114d",
+        "bytes": 98816
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Core.dll",
+        "sha256": "ec3ec527265ed31ee9fd1baabad6fbdee1060b1157c31f6cafcd95f8fba6a771",
+        "bytes": 58880
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Data.dll",
+        "sha256": "2b5b9fdde2c73c28f1e9c3354b87bb676aa8c37c3ce768f1b3b131fe3a12f4a1",
+        "bytes": 12800
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Dialogue.dll",
+        "sha256": "6f6e4df49911db50b1b350c630abe8ac3bad2ba1e4d78a7f3de3c2b50cd2a421",
+        "bytes": 19968
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.Rpg.dll",
+        "sha256": "af0b0a655bb7bf9cc097a172b4683aef40aefed1195ce86dda76bb87b1472ab9",
+        "bytes": 14848
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.UI.dll",
+        "sha256": "b38b6a1f41652eba998a1887ea6fa352c2731babfa1696378617f40833bdfbfc",
+        "bytes": 134656
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/Managed/Lattice.World.dll",
+        "sha256": "66111b60c00badd58d787ae6da108a1939fcd43d31732607ec014845a582b19e",
+        "bytes": 17920
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/app.info",
+        "sha256": "edaf2846134b935036cea7bd4fe699c5da156ed07932780f7993f0eab33f6f44",
+        "bytes": 15
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/boot.config",
+        "sha256": "e0a3be0023b75370644b82d19d3807ae44b3039f6da8d4d872aaade851306d7f",
+        "bytes": 156
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers",
+        "sha256": "deaa4478c93e1ffa8b8a5f8d4f29060bb9d4f3ce4e59b07a1cb27c46617fb3d7",
+        "bytes": 268228
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets",
+        "sha256": "fe3ee417198d5f39b46abcd7b39e1f1f8bcbc761a32280e5546ed097532141d8",
+        "bytes": 1004908
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/globalgamemanagers.assets.resS",
+        "sha256": "26b24bbd0bdb7017ecbac3b829c0ed7c4848bc343af5702e96ebdb75a7258b04",
+        "bytes": 6174944
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level0",
+        "sha256": "ad88f87b01fa747ce49be467dfedb26e73853b0a116eba00b19e6ca9b8f72909",
+        "bytes": 3820
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level1",
+        "sha256": "be3c0b514523492e46c7ac05815be1442479bb523ef332aea5c726615fa63666",
+        "bytes": 1136
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2",
+        "sha256": "5356b689c1d6ce6feae82361573baacef59a9126aff41ce29bb6306249f85883",
+        "bytes": 1151724
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level2.resS",
+        "sha256": "fc176d0fdde535704e83154a6124f2716a8264c7c1b0339c75ff68848c80ed9b",
+        "bytes": 41200
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level3",
+        "sha256": "4e14ebaafc7abd425517d964f909cf8adaad880be33f19d3d011f3d183fbe71f",
+        "bytes": 923184
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4",
+        "sha256": "8ad119a4ff65d3032e04278997ed0611becd03f1d3839f2e3ced16f5c41d7674",
+        "bytes": 157084
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level4.resS",
+        "sha256": "6159d7cce31bf325ced68ad729c340f2f44ce31213f2dbf1c45d2d7c661e8875",
+        "bytes": 22528
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5",
+        "sha256": "f0129051927cb64d0f9c6eaa661917b74111faa17ffd5489c8f110b32dbb2eb1",
+        "bytes": 209428
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level5.resS",
+        "sha256": "d4bb9255873c318400aaa49b001279bfb82acef082dd18954d6170a6318035c9",
+        "bytes": 2880
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level6",
+        "sha256": "036905ec3db5e45f8ec2168d936937f2054f177447e42dbc19347c41c75153d7",
+        "bytes": 20172
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level7",
+        "sha256": "1cd9240e03d3ae5aab8a99aca2882272796ac501e2e141798232b785a1f12721",
+        "bytes": 123548
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level8",
+        "sha256": "2793e0285d42e7ee25977a8a8ac89a701a03188c57b3b8d9f80e968755ed98e3",
+        "bytes": 20652
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/level9",
+        "sha256": "174c182fc1d88a7425d09519a34e860b5504f7bf11c8fe38d6257255b1fb41a1",
+        "bytes": 30940
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets",
+        "sha256": "c393edf59913facbb58625105030d29ab7bb227394e97c901fe97e6267654928",
+        "bytes": 15924680
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.assets.resS",
+        "sha256": "83d5789077abb322bccacfc7de54771624d132f9b9768d62fbe81c4a669f77af",
+        "bytes": 263319296
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/resources.resource",
+        "sha256": "59ed2c10283b4815a638c10915740a43f0f871492873eb18042f2c272707e710",
+        "bytes": 8138400
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/RuntimeInitializeOnLoads.json",
+        "sha256": "dc3c849f798763b480d1fe69881f4b6781101c14ade303b3db22425f880d1fe3",
+        "bytes": 4700
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/ScriptingAssemblies.json",
+        "sha256": "3af54d0b2c5a260fe63fbb844a19b78fc4bf0d0c8f11fba36423ab29a0668959",
+        "bytes": 5261
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets",
+        "sha256": "96a76c1fa4c44613f6defbb4c024b50fc4ae2ed7f3d0eea93c2594fa91d26ab0",
+        "bytes": 83648
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets0.assets.resS",
+        "sha256": "393efe6399536384aa91bdfc4e64f244b4d3e1fbb6a4ff145c483ffee64ccb36",
+        "bytes": 524288
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets1.assets",
+        "sha256": "df98d356261ed894f8eacd06f77417d3cdf8dd663232ae5d820f448cc43035ee",
+        "bytes": 361
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets",
+        "sha256": "47e7309741450bebd5150ed8c6c0c849d93da3489e48ca6752943615365b5f2d",
+        "bytes": 603360
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets2.assets.resS",
+        "sha256": "1ff5e4cde15104a9a90a2bc149df1da4756086b26a35147cd0ea7fdb43d97184",
+        "bytes": 11042016
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets",
+        "sha256": "dca5426673696b4c5029a946aa1320317ff4b396bd5f72adad2e761a696be5e4",
+        "bytes": 345044
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets3.assets.resS",
+        "sha256": "ef2f42c0c0d7b8db7794df2f8b9aa12b61b7659e0641304a4842f2f4e6a8aaf5",
+        "bytes": 7071712
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets",
+        "sha256": "082e1c21f3e5324cbe05e15365a1cb54dcdf5f026ca133b3d49cd2b1226f0a82",
+        "bytes": 679316
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets4.assets.resS",
+        "sha256": "0c5351708c54dc1092593e0d260a3eed445c8a44093c9e1bb81c6702d5bc336b",
+        "bytes": 15370464
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets",
+        "sha256": "5ee70e6d9f9f3b4b599f2e620d053a0cf4d01f9aafd3ae160dc5fa34a607304e",
+        "bytes": 367124
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets5.assets.resS",
+        "sha256": "d4a5bbd25a0c7ab325f48f0557eca65cdc1af2c518d44271a15d922ac8f1fd8c",
+        "bytes": 5151584
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets",
+        "sha256": "3b04d8acb08afca6ff6dcc5adc901025c5313dab581a449e71afb83b0e935ca8",
+        "bytes": 72932
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets6.assets.resS",
+        "sha256": "160b6969ed492d572bfd86ed8597772bd45e6b3c27493fb795942fea36d9dbec",
+        "bytes": 1693152
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets7.assets",
+        "sha256": "68cdc7580a487252c7eb3a641fcbb82cac5740807b29d76596525b24ff043c5c",
+        "bytes": 10580
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets8.assets",
+        "sha256": "817cbacfda169de13962fb9e113f3017fbc8dd6d51ab231066304f8a0baf7127",
+        "bytes": 3716
+      },
+      {
+        "path": "Builds/Windows/Coronach_Data/sharedassets9.assets",
+        "sha256": "1c13c14599895b80ad4b4ee023af5d469dc776fac23981fd101202d8234fdbd2",
+        "bytes": 2116
+      }
+    ]
+  },
+  "openedPoses": [
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Buff-10.png",
+      "sha256": "7d7c8c3b773076195e4532b07ee92cb20883a2c7c08df62e416eb19e40a22571",
+      "bytes": 68580
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Buff-30.png",
+      "sha256": "e7141867596fc68ccb1dafd0c23076dc7607cca1ff2298765f480ad48acc9487",
+      "bytes": 68213
+    },
+    {
+      "path": "Builds/quality/C3/ground-skills-poses-01/SelaShaped-Buff-50.png",
+      "sha256": "5a959d09b37ca07c4c84f87db5e13ece04c2acf8c5d901940f8f511fe7921b16",
+      "bytes": 68059
+    }
+  ],
+  "player": [
+    {
+      "run": {
+        "route": "c3-ground-buffs",
+        "sourceRevision": "C3 posed buffs and counter candidate; exact package/source hashes recorded with capture",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 3937,
+        "refreshHz": 60.0,
+        "seconds": 65.7529825,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.087763400000001,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 3937,
+        "seconds": 65.752983,
+        "distance": 186.08607812732416,
+        "medianMs": 16.6709,
+        "p95Ms": 17.1651,
+        "p99Ms": 17.9019,
+        "worstMs": 38.2688,
+        "hitches": {
+          "25": 8,
+          "33.3": 3,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 6,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 63,
+        "stoppedCameraWhileWalking": 19,
+        "interactions": [],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3591,
+            "memoryBytes": {
+              "median": 265186791,
+              "maximum": 298882657,
+              "minimum": 240197667,
+              "validSamples": 3590,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 4.376814,
+            "ms": 38.2688,
+            "checkpoint": "clear southern approach",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 37728100,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 4.445118,
+            "ms": 34.698,
+            "checkpoint": "clear southern approach",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 35210800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 4.41042,
+            "ms": 33.6069,
+            "checkpoint": "clear southern approach",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 33524800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 6.850489,
+            "ms": 30.8373,
+            "checkpoint": "walk while charged",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 30282300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 28.696624,
+            "ms": 30.1864,
+            "checkpoint": "follow outer ridge to upper workings",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16680700,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 36.449378,
+            "ms": 29.5922,
+            "checkpoint": "follow outer ridge to upper workings",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 30055900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 54.154272,
+            "ms": 29.0382,
+            "checkpoint": "observe incoming strike and return 1",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 19501200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 4.08033,
+            "ms": 26.0476,
+            "checkpoint": "clear southern approach",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 25816100,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focused": 3937,
+      "files": [
+        {
+          "path": "Builds/quality/C3/buffs-player-01/build.json",
+          "sha256": "36304ea77b902554e58e3a73d17a5061e3472079a5bde031875f7ecc3512245e",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/environment.json",
+          "sha256": "62991d8491e07d21d56bda4b838ccb25cca6d04daf8d97546cab2cd169ae19f8",
+          "bytes": 1102
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/run.json",
+          "sha256": "7a71c088a251addaa7ae498af12b31cb70f41cace91e82c90ed59264ec7b40d4",
+          "bytes": 821
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/analysis.json",
+          "sha256": "3fa5d7b9daaa4ba90a1f4c1d6a6b6246857512caf892698588baee648271ebdb",
+          "bytes": 2859
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/route.json",
+          "sha256": "5a29369ed9caab5ac603123f257e810bc2d79dea624e88348b6eab2777299787",
+          "bytes": 20942
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/frames.csv",
+          "sha256": "a603388b239dc7627bb6b9a96e958da814632266593808c66782bbf687737958",
+          "bytes": 1041728
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/player.log",
+          "sha256": "6fc73b5ecd07fbf1b8b6ba046520a82b27a4fb6c1fd0482990243cb1c50e127b",
+          "bytes": 4483
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/replay.mp4",
+          "sha256": "a64a972df53836d899fa29474988993e4e8d340941e226edce022f39035233bf",
+          "bytes": 149842986
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/mix.wav",
+          "sha256": "35c034ba93201f7166c0a1815370f9a5b2e39d7509e5a87157c345ce7e07741f",
+          "bytes": 25264172
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/buffs-player-01/001.png",
+          "sha256": "0b204b076ff14a2384af2b56b0360e0b52a3a4575e8cceaa7ee41b0fcb4ea12f",
+          "bytes": 3226801
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/002.png",
+          "sha256": "2520ba06adc918c250b9ed7dde6efcfe7d5087a48ad50dcbb310b94ac527a8f0",
+          "bytes": 3225543
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/003.png",
+          "sha256": "812d9b3c3ae84122d1a896baa9c3e18ab0c094ad1ca7ee5010967de0484f62ac",
+          "bytes": 3223205
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/005.png",
+          "sha256": "accdb8079e22688676be24ff0b2cd415775ed351036ade3d05d9cb8c93c35680",
+          "bytes": 3225520
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/011.png",
+          "sha256": "068ad72c92069390e3dbe2c547335fa90b52307acc2be6928d2929471871f9df",
+          "bytes": 3219803
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/012.png",
+          "sha256": "25a3fcf490eea5118c38473c3e04d902abeef4e96c650e9aebc96034f9653dc6",
+          "bytes": 3225451
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/013.png",
+          "sha256": "9c3aa0d9dfaaf98626df114a08d07475def195b4b70b5e983bd7b21e78fdcfdf",
+          "bytes": 3226105
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/016.png",
+          "sha256": "613fb28b6c9d779103d670c7da4481cd39e73b19f4b2d1fc5582d07bca42074c",
+          "bytes": 3221460
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/020.png",
+          "sha256": "8883697c1aabb7872091893fab0040f610f7cc013bd1136adcbe88532e882049",
+          "bytes": 3219565
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/023.png",
+          "sha256": "70bea61323de531d3644fbe371a5f38f6ba60a527eb387f00315d4129cd0a9c3",
+          "bytes": 3210187
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-01/025.png",
+          "sha256": "85a9352a3d1d17c99d0b94b1a7cbca3c143f8a202e037109458d54c432cd47a7",
+          "bytes": 3210053
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-ground-buffs",
+        "sourceRevision": "C3 posed buffs and counter candidate; exact package/source hashes recorded with capture",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 3984,
+        "refreshHz": 60.0,
+        "seconds": 66.3743415,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "clear southern approach: navigation checkpoint missed",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0831114000000008,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": false,
+        "failures": [
+          "clear southern approach: checkpoint not reached",
+          "clear southern approach: navigation checkpoint missed",
+          "focus lost",
+          "lost focus",
+          "runtime validation rejected"
+        ],
+        "samples": 3984,
+        "seconds": 66.374342,
+        "distance": 187.76474850900203,
+        "medianMs": 16.6638,
+        "p95Ms": 17.1319,
+        "p99Ms": 17.2973,
+        "worstMs": 21.115,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 6,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 63,
+        "stoppedCameraWhileWalking": 22,
+        "interactions": [],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3601,
+            "memoryBytes": {
+              "median": 263639134,
+              "maximum": 295683917,
+              "minimum": 239971843,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 52.828695,
+            "ms": 21.115,
+            "checkpoint": "close toward sentry",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16664900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 56.444575,
+            "ms": 20.6628,
+            "checkpoint": "ordinary needles after counter",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16664600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 0.073068,
+            "ms": 19.4557,
+            "checkpoint": "clear southern approach",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16665400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 51.909897,
+            "ms": 19.4029,
+            "checkpoint": "swap to Sela before the encounter",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16670400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 56.560241,
+            "ms": 19.2368,
+            "checkpoint": "ordinary needles after counter",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16664900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 58.809807,
+            "ms": 19.1938,
+            "checkpoint": "ordinary needles after counter",
+            "gcBytes": -1,
+            "gcCollections": 42,
+            "mainThreadNs": 16665400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 9.024042,
+            "ms": 19.1482,
+            "checkpoint": "Overdrive expiry",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 19415900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 22.140341,
+            "ms": 19.1305,
+            "checkpoint": "east outer trail",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16664700,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focused": 3442,
+      "files": [
+        {
+          "path": "Builds/quality/C3/buffs-player-02/build.json",
+          "sha256": "86f559f360b0775611398f5faceb1ee5927c86431a0bec3bcaf7e7eba5ab97ed",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/environment.json",
+          "sha256": "a97e243418c7cf22eb803f7c83ea28aabe95bc247614cb83210cc0e2bb78dd2b",
+          "bytes": 650
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/run.json",
+          "sha256": "eedafbfc48b259d722dc4a59ea8be5c04bee4394fd67f0ebe9a62b153fa76d2f",
+          "bytes": 914
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/analysis.json",
+          "sha256": "62e72006f5f77aec71e572b6da00c9daa47ebd4f594d501737008bc903e8f4b1",
+          "bytes": 3038
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/route.json",
+          "sha256": "be8dde9b6d49451967b99cdf5d9e46fe7dfe52f2b37bb62122f36b6fdaa4bf13",
+          "bytes": 20971
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/frames.csv",
+          "sha256": "eee8c6dcf6cce0c0b24a3287b6798c452cdb369d62e19b83795c6bc01e701452",
+          "bytes": 1075720
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/player.log",
+          "sha256": "f3b89854cbe5440064192e6140de98d2927c4d521e6bc8e8e2ddad663b95992a",
+          "bytes": 4925
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/replay.mp4",
+          "sha256": "b182c910bc184c548dae9f4f6a64c033b83f73ef9a70d394eb9fb5b9d9dd7c50",
+          "bytes": 143995238
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/mix.wav",
+          "sha256": "8e925fac378e990ee2de347028e61c2fe08bb49d07c15ef9305269baee26f943",
+          "bytes": 25501740
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/buffs-player-02/011.png",
+          "sha256": "b4ad4837e87eca012b258c065040e5602b9214edbb0532b16edbbce8032d97a5",
+          "bytes": 3221151
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/013.png",
+          "sha256": "75f7285984a91922bbe789cf7978b538f1df3ff706de1de813f52bd39962d84b",
+          "bytes": 3234493
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/020.png",
+          "sha256": "6787c775f6ca300ca6020e4f0c2956ffa92cb8091e479c19c4086ef4860a185a",
+          "bytes": 3221115
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-02/025.png",
+          "sha256": "46f0e6790d96dbec817a9f9362d89d7b8066495aab52f63743aa41c0f9d78f42",
+          "bytes": 3221616
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-ground-buffs",
+        "sourceRevision": "C3 posed buffs and counter candidate; exact package/source hashes recorded with capture",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 3988,
+        "refreshHz": 60.0,
+        "seconds": 66.4476522,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1397421999999997,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 3988,
+        "seconds": 66.447652,
+        "distance": 198.45133516665783,
+        "medianMs": 16.6684,
+        "p95Ms": 17.1361,
+        "p99Ms": 17.3163,
+        "worstMs": 34.8419,
+        "hitches": {
+          "25": 2,
+          "33.3": 1,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 6,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 90,
+        "stoppedCameraWhileWalking": 20,
+        "interactions": [],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3601,
+            "memoryBytes": {
+              "median": 264121559,
+              "maximum": 298353335,
+              "minimum": 240178451,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 17.189747,
+            "ms": 34.8419,
+            "checkpoint": "east outer trail",
+            "gcBytes": -1,
+            "gcCollections": 38,
+            "mainThreadNs": 17194500,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 26.035627,
+            "ms": 26.069,
+            "checkpoint": "east outer trail",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 21043100,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 52.81908,
+            "ms": 21.9691,
+            "checkpoint": "close toward sentry",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16665000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 55.752035,
+            "ms": 21.8732,
+            "checkpoint": "observe incoming strike and return 7",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16667200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 55.384944,
+            "ms": 21.4211,
+            "checkpoint": "observe incoming strike and return 5",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16669500,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 11.641061,
+            "ms": 20.1947,
+            "checkpoint": "Overdrive expiry",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16670300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 56.367102,
+            "ms": 20.0116,
+            "checkpoint": "observe incoming strike and return 12",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16670000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 26.166363,
+            "ms": 19.44,
+            "checkpoint": "east outer trail",
+            "gcBytes": -1,
+            "gcCollections": 39,
+            "mainThreadNs": 16686700,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focused": 3988,
+      "files": [
+        {
+          "path": "Builds/quality/C3/buffs-player-03/build.json",
+          "sha256": "5fdd068704a3b675abdbf4bddc0faf5c49dacc4cf588b395a7ad92ed6875ac3a",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/environment.json",
+          "sha256": "c7cc96d5c7a88e6f4cc945591f4451650f647800a8bf76fc1a1544986eb15555",
+          "bytes": 123
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/run.json",
+          "sha256": "c307f061df48aebfd564d3630de07c7980d0e1c01d16b65adc15008e6808e800",
+          "bytes": 822
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/analysis.json",
+          "sha256": "3da03803c4c9fa10e8dbb01f70c81d0b42b17d33a02ce189e7aebf52f2aeb60a",
+          "bytes": 2837
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/route.json",
+          "sha256": "ccd9ed0a1f810201f3b81a3eb8f344a732eaa6de5abdc43207b991bfa2d6e918",
+          "bytes": 21018
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/frames.csv",
+          "sha256": "ac61570fb423999734aaac8df41011009089fe3911b10939106eae412a742ce9",
+          "bytes": 1053983
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/player.log",
+          "sha256": "56085a7a89b60f95e8cecb46bda2ff2bc84a4c3e3f8659fa671e121d2085b244",
+          "bytes": 4498
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/replay.mp4",
+          "sha256": "be0270e4f9963d42674da269b163e301187400e2ebb8e6a9facfa2f6e27f3d03",
+          "bytes": 160114968
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/mix.wav",
+          "sha256": "c93fe9215803a48e1c8d2e6e95596bb93ae60b719179d549cbde9117f1411bf9",
+          "bytes": 25526316
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/buffs-player-03/012.png",
+          "sha256": "2ea5e2c88dd35590bae0bec265abc521387bf6f1630070aff5656fa2e0c4d1cb",
+          "bytes": 3233716
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/013.png",
+          "sha256": "854ab1ff68347a8515b470fbc1e52f5980b4bef6c20a53c72fb008266d91b573",
+          "bytes": 3230160
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/016.png",
+          "sha256": "1732c092f1c85ff0a10cdd0c49144aedbf5f6fa7a06b5122b1bbc279076c1ae6",
+          "bytes": 3235049
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/018.png",
+          "sha256": "723137a892be4a0446670346c63ca9181e181fba242cd63c93fbe2f2e5d1e87a",
+          "bytes": 3227059
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/020.png",
+          "sha256": "fc2e8abe61cde6cbec5a940c36b09721b0a0fe53909c9518705d30adde6b1dab",
+          "bytes": 3237136
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/023.png",
+          "sha256": "0b1e2e68277f8fdf65f5f4a987983e5fce87b4ad31860f2ed33b6f77ee67c84c",
+          "bytes": 3231331
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/025.png",
+          "sha256": "0d26d917c45e7feb478d4db537d46a2bf0dbc6ccebc0ebccf57a8406c6a27db3",
+          "bytes": 3224449
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-03/027.png",
+          "sha256": "4127f4a0bfdc3ead899af31cd103553fbd8f66f6e399ffb20075865d1e51ffd8",
+          "bytes": 3119660
+        }
+      ]
+    },
+    {
+      "run": {
+        "route": "c3-ground-buffs",
+        "sourceRevision": "C3 posed buffs and counter candidate; exact package/source hashes recorded with capture",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 3987,
+        "refreshHz": 60.0,
+        "seconds": 66.42535269999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0696322999999999,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 3987,
+        "seconds": 66.425353,
+        "distance": 198.43872705402825,
+        "medianMs": 16.6768,
+        "p95Ms": 17.1008,
+        "p99Ms": 17.2699,
+        "worstMs": 22.2042,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 6,
+        "gcBytesPerFrameMedian": -1,
+        "movingSamples": 90,
+        "stoppedCameraWhileWalking": 22,
+        "interactions": [],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3601,
+            "memoryBytes": {
+              "median": 264113026,
+              "maximum": 298341503,
+              "minimum": 240248659,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": "UNSUPPORTED",
+            "objects": "UNSUPPORTED",
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 52.778938,
+            "ms": 22.2042,
+            "checkpoint": "close toward sentry",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16664800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 55.378196,
+            "ms": 21.4431,
+            "checkpoint": "observe incoming strike and return 5",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16664300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 55.744637,
+            "ms": 21.1457,
+            "checkpoint": "observe incoming strike and return 7",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16666000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 56.011457,
+            "ms": 20.7816,
+            "checkpoint": "observe incoming strike and return 9",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16660900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 48.009859,
+            "ms": 20.1529,
+            "checkpoint": "turn into Sentinel approach",
+            "gcBytes": -1,
+            "gcCollections": 40,
+            "mainThreadNs": 16665000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 5.024295,
+            "ms": 19.1942,
+            "checkpoint": "arm Overdrive",
+            "gcBytes": -1,
+            "gcCollections": 37,
+            "mainThreadNs": 16664400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 60.226321,
+            "ms": 18.5503,
+            "checkpoint": "retreat to ridge",
+            "gcBytes": -1,
+            "gcCollections": 42,
+            "mainThreadNs": 16665300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 51.875045,
+            "ms": 18.3898,
+            "checkpoint": "swap to Sela before the encounter",
+            "gcBytes": -1,
+            "gcCollections": 41,
+            "mainThreadNs": 16666000,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration."
+      },
+      "focused": 3987,
+      "files": [
+        {
+          "path": "Builds/quality/C3/buffs-player-04/build.json",
+          "sha256": "66980300ec38ebd22649e9c9530c0689dce29b3e4a98d047c8f88e68ad8c648d",
+          "bytes": 11477
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/environment.json",
+          "sha256": "59feb640f7a248ba469b519b4bf77944e131e942fd8dcbcf54d18fbe47df16d0",
+          "bytes": 123
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/run.json",
+          "sha256": "a6d8535ba433384a80f32b47c81f14f0a1e467d90efb7ed22472919a61464007",
+          "bytes": 829
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/analysis.json",
+          "sha256": "a80f06fc6b0b3c23f4eef7cc68912068edd96b47ab418797994e74f5f5e93256",
+          "bytes": 2864
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/route.json",
+          "sha256": "ccd9ed0a1f810201f3b81a3eb8f344a732eaa6de5abdc43207b991bfa2d6e918",
+          "bytes": 21018
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/frames.csv",
+          "sha256": "39bdaddfe194ae1a517e14a4546f8a034ceb4e41d08dec4d5db7950858bf3a25",
+          "bytes": 1053690
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/player.log",
+          "sha256": "64628558437a46472fd6c9bdf84a518dbe1f4d700ab62a05d40146a6004181df",
+          "bytes": 4498
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/replay.mp4",
+          "sha256": "8dbe54b7f2682b3e96a344e6229ddd6a342cc0a659ac280ae5809e14a2313772",
+          "bytes": 160270891
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/mix.wav",
+          "sha256": "5e444055b4f88c1a06d1da03292d9c249fcba71d84eedc3ab68af5404257c537",
+          "bytes": 25526316
+        }
+      ],
+      "opened": [
+        {
+          "path": "Builds/quality/C3/buffs-player-04/001.png",
+          "sha256": "fe3468912e7665e496c5aa8c719ff0e65e32a7c377f50d656e85f3c2a837fd74",
+          "bytes": 3225971
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/002.png",
+          "sha256": "257be89346cc65bebe3959a9df1950b0de3fc62515259a1c0a18c61d38798d1a",
+          "bytes": 3225637
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/003.png",
+          "sha256": "cbeeb4af5b2848ab89b97e4fc470e8f4144141e199d352855f02e803a1a3d03d",
+          "bytes": 3223895
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/005.png",
+          "sha256": "7792fbdb3d747cfbfe2ccec8fd9db2125868cddd9b81745a96c4691e5895bcd5",
+          "bytes": 3225866
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/012.png",
+          "sha256": "c0802677e185f1d21d5f73cd03811248cab00f3214f360f651f21b08356610ba",
+          "bytes": 3233867
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/013.png",
+          "sha256": "bbf6f28a8f5241095ef9bac4c16c9165d6a0969fa43c352429d0ca6ed43c040e",
+          "bytes": 3231566
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/016.png",
+          "sha256": "70076c5acbdae58b80d07079c6c1a1bee78bb5a792b2cc31aef854dacfd9f602",
+          "bytes": 3232827
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/018.png",
+          "sha256": "9fd0de2bca7711e1faaaded3ba0e2fe5c717dd7216286d63f5e3653de70822bd",
+          "bytes": 3224824
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/020.png",
+          "sha256": "3df7cf3c24378faf2c41c46d8652774ea16f8429f1ed13b87ca7d12ff05d852b",
+          "bytes": 3235535
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/023.png",
+          "sha256": "55f1300bac023ae59145ad8a37ce0d3347c15929a53aac0c26604084b6c654a7",
+          "bytes": 3226128
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/025.png",
+          "sha256": "1f514379b3a5c5d69b539c7c10e163564f32fe85a22b41a1eb08b6aefa4002f3",
+          "bytes": 3216521
+        },
+        {
+          "path": "Builds/quality/C3/buffs-player-04/027.png",
+          "sha256": "72d7bb6bd9d91b38f0527f28a943c515e021d5253e7915056209295359dd4af9",
+          "bytes": 3122340
+        }
+      ]
+    }
+  ],
+  "observation": "Codex opened final04 frames 001/002/003/005: amber charges at both posed wrists, during idle/movement, absent after expiry. Opened 012/013/016/018/020/023/025/027: cyan left-hand ward beside Sentinel tell, consumed ward, thin return beam and 158 damage during Shoot, break/death and retreat. Sela remains at 120 Integrity. CSV Shoot occurs at steps19-21 before ordinary attack input at26. Prior failed/out-of-reach/focus-lost attempts retained. Video and actual sound were captured but not continuously watched/auditioned. Normal/slow viewing, audio quality and physical controller feel UNVERIFIED. C3 and non-station MAP_EYE_TEST remain OPEN.",
+  "saves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+      "bytes": 914
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745",
+      "bytes": 891
+    }
+  ]
+}

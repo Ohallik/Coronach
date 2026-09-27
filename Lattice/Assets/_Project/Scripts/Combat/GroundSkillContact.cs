@@ -9,13 +9,15 @@ namespace Lattice.Combat
     [DefaultExecutionOrder(620)]
     public sealed class GroundSkillContact:MonoBehaviour
     {
+        public enum Release { Dash, Pulse, Net, Overdrive, Refract }
+        Release release;
         CombatActor actor;Animator rig;GroundMotor motor;
         GroundMove move;DamagePacket packet;Vector3 direction,destination;
         int sequence;bool pending;float travel;
         void Awake(){actor=GetComponent<CombatActor>();motor=GetComponent<GroundMotor>();}
-        public void Begin(GroundMove definition,Vector3 aim,DamagePacket damage)
+        public void Begin(GroundMove definition,Release kind,Vector3 aim,DamagePacket damage)
         {
-            move=definition;direction=aim.normalized;packet=damage;sequence=actor.AttackSequence;
+            move=definition;release=kind;direction=aim.normalized;packet=damage;sequence=actor.AttackSequence;
             rig=GetComponentInChildren<Animator>();pending=true;travel=0;
             float distance=actor.target!=null&&actor.target.Alive?Mathf.Min(6,Vector3.Distance(transform.position,actor.target.transform.position)):4;
             destination=transform.position+direction*distance;
@@ -31,7 +33,7 @@ namespace Lattice.Combat
             if(rig.IsInTransition(0)&&rig.GetNextAnimatorStateInfo(0).IsName(move.clip))state=rig.GetNextAnimatorStateInfo(0);
             if(!state.IsName(move.clip))return;
             float phase=state.normalizedTime;
-            if(move.clip=="Dash")
+            if(release==Release.Dash)
             {
                 float progress=Mathf.InverseLerp(.25f,.75f,phase);
                 motor.MoveAction(direction*(6*(progress-travel)),direction);travel=progress;
@@ -40,7 +42,12 @@ namespace Lattice.Combat
             }
             if(phase<move.contactStart)return;
             pending=false;
-            if(move.clip=="Pulse")
+            if(release==Release.Overdrive||release==Release.Refract)
+            {
+                if(release==Release.Overdrive)actor.ArmOverdrive();else actor.ArmRefract();
+                AudioManager.Play("forceField_000",.18f);
+            }
+            else if(release==Release.Net)
             {
                 var hand=rig.GetBoneTransform(HumanBodyBones.RightHand);
                 var body=transform.position+Vector3.up*.9f;

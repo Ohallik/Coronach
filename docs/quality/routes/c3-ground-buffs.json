@@ -1,0 +1,186 @@
+{
+  "name": "c3-ground-buffs",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "C3 posed buffs and counter candidate; exact package/source hashes recorded with capture",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "clear southern approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -7
+      },
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "arm Overdrive",
+      "seconds": 0.32,
+      "buttons": [
+        "RightShoulder",
+        "North"
+      ]
+    },
+    {
+      "name": "Overdrive charged wrists",
+      "seconds": 0.5
+    },
+    {
+      "name": "walk while charged",
+      "seconds": 2,
+      "x": 0.94,
+      "y": 0.342
+    },
+    {
+      "name": "Overdrive stable hold",
+      "seconds": 1
+    },
+    {
+      "name": "Overdrive expiry",
+      "seconds": 7
+    },
+    {
+      "name": "east outer trail",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0,
+        "z": -7
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "follow outer ridge to upper workings",
+      "seconds": 19,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0,
+        "z": 87
+      }
+    },
+    {
+      "name": "turn into Sentinel approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 87
+      }
+    },
+    {
+      "name": "swap to Sela before the encounter",
+      "seconds": 0.15,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.2,
+      "buttons": []
+    },
+    {
+      "name": "close toward sentry",
+      "seconds": 2.1,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 99
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "arm Refract during approach",
+      "seconds": 0.24,
+      "buttons": [
+        "RightShoulder",
+        "North"
+      ],
+      "x": -0.34202,
+      "y": 0.939693
+    },
+    {
+      "name": "Refract armed ward",
+      "seconds": 0.25,
+      "x": -0.34202,
+      "y": 0.939693
+    },
+    {
+      "name": "observe incoming strike and return 1",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 2",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 3",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 4",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 5",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 6",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 7",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 8",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 9",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 10",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 11",
+      "seconds": 0.12
+    },
+    {
+      "name": "observe incoming strike and return 12",
+      "seconds": 0.12
+    },
+    {
+      "name": "ordinary needles after counter",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.42
+    },
+    {
+      "name": "retreat to ridge",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 50,
+        "y": 0,
+        "z": 87
+      }
+    }
+  ]
+}

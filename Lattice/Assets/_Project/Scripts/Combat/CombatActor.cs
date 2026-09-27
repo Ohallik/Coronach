@@ -32,6 +32,10 @@ namespace Lattice.Combat
         bool guarding,critical,flashConsumed;
         float recoverUntil;
         public const float DownDuration=1.05f,ReviveDuration=1.15f;
+        public bool Overdriving=>Health.Alive&&GameTime.Now<overdriveUntil;
+        public bool Refracting=>Health.Alive&&GameTime.Now<refractUntil;
+        internal void ArmOverdrive()=>overdriveUntil=GameTime.Now+10;
+        internal void ArmRefract()=>refractUntil=GameTime.Now+1.4f;
         public bool Recovering=>Health.Alive&&GameTime.Now<recoverUntil;
         public float GuardDamageMultiplier=>guarding?.35f:1;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
@@ -59,14 +63,14 @@ namespace Lattice.Combat
         public void Guard(bool held)
         {
             if(!Health.Alive||Recovering){guarding=false;return;}
-            if(held&&!guarding){guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
+            if(held&&!guarding){refractUntil=0;guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
             guarding=held&&!flight; if(guarding)State=ActorState.Guard;else if(State==ActorState.Guard)State=ActorState.Idle;
         }
         public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
         {
             if(GameTime.Paused||!Health.Alive||Recovering||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
-            State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
+            refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
             BeginVisual("Dodge",flight?.3f:.25f);
             AudioManager.Play("thrusterFire_000",.16f);
             actionUntil=GameTime.Now+(flight?.3f:.25f);motor.Dash(direction.sqrMagnitude>.01f?direction:motor.Facing,flight?4:3.3f);
@@ -77,7 +81,15 @@ namespace Lattice.Combat
             if(GameTime.Now<refractUntil)
             {
                 refractUntil=0;critical=true;
-                Pierce(Aim(),Packet(rangedDamage*2,DamageType.Beam,60),flight?16:11);
+                var direction=Aim();var counter=Packet(rangedDamage*2,DamageType.Beam,60);
+                if(flight)Pierce(direction,counter,16);
+                else
+                {
+                    var move=GroundMove.Counter;State=ActorState.Skill;guarding=false;
+                    BeginVisual(move.clip,move.duration);actionUntil=GameTime.Now+move.recoveryEnd;
+                    GetComponent<RangedContact>().Begin(move,direction,counter,RangedContact.Pattern.Counter);
+                    GetComponent<HeroBuffPresentation>().Intercept();
+                }
                 return true;
             }
             if(State==ActorState.Dodge&&GameTime.Now<actionUntil)
@@ -163,40 +175,34 @@ namespace Lattice.Combat
             var definition=GameCatalog.Find<CharacterDef>(character);var skill=definition!=null&&definition.skills.Length>slot?definition.skills[slot]:null;
             float cost=skill!=null?skill.chargeCost:20;if(charge<cost)return false;
             charge-=cost;cooldowns[slot]=skill!=null?skill.cooldown:slot==3?10:4;State=ActorState.Skill;
-            var rangedMove=slot==0?GroundMove.Lance:GroundMove.Scatter;
-            bool emitterSkill=!flight&&character=="Sela"&&slot<2;
-            bool posedSkill=!flight&&(character=="Taren"&&(slot==1||slot==2)||character=="Sela"&&slot==2);
-            var groundSkill=character=="Sela"?GroundMove.StaticNet:slot==1?GroundMove.EmberDash:GroundMove.Pulse;
-            BeginVisual(emitterSkill?rangedMove.clip:slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",
-                emitterSkill?rangedMove.duration:slot==0?.5f:slot==1?.4f:.55f);
-            if(posedSkill){VisualAction=groundSkill.clip;VisualDuration=groundSkill.duration;VisualAttackUntil=GameTime.Now+groundSkill.duration;}
-            actionUntil=GameTime.Now+(flight?.16f:VisualDuration*.85f);
-            if(posedSkill)actionUntil=GameTime.Now+groundSkill.recoveryEnd;
             float power=1+Mathf.Max(0,resonance-10)*.025f;Vector3 direction=Aim();
-            if(flight)ApplySkill(slot,power,direction);
-            else if(character=="Taren"&&slot==0)
-                GetComponent<MeleeContact>().Begin(GroundMove.Cleave,Packet(damage*1.7f*power,DamageType.Kinetic,35));
-            else if(emitterSkill)
-                GetComponent<RangedContact>().Begin(rangedMove,direction,
-                    Packet(rangedDamage*(slot==0?1.7f:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
-                    slot==0?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
-            else if(posedSkill)
+            if(flight)
             {
-                var packet=character=="Taren"?Packet(damage*(slot==1?1.8f:1.1f)*power,slot==1?DamageType.Plasma:DamageType.Pulse,slot==1?40:85):
-                    Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
-                GetComponent<GroundSkillContact>().Begin(groundSkill,direction,packet);
-                if(character=="Taren"&&slot==1)GetComponent<MeleeContact>().Begin(groundSkill,packet);
+                BeginVisual(slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",slot==0?.5f:slot==1?.4f:.55f);
+                actionUntil=GameTime.Now+.16f;ApplySkill(slot,power,direction);
             }
-            else StartCoroutine(SkillContact(AttackSequence,slot,power,direction));
+            else
+            {
+                var move=character=="Taren"?slot==0?GroundMove.Cleave:slot==1?GroundMove.EmberDash:slot==2?GroundMove.Pulse:GroundMove.Overdrive:
+                    slot==0?GroundMove.Lance:slot==1?GroundMove.Scatter:slot==2?GroundMove.StaticNet:GroundMove.Refract;
+                BeginVisual(move.clip,move.duration);actionUntil=GameTime.Now+move.recoveryEnd;
+                if(character=="Taren"&&slot==0)
+                    GetComponent<MeleeContact>().Begin(move,Packet(damage*1.7f*power,DamageType.Kinetic,35));
+                else if(character=="Sela"&&slot<2)
+                    GetComponent<RangedContact>().Begin(move,direction,
+                        Packet(rangedDamage*(slot==0?1.7f:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
+                        slot==0?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
+                else
+                {
+                    var release=slot==3?(character=="Taren"?GroundSkillContact.Release.Overdrive:GroundSkillContact.Release.Refract):
+                        character=="Sela"?GroundSkillContact.Release.Net:slot==1?GroundSkillContact.Release.Dash:GroundSkillContact.Release.Pulse;
+                    var packet=slot==3?default:character=="Taren"?Packet(damage*(slot==1?1.8f:1.1f)*power,slot==1?DamageType.Plasma:DamageType.Pulse,slot==1?40:85):
+                        Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
+                    GetComponent<GroundSkillContact>().Begin(move,release,direction,packet);
+                    if(character=="Taren"&&slot==1)GetComponent<MeleeContact>().Begin(move,packet);
+                }
+            }
             Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
-        }
-        IEnumerator SkillContact(int sequence,int slot,float power,Vector3 direction)
-        {
-            float at=GameTime.Now+VisualDuration*.4f;
-            while(GameTime.Now<at)yield return null;
-            while(GameTime.Paused)yield return null;
-            if(sequence!=AttackSequence||!Health.Alive||State!=ActorState.Skill)yield break;
-            ApplySkill(slot,power,direction);
         }
         void ApplySkill(int slot,float power,Vector3 direction)
         {
@@ -205,7 +211,7 @@ namespace Lattice.Combat
                 if(slot==0)Strike(transform.position+direction*2+Vector3.up*.8f,3.4f,Packet(damage*1.7f*power,DamageType.Kinetic,35));
                 else if(slot==1){motor.Dash(direction,flight?10:6);Pierce(direction,Packet(damage*1.8f*power,DamageType.Plasma,40),flight?10:6);}
                 else if(slot==2)Strike(transform.position+Vector3.up,5,Packet(damage*1.1f*power,DamageType.Pulse,85));
-                else overdriveUntil=GameTime.Now+10;
+                else ArmOverdrive();
             }
             else
             {
@@ -216,7 +222,7 @@ namespace Lattice.Combat
                     var field=new GameObject("StaticNet",typeof(PulseField)).GetComponent<PulseField>();field.transform.position=target!=null?target.transform.position:transform.position+direction*4;
                     field.packet=Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
                 }
-                else refractUntil=GameTime.Now+1.4f;
+                else ArmRefract();
             }
         }
         void Pierce(Vector3 direction,DamagePacket packet,float length)

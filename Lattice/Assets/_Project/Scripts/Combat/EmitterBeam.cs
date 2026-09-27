@@ -31,8 +31,7 @@ namespace Lattice.Combat
             // Query order is unspecified. Resolve the nearest opaque surface
             // before considering any victim, including bodies behind that wall.
             foreach(var contact in contacts)
-                if(!contact.collider.isTrigger&&contact.collider.gameObject.isStatic&&
-                    !contact.collider.TryGetComponent<Hurtbox>(out _)&&contact.distance<=distance)
+                if(CombatCover.Opaque(contact.collider)&&contact.distance<=distance)
                 {distance=contact.distance;blocked=true;}
             line.SetPosition(0,origin);line.SetPosition(1,origin+direction*distance);
             core.SetPosition(0,origin);core.SetPosition(1,origin+direction*distance);

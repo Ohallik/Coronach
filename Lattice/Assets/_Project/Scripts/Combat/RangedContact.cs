@@ -8,7 +8,7 @@ namespace Lattice.Combat
     [DefaultExecutionOrder(700)]
     public sealed class RangedContact : MonoBehaviour
     {
-        public enum Pattern { Needle, Fan, Lance }
+        public enum Pattern { Needle, Fan, Lance, Counter }
         CombatActor actor;Animator rig;GeneratedAnimator driver;Health aimedTarget;EmitterBeam beam;
         Pattern pattern;ActorState actionState;
         GroundMove move;DamagePacket packet;Vector3 aim;
@@ -44,6 +44,10 @@ namespace Lattice.Combat
             var hand=rig.GetBoneTransform(HumanBodyBones.LeftHand);
             if(hand==null)return;
             var origin=hand.position+aim*.08f;
+            // A posed wrist may cross a thin surface before the sampled release.
+            // Never originate a shot on the far side of the shooter's cover.
+            if(CombatCover.Sweep(transform.position+Vector3.up*.9f,origin,.09f,out var obstruction))
+            {CombatVfx.Burst(obstruction.point,Color.cyan,"hit");AudioManager.Play("laserSmall_000",.18f);return;}
             var direction=aim;
             if(aimedTarget!=null&&aimedTarget.Alive)
             {
@@ -57,10 +61,10 @@ namespace Lattice.Combat
             }
             AudioManager.Play("laserSmall_000",.18f);
             CombatVfx.Burst(origin,Color.cyan,"shot");
-            if(pattern==Pattern.Lance)
+            if(pattern==Pattern.Lance||pattern==Pattern.Counter)
             {
                 if(beam==null)beam=gameObject.AddComponent<EmitterBeam>();
-                beam.Fire(origin,direction,packet,13);
+                beam.Fire(origin,direction,packet,pattern==Pattern.Counter?11:13);
             }
             else if(pattern==Pattern.Fan)
                 for(int ray=-2;ray<=2;ray++)Projectile.Fire(origin,Quaternion.AngleAxis(ray*12,Vector3.up)*direction,packet);
