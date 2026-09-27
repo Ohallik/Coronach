@@ -10,14 +10,18 @@ namespace Lattice.Combat
     public sealed class FlightThrusters:MonoBehaviour
     {
         CombatActor actor;FlightMotor motor;FlightSockets sockets;
-        LineRenderer[] flames;float drive;
+        LineRenderer[] flames;Material material;float drive;
         void Awake(){actor=GetComponent<CombatActor>();motor=GetComponent<FlightMotor>();}
         void Prepare()
         {
             sockets=GetComponent<FormController>().flight.GetComponent<FlightSockets>();
             if(sockets==null||sockets.engines==null||sockets.engines.Length==0)
                 throw new MissingReferenceException("Flight hull lacks calibrated engines: "+actor.character);
-            var material=Resources.Load<Material>("Effects/flare_01");
+            material=new Material(Resources.Load<Shader>("Effects/FlightEnergy"));
+            material.SetTexture("_BaseMap",Resources.Load<Material>("Effects/flare_01").GetTexture("_BaseMap"));
+            // The owned flare is padded on both ends. Start at its bright
+            // middle so visible exhaust begins at the physical nozzle.
+            material.SetVector("_UvTransform",new Vector4(.5f,1,.5f,0));
             flames=new LineRenderer[sockets.engines.Length];
             for(int i=0;i<flames.Length;i++)
             {
@@ -45,5 +49,6 @@ namespace Lattice.Combat
         }
         void Clear(){drive=0;if(flames!=null)foreach(var line in flames)if(line!=null)line.enabled=false;}
         void OnDisable(){Clear();}
+        void OnDestroy(){if(material!=null)Destroy(material);}
     }
 }

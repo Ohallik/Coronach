@@ -70,19 +70,32 @@ namespace Lattice.Tests.PlayMode
             {
                 Place(taren,new Vector3(210,1,0));Place(sela,new Vector3(212,1,0));Place(actor,new Vector3(200,1,0));
                 victim.transform.position=new Vector3(200,1,6);victim.Health.ResetFull();actor.target=victim.Health;Physics.SyncTransforms();
-                int hits=0;float greatestLead=0;Vector3 previous=actor.transform.position;
+                int hits=0;float greatestEdgeGap=0;
                 System.Action<Health,DamagePacket,float> observe=(_,packet,amount)=>
                 {
                     if(packet.source!=actor.Health)return;hits++;
-                    Vector3 delta=actor.transform.position-previous;
-                    float fraction=delta.sqrMagnitude>0?Mathf.Clamp01(Vector3.Dot(victim.transform.position-previous,delta)/delta.sqrMagnitude):0;
-                    greatestLead=Mathf.Max(greatestLead,Vector3.Distance(victim.transform.position,previous+delta*fraction));
+                    var edge=actor.transform.Find("Flight lunge edge").GetComponent<LineRenderer>();
+                    Assert.IsTrue(edge.enabled,"damaging lunge lacks its visible energy edge");
+                    var body=victim.GetComponent<CapsuleCollider>();float gap=float.PositiveInfinity;
+                    for(int i=0;i<edge.positionCount;i++)
+                    {
+                        Vector3 point=edge.transform.TransformPoint(edge.GetPosition(i));
+                        gap=Mathf.Min(gap,Vector3.Distance(point,body.ClosestPoint(point)));
+                    }
+                    greatestEdgeGap=Mathf.Max(greatestEdgeGap,gap);
                 };
                 victim.Health.Damaged+=observe;Assert.IsTrue(actor.Lunge());float deadline=Time.unscaledTime+.85f;
-                while(Time.unscaledTime<deadline){previous=actor.transform.position;actor.motor.Move(Vector2.zero,false,false);yield return null;}
+                float closestBody=float.PositiveInfinity;
+                while(Time.unscaledTime<deadline)
+                {
+                    actor.motor.Move(Vector2.zero,false,false);
+                    Vector3 center=actor.transform.position+Vector3.up*.8f;
+                    closestBody=Mathf.Min(closestBody,Vector3.Distance(center,victim.GetComponent<CapsuleCollider>().ClosestPoint(center)));
+                    yield return null;
+                }
                 victim.Health.Damaged-=observe;
-                Assert.AreEqual(1,hits,actor.character+" should damage this target once per lunge");
-                Assert.LessOrEqual(greatestLead,1.7f,"contact exceeded lunge radius plus victim radius beyond the travelled segment");
+                Assert.AreEqual(1,hits,actor.character+" should damage this target once per lunge; closest body="+closestBody+" end="+actor.transform.position);
+                Assert.LessOrEqual(greatestEdgeGap,.12f,"damage arrived before the actual visible hull edge reached the victim");
             }
         }
         [UnityTest] public IEnumerator InterruptedLungeCannotReleaseDeferredContact()

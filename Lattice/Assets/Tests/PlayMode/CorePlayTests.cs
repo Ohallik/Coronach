@@ -335,10 +335,12 @@ namespace Lattice.Tests.PlayMode
                 yield return Load(zone);var actor=PartyController.Current.Active;
                 var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=new Vector3(200,1,-200);cc.enabled=true;
                 var wall=new GameObject("Collision test wall",typeof(BoxCollider));wall.transform.position=new Vector3(203,1,-200);wall.GetComponent<BoxCollider>().size=new Vector3(1,6,20);
+                var witness=actor.gameObject.AddComponent<FlightCollisionWitness>();witness.observed=wall.GetComponent<BoxCollider>();
                 Physics.SyncTransforms();float before=actor.Health.integrity,furthest=actor.transform.position.x;
                 float until=Time.realtimeSinceStartup+2;
                 while(Time.realtimeSinceStartup<until){actor.motor.Move(Vector2.right,true,false);furthest=Mathf.Max(furthest,actor.transform.position.x);yield return null;}
                 Assert.Less(furthest,202.6f,"flight must collide with the wall in either mode");
+                Assert.Greater(witness.contacts,0,"fixture must observe actual controller contact with the wall");
                 if(zone=="Hub_CinderHalo")Assert.AreEqual(before,actor.Health.integrity,"civil flight collisions must be harmless");
                 else Assert.Less(actor.Health.integrity,before,"combat wall contact must cause damage");
                 if(zone=="Arena_Flight")
@@ -347,9 +349,9 @@ namespace Lattice.Tests.PlayMode
                     // must not apply the wall's 12 damage to the player.
                     wall.AddComponent<Health>();
                     cc.enabled=false;actor.transform.position=new Vector3(200,1,-200);cc.enabled=true;
-                    before=actor.Health.integrity;furthest=200;until=Time.realtimeSinceStartup+2;
+                    before=actor.Health.integrity;furthest=200;witness.contacts=0;until=Time.realtimeSinceStartup+2;
                     while(Time.realtimeSinceStartup<until){actor.motor.Move(Vector2.right,true,false);furthest=Mathf.Max(furthest,actor.transform.position.x);yield return null;}
-                    Assert.Greater(furthest,201,"the actor must actually reach the body collider");
+                    Assert.Greater(witness.contacts,0,"the actor must actually reach the body collider");
                     Assert.AreEqual(before,actor.Health.integrity,"combatant bodies must not inflict wall collision damage");
                 }
                 Object.Destroy(wall);yield return null;

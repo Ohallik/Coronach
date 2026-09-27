@@ -11,16 +11,40 @@ namespace Lattice.Combat
     {
         CombatActor actor;FlightMotor motor;DamagePacket packet;
         int actionSequence,dashSequence;bool pending;float effectTravel;
+        LineRenderer edge;Material edgeMaterial;float radius;
         readonly HashSet<Health> victims=new();
         readonly Collider[] overlaps=new Collider[128];
         void Awake()
         {actor=GetComponent<CombatActor>();motor=GetComponent<FlightMotor>();motor.DashMoved+=Resolve;}
-        void OnDestroy(){if(motor!=null)motor.DashMoved-=Resolve;}
-        void OnDisable(){pending=false;}
+        void OnDestroy(){if(motor!=null)motor.DashMoved-=Resolve;if(edgeMaterial!=null)Destroy(edgeMaterial);}
+        void OnDisable(){pending=false;if(edge!=null)edge.enabled=false;}
+        void LateUpdate()
+        {
+            if(!pending)return;
+            if(actor.AttackSequence!=actionSequence||!actor.flight||!actor.Health.Alive||actor.Recovering||GameTime.Now>=actor.VisualAttackUntil)
+            {pending=false;if(edge!=null)edge.enabled=false;}
+        }
         public void Begin(DamagePacket damage)
         {
             packet=damage;actionSequence=actor.AttackSequence;dashSequence=motor.DashSequence;
             pending=true;effectTravel=0;victims.Clear();
+            radius=GetComponent<CharacterController>().radius;
+            if(edge==null)
+            {
+                var go=new GameObject("Flight lunge edge",typeof(LineRenderer));go.transform.SetParent(transform,false);
+                edge=go.GetComponent<LineRenderer>();edge.useWorldSpace=false;edge.loop=true;edge.positionCount=48;
+                edgeMaterial=new Material(Resources.Load<Shader>("Effects/FlightEnergy"));
+                edgeMaterial.SetTexture("_BaseMap",Resources.Load<Material>("Effects/flare_01").GetTexture("_BaseMap"));
+                edgeMaterial.SetVector("_UvTransform",new Vector4(0,1,.5f,0));
+                edge.sharedMaterial=edgeMaterial;edge.startWidth=edge.endWidth=.075f;
+                edge.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;edge.receiveShadows=false;
+            }
+            for(int i=0;i<edge.positionCount;i++)
+            {
+                float angle=i*Mathf.PI*2/edge.positionCount;
+                edge.SetPosition(i,new Vector3(Mathf.Sin(angle)*radius,.8f,Mathf.Cos(angle)*radius));
+            }
+            edge.startColor=edge.endColor=actor.character=="Taren"?new Color(1,.65f,.2f,.8f):new Color(.1f,.8f,1,.8f);edge.enabled=true;
         }
         void Resolve(int dash,Vector3 from,Vector3 to)
         {
@@ -28,8 +52,10 @@ namespace Lattice.Combat
             if(dash!=dashSequence||actor.AttackSequence!=actionSequence||!actor.flight||!actor.Health.Alive||actor.Recovering)
             {pending=false;return;}
             if(GameTime.Paused)return;
-            Vector3 a=from+Vector3.up*.9f,b=to+Vector3.up*.9f,delta=b-a;
-            int count=Physics.OverlapCapsuleNonAlloc(a,b,1.05f,overlaps,~0,QueryTriggerInteraction.Collide);
+            Vector3 a=from+Vector3.up*.8f,b=to+Vector3.up*.8f,delta=b-a;
+            // Include the visible stroke's outer half-width. Controller contact
+            // retains a skin gap; the energy edge bridges that small clearance.
+            int count=Physics.OverlapCapsuleNonAlloc(a,b,radius+edge.startWidth*.5f,overlaps,~0,QueryTriggerInteraction.Collide);
             for(int i=0;i<count;i++)
             {
                 var collider=overlaps[i];

@@ -16,7 +16,8 @@ namespace Lattice.UI
         void Request(string action){if(action=="bench")Bench();else if(action=="shop")Shop(null);else if(action=="repair")RepairBay.Repair();}
         void Join(string id)
         {
-            var party=PartyController.Current;var actor=ActorFactory.Hero(id,party.Active.transform.position+Vector3.right*2);actor.transform.SetParent(party.transform);
+            var party=PartyController.Current;float spacing=party.Active.flight?HeroCollision.ArrivalSpacing:2;
+            var actor=ActorFactory.Hero(id,party.Active.transform.position+Vector3.right*spacing);actor.transform.SetParent(party.transform);
             var members=new System.Collections.Generic.List<CombatActor>(party.members){actor};party.members=members.ToArray();party.Apply();
         }
     }

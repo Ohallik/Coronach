@@ -7,6 +7,20 @@ namespace Lattice.Tests.EditMode
 {
     public sealed class FlightSocketTests
     {
+        [TestCase("Taren")]
+        [TestCase("Sela")]
+        public void FlightCollisionContainsTheActualMeshThroughEveryBankAndRoll(string hero)
+        {
+            var hull=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Characters/"+hero+"Flight.prefab"));
+            try
+            {
+                var points=hull.GetComponentsInChildren<MeshFilter>().SelectMany(f=>f.sharedMesh.vertices.Select(v=>hull.transform.InverseTransformPoint(f.transform.TransformPoint(v)))).ToArray();
+                float furthest=points.Max(p=>p.magnitude);
+                Assert.GreaterOrEqual(HeroCollision.HullRadius(hero)-.005f,furthest,"stable flight sphere fails to contain rotated hull geometry");
+                Assert.Less(HeroCollision.HullRadius(hero)-furthest,.04f,"movement footprint is unnecessarily inflated beyond measured hull");
+            }
+            finally{Object.DestroyImmediate(hull);}
+        }
         [TestCase("TarenFlight",4)]
         [TestCase("SelaFlight",3)]
         public void AttachmentsRemainOnTheMeasuredGeneratedHull(string id,int engineCount)

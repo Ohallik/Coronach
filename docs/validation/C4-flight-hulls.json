@@ -1,0 +1,409 @@
+{
+  "status": "C4 OPEN; source checkpoint, full integration retry pending",
+  "date": "2026-09-27T08:33:27.948396+00:00",
+  "sourceBase": "f5128e69b0951825c8f10a824bf8b5072f3d76d7",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/HeroCollision.cs",
+      "bytes": 1412,
+      "sha256": "1197657955533419d0f247053222a2d37db4a7a1aa4e994932d6220ac478bad4"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightDashContact.cs",
+      "bytes": 4447,
+      "sha256": "1bd4112facaea3ff24264e374316d437421b1fcfd4a1e97ea60a8603a5ccfd9d"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightThrusters.cs",
+      "bytes": 2993,
+      "sha256": "384148b0fe9a7ad2594c96c94907c40f54a7e4670c3a1d4d6e63d07402c564ad"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "bytes": 5305,
+      "sha256": "b4dd814064db3b272efcb08e3c90b0eb3df8961dbc19d975c43d154e69858f4e"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+      "bytes": 5385,
+      "sha256": "92bb1535f9ac3faa2d658e9771cf1c4a96c3aae1764405c039f0f5a3a4a29ccc"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/ArenaRuntime.cs",
+      "bytes": 2182,
+      "sha256": "123c1391f39b872dec9621b29f626a59da69baab4be9bb1523277b575bc44345"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/WorldUiBridge.cs",
+      "bytes": 1429,
+      "sha256": "83d9a9cb3be44cce35ed1dcd76b24b04b266e0644d1a63aee4bef80969dea8a3"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/FlightEffectsAudit.cs",
+      "bytes": 3810,
+      "sha256": "c1d4fc4d7f4937c1f1237db6f20fceb3d44bc5934b78872d8664bcc2fcf7362d"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightContactTests.cs",
+      "bytes": 8100,
+      "sha256": "0f1c132417e23311084a04eb3efb00175dea6d4664f67d7b5e18589f23144003"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightHullTests.cs",
+      "bytes": 7165,
+      "sha256": "9124c0aa5a64644078cdcbcbd0332c0cf35a0ca4c84764b9d05d598103285b42"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/CorePlayTests.cs",
+      "bytes": 34997,
+      "sha256": "e14def3b631a5c5853f24c8857d5550f0741b4f284ea685794ec6d75b9ecb3be"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightCollisionWitness.cs",
+      "bytes": 295,
+      "sha256": "05cecf7e1849f583ef2e0e2f945e3390d67a02332ad3480cef40e6f18b288f14"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/FlightSocketTests.cs",
+      "bytes": 2538,
+      "sha256": "2447e912d5c33b860996b75b238f0bf31c2a44e3893bc3902be238d517b9ce50"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Resources/Effects/FlightEnergy.shader",
+      "bytes": 1487,
+      "sha256": "be572d1ff101c9e3fe576e1f6142a8309bf89f09bbc270807f0ecc5bc55c9b2c"
+    }
+  ],
+  "tests": [
+    {
+      "run": "hull-contact-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:06:02Z",
+        "end-time": "2026-09-27 08:06:12Z",
+        "duration": "10.4300197"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-contact-red/playmode-results.xml",
+        "bytes": 9583,
+        "sha256": "74fc982cca7b243b749605ccdd24eb36fa92038a3f9135e4f212c86ac0dd9fa7"
+      }
+    },
+    {
+      "run": "hull-contact-stage01",
+      "counts": {
+        "id": "2",
+        "testcasecount": "9",
+        "result": "Failed(Child)",
+        "total": "9",
+        "passed": "6",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:07:03Z",
+        "end-time": "2026-09-27 08:07:45Z",
+        "duration": "42.5450933"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-contact-stage01/playmode-results.xml",
+        "bytes": 17134,
+        "sha256": "8bdd54f3b1f0774e2ff82d1e6a74e6ef58500046338032bc08961072f6417d68"
+      }
+    },
+    {
+      "run": "hull-contact-stage02",
+      "counts": {
+        "id": "2",
+        "testcasecount": "11",
+        "result": "Failed(Child)",
+        "total": "11",
+        "passed": "8",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:09:09Z",
+        "end-time": "2026-09-27 08:10:03Z",
+        "duration": "54.4774295"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-contact-stage02/playmode-results.xml",
+        "bytes": 19660,
+        "sha256": "a95b72ee0adef7cb61bce93b67716caca8033b51af6047998c1ec8074fcc7498"
+      }
+    },
+    {
+      "run": "hull-contact-gap-diagnostic",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:10:42Z",
+        "end-time": "2026-09-27 08:10:46Z",
+        "duration": "3.8096009"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-contact-gap-diagnostic/playmode-results.xml",
+        "bytes": 5687,
+        "sha256": "a395bf5fcc7f128e69fb454192679b8fe7aa0ba1f78b6415653179a24b0def8a"
+      }
+    },
+    {
+      "run": "hull-contact-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "11",
+        "result": "Passed",
+        "total": "11",
+        "passed": "11",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:11:26Z",
+        "end-time": "2026-09-27 08:12:21Z",
+        "duration": "55.3668125"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-contact-green/playmode-results.xml",
+        "bytes": 16839,
+        "sha256": "b7b33c269fec8a59ce8a25c2568a89c88f0a8bdd0a1c0d2958eee259848facf1"
+      }
+    },
+    {
+      "run": "hull-edge-fault-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:12:51Z",
+        "end-time": "2026-09-27 08:12:55Z",
+        "duration": "3.8498333"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-edge-fault-red/playmode-results.xml",
+        "bytes": 5707,
+        "sha256": "f1c2186051598aa3aa9e1a9d856e531759c5eda6e26aba4374db39cd345cc609"
+      }
+    },
+    {
+      "run": "c4-integrated-03",
+      "counts": {
+        "id": "2",
+        "testcasecount": "118",
+        "result": "Failed(Child)",
+        "total": "118",
+        "passed": "117",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:16:38Z",
+        "end-time": "2026-09-27 08:29:27Z",
+        "duration": "768.6844627"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/c4-integrated-03/playmode-results.xml",
+        "bytes": 168804,
+        "sha256": "45c198200f8a54162e474d546f5e2bd56e9a7878a9aead29c3a5e989ea4ba4be"
+      }
+    },
+    {
+      "run": "hull-wall-fixture-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:31:09Z",
+        "end-time": "2026-09-27 08:31:22Z",
+        "duration": "12.205697"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-wall-fixture-green/playmode-results.xml",
+        "bytes": 4538,
+        "sha256": "e726e506d724f358e7155a55f48dead9fbf26edfc7e68a9339a474c2d5795a8a"
+      }
+    },
+    {
+      "run": "hull-wall-damage-fault-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:31:59Z",
+        "end-time": "2026-09-27 08:32:11Z",
+        "duration": "12.1558991"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-wall-damage-fault-red/playmode-results.xml",
+        "bytes": 6010,
+        "sha256": "ab7268087c667db89c5f1cae5234eed42e28ee965c9ab0511e6fe5e9551c97c0"
+      }
+    },
+    {
+      "run": "hull-editmode-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "48",
+        "result": "Passed",
+        "total": "48",
+        "passed": "48",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:32:34Z",
+        "end-time": "2026-09-27 08:32:35Z",
+        "duration": "0.4139295"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/hull-editmode-green/editmode-results.xml",
+        "bytes": 42076,
+        "sha256": "60154c960b8613b0262778c2f800cb0a32336925887f4d91a342d8d3532cf059"
+      }
+    }
+  ],
+  "openedBy": "Codex, actual PNGs through view_image",
+  "openedControlledViews": [
+    {
+      "path": "Builds/quality/C4/hull-effects-01/Taren-boost-side.png",
+      "bytes": 36725,
+      "sha256": "b0fbbde68348fbe086036b72c1a8856eec2c8f11ad7f5e1a6e8fc8b5b64a17a5"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-01/Taren-lunge-top.png",
+      "bytes": 99153,
+      "sha256": "4799ad5f9f7f6d1fe316a4f5c0cde48daeabc7d2e43b6b1451f0b0ba0cfa5678"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-01/Sela-boost-side.png",
+      "bytes": 35998,
+      "sha256": "11124600b423fb4e97be2975daca053d10f4c8a529dfb838005a6c8379003850"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-01/Sela-lunge-top.png",
+      "bytes": 81496,
+      "sha256": "7b9afed24053de1293ffa87bf4b880087ead56097a72f10067633ea9b2ab9705"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-02/Taren-boost-side.png",
+      "bytes": 36730,
+      "sha256": "0df5ef25eeee94b500265744e0ec5202c8b9dfc19d2112fdc40f790f5e7edd5f"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-02/Taren-lunge-top.png",
+      "bytes": 98753,
+      "sha256": "400768b49ae01454090c46410d3c47956980160364f196d531b9432822afcda9"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-02/Sela-boost-side.png",
+      "bytes": 35998,
+      "sha256": "bca61c6f086a7c05ce4124148b2537ac078a75737352de4659d886f335a7d37f"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-02/Sela-lunge-top.png",
+      "bytes": 81854,
+      "sha256": "735de4b4893f1e1de9f6671dc42f93892de1b90e0ad0975c9d4f589e4874c8fa"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Taren-boost-side.png",
+      "bytes": 37143,
+      "sha256": "fb51bc645fefcf770490093f100d6c911176e802ce59b3f2f17c08475276d344"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Taren-lunge-top.png",
+      "bytes": 109139,
+      "sha256": "fdf6ebe48b253042c7883c5c4c4e30298f1e5d9740b47834a2b3047bdb24efca"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Sela-boost-side.png",
+      "bytes": 36773,
+      "sha256": "6bb86bacbae55e126e464190bad213bf389b08141253a88e5991eaf51aeb538c"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Sela-lunge-top.png",
+      "bytes": 91354,
+      "sha256": "b4e134d192cbfe7a5c1a28611e02d47d023bd5b10f25f1e88aa3707cdfe2cf06"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Taren-thrust-back.png",
+      "bytes": 40462,
+      "sha256": "c899961340de766fe7177591da0f56354993af6351558f8826b8f9aa97305530"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Taren-boost-back.png",
+      "bytes": 41158,
+      "sha256": "c7d3fc92d9a97269b64f7b9dadda2fd2f17242816b929c4c7edead9a6038f7e5"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Sela-thrust-back.png",
+      "bytes": 37464,
+      "sha256": "8f6c19c275a3210cc3392c70ca79943cf1a2b3d446c0bc5c0a98b78bc7033af8"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-03/Sela-boost-back.png",
+      "bytes": 38211,
+      "sha256": "593528b85c5b7b3233b2b8fe34ec572ef17ad5b055a18f7f1dd28ecf1249742d"
+    }
+  ],
+  "players": "Pending integrated rebuild. Previous packages e78c606.",
+  "notes": [
+    "hull-effects-01 and 02 rejected; 03 controlled attachment and thin-edge stills pass only.",
+    "Full PlayMode 117/118 rejects an obsolete centre-position contact fixture. Direct collider witness passes 1/1 and rejects injected actor-as-wall damage. Fault removed; full retry pending.",
+    "Integration launcher first emitted a BOM-related assignment error; explicit per-run exit checks remain in force. The wrapper text was corrected while tests ran; no tests were skipped or accepted from wrapper success.",
+    "Normal/slow continuous viewing, audio audition and physical controller feel UNVERIFIED."
+  ]
+}

@@ -15,7 +15,8 @@ namespace Lattice.UI
             Vector3 position=spawn!=null?spawn.transform.position:new Vector3(0,0,-5);
             var root=new GameObject("Party");var party=root.AddComponent<PartyController>();
             UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(root,gameObject.scene);
-            party.members=state.party.Select((m,i)=>ActorFactory.Hero(m.id,position+Vector3.right*i*2)).ToArray();
+            float spacing=ZoneController.Current.Flight?HeroCollision.ArrivalSpacing:2;
+            party.members=state.party.Select((m,i)=>ActorFactory.Hero(m.id,position+Vector3.right*i*spacing)).ToArray();
             party.index=Mathf.Clamp(state.activeMember,0,party.members.Length-1);
             foreach(var member in party.members)member.transform.SetParent(root.transform);
             var rig=new GameObject("CameraRig",typeof(CameraRig));UnityEngine.SceneManagement.SceneManager.MoveGameObjectToScene(rig,gameObject.scene);

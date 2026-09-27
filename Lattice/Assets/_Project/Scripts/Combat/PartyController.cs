@@ -25,6 +25,7 @@ namespace Lattice.Combat
             for(int i=0;i<members.Length;i++)
             {
                 var m=members[i];m.flight=zone.Flight;m.damageScale=i==index?1:.6f;
+                m.GetComponent<HeroCollision>().SetFlight(zone.Flight);
                 if(!zone.Combat)m.TargetLocked=false;
                 m.GetComponent<PlayerBrain>().enabled=i==index;m.GetComponent<PartnerBrain>().enabled=i!=index;
                 var ground=m.GetComponent<GroundMotor>();var flight=m.GetComponent<FlightMotor>();ground.enabled=!zone.Flight;flight.enabled=zone.Flight;
@@ -54,7 +55,11 @@ namespace Lattice.Combat
             CombatActor nearbyDown=null;
             if(Active.Health.Alive&&!Active.Recovering&&!GameServices.Current.Input.Blocked)
                 foreach(var m in members)
-                    if(m!=Active&&!m.Health.Alive&&(m.transform.position-Active.transform.position).sqrMagnitude<4){nearbyDown=m;break;}
+                    if(m!=Active&&!m.Health.Alive)
+                    {
+                        float reach=Active.flight?HeroCollision.HullRadius(Active.character)+HeroCollision.HullRadius(m.character)+.5f:2;
+                        if((m.transform.position-Active.transform.position).sqrMagnitude<reach*reach){nearbyDown=m;break;}
+                    }
             if(nearbyDown!=reviveTarget){revive=0;reviveTarget=nearbyDown;}
             if(reviveTarget!=null)
             {

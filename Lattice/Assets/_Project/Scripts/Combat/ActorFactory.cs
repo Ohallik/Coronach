@@ -20,6 +20,7 @@ namespace Lattice.Combat
             health.maximum=Levels.MaxIntegrity(state?.level??1);health.integrity=state?.integrity??health.maximum;
             AddBodyHurtbox(root,health,cc);
             var actor=root.AddComponent<CombatActor>();actor.character=id;actor.damage=50+5*((state?.level??1)-1);actor.charge=state?.charge??0;
+            root.AddComponent<HeroCollision>();
             root.AddComponent<GroundMotor>();root.AddComponent<FlightMotor>();
             var form=root.AddComponent<FormController>();var definition=GameCatalog.Find<CharacterDef>(id);
             string material=id=="Taren"?"Taren":"Sela";

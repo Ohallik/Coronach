@@ -17,6 +17,8 @@ Animation sources are the owned CC0 Quaternius Universal Animation Libraries 1 a
 
 Flight source checkpoint: both muzzle origins now follow measured generated nose sockets after bank/roll; Sela's lance/counter uses a visible cover-limited beam. Four Taren and three Sela engine sockets follow their opened actual nozzle geometry. Reusable exhaust follows input thrust/boost instead of emitting under the actor from speed alone. Focused red/green checks pass; runtime effect viewing, full integration and hull collision work remain pending. [Emitter evidence](validation/C4-flight-emitters.md).
 
+The following hull checkpoint replaces the humanoid flight capsule with measured stable bounds, matches lunge contact to a visible energy edge and preserves ground collision on landing. Controlled effect renders reject padded-texture detachment; the explicit UV shader connects exhaust to the nozzles and displays the complete thin edge. Hull/contact, separated revive and ground-restoration checks pass; full integration and ordinary player recapture remain pending. [Hull evidence](validation/C4-flight-hulls.md).
+
 ## Next choreography targets
 
 | Fighter / move | Silhouette and purpose | Required mechanical distinction |
