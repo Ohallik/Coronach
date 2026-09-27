@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C5 signal-check tooling checkpoint - September 27
+
+**C5 OPEN.** A repeatable, read-only captured-mix checker now retains FFmpeg true-peak/loudness logs and source hashes. Seven controls pass after a rounded-ceiling case first reproduces a false acceptance. First-minute Decks and Sorrel captures measure -7.4/-9.3 dBTP, below the unchanged -1 dBTP ceiling. [Evidence](validation/C5-signal-check.md) separates these numerical baselines from required sound design and listening. Actual audition remains UNVERIFIED; no game audio or music changed. C4's full integration run remains in progress; this tooling commit does not change either player package or close a production gate.
+
 ## C4 actual flight contact source checkpoint - September 27
 
 **C4 OPEN.** Three red cases show lunges hitting through cover, from a stationary craft and ahead of actual travel. Lunge and Taren flight dash now resolve from completed motor segments, with cover checks, one hit per target and distance-based visual bursts. The expanded six-case matrix passes. [Contact evidence](validation/C4-flight-contact.md) preserves the failures. Full PlayMode reached **97/98, zero skips**: an existing Overdrive fixture allowed restored fortune to contaminate an exact damage assertion. Its corrected synchronous samples pass 1/1 with the same 100/120 thresholds. Full green and both rebuilt players remain pending; this is a source checkpoint. Development remains Sorrel blockout 06, Release the preceding integrated C3 package. Original saves are unchanged. Ordinary ship routes and transformation regressions are prepared; observation and all open production gates remain pending.

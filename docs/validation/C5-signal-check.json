@@ -1,0 +1,128 @@
+{
+  "status": "C5 OPEN; numerical measurement checkpoint only",
+  "date": "2026-09-27T07:31:03.261283+00:00",
+  "sourceBase": "a3cfac29b403b4dad59be4d12a99f75f83122944",
+  "source": [
+    {
+      "path": "tools/audio_audit.py",
+      "bytes": 4805,
+      "sha256": "9d81ba0e2adfd88f2101f2e0d07c6649b80bd601b5d05c0e644641b792d90658"
+    },
+    {
+      "path": "tools/test_audio_audit.py",
+      "bytes": 3037,
+      "sha256": "25ed858ec64e1c9b764aa1a4aab3e7f9b28023af64aa369073b5d49ac36ed2f8"
+    }
+  ],
+  "controls": {
+    "red": "6/7; rounded boundary falsely accepted",
+    "green": "7/7; 0.272 seconds"
+  },
+  "artifacts": [
+    {
+      "path": "Builds/quality/C5/rounded-peak-red/audio_audit.py",
+      "bytes": 4642,
+      "sha256": "f92baee6928e67b0deb27bff120284f6cb66f2923a283eecd49f67eb46ed5c31"
+    },
+    {
+      "path": "Builds/quality/C5/rounded-peak-red/test_audio_audit.py",
+      "bytes": 3037,
+      "sha256": "25ed858ec64e1c9b764aa1a4aab3e7f9b28023af64aa369073b5d49ac36ed2f8"
+    },
+    {
+      "path": "Builds/quality/C5/rounded-peak-red/tests.log",
+      "bytes": 1883,
+      "sha256": "aa349c45e77a143b94e668c6b560586db17b1387c78622cd18211917c97dc663"
+    },
+    {
+      "path": "Builds/quality/C5/rounded-peak-green/audio_audit.py",
+      "bytes": 4805,
+      "sha256": "9d81ba0e2adfd88f2101f2e0d07c6649b80bd601b5d05c0e644641b792d90658"
+    },
+    {
+      "path": "Builds/quality/C5/rounded-peak-green/test_audio_audit.py",
+      "bytes": 3037,
+      "sha256": "25ed858ec64e1c9b764aa1a4aab3e7f9b28023af64aa369073b5d49ac36ed2f8"
+    },
+    {
+      "path": "Builds/quality/C5/rounded-peak-green/tests.log",
+      "bytes": 3082,
+      "sha256": "4918d97287dd250376fd33daac81d9701198fa9661986365f83f7d2699013f7e"
+    },
+    {
+      "path": "Builds/quality/C5/baseline-mix-levels-03/000.log",
+      "bytes": 106237,
+      "sha256": "9d58d929c2f380dcb090f557b03d66655afd66c5fbaf6c514feef6ed5b0d6ff6"
+    },
+    {
+      "path": "Builds/quality/C5/baseline-mix-levels-03/001.log",
+      "bytes": 106255,
+      "sha256": "4d9ec918271817e8410fb94bb4087de06caad0af88a674d1c90d7ca61fa38c27"
+    },
+    {
+      "path": "Builds/quality/C5/baseline-mix-levels-03/report.json",
+      "bytes": 1814,
+      "sha256": "f090937b68324f5a074a75767395b4b1a2b113b863012b6b4e2e243c3e4e5b55"
+    }
+  ],
+  "inventory": {
+    "path": "Builds/quality/C5/inventory-01.json",
+    "bytes": 16621,
+    "sha256": "4912989f0da9db1a34f2d60f8a14f4b46d6def908169307d12d3a1e6e59a12a0"
+  },
+  "measurements": {
+    "method": "FFmpeg ebur128 with oversampled true peak",
+    "seconds": 60.0,
+    "peakLimitDbtp": -1.0,
+    "peakResolutionDb": 0.1,
+    "peakBoundary": "A rounded value at the ceiling cannot prove compliance; it is rejected.",
+    "audition": "UNVERIFIED; signal measurements do not establish sound quality",
+    "tool": {
+      "path": "C:/Users/natem/Projects/SpaceRPG/tools/audio_audit.py",
+      "bytes": 4805,
+      "sha256": "9d81ba0e2adfd88f2101f2e0d07c6649b80bd601b5d05c0e644641b792d90658"
+    },
+    "runs": [
+      {
+        "input": "Builds/quality/C0/decks-capture-02/mix.wav",
+        "failures": [],
+        "source": {
+          "path": "Builds/quality/C0/decks-capture-02/mix.wav",
+          "bytes": 46211116,
+          "sha256": "cea1a5283bc8b82f79869576a67cf7c30c638e186961fdf882632af86ccf74ad"
+        },
+        "log": {
+          "path": "Builds/quality/C5/baseline-mix-levels-03/000.log",
+          "bytes": 106237,
+          "sha256": "9d58d929c2f380dcb090f557b03d66655afd66c5fbaf6c514feef6ed5b0d6ff6"
+        },
+        "truePeakDbtp": -7.4,
+        "integratedLufs": -22.2,
+        "silent": false,
+        "valid": true
+      },
+      {
+        "input": "Builds/quality/workshop/sorrel-west-blockout-walk-02/mix.wav",
+        "failures": [],
+        "source": {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/mix.wav",
+          "bytes": 107970604,
+          "sha256": "1a8f8deb459d2bbd3b042e2ad5716a77f2f3ea163d8825da6e4d1180e5422db9"
+        },
+        "log": {
+          "path": "Builds/quality/C5/baseline-mix-levels-03/001.log",
+          "bytes": 106255,
+          "sha256": "4d9ec918271817e8410fb94bb4087de06caad0af88a674d1c90d7ca61fa38c27"
+        },
+        "truePeakDbtp": -9.3,
+        "integratedLufs": -21.6,
+        "silent": false,
+        "valid": true
+      }
+    ],
+    "valid": true
+  },
+  "audition": "UNVERIFIED",
+  "runtimeAudioChanged": false,
+  "musicChanged": false
+}
