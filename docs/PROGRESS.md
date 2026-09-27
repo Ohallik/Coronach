@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C3 ordinary recoil and armor checkpoint - September 26
+
+**C3 OPEN.** Sentinel now has a short torso recoil distinct from full break, with smaller motion while armored and unchanged walking-leg stride. Its protective ring persists for the actual armor state and clears on expiry, break or death. Stronger motion exposed a one-frame pause advance; immediate animator pause notification fixes the unchanged regression. Failed donor-only attempts, fixture corrections and visual observations are retained in [hit/armor evidence](validation/C3-sentinel-hit.md).
+
+Fresh integrated suites pass **69/69 PlayMode and 39/39 EditMode, zero skips**; both Windows players rebuilt with BUILD_OK. The ordinary release route passes 22 checkpoints with 3,257 focused samples: Scatter Bloom activates armor, companion melee breaks it, the encounter clears and the party returns. Opened frames show the recoil, persistent ring and break/death cleanup. The existing activation bursts overlap noisily under multiple pellets and still need reduction. Original saves remain unchanged. Continuous normal/slow viewing, audio audition and physical feel remain UNVERIFIED. Other C3 work, non-station MAP_EYE_TEST and later gates remain open.
+
 ## C3 settled corpse checkpoint - September 26
 
 **C3 OPEN.** Sentinel's terminal pose now settles its raised legs instead of hanging from an extended arm. A new side-view/height control rejects the former pose. Baked mesh calibration and a gradual visual tilt lower the hips from 0.708 m to 0.472 m; real mesh clearance stays at 0.012 m on flat and both 10-degree slopes. The targeted suite passes **4/4**, including hero down/get-up, grounded break/recovery, stable hold and pause. [Corpse evidence](validation/C3-sentinel-corpse.md).

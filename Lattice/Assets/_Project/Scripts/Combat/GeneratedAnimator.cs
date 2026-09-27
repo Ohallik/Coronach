@@ -15,6 +15,7 @@ namespace Lattice.Combat
         string state;
         int sequence = -1;
         int emitterLayer=-1,emitterSequence=-1;
+        int recoilLayer=-1,recoilSequence=-1;
         bool upperShot;
         float emitterWeight;
         readonly Dictionary<string, float> lengths = new();
@@ -26,7 +27,9 @@ namespace Lattice.Combat
         public bool ReverseLocomotion {get;private set;}
         public bool IsLocomotion => state=="Idle"||state=="Walk"||state=="Run"||state=="Sprint";
 
-        void OnEnable() { previous = transform.position; state = null; sequence = emitterSequence = -1;upperShot=false;emitterWeight=0; }
+        void OnEnable() { previous = transform.position; state = null; sequence = emitterSequence = recoilSequence = -1;upperShot=false;emitterWeight=0;GameTime.PauseChanged+=OnPause; }
+        void OnDisable(){GameTime.PauseChanged-=OnPause;}
+        void OnPause(bool paused){if(paused&&animator!=null)animator.speed=0;}
         void Start()
         {
             animator = GetComponentInChildren<Animator>();
@@ -36,6 +39,7 @@ namespace Lattice.Combat
             previous = transform.position;
             if (animator != null && actor != null) animator.updateMode = AnimatorUpdateMode.UnscaledTime;
             if(animator!=null)emitterLayer=animator.GetLayerIndex("Emitter");
+            if(animator!=null)recoilLayer=animator.GetLayerIndex("Recoil");
             if(animator!=null&&actor!=null&&strideProfile!=null)
             {
                 var feet=GetComponent<GroundFeet>()??gameObject.AddComponent<GroundFeet>();
@@ -132,6 +136,26 @@ namespace Lattice.Combat
                 rate = length > 0 ? length / Mathf.Max(.1f, actor.VisualDuration) : 1;
             }
             animator.speed = rate;
+            if(recoilLayer>=0&&enemy!=null)
+            {
+                float elapsed=Time.time-enemy.ImpactStarted;
+                bool recoil=enemy.Health.Alive&&!enemy.Health.Broken&&elapsed>=0&&elapsed<EnemyBrain.ImpactDuration;
+                float weight=recoil?Mathf.Min(Mathf.Clamp01(elapsed/.035f),Mathf.Clamp01((EnemyBrain.ImpactDuration-elapsed)/.12f)):0;
+                animator.SetLayerWeight(recoilLayer,weight*(enemy.ArmoredImpact?.45f:1));
+                if(recoil)
+                {
+                    if(!lengths.TryGetValue("Stagger",out float length))
+                    {
+                        foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name=="Stagger"){length=clip.length;break;}
+                        if(length>0)lengths["Stagger"]=length;
+                    }
+                    // The full owned take contains the chest recoil near its
+                    // end. Reach it in 160 ms, then let the layer fade away.
+                    animator.SetFloat("RecoilRate",length/.16f/Mathf.Max(.01f,rate));
+                    if(recoilSequence!=enemy.ImpactSequence)
+                    {recoilSequence=enemy.ImpactSequence;animator.Play("Recoil",recoilLayer,0);}
+                }
+            }
             if(emitterLayer>=0)
             {
                 bool interrupted=actor==null||!actor.Health.Alive||actor.Recovering||actor.State==ActorState.Guard||actor.State==ActorState.Stagger||actor.State==ActorState.Dodge||actor.flight;

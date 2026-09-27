@@ -13,6 +13,10 @@ namespace Lattice.Combat
         public bool Attacking=>lunging||Time.time<attackAnimationUntil;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
         public bool Passive;
+        public int ImpactSequence{get;private set;}
+        public float ImpactStarted{get;private set;}=float.NegativeInfinity;
+        public bool ArmoredImpact{get;private set;}
+        public const float ImpactDuration=.36f;
         CharacterController controller;
         GameObject warning;
         Vector3 home;
@@ -37,6 +41,11 @@ namespace Lattice.Combat
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
             if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit();
+            if(Health.Alive&&!Health.Broken&&amount>0)
+            {
+                ImpactStarted=Time.time;ImpactSequence++;
+                ArmoredImpact=packet.type==definition.resistance||Time.time<Health.ShieldUntil;
+            }
             if(Health.Broken)
             {
                 CancelAttack();Health.ShieldUntil=0;

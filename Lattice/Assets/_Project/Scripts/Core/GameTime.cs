@@ -3,6 +3,7 @@ namespace Lattice.Core
 {
     public static class GameTime
     {
+        public static event System.Action<bool> PauseChanged;
         static bool paused;
         static int flashes;
         static float pausedAt,pausedTotal;
@@ -14,7 +15,7 @@ namespace Lattice.Core
             {
                 if(value==paused)return;
                 if(value)pausedAt=Time.unscaledTime;else pausedTotal+=Time.unscaledTime-pausedAt;
-                paused=value;Apply();
+                paused=value;Apply();PauseChanged?.Invoke(value);
             }
         }
         public static void BeginFlash(){flashes++;Apply();}

@@ -39,6 +39,7 @@ namespace Lattice.Combat
             if(definition.id=="Cantor")SerpentSegments.CenterVisual(visual,SerpentSegments.CenterHeight);
             if(definition.id=="Scrapmite"||definition.id.StartsWith("Chorister")){var motion=visual.AddComponent<ProceduralMotion>();motion.motion=definition.id=="Scrapmite"?ProceduralMotion.Motion.Skitter:ProceduralMotion.Motion.Hover;}
             var enemy=root.AddComponent<EnemyBrain>();enemy.definition=definition;
+            if(definition.archetype==EnemyArchetype.Sentinel)root.AddComponent<EnemyArmorPresentation>();
             root.AddComponent<LootDrop>().definition=definition;
             if(definition.boss)root.AddComponent<BossController>();if(definition.id=="Cantor")root.AddComponent<SerpentSegments>();
             root.AddComponent<DefeatPresentation>().visual=visual.transform;return enemy;

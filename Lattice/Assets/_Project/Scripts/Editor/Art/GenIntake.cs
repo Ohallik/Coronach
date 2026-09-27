@@ -158,6 +158,7 @@ namespace Lattice.EditorTools
             foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);state.iKOnFeet=row.kind=="biped";if(clip.state=="Idle")machine.defaultState=state;}
             if(row.character=="Taren"||row.character=="Sela")StrideCalibration.ConfigureController(controller);
             if(row.character=="Sela")RangedLayerSetup.Configure(controller);
+            if(row.enemy=="SentinelHusk")EnemyRecoilLayerSetup.Configure(controller);
             animator.runtimeAnimatorController=controller;animator.applyRootMotion=false;animator.cullingMode=AnimatorCullingMode.AlwaysAnimate;EditorUtility.SetDirty(controller);
         }
         static void VerifyMotion(Row row,Animator animator)

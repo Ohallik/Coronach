@@ -75,6 +75,7 @@ namespace Lattice.EditorTools
             state.motion=AssetDatabase.LoadAllAssetsAtPath(AnimRoot+"HeroLocomotion.fbx").OfType<AnimationClip>().Single(c=>c.name=="Stagger");
             state.iKOnFeet=false;state.speed=1;state.speedParameterActive=false;
             EditorUtility.SetDirty(state);EditorUtility.SetDirty(controller);
+            EnemyRecoilLayerSetup.Configure(controller);
             if(guid!=AssetDatabase.AssetPathToGUID(path))throw new InvalidOperationException("Sentinel controller GUID changed");
             LifecycleCalibration.Install(row);
             File.WriteAllText(intake,JsonConvert.SerializeObject(rows,Formatting.Indented)+"\n");AssetDatabase.SaveAssets();
