@@ -64,7 +64,23 @@ namespace Lattice.Combat
                 if (visual&&!upperShot) wanted = actor.VisualAction;
                 if (form != null && (form.Current == BodyForm.Flight || form.Current == BodyForm.CivilFlight)) { wanted = "Idle"; visual = false; }
             }
-            else if (enemy != null && enemy.Attacking) wanted = "Attack";
+            else if(enemy!=null)
+            {
+                if(enemy.Health.Broken&&animator.HasState(0,Animator.StringToHash("Stagger")))
+                {
+                    wanted="Stagger";
+                    if(!lengths.TryGetValue(wanted,out float length))
+                    {
+                        foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name==wanted){length=clip.length;break;}
+                        if(length>0)lengths[wanted]=length;
+                    }
+                    // Reach the recoiled pose in 0.22 seconds, then hold the
+                    // authored body until gameplay break recovery begins.
+                    rate=length>0?length*.25f/.22f:1;
+                    if(state==wanted&&!animator.IsInTransition(0)&&animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=.25f)rate=0;
+                }
+                else if(enemy.Attacking)wanted="Attack";
+            }
             bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive;
             bool gettingUp=actor!=null&&actor.Recovering;
             if(down||gettingUp)

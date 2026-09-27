@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## C3 Sentinel reaction checkpoint - September 26
+
+**C3 OPEN.** Sentinel now holds an inspected recoil pose while broken and returns on recovery. A red body test rejects ordinary idle during break; the new live pose moves its head 19.6 cm, holds through pause and recovers without moving the gameplay root. Actual generated-mesh support corrects 14.8 cm of idle penetration. The first support attempt incorrectly hit its own capsule; that rejection and a new height bound are retained. Revised support ignores combatants, passes actual-world sole checks and 484 independently cross-checked pose samples. Intake preserves the controller/prefab GUIDs. [Reaction evidence](validation/C3-sentinel-reaction.md).
+
+Fresh integrated suites pass **64/64 PlayMode and 39/39 EditMode, zero skips**; both players rebuilt with BUILD_OK and original saves remain unchanged. The 23-checkpoint release route passes with 3,738 focused samples and a real encounter clear. Opened frames establish break-to-defeat behavior, not recovery: the companion breaks the enemy early and it dies before the named recovery steps. The terminal corpse appears propped off the floor by an extended arm and is **rejected for further correction**, despite its lowest point passing the floor bound. Full C3 choreography/reactions, non-station spatial work and later gates remain open. Continuous normal/slow viewing, audio audition and physical feel remain UNVERIFIED.
+
 ## C3 enemy-break interruption checkpoint - September 26
 
 **C3 OPEN.** Red tests reproduce post-break damage from a pending contact, retained enemy warnings and immediate untelegraphed recovery attacks. Break now cancels pending enemy contacts and attack work, drops Sentinel's shield and requires a fresh tell. Both bosses' special attack state also cancels on break after a separate red regression. Released projectiles retain their intended flight. The combined focused checks pass **6/6, zero skips**; normal saves restore unchanged. [Break evidence](validation/C3-enemy-break.md) preserves exact red/green traces. This is a source checkpoint: fresh full suites, package rebuilds and reaction presentation remain pending; existing players still contain `ec0ac23`.

@@ -60,6 +60,26 @@ namespace Lattice.EditorTools
         });
         public static void Lifecycle()=>BatchTools.Run(()=>
         {InstallLifecycle();Debug.Log("LIFECYCLE_INTAKE_OK");});
+        public static void EnemyReactions()=>BatchTools.Run(()=>
+        {
+            string intake=Path.Combine(Root,"docs/art/intake.json");
+            var rows=JsonConvert.DeserializeObject<GenIntake.Row[]>(File.ReadAllText(intake));
+            var row=rows.Single(r=>r.enemy=="SentinelHusk");
+            var clips=row.clips.Where(c=>c.state!="Stagger").ToList();
+            clips.Add(new GenIntake.ClipRow{state="Stagger",path=AnimRoot+"HeroLocomotion.fbx",name="Stagger"});row.clips=clips.ToArray();
+            string path="Assets/_Project/Art/Generated/Models/"+row.id+"/"+row.id+".controller";
+            string guid=AssetDatabase.AssetPathToGUID(path);
+            var controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
+            var machine=controller.layers[0].stateMachine;
+            var state=machine.states.Select(s=>s.state).SingleOrDefault(s=>s.name=="Stagger")??machine.AddState("Stagger");
+            state.motion=AssetDatabase.LoadAllAssetsAtPath(AnimRoot+"HeroLocomotion.fbx").OfType<AnimationClip>().Single(c=>c.name=="Stagger");
+            state.iKOnFeet=false;state.speed=1;state.speedParameterActive=false;
+            EditorUtility.SetDirty(state);EditorUtility.SetDirty(controller);
+            if(guid!=AssetDatabase.AssetPathToGUID(path))throw new InvalidOperationException("Sentinel controller GUID changed");
+            LifecycleCalibration.Install(row);
+            File.WriteAllText(intake,JsonConvert.SerializeObject(rows,Formatting.Indented)+"\n");AssetDatabase.SaveAssets();
+            Debug.Log("ENEMY_REACTION_INTAKE_OK");
+        });
         static void InstallLifecycle()
         {
             foreach(string name in new[]{"HeroDeath","HeroRevive"})

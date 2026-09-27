@@ -451,6 +451,11 @@
         "state": "Down",
         "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
         "name": "Down"
+      },
+      {
+        "state": "Stagger",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Stagger"
       }
     ]
   },

@@ -1,6 +1,8 @@
 using System.Linq;
+using System.Collections.Generic;
 using Lattice.Combat;
 using UnityEditor;
+using UnityEditor.Animations;
 using UnityEngine;
 using UnityEngine.Animations;
 using UnityEngine.Playables;
@@ -14,14 +16,16 @@ namespace Lattice.EditorTools
             string path="Assets/_Project/Prefabs/"+row.folder+"/"+row.id+".prefab";
             string guid=AssetDatabase.AssetPathToGUID(path);
             var sample=Object.Instantiate(AssetDatabase.LoadAssetAtPath<GameObject>(path));
-            var animator=sample.GetComponentInChildren<Animator>();var clips=animator.runtimeAnimatorController.animationClips;
+            var animator=sample.GetComponentInChildren<Animator>();
+            var controller=(AnimatorController)animator.runtimeAnimatorController;
+            var clips=controller.layers[0].stateMachine.states.ToDictionary(s=>s.state.name,s=>(AnimationClip)s.state.motion);
             var vanes=sample.GetComponent<GeneratedVanes>();animator.runtimeAnimatorController=null;
-            AnimationCurve down=new(),revive=new();
+            var surfaces=new Dictionary<string,AnimationCurve>();
             try
             {
-                foreach(string name in row.enemy=="SentinelHusk"?new[]{"Down"}:new[]{"Down","Revive"})
+                foreach(string name in row.enemy=="SentinelHusk"?new[]{"Down","Idle","Walk","Attack","Stagger"}.Where(clips.ContainsKey):new[]{"Down","Revive"})
                 {
-                    var clip=clips.Single(c=>c.name==name);var graph=PlayableGraph.Create("Lifecycle surface calibration");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
+                    var clip=clips[name];var graph=PlayableGraph.Create("Lifecycle surface calibration");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
                     try
                     {
                         var playable=AnimationClipPlayable.Create(graph,clip);playable.SetApplyFootIK(false);
@@ -36,7 +40,7 @@ namespace Lattice.EditorTools
                         var curve=new AnimationCurve(keys);
                         for(int i=0;i<keys.Length;i++)
                         {AnimationUtility.SetKeyLeftTangentMode(curve,i,AnimationUtility.TangentMode.Linear);AnimationUtility.SetKeyRightTangentMode(curve,i,AnimationUtility.TangentMode.Linear);}
-                        if(name=="Down")down=curve;else revive=curve;
+                        surfaces[name]=curve;
                     }
                     finally{graph.Destroy();}
                 }
@@ -47,7 +51,10 @@ namespace Lattice.EditorTools
             try
             {
                 var support=body.GetComponent<GroundLifecycleSupport>()??body.AddComponent<GroundLifecycleSupport>();
-                support.downSurface=down;support.reviveSurface=revive;
+                AnimationCurve Surface(string state)=>surfaces.TryGetValue(state,out var curve)?curve:new AnimationCurve();
+                support.downSurface=Surface("Down");support.reviveSurface=Surface("Revive");
+                support.idleSurface=Surface("Idle");support.walkSurface=Surface("Walk");
+                support.attackSurface=Surface("Attack");support.staggerSurface=Surface("Stagger");
                 PrefabUtility.SaveAsPrefabAsset(body,path);
             }
             finally{PrefabUtility.UnloadPrefabContents(body);}

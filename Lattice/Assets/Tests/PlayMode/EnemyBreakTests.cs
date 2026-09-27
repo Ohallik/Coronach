@@ -30,6 +30,67 @@ namespace Lattice.Tests.PlayMode
         static void Place(CombatActor actor,Vector3 position)
         {var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=position;cc.enabled=true;Physics.SyncTransforms();}
 
+        static float RenderedBottom(GameObject body)
+        {
+            float minimum=float.PositiveInfinity;
+            foreach(var skin in body.GetComponentsInChildren<SkinnedMeshRenderer>())
+            {
+                var mesh=new Mesh();skin.BakeMesh(mesh);
+                // Sentinel's imported renderer has a scaled sibling skeleton.
+                // BakeMesh already includes that scale; do not apply it twice.
+                var world=Matrix4x4.TRS(skin.transform.position,skin.transform.rotation,Vector3.one);
+                foreach(var vertex in mesh.vertices)minimum=Mathf.Min(minimum,world.MultiplyPoint3x4(vertex).y);
+                Object.Destroy(mesh);
+            }
+            Assert.IsFalse(float.IsInfinity(minimum));return minimum;
+        }
+
+        [UnityTest] public IEnumerator SentinelRenderedFeetRestOnWorldGeometryInsteadOfItsOwnCapsule()
+        {
+            var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);floor.transform.position=new Vector3(50,.5f,-10);
+            floor.transform.localScale=new Vector3(6,1,6);Physics.SyncTransforms();
+            var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("SentinelHusk"),new Vector3(50,1,-10));enemy.Passive=true;
+            yield return new WaitForSecondsRealtime(.25f);
+            var support=enemy.GetComponentInChildren<GroundLifecycleSupport>();Assert.IsNotNull(support);
+            support.enabled=false;support.transform.localPosition=Vector3.zero;yield return null;
+            float broken=RenderedBottom(enemy.gameObject);
+            Assert.Less(broken,.92f,"disabled-support control must expose actual foot penetration");
+            support.enabled=true;yield return new WaitForSecondsRealtime(.25f);
+            float idle=RenderedBottom(enemy.gameObject);
+            Assert.That(idle,Is.InRange(.97f,1.06f),"idle sole must rest on the world floor");
+            enemy.Health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=1,breakPower=1000,type=DamageType.Pulse});
+            yield return new WaitForSecondsRealtime(.65f);
+            float stagger=RenderedBottom(enemy.gameObject);
+            Assert.That(stagger,Is.InRange(.97f,1.06f),"break sole must rest on the world floor");
+            Debug.Log($"SENTINEL_GROUND control={broken:F5} idle={idle:F5} broken={stagger:F5} floor=1");
+            Object.Destroy(floor);
+        }
+
+        [UnityTest] public IEnumerator BrokenSentinelHasAStableVisiblePoseAndReturnsToIdle()
+        {
+            var actor=PartyController.Current.Active;
+            var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("SentinelHusk"),new Vector3(0,1,-10));enemy.Passive=true;
+            yield return new WaitForSecondsRealtime(.25f);
+            var rig=enemy.GetComponentInChildren<Animator>();Assert.IsTrue(rig.isHuman);
+            var head=rig.GetBoneTransform(HumanBodyBones.Head);
+            Vector3 idle=enemy.transform.InverseTransformPoint(head.position),root=enemy.transform.position;
+            Assert.That(idle.y,Is.InRange(1.5f,2.3f),"Sentinel support must not lift the body onto its own movement capsule");
+            enemy.Health.Receive(new DamagePacket{source=actor.Health,amount=1,breakPower=1000,type=DamageType.Pulse});
+            yield return new WaitForSecondsRealtime(.65f);
+            Vector3 held=enemy.transform.InverseTransformPoint(head.position);
+            float displacement=Vector3.Distance(idle,held);
+            Debug.Log($"SENTINEL_BREAK_POSE headDisplacement={displacement:F5} idle={idle:F5} held={held:F5}");
+            Assert.That(displacement,Is.InRange(.12f,.9f),"a broken Sentinel needs a readable bounded body reaction");
+            GameTime.Paused=true;yield return new WaitForSecondsRealtime(.25f);
+            Assert.Less(Vector3.Distance(held,enemy.transform.InverseTransformPoint(head.position)),.025f,"break pose moves during pause");
+            GameTime.Paused=false;yield return new WaitForSecondsRealtime(.65f);
+            Assert.Less(Vector3.Distance(held,enemy.transform.InverseTransformPoint(head.position)),.025f,"broken pose must hold instead of returning to idle early");
+            Assert.Less(Vector3.Distance(root,enemy.transform.position),.01f,"visual break changes gameplay position");
+            while(enemy.Health.Broken)yield return null;
+            yield return new WaitForSecondsRealtime(.3f);
+            Assert.Less(Vector3.Distance(idle,enemy.transform.InverseTransformPoint(head.position)),.10f,"recovered Sentinel never returned to idle");
+        }
+
         [UnityTest] public IEnumerator BreakImmediatelyCancelsBothBossSpecialTells()
         {
             var failures=new List<string>();var actor=PartyController.Current.Active;
