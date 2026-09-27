@@ -19,6 +19,8 @@ Flight source checkpoint: both muzzle origins now follow measured generated nose
 
 The following hull checkpoint replaces the humanoid flight capsule with measured stable bounds, matches lunge contact to a visible energy edge and preserves ground collision on landing. Controlled effect renders reject padded-texture detachment; the explicit UV shader connects exhaust to the nozzles and displays the complete thin edge. Hull/contact, separated revive and ground-restoration checks pass; full integration and ordinary player recapture remain pending. [Hull evidence](validation/C4-flight-hulls.md).
 
+The subsequent integrated review passes 118/118 PlayMode and 48/48 EditMode and rebuilds both players. Opened ordinary Gullet regroup frames now show separate craft, but gameplay-sized thrust frames reject exhaust readability: the connected effect is too faint. Both long civil routes dock, yet retain focus/approach failures; a whole-route pass is still pending. [Integrated hull review](validation/C4-flight-hulls-integrated.md) and [actual flight rules](FLIGHT_DIRECTION.md) separate these findings from unobserved motion and physical feel.
+
 ## Next choreography targets
 
 | Fighter / move | Silhouette and purpose | Required mechanical distinction |

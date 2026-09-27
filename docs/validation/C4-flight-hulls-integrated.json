@@ -1,0 +1,602 @@
+{
+  "date": "2026-09-27T09:03:13.972376+00:00",
+  "status": "C4 OPEN; integrated hull collision checkpoint, gameplay exhaust readability rejected",
+  "source": "abaf4be859119223517f254a6353ccb839536355",
+  "tests": [
+    {
+      "platform": "playmode",
+      "counts": {
+        "id": "2",
+        "testcasecount": "118",
+        "result": "Passed",
+        "total": "118",
+        "passed": "118",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:33:54Z",
+        "end-time": "2026-09-27 08:46:43Z",
+        "duration": "768.9961687"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/c4-integrated-04/playmode-results.xml",
+        "bytes": 167324,
+        "sha256": "cacb4c07af477ac283c1333f72d677e1d7c5b34e0ddb9df9fbf52517b6d3a8ea"
+      }
+    },
+    {
+      "platform": "editmode",
+      "counts": {
+        "id": "2",
+        "testcasecount": "48",
+        "result": "Passed",
+        "total": "48",
+        "passed": "48",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:46:51Z",
+        "end-time": "2026-09-27 08:46:52Z",
+        "duration": "0.4129794"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/c4-integrated-04/editmode-results.xml",
+        "bytes": 42082,
+        "sha256": "07cc19546593c1ad158c93961564ada43271b6f052e49b6dfe63d587ea817c86"
+      }
+    }
+  ],
+  "builds": [
+    {
+      "path": "Builds/quality/C4/c4-integrated-04/development-build.log",
+      "bytes": 597018,
+      "sha256": "cf20b119f8d4fa0164555790646bc6270da8e3e382b346cc3e5bc5bebadfbc54"
+    },
+    {
+      "path": "Builds/quality/C4/c4-integrated-04/release-build.log",
+      "bytes": 590697,
+      "sha256": "e4a2a869fda852a8d52d4a741cbf6577b7d047c2eb67642d42fef0381f7c56db"
+    }
+  ],
+  "runs": [
+    {
+      "run": "gullet-hulls-taren-01",
+      "report": {
+        "route": "c4-gullet-lunge-taren",
+        "sourceRevision": "Recapture after geometry-sized flight collision; assistance reaches the adjacent 3.8 m separation. No combat settings changed.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2393,
+        "refreshHz": 60.0,
+        "seconds": 39.8645782,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0911091000000002,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "frames": 2393,
+      "focused": 2393,
+      "healthMinimum": 85.1,
+      "healthFinal": "85.1",
+      "partnerFinal": "138.0",
+      "finalScene": "Gullet_Tunnel",
+      "finalForm": "Flight",
+      "lungeKills": 8,
+      "checkpoints": 25,
+      "files": [
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/run.json",
+          "bytes": 867,
+          "sha256": "6d84a41a17054fcea4de2e64e6e75fd4b1968f5f296c3c7b222dae5e9e06c14b"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/route.json",
+          "bytes": 19012,
+          "sha256": "056c372603d2aafba00fed14ae516038e3a57a50afc37f44e075426d03a2de77"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/frames.csv",
+          "bytes": 612126,
+          "sha256": "e9aaefb37f18e0f3071234fdc02fa99178e541dcea062cc00fb86cfb7dac5da2"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/capture-frames.csv",
+          "bytes": 17758,
+          "sha256": "11b0bce9703aea50dc2cc11b9f5b723823d14c1c09c723210612796945e97983"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/build.json",
+          "bytes": 11478,
+          "sha256": "af40e1f8025e89bbd84dabfca64ba029261b07d060801a1e9c8aa51d645a14b9"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/environment.json",
+          "bytes": 851,
+          "sha256": "00797c95632223574033b8d19fdb9e5bad7108f77ed80fc8439ea54d67a0a0a6"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/player.log",
+          "bytes": 4538,
+          "sha256": "491e931af1b84b7657f626b620fb09a5a15d619059552d54f12251d4fc8a24c8"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/replay.mp4",
+          "bytes": 41035117,
+          "sha256": "a4eca83d191decbff3af44d17b31a5a9931ee3c4f40610c5e66f56faa4bd6687"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-taren-01/mix.wav",
+          "bytes": 15319084,
+          "sha256": "7865c14d363b5253141f9a7ab3d36cce85dcbe94bbde6db80fc77b0e94344c60"
+        }
+      ]
+    },
+    {
+      "run": "gullet-hulls-sela-01",
+      "report": {
+        "route": "c4-gullet-lunge-sela",
+        "sourceRevision": "Recapture after geometry-sized flight collision; assistance reaches the adjacent 3.8 m separation. No combat settings changed.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 2423,
+        "refreshHz": 60.0,
+        "seconds": 40.3632519,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0676697999999996,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "frames": 2423,
+      "focused": 2423,
+      "healthMinimum": 85.1,
+      "healthFinal": "85.1",
+      "partnerFinal": "138.0",
+      "finalScene": "Gullet_Tunnel",
+      "finalForm": "Flight",
+      "lungeKills": 8,
+      "checkpoints": 27,
+      "files": [
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/run.json",
+          "bytes": 866,
+          "sha256": "eef01cbc5aa6032680bd6c3ddcfdb31b69f963dc0279aebda46027ad03bb1e43"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/route.json",
+          "bytes": 20499,
+          "sha256": "fca101bb67e477b6a240f0a38748d09065f72c3b07e8f0c847f729d9eec2ee6f"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/frames.csv",
+          "bytes": 617424,
+          "sha256": "0eaafa9d1c205b021734a50dbe07964ce5626d6362260eb829d202038a53588e"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/capture-frames.csv",
+          "bytes": 17982,
+          "sha256": "de399b10cd9ac1bbca70bbca80a8bef92287808f4241829256dc35fc008f071b"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/build.json",
+          "bytes": 11478,
+          "sha256": "eb46c7d026a5183bffcdb48f63ef2ff4186e84799eea46e7764fd24e591543b4"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/environment.json",
+          "bytes": 851,
+          "sha256": "17f2ef39c333490a8ff3834a1f776c86885f0625ae8f1acbc4580e4d63dd747f"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/player.log",
+          "bytes": 4649,
+          "sha256": "bb03ba3996d44eaafcbefa86467d35b07c51d73c7ecb07f5b823de89c6eb32dc"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/replay.mp4",
+          "bytes": 45084419,
+          "sha256": "50d391b021b4f69baf6565cadef4a80585ecc1ed939f8ce75b15eee1f7600228"
+        },
+        {
+          "path": "Builds/quality/C4/gullet-hulls-sela-01/mix.wav",
+          "bytes": 15515692,
+          "sha256": "52cb7cb8647fad781696398c8ad1d2f2548a72c28cb021f6f6a442d31e3851f4"
+        }
+      ]
+    },
+    {
+      "run": "civil-hulls-taren-01",
+      "report": {
+        "route": "c4-civil-hulls-taren",
+        "sourceRevision": "Unrun ordinary-input outer-hull circuit plus figure-eight; brake-limited navigation and explicit coast/boost/reversal. New measured hull collision and 3.8 m adjacent craft spacing.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 18481,
+        "refreshHz": 60.0,
+        "seconds": 309.15651809999997,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "north along the office vessel exterior: navigation checkpoint missed",
+          "cross behind all three joined inhabited hulls: navigation checkpoint missed",
+          "south past receiving and repair vessel exterior: navigation checkpoint missed",
+          "return across the public dock fronts: navigation checkpoint missed",
+          "slow approach to office hatch: navigation checkpoint missed",
+          "back away to docking control: navigation checkpoint missed",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.1235444999999995,
+        "settleSeconds": 2.0,
+        "interactions": []
+      },
+      "frames": 18481,
+      "focused": 9804,
+      "healthMinimum": 120.0,
+      "healthFinal": "120.0",
+      "partnerFinal": "120.0",
+      "finalScene": "Hub_Decks",
+      "finalForm": "Natural",
+      "lungeKills": 0,
+      "checkpoints": 31,
+      "files": [
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/run.json",
+          "bytes": 1431,
+          "sha256": "9fb7b65bcee11499c8256600796fe480e3f07bdec426c01048fa162b4836b496"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/route.json",
+          "bytes": 22911,
+          "sha256": "a7de46de04b2f3b01a11e30fe6319427d04b3dc96182a99911f06546ea426b3b"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/frames.csv",
+          "bytes": 4967117,
+          "sha256": "a2072efb8d9bdd9f557c36ff88622a041ff141abb4254a0566ab461aa1466f83"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/capture-frames.csv",
+          "bytes": 153013,
+          "sha256": "5a4fb39f33ebf7c4e0fa55e05b468cad0192613fc905af9cb5fcc7b5dff850da"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/build.json",
+          "bytes": 11478,
+          "sha256": "175eb21fc17b56cad588745f6bcc4c1933d2ebc655d76ddc906787769c515a8c"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/environment.json",
+          "bytes": 851,
+          "sha256": "8ef2937470e069ad1f94afecfd21d533acea88bffd19928d363fcf4fe0e0d78f"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/player.log",
+          "bytes": 7141,
+          "sha256": "59fd92f3742eee987957bfa1eeab63bb047d3563d3e1e104f68ea0d15a290e99"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/replay.mp4",
+          "bytes": 211237598,
+          "sha256": "1543904530ca4986500396e04edb3c99f075161b79570b246f70968d2a6a024f"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-taren-01/mix.wav",
+          "bytes": 118726700,
+          "sha256": "bb4f363432dbaf4b09bfcbacb656930b51c1e84d070fed132c0f9768c8ac2be2"
+        }
+      ]
+    },
+    {
+      "run": "civil-hulls-sela-01",
+      "report": {
+        "route": "c4-civil-hulls-sela",
+        "sourceRevision": "Unrun ordinary-input outer-hull circuit plus figure-eight; brake-limited navigation and explicit coast/boost/reversal. New measured hull collision and 3.8 m adjacent craft spacing.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 18574,
+        "refreshHz": 60.0,
+        "seconds": 309.6265496,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "slow approach to office hatch: navigation checkpoint missed",
+          "back away to docking control: navigation checkpoint missed",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.1192835999999997,
+        "settleSeconds": 2.0,
+        "interactions": []
+      },
+      "frames": 18574,
+      "focused": 18570,
+      "healthMinimum": 120.0,
+      "healthFinal": "120.0",
+      "partnerFinal": "120.0",
+      "finalScene": "Hub_Decks",
+      "finalForm": "Natural",
+      "lungeKills": 0,
+      "checkpoints": 33,
+      "files": [
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/run.json",
+          "bytes": 1089,
+          "sha256": "41aab900ba51b3095efbf2bdcd1bfc3d68a4082d5333e05e15a998442314e2d2"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/route.json",
+          "bytes": 24378,
+          "sha256": "fefd54bf9eda4b7d2a8a4856b170e528c010dd271cb15c7c9ba5a9aea41c0841"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/frames.csv",
+          "bytes": 4944222,
+          "sha256": "dc2955051a04746e61bc6934d82596cb24c631fd4f4d00aed33964d1d09a9342"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/capture-frames.csv",
+          "bytes": 153520,
+          "sha256": "17a85eb20dd5e6cd3c1bc17f6693391e1511147ae06cbf23978cc1259a75c7bc"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/build.json",
+          "bytes": 11478,
+          "sha256": "18ab6cfc8e655ec6a8b3d2cad080e98560f366617307e707e87efa832e5d3ffd"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/environment.json",
+          "bytes": 851,
+          "sha256": "cd7abd786a351cc5389120a4aef28df78e2ffb85357b6f454ef3d814d91367bf"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/player.log",
+          "bytes": 5711,
+          "sha256": "53d58a81681f678c951077736f0a13fe17e002fe87119b0682e01fbd9d51ed3a"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/replay.mp4",
+          "bytes": 468892226,
+          "sha256": "9829c13c38972e4873f2641373968eee07ee7deb4c4aedc13c9edd1bb06fae2d"
+        },
+        {
+          "path": "Builds/quality/C4/civil-hulls-sela-01/mix.wav",
+          "bytes": 118906924,
+          "sha256": "6fa1740e0316250fa03c1f2b40e6866752ff9f89bace630938cddaa8dda85598"
+        }
+      ]
+    }
+  ],
+  "opened": [
+    {
+      "path": "Builds/quality/C4/gullet-hulls-taren-01/009.png",
+      "bytes": 1833670,
+      "sha256": "f31f91eb1efc5ec4c13d4797d872a8ba08670149c470bf371086cb32accb0315"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-taren-01/013.png",
+      "bytes": 1860157,
+      "sha256": "c211265c6748840c9ec7281679208e830dd467d7ae558aff9e8d31fc94b75204"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-taren-01/021.png",
+      "bytes": 1730880,
+      "sha256": "2d0f942f0d6f57ca4d194ce846d7487010ba67d7b8cc48286d1a43c9dc01840b"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-taren-01/024.png",
+      "bytes": 1752472,
+      "sha256": "107c237e2174db2c40987904e26b108a5c2ddf6e1378af11f44c82d95eb613ab"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-taren-01/thrust-5s.png",
+      "bytes": 1304640,
+      "sha256": "8c6c03f40f2613e180a34f9e593addcade2420d362c1b07f624d488c999ed850"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-sela-01/011.png",
+      "bytes": 1835443,
+      "sha256": "580ab52af8420ebafa5a025d3f4e581dd954755f3985c4afcca61836bcc583d0"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-sela-01/015.png",
+      "bytes": 1861301,
+      "sha256": "31712faa3089e3a80e9c5b3674aa35b06205b89eb4ebef0a8c030f680be2a182"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-sela-01/026.png",
+      "bytes": 1755597,
+      "sha256": "0c9102ed1cfa8b3db51da5e4caec80ae3438db5b7f2e3a8230b040c50c385213"
+    },
+    {
+      "path": "Builds/quality/C4/gullet-hulls-sela-01/thrust-5s.png",
+      "bytes": 1352338,
+      "sha256": "b265acaadf85d16422c32f4fae04aaf33d2af8e7dc3d3d6bc7a1661acf70120a"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-taren-01/001.png",
+      "bytes": 956895,
+      "sha256": "b114b64bd583aa573209f8539e56639391315b0768b7469527ac4690e759a4c8"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-taren-01/002.png",
+      "bytes": 1215781,
+      "sha256": "5cd7c86142d7626eb58026cff9af8454e68ad3ad88fa630751ce2ea25a38a97a"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-taren-01/003.png",
+      "bytes": 957450,
+      "sha256": "43049a879d7c0e66c3fb8ed5f6fffdcc9669c0fc8312fbb8a1e180eab7747011"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-taren-01/025.png",
+      "bytes": 1274557,
+      "sha256": "e436599ee5c1a383170246b08a88d6452cdf174b512494d5df9ab2a6fc1672cc"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-taren-01/029.png",
+      "bytes": 1943667,
+      "sha256": "4a020c6ec935d0f4f965c021f2b2dac7e6a263abb31891199dc5876ca9f8fb66"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-sela-01/003.png",
+      "bytes": 1347742,
+      "sha256": "594259f7b28f0a9fb6280f14487603a35837a2f7fe6cbc7b6c1a1cb943ea83d9"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-sela-01/004.png",
+      "bytes": 1153411,
+      "sha256": "7a79558fba56ecd2866e7a0a41f13f489d161adc80022aa7e6af5a3aec0ea3e5"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-sela-01/027.png",
+      "bytes": 1281954,
+      "sha256": "663330db67449c02458ff121a4ffef6bec1ef0ccff4c51af5d13b729cf4f3536"
+    },
+    {
+      "path": "Builds/quality/C4/civil-hulls-sela-01/031.png",
+      "bytes": 1972414,
+      "sha256": "f13d41b10ee67a28da3b18c3beba431203dc6c389ef54979e65fc6b4c23ae756"
+    }
+  ],
+  "review": {
+    "reviewer": "Codex via view_image; actual raw PNGs and extracted unaltered video frames",
+    "images": {
+      "gullet-hulls-taren-01": [
+        "009.png",
+        "013.png",
+        "021.png",
+        "024.png",
+        "thrust-5s.png"
+      ],
+      "gullet-hulls-sela-01": [
+        "011.png",
+        "015.png",
+        "026.png",
+        "thrust-5s.png"
+      ],
+      "civil-hulls-taren-01": [
+        "001.png",
+        "002.png",
+        "003.png",
+        "025.png",
+        "029.png"
+      ],
+      "civil-hulls-sela-01": [
+        "003.png",
+        "004.png",
+        "027.png",
+        "031.png"
+      ]
+    },
+    "findings": [
+      "Both regroup stills now show separate hulls, resolving the previously observed interpenetration.",
+      "Lunge stills show the hull boundary at contact; the fine edge remains subtle at gameplay scale.",
+      "Unaltered video frames at 5 seconds show ordinary commanded thrust. Exhaust is attached but too faint to read clearly at gameplay scale: presentation check REJECTED, despite attachment tests passing.",
+      "Cinder first exterior still has separate craft. This single outer view does not establish the long circuit or docking pass.",
+      "These are individual frames, not normal-speed/slow-motion video observation. Motion and audio audition remain UNVERIFIED.",
+      "Taren civil route rejected: 9804/18481 focused frames, four outer-route navigation misses during loss of input focus, and two docking navigation goals inside the new hull clearance. Normal docking still reaches Hub_Decks/Natural with both heroes 120 HP. No outer-hull traversal acceptance from this run.",
+      "Sela completed the outer-hull waypoints, but the whole civil run rejects two invalid docking goals and recorded focus loss. Opened rear/side and final interior images are stills only; clean circuit acceptance remains pending."
+    ]
+  },
+  "humanSaves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ],
+  "limits": [
+    "Capture overhead and foreign work exclude clean C1 timing.",
+    "Normal/slow video viewing, actual audio audition and physical Logitech feel UNVERIFIED.",
+    "Staged transformation, remaining skills/flight disable, non-station maps and later production gates remain open."
+  ]
+}
