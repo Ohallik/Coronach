@@ -1,0 +1,2793 @@
+{
+  "status": "MAP Sorrel partial blockout checkpoint; blockout and final acceptance OPEN",
+  "reviewer": "Codex; opened stills only",
+  "sourceBase": "9bade6093bd21c37561f85601cb0dad5c0208e43",
+  "date": "2026-09-27T06:53:55.012867+00:00",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/SorrelRedesign.cs",
+      "bytes": 19640,
+      "sha256": "f04a37089274a0cc51f845093c93bd1e398bee18e310d06f05ff535d1a03c03e"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+      "bytes": 9894,
+      "sha256": "bcb5b02c585691daac05fe28adf1494d3070e35580fa661d7810aa0adc3b9834"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/World/Membrane.cs",
+      "bytes": 2030,
+      "sha256": "f9ce0184d302dccfb2087985350dc83bd6ece2cc211aa5ebe5ae94bc642bdf3c"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/SorrelMapTests.cs",
+      "bytes": 4018,
+      "sha256": "4c4f6be69c8b6fa30010e5d82551ed569f9860879052caf9e9b96673f043cfbc"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Sorrel_Ridges.unity",
+      "bytes": 273558,
+      "sha256": "350206b912c09ea7496546ba24b357b0aa7fd3b2a20cb3aebffb35af3684f190"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Sorrel_Ridges-Navigation.asset",
+      "bytes": 340716,
+      "sha256": "55a5266ae8eb1edabcbd5d9a79353e427359f779b8ce40dfff34e23c232ca87f"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Sorrel_Ridges-Terrain.asset",
+      "bytes": 8219507,
+      "sha256": "02732ff45e1ddf177545aff3154afa448a4b7c85766a997dbe0e7af0c6cde38e"
+    },
+    {
+      "path": "docs/quality/routes/sorrel-outpost-map.json",
+      "bytes": 6225,
+      "sha256": "72803a9f5f3d4eec0ff03e196f35414777854e3d18c7c49dbc191a0c17b2ea7b"
+    },
+    {
+      "path": "docs/quality/routes/sorrel-west-loop-map.json",
+      "bytes": 10026,
+      "sha256": "c042663822e6ab51c1e5a8f30ba481a82acbbbc635395013c13596871877e771"
+    }
+  ],
+  "targeted": [
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-seal-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:16:57Z",
+        "end-time": "2026-09-27 06:17:00Z",
+        "duration": "2.8336429"
+      },
+      "failures": [
+        {
+          "test": "OpeningTheDrillSealRestoresTheCompanionRouteInBothDirections",
+          "message": "  destination floor missing\n  Expected: True\n  But was:  False\n"
+        }
+      ],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-red/headless-playtests.log",
+          "bytes": 91025,
+          "sha256": "9d62db66b19866fc39db5d5f3fa6559125619b3140112670befe24347c403863"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-red/Membrane.cs",
+          "bytes": 1259,
+          "sha256": "350308606be3cea3c869d8ed471eeddce9bf9055cf2fd46d0501823404fa10de"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-red/playmode-results.xml",
+          "bytes": 5961,
+          "sha256": "a1bb746eded72bdd2aa63bd4089e3a06d8fa140fbb0fd1bd88b88a627780c985"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-red/SorrelMapTests.cs",
+          "bytes": 2728,
+          "sha256": "db5e82bdb7474c2bdb9babe5be15984b48694f748f9408461e1cf3364a576e5e"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-seal-opening-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:21:04Z",
+        "end-time": "2026-09-27 06:21:08Z",
+        "duration": "3.8087532"
+      },
+      "failures": [
+        {
+          "test": "OpeningTheDrillSealRestoresTheCompanionRouteInBothDirections",
+          "message": "  opened physical seal still blocks the companion navigation\n  Expected: True\n  But was:  False\n"
+        }
+      ],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-red/headless-playtests.log",
+          "bytes": 145544,
+          "sha256": "0d2fc06027dc05a596683bcf46f8d1200c62c289136bafdd552ce1a7c53b2e9f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-red/Membrane.cs",
+          "bytes": 1259,
+          "sha256": "350308606be3cea3c869d8ed471eeddce9bf9055cf2fd46d0501823404fa10de"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-red/playmode-results.xml",
+          "bytes": 5794,
+          "sha256": "dcf0b05a58037da25569502cb585e1251676defd5782415dc7d96d21f26dc051"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-red/SorrelMapTests.cs",
+          "bytes": 2728,
+          "sha256": "44a0b01f77f8b9d9ff2947310aad63442494b39711ae0ed33cdd2b6ef2131585"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-seal-opening-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:24:07Z",
+        "end-time": "2026-09-27 06:24:11Z",
+        "duration": "4.0522956"
+      },
+      "failures": [],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-green/headless-playtests.log",
+          "bytes": 78264,
+          "sha256": "8ba68f6f7e6f84bf9038d34a26c3318c2f5af18664925bf3057b8243d1c2524d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-green/Membrane.cs",
+          "bytes": 1377,
+          "sha256": "79b90cbd12cb6e71770fa5092a54b5a625aa5059411c124e1825df568d2ea9bf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-green/playmode-results.xml",
+          "bytes": 4302,
+          "sha256": "5e70fcb0ff688724776285cad3bf4e916d902ce45e970d3d4baf9ed8443a1342"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-seal-opening-green/SorrelMapTests.cs",
+          "bytes": 2728,
+          "sha256": "44a0b01f77f8b9d9ff2947310aad63442494b39711ae0ed33cdd2b6ef2131585"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-cliff-bypass-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:26:05Z",
+        "end-time": "2026-09-27 06:26:08Z",
+        "duration": "2.8201468"
+      },
+      "failures": [
+        {
+          "test": "OpeningTheDrillSealRestoresTheCompanionRouteInBothDirections",
+          "message": "  closed seal has a walkable bypass through its enclosing cliffs\n  Expected: False\n  But was:  True\n"
+        }
+      ],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-red/headless-playtests.log",
+          "bytes": 91164,
+          "sha256": "799aaccb6dbb4b2c2042dda14a5e61115944092ab50101161154ffdd788a91d1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-red/playmode-results.xml",
+          "bytes": 5797,
+          "sha256": "0f1cd697b874dec7625480f634c9696b156d67dc58ad6bbc8ad504392d4abaa4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-red/SorrelMapTests.cs",
+          "bytes": 2728,
+          "sha256": "44a0b01f77f8b9d9ff2947310aad63442494b39711ae0ed33cdd2b6ef2131585"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-red/SorrelRedesign.cs",
+          "bytes": 18348,
+          "sha256": "1deb89d587f3f65c2f0886011252345b9d28873e06b1a85279d219fa67f6a375"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-cliff-bypass-trace",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:27:11Z",
+        "end-time": "2026-09-27 06:27:14Z",
+        "duration": "2.7655762"
+      },
+      "failures": [
+        {
+          "test": "OpeningTheDrillSealRestoresTheCompanionRouteInBothDirections",
+          "message": "  closed seal has a walkable bypass through its enclosing cliffs\n  Expected: False\n  But was:  True\n"
+        }
+      ],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-trace/headless-playtests.log",
+          "bytes": 133557,
+          "sha256": "984d3cb383e45be01bbca90fd9ca11264111e06381645066b51b8d8d8e185a74"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-trace/playmode-results.xml",
+          "bytes": 6557,
+          "sha256": "f5e5a06f397fb47a345eb3de8615ead0898794155c4d9fb44d422fffef516d73"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-trace/SorrelMapTests.cs",
+          "bytes": 2894,
+          "sha256": "7321b1ec3b0639e577a590300b5a3637aa47571a3371a34a4b15c9e7a49adf91"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-cliff-bypass-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:28:16Z",
+        "end-time": "2026-09-27 06:28:20Z",
+        "duration": "4.0329668"
+      },
+      "failures": [],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-green/headless-playtests.log",
+          "bytes": 75301,
+          "sha256": "218d2f5f1111e63d9b10a45fe2b0527686cf0d18a14968b24834bcb4432e2a38"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-green/playmode-results.xml",
+          "bytes": 4591,
+          "sha256": "a5b5bfd860947b91a551c48370bafa8deede5887cca5f992bca752f953ad0b06"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-green/SorrelMapTests.cs",
+          "bytes": 2894,
+          "sha256": "7321b1ec3b0639e577a590300b5a3637aa47571a3371a34a4b15c9e7a49adf91"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-cliff-bypass-green/SorrelRedesign.cs",
+          "bytes": 18409,
+          "sha256": "f579516220efee5a29aef190d8a490ba671e927c39a03dd4b31c1dfe5931ed77"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-dissolve-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:50:28Z",
+        "end-time": "2026-09-27 06:50:31Z",
+        "duration": "3.1799791"
+      },
+      "failures": [
+        {
+          "test": "ReclosingDuringDissolveRestoresTheWholeVisibleBarrier",
+          "message": "  reclosed seal retains a partially erased visual surface\n  Expected: 0\n  But was:  0.333325177f\n"
+        }
+      ],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-red/headless-playtests.log",
+          "bytes": 147457,
+          "sha256": "8897453a2cc71b129198bca42035dfa09b4bed533acf01e854655377856e8869"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-red/Membrane.cs",
+          "bytes": 1377,
+          "sha256": "79b90cbd12cb6e71770fa5092a54b5a625aa5059411c124e1825df568d2ea9bf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-red/playmode-results.xml",
+          "bytes": 5769,
+          "sha256": "663e37b9d17a518c3e0df430068af019dab660aa987b9d357ec491c1650d314f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-red/SorrelMapTests.cs",
+          "bytes": 4018,
+          "sha256": "4c4f6be69c8b6fa30010e5d82551ed569f9860879052caf9e9b96673f043cfbc"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-dissolve-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "2",
+        "result": "Passed",
+        "total": "2",
+        "passed": "2",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:51:29Z",
+        "end-time": "2026-09-27 06:51:37Z",
+        "duration": "7.6999114"
+      },
+      "failures": [],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-green/headless-playtests.log",
+          "bytes": 198518,
+          "sha256": "c97c1dfdf30dd6035366f646c55213826e2b5a9d072cc8e99906b94ff9958106"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-green/Membrane.cs",
+          "bytes": 2030,
+          "sha256": "f9ce0184d302dccfb2087985350dc83bd6ece2cc211aa5ebe5ae94bc642bdf3c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-green/playmode-results.xml",
+          "bytes": 5887,
+          "sha256": "1e616148ef1da173434ab1eed20a23862aaa3aa616a4e96b304f890ba4e9d715"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-dissolve-green/SorrelMapTests.cs",
+          "bytes": 4018,
+          "sha256": "4c4f6be69c8b6fa30010e5d82551ed569f9860879052caf9e9b96673f043cfbc"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-blockout-build-05",
+      "counts": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:39:49Z",
+        "end-time": "2026-09-27 06:39:54Z",
+        "duration": "4.2069025"
+      },
+      "failures": [],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-05/development-build.log",
+          "bytes": 568950,
+          "sha256": "36a1891f6ef27e482c0fe9080b0bb2aecec82e98011473c4355616b573c4ebec"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-05/editor.log",
+          "bytes": 54539,
+          "sha256": "f8e9b6fab864e14abb0f8b72b202d4dc981801dd27e0a7c91fb57402a6c6f7f5"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-05/headless-playtests.log",
+          "bytes": 75388,
+          "sha256": "e1e34419260f8480def201992d410e7e0f9436d266cac22e0a752fb401cac435"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-05/playmode-results.xml",
+          "bytes": 4593,
+          "sha256": "43d6e9314e8adb8a38cf550891d56047d2ce482fe1d8d765512e9a46fa9ec90f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-05/SorrelRedesign.cs",
+          "bytes": 19400,
+          "sha256": "f701a551a0d02a135c07e0d817c02e48467d388e1294eccfb32c5c387bdff6ac"
+        }
+      ]
+    },
+    {
+      "folder": "Builds\\quality\\workshop\\sorrel-blockout-build-06",
+      "counts": {
+        "id": "2",
+        "testcasecount": "2",
+        "result": "Passed",
+        "total": "2",
+        "passed": "2",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 06:52:16Z",
+        "end-time": "2026-09-27 06:52:24Z",
+        "duration": "7.6696535"
+      },
+      "failures": [],
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-06/development-build.log",
+          "bytes": 603270,
+          "sha256": "52623bb104422a3363e45e6fc2fa635a82514129a3f1a2c3db1adb0115005084"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-06/editor.log",
+          "bytes": 40371,
+          "sha256": "272487f95f420fb3bb612baf34fd5676d89ff35c38586ce1ecb80214dabc24ad"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-06/headless-playtests.log",
+          "bytes": 91733,
+          "sha256": "3201924bb1b4c6300f2bd2d29a261822a27f06149b23b8c663f16979c5f580c7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-06/playmode-results.xml",
+          "bytes": 5887,
+          "sha256": "9fb9b8ef5ea470709dd326a48b82fd92b0c67fc37f6c432518e0d23133aaf498"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-06/SorrelRedesign.cs",
+          "bytes": 19640,
+          "sha256": "f04a37089274a0cc51f845093c93bd1e398bee18e310d06f05ff535d1a03c03e"
+        }
+      ]
+    }
+  ],
+  "staticReviews": [
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-01",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/editor.log",
+          "bytes": 109035,
+          "sha256": "9bd24ddfb202124834458bce8ca3831c3365728c15bd1a808acb46605ee0354c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-arrival.png",
+          "bytes": 72712,
+          "sha256": "8613c7d328f1230e0614a7352183324168ce9d75c7ea11697c046f1ce150be47"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-drill-approach.png",
+          "bytes": 115524,
+          "sha256": "9ac8c53f67787857010587c3d0b5166908023a23eb29da60dd7199ccdf23073b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-drill-excavation.png",
+          "bytes": 234349,
+          "sha256": "a014541b074c33627a8bcad41f05f645b4f4e27d7bc8ad8b2a4733f93748e424"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-excavation-section.png",
+          "bytes": 326331,
+          "sha256": "8f845f6e3f90ed3e73ad5da2c27293e9eb851831dfba1d1b62403b2887c47c94"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-first-junction.png",
+          "bytes": 145606,
+          "sha256": "279ae81212035f1babdb36ddc27ab28d446256b9e0b3f7b3c1b917b4126b5b41"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-hab-access.png",
+          "bytes": 98605,
+          "sha256": "df0f67f19536604e833da4101d0b31072378eb9f897cf31bedd960e8af71c6f9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-north-return.png",
+          "bytes": 305911,
+          "sha256": "c0b108739e3ffcbdafc3725583bf0dea67d5268725428a4eadf0a9ae40f09e43"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-overhead.png",
+          "bytes": 108926,
+          "sha256": "4bc07f8bbd73bd78a958b1b3792b4c14106d22a52be2a19ebd2793254c060926"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-receiving.png",
+          "bytes": 76558,
+          "sha256": "9219bde168970ed41d9224f01877cd01c2fde76b9d133a2a4eaf363afae6c874"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-repair.png",
+          "bytes": 68572,
+          "sha256": "c8898455de3841cabed2a1706eb95885e26776c8d3a03300c798624cbb4d5717"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-seam-bend.png",
+          "bytes": 205755,
+          "sha256": "e8380601f1f02df11a73b5a901488447fdbcd2864394598803541ea575c0f800"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-service-branch.png",
+          "bytes": 183894,
+          "sha256": "55720c1e2a41b2246619959bd5832d194ece88870880dbb3979cba24b3d71731"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-01/Sorrel_Ridges-structure.png",
+          "bytes": 317461,
+          "sha256": "30f6e2d93d79181aa4505c3cc5ea2b0b0958e870cfe5ec4e999d86ac2a35687c"
+        }
+      ],
+      "opened": [
+        "Sorrel_Ridges-arrival.png",
+        "Sorrel_Ridges-overhead.png",
+        "Sorrel_Ridges-structure.png",
+        "Sorrel_Ridges-drill-excavation.png",
+        "Sorrel_Ridges-hab-access.png",
+        "Sorrel_Ridges-first-junction.png",
+        "Sorrel_Ridges-seam-bend.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-02",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/editor.log",
+          "bytes": 50069,
+          "sha256": "6c1c55132b7b597636e8af6f0518ad846ccaaa99091145c35473ba74bb35145b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-arrival.png",
+          "bytes": 103449,
+          "sha256": "9f71a01df6ba88bc8ddd5058f4e834e99c81ae87b7d8d4fa9ffca0183d9b4352"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-drill-approach.png",
+          "bytes": 116827,
+          "sha256": "badbe4755aa193843c5a5862bc8c032960f582d7ddbb44b9a4820c7ea6b52675"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-drill-excavation.png",
+          "bytes": 274476,
+          "sha256": "373e1bcb79ec97edef3e34e9d28ac0ca4bed20bfc0930c65704462adbcbafe09"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-excavation-section.png",
+          "bytes": 418218,
+          "sha256": "e9411ce05b779021902330482a864e6c204e7f5a64e887f4081d6ed8a3d5f9ab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-first-junction.png",
+          "bytes": 150200,
+          "sha256": "c6ac62a02ff98ee36b40c3cb205c3213667e839a9eea2128967f61e4df419768"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-hab-access.png",
+          "bytes": 104531,
+          "sha256": "e61003d6f6ce17f3b27c8c58526e7199b31965bde5d6f181f2c3675327133a57"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-north-return.png",
+          "bytes": 350757,
+          "sha256": "335175d01f8ad42059ba05815932078c22c3314c0488e96451cb7b71160b4dc6"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-overhead.png",
+          "bytes": 108203,
+          "sha256": "7d3fb3de8924c9407171987f673395472aecb81d0e321a7201c09dfec195b063"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-receiving.png",
+          "bytes": 88946,
+          "sha256": "eb81d7949f2afeca41be2d9b939eef0c9a7e4dd57799793ef06d26192e66d7da"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-repair.png",
+          "bytes": 64153,
+          "sha256": "b98d10c4a563997f63c7e5abc6f58ca9ca7f3e2e73fc35053a4b23868359db31"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-seam-bend.png",
+          "bytes": 161716,
+          "sha256": "0e2bc7010a30438202f05729e55167f387472d187ac3429178145ae4aa4de895"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-service-branch.png",
+          "bytes": 178194,
+          "sha256": "024000ec29748dcc014a9508d80c0ea971b616b6e45378515f42d4aa2fab171e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-02/Sorrel_Ridges-structure.png",
+          "bytes": 343137,
+          "sha256": "e2ffb63046438458ee6e2740e7019e6b27bf24a68a9fb718617023a969facc1e"
+        }
+      ],
+      "opened": [
+        "Sorrel_Ridges-arrival.png",
+        "Sorrel_Ridges-hab-access.png",
+        "Sorrel_Ridges-overhead.png",
+        "Sorrel_Ridges-repair.png",
+        "Sorrel_Ridges-drill-excavation.png",
+        "Sorrel_Ridges-structure.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-03",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/editor.log",
+          "bytes": 49947,
+          "sha256": "c5c2a2de23502e495c746fccbb4532aa1485b8afa0ee0ca6dbb898954ab3ad35"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-arrival.png",
+          "bytes": 118920,
+          "sha256": "ff5f6f2232e22d85d66c087d8be4e0f94ee882583ef5d7352f118b0c31cffd87"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-drill-approach.png",
+          "bytes": 101573,
+          "sha256": "ae5326d333064da7ba3ad2ae862513f5d7710fe23bcf9f7fb1f4d7ceffedd9d2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-drill-excavation.png",
+          "bytes": 266910,
+          "sha256": "2968dde0998b66f1c00edd24458bbb5ad7a19ad017b11a667556ce2ea9f65ee0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-excavation-section.png",
+          "bytes": 476519,
+          "sha256": "820f769eddf64237d2f0564f2b4e6a00768d4697da471054f01d92d610852242"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-first-junction.png",
+          "bytes": 100225,
+          "sha256": "9ce5ad7db649635580b14eec17a7f1fdfcaa40539bd25eee5d0b6eeb203b213c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-hab-access.png",
+          "bytes": 60906,
+          "sha256": "a1fabcec6a546fe060ca8751c8f38b4a81fd07ccfcce3fadb1555b8bd46d8d1d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-north-return.png",
+          "bytes": 341115,
+          "sha256": "55bbb10739ddd6058a700ef13882446b4f0744a60581010e3b0b8358a89d152a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-overhead.png",
+          "bytes": 112357,
+          "sha256": "8338504a2ed16c95beba8700c07cb7348242baa233fcceeaae566af4d434fa14"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-receiving.png",
+          "bytes": 73608,
+          "sha256": "ed15c687f4c2f29114805687301016935e816a0b60152d371fe4eba7204d6357"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-repair.png",
+          "bytes": 49862,
+          "sha256": "48e8b67fe8d6b26e976910486c2ac965d89a1c764892fdb37bda8d782f037c08"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-seam-bend.png",
+          "bytes": 134934,
+          "sha256": "04f83bd169df606baf8edef20a2aa0c96c0b8089de352e7e440a4ef1adc58448"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-service-branch.png",
+          "bytes": 140746,
+          "sha256": "87b18ef9f2a397facfc8ba506c17d86056efbaabc8cafff85f40af3b452e5ab1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-03/Sorrel_Ridges-structure.png",
+          "bytes": 386861,
+          "sha256": "ec12895cdb79f26fb79c4865c24b120ba78e3bad46e338b5b68f3bc953775941"
+        }
+      ],
+      "opened": [
+        "Sorrel_Ridges-overhead.png",
+        "Sorrel_Ridges-receiving.png",
+        "Sorrel_Ridges-hab-access.png",
+        "Sorrel_Ridges-first-junction.png",
+        "Sorrel_Ridges-seam-bend.png",
+        "Sorrel_Ridges-service-branch.png",
+        "Sorrel_Ridges-drill-approach.png",
+        "Sorrel_Ridges-north-return.png",
+        "Sorrel_Ridges-excavation-section.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-04",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/editor.log",
+          "bytes": 49951,
+          "sha256": "532b499f7e16f73afd8e98c897df2eb14f5322473d427fe3219920d4e36cf044"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-arrival.png",
+          "bytes": 111991,
+          "sha256": "fb994edafc95d7b171f4b632488de109767e0930b1590d1c92f0329a28db53f4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-drill-approach.png",
+          "bytes": 101573,
+          "sha256": "ae5326d333064da7ba3ad2ae862513f5d7710fe23bcf9f7fb1f4d7ceffedd9d2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-drill-excavation.png",
+          "bytes": 267424,
+          "sha256": "a38a7e7c3f385ca4023b9d65070eb3e25f18f1e8b634071a18095cf8310f3c78"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-excavation-section.png",
+          "bytes": 493605,
+          "sha256": "95372332194ee1b98b1f805122e2f200f5a79546895b4690f3c6322a4ea3dbce"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-first-junction.png",
+          "bytes": 100225,
+          "sha256": "9ce5ad7db649635580b14eec17a7f1fdfcaa40539bd25eee5d0b6eeb203b213c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-hab-access.png",
+          "bytes": 60906,
+          "sha256": "a1fabcec6a546fe060ca8751c8f38b4a81fd07ccfcce3fadb1555b8bd46d8d1d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-north-return.png",
+          "bytes": 340143,
+          "sha256": "2177fdd99d953433d26e2338c3015e8fa6a80471a7ab6d3d3fd1459a974291d3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-overhead.png",
+          "bytes": 135863,
+          "sha256": "d6ff464abe73246fdb52bf25af93125e154b341b75c367dc3b940d515e0b5e41"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-receiving.png",
+          "bytes": 72982,
+          "sha256": "71024e60ba04b5d12358f2ff504eebadc7a30aafbd856306957f0534b0dcea97"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-repair.png",
+          "bytes": 49862,
+          "sha256": "48e8b67fe8d6b26e976910486c2ac965d89a1c764892fdb37bda8d782f037c08"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-seam-bend.png",
+          "bytes": 142066,
+          "sha256": "38458f7cdabd5c9d4e6f78abacdd31a1f09f3cead9521342a3ca316e9fd95b7d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-service-branch.png",
+          "bytes": 140746,
+          "sha256": "87b18ef9f2a397facfc8ba506c17d86056efbaabc8cafff85f40af3b452e5ab1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-04/Sorrel_Ridges-structure.png",
+          "bytes": 399818,
+          "sha256": "76b0948bb25843bb1116a7c156484c02e089a29cc6bc6c52448a1ccaa9cfb9b9"
+        }
+      ],
+      "opened": [
+        "Sorrel_Ridges-arrival.png",
+        "Sorrel_Ridges-overhead.png",
+        "Sorrel_Ridges-drill-excavation.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-05",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/editor.log",
+          "bytes": 49982,
+          "sha256": "e0e160f5bd7c6d14013583fb6eb4ec68cc75cf513cab62bfa194fd99172b7ecf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-arrival.png",
+          "bytes": 113929,
+          "sha256": "c0b726d31afd8d51cead3b09fce3e257e73a62a823da9880e9c64e0223813e0a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-drill-approach.png",
+          "bytes": 101573,
+          "sha256": "ae5326d333064da7ba3ad2ae862513f5d7710fe23bcf9f7fb1f4d7ceffedd9d2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-drill-excavation.png",
+          "bytes": 267663,
+          "sha256": "f8721bb488faf3adf2bee651d3b04b4fad0c5091834aef425153e3f7e8d83979"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-excavation-section.png",
+          "bytes": 493605,
+          "sha256": "95372332194ee1b98b1f805122e2f200f5a79546895b4690f3c6322a4ea3dbce"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-first-junction.png",
+          "bytes": 100225,
+          "sha256": "9ce5ad7db649635580b14eec17a7f1fdfcaa40539bd25eee5d0b6eeb203b213c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-hab-access.png",
+          "bytes": 60906,
+          "sha256": "a1fabcec6a546fe060ca8751c8f38b4a81fd07ccfcce3fadb1555b8bd46d8d1d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-north-return.png",
+          "bytes": 341097,
+          "sha256": "20703283c4b9d8ed19c6ef9adb42a8e45d441984472e8fc607e326dc18b79da3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-overhead.png",
+          "bytes": 135948,
+          "sha256": "c994f5235e86c354dc063aa7e3bc4001e2340eb1f3029d4252a7ee29c82032db"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-receiving.png",
+          "bytes": 75785,
+          "sha256": "f5ceb2f57cb4b0a7bc786bc455c1ea594f7de63a3b81f8f26110ebca092589ef"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-repair.png",
+          "bytes": 49861,
+          "sha256": "60d07bea37fa702e2679ffe9af2337dbd1e8c031e56a1fb67d1bb90e252d52dd"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-seam-bend.png",
+          "bytes": 142066,
+          "sha256": "38458f7cdabd5c9d4e6f78abacdd31a1f09f3cead9521342a3ca316e9fd95b7d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-service-branch.png",
+          "bytes": 140746,
+          "sha256": "87b18ef9f2a397facfc8ba506c17d86056efbaabc8cafff85f40af3b452e5ab1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-05/Sorrel_Ridges-structure.png",
+          "bytes": 399872,
+          "sha256": "edd35efa38c3b83f60b75c60c549e86cc0e9ca9c0452a556fa2f7842fef953bd"
+        }
+      ],
+      "opened": [
+        "Sorrel_Ridges-arrival.png",
+        "Sorrel_Ridges-north-return.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-06",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/editor.log",
+          "bytes": 49755,
+          "sha256": "c6abe0484ed4a06fb4eec9f75aa921efd961d550008064f9772ef0ae87dc60a9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-arrival.png",
+          "bytes": 113929,
+          "sha256": "c0b726d31afd8d51cead3b09fce3e257e73a62a823da9880e9c64e0223813e0a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-drill-approach.png",
+          "bytes": 101573,
+          "sha256": "ae5326d333064da7ba3ad2ae862513f5d7710fe23bcf9f7fb1f4d7ceffedd9d2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-drill-excavation.png",
+          "bytes": 268241,
+          "sha256": "75232aac91a343ee7f626b11c482d8b8142752fcb7594bd0049fc4d9bf941756"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-excavation-section.png",
+          "bytes": 493774,
+          "sha256": "8bb4376d3cb73cf18a05dfda1da02a2a9a5ef74edb28608d889f128bda6b5e4e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-first-junction.png",
+          "bytes": 100225,
+          "sha256": "9ce5ad7db649635580b14eec17a7f1fdfcaa40539bd25eee5d0b6eeb203b213c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-hab-access.png",
+          "bytes": 60906,
+          "sha256": "a1fabcec6a546fe060ca8751c8f38b4a81fd07ccfcce3fadb1555b8bd46d8d1d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-north-return.png",
+          "bytes": 344374,
+          "sha256": "504c8710bb878cfb4bab48e2d2ecb38c1a87ed3741f62bf3815eaed429f5dd53"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-overhead.png",
+          "bytes": 136212,
+          "sha256": "ebd4a1100a0d1f347af52e5eda9c5ffff70a5a4692e297ce96728b8a14b5bf99"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-receiving.png",
+          "bytes": 75785,
+          "sha256": "f5ceb2f57cb4b0a7bc786bc455c1ea594f7de63a3b81f8f26110ebca092589ef"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-repair.png",
+          "bytes": 49861,
+          "sha256": "60d07bea37fa702e2679ffe9af2337dbd1e8c031e56a1fb67d1bb90e252d52dd"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-seam-bend.png",
+          "bytes": 142066,
+          "sha256": "38458f7cdabd5c9d4e6f78abacdd31a1f09f3cead9521342a3ca316e9fd95b7d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-service-branch.png",
+          "bytes": 140746,
+          "sha256": "87b18ef9f2a397facfc8ba506c17d86056efbaabc8cafff85f40af3b452e5ab1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-06/Sorrel_Ridges-structure.png",
+          "bytes": 399998,
+          "sha256": "1b13a341a3a7a24acd5b310a4e8568cd45ca2ee6714a2d285665c6f7fdb5c4cb"
+        }
+      ],
+      "opened": [
+        "Sorrel_Ridges-north-return.png",
+        "Sorrel_Ridges-arrival.png",
+        "Sorrel_Ridges-excavation-section.png"
+      ]
+    }
+  ],
+  "audits": [
+    {
+      "folder": "Builds/quality/workshop/sorrel-prop-audit-01",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/bounds.csv",
+          "bytes": 161,
+          "sha256": "b7acace86088c1a4faf6d7acb0af32afe5497ceaee4ed6c147191097d28d15a6"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/DeckDoorway-0.png",
+          "bytes": 296007,
+          "sha256": "5470ff1b7d86f0c6e58bbc22106342ba1cf94c33b195489f9d101c103b7421cb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/DeckDoorway-180.png",
+          "bytes": 275717,
+          "sha256": "c3435c320cb1fd67fd2e69beb4b615d624b99fb90ae6cb844d87d01b76acfdc4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/DeckDoorway-270.png",
+          "bytes": 198115,
+          "sha256": "175bc5a7e642bb44b2a8f6b4a82414cc6f3f2bfef87c874e78c5fe2694efcf75"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/DeckDoorway-90.png",
+          "bytes": 176681,
+          "sha256": "b7a6480af9bae6d9b981c11b05d3a38719e2202aa2eae84fc8c32ce2aa05ef9c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/editor.log",
+          "bytes": 61497,
+          "sha256": "5628c94a4fdfb04b531625aa04de5e4fcfe40682c8a6062125483324b457a554"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/LatticeAnvil-0.png",
+          "bytes": 303503,
+          "sha256": "b026e31a39ab4933d54fc0ccd157ee7dbabd7cf936b74e4760808e3a0c000ca2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/LatticeAnvil-180.png",
+          "bytes": 271948,
+          "sha256": "2a370fffb29c45c0c37d760bfb137a02f9dfae280a29954268c4b6c8f50897c9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/LatticeAnvil-270.png",
+          "bytes": 223992,
+          "sha256": "a9d288f35d3d9ca619ac227fae80166eff1ab62d442904ac37da545e49dd7edb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/LatticeAnvil-90.png",
+          "bytes": 233511,
+          "sha256": "d5fd8fbd0b33e83ed122484503d492a22050d4ead2d29d2e44f93561b10b56ae"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostDrill-0.png",
+          "bytes": 225330,
+          "sha256": "310012350a6d1c3d8e5c3498c6027428f94356c5a6fc7ca23429b44f0f77e5f7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostDrill-180.png",
+          "bytes": 212091,
+          "sha256": "1d414b4e12f6106e030007a871ace01bee301d982804453705b5dfcfa02004a7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostDrill-270.png",
+          "bytes": 222580,
+          "sha256": "026e965d5004720b0730767170701ee619b47ce8b5984fd6b5b2b725e16d96cf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostDrill-90.png",
+          "bytes": 212619,
+          "sha256": "f1ee0a3729f8e6126f12ff62921d052951ad5273671c384522e4c243bf06c7b7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostHab-0.png",
+          "bytes": 281498,
+          "sha256": "642774ca00ed959dc4915d9f2d1b4338af481f74ac622ae503e9a17ad7fa33fe"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostHab-180.png",
+          "bytes": 329698,
+          "sha256": "d119760d818b4a5642d53989b555b0c3ed44423f1553cf44818fba57660527d3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostHab-270.png",
+          "bytes": 306711,
+          "sha256": "92519cf28e02ec7d30613245479874d6a1fe0bf7b254ffaace4ddae886b8e51d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-01/OutpostHab-90.png",
+          "bytes": 294474,
+          "sha256": "45318846df1511db7f2d97b0ba72613ef7a164e45d6cec3bb0e7bbbfea974da6"
+        }
+      ],
+      "opened": [
+        "OutpostHab-0.png",
+        "OutpostHab-90.png",
+        "OutpostHab-180.png",
+        "OutpostHab-270.png",
+        "OutpostDrill-0.png",
+        "OutpostDrill-180.png",
+        "LatticeAnvil-180.png",
+        "DeckDoorway-180.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-prop-audit-02",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/bounds.csv",
+          "bytes": 194,
+          "sha256": "cf7d66379eb46f71d68e1f13ca86320dbaa75d4db8450e8b0028bbd43e893504"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/DeckDoorway-0.png",
+          "bytes": 296007,
+          "sha256": "5470ff1b7d86f0c6e58bbc22106342ba1cf94c33b195489f9d101c103b7421cb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/DeckDoorway-180.png",
+          "bytes": 275717,
+          "sha256": "c3435c320cb1fd67fd2e69beb4b615d624b99fb90ae6cb844d87d01b76acfdc4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/DeckDoorway-270.png",
+          "bytes": 198115,
+          "sha256": "175bc5a7e642bb44b2a8f6b4a82414cc6f3f2bfef87c874e78c5fe2694efcf75"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/DeckDoorway-90.png",
+          "bytes": 176681,
+          "sha256": "b7a6480af9bae6d9b981c11b05d3a38719e2202aa2eae84fc8c32ce2aa05ef9c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/editor.log",
+          "bytes": 48222,
+          "sha256": "bc7e6b26329146f382b0b7d4f29c202b258a91862d48d2e98b8a0c2837dad1af"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LandingPad-0.png",
+          "bytes": 199882,
+          "sha256": "50be043a8aa094fb46b7833a1a8ebd2f786a1cb01d556122fcacca6e91993b7b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LandingPad-180.png",
+          "bytes": 205814,
+          "sha256": "4b1997f537a7f5fb512f564bc795caf95fa4f53c2f4f548c42b945953cce0b4a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LandingPad-270.png",
+          "bytes": 205345,
+          "sha256": "e057bcc35cf03d048af35dd8fc27a4528b733d41e4455879090e363c1997e89c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LandingPad-90.png",
+          "bytes": 204141,
+          "sha256": "16bd719cfe47babf4e7f750441c8ab06afaa588a4200976d3aa533bdee37df7d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LatticeAnvil-0.png",
+          "bytes": 303503,
+          "sha256": "b026e31a39ab4933d54fc0ccd157ee7dbabd7cf936b74e4760808e3a0c000ca2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LatticeAnvil-180.png",
+          "bytes": 271948,
+          "sha256": "2a370fffb29c45c0c37d760bfb137a02f9dfae280a29954268c4b6c8f50897c9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LatticeAnvil-270.png",
+          "bytes": 223992,
+          "sha256": "a9d288f35d3d9ca619ac227fae80166eff1ab62d442904ac37da545e49dd7edb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/LatticeAnvil-90.png",
+          "bytes": 233511,
+          "sha256": "d5fd8fbd0b33e83ed122484503d492a22050d4ead2d29d2e44f93561b10b56ae"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostDrill-0.png",
+          "bytes": 225330,
+          "sha256": "310012350a6d1c3d8e5c3498c6027428f94356c5a6fc7ca23429b44f0f77e5f7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostDrill-180.png",
+          "bytes": 212091,
+          "sha256": "1d414b4e12f6106e030007a871ace01bee301d982804453705b5dfcfa02004a7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostDrill-270.png",
+          "bytes": 222580,
+          "sha256": "026e965d5004720b0730767170701ee619b47ce8b5984fd6b5b2b725e16d96cf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostDrill-90.png",
+          "bytes": 212619,
+          "sha256": "f1ee0a3729f8e6126f12ff62921d052951ad5273671c384522e4c243bf06c7b7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostHab-0.png",
+          "bytes": 281498,
+          "sha256": "642774ca00ed959dc4915d9f2d1b4338af481f74ac622ae503e9a17ad7fa33fe"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostHab-180.png",
+          "bytes": 329698,
+          "sha256": "d119760d818b4a5642d53989b555b0c3ed44423f1553cf44818fba57660527d3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostHab-270.png",
+          "bytes": 306711,
+          "sha256": "92519cf28e02ec7d30613245479874d6a1fe0bf7b254ffaace4ddae886b8e51d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-prop-audit-02/OutpostHab-90.png",
+          "bytes": 294474,
+          "sha256": "45318846df1511db7f2d97b0ba72613ef7a164e45d6cec3bb0e7bbbfea974da6"
+        }
+      ],
+      "opened": [
+        "LandingPad-180.png"
+      ]
+    }
+  ],
+  "ordinary": [
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-walk-01",
+      "run": {
+        "route": "sorrel-outpost-map",
+        "sourceRevision": "Sorrel redesign blockout candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 9134,
+        "refreshHz": 60.0,
+        "seconds": 153.6821851,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1163498000000005,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "focusedSamples": 9134,
+      "firstLostFocus": null,
+      "firstDown": null,
+      "finalState": {
+        "hero": "Sela",
+        "form": "Shaped",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "x": "0.37940",
+        "z": "-15.89923"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/000.png",
+          "bytes": 481269,
+          "sha256": "6398791ac9075ac8f5bdc2ffb2ab7500f7ea1ce431d0d2d54313c310a31bc5f0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/001.png",
+          "bytes": 492371,
+          "sha256": "b78576dc8fdfb81fffcd812934a62ebd4bab3b96eb2a4b57346a73d3f2cebf81"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/002.png",
+          "bytes": 503870,
+          "sha256": "0e7403c15b95f61dd11487b114819aa6aade7174fdf3deed737ac6e8bdc15e14"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/003.png",
+          "bytes": 439002,
+          "sha256": "19951955a4b7c897b74cde87295ec1db9fb0afc34bc27805731da30b46e2b2c4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/004.png",
+          "bytes": 413640,
+          "sha256": "215a53594b8cd773edd977ce456b08aa9d4ce3856d4166daf21eb0a39fcd45c9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/005.png",
+          "bytes": 449061,
+          "sha256": "84df795209c88ab2a56906e2432cf25e4a206b5f374966ce9b29eefdc71cd781"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/006.png",
+          "bytes": 448636,
+          "sha256": "73ec7e119e9c9bfece1adf7b01e816ae8f6307bf4f7a2766b2ae885c1c14a0d5"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/007.png",
+          "bytes": 448893,
+          "sha256": "dba3bd8b2cfd96deacdf8eec95bfaec3beb8ffddd4f2e9495270bdd6ec5da3aa"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/008.png",
+          "bytes": 436101,
+          "sha256": "b5149b14615544f9648fa7080e3a43465ce6a44dae3f8baeaab1f58f42b3540a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/009.png",
+          "bytes": 426547,
+          "sha256": "9c6ec5e5d6a53049e477443ed1320b4306b243a2b4570186aeb2c66a3b33f8bd"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/010.png",
+          "bytes": 438599,
+          "sha256": "89181f8d7920c3d60c778e9bfffe6398707de7c3cc93d6ae052a89e70825d851"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/011.png",
+          "bytes": 457420,
+          "sha256": "ef6a62d5a9485bc4eb0fd427e78fa275dc9cf25629ada0114c452ae4edab751e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/012.png",
+          "bytes": 449004,
+          "sha256": "2b04258b70cf1106198c5ea1cb638930b472dccd50a3276e941f37dd08f5d500"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/013.png",
+          "bytes": 613470,
+          "sha256": "db3d7c1047d63d34764e27a6125ce8ff18dd8fbe0256adb9dfb5328045fd20b0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/014.png",
+          "bytes": 461688,
+          "sha256": "8f91eba9d7726a7a386dc054221556e7fc885c5a8a9b50d8fdd566be3192c237"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/015.png",
+          "bytes": 461583,
+          "sha256": "ef1733da92306fe0966be00dbe77bd0517d6af0da1bbecacc4acebf0b44f5b46"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/016.png",
+          "bytes": 382733,
+          "sha256": "1a92782d74597305d536ee27958520c1862140ef6d3cd42ee772ae31d936c421"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/017.png",
+          "bytes": 454683,
+          "sha256": "d1bd1a953cbbf5d5cfa12d1b4bd189f6e40b29550a96f91d5a596d8fb58ea0d8"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/018.png",
+          "bytes": 669893,
+          "sha256": "8be7eae47d3cf76e7fbb90de4e613a1c10f3a7ac505c4236d09d38559750f6f3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/019.png",
+          "bytes": 482965,
+          "sha256": "488ce1766ade6510cbb039d82f6565031dd0f20e9209bbfecef6610154331ba7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/020.png",
+          "bytes": 482410,
+          "sha256": "1fec31a8e17c188e08d767335de36a0a9b8e4a9bf6c96edaa13dee1d8fb116fd"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/021.png",
+          "bytes": 469572,
+          "sha256": "01af36d5ff0f2be4fdfc14984fffc24c8158a3ce4476caf8e8b40a0ac84048d3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/022.png",
+          "bytes": 399715,
+          "sha256": "98c531bee4070ead208144e6b908f0768a2a334d9fa288f4f87b0a1876d28cb7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/023.png",
+          "bytes": 442981,
+          "sha256": "8b05604640e9f265ea1e96cff7be912c1b47f987f8a6eaeb9df5fc1a648fad08"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/024.png",
+          "bytes": 455433,
+          "sha256": "15407ff84911b8fe24ea4c75c276ac0fc26c4ec85fd2dd3d183f33f5055cae33"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/025.png",
+          "bytes": 455119,
+          "sha256": "416f85cb5dab64847360c98804b0f10a4ff16e0ebb04d5e703f7b1c6ae8ccf3b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/026.png",
+          "bytes": 454378,
+          "sha256": "19b0f03380092d7cc4bbbcd8016ee8f9a0fd8a162f8c612188d01853d48d5e3d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/027.png",
+          "bytes": 458568,
+          "sha256": "99eb210c73185a285f63021c576b78d2153187210acc559b042b801b33a0d0aa"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/028.png",
+          "bytes": 452736,
+          "sha256": "76cf3d739d94c6c6f9be90aadf0e427857b55dbc6da9fce53539af503483b8a8"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/029.png",
+          "bytes": 435454,
+          "sha256": "0c764fe204d8e82919014a485af3bd36233be759703ea7427904cb71b4b8025f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/030.png",
+          "bytes": 438057,
+          "sha256": "480f04b98202327c46affe73bb6f33b3fa5bc44b24da10abea9ffae4ae278390"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/031.png",
+          "bytes": 456222,
+          "sha256": "02d156d12a010ac5592bee277d98db9396125557263f033f9b4f68c6cc37dcb0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/032.png",
+          "bytes": 406008,
+          "sha256": "b6c60499dd0db946ce170826cb376c5fb1da165718a15fec2ae01bb78fcda41f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/033.png",
+          "bytes": 419736,
+          "sha256": "6df1820ecf0e302809e28b8f9061aabfe11cf826b392c4b764326066931ffd14"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/034.png",
+          "bytes": 483859,
+          "sha256": "ba4f6653f4ef59447af9fe3c6e67016707b6e53e33e3eb23018c13371ed6ab25"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/035.png",
+          "bytes": 476763,
+          "sha256": "cc7f7b223071fb30254feb89bc67a4dae5be4fc470591e73cadef4fccea10055"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/available-counters.txt",
+          "bytes": 180593,
+          "sha256": "0e63b61a592572e923dea3994f3ba55c314bdbf9433cef29cfe745ee7b823758"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/build.json",
+          "bytes": 11482,
+          "sha256": "8f0d50a7bb71e84c4b899ac7d50198d7a55a8fa44ffe4a7c87b6b9bb81ed2dca"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/capture-frames.csv",
+          "bytes": 73707,
+          "sha256": "b83051d36f2d679e64e9b2df9d2f2de7f505419791b4aee0b17921c795dd3146"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/environment.json",
+          "bytes": 123,
+          "sha256": "0847039a147c1260a75b27ed44d6648ab44caa031ec923bb4efcc3d83b0a1e82"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/frames.csv",
+          "bytes": 2521306,
+          "sha256": "fc407049524ebb9d9853472e289401eaac94bc3570076fde51607e1125c6b468"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/mix.wav",
+          "bytes": 59031596,
+          "sha256": "5e1b11fb8c130f1c470ab12ab1700820bffd301f12a2ca1d18169fa4869c3e58"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/player.log",
+          "bytes": 92929,
+          "sha256": "f0d49c4f7c0a93bb4b31202bebd480d0adf3383e5bc3e80c81ca19a58cde3ca4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/process.txt",
+          "bytes": 7,
+          "sha256": "fb45c5d2074410769c83c6ff35ad48f70b008afc4308774926949e1d5ee9f181"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/replay.mp4",
+          "bytes": 95615754,
+          "sha256": "ccae78d508d0e1f75a545dcb395ac6148019a8f5ea158960b3f6d4db38dd5aa5"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/route.json",
+          "bytes": 26497,
+          "sha256": "9f08a752bb176b2321829542c981beaae9be22b7fdfe6b690607d090f20a9785"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/run.json",
+          "bytes": 812,
+          "sha256": "0dc3f1bf70358e73fc57766e2a30bf36a4b3ecebbb9e0bfbcafe96e78ff52aeb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-01/video.mp4",
+          "bytes": 91779072,
+          "sha256": "cf4669aab8ba8037ec4617e99bceb4e16eb31299228280242f5536a6ede6b758"
+        }
+      ],
+      "opened": [
+        "000.png",
+        "005.png",
+        "009.png",
+        "013.png",
+        "019.png",
+        "029.png",
+        "035.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-walk-02",
+      "run": {
+        "route": "sorrel-outpost-map",
+        "sourceRevision": "Sorrel redesign blockout candidate; exact package hashes in recording",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 9125,
+        "refreshHz": 60.0,
+        "seconds": 153.6217706,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "western seam trail: navigation checkpoint missed",
+          "western near seam approach: navigation checkpoint missed",
+          "mine western near seam: missing flag mined.ridge_0_0",
+          "return along western seam: navigation checkpoint missed",
+          "return to outpost fork: navigation checkpoint missed",
+          "common court return: navigation checkpoint missed",
+          "repair return: navigation checkpoint missed",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.1469986999999997,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "focusedSamples": 6902,
+      "firstLostFocus": "70.384593",
+      "firstDown": null,
+      "finalState": {
+        "hero": "Sela",
+        "form": "Shaped",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "x": "0.32355",
+        "z": "-15.91420"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/000.png",
+          "bytes": 500986,
+          "sha256": "3a4696ce5e4bd15a1ea669209fd84824b0eca1024a53212d7a6300452f1977e6"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/001.png",
+          "bytes": 497863,
+          "sha256": "4de22103d851f2bfb7a356fa0cdfe402f07209b527c7bf263832512498e7f236"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/002.png",
+          "bytes": 503589,
+          "sha256": "e6c873c39037525848734c476d2a958cec08ed0b5f437943efd72a9090de8149"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/003.png",
+          "bytes": 438952,
+          "sha256": "3bd8ad7209133fa7c14ef30d48551180b1594af66e59354338faab6c7b2a2809"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/004.png",
+          "bytes": 413578,
+          "sha256": "2261429b395269f1da9f43ea97966fcf013c8ae14f7cbb6dfd7f55cdad2fcc3f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/005.png",
+          "bytes": 449076,
+          "sha256": "b640b8de1eba13eed379c1e4d8e9d55428d7793d3873c37c398dda3628bbd932"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/006.png",
+          "bytes": 448440,
+          "sha256": "f80d0b8d45760850a23d60f5fcd1d1e5bafda4174e2619973a68841a80537461"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/007.png",
+          "bytes": 448596,
+          "sha256": "8c8fa12043df3081339aa63c75fcdba2cdf5b5d030323fcc7cf91f930207fb77"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/008.png",
+          "bytes": 436868,
+          "sha256": "2b837b5957db44468e8ef62acf24922e3eec629ff22a37d25dfe2da052c222cf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/009.png",
+          "bytes": 427554,
+          "sha256": "e07180f4c0e453f623ffa72845c6d528bdae7f5472bbd36f91135c4ca022a251"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/010.png",
+          "bytes": 438865,
+          "sha256": "beeaa0cde5b2b49a46b51c254d201bd195d471e77fa2b4bb465603e2299fa8fa"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/011.png",
+          "bytes": 458043,
+          "sha256": "3ad78ada9c0a9e348fe64db7916a05a461e32da33f50ad251eb2deca0c7135b3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/012.png",
+          "bytes": 448517,
+          "sha256": "aa3aab571b4a9b0813ba2bb5faa6334335d40e66957399c258da5dcc92cc78ab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/013.png",
+          "bytes": 613524,
+          "sha256": "bdaf040dc6016e6942275e5694898063c0cbde196fd22722809ceb0aeb9b0a8f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/014.png",
+          "bytes": 461892,
+          "sha256": "057f8a213c19810b738c862202db4a18b332f4bf6609d10762cc627ccb7ff2b4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/015.png",
+          "bytes": 461714,
+          "sha256": "6a8b669024774ea3fb0ec99f4de46280e50712579c9ebfc04dff0da30512ccab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/016.png",
+          "bytes": 383150,
+          "sha256": "0452ef493f1a25cc101760ff349f9cf3a2d511c4f722fbdefd401a97f3d7feb2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/017.png",
+          "bytes": 435578,
+          "sha256": "2f2d9edd5d863eb7ee45c859e4f9f42d8202326924dbc05b72acf50fd3d3ee88"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/018.png",
+          "bytes": 436210,
+          "sha256": "a25d9d3ec7837bf7c46b85806ca9372d79d5f4c38edaec51542297b1abba6278"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/019.png",
+          "bytes": 435844,
+          "sha256": "804cb44efd63e855028a90cf9f5d2bc6029ad6aec1fa64900b095655e016b955"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/020.png",
+          "bytes": 436024,
+          "sha256": "19c3f828f8c72edb85e1fe04cd9129f52937a0fdea56785732cc8ecc66857419"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/021.png",
+          "bytes": 436491,
+          "sha256": "f4bee446e00b5ff98bdaa442656e203a9548a4b5f85b44ecac04484b184d10b8"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/022.png",
+          "bytes": 436586,
+          "sha256": "d74e7a6738e9c06fa1db9222883e8d7c734284924d7892cf79e4f1d7920a8bb9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/023.png",
+          "bytes": 436114,
+          "sha256": "9f819dd83bca726096aaa75545e381ca9ff23c425c14ae5b3313f45b03333bda"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/024.png",
+          "bytes": 432424,
+          "sha256": "79cf4bc1fa0bbc3645b714559f90d1665d96e1f9bb3d3ff907b51d715d2ac139"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/025.png",
+          "bytes": 433935,
+          "sha256": "6db33372ea81bf695b1a4f617af7d6a3900d9bcbf8f9490369d770cb077ee562"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/026.png",
+          "bytes": 434705,
+          "sha256": "bc1e71ae10219bac4b53b772f75f735942c26f9acf57d134199ec858ddb15896"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/027.png",
+          "bytes": 430495,
+          "sha256": "f4ee7df4d33cf91ca433610eacc65ce5c08fe119b9f92798df6692b46d3aaa64"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/028.png",
+          "bytes": 427215,
+          "sha256": "3b771fbc55a41c2660f139c8c95878a56f68cc46c5ef8fbf3810bc3add5ea4a8"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/029.png",
+          "bytes": 414495,
+          "sha256": "0f4f5a9d139a3d47643a60dd396317925751f71ee710e99bc430e4dae89ff750"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/030.png",
+          "bytes": 440364,
+          "sha256": "de2f61a038837e6c02eea7c32b45eb04f23172d6df51d56990ca033d69aa3f39"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/031.png",
+          "bytes": 456334,
+          "sha256": "ce4a9ae7269cfd47f331894c37d6d605c307a8d7cc6afc0daf8e151d78e27277"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/032.png",
+          "bytes": 406665,
+          "sha256": "ce78f37083c9fc4e67acefd61f4175226503d159d24b2a8ad35c6694d25189f7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/033.png",
+          "bytes": 419659,
+          "sha256": "920b10d05be1e4ee1db651fc5d24f435c6d939080d9a6c0c4efa695eab0ad0e9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/034.png",
+          "bytes": 488793,
+          "sha256": "9085e4b40d8de62c8a325376acc32b7468d18511a0b55f037d419c4243092379"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/035.png",
+          "bytes": 499144,
+          "sha256": "4cefac0bdad1c19d0640b52117975518e34810a073513ce7ecc735d9f4eba3a0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/available-counters.txt",
+          "bytes": 180593,
+          "sha256": "571025967b3d2edd7e092c135b78dd1a63be42931e455f69efcfee959382179f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/build.json",
+          "bytes": 11482,
+          "sha256": "86b6e83798cfe75fffac2f32bce964b67450ff18dd89c4e6284181e832f4a4ff"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/capture-frames.csv",
+          "bytes": 73608,
+          "sha256": "66c679e8cfe01cc4299848a9e80df6537d6e99494a7c1e73ca8d8c67ef466256"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/environment.json",
+          "bytes": 708,
+          "sha256": "8cda13696a0119210e0d230f10e85f7722d0dce9432b19e0a0cade7397dfcaba"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/frames.csv",
+          "bytes": 2512643,
+          "sha256": "50db49cacca814daf15a1de8bd2c01473b7c4bf5d3a2944de0db5461f2bebfe1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/mix.wav",
+          "bytes": 59015212,
+          "sha256": "7c28f85510927915e4785a66e56f4eed2155209c4ae0a522ca9e2dbaac683db1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/player.log",
+          "bytes": 99402,
+          "sha256": "05f6efe35e417919afe77d2c128302b0e6e6e49fca3b8e15fedb260b617b69dc"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/process.txt",
+          "bytes": 7,
+          "sha256": "8af1457c12420976fbcb2f1ea74fbac97210d96f7f5b04ccb15b78ed09e167cb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/replay.mp4",
+          "bytes": 87654976,
+          "sha256": "22697a4fafae4d3b5cfa496e4025132c6995e7a090098656a684617d34e48072"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/route.json",
+          "bytes": 26497,
+          "sha256": "9f08a752bb176b2321829542c981beaae9be22b7fdfe6b690607d090f20a9785"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/run.json",
+          "bytes": 1278,
+          "sha256": "c5b67f1495990d6d84d8bd2dffcacea56fb888a183f9db62e088a3c5372d035d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-walk-02/video.mp4",
+          "bytes": 83816017,
+          "sha256": "d78a5b07cbb758a51f32672144a71147e28cf0d212c70531862f018957affe84"
+        }
+      ],
+      "opened": []
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-west-blockout-walk-01",
+      "run": {
+        "route": "sorrel-west-loop-map",
+        "sourceRevision": "Sorrel blockout western seam loop; normal starter combat and isolated saves",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 14279,
+        "refreshHz": 60.0,
+        "seconds": 240.178249,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "upper seam return: navigation checkpoint missed",
+          "mid seam return: navigation checkpoint missed",
+          "west bend return: navigation checkpoint missed",
+          "outpost fork return: navigation checkpoint missed",
+          "common court return: navigation checkpoint missed",
+          "repair operator return: navigation checkpoint missed",
+          "confirm living party: condition timeout partyAlive",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0878743999999996,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "focusedSamples": 11369,
+      "firstLostFocus": "169.011289",
+      "firstDown": "151.038510",
+      "finalState": {
+        "hero": "Sela",
+        "form": "Shaped",
+        "integrity": "138.0",
+        "partnerHealth": "0.0",
+        "x": "-8.55622",
+        "z": "28.53006"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/000.png",
+          "bytes": 434633,
+          "sha256": "dd18c97fae4ea718f0d790e72bb7600c3600a3d7500bea35fcce8c3e2662e165"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/001.png",
+          "bytes": 401237,
+          "sha256": "7569922470abf61d9927040291419c5114625b0a5d7c0568a75200800014d73b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/002.png",
+          "bytes": 454401,
+          "sha256": "cb1d36867531c6b514ca9e0f2770e565893f39c6985a7722c902886d8d663fc2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/003.png",
+          "bytes": 619480,
+          "sha256": "a26e1dd3f235d2f08ebdf3ac23a5b17a7d082594ebce300c3a37693efa168bf0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/004.png",
+          "bytes": 623092,
+          "sha256": "905f2d5243ba001d7ee9600f287ba328ab589aadc30ff981fcbbb1cd3cc9bb38"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/005.png",
+          "bytes": 605866,
+          "sha256": "caf9e2583838817f22a0b1ed845a4838445aaed040912dba5327e34f44880155"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/006.png",
+          "bytes": 614874,
+          "sha256": "fe67293d7eeaa0c54ec2a58c512ab16a94720356ae9426c584db0117d068f9cc"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/007.png",
+          "bytes": 595218,
+          "sha256": "5fc6ea894e1e99d063416404765ba484761b0736ec1301e4e381a04d9bca9451"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/008.png",
+          "bytes": 546733,
+          "sha256": "0fe36e9476ba0572f2b4548ee4fcf3f33f2352df08707393d2c795ccb2a37829"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/009.png",
+          "bytes": 548472,
+          "sha256": "6a35a6cc4c493c7b80d0639fdb96a04e8979daa0ac63f4abc1fa5107af78d80a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/010.png",
+          "bytes": 548951,
+          "sha256": "877168610707006c183e1ca427196863bb46c771f5f33f58b1f42732fa61e6a4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/011.png",
+          "bytes": 559645,
+          "sha256": "3095e88a96665b69bb8bc4f814e2972662ce4ff2f15b656f64d9f44a09f437e8"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/012.png",
+          "bytes": 549026,
+          "sha256": "4e1cc7424bb99639f3d9cab40b7520edcf88a9b32ae8e9c7fc316f38483dcde3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/013.png",
+          "bytes": 463355,
+          "sha256": "16db867816b175dedbbc540eae46847fb469afc469c618aacfcce337a95bf0bf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/014.png",
+          "bytes": 554584,
+          "sha256": "02c4eba7ca21d100a398829a99f4ace298955f87f1312fc55e47c174a30295dc"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/015.png",
+          "bytes": 542998,
+          "sha256": "b1e49f320b87a2cec317f7db7f9fc23d3f5e53b46b2f4e8619d3b1538b2aaeef"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/016.png",
+          "bytes": 543618,
+          "sha256": "c3056050b9c8e03df58ba4209f44ee1637867f5137919f7c7aac993b6beacb7e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/017.png",
+          "bytes": 539230,
+          "sha256": "be47e0de90660f9a25c290111d7f33fcb3adf23f68039fd705b8ff5b2a60cad7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/018.png",
+          "bytes": 505692,
+          "sha256": "203849a8f679160f096bf812fabd4e73deee25eff4bf0e3ca59f009a8eedbaec"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/019.png",
+          "bytes": 458807,
+          "sha256": "66674018bcd35db97ca9b9c7729ae0168b772e7c1ad54b4e6d7aabc7dcb8d4e0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/020.png",
+          "bytes": 461649,
+          "sha256": "6f9670c0173c61679c7e3567ced924876c40fcf54c0828e37e164f070028a040"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/021.png",
+          "bytes": 462591,
+          "sha256": "5ff15c26fa95fea61376fdb22b132d437cb177203bed3818bfec62285e79affb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/022.png",
+          "bytes": 472272,
+          "sha256": "f43b62658b6cf0b231ba91220a5fa5886226dde05c0227c8c60f2ccf5317718e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/023.png",
+          "bytes": 462379,
+          "sha256": "2812ad50d7ba33257ec905ae51b76c273ce41ef4a2019ccd125e7b42868f8d16"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/024.png",
+          "bytes": 503375,
+          "sha256": "c3d3a02468ea9ba32d4f381b6abf3a83f0ec9a88ec1b663fb026a5d0387d82f6"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/025.png",
+          "bytes": 504950,
+          "sha256": "dd4fe03d7333fe6be0f2e167f46b7afc5cdeddf92ce28f5ecde7dbd0a4f07e31"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/026.png",
+          "bytes": 506302,
+          "sha256": "9a32ed719ce2c75021e0789cfbcb263d9e3b7048add4f56c6ed6ad95b1b0534a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/027.png",
+          "bytes": 505172,
+          "sha256": "f873debacf10404d5dc8a5c400c36797c64e79cdbee4abb6b6ab41570452dc09"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/028.png",
+          "bytes": 506414,
+          "sha256": "64361bd47c42a879f9e89cd0b5fd5be079664044c5d2ccca3099593867053884"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/029.png",
+          "bytes": 487103,
+          "sha256": "126bf295e809f72afb2adda4970df49844f6dac9b73683d57a97d71ef7677917"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/030.png",
+          "bytes": 486450,
+          "sha256": "988ebbd788b5f1c907092ce42098cd21d8b4b34e42e7603506359f7ff2ba508f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/031.png",
+          "bytes": 486725,
+          "sha256": "604f5c90992a3105d4f8aa6a14b55a96b678174f1a851f03758dcda080a2954b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/032.png",
+          "bytes": 495581,
+          "sha256": "eeea47fd256c1a32090f18cee70024371b6a3c3a24fddb3e5c233e1e2fa7945d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/033.png",
+          "bytes": 486886,
+          "sha256": "85a04a338342289e0fdbfbb9bc83557c50e97cb95993e004e3cb652c27377eeb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/034.png",
+          "bytes": 554238,
+          "sha256": "24b993bd6be93ccce70b85eafdc69f17e4e439446146107dd8c23424bacf26ca"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/035.png",
+          "bytes": 610291,
+          "sha256": "51d8b04334abe077c269456fc229d00dc1615484b03387ae855a79a65ae0d1f1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/036.png",
+          "bytes": 611393,
+          "sha256": "ef88cac75f44e3f32e0c92f3ba3ba423a609bd53e9034b0020ab10fefd946584"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/037.png",
+          "bytes": 611593,
+          "sha256": "7c357d4d2c77ce5b98c0cab2cc7268c297394cd4c150c238fd8e97d214269dfe"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/038.png",
+          "bytes": 609660,
+          "sha256": "5b517a89ea82cc3a92ca16e81b915e9a1a07a013c15e744a47f7a2a9a9717b1e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/039.png",
+          "bytes": 601597,
+          "sha256": "d5d4a271b719e6a605b44da9d50f79483e963c96c7255138adb9e4725cbcac5f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/040.png",
+          "bytes": 550705,
+          "sha256": "514bdb322849aae0d359859befe878622e607114d03912214a94cd3e9a7d75cc"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/041.png",
+          "bytes": 542738,
+          "sha256": "59b07890de9abaef2a72f3780097a44e26ea7df145ce74b855c0466f8fc0a869"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/042.png",
+          "bytes": 542437,
+          "sha256": "d703b395e7b4644f91def20c4146de3d3a76d10899fce6ca124700e14354bfe2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/043.png",
+          "bytes": 529568,
+          "sha256": "c1d81f6b3e495072bb0820c960b0f2c4d517454886ace31ab181c965d713107d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/044.png",
+          "bytes": 529752,
+          "sha256": "5903e58733150c1ade9ecfa3ba00bc761ffa7a32cc6223262964e4cddbe6e939"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/045.png",
+          "bytes": 529964,
+          "sha256": "75c1e8626a5f06817c981214661804998862701f390039e8f34752f5bec89e1d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/046.png",
+          "bytes": 529906,
+          "sha256": "9299b209acd01cc5ca99f0ee516132794e8d7ff3755359bcf0127a07747300cd"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/047.png",
+          "bytes": 445983,
+          "sha256": "f8ae773c75ea336fd0a32625bae1a463007c46110cd079163a437a722750e32e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/048.png",
+          "bytes": 426369,
+          "sha256": "d7a26b14e5a5cd44c7ce1edb42fdee428ded5436fc91c691910cd387acaeef78"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/049.png",
+          "bytes": 434015,
+          "sha256": "44e68cfd5b108baa6591e2d30935e60323d1ae256d563c406cde571503480851"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/050.png",
+          "bytes": 428866,
+          "sha256": "3deaa465ddeed570769298ec9392083d305459a78ab0ebc211f546fc1de11e23"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/051.png",
+          "bytes": 428899,
+          "sha256": "156419fb4029a256a7f6aa4c6e005feba29312f201af4b401f5879ada8e1a1fb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/052.png",
+          "bytes": 429077,
+          "sha256": "75e11d354889f5356abb4dfc43049555d53191b554ce58d46e2d2eb2a760b518"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/053.png",
+          "bytes": 429351,
+          "sha256": "9a390684d4af2c741e8fb17d6c16719901507b2819c287b3841686138d20e5c4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/054.png",
+          "bytes": 429024,
+          "sha256": "f4c22fc75470fe9c87c282b154c6f63e440047a2713000247bb237331d8e0132"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/055.png",
+          "bytes": 429186,
+          "sha256": "c2f5f777cd76dc844063dbee1766c0239e8a053f33498a6c865598cc1329d901"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/available-counters.txt",
+          "bytes": 180593,
+          "sha256": "ca3b315c8cfdb6bd4491f2b5254fd9e38a08102bdb6565845896d4920d028e91"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/build.json",
+          "bytes": 11482,
+          "sha256": "36a6b51c3d7e3af17718bbbb6755b3e1ac67d98677468d3eaf22689a73fb805b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/capture-frames.csv",
+          "bytes": 117590,
+          "sha256": "936af99a289b26c629bfbd6ff03e59fa04ecfb59ddaf49941f33e9e5fed266c1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/environment.json",
+          "bytes": 1199,
+          "sha256": "70483a8bb329c92fdbb3086aadc7c7f6ff913ecde9b44996c079335327640d3e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/frames.csv",
+          "bytes": 3932591,
+          "sha256": "a72ff5d1671562638f143c5c974560f3145204d0119b08587951dc597dec0d30"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/mix.wav",
+          "bytes": 92258348,
+          "sha256": "f9db692ae62a648fa316118ecff25417541044d10d327ae38e9871f0c7741b0e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/player.log",
+          "bytes": 133330,
+          "sha256": "b53e5f55f96a4beee5d31a1585c6047c0211be0c85a3e67a61a7d03e7c3014c9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/process.txt",
+          "bytes": 7,
+          "sha256": "411b3b787d60a78514a1e8c19edc4a79305385a738b7d427054448911023b97a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/replay.mp4",
+          "bytes": 95112861,
+          "sha256": "a88593434bcce0388609e2ef1bc90dc826f0f6cabb6f353083a0f64c77a03f68"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/route.json",
+          "bytes": 7792,
+          "sha256": "b14fa9afa20105d62836b079973b56b31e586147b1c6f2b2dc3bd17e73d3fbf4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/run.json",
+          "bytes": 1269,
+          "sha256": "07626b355d0268857e0fe5785148e8c90b763f632148f94c680fc8510f2bc1cf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-01/video.mp4",
+          "bytes": 89111754,
+          "sha256": "050a516945acc16b45c70f36fd3a3335f6c79e3ca0ec61727ea07fd7217b7047"
+        }
+      ],
+      "opened": [
+        "003.png",
+        "012.png",
+        "023.png",
+        "044.png"
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-west-blockout-walk-02",
+      "run": {
+        "route": "sorrel-west-loop-map",
+        "sourceRevision": "Sorrel blockout western seam loop; normal starter combat and isolated saves",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 16733,
+        "refreshHz": 60.0,
+        "seconds": 281.0832736,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "seam fork return: navigation checkpoint missed",
+          "outpost fork return: navigation checkpoint missed",
+          "common court return: navigation checkpoint missed",
+          "repair operator return: navigation checkpoint missed",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.1239036000000007,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "focusedSamples": 15030,
+      "firstLostFocus": "252.545082",
+      "firstDown": null,
+      "finalState": {
+        "hero": "Taren",
+        "form": "Shaped",
+        "integrity": "127.4",
+        "partnerHealth": "138.0",
+        "x": "-32.22472",
+        "z": "44.80284"
+      },
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/000.png",
+          "bytes": 434507,
+          "sha256": "ba7a9f9a2a88fa81f636be15dc0daf9b917aee590c61e868c7dbe5a92de7aba9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/001.png",
+          "bytes": 400526,
+          "sha256": "b737360907d19e048d80777db464095a21d58ba38f96fa2558556c96a4957743"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/002.png",
+          "bytes": 454115,
+          "sha256": "19d02b5a4da9d5ec78fac528b9245ae28427e6937d53450e570c7f06e71ce7fa"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/003.png",
+          "bytes": 620072,
+          "sha256": "d7fdfaff013e50f9235e82a053764e5ae935ebe426c9baae11a79ef1a1c2a56a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/004.png",
+          "bytes": 607787,
+          "sha256": "91296c5ae9e01336952d8a6385f0f9afd2ba51185ec8593693598910d8b18331"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/005.png",
+          "bytes": 605289,
+          "sha256": "2441cb85e34944ff618f92a566cd14a2ed6c746d6dc7d5fb0323c5c520cb4630"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/006.png",
+          "bytes": 607688,
+          "sha256": "f4d3db39cd497a3898ed55c9f7321ad78289c3e431d79533392e218baaa7daa7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/007.png",
+          "bytes": 595693,
+          "sha256": "8f8bcf194118989060532fad968032841acd280014a8fb11bc9c49e5f45c09a2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/008.png",
+          "bytes": 546660,
+          "sha256": "886db12e3c4768dc37ed0751400510041c0aa7f76451d0f3770fcb539177956e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/009.png",
+          "bytes": 548534,
+          "sha256": "8eff956ff8c3a96831d17a6306d88d20c10ebfc54ba54b00fa8da34fdaff7d8e"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/010.png",
+          "bytes": 548906,
+          "sha256": "de40b8cf43f0ae445809fd03fdb552925e4a84f7a3bef03afe7b03040548d411"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/011.png",
+          "bytes": 557651,
+          "sha256": "22490735249d9bf56ee28a0bcab2c1ff5a03e182e750daca0868ba65bc8249f9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/012.png",
+          "bytes": 548946,
+          "sha256": "e8abf54dcffe244b63563780d13a21d2cfc6c245fe3dc07f1e61d7da2bd3ad15"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/013.png",
+          "bytes": 548975,
+          "sha256": "2528f9b27fd58bdf90fc7083eb821c06fda134af9cf5c45c1fa834f63035e8ef"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/015.png",
+          "bytes": 548827,
+          "sha256": "758f609c722b0ec99335994c1b99da6fe9125b577cb26c6d84af233b6f1458d1"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/016.png",
+          "bytes": 463704,
+          "sha256": "754e34bcb5a3fc30a2e6a416aa64df6e4f2820e78f0a7daa5a81afab96fe97bf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/017.png",
+          "bytes": 463313,
+          "sha256": "37e004fa2b461e74ce30683d8e8765fe115bbbcd4303ac540ba901a754b799da"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/018.png",
+          "bytes": 462052,
+          "sha256": "f6407b18cf7aa6520f00ece3a76c41adcfbd8ea184a1c5099ad61a2513744de0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/019.png",
+          "bytes": 550287,
+          "sha256": "cff3967b3c58a66cd7db88313ea9e2b425654ea61e2fb5e3437935b9d0320762"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/020.png",
+          "bytes": 538256,
+          "sha256": "246a9236dccb5bc054353360a1af3d60f43bc5908abc4304706191ecf6968823"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/021.png",
+          "bytes": 544108,
+          "sha256": "0dc88e6ed73013e3fc88bc39e7c55086b194bfd4a59c3be52fd0b6bc383fa27d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/022.png",
+          "bytes": 534322,
+          "sha256": "56d05bb8d7e0fb8382ee4e9a2f19bbdd1d2031e73566f86c295efd74333cea5a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/023.png",
+          "bytes": 507502,
+          "sha256": "c9ce8a945f2aa4fdc8196883b4357d85ff386d5ae0425944e0a8a4c899630fb7"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/024.png",
+          "bytes": 455119,
+          "sha256": "7ce30bba54c0f161a3bd50832584b8f5ef7f6247404c658ba7d27e34fc57cd37"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/025.png",
+          "bytes": 457720,
+          "sha256": "fdf6c3c596ebe1698134c9e55515c23babb16c0fda679b6614ae5e7b37c99e17"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/026.png",
+          "bytes": 458467,
+          "sha256": "5d5d2460d125cdf41f791f51342120ca7fb4468c6bbe50feec5cb26a1fa517b5"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/027.png",
+          "bytes": 466745,
+          "sha256": "579ca79755475021d261ab3d418d9674521afeb40ffe2364d6f6e775d40fee16"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/028.png",
+          "bytes": 448646,
+          "sha256": "9c9790884ae9948059a98df49b2d157a55d1f4afbda39f36530acdd341080acb"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/029.png",
+          "bytes": 448203,
+          "sha256": "4f84bdba0282419051d6f836b9fe423448c15531a6336457bc6a3095f08502a4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/031.png",
+          "bytes": 448805,
+          "sha256": "69bc1f2317ad6f53792ee8bb00371d1bca3e251651212b022970b60362848979"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/032.png",
+          "bytes": 448331,
+          "sha256": "59ab61bd9366e7bfb45338406189a81482af3c3be90876de1d8f3a549162fb15"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/033.png",
+          "bytes": 448151,
+          "sha256": "dc066c2c54bd4991d01b2170b8af6c4ddab9460c0c37171d7ce38dcc8ff2341d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/034.png",
+          "bytes": 508104,
+          "sha256": "1515f705ffdaecb5b0680fdfc776d2892d2bb3af5702123ec4013d700692cdcf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/035.png",
+          "bytes": 525073,
+          "sha256": "5dcc565ca9754259449c7401c67767ce6dfc2ef0462ea677597627c8bff77f8a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/036.png",
+          "bytes": 514548,
+          "sha256": "e280cbc48596c12289ca0fb1a83a60403a8ddeb1b919e22a4397f2152103932d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/037.png",
+          "bytes": 526549,
+          "sha256": "9b55b5d59a283f347c00646cfac1afac0e79ebd08d13aea6adc778240f68a542"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/038.png",
+          "bytes": 513706,
+          "sha256": "9b6176a4f2432aaf0cd0b136f55dfee39cefd40a906cc517d404d60dd75d7f6f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/039.png",
+          "bytes": 487003,
+          "sha256": "935da40aabeac7b6bb185bbf51d93a200090c146b2631db76ffc53fd587c8887"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/040.png",
+          "bytes": 489554,
+          "sha256": "2097a1ca31c29b2db70aaf7f9284abfe8af62f61bbfce7b788daced107dc3af2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/041.png",
+          "bytes": 490416,
+          "sha256": "36e58de27e99d5c6f4e14fc0a631429da7b1c15a1d46d5b3d18f13f3ff69ab5d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/042.png",
+          "bytes": 492099,
+          "sha256": "d333f34d4bc3953fddcd6288b9cb3a4c9ef1e26beaa83a5a2928cdad2bbac61f"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/043.png",
+          "bytes": 481126,
+          "sha256": "8675d02864e55aa6aaf52dc3bc807f7d499fe5ca99337fbe5e1d6d87bbeb1f08"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/044.png",
+          "bytes": 480855,
+          "sha256": "fb1e9985458fcc40d46c33cf36ed4f45ffd8eb5063ad7ccb8847490bd707fcc3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/046.png",
+          "bytes": 480893,
+          "sha256": "6c2612c8cf9230f64dd507bb497212fdc788d7a8454451664714d8e286fdbf07"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/047.png",
+          "bytes": 553778,
+          "sha256": "fd6dca32c50411b1af050ace4383f4a7c7b1e64fc7c4c0b791f6f3ec4ac563b5"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/048.png",
+          "bytes": 553040,
+          "sha256": "38d9d2befebe55f067b837e93dbf191c03ffe98913ff040f0e353c414373459b"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/049.png",
+          "bytes": 553154,
+          "sha256": "5e2a77361b5f5ce32f6f9a75df4e0701d8694fcd91c7cce6fc92a1f2de6bb426"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/050.png",
+          "bytes": 584826,
+          "sha256": "f5bbb944c5d694194831601dd7ef330a2da92d9a5f9af4a75b42ebba06813532"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/051.png",
+          "bytes": 575987,
+          "sha256": "8030f54607fbe4b8d76ecfbfa2bb902a3359841c4cb5ac7601ac020306db1477"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/052.png",
+          "bytes": 586904,
+          "sha256": "12b5645844461aa7d847119693b1c0043001b35fdacfc462896db00286ad2204"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/053.png",
+          "bytes": 577229,
+          "sha256": "3208d35da8fdd44fbbe914ddfb0d1df16da19c5a8ef2ead10015a06fb5db51e4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/054.png",
+          "bytes": 527196,
+          "sha256": "848e5aa561bc48b309f84c197eb31eb7e33b2c84705571238fd62efe37628b67"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/055.png",
+          "bytes": 485380,
+          "sha256": "b58cbff37154a78d19b0cd81e75cf120024604285279b65a48468e4d84162bb4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/056.png",
+          "bytes": 487691,
+          "sha256": "4ca148ef1d586dc2a39c4b9034b8f323702e389b1a93a2eb61fa3ea2738cb550"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/057.png",
+          "bytes": 488219,
+          "sha256": "0b77f4327246efb6412159e22df3ec1d5bcb424efcce0c0318e2a81bc19e94a6"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/058.png",
+          "bytes": 498185,
+          "sha256": "10ac0aa866d0065f6bda7bd96c88dae786fe6df44bfb2d7a1de25663de054f4c"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/059.png",
+          "bytes": 488424,
+          "sha256": "edc7e14e44a7d990e649b9645b549980f1c21f444e23603d638ef14bdcadbde0"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/060.png",
+          "bytes": 487711,
+          "sha256": "56d3f98cfa0909f462190247dacc39c2d761786c926e5a7bdd630ef3c9b221ac"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/062.png",
+          "bytes": 488299,
+          "sha256": "2cb6736f86068e80deae334625f660b139a7ac162f6e9c629e00e35b42636819"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/063.png",
+          "bytes": 535529,
+          "sha256": "9f9b0182c4c2c42d49912c9dbadddd2803eb28f7f0ff8952bb51dd7c82a9bbaf"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/064.png",
+          "bytes": 466088,
+          "sha256": "bf3eeb034e45aa63f6ca3c929997b3e899a57a53e3cfc091541d8492e1d8f964"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/065.png",
+          "bytes": 438850,
+          "sha256": "b71023c6b21ff96202f257f06400014f7b4aa860fc3437208b689adc271c571a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/066.png",
+          "bytes": 444842,
+          "sha256": "8f6530d2247414a9cda206a7dd7d6113476150400c82698ccf1a9ec3455252b9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/067.png",
+          "bytes": 432922,
+          "sha256": "2c122e821755cfdbd2068435b6fa144be6ac6421379225abac3fbbe2eb453cb5"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/068.png",
+          "bytes": 433686,
+          "sha256": "6f1862d98d003096e7d2cbf99d4db9618bb2c2ffaaaeffebb9e100c666820b98"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/069.png",
+          "bytes": 433219,
+          "sha256": "88c043e92668b986345f45daaaf85450bbe4c116e525559d4aeee4703016dfda"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/070.png",
+          "bytes": 433544,
+          "sha256": "94f9b162660ebe8e1b5db00719f47d49484c16f4174f68f179f5f4e8f1032576"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/071.png",
+          "bytes": 433711,
+          "sha256": "5a152daef656c5207b55bbf6158b8a7999a3a46d7d6192f46b9277d6929a4338"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/073.png",
+          "bytes": 433729,
+          "sha256": "3e0dae103b6831f1fd4586959fd6089ce55353522780c998d049eae24aa3a81a"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/available-counters.txt",
+          "bytes": 180593,
+          "sha256": "b12ed9b4cefbe763c1934b9bff11ad268dc301e5c47895341c283d77f62e1432"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/build.json",
+          "bytes": 11482,
+          "sha256": "270ccc14eee69af07d1c4cf282896e7028c003856e3860e46321cf8513a3a27d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/capture-frames.csv",
+          "bytes": 138504,
+          "sha256": "f7df829a148fdd0777f68e8a2efcf3a65e89d31b2790553cf343f2384999f506"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/capture.txt",
+          "bytes": 160,
+          "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/environment.json",
+          "bytes": 1210,
+          "sha256": "e97e3d3a47f95d9f63c6a03abeb69eeb8995ed861120b02e589dff2953a926cd"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/frames.csv",
+          "bytes": 4645185,
+          "sha256": "3407069c2aa68234a5344c03d6336d3355f49e3b04a534709dde4c34790da5af"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/mix.wav",
+          "bytes": 107970604,
+          "sha256": "1a8f8deb459d2bbd3b042e2ad5716a77f2f3ea163d8825da6e4d1180e5422db9"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/player.log",
+          "bytes": 144364,
+          "sha256": "fe828d1ff01456892de3b1b3332ee38472abb7325e7480369329c667e67776f3"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/process.txt",
+          "bytes": 7,
+          "sha256": "3fd5770cc38a5ef9649c68a93171854ce9a142a9cbb58e51d7334a82c00dfa4d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/replay.mp4",
+          "bytes": 123150457,
+          "sha256": "f825a499c46252c01746950af2c36ef9267c27debe1fafccc2482ac014da9e6d"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/route.json",
+          "bytes": 54782,
+          "sha256": "3cf26587f5a612f27c922c3a4de8321b16e82041a5771b4732acf0cfe27c06a2"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/run.json",
+          "bytes": 1092,
+          "sha256": "b4aee824e4ac03c89f4930a705e5ffae40a1f3ac126377b6ae7c7f185ef409e4"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-west-blockout-walk-02/video.mp4",
+          "bytes": 116125947,
+          "sha256": "e3641a9aa809ef552f5ad54e4d68be8b56501a0d6fdbf26072a55eed82df2852"
+        }
+      ],
+      "opened": [
+        "062.png",
+        "073.png"
+      ]
+    }
+  ],
+  "earlierBuilds": [
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-nav-red",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-nav-red/editor.log",
+          "bytes": 54377,
+          "sha256": "f5b913e66abfffa5f3e7131c725d61187da7a06bba2e93b081fc67c6292b6821"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-nav-red/SorrelRedesign.cs",
+          "bytes": 15541,
+          "sha256": "5a5ec7b939a75ed85b0093b0290079e0cc716fb070a880250cd8e9b782926435"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-build-01",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-01/editor.log",
+          "bytes": 50266,
+          "sha256": "a92703983349c24413dcef07f4ec35995e6a3a439bfa0ab31edb73ed56f8bc7b"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-build-02",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-02/editor.log",
+          "bytes": 37820,
+          "sha256": "7a9e1ba7fe82f2d3b71522be0ef21e96d55f00d247d2253fba0aed08362371e6"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-02/SorrelRedesign.cs",
+          "bytes": 18025,
+          "sha256": "e2f6e77969364eb66db003d05ff24aa04a0bbb334776aaf146c255348b390748"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-build-03",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-03/editor.log",
+          "bytes": 67018,
+          "sha256": "8b3e77036b0b64dbd9af98db97719a30deb4dd24e12cd388b104fdae75e5b657"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-03/SorrelRedesign.cs",
+          "bytes": 18348,
+          "sha256": "1deb89d587f3f65c2f0886011252345b9d28873e06b1a85279d219fa67f6a375"
+        }
+      ]
+    },
+    {
+      "folder": "Builds/quality/workshop/sorrel-blockout-build-04",
+      "files": [
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-04/development-build.log",
+          "bytes": 578088,
+          "sha256": "eb3fa034933615ac86a6e831738980bdfae1af172db538983efe53b71f502800"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-04/editor.log",
+          "bytes": 51563,
+          "sha256": "3feeae80a3644042cf9a2c208061d6d1366379f8a0375cd52a20748721937968"
+        },
+        {
+          "path": "Builds/quality/workshop/sorrel-blockout-build-04/SorrelRedesign.cs",
+          "bytes": 18409,
+          "sha256": "f579516220efee5a29aef190d8a490ba671e927c39a03dd4b31c1dfe5931ed77"
+        }
+      ]
+    }
+  ],
+  "limits": [
+    "Service, main-haul, boss/key/return ordinary traversal remain OPEN.",
+    "Final generated art conversion has not run; SorrelBuilder still owns the old full-build entry point. Use isolated SorrelRedesign for this candidate.",
+    "Development contains blockout 06; Release remains the preceding C3 integrated checkpoint.",
+    "Full suites and final build pair are pending.",
+    "Continuous normal/slow moving-video observation, actual audio audition and physical Logitech feel UNVERIFIED.",
+    "No independent reviewer or Nathan approval claimed.",
+    "Focus-rejected runs cannot establish ordinary traversal or C1 clean timing."
+  ],
+  "preservedSaves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ]
+}

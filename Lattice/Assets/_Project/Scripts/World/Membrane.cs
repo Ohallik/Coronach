@@ -9,8 +9,24 @@ namespace Lattice.World
         {
             bool changed=Open!=open;Open=open;
             foreach(var c in GetComponentsInChildren<Collider>())c.enabled=!open;
-            if(Application.isPlaying&&open&&changed&&gameObject.activeInHierarchy){if(dissolve!=null)StopCoroutine(dissolve);dissolve=StartCoroutine(Dissolve());}
-            else foreach(var r in GetComponentsInChildren<Renderer>())r.enabled=!open;
+            foreach(var obstacle in GetComponentsInChildren<UnityEngine.AI.NavMeshObstacle>())obstacle.enabled=!open;
+            if(!open)
+            {
+                if(dissolve!=null){StopCoroutine(dissolve);dissolve=null;}
+                foreach(var r in GetComponentsInChildren<Renderer>()){r.enabled=true;ResetDissolve(r);}
+            }
+            else if(Application.isPlaying&&changed&&gameObject.activeInHierarchy)
+            {
+                if(dissolve!=null)StopCoroutine(dissolve);
+                foreach(var r in GetComponentsInChildren<Renderer>())r.enabled=true;
+                dissolve=StartCoroutine(Dissolve());
+            }
+            else if(dissolve==null)foreach(var r in GetComponentsInChildren<Renderer>()){r.enabled=false;ResetDissolve(r);}
+        }
+        static void ResetDissolve(Renderer renderer)
+        {
+            var block=new MaterialPropertyBlock();renderer.GetPropertyBlock(block);
+            block.SetVector("_DissolveParams",Vector4.zero);renderer.SetPropertyBlock(block);
         }
         System.Collections.IEnumerator Dissolve()
         {
@@ -21,7 +37,7 @@ namespace Lattice.World
                 if(!Open)yield break;
                 foreach(var r in renderers){r.GetPropertyBlock(block);block.SetVector("_DissolveParams",new Vector4(t/.5f,3,0,0));r.SetPropertyBlock(block);}yield return null;
             }
-            foreach(var r in renderers){r.enabled=false;r.SetPropertyBlock(null);}dissolve=null;
+            foreach(var r in renderers){r.enabled=false;ResetDissolve(r);}dissolve=null;
         }
     }
 }

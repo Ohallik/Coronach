@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+
+## MAP Sorrel blockout checkpoint - September 26
+
+**Sorrel blockout/final MAP_EYE_TEST OPEN.** The isolated candidate replaces the repeated three-lane sheet with a connected basin, bending haul/seam/service routes, a landing/receiving/stores sequence, separate repair work space and inward-facing habitation approaches. Existing scene/spawn/encounter/mine identifiers are retained. Rejected views remain archived: the first terrain obscured arrival and read as a rectangular tray; later tests exposed a long cliff bypass and a seal that opened physically without releasing companion navigation. Both reproduced navigation defects now pass unchanged closure/open/return/reclosure checks.
+
+The Development blockout player passes a 36-check ordinary virtual-input outpost route in 153.682 seconds, with 9,134/9,134 focused samples. Both heroes reach hab approaches and stores, two crystals are mined, repair saves at Outpost, and the party returns to landing. Opened player frames show actual access, standing space and companion presence. A four-angle generated-prop audit identifies the hab door on +Z and its real 5.673 m footprint; final inward orientation is prepared but conversion remains pending. The first western loop cleared all four packs but is rejected for an unrecovered downed hero, missed return points and focus loss; the revised run clears all four packs with both heroes alive, but focus loss rejects its return. The outpost rerun is also focus-rejected. Blockout 06 corrects buried launch pads and grades the full northern apron, verified in opened views. An interrupted barrier fade also reproduced a partially erased closed surface; its correction and the companion-navigation check pass 2/2 PlayMode, zero skips. Remote traversal, final-art integration, full suites and the final player pair remain pending for this map. Release still contains the previous integrated C3 checkpoint; Development currently contains the explicit Sorrel blockout. Original saves are unchanged. [Map brief](maps/Sorrel_Ridges.md) records layout and review details; [blockout evidence](validation/MAP-Sorrel-blockout.md) separates checks and limits.
+
+Other-project Unity/player activity again prevents clean C1 timing. Normal/slow video observation, actual sound audition and physical controller feel remain UNVERIFIED. The other three non-station maps and remaining production gates remain open.
+
 ## C3 ground creature support checkpoint - September 26
 
 **C3 OPEN.** Ridgehound, Scrapmite and Burrower now support their actual mesh throughout collapse on flat/sloped floors and use individually inspected resting poses. Red regressions expose both mid-fall penetration and bodies propped on extremities; the corrected nine-case matrix passes clearance, body-height, pause, hold and root-position checks. [Creature evidence](validation/C3-ground-creatures.md) retains rejected captures, the actual geometry audit and opened player views.

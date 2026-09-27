@@ -1,0 +1,516 @@
+{
+  "name": "sorrel-west-loop-map",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "Sorrel blockout western seam loop; normal starter combat and isolated saves",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "outpost common approach",
+      "seconds": 13.0,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      }
+    },
+    {
+      "name": "west loop fork",
+      "seconds": 6.9,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 27
+      }
+    },
+    {
+      "name": "west seam approach",
+      "seconds": 9.4,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 35
+      }
+    },
+    {
+      "name": "first pack clearing",
+      "seconds": 6.1,
+      "navigate": true,
+      "point": {
+        "x": -33,
+        "y": 0,
+        "z": 43
+      }
+    },
+    {
+      "name": "lock onto pack 0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock onto pack 0 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave pack 0",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave pack 0 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee pack 0",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "use carried repair gel if hurt",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel input release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish pack 0",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "pack cleared 0",
+      "seconds": 3,
+      "expectedFlag": "clear.Sorrel_0"
+    },
+    {
+      "name": "regroup at clearing 0",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -33,
+        "y": 0,
+        "z": 43
+      },
+      "tolerance": 0.6
+    },
+    {
+      "name": "ordinary nearby revival if needed 0",
+      "seconds": 4
+    },
+    {
+      "name": "both heroes ready 0",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "west second bend",
+      "seconds": 6.3,
+      "navigate": true,
+      "point": {
+        "x": -36,
+        "y": 0,
+        "z": 55
+      }
+    },
+    {
+      "name": "prepare with carried gel before next clearing",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel before approach",
+      "seconds": 0.45
+    },
+    {
+      "name": "second pack clearing",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": -39,
+        "y": 0,
+        "z": 65
+      }
+    },
+    {
+      "name": "lock onto pack 1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock onto pack 1 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave pack 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave pack 1 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee pack 1",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "use carried repair gel if hurt",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel input release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish pack 1",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "pack cleared 1",
+      "seconds": 3,
+      "expectedFlag": "clear.Sorrel_1"
+    },
+    {
+      "name": "regroup at clearing 1",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -39,
+        "y": 0,
+        "z": 65
+      },
+      "tolerance": 0.6
+    },
+    {
+      "name": "ordinary nearby revival if needed 1",
+      "seconds": 4
+    },
+    {
+      "name": "both heroes ready 1",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "prepare with carried gel before next clearing",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel before approach",
+      "seconds": 0.45
+    },
+    {
+      "name": "west upper bend",
+      "seconds": 10.3,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": 85
+      }
+    },
+    {
+      "name": "lock onto pack 2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock onto pack 2 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave pack 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave pack 2 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee pack 2",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "use carried repair gel if hurt",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel input release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish pack 2",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "pack cleared 2",
+      "seconds": 3,
+      "expectedFlag": "clear.Sorrel_2"
+    },
+    {
+      "name": "regroup at clearing 2",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": 85
+      },
+      "tolerance": 0.6
+    },
+    {
+      "name": "ordinary nearby revival if needed 2",
+      "seconds": 4
+    },
+    {
+      "name": "both heroes ready 2",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "north seam trail",
+      "seconds": 8.2,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 102
+      }
+    },
+    {
+      "name": "prepare with carried gel before next clearing",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel before approach",
+      "seconds": 0.45
+    },
+    {
+      "name": "fourth pack clearing",
+      "seconds": 4.8,
+      "navigate": true,
+      "point": {
+        "x": -21,
+        "y": 0,
+        "z": 110
+      }
+    },
+    {
+      "name": "lock onto pack 3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock onto pack 3 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave pack 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave pack 3 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee pack 3",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "use carried repair gel if hurt",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel input release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish pack 3",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "pack cleared 3",
+      "seconds": 3,
+      "expectedFlag": "clear.Sorrel_3"
+    },
+    {
+      "name": "regroup at clearing 3",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -21,
+        "y": 0,
+        "z": 110
+      },
+      "tolerance": 0.6
+    },
+    {
+      "name": "ordinary nearby revival if needed 3",
+      "seconds": 4
+    },
+    {
+      "name": "both heroes ready 3",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "upper seam return",
+      "seconds": 4.8,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 102
+      }
+    },
+    {
+      "name": "mid seam return",
+      "seconds": 8.2,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": 85
+      }
+    },
+    {
+      "name": "west bend return",
+      "seconds": 10.3,
+      "navigate": true,
+      "point": {
+        "x": -39,
+        "y": 0,
+        "z": 65
+      }
+    },
+    {
+      "name": "lower bend return",
+      "seconds": 7.8,
+      "navigate": true,
+      "point": {
+        "x": -36,
+        "y": 0,
+        "z": 49
+      }
+    },
+    {
+      "name": "seam fork return",
+      "seconds": 8.6,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 35
+      }
+    },
+    {
+      "name": "outpost fork return",
+      "seconds": 9.4,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 27
+      }
+    },
+    {
+      "name": "common court return",
+      "seconds": 5.7,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "repair operator return",
+      "seconds": 5.1,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "repair and save cleared loop",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair and save cleared loop release",
+      "seconds": 0.45
+    },
+    {
+      "name": "confirm living party",
+      "seconds": 1,
+      "until": "partyAlive",
+      "expectedFlag": "clear.Sorrel_3"
+    }
+  ]
+}

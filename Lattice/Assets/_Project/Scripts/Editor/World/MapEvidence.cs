@@ -13,6 +13,46 @@ namespace Lattice.EditorTools
         public static void StationAfter() => BatchTools.Run(() => Capture("station/maps-after"));
         public static void StationBlockout() => BatchTools.Run(() => Capture("station/blockout-03"));
         public static void WorkshopOthers() => BatchTools.Run(() => Capture("workshop/maps-before",new[]{"Sorrel_Ridges","Gullet_Tunnel","Arena_Ground","Arena_Flight"}));
+        public static void SorrelReview()=>BatchTools.Run(()=>
+        {
+            string run=Lattice.Core.DevArgs.Value("-map-evidence-run")??"workshop/sorrel-blockout-01";
+            Capture(run,new[]{"Sorrel_Ridges"});
+            // Capture has opened this scene and hidden all explanatory labels.
+            var camera=GameObject.Find("Evidence camera").GetComponent<Camera>();
+            string folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality",run));
+            var views=new[]{("receiving",new Vector3(7,0,-10),11f),("repair",new Vector3(-7,0,6),10f),
+                ("hab-access",new Vector3(0,0,17),14f),("first-junction",new Vector3(0,0,30),14f),
+                ("seam-bend",new Vector3(-35,0,70),14f),("service-branch",new Vector3(34,0,77),14f),
+                ("drill-approach",new Vector3(7,0,143),12f),("drill-excavation",new Vector3(0,0,174),21f),
+                ("north-return",new Vector3(0,0,200),13f)};
+            foreach(var v in views)Shot(camera,folder,"Sorrel_Ridges-"+v.Item1,v.Item2,Quaternion.Euler(40,20,0),v.Item3);
+            Shot(camera,folder,"Sorrel_Ridges-excavation-section",new Vector3(0,0,174),Quaternion.Euler(15,0,0),35);
+            Debug.Log("SORREL_MAP_EVIDENCE_OK "+folder);
+        });
+        public static void SorrelPropAudit()=>BatchTools.Run(()=>
+        {
+            string run=Lattice.Core.DevArgs.Value("-map-evidence-run")??"workshop/sorrel-prop-audit-01";
+            string folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality",run));
+            if(Directory.Exists(folder))throw new System.InvalidOperationException("Preserve previous prop audit");
+            Directory.CreateDirectory(folder);WorldBuilder.Begin("Sorrel_Ridges");
+            var camera=new GameObject("Audit camera",typeof(Camera),typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor=new Color(.08f,.09f,.12f);camera.clearFlags=CameraClearFlags.SolidColor;
+            camera.orthographic=true;camera.nearClipPlane=.1f;camera.farClipPlane=1000;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing=false;
+            using(var writer=new StreamWriter(Path.Combine(folder,"bounds.csv")))
+            {
+                writer.WriteLine("key,width,height,depth");
+                foreach(var item in new[]{("OutpostHab",4f),("OutpostDrill",8f),("LatticeAnvil",2f),("DeckDoorway",2.6f),("LandingPad",5f)})
+                {
+                    var go=WorldBuilder.Piece(item.Item1,Vector3.zero,Vector3.one*item.Item2);
+                    var bounds=ModelGeometry.BoundsOf(go);
+                    writer.WriteLine(System.FormattableString.Invariant($"{item.Item1},{bounds.size.x:F4},{bounds.size.y:F4},{bounds.size.z:F4}"));
+                    for(int angle=0;angle<360;angle+=90)Shot(camera,folder,item.Item1+"-"+angle,bounds.center,Quaternion.Euler(20,angle,0),bounds.size.magnitude*.55f);
+                    Object.DestroyImmediate(go);
+                }
+            }
+            Debug.Log("SORREL_PROP_AUDIT_OK");
+        });
         public static void TallowEnvelope()=>BatchTools.Run(()=>
         {
             EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");

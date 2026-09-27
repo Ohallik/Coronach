@@ -1,0 +1,332 @@
+{
+  "name": "sorrel-outpost-map",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "Sorrel redesign blockout candidate; exact package hashes in recording",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "arrival receiving approach",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": -14
+      }
+    },
+    {
+      "name": "receiving clear apron",
+      "seconds": 3.4,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -14
+      }
+    },
+    {
+      "name": "parts delivery aisle",
+      "seconds": 4.9,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": -10
+      }
+    },
+    {
+      "name": "stores worker access",
+      "seconds": 5.7,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 1
+      }
+    },
+    {
+      "name": "public approach",
+      "seconds": 7.2,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 6
+      }
+    },
+    {
+      "name": "repair operator space",
+      "seconds": 5.4,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "repair and save",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair and save release",
+      "seconds": 0.5
+    },
+    {
+      "name": "west hab approach",
+      "seconds": 5.0,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "west hab entrance",
+      "seconds": 2.3,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "common route south of Survivor",
+      "seconds": 5.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      }
+    },
+    {
+      "name": "east hab entrance",
+      "seconds": 5.4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "return to common route",
+      "seconds": 5.8,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 26
+      }
+    },
+    {
+      "name": "exposed near seam approach",
+      "seconds": 5.3,
+      "navigate": true,
+      "point": {
+        "x": 12,
+        "y": 0,
+        "z": 33
+      },
+      "tolerance": 0.15
+    },
+    {
+      "name": "mine eastern near seam",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "mined.ridge_1_0"
+    },
+    {
+      "name": "mine eastern near seam release",
+      "seconds": 0.5
+    },
+    {
+      "name": "western loop fork",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 27
+      }
+    },
+    {
+      "name": "western seam trail",
+      "seconds": 9.4,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 35
+      }
+    },
+    {
+      "name": "western near seam approach",
+      "seconds": 5.9,
+      "navigate": true,
+      "point": {
+        "x": -35.5,
+        "y": 0,
+        "z": 36
+      },
+      "tolerance": 0.15
+    },
+    {
+      "name": "mine western near seam",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "mined.ridge_0_0"
+    },
+    {
+      "name": "mine western near seam release",
+      "seconds": 0.5
+    },
+    {
+      "name": "return along western seam",
+      "seconds": 5.9,
+      "navigate": true,
+      "point": {
+        "x": -24,
+        "y": 0,
+        "z": 35
+      }
+    },
+    {
+      "name": "return to outpost fork",
+      "seconds": 9.4,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 27
+      }
+    },
+    {
+      "name": "common court return",
+      "seconds": 5.7,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "repair return",
+      "seconds": 5.1,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "save recovered crystals",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "save recovered crystals release",
+      "seconds": 0.5
+    },
+    {
+      "name": "swap to Sela",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "swap to Sela release",
+      "seconds": 0.5
+    },
+    {
+      "name": "Sela west hab access",
+      "seconds": 5.0,
+      "navigate": true,
+      "point": {
+        "x": -10,
+        "y": 0,
+        "z": 16
+      },
+      "expectedCharacter": "Sela",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Sela common route",
+      "seconds": 5.4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      }
+    },
+    {
+      "name": "Sela east hab access",
+      "seconds": 5.4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "Sela stores approach",
+      "seconds": 6.7,
+      "navigate": true,
+      "point": {
+        "x": 19,
+        "y": 0,
+        "z": 6
+      }
+    },
+    {
+      "name": "Sela stores service side",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": 19,
+        "y": 0,
+        "z": -7
+      }
+    },
+    {
+      "name": "Sela receiving approach",
+      "seconds": 6.5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -14
+      }
+    },
+    {
+      "name": "return landing",
+      "seconds": 4.7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -16
+      }
+    }
+  ]
+}
