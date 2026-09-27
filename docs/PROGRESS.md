@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C5 owned palette preparation checkpoint - September 27
+
+**C5 OPEN.** A reproducible read-only source pipeline now prepares 32 small sound candidates outside Unity: four footstep variations per surface, three common impact/swing/emitter variations and five UI/dialogue cues. Recipes retain all 37 original and four licence hashes. The 1.07 MB candidate set passes silence/peak checks at -10.0 to -9.2 dBTP, and attempted output reuse is rejected without changing audio. [Evidence](validation/C5-palette-candidate.md) separates numerical checks from listening. These derivatives are not yet staged or assigned; runtime pools/mixers/cue timing and actual audition remain pending. Music is unchanged. C4's expanded full integration run is in progress; neither this tool nor its measurements accepts flight, sound quality or the workshop.
+
 ## C4 hull emitters and thrust source checkpoint - September 27
 
 **C4 OPEN.** Ordinary/fan shots now release from the posed generated nose; flight lance/counter respect static and movable cover. Measured red origins were about one metre detached, and old near-cover/beam branches dealt damage through cover. Six corrected flight checks pass. Opened hull views reject Sela's first centre engine marker; corrected geometry passes both prefab cases. Nozzle-attached exhaust now follows actual thrust/boost, clears during coast/death and holds during pause; three new red/green state/attachment checks pass. [Evidence](validation/C4-flight-emitters.md) retains exact results and the distinction between opened socket geometry and unreviewed runtime exhaust. Original saves are unchanged. Full suites and rebuilt players remain pending for this source checkpoint; both packages retain `e78c606`. Hull collision, remaining flight/transform work, non-station MAP_EYE_TEST and later gates remain open; video/audio observation and physical feel remain UNVERIFIED.

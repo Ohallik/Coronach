@@ -1,0 +1,35 @@
+{
+  "status": "C5 OPEN; unstaged unauditioned candidates",
+  "date": "2026-09-27T08:24:00.438390+00:00",
+  "tool": {
+    "path": "tools/prepare_audio_palette.py",
+    "bytes": 4869,
+    "sha256": "7fc06d07e74b49b14c65c2cbeb1132525ae5f05f9aa51fb0af2f606d98581bf9"
+  },
+  "recipes": {
+    "path": "Builds/quality/C5/palette-candidate-02/manifest.json",
+    "bytes": 31620,
+    "sha256": "8632c63ed6f40edc792506a162a583e6992ea5f7a3b58712dd7c5c45d1d0e103"
+  },
+  "levels": {
+    "path": "Builds/quality/C5/palette-candidate-levels-02/report.json",
+    "bytes": 23236,
+    "sha256": "b1e77c482ae1cf9f7f299045e8fdfb72d2d6f191870d02e8f5bc75ed7dc113ba"
+  },
+  "overwriteRejection": {
+    "path": "Builds/quality/C5/palette-candidate-02/rejected-overwrite.log",
+    "bytes": 1782,
+    "sha256": "5d435822df62f4e95aeba53f3d53e5f4d17944c078afc57b268d93a5612c0385"
+  },
+  "clips": 32,
+  "bytes": 1069544,
+  "originalsVerifiedUnchanged": 37,
+  "licencesVerifiedUnchanged": 4,
+  "peakRangeDbtp": [
+    -10.0,
+    -9.2
+  ],
+  "audition": "UNVERIFIED",
+  "inGame": false,
+  "musicChanged": false
+}
