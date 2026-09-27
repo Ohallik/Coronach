@@ -1,0 +1,246 @@
+{
+  "date": "2026-09-27T09:16:05.890700+00:00",
+  "status": "C4 OPEN; focused flight skill source checkpoint",
+  "sourceBase": "9c4a6f3fcf5db1f9ce5879f9148d10e4284c300b",
+  "source": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "bytes": 14591,
+      "sha256": "e7ec15b0c4ed98f616833cf6df11e34124aded45263bd7293d74a4c3340fe631"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "bytes": 5287,
+      "sha256": "938a4f1c80148d97fe6a29defce947d38904e831dc62fa8a78a84fe6e54ad852"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightSkillContact.cs",
+      "bytes": 3626,
+      "sha256": "4c0c4a785af3307d53a3a9179cc7e237b74598d096cfad579d4c6a5423228077"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightEnergyArc.cs",
+      "bytes": 1783,
+      "sha256": "195f1a2a5524545049f0ad988a8ab69d0a339859e5edfa95accb2aba1d1e2fec"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightWave.cs",
+      "bytes": 2576,
+      "sha256": "7e4da0d69a3d50f489465d466301e1914c1aff5bd8a69a7ca478b3dc07a5f678"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/NetSeed.cs",
+      "bytes": 3681,
+      "sha256": "0b6148bea23d0f1e0023b9874910bd80886b2939b86cde56de56e4a1b7ba8428"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/PulseField.cs",
+      "bytes": 1628,
+      "sha256": "b4bf1f7cddf0638dfb683b421f0386f2891d39121d8e0cb32bb5e4d481d1ec0a"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundRing.cs",
+      "bytes": 3052,
+      "sha256": "742b94edc7be7d1927bed7af88cf747b413e3ef8be339e6b7b31a6f422cd02f4"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightThrusters.cs",
+      "bytes": 3201,
+      "sha256": "295f43aefafaedbe3157e359d59d15dce55b61837d51e417450a80163ac7f8e9"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightDashContact.cs",
+      "bytes": 4509,
+      "sha256": "33defeeeecee93911e4de5ad9c6e46e3e3277c7b2c47ff00be3f94adfa6fc66d"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightSkillTests.cs",
+      "bytes": 12758,
+      "sha256": "e3bcd9dff3ae4497f05777201fc89337a0390bfcab28710ab52da958a9764a2f"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Resources/Effects/FlightEnergy.shader",
+      "bytes": 1646,
+      "sha256": "0946ee1f41b61bb1755b51088f180a36988391e943eaf354ae917cb7ef629507"
+    }
+  ],
+  "tests": [
+    {
+      "run": "flight-skills-red01",
+      "counts": {
+        "id": "2",
+        "testcasecount": "8",
+        "result": "Failed(Child)",
+        "total": "8",
+        "passed": "0",
+        "failed": "8",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 09:01:39Z",
+        "end-time": "2026-09-27 09:02:08Z",
+        "duration": "28.3958223"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/flight-skills-red01/playmode-results.xml",
+        "bytes": 22544,
+        "sha256": "d9a19f58e47bf82953ba963191b0714bfb1106d939d30fb1dff7cf583f75bd09"
+      }
+    },
+    {
+      "run": "flight-skills-green01",
+      "counts": {
+        "id": "2",
+        "testcasecount": "31",
+        "result": "Passed",
+        "total": "31",
+        "passed": "31",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 09:03:54Z",
+        "end-time": "2026-09-27 09:06:20Z",
+        "duration": "146.4881353"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/flight-skills-green01/playmode-results.xml",
+        "bytes": 44174,
+        "sha256": "aa9f451756c649a5954d217faed68a0e6f4d697b4c7f0aa1f3cfa83c5748789d"
+      }
+    },
+    {
+      "run": "flight-skills-fault-red01",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 09:07:19Z",
+        "end-time": "2026-09-27 09:07:30Z",
+        "duration": "11.394488"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/flight-skills-fault-red01/playmode-results.xml",
+        "bytes": 9613,
+        "sha256": "7f4daaed37e792380d1ceefe6850294c935ed16ff810fe97fbff91863a4bedd0"
+      }
+    },
+    {
+      "run": "flight-skills-green02",
+      "counts": {
+        "id": "2",
+        "testcasecount": "17",
+        "result": "Passed",
+        "total": "17",
+        "passed": "17",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 09:08:43Z",
+        "end-time": "2026-09-27 09:10:04Z",
+        "duration": "80.7917782"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/flight-skills-green02/playmode-results.xml",
+        "bytes": 25553,
+        "sha256": "70fd7a76bb57a353e713274f552c5afddc2a8424641ebb02469ecce05eb8e8be"
+      }
+    },
+    {
+      "run": "flight-skills-editmode01",
+      "counts": {
+        "id": "2",
+        "testcasecount": "48",
+        "result": "Passed",
+        "total": "48",
+        "passed": "48",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 09:11:55Z",
+        "end-time": "2026-09-27 09:11:56Z",
+        "duration": "0.397091"
+      },
+      "artifact": {
+        "path": "Builds/quality/C4/flight-skills-editmode01/editmode-results.xml",
+        "bytes": 42081,
+        "sha256": "ec1b73303fd419c3c503a5cd5975c5edad1b82acdb342e88fb22f18a6119af21"
+      }
+    }
+  ],
+  "opened": [
+    {
+      "path": "Builds/quality/C4/hull-effects-04/Taren-boost-side.png",
+      "bytes": 38495,
+      "sha256": "a61e3d24716c68fd992e9ab9787f82936e3ce85c23842b27349d81f274be248f"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-04/Taren-lunge-top.png",
+      "bytes": 124968,
+      "sha256": "06c4b541841ce24c74696d586a7b48477fda282bac43c06d267ad75125e3eb0f"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-04/Sela-boost-side.png",
+      "bytes": 38118,
+      "sha256": "415f2df2d505f0a760e71ec6543b4ddf389e8e9e94d159f5868f0d1a300d25dc"
+    },
+    {
+      "path": "Builds/quality/C4/hull-effects-04/Sela-lunge-top.png",
+      "bytes": 106385,
+      "sha256": "5e84f7856bdd0532f5880665c8ecabb501eb1438b14fc1672c87a0de042c9665"
+    }
+  ],
+  "review": {
+    "reviewer": "Codex agent, actual PNGs opened with view_image",
+    "images": {
+      "hull-effects-04": [
+        "Taren-boost-side.png",
+        "Taren-lunge-top.png",
+        "Sela-boost-side.png",
+        "Sela-lunge-top.png"
+      ]
+    },
+    "findings": [
+      "Both side views show bright attached exhaust. Top views expose all four Taren and three Sela nozzle plumes.",
+      "Orange/cyan lunge boundaries are continuous, narrow and visible without the earlier heavy white rim.",
+      "These are enlarged controlled renders; ordinary gameplay-distance readability remains pending."
+    ],
+    "motion": "UNVERIFIED; still images are not continuous video observation."
+  },
+  "humanSaves": [
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json",
+      "bytes": 914,
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "path": "C:/Users/natem/AppData/LocalLow/Nathan/Lattice/Saves/autosave.json.bak",
+      "bytes": 891,
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ],
+  "players": "Pending rebuild; preceding packages contain abaf4be runtime.",
+  "limits": [
+    "Full integrated PlayMode pending.",
+    "Controlled stills do not establish ordinary gameplay readability.",
+    "Normal/slow video viewing, actual audio audition and physical Logitech feel UNVERIFIED."
+  ]
+}

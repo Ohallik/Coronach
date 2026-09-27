@@ -13,10 +13,10 @@ namespace Lattice.Combat
         readonly Vector3[] vertices=new Vector3[Sides*3];
         readonly Vector2[] uv=new Vector2[Sides*3];
         MaterialPropertyBlock tint;
-        Mesh surface;MeshRenderer ring;
-        public void Initialize(float maximumRadius)
+        Mesh surface;MeshRenderer ring;float height;
+        public void Initialize(float maximumRadius,float planeHeight=.12f,float coverHeight=.75f)
         {
-            tint=new MaterialPropertyBlock();
+            height=planeHeight;tint=new MaterialPropertyBlock();
             ring=gameObject.AddComponent<MeshRenderer>();ring.sharedMaterial=Resources.Load<Material>("Effects/circle_02");
             ring.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             var triangles=new int[Sides*12];
@@ -27,7 +27,7 @@ namespace Lattice.Combat
             }
             surface=new Mesh{name="Cover clipped particle ring"};surface.MarkDynamic();surface.vertices=vertices;surface.triangles=triangles;
             gameObject.AddComponent<MeshFilter>().sharedMesh=surface;
-            var center=transform.position+Vector3.up*.75f;
+            var center=transform.position+Vector3.up*coverHeight;
             for(int i=0;i<Sides;i++)
             {
                 float angle=i*Mathf.PI*2/Sides;var direction=new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle));
@@ -41,7 +41,7 @@ namespace Lattice.Combat
             {
                 float angle=i*Mathf.PI*2/Sides;var direction=new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle));
                 float distance=Mathf.Min(row==0?inner:row==1?radius:radius+.3f,extents[i]);
-                int vertex=row*Sides+i;vertices[vertex]=direction*distance+Vector3.up*.12f;
+                int vertex=row*Sides+i;vertices[vertex]=direction*distance+Vector3.up*height;
                 float sample=distance<=inner?.5f*distance/Mathf.Max(.001f,inner):distance<=radius?
                     Mathf.Lerp(.5f,Crest,Mathf.InverseLerp(inner,radius,distance)):Mathf.Lerp(Crest,.75f,(distance-radius)/.3f);
                 uv[vertex]=Vector2.one*.5f+new Vector2(direction.x,direction.z)*(sample*.5f);

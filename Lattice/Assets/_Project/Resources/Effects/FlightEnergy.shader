@@ -4,6 +4,7 @@ Shader "Lattice/FlightEnergy"
     {
         _BaseMap ("Owned energy texture", 2D) = "white" {}
         _UvTransform ("UV scale and offset", Vector) = (1,1,0,0)
+        _Intensity ("Energy intensity", Float) = 1
     }
     SubShader
     {
@@ -20,6 +21,7 @@ Shader "Lattice/FlightEnergy"
             TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
             CBUFFER_START(UnityPerMaterial)
                 float4 _UvTransform;
+                float _Intensity;
             CBUFFER_END
             struct Attributes { float4 positionOS:POSITION; float2 uv:TEXCOORD0; half4 color:COLOR; };
             struct Varyings { float4 positionCS:SV_POSITION; float2 uv:TEXCOORD0; half4 color:COLOR; };
@@ -33,7 +35,9 @@ Shader "Lattice/FlightEnergy"
             }
             half4 Frag(Varyings input):SV_Target
             {
-                return SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,input.uv)*input.color;
+                half4 color=SAMPLE_TEXTURE2D(_BaseMap,sampler_BaseMap,input.uv)*input.color;
+                color.rgb*=_Intensity;
+                return color;
             }
             ENDHLSL
         }

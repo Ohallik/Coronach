@@ -171,7 +171,7 @@ namespace Lattice.Combat
             if(flight)
             {
                 BeginVisual(slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",slot==0?.5f:slot==1?.4f:.55f);
-                actionUntil=GameTime.Now+.16f;ApplySkill(slot,power,direction);
+                actionUntil=GameTime.Now+(slot==2?.3f:slot==3?.2f:character=="Taren"&&slot==0?.24f:.16f);ApplySkill(slot,power,direction);
             }
             else
             {
@@ -200,14 +200,14 @@ namespace Lattice.Combat
         {
             if(character=="Taren")
             {
-                if(slot==0)Strike(transform.position+direction*2+Vector3.up*.8f,3.4f,Packet(damage*1.7f*power,DamageType.Kinetic,35));
+                if(slot==0)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Cleave,direction,Packet(damage*1.7f*power,DamageType.Kinetic,35));
                 else if(slot==1)
                 {
                     motor.Dash(direction,flight?10:6);var packet=Packet(damage*1.8f*power,DamageType.Plasma,40);
                     if(flight)GetComponent<FlightDashContact>().Begin(packet);else Pierce(direction,packet,6);
                 }
-                else if(slot==2)Strike(transform.position+Vector3.up,5,Packet(damage*1.1f*power,DamageType.Pulse,85));
-                else ArmOverdrive();
+                else if(slot==2)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Pulse,direction,Packet(damage*1.1f*power,DamageType.Pulse,85));
+                else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Overdrive,direction,default);
             }
             else
             {
@@ -219,10 +219,9 @@ namespace Lattice.Combat
                 }
                 else if(slot==2)
                 {
-                    var field=new GameObject("StaticNet",typeof(PulseField)).GetComponent<PulseField>();field.transform.position=target!=null?target.transform.position:transform.position+direction*4;
-                    field.packet=Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
+                    GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,Packet(rangedDamage*.45f*power,DamageType.Pulse,30));
                 }
-                else ArmRefract();
+                else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Refract,direction,default);
             }
         }
         void Pierce(Vector3 direction,DamagePacket packet,float length)

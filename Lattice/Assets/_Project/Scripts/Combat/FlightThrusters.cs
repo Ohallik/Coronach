@@ -21,7 +21,10 @@ namespace Lattice.Combat
             material.SetTexture("_BaseMap",Resources.Load<Material>("Effects/flare_01").GetTexture("_BaseMap"));
             // The owned flare is padded on both ends. Start at its bright
             // middle so visible exhaust begins at the physical nozzle.
-            material.SetVector("_UvTransform",new Vector4(.5f,1,.5f,0));
+            // Retain the bright vertical band at gameplay scale; the full padded
+            // image compressed the visible flame to a subpixel strand.
+            material.SetVector("_UvTransform",new Vector4(.5f,.2f,.5f,.4f));
+            material.SetFloat("_Intensity",2.4f);
             flames=new LineRenderer[sockets.engines.Length];
             for(int i=0;i<flames.Length;i++)
             {

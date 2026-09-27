@@ -35,7 +35,8 @@ namespace Lattice.Combat
                 edge=go.GetComponent<LineRenderer>();edge.useWorldSpace=false;edge.loop=true;edge.positionCount=48;
                 edgeMaterial=new Material(Resources.Load<Shader>("Effects/FlightEnergy"));
                 edgeMaterial.SetTexture("_BaseMap",Resources.Load<Material>("Effects/flare_01").GetTexture("_BaseMap"));
-                edgeMaterial.SetVector("_UvTransform",new Vector4(0,1,.5f,0));
+                edgeMaterial.SetVector("_UvTransform",new Vector4(0,.2f,.5f,.4f));
+                edgeMaterial.SetFloat("_Intensity",1.6f);
                 edge.sharedMaterial=edgeMaterial;edge.startWidth=edge.endWidth=.075f;
                 edge.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;edge.receiveShadows=false;
             }
