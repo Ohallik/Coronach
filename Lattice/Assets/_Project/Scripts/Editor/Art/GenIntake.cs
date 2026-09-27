@@ -123,7 +123,7 @@ namespace Lattice.EditorTools
                     var driver=root.AddComponent<Lattice.Combat.GeneratedVanes>();driver.vanes=vanes;driver.folded=vanes.Select(v=>v.localRotation).ToArray();
                     Debug.Log("VANE_PARTS_OK "+row.id+" count=4");
                 }
-                if(row.form=="Flight")root.AddComponent<Lattice.Combat.FlightShipMotion>();
+                if(row.form=="Flight"){root.AddComponent<Lattice.Combat.FlightShipMotion>();FlightSocketSetup.Configure(root,row.id);}
                 Directory.CreateDirectory(Path.GetDirectoryName(Prefab(row)));var prefab=PrefabUtility.SaveAsPrefabAsset(root,Prefab(row));
                 if(row.kind=="biped"&&row.clips.Any(c=>c.state=="Down"))LifecycleCalibration.Install(row);
                 if(!string.IsNullOrEmpty(row.character))

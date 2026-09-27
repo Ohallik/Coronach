@@ -15,6 +15,8 @@
 
 Animation sources are the owned CC0 Quaternius Universal Animation Libraries 1 and 2, stripped to skeletons and clips. All visible character and ship geometry remains generated. This is a retargeted working moveset; a library's clip count is not a substitute for authored choreography.
 
+Flight source checkpoint: both muzzle origins now follow measured generated nose sockets after bank/roll; Sela's lance/counter uses a visible cover-limited beam. Four Taren and three Sela engine sockets follow their opened actual nozzle geometry. Reusable exhaust follows input thrust/boost instead of emitting under the actor from speed alone. Focused red/green checks pass; runtime effect viewing, full integration and hull collision work remain pending. [Emitter evidence](validation/C4-flight-emitters.md).
+
 ## Next choreography targets
 
 | Fighter / move | Silhouette and purpose | Required mechanical distinction |

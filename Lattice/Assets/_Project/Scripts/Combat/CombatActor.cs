@@ -82,7 +82,11 @@ namespace Lattice.Combat
             {
                 refractUntil=0;critical=true;
                 var direction=Aim();var counter=Packet(rangedDamage*2,DamageType.Beam,60);
-                if(flight)Pierce(direction,counter,16);
+                if(flight)
+                {
+                    State=ActorState.Attack;BeginVisual("Shoot",.22f);actionUntil=GameTime.Now+.08f;
+                    GetComponent<FlightEmitter>().Queue(direction,counter,FlightEmitter.Pattern.Counter);
+                }
                 else
                 {
                     var move=GroundMove.Counter;State=ActorState.Skill;guarding=false;
@@ -138,8 +142,7 @@ namespace Lattice.Combat
             Vector3 aim=Aim();BeginVisual(flight||character=="Sela"?"Shoot":"Attack"+(stage+1),duration);
             if(flight)
             {
-                AudioManager.Play("laserSmall_000",.18f);
-                Projectile.Fire(transform.position+Vector3.up*.9f+aim*.6f,aim,Packet(rangedDamage*.38f,emitterType,12));
+                GetComponent<FlightEmitter>().Queue(aim,Packet(rangedDamage*.38f,emitterType,12));
             }
             else if(character=="Taren")GetComponent<MeleeContact>().Begin(cut,Packet(damage*(stage==2?1.5f:1),edgeType,stage==2?30:20));
             else GetComponent<RangedContact>().Begin(GroundMove.Needle,aim,Packet(rangedDamage*.7f,emitterType,12));
@@ -208,8 +211,12 @@ namespace Lattice.Combat
             }
             else
             {
-                if(slot==0)Pierce(direction,Packet(rangedDamage*1.7f*power,DamageType.Beam,40),flight?18:13);
-                else if(slot==1)for(int i=-2;i<=2;i++)Projectile.Fire(transform.position+Vector3.up*.9f+direction*.6f,Quaternion.Euler(0,i*12,0)*direction,Packet(rangedDamage*.65f*power,DamageType.Plasma,18));
+                if(slot==0)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*1.7f*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
+                else if(slot==1)
+                {
+                    var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=Packet(rangedDamage*.65f*power,DamageType.Plasma,18);
+                    GetComponent<FlightEmitter>().Queue(direction,pellets[0],FlightEmitter.Pattern.Fan,pellets);
+                }
                 else if(slot==2)
                 {
                     var field=new GameObject("StaticNet",typeof(PulseField)).GetComponent<PulseField>();field.transform.position=target!=null?target.transform.position:transform.position+direction*4;

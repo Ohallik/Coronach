@@ -10,11 +10,15 @@ namespace Lattice.Combat
         Vector3 velocity;
         float contactAt,dashRemaining;
         Vector3 dashVelocity;
+        int thrustFrame=-1;float engineDrive;
+        // Sampled after the input/AI update. Momentum without a command is not thrust.
+        public float EngineDrive=>enabled&&thrustFrame==Time.frameCount?engineDrive:0;
         public int DashSequence{get;private set;}
         public event System.Action<int,Vector3,Vector3> DashMoved;
         public Vector3 Facing{get;private set;}=Vector3.forward;
         public Vector3 Velocity=>Core.GameTime.Paused||actor!=null&&(!actor.Health.Alive||actor.Recovering)?Vector3.zero:velocity;
-        public void Halt(){velocity=dashVelocity=Vector3.zero;dashRemaining=0;}
+        public void Halt(){velocity=dashVelocity=Vector3.zero;dashRemaining=0;engineDrive=0;thrustFrame=-1;}
+        void OnDisable(){Halt();}
         void Awake(){controller=GetComponent<CharacterController>();controller.minMoveDistance=0;actor=GetComponent<CombatActor>();}
         public static Vector3 Integrate(Vector3 velocity,Vector3 input,float dt,float acceleration,float drag,float max,bool brake)
         {
@@ -43,9 +47,12 @@ namespace Lattice.Combat
         public void Move(Vector2 input,bool boost,bool brake)
         {
             if(actor!=null&&(!actor.Health.Alive||actor.Recovering)){Halt();return;}
+            if(Core.GameTime.Paused)return;
             Vector3 thrust=Vector3.ClampMagnitude(new Vector3(input.x,0,input.y),1);float dt=actor!=null?actor.MotorDelta:Time.deltaTime;
+            thrustFrame=Time.frameCount;engineDrive=thrust.magnitude*(boost?2:1);
             if(dashRemaining>0)
             {
+                engineDrive=2.3f;
                 float step=Mathf.Min(dt,dashRemaining);dashRemaining-=step;
                 velocity=dashVelocity;Vector3 before=transform.position;
                 if(controller.enabled&&step>0)
@@ -61,7 +68,7 @@ namespace Lattice.Combat
             if(Facing.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(Facing);
             if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
         }
-        public void Dash(Vector3 direction,float distance){DashSequence++;Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;transform.rotation=Quaternion.LookRotation(Facing);}
+        public void Dash(Vector3 direction,float distance){DashSequence++;Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;thrustFrame=Time.frameCount;engineDrive=2.3f;transform.rotation=Quaternion.LookRotation(Facing);}
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
             // Combatants resolve damage through their attacks. Brushing a partner or a

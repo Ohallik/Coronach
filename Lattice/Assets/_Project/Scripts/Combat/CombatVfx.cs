@@ -6,7 +6,7 @@ namespace Lattice.Combat
     {
         static CombatVfx current;
         readonly List<ParticleSystem> pool=new();
-        Material flare,circle,slash;float nextBoost;
+        Material flare,circle,slash;
         void Awake()
         {
             current=this;flare=Resources.Load<Material>("Effects/flare_01");circle=Resources.Load<Material>("Effects/circle_02");slash=Resources.Load<Material>("Effects/slash_01");
@@ -14,13 +14,6 @@ namespace Lattice.Combat
         }
         void OnDestroy(){Health.DamageNumber-=OnHit;if(current==this)current=null;}
         void OnHit(Health victim,float amount,bool weak){if(amount>0)Burst(victim.transform.position+Vector3.up*.9f,weak?new Color(1,.6f,.15f):Color.cyan,"hit");}
-        void Update()
-        {
-            var party=PartyController.Current;if(party==null||party.members==null||Time.time<nextBoost||Lattice.Core.GameTime.Paused)return;
-            nextBoost=Time.time+.08f;
-            foreach(var actor in party.members)if(actor.flight&&actor.motor!=null&&actor.motor.Velocity.magnitude>15)
-                Burst(actor.transform.position-actor.motor.Facing+Vector3.up*.5f,actor.character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"boost");
-        }
         public static void Burst(Vector3 position,Color color,string kind)
         {
             if(current==null||current.flare==null)return;current.Emit(position,color,kind);

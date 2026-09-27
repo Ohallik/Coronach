@@ -1,0 +1,435 @@
+{
+  "status": "C4 OPEN; source checkpoint only",
+  "date": "2026-09-27T08:04:39.427928+00:00",
+  "sourceBase": "e78c60632b7a29c46dc75635593169dc3fec542b",
+  "sources": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightEmitter.cs",
+      "bytes": 2930,
+      "sha256": "4907c5a5881928a5a8ade2a578d47d3065555067c8079e423a02ea4688e8ab3c"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightSockets.cs",
+      "bytes": 264,
+      "sha256": "143f68f436656b768932ced596228f40600d35e6d63e2b8ee4ac42837da3bf0b"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightThrusters.cs",
+      "bytes": 2567,
+      "sha256": "8efc1722b24725e2ec1ed64fc9bdb83a8a5eb012a588c1e934432c4f04925bdd"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightMotor.cs",
+      "bytes": 5037,
+      "sha256": "1d3e09326013476ea4b1aee6ac966c595dbcc49337b660226a2e6c583fdde820"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+      "bytes": 14669,
+      "sha256": "73cdd1a280319a5a31c8281f2419bb0686dcc5685a76f9d03c0db52a90cc2632"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "bytes": 5256,
+      "sha256": "07d89c557304787793480e01e00ef7cfa14b18bc6fae98e261addd17eba56735"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+      "bytes": 2643,
+      "sha256": "5bd7b149f65255954c1995b8e8e006d430d3849aeb29765aafa38e9d988cd70c"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/FlightSocketSetup.cs",
+      "bytes": 2101,
+      "sha256": "10e7b398432e7b527c5474ed611056d661b5e340c38575824defbbe365a7d77a"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/FlightGeometryAudit.cs",
+      "bytes": 4251,
+      "sha256": "677376353a3ee109548bf4fbe167882750a9910882fc62bf1cbcbca599a0013a"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/GenIntake.cs",
+      "bytes": 15902,
+      "sha256": "1cb4e6c4b83509a1510ab18f9a9d28bacf413ae99985fc7ae1a685d242c47b04"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightEmitterTests.cs",
+      "bytes": 9482,
+      "sha256": "d2a9452a4660bef21da5b5234d160aaf40670299c384814a74d863f87919476e"
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/FlightThrustTests.cs",
+      "bytes": 6490,
+      "sha256": "d24dc773e5420685240bc05407bcf3e279e4105ca7a366554822359018e08c51"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/FlightSocketTests.cs",
+      "bytes": 1583,
+      "sha256": "6a4121e5f3e9f4caff52f2fbb286ca2fffdc2c98b0a5dd4f585576dbcd1a9530"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Prefabs/Characters/TarenFlight.prefab",
+      "bytes": 10357,
+      "sha256": "996797883e626d18a0fd27c3727453370643152a1972f5b40456f4a35de8931b"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Prefabs/Characters/SelaFlight.prefab",
+      "bytes": 9312,
+      "sha256": "494d2bd452d3fcf01664a1e6ce23aa0b10b3e81555059ca5c1a03594d58cf701"
+    }
+  ],
+  "tests": [
+    {
+      "run": "flight-emitter-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:47:27Z",
+        "end-time": "2026-09-27 07:47:36Z",
+        "duration": "9.1831897"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-emitter-red/playmode-results.xml",
+        "bytes": 10383,
+        "sha256": "36a64c7a2d3cfa20dcf82ba259cc0fbe185281695ebac3a3cf5adb07e15b5d6b"
+      }
+    },
+    {
+      "run": "flight-emitter-red02",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:49:05Z",
+        "end-time": "2026-09-27 07:49:14Z",
+        "duration": "9.2391249"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-emitter-red02/playmode-results.xml",
+        "bytes": 9503,
+        "sha256": "9d078a4d4f8e07b4d6f50ccf99fb84b4eb68cfa8467fed44e298b3b9eb200fba"
+      }
+    },
+    {
+      "run": "flight-emitter-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Passed",
+        "total": "3",
+        "passed": "3",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:51:23Z",
+        "end-time": "2026-09-27 07:51:37Z",
+        "duration": "14.9653996"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-emitter-green/playmode-results.xml",
+        "bytes": 6654,
+        "sha256": "5291926d3eb4aa2f738ec548c86542700d71db52e04502f7595869ec49161a86"
+      }
+    },
+    {
+      "run": "flight-beam-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Failed(Child)",
+        "total": "6",
+        "passed": "4",
+        "failed": "2",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:52:47Z",
+        "end-time": "2026-09-27 07:53:12Z",
+        "duration": "24.9125457"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-beam-red/playmode-results.xml",
+        "bytes": 12527,
+        "sha256": "7f69cc8f0d6d10b745df77f681150d124e13f80eddd62398afda9dadbac0fdba"
+      }
+    },
+    {
+      "run": "flight-beam-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Passed",
+        "total": "6",
+        "passed": "6",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:53:59Z",
+        "end-time": "2026-09-27 07:54:25Z",
+        "duration": "26.705681"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-beam-green/playmode-results.xml",
+        "bytes": 10503,
+        "sha256": "ea20bf9fed1c10b43d4d47f050ec8d9950a22f0a0bc833cd76b1169a831d3268"
+      }
+    },
+    {
+      "run": "socket-geometry-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "2",
+        "result": "Failed(Child)",
+        "total": "2",
+        "passed": "1",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:56:53Z",
+        "end-time": "2026-09-27 07:56:53Z",
+        "duration": "0.0363158"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/socket-geometry-red/editmode-results.xml",
+        "bytes": 6513,
+        "sha256": "848c982fc9dc434bb08c9d5556995ef607fe6b879b6ab9fcb3459529e961987f"
+      }
+    },
+    {
+      "run": "socket-geometry-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "2",
+        "result": "Passed",
+        "total": "2",
+        "passed": "2",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 07:57:45Z",
+        "end-time": "2026-09-27 07:57:45Z",
+        "duration": "0.0522324"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/socket-geometry-green/editmode-results.xml",
+        "bytes": 5039,
+        "sha256": "48f1e995d3fa4409dec7aa57a3f6bd276bcf1ab02e0a10a289b8a08559e15a05"
+      }
+    },
+    {
+      "run": "flight-thrust-red",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:02:05Z",
+        "end-time": "2026-09-27 08:02:15Z",
+        "duration": "9.606485"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-thrust-red/playmode-results.xml",
+        "bytes": 10149,
+        "sha256": "38af2c8567f56635d8ce3c3df224f477141505f06f2a549824a6ca893a2c9863"
+      }
+    },
+    {
+      "run": "flight-thrust-green",
+      "counts": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Passed",
+        "total": "3",
+        "passed": "3",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-09-27 08:03:10Z",
+        "end-time": "2026-09-27 08:03:23Z",
+        "duration": "12.9747116"
+      },
+      "xml": {
+        "path": "Builds/quality/C4/flight-thrust-green/playmode-results.xml",
+        "bytes": 6742,
+        "sha256": "95417b9ab6fe5445696978992d2ce5b84885e9a552e1927ff85eac2d09406c9a"
+      }
+    }
+  ],
+  "openedBy": "Codex, actual PNGs through view_image",
+  "openedViews": [
+    {
+      "path": "Builds/quality/C4/hull-sockets-02/TarenFlight-back.png",
+      "bytes": 51202,
+      "sha256": "314df43cf6be5d2cec3dcd34da4b0bda749f561e6724e0962b567594d281c31b"
+    },
+    {
+      "path": "Builds/quality/C4/hull-sockets-02/TarenFlight-side.png",
+      "bytes": 58806,
+      "sha256": "1063ece253fe7c47dd9fa6a834b9e14009f76e2b37bc89cce7940e66cc97c2ef"
+    },
+    {
+      "path": "Builds/quality/C4/hull-sockets-02/SelaFlight-back.png",
+      "bytes": 47385,
+      "sha256": "17b0e7e7ef75378f6d972ec67aa53785e77c9186bf7de51796781ff18c42ed32"
+    },
+    {
+      "path": "Builds/quality/C4/hull-sockets-02/SelaFlight-side.png",
+      "bytes": 57767,
+      "sha256": "4d2b9ad4c78d7756a8545869e6c3c2145db6d61e00abe47a09d712fa71181d43"
+    }
+  ],
+  "geometry": [
+    {
+      "hero": "Taren",
+      "data": {
+        "path": "Builds/quality/C4/hull-sockets-02/TarenFlight-geometry.json",
+        "bytes": 836870,
+        "sha256": "9ed3703e17bde8463eaca8d7b396d304a662f8dcd4bcac92a6024b49c24879ce"
+      },
+      "sockets": [
+        {
+          "name": "Hull muzzle",
+          "point": [
+            0.0,
+            0.205,
+            1.63
+          ],
+          "nearestVertex": 0.0301576052
+        },
+        {
+          "name": "Hull engine 0",
+          "point": [
+            -0.135,
+            0.29,
+            -1.54
+          ],
+          "nearestVertex": 0.0434206538
+        },
+        {
+          "name": "Hull engine 1",
+          "point": [
+            0.135,
+            0.29,
+            -1.54
+          ],
+          "nearestVertex": 0.0474360138
+        },
+        {
+          "name": "Hull engine 2",
+          "point": [
+            -0.4,
+            0.305,
+            -1.45
+          ],
+          "nearestVertex": 0.01939979
+        },
+        {
+          "name": "Hull engine 3",
+          "point": [
+            0.4,
+            0.305,
+            -1.45
+          ],
+          "nearestVertex": 0.0190270841
+        }
+      ]
+    },
+    {
+      "hero": "Sela",
+      "data": {
+        "path": "Builds/quality/C4/hull-sockets-02/SelaFlight-geometry.json",
+        "bytes": 757327,
+        "sha256": "25ea87d4c9f75d4aad237536e4442f8b2562af856679efcf7323de9b7017eccb"
+      },
+      "sockets": [
+        {
+          "name": "Hull muzzle",
+          "point": [
+            0.0,
+            0.114,
+            1.63
+          ],
+          "nearestVertex": 0.0302902889
+        },
+        {
+          "name": "Hull engine 0",
+          "point": [
+            0.0,
+            0.22,
+            -0.95
+          ],
+          "nearestVertex": 0.03370073
+        },
+        {
+          "name": "Hull engine 1",
+          "point": [
+            -0.285,
+            0.145,
+            -1.12
+          ],
+          "nearestVertex": 0.0454792827
+        },
+        {
+          "name": "Hull engine 2",
+          "point": [
+            0.285,
+            0.145,
+            -1.12
+          ],
+          "nearestVertex": 0.0385550261
+        }
+      ]
+    }
+  ],
+  "players": "Both packaged players remain e78c606; no pending emitter/thrust changes included.",
+  "limitations": [
+    "First emitter-red includes two unreadable runtime mesh fixture failures; corrected red02 reproduces actual detached origins.",
+    "Focused source tests only; full suites and player rebuilds pending.",
+    "Exhaust rendered attachment/state checks pass; its actual player presentation remains unreviewed.",
+    "Socket marker screenshots are diagnostic isolated geometry, not runtime exhaust.",
+    "Normal/slow continuous viewing, captured audio audition and physical controller feel UNVERIFIED.",
+    "Hull overlap, other flight skills, flight defeat and staged transformation remain OPEN."
+  ]
+}
