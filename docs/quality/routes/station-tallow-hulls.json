@@ -1,0 +1,467 @@
+{
+  "name": "station-tallow-hulls03",
+  "scene": "TallowDrift",
+  "sourceRevision": "Same complete hull-clearance route. Explicit exterior scene on the pre-dock thrust step; run 02 failed because it inherited the interior expectation. Corrected full repeat pending.",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "0 arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 port quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 port operator aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 public cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 starboard service",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 starboard quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "0 arrival return",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "swap release",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "1 arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 port quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 port operator aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 public cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 starboard service",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 starboard quay",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "1 arrival return",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 1
+    },
+    {
+      "name": "swap",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "swap release",
+      "seconds": 0.3,
+      "buttons": []
+    },
+    {
+      "name": "keeper approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1.3
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "keeper conversation",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read keeper",
+      "seconds": 4,
+      "buttons": []
+    },
+    {
+      "name": "keeper advance",
+      "seconds": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "dialogue release",
+      "seconds": 1,
+      "buttons": []
+    },
+    {
+      "name": "close remaining UI",
+      "seconds": 1,
+      "buttons": [
+        "East"
+      ]
+    },
+    {
+      "name": "return south",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "port wall",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "wall contact",
+      "seconds": 3,
+      "buttons": [],
+      "x": -0.939693,
+      "y": -0.34202
+    },
+    {
+      "name": "final arrival",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "second quay crossing",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "quay return",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "refuge cross aisle",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "life support service aisle",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -3,
+        "y": 0,
+        "z": 7.4
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "rest cabin frontage",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 7.4
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "around repair console",
+      "seconds": 2,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 7.4
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "repair service return",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "free repair console",
+      "seconds": 2,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 1.6
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "repair and rest",
+      "seconds": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "sliceComplete"
+    },
+    {
+      "name": "starboard boundary",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "starboard hull contact",
+      "seconds": 2,
+      "buttons": [],
+      "x": 0.939693,
+      "y": 0.34202
+    },
+    {
+      "name": "central public return",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "pressure vestibule",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "rightTrigger": 0
+    },
+    {
+      "name": "launch Tallow",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release launch confirm",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "clear beacon docking stem",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -7.5
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "redock approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -3.9
+      },
+      "rightTrigger": 0,
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "close to the visible refuge docking prompt",
+      "seconds": 0.8,
+      "y": 1,
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "redock refuge",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "arrival restored",
+      "seconds": 2,
+      "buttons": []
+    }
+  ]
+}

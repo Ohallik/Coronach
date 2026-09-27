@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## C4 long circuit and map rejection checkpoint - September 27
+
+**C4 OPEN.** Sela passes the complete 310.858-second civil and 336.608-second live Gullet circuits with full focus; both parties survive. Both Taren runs lose focus to unrelated Unity work and remain rejected. Tallow completes traversal/dialogue/docking with full focus but rejects one incorrect pre-dock scene expectation; its correction awaits repeat. [Evidence](validation/C4-long-circuits03.md) preserves all five results and sixteen actually opened stills. The perimeter frames reopen the paired first-station final MAP_EYE_TEST for stretched, ragged ring panels; the Gullet remains spatially rejected. Saves are unchanged. Both packages still contain `a759b1d`; new C5 source is separate and under focused verification. Continuous video/audio observation and physical feel remain UNVERIFIED.
+
 ## C4 staged form and rescue player checkpoint - September 27
 
 **C4 OPEN.** Full suites pass **137/137 PlayMode and 50/50 EditMode, zero skips**; both Windows players contain `a759b1d`. Both heroes complete ordinary dock/launch and wall-disable/automatic-swap/proximity-revive routes with full focus. The 35-check safe-boundary route also passes after preserving and correcting the old fixture's insufficient reset windows. Twenty-three opened gameplay stills support attached full-size folds and visible, separated rescue hulls. [Evidence](validation/C4-staged-player.md) retains four rejected captures and exact fixes. Casual swap banter during rescue is a new C6 context issue. Saves and music remain unchanged. Long circuits, remaining MAP_EYE_TEST work and later gates remain open; continuous video/audio observation and physical feel remain UNVERIFIED.

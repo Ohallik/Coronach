@@ -1,0 +1,464 @@
+{
+  "date": "2026-09-27T10:58:36.478825+00:00",
+  "gate": "C4 OPEN",
+  "runtimeSource": "a759b1dafccc2855a8608b66f7ae98f4a3296e01",
+  "buildNote": "Packaged staged forms/disabled flight. Source HEAD captured by the harness is a later docs/route checkpoint; pending C5 source edits are absent from these players.",
+  "input": "Continuous agent-directed virtual gamepad replay; live AI, legal starter equipment, unchanged damage and focus/position requirements",
+  "continuousViewing": "UNVERIFIED",
+  "audioAudition": "UNVERIFIED",
+  "physicalLogitech": "UNVERIFIED",
+  "cleanTiming": "not measured by capture runs",
+  "runs": [
+    {
+      "name": "civil-hulls-taren-03",
+      "result": {
+        "route": "c4-civil-hulls03-taren",
+        "sourceRevision": "Keeps the complete hull circuit, backs away from the pad, then explicitly reapproaches the ordinary docking prompt. Run 02 unreachable prompt and focus failures remain archived.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 18593,
+        "refreshHz": 60.0,
+        "seconds": 310.3193872,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "south past receiving and repair vessel exterior: navigation checkpoint missed",
+          "return across the public dock fronts: navigation checkpoint missed",
+          "enter southern turning space: navigation checkpoint missed",
+          "figure eight 1 point 1: navigation checkpoint missed",
+          "figure eight 1 point 2: navigation checkpoint missed",
+          "figure eight 1 point 3: navigation checkpoint missed",
+          "figure eight 1 point 4: navigation checkpoint missed",
+          "figure eight 1 point 5: navigation checkpoint missed",
+          "figure eight 1 point 6: navigation checkpoint missed",
+          "figure eight 1 point 7: navigation checkpoint missed",
+          "figure eight 1 point 8: navigation checkpoint missed",
+          "figure eight 1 point 9: navigation checkpoint missed",
+          "regroup after counter-thrust: navigation checkpoint missed",
+          "return to arrival side of approach: navigation checkpoint missed",
+          "catch-up beside the visible hull: navigation checkpoint missed",
+          "slow approach to office hatch: navigation checkpoint missed",
+          "back away to docking control: navigation checkpoint missed",
+          "dock through the normal interaction: scene Hub_CinderHalo expected Hub_Decks",
+          "body settles in inhabited arrivals: scene Hub_CinderHalo expected Hub_Decks",
+          "body settles in inhabited arrivals: form mismatch",
+          "both heroes returned through the ordinary dock: scene Hub_CinderHalo expected Hub_Decks",
+          "both heroes returned through the ordinary dock: form mismatch",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0882035,
+        "settleSeconds": 2.0,
+        "interactions": []
+      },
+      "focusedSamples": 5557,
+      "focusLostIntervalsSeconds": [
+        [
+          92.616002,
+          310.319387
+        ]
+      ],
+      "steps": 33,
+      "last": {
+        "hero": "Taren",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Hub_CinderHalo",
+        "form": "CivilFlight",
+        "x": "48.70853",
+        "z": "34.00290"
+      },
+      "encountersCleared": [],
+      "files": {
+        "run.json": "8c122e948a1473f6d273c600782ce2b1cfe7abebfbec78f07c18545de340c042",
+        "route.json": "ff6a7c20fa619deb57bad481a988403e22e7b175b7e5541a0f088f47adb1d14d",
+        "frames.csv": "0655db3b6c33665c2cae4dc05b85ff52d6de58767a61fa389f02ce85d611efa5",
+        "player.log": "b77db5aecd0466214087f0fe08cea6cc5b3904a1aa4065a6ba2c81fe10827779",
+        "build.json": "8067a819a91aa0097ec513a19411a1fa19da13ffe6dc3a1c50d35405efd914b6",
+        "video.mp4": "5bd0f33ea9d13d62785acc00abdf7b8636263100b6584f80c56ad37b59a7bb17",
+        "mix.wav": "daf0c7282f9b5ed96c4586587347a1eef69e6344521d6006a00ee4079300617b",
+        "capture-frames.csv": "3acb3e4e89fa431a9dce52b589508cf03e80e16717aef2d59b639f9ed4dea414"
+      }
+    },
+    {
+      "name": "civil-hulls-sela-03",
+      "result": {
+        "route": "c4-civil-hulls03-sela",
+        "sourceRevision": "Keeps the complete hull circuit, backs away from the pad, then explicitly reapproaches the ordinary docking prompt. Run 02 unreachable prompt and focus failures remain archived.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 18649,
+        "refreshHz": 60.0,
+        "seconds": 310.85786859999996,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1180716000000004,
+        "settleSeconds": 2.0,
+        "interactions": []
+      },
+      "focusedSamples": 18649,
+      "focusLostIntervalsSeconds": [],
+      "steps": 35,
+      "last": {
+        "hero": "Sela",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "Hub_Decks",
+        "form": "Natural",
+        "x": "-26.00000",
+        "z": "-11.00000"
+      },
+      "encountersCleared": [],
+      "files": {
+        "run.json": "4668e578da2c2d7647b7be92f80ff246bec96a93c365c98ff6d8c224c1cd5513",
+        "route.json": "7020a127c082039b89a09c4ce175293fefa2c766c6b972ead7877c854243ed12",
+        "frames.csv": "c329e561ebf196a8180e26521b12ece748c1cf9c8bb0d4cf4334c2e30ef298fe",
+        "player.log": "e27b3ffd373ab07b1b3e468771ae299257b88dde79f52cefe33c5c82a80ec4b2",
+        "build.json": "4958c409a5032a15f820fb261201e2625f09b69a11fe3a70f90300188814c24e",
+        "video.mp4": "83b7085a12d1d1db86531ae143e5cfb216554943b7fbc7c781ff4034f9e6d3bf",
+        "mix.wav": "4d56f5fed71253f25de694b5d98834a6ff97d467a7a4587cb4cf0e5fa684d2b0",
+        "capture-frames.csv": "3fbf7612e0c3dee06dd4cac13bdbb7359fd7540fe1773530bd759aee480e2df6"
+      }
+    },
+    {
+      "name": "gullet-circuit-taren-03",
+      "result": {
+        "route": "c4-gullet-circuit03-taren",
+        "sourceRevision": "Ordinary tactical revision: brake after six second-chamber lunges, cast Pulse/Static Net and finish with sustained nose fire instead of blindly charging laterally into the chamber wall. Same equipment, AI, damage, checkpoint tolerances, flags and focus requirements. Prior failed routes retained.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 20149,
+        "refreshHz": 60.0,
+        "seconds": 336.12693459999997,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "chamber 1 east mine approach: navigation checkpoint missed",
+          "chamber 1 north mine approach: navigation checkpoint missed",
+          "chamber 1 west mine approach: navigation checkpoint missed",
+          "chamber 1 south mine approach: navigation checkpoint missed",
+          "cross the opened first membrane along its real passage: navigation checkpoint missed",
+          "approach the second chamber before its trigger: navigation checkpoint missed",
+          "chamber 2 approach the mine cluster: navigation checkpoint missed",
+          "chamber 2 east mine approach: navigation checkpoint missed",
+          "chamber 2 north mine approach: navigation checkpoint missed",
+          "chamber 2 west mine approach: navigation checkpoint missed",
+          "chamber 2 south mine approach: navigation checkpoint missed",
+          "chamber 2 opens its own membrane: missing flag clear.Gullet_Chamber_1",
+          "cleared chamber figure eight 1: navigation checkpoint missed",
+          "cleared chamber figure eight 2: navigation checkpoint missed",
+          "cleared chamber figure eight 3: navigation checkpoint missed",
+          "cleared chamber figure eight 4: navigation checkpoint missed",
+          "cleared chamber figure eight 5: navigation checkpoint missed",
+          "cleared chamber figure eight 6: navigation checkpoint missed",
+          "cleared chamber figure eight 7: navigation checkpoint missed",
+          "return to chamber centre: navigation checkpoint missed",
+          "slow approach to visible east wall: navigation checkpoint missed",
+          "return from wall contact: navigation checkpoint missed",
+          "catch-up at adjacent hull separation: navigation checkpoint missed",
+          "release swap and settle camera: character mismatch",
+          "focus lost"
+        ],
+        "loadWaitSeconds": 1.0661321000000008,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focusedSamples": 3547,
+      "focusLostIntervalsSeconds": [
+        [
+          53.012018,
+          134.17471
+        ],
+        [
+          140.272504,
+          336.126935
+        ]
+      ],
+      "steps": 88,
+      "last": {
+        "hero": "Taren",
+        "integrity": "85.1",
+        "partnerHealth": "138.0",
+        "scene": "Gullet_Tunnel",
+        "form": "Flight",
+        "x": "8.81673",
+        "z": "144.83400"
+      },
+      "encountersCleared": [
+        "ENCOUNTER_CLEAR Gullet_Chamber_0"
+      ],
+      "files": {
+        "run.json": "1544b36ecef956b8c2365d73b1857a0fb2f704e1bfbd0a9f168df8a7aa29ab2b",
+        "route.json": "97877671b6d8c99d793b29e035aff929feadfc6d3791a652d68d299775c3f622",
+        "frames.csv": "2ba543c0ce8c0388c0cfa7c45a6872130b2fbe7699fed06e2143e51ba34c0f1c",
+        "player.log": "532c3fb19390a8bdb5c6850ecbde224522ebb2311db6888b34122b065ec6b553",
+        "build.json": "97f46fada60f08fab5ea17f56f322b0f49bbf617b38e7498de2427f22425844f",
+        "video.mp4": "e7ae313f5b551f3f3b13745ecadb7b6bd5238d2f919a65548714be2f753a124b",
+        "mix.wav": "abc572cd2484bc8f2ee7b29aa2013bbb1116ee1f2538ea8132470655bf1449e1",
+        "capture-frames.csv": "ce7d0c61587463a2545f54765e30d4ace17b4b9366450550255e401a9fb11292"
+      }
+    },
+    {
+      "name": "gullet-circuit-sela-03",
+      "result": {
+        "route": "c4-gullet-circuit03-sela",
+        "sourceRevision": "Ordinary tactical revision: brake after six second-chamber lunges, cast Pulse/Static Net and finish with sustained nose fire instead of blindly charging laterally into the chamber wall. Same equipment, AI, damage, checkpoint tolerances, flags and focus requirements. Prior failed routes retained.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 20197,
+        "refreshHz": 60.0,
+        "seconds": 336.6075867,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0565191,
+        "settleSeconds": 1.0,
+        "interactions": []
+      },
+      "focusedSamples": 20197,
+      "focusLostIntervalsSeconds": [],
+      "steps": 90,
+      "last": {
+        "hero": "Sela",
+        "integrity": "20.4",
+        "partnerHealth": "86.8",
+        "scene": "Gullet_Tunnel",
+        "form": "Flight",
+        "x": "-7.65783",
+        "z": "368.29280"
+      },
+      "encountersCleared": [
+        "ENCOUNTER_CLEAR Gullet_Chamber_0",
+        "ENCOUNTER_CLEAR Gullet_Chamber_1"
+      ],
+      "files": {
+        "run.json": "4d40accaf76a58a3fa9c6cdc836c83ca32564a3fc2f04a5f5ca1d303756e0bb0",
+        "route.json": "659e1790ec3cd643c31ac612ea523d2717f6d5d18d4e60b2cc1025dc08332174",
+        "frames.csv": "8f90f38c1174f6d7980d3e93c3750b6d607f874dff2a687440272a8d850e91e4",
+        "player.log": "12da07f3750bb66f8b4be770e60bb6feb59a4d22be74a3a252349434d6140c2b",
+        "build.json": "bdefd20b566fa105b1069e8b9a89caf07e43697c961dde18c5f69ff8948e33f8",
+        "video.mp4": "e21c1d7f2bbefe04e05d99333c9c1ffa2e4096cb624dec104718431cf350d136",
+        "mix.wav": "795bcace8e31b38b9f5266f11683e71fbcae6398e1ad4676cd25108c78e149c7",
+        "capture-frames.csv": "1943a9ee497b9f3ed53e88fe63da954a9a6e335f01314c1a1775b934253f650f"
+      }
+    },
+    {
+      "name": "tallow-hulls-02",
+      "result": {
+        "route": "station-tallow-hulls02",
+        "sourceRevision": "Same complete station route; approach goal corrected to the actual stable hull clearance, then ordinary thrust reaches the visible dock prompt. Prior failed checkpoint retained.",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 10688,
+        "refreshHz": 60.0,
+        "seconds": 178.2004201,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": false,
+        "failures": [
+          "close to the visible refuge docking prompt: scene TallowApproach expected TallowDrift"
+        ],
+        "loadWaitSeconds": 1.1003172,
+        "settleSeconds": 8.0,
+        "interactions": [
+          {
+            "step": 19,
+            "expectedUi": "dialogue",
+            "inputSeconds": 72.0749653,
+            "visibleResponseMs": 3.403599999998619
+          },
+          {
+            "step": 36,
+            "expectedUi": "world",
+            "inputSeconds": 142.0947782,
+            "visibleResponseMs": 5.866399999973737
+          }
+        ]
+      },
+      "focusedSamples": 10688,
+      "focusLostIntervalsSeconds": [],
+      "steps": 48,
+      "last": {
+        "hero": "Taren",
+        "integrity": "120.0",
+        "partnerHealth": "120.0",
+        "scene": "TallowDrift",
+        "form": "Natural",
+        "x": "0.00000",
+        "z": "-8.00000"
+      },
+      "encountersCleared": [],
+      "files": {
+        "run.json": "ba7fc9944a3221987beca9ced7bce18ba4719e9f44f3dd6a942974931ebc904a",
+        "route.json": "b00dc26d87e479c5b2e51f923d3f01f69cee4fddb451541f15cba72fd9fa8d18",
+        "frames.csv": "c7bc72d16ed4735e0e99e48e6d84c6f0ba82fc1eee150a885298415938aa9293",
+        "player.log": "25a537b6535f8094e2ef81343044b48e69a4f35e6eebf8def4d0567bf862344e",
+        "build.json": "d7701a5d836d576c73b3c93e43d0c55d7ef6e2323c443f165ce1a00e49c654b9",
+        "video.mp4": "06802f31d59cee50c79d46ae90520a841cd006241ae526f78a318c8db0b050dc",
+        "mix.wav": "3f87e431060e9bc0978ce1adb847fdc8ad41f373efb4d631247fb905fbf43d99",
+        "capture-frames.csv": "b7cc84c7e44c67904c6a46a0eded27b108b7dee62d06b32f4280f9c0db382dff"
+      }
+    }
+  ],
+  "openedStills": [
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/000.png",
+      "sha256": "855ea45b3fdc656ca5c921090a61e18e1a82eadffb7569b4f151fd8dccc41763",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/003.png",
+      "sha256": "1f371d40cdc4558623c485652080e44976b8eb6464eab638682d96c0474acf3e",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/004.png",
+      "sha256": "80ebc9cad693b80387702ad128520266578a87bab211dfb55b573aafe9e77f59",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/005.png",
+      "sha256": "d5dd589d0c4c767c619acfc81d7c4d80a9064100bf746fc82dca1ed196d7c2e1",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/007.png",
+      "sha256": "adfbd20e548b7c69181bf32b8418c2e89a2ceccec45536a10a5a35bf445fc876",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/029.png",
+      "sha256": "2b200f62c2d4d7de6fa56ee1e6a4adf26c2ccd0602fcebaba7a3e4baad751d38",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/civil-hulls-sela-03/033.png",
+      "sha256": "716db7e815e579ebec10dc7cc7bf389d1ee6cbbfc36a337691a0e91d04e86607",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/gullet-circuit-taren-03/025.png",
+      "sha256": "e0912924592f97a360c67515b5069138ded7928e9741a316b74ef8f5abfa1570",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/gullet-circuit-taren-03/086.png",
+      "sha256": "189707192a9cc9bce85e110f399451c1e24c6e3762b1f99a1b642edf30a53637",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/gullet-circuit-sela-03/027.png",
+      "sha256": "1f088949bdb7ef0d032b01f8da340310cbc3be2986abcefaaf4d892380ac0ba2",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/gullet-circuit-sela-03/064.png",
+      "sha256": "aaa4e9489af900baeae8aec1fabfc33c2fa8dec536c8f60f7a5cd076cdc1402e",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/gullet-circuit-sela-03/081.png",
+      "sha256": "cf519f8a443d8260e8d027226c114dba3e55001036c6b518d0fda3f6b6a26e1c",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/gullet-circuit-sela-03/088.png",
+      "sha256": "ace45f25e8d4b19319bed36fcf3fde7a7beeb12f2c44d152340e60605ceeccf8",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/tallow-hulls-02/044.png",
+      "sha256": "e6be6bdcb735c752a5ea633e1656ddd29d77ebba2968a2e6632de77f2a369d03",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/tallow-hulls-02/045.png",
+      "sha256": "6f274954544c13f60eaf575bd1895a07c31b4f02c078f22f11f3be70ee57a965",
+      "reviewer": "Codex, actual opened single image"
+    },
+    {
+      "file": "Builds/quality/C4/tallow-hulls-02/047.png",
+      "sha256": "576aeea46a19c6908c41ee09c2cbb541aef9c6d6ea2fbe3b3866dfb7fc0ef3bd",
+      "reviewer": "Codex, actual opened single image"
+    }
+  ],
+  "focusAttribution": "Foreign Unity PID 3664 was confirmed as Frostbound during Taren civil; PID 36360 was recorded as Frostbound during Taren Gullet. No unrelated window or process was changed. PID 45084 had exited before its project could be identified.",
+  "preservedSaves": {
+    "autosave.json": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a",
+    "autosave.json.bak": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+  },
+  "focusEvidence": {
+    "focus-owners02.jsonl": "606bdb9eded9152c3dab203e371ce486a000f7a6245d2273d545560284725bf0",
+    "focus-owners03-through-circuits.jsonl": "6f9722f636a625094347a1af2834d424d773d0497e5f9d310f25b1134e07e163",
+    "focus-3664-observed.json": "111582dcbdb0661e32e627c42089efcd30b48d3e31b1330c67d5afa903d5b8e4"
+  }
+}

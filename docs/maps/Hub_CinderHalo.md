@@ -1,6 +1,8 @@
 # Hub_CinderHalo — exterior of the Decks
 
-2026-09-26. **Design implemented; blockout PASSED; integrated spatial MAP_EYE_TEST PASSED. C1 pending.**
+2026-09-27. **Design implemented; blockout PASSED; final MAP_EYE_TEST REOPENED. C1 pending.**
+
+The longer C4 perimeter view supersedes the earlier final acceptance below. Codex opened `Builds/quality/C4/civil-hulls-sela-03/003.png` and `004.png`: the back ring has ragged projections and over-stretched panel detail, reading as damaged sheetwork rather than a continuous structural utility section. The public/interior routes still work, but this exterior construction needs correction and fresh paired inspection before the first station can pass again. A controlled comparison will retain its 4 × 5 m section while replacing each over-stretched solid wall with normally proportioned generated top/bottom skins and inner/outer webs. No revised release geometry has been accepted yet.
 
 Purpose: residential/service vessel neighbourhood and local freight interchange. Visitors fly the inner approach; haulers follow a distinct outer traffic lane. Three dock identities match the Decks. Sorrel's exit lies east; the Gullet beacon lies beyond the north ring. These landmarks must remain visible without labels.
 

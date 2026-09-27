@@ -1,6 +1,7 @@
 # Hub_Decks — first-station reconstruction brief
 
-2026-09-26. **Design implemented; blockout PASSED; integrated spatial MAP_EYE_TEST PASSED. C1 pending.**
+2026-09-27. **Interior spatial review PASSED; paired first-station final MAP_EYE_TEST REOPENED for the exterior ring. C1 pending.**
+The later perimeter captures expose stretched ring construction; see [Hub_CinderHalo](Hub_CinderHalo.md). The previous interior circulation review remains evidence, but acceptance of the two views as one station awaits that correction and recapture.
 Reviewed by Codex, not Nathan or an independent viewer.
 
 The Decks are a small working neighbourhood made from three retired vessels joined along the inner edge of Cinder Halo. Orrin receives visitors and freight manifests, Mira supplies residents and crews, and Hal repairs their equipment. Housing and shared meals explain why people stay here. The ring carries the connected hulls, power and traffic; it is not a necklace of disconnected floating ornaments.

@@ -1,0 +1,332 @@
+{
+  "name": "c4-civil-hulls03-sela",
+  "scene": "Hub_CinderHalo",
+  "sourceRevision": "Keeps the complete hull circuit, backs away from the pad, then explicitly reapproaches the ordinary docking prompt. Run 02 unreachable prompt and focus failures remain archived.",
+  "settleSeconds": 2,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "select Sela",
+      "seconds": 0.12,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap",
+      "seconds": 0.4
+    },
+    {
+      "name": "clear arrivals to the west outside the occupied hull",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": -48,
+        "y": 1,
+        "z": -36
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "north along the office vessel exterior",
+      "seconds": 36,
+      "navigate": true,
+      "point": {
+        "x": -48,
+        "y": 1,
+        "z": 34
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "cross behind all three joined inhabited hulls",
+      "seconds": 48,
+      "navigate": true,
+      "point": {
+        "x": 48,
+        "y": 1,
+        "z": 34
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "south past receiving and repair vessel exterior",
+      "seconds": 36,
+      "navigate": true,
+      "point": {
+        "x": 48,
+        "y": 1,
+        "z": -36
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "return across the public dock fronts",
+      "seconds": 38,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 1,
+        "z": -36
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "enter southern turning space",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 1",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 2",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 1,
+        "z": -42
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 3",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 4",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 1,
+        "z": -58
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 5",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 15,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 6",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 1,
+        "z": -42
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 7",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 8",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 1,
+        "z": -58
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "figure eight 1 point 9",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "east acceleration",
+      "seconds": 1.1,
+      "x": 1
+    },
+    {
+      "name": "unpowered coast",
+      "seconds": 0.8
+    },
+    {
+      "name": "west reversal",
+      "seconds": 1.1,
+      "x": -1
+    },
+    {
+      "name": "deliberate brake after reversal",
+      "seconds": 1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "regroup after counter-thrust",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -50
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "south boost onset",
+      "seconds": 0.65,
+      "y": -1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "boost release and coast",
+      "seconds": 0.5
+    },
+    {
+      "name": "brake after boost",
+      "seconds": 1.2,
+      "leftTrigger": 1
+    },
+    {
+      "name": "return to arrival side of approach",
+      "seconds": 19,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 1,
+        "z": -35
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "catch-up beside the visible hull",
+      "seconds": 9,
+      "leftTrigger": 1,
+      "expectedCharacter": "Sela",
+      "expectedForm": "CivilFlight",
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 3.8
+    },
+    {
+      "name": "slow approach to office hatch",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 1,
+        "z": -26.4
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "light boundary contact",
+      "seconds": 0.7,
+      "y": 1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "back away to docking control",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 1,
+        "z": -27.0
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65
+    },
+    {
+      "name": "reapproach the visible dock prompt after backing away",
+      "seconds": 1.0,
+      "y": 1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "brake at the dock prompt",
+      "seconds": 0.2,
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock through the normal interaction",
+      "seconds": 2,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "body settles in inhabited arrivals",
+      "seconds": 2,
+      "expectedForm": "Natural",
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "both heroes returned through the ordinary dock",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedScene": "Hub_Decks",
+      "expectedForm": "Natural"
+    }
+  ],
+  "screenshotInterval": 2
+}

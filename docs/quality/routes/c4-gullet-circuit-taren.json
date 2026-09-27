@@ -1,0 +1,817 @@
+{
+  "name": "c4-gullet-circuit03-taren",
+  "scene": "Gullet_Tunnel",
+  "sourceRevision": "Ordinary tactical revision: brake after six second-chamber lunges, cast Pulse/Static Net and finish with sustained nose fire instead of blindly charging laterally into the chamber wall. Same equipment, AI, damage, checkpoint tolerances, flags and focus requirements. Prior failed routes retained.",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "approach chamber from the empty arrival tunnel",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 1,
+        "z": 35
+      },
+      "leftTrigger": 1,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Flight"
+    },
+    {
+      "name": "advance lunge 1",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 1",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 2",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 2",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 3",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 3",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 4",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 4",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 5",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 5",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 6",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 6",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 7",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 7",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 8",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 8",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 9",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 9",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "advance lunge 10",
+      "seconds": 0.12,
+      "buttons": [
+        "West"
+      ],
+      "y": 1
+    },
+    {
+      "name": "normal thrust and lunge recovery 10",
+      "seconds": 0.62,
+      "y": 1
+    },
+    {
+      "name": "brake after the attack chain",
+      "seconds": 1.2,
+      "leftTrigger": 1
+    },
+    {
+      "name": "clear surviving targets with ordinary fire",
+      "seconds": 6,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1
+    },
+    {
+      "name": "regroup beside the measured hulls",
+      "seconds": 8,
+      "approachPartner": true,
+      "navigate": true,
+      "leftTrigger": 1,
+      "tolerance": 3.8
+    },
+    {
+      "name": "chamber 1 approach the mine cluster",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 10.392304845413264,
+        "y": 1,
+        "z": 130
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 east mine approach",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 18.392304845413264,
+        "y": 1,
+        "z": 144
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 east mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 north mine approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 10.392304845413264,
+        "y": 1,
+        "z": 152
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 north mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 west mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 2.392304845413264,
+        "y": 1,
+        "z": 144
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 west mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 south mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 10.392304845413264,
+        "y": 1,
+        "z": 136
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 south mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 opens its own membrane",
+      "seconds": 0.2,
+      "expectedFlag": "clear.Gullet_Chamber_0",
+      "until": "partyAlive"
+    },
+    {
+      "name": "cross the opened first membrane along its real passage",
+      "seconds": 52,
+      "navigate": true,
+      "point": {
+        "x": -0.837077684929498,
+        "y": 1,
+        "z": 230
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "approach the second chamber before its trigger",
+      "seconds": 14,
+      "navigate": true,
+      "point": {
+        "x": -4.880839716909598,
+        "y": 1,
+        "z": 255
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "second chamber lunge 1",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "second chamber recovery 1",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "second chamber lunge 2",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "second chamber recovery 2",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "second chamber lunge 3",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "second chamber recovery 3",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "second chamber lunge 4",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "second chamber recovery 4",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "second chamber lunge 5",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "second chamber recovery 5",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "second chamber lunge 6",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ]
+    },
+    {
+      "name": "second chamber recovery 6",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "brake before overrunning the second chamber",
+      "seconds": 0.6,
+      "leftTrigger": 1
+    },
+    {
+      "name": "ordinary Pulse in the second chamber",
+      "seconds": 0.12,
+      "leftTrigger": 1,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release the visible area skill before sustained fire",
+      "seconds": 0.7,
+      "leftTrigger": 1
+    },
+    {
+      "name": "brake and fire after second chamber charge",
+      "seconds": 6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 approach the mine cluster",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 350
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 east mine approach",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -2.7855285555900053,
+        "y": 1,
+        "z": 364
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 east mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 north mine approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 372
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 north mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 west mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -18.785528555590005,
+        "y": 1,
+        "z": 364
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 west mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 south mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 356
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 south mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 2 opens its own membrane",
+      "seconds": 0.2,
+      "expectedFlag": "clear.Gullet_Chamber_1",
+      "until": "partyAlive"
+    },
+    {
+      "name": "cleared chamber figure eight 1",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -15.785528555590005,
+        "y": 1,
+        "z": 365
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared chamber figure eight 2",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 370
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared chamber figure eight 3",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -5.785528555590005,
+        "y": 1,
+        "z": 375
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared chamber figure eight 4",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -5.785528555590005,
+        "y": 1,
+        "z": 365
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared chamber figure eight 5",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 370
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared chamber figure eight 6",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -15.785528555590005,
+        "y": 1,
+        "z": 375
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared chamber figure eight 7",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": -15.785528555590005,
+        "y": 1,
+        "z": 365
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "short east acceleration",
+      "seconds": 0.6,
+      "x": 1,
+      "y": 0
+    },
+    {
+      "name": "unpowered drift",
+      "seconds": 0.5,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "west counter-thrust",
+      "seconds": 0.6,
+      "x": -1,
+      "y": 0
+    },
+    {
+      "name": "brake reversal",
+      "seconds": 1,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "roll south",
+      "seconds": 0.12,
+      "x": 0,
+      "y": -1,
+      "buttons": [
+        "East"
+      ]
+    },
+    {
+      "name": "roll finish",
+      "seconds": 0.5,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "return to chamber centre",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 370
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "brief north boost",
+      "seconds": 0.4,
+      "x": 0,
+      "y": 1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "boost release coast",
+      "seconds": 0.4,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "brake after boost",
+      "seconds": 1,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "slow approach to visible east wall",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 1.7144714444099947,
+        "y": 1,
+        "z": 370
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "light combat wall contact",
+      "seconds": 0.65,
+      "x": 1,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "return from wall contact",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -10.785528555590005,
+        "y": 1,
+        "z": 370
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8
+    },
+    {
+      "name": "catch-up at adjacent hull separation",
+      "seconds": 10,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 3.8,
+      "leftTrigger": 1
+    },
+    {
+      "name": "swap beside the other visible hull",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 0,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release swap and settle camera",
+      "seconds": 1,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "return to circuit pilot",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 0,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
+      "name": "release return swap",
+      "seconds": 1,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "both craft survive two chambers",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedCharacter": "Taren"
+    }
+  ],
+  "screenshotInterval": 2
+}
