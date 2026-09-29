@@ -55,7 +55,8 @@ Full suites on the rebuilt arenas: **56/56 EditMode and 173/173 PlayMode**, zero
 - **Flight blockout.** The section locates the cabin on its posts, the rails at the flight plane and the lower deck. The blockout's single cyan material hides everything else, so the final review carries the reading.
 - **Flight final.**
   - The berth reads as a railed dock frame on posts over a deck far below. Vorun shows past the lane's end, and the cabin stands outside the west rail with the call pad inside.
-  - Weakness: the lower deck is the dominant surface in every view. It reads as dockyard floor under the flight plane, not a distant backdrop.
+  - Weakness in `arena-final-01`: the lower deck was the dominant surface in every view and read as dockyard floor under the flight plane, not a distant backdrop.
+  - Fixed in `arena-final-02` (opened): the solid deck is replaced by an open gantry, strips under both rails and the centre crossed at the ends and middle. Its bays show space and Vorun far below, so the berth now reads as hanging in orbit. The arena-dependent classes pass 33/33.
 
 ## Open
 

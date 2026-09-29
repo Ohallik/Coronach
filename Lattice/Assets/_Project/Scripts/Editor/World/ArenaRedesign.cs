@@ -82,8 +82,11 @@ namespace Lattice.EditorTools
         static void Flight(bool grey)
         {
             blockout=grey;var scene=Begin("Arena_Flight",true);
-            // Below the flight plane: the dock's lower deck, and Vorun far beneath.
-            var deck=Piece("DeckFloor",new Vector3(0,-12,1),new Vector3(56,.4f,60),0,0,false);deck.name="Berth lower deck";
+            // Below the flight plane: an open gantry deck, not a floor. Strips run
+            // under both rails and the centre line, crossed at the ends and the
+            // middle; the open bays between them show space and Vorun far beneath.
+            foreach(float x in new[]{-RailX,0,RailX})Piece("DeckFloor",new Vector3(x,-12,1),new Vector3(6,.4f,RailNorthZ-RailSouthZ+6),0,0,false).name="Berth gantry";
+            foreach(float z in new[]{RailSouthZ,1,RailNorthZ})Piece("DeckFloor",new Vector3(0,-12,z),new Vector3(RailX*2,.4f,5),0,0,false).name="Berth gantry";
             WorldArt.Planet("Vorun",new Vector3(60,-420,300),210);
             // Perimeter: posts rise from the lower deck; rails at the flight plane
             // are the collision boundary. The south end leaves the entry lane open.

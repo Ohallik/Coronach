@@ -31,7 +31,7 @@ Section (looking north)                         Plan (north up)
   y 1   rails = flight-plane boundary      post ║                        ║ post
         ships fly at y 1               x -24  ║   targets z 5           ║ x 24
   y -1..5  control cabin on posts      CABIN  ║   Arrival z -4          ║
-  y -12  lower dock deck               (x -33)║ call pad x -20          ║
+  y -12  open gantry deck (bays show   (x -33)║ call pad x -20          ║
         Vorun far below                  rail z -26 ════╗   lane   ╔═══════
                                                         ║ x ±6     ║
                                                         ╚══ z -40 ══╝ lane end
