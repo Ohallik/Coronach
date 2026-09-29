@@ -1,0 +1,116 @@
+{
+  "date": "2026-09-28",
+  "gate": "C4 OPEN; Cinder final MAP_EYE_TEST PASS",
+  "source": "54d57fc",
+  "build": "Release",
+  "input": "continuous agent-directed virtual gamepad replay; not physical feel",
+  "reviewer": "Claude Code (stills opened); continuous video not watched",
+  "runs": [
+    {
+      "name": "civil-hulls-taren-04",
+      "valid": false,
+      "seconds": 310.353,
+      "focused": 7995,
+      "samples": 18621,
+      "failures": [
+        "return across the public dock fronts: navigation checkpoint missed",
+        "enter southern turning space: navigation checkpoint missed",
+        "figure eight 1 point 1: navigation checkpoint missed",
+        "figure eight 1 point 2: navigation checkpoint missed",
+        "figure eight 1 point 3: navigation checkpoint missed",
+        "figure eight 1 point 4: navigation checkpoint missed",
+        "figure eight 1 point 5: navigation checkpoint missed",
+        "figure eight 1 point 6: navigation checkpoint missed",
+        "figure eight 1 point 7: navigation checkpoint missed",
+        "figure eight 1 point 8: navigation checkpoint missed",
+        "figure eight 1 point 9: navigation checkpoint missed",
+        "regroup after counter-thrust: navigation checkpoint missed",
+        "return to arrival side of approach: navigation checkpoint missed",
+        "catch-up beside the visible hull: navigation checkpoint missed",
+        "slow approach to office hatch: navigation checkpoint missed",
+        "back away to docking control: navigation checkpoint missed",
+        "dock through the normal interaction: scene Hub_CinderHalo expected Hub_Decks",
+        "body settles in inhabited arrivals: scene Hub_CinderHalo expected Hub_Decks",
+        "body settles in inhabited arrivals: form mismatch",
+        "both heroes returned through the ordinary dock: scene Hub_CinderHalo expected Hub_Decks",
+        "both heroes returned through the ordinary dock: form mismatch",
+        "focus lost"
+      ],
+      "endScene": "Hub_CinderHalo",
+      "endIntegrity": [
+        120.0,
+        120.0
+      ],
+      "build": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+      "artifacts": {
+        "run.json": "79bc12153d253a9cd897f30ae3c89a5674ab2708a116b04cb9dfc905895ba3db",
+        "frames.csv": "39cc45063485120353c5a8e0e28870148e5d63f65e334f3eca73bd327b97a334",
+        "video.mp4": "d1ec7b6a61b1c52e53ada86f4c254bb2def5229650fc050e4f8b891048ca5b31",
+        "mix.wav": "4a78700014f18c2b814ae645296df9ef7e3302ce322f88aa00f4a63f131a2363"
+      }
+    },
+    {
+      "name": "civil-hulls-sela-04",
+      "valid": true,
+      "seconds": 310.858,
+      "focused": 18648,
+      "samples": 18648,
+      "failures": [],
+      "endScene": "Hub_Decks",
+      "endIntegrity": [
+        120.0,
+        120.0
+      ],
+      "build": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+      "artifacts": {
+        "run.json": "5af91097ff9e6af47fb562b058219f8a1797c46bab5abc3978e65ea6625d8281",
+        "frames.csv": "ecbd2f1423256b9b1f85b666c3bf7c9fb2c5792c42bdd05a628f32d9dd960086",
+        "video.mp4": "31a89203accdeabd643a1820bae849953657a95adffd4e9413cb107e416e48f9",
+        "mix.wav": "464c18e5ec2eda2c8828250ccf43704cbd666edf826150f0be8799701a436244"
+      }
+    },
+    {
+      "name": "civil-hulls-taren-05",
+      "valid": true,
+      "seconds": 310.348,
+      "focused": 18617,
+      "samples": 18617,
+      "failures": [],
+      "endScene": "Hub_Decks",
+      "endIntegrity": [
+        120.0,
+        120.0
+      ],
+      "build": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+      "artifacts": {
+        "run.json": "3a019875b19a85373a978d8409f57cbbb2e8201081704fd6560eb78bc80c4840",
+        "frames.csv": "a8e08b256c976a9d708a1e4b076c79160e9710f87c5b8a59cf6f00578d7804cf",
+        "video.mp4": "25d9cd3bbb4bba545df7a433baf88059fe100107e3dde271ed8827b1b7281134",
+        "mix.wav": "caf2c4eb6eefa27b6aa00e129ef4db018b9e57510cce8afe591b51da57f0f52b"
+      }
+    }
+  ],
+  "openedStills": [
+    "Builds/quality/C4/civil-hulls-sela-04/003.png",
+    "Builds/quality/C4/civil-hulls-sela-04/004.png",
+    "Builds/quality/C4/civil-hulls-taren-05/002.png",
+    "Builds/quality/C4/civil-hulls-taren-05/003.png"
+  ],
+  "capturedMix": [
+    {
+      "input": "Builds/quality/C4/civil-hulls-taren-05/mix.wav",
+      "truePeakDbtp": -8.4,
+      "integratedLufs": -21.7,
+      "silent": false,
+      "valid": true
+    },
+    {
+      "input": "Builds/quality/C4/civil-hulls-sela-04/mix.wav",
+      "truePeakDbtp": -10.2,
+      "integratedLufs": -21.7,
+      "silent": false,
+      "valid": true
+    }
+  ],
+  "focusAttribution": "taren-04 lost focus at 133.3 s while this session issued shell commands; the blocking repeat with no concurrent commands held focus throughout."
+}
