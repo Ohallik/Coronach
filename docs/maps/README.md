@@ -1,6 +1,6 @@
 # Map review coverage
 
-2026-09-26, updated 2026-09-28. All nine implemented zone definitions are included. A technical scene/build/test pass cannot substitute for either spatial review. Reviewers to date: Codex, and Claude Code for the Gullet and Hushwell; no independent or Nathan acceptance is implied.
+2026-09-26, updated 2026-09-28. All nine implemented zone definitions are included. A technical scene/build/test pass cannot substitute for either spatial review. Reviewers to date: Codex, and Claude Code for the Gullet, Hushwell, Sorrel's final art and both arenas; no independent or Nathan acceptance is implied.
 
 | Zone | Blockout | Final in-player | Brief |
 |---|---|---|---|
@@ -11,9 +11,9 @@
 | Sorrel_Ridges | In progress: connected basin built, ordinary traversal pending; Hushwell bore added | Final art converted, controlled views inspected; in-player OPEN | [Landscape](Sorrel_Ridges.md) |
 | Hushwell | Passed (agent review) | Final built with generated kit; in-player OPEN | [Moon cave](Hushwell.md) |
 | Gullet_Tunnel | Passed anatomy redesign (agent review) | OPEN: ordinary circuits focus-blocked | [Living passage](Gullet_Tunnel.md) |
-| Arena_Ground | OPEN | OPEN | [Practice yard](Arena_Ground.md) |
-| Arena_Flight | OPEN | OPEN | [Proving berth](Arena_Flight.md) |
+| Arena_Ground | Passed proving-yard redesign (agent review) | Final built; controlled views inspected; in-player OPEN | [Practice yard](Arena_Ground.md) |
+| Arena_Flight | Passed proving-berth redesign (agent review) | Final built; controlled views inspected; in-player OPEN | [Proving berth](Arena_Flight.md) |
 
 Future campaign destinations and changed return maps must gain a functional brief and two recorded reviews before release. `_Boot` and `InitScene` are loading/UI infrastructure, not inhabited or natural zones. The campaign atlas remains planned content; this coverage table does not imply those later maps exist.
 
-Latest station observations and limits: [station-final.md](../validation/station-final.md). Cinder's casing/bridge joins and full ordinary-input recapture now pass. All four station maps pass spatial review; fresh C1 performance and the four non-station workshop maps remain open.
+Latest station observations and limits: [station-final.md](../validation/station-final.md). Cinder's casing/bridge joins and full ordinary-input recapture now pass. All four station maps pass spatial review; fresh C1 performance and the in-player passes of the non-station maps remain open; every workshop map now has a recorded blockout review except Sorrel's ordinary traversal.

@@ -1,5 +1,17 @@
 # CORONACH slice progress
 
+## MAP_EYE_TEST arenas and Sorrel final art - September 29
+
+**Arena_Ground and Arena_Flight blockout PASS (agent review); Sorrel converted to final art; all three in-player passes OPEN.**
+
+- **Proving yard.** The ground practice square is now an outpost maintenance proving yard. A rock outcrop and backstop, an installed panel barrier and a low crate fence around a service entrance bound it. Hal stands in a sheltered operator corner, out of the firing path.
+- **Proving berth.** The flight square is now a dockside proving berth. Rails and posts at the flight plane are its visible boundary, around a railed entry lane. A supported control cabin, from which Hal speaks, sits outside the rails, and a dock deck lies far below.
+- **Contracts kept.** Both keep their arrival, opponents, dialogue and the clear core the tests use.
+- **Tests.** `ArenaLayoutTests` **rejected both old scenes** (scenery inside the core), then passed.
+- **Sorrel.** The connected basin now uses its generated art with no layout change. The route bake and the opened views pass: an inhabited outpost, both mineral branches and the excavation with the Hushwell bore. Empty sand between features is noted.
+
+The full suites pass **56/56 EditMode and 173/173 PlayMode**. [Arena evidence](validation/MAP-Arenas.md), [Sorrel brief](maps/Sorrel_Ridges.md), D120. Every workshop map now has a recorded blockout review; the remaining map work is the ordinary in-player passes. Captures stay blocked while the other session's Frostbound player tests hold the foreground. The slice smoke's dock-approach fix is written but unverified, and is held back until it can run.
+
 ## MAP_EYE_TEST Hushwell blockout and first final build - September 28
 
 **Hushwell blockout PASS (agent review); final built with generated art; in-player pass OPEN.** Hushwell, atlas map 04, is a new optional moon cave under Sorrel's drill site. The party enters by the bore once the Burrower is dead.

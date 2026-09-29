@@ -149,6 +149,32 @@ namespace Lattice.EditorTools
             }
             Debug.Log("MAP_EVIDENCE_OK " + folder);
         });
+        public static void ArenaReview()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("workshop/arena-review");
+            foreach(string zone in new[]{"Arena_Ground","Arena_Flight"})
+            {
+                EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
+                foreach (var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None)) text.gameObject.SetActive(false);
+                var camera = new GameObject("Evidence camera", typeof(Camera), typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+                camera.backgroundColor = new Color(.025f, .035f, .06f); camera.clearFlags = CameraClearFlags.SolidColor;
+                camera.orthographic = true; camera.nearClipPlane = .1f; camera.farClipPlane = 2000;
+                camera.GetUniversalAdditionalCameraData().renderPostProcessing = false;
+                bool flight=zone=="Arena_Flight";
+                Shot(camera,folder,zone+"-overhead",new Vector3(0,0,flight?-5:-6),Quaternion.Euler(90,0,0),flight?34:30);
+                if(flight)Shot(camera,folder,zone+"-section",new Vector3(-10,-4,0),Quaternion.Euler(8,0,0),22);
+                // The player's own view: each form's camera pitch, yaw, distance and field of view.
+                camera.orthographic=false;camera.fieldOfView=30;var view=Quaternion.Euler(flight?48:40,flight?0:20,0);float distance=flight?26:19.5f;
+                var stations=flight?new[]{("arrival",new Vector3(0,1,-4)),("targets",new Vector3(0,1,6)),("west-rail-and-cabin",new Vector3(-17,1,-6)),("north-rail",new Vector3(0,1,22)),("entry-lane",new Vector3(0,1,-32))}
+                    :new[]{("arrival",new Vector3(0,0,-4)),("operator",new Vector3(10,0,-12)),("targets",new Vector3(0,0,12)),("west-outcrop",new Vector3(-16,0,0)),("east-barrier",new Vector3(16,0,4)),("service-entrance",new Vector3(0,0,-22))};
+                foreach(var (name,at) in stations)
+                {
+                    var target=at+Vector3.up;camera.transform.SetPositionAndRotation(target-view*Vector3.forward*distance,view);
+                    Render(camera,folder,zone+"-view-"+name);
+                }
+            }
+            Debug.Log("MAP_EVIDENCE_OK " + folder);
+        });
         static void Render(Camera camera,string folder,string name)
         {
             var rt = new RenderTexture(1920,1080,24); camera.targetTexture = rt;
