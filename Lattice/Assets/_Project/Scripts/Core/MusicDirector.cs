@@ -13,6 +13,8 @@ namespace Lattice.Core
         readonly Dictionary<string, AudioClip> clips = new();
         readonly Dictionary<string, int> positions = new();
         readonly HashSet<Object> shops = new();
+        // Boss encounters override the location cue until they end or are removed.
+        readonly List<(Object owner, string track)> encounters = new();
         string location, locationTrack;
         int target;
         const float Level = .52f, FadeSeconds = 1.1f;
@@ -35,12 +37,13 @@ namespace Lattice.Core
         public static void SetLocation(string zone, bool combat)
         {
             if (Current == null) return;
-            if (Current.location != zone) Current.shops.Clear();
+            if (Current.location != zone) { Current.shops.Clear(); Current.encounters.Clear(); }
             Current.location = zone;
             Current.locationTrack = zone == "Title" ? "Title Theme" :
                 (zone == "Sorrel_Ridges" || zone == "Arena_Ground") && combat ? "Adventure Awaits" :
                 zone == "Hub_Decks" || zone == "Hub_CinderHalo" || zone == "TallowDrift" ||
-                zone == "TallowApproach" || zone == "Sorrel_Ridges" ? "Hub Town Groove" : null;
+                zone == "TallowApproach" || zone == "Sorrel_Ridges" ? "Hub Town Groove" :
+                zone == "Gullet_Tunnel" || zone == "Arena_Flight" ? "Starfight" : null;
             Current.Refresh();
         }
 
@@ -51,10 +54,19 @@ namespace Lattice.Core
             Current.Refresh();
         }
 
+        public static void Encounter(Object owner, string track, bool active)
+        {
+            if (Current == null || owner == null) return;
+            Current.encounters.RemoveAll(e => e.owner == owner);
+            if (active) Current.encounters.Add((owner, track));
+            Current.Refresh();
+        }
+
         void Refresh()
         {
             shops.RemoveWhere(owner => owner == null);
-            string wanted = shops.Count > 0 ? "Moonbase Market" : locationTrack;
+            encounters.RemoveAll(e => e.owner == null);
+            string wanted = shops.Count > 0 ? "Moonbase Market" : encounters.Count > 0 ? encounters[encounters.Count - 1].track : locationTrack;
             if (Track == wanted) return;
             Track = wanted;
             if (wanted == null) return;
@@ -84,6 +96,8 @@ namespace Lattice.Core
 
         void Update()
         {
+            // An encounter owner destroyed without ending (retry, unload) releases its cue.
+            if (encounters.Exists(e => e.owner == null)) Refresh();
             for (int i = 0; i < sources.Length; i++)
             {
                 var source = sources[i];

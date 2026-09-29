@@ -1,6 +1,6 @@
 # Coronach — campaign sketch
 
-Draft 2, 2026-09-23. This is the full-game narrative proposal, not implemented campaign content. The existing slice remains the gameplay workshop. Geography, map scope, boss designs and their campaign connections live in [WORLD_ATLAS.md](WORLD_ATLAS.md).
+Draft 2, 2026-09-23, amended by [Draft 3](#draft-3-amendments-2026-09-28) on 2026-09-28. This is the full-game narrative proposal, not implemented campaign content. The existing slice remains the gameplay workshop. Geography, map scope, boss designs and their campaign connections live in [WORLD_ATLAS.md](WORLD_ATLAS.md).
 
 ## The promise
 
@@ -171,3 +171,48 @@ Most side stories follow people and places affected by the same migration. Give 
 ## What changes in the current slice later
 
 Retain Cinder Halo, Sorrel, the Gullet, Tallow, Taren and Sela. Add Hushwell as the first substantial new dungeon only after locomotion, combat animation and camera clarity pass review. Rewrite the quest's missing-outpost premise as a communications shutdown, make the warp key a survey access tool, and change the Cantor victory to collar removal. These narrative changes are planned here; the existing playable quest is not silently rewritten in this pass.
+
+## Draft 3 amendments (2026-09-28)
+
+Draft 3 adds the regions Nathan requested. The full map list is in [WORLD_ATLAS.md](WORLD_ATLAS.md#draft-3-expansion--new-regions-2026-09-28). The promise, the Severance and Meret's role are unchanged. What changes is that a third answer to the Severance now exists, and the past has a voice.
+
+### A third answer: the Muster
+
+Before Draft 3 there were two answers to the departing routes: Meret's pinned, protected corridor and the convoy's mobile neighbourhood. The Vaskar **Muster** offers a third. It will cage young Choir with **Bridles** and hold them as private war-roads, so that every stranded world can be reached, and ruled, only by its fleets. Meret points to it as proof that open routes invite conquest. The convoy's reply, proven at Nacre, is that many independent crews are harder to conquer, and harder to kill by accident, than one concentrated corridor. The Muster therefore sharpens the central argument instead of replacing Meret as the final antagonist.
+
+The Vaskar are a people, not a single personality. Harrowgate has children, cooks, gossip and dissent. The **Unsworn** (deserters, conscripted smiths and the families who hide them) become the convoy's metalworkers, and their uprising, not the heroes alone, deposes the Warmaster.
+
+### The past has a voice: the Ancelane
+
+The Choir's cycle is longer than memory, but not longer than ruins. The Ancelane lived through the previous Severance. Most of their towns moved. The rulers of Oriel bridled a passage instead, and the planet still shows the result: islands floating along severed route fibres and an adult Choir turned to glass. Lanternwick's keepers preserved the leave-taking that Cinder Halo later called Coronach. This history gives the convoy evidence and a mechanical principle, the Bridle release. It supplies no weapon, bloodline or relic, and the ending is still carried out by the crews.
+
+### Six movements
+
+| Movement | Contents | Turn |
+|---|---|---|
+| I — A repair with nobody home | Cinder Halo, Sorrel, Hushwell, Gullet, Tallow (unchanged) | Tallow is moving. |
+| II — Carrying a place | **Lanternwick**, then Xylos and **Wendmire** in either order, then Many Hands | Hulljack; Meret saves Many Hands and reveals Sorrel is expendable. |
+| III — Who gets to move? | Veyr, Merrow and **Hoarfell** in any order | The Muster, first met thawing Hoarfell's Frozen Host, strikes the convoy and cages a route toward Sorrel. |
+| IV — The cage makers (new) | **Oriel**, then the **Vaskar Reach**: Picket of Teeth, Corona Line, Scoria, Bridle Foundry, Harrowgate | Drask is deposed, but his standing order bridles the Nacre route; the Nacre disaster follows and Meret launches Stillwater early. |
+| V — The house that can leave | Pale Exchange, Nacre Grave, Unfinished Welcome, **Duskline**, Cinder separation, Broken Ring | Cinder Halo launches. |
+| VI — A route with room to turn back | Sorrel's second sky, Last Mooring, Continuance, Stillwater, Returning Passage, epilogue | The convoy and the nursery pass together. |
+
+### New recurring people
+
+| Character | Wants / contradiction | Change expressed through action |
+|---|---|---|
+| **Warmaster Drask Vaal** | Believes the stranded worlds will need rulers and that conquest is order. Has kept his own soldiers alive through every campaign, and considers that proof of his right. | Defeated in a duel and then deposed by his own Unsworn. In custody aboard the convoy, he watches it survive without being ruled. |
+| **Tovra Kesh** | An Unsworn forewoman at the Bridle Foundry. She built cages to keep her clan fed and hates herself for how well they work. | Forges the finale's release gear from Bridle metal and teaches others to take cages apart. |
+| **Keeper Aumi** | Lanternwick's lantern-keeper. She distrusts visitors because the last ones looted the relays. | Sends her apprentices to run the beacon chain aboard the convoy rather than going herself. |
+| **Maru Wend** | A Driftreed raft pilot who has never lived on anything that stays still, and finds Many Hands' fixed corridors unbearable. | Designs a tide-drifting district for the convoy. |
+| **Old Tern** | Lastlight's herd-reader. She refuses to leave the frozen Choir her village grew inside. | Stays, but sends the herders and her knowledge of the long sleep with the nursery. Hers is one of the few choices to remain, and her message is among the epilogue's first. |
+
+### What the new communities do in the finale
+
+- The Wick-folk relay lanterns form the visual beacon chain that lets separated crews regroup when Sela turns back.
+- Driftreed's reed air-mats keep a breached town section breathing.
+- Lastlight's herders keep the young Choir dormant and safe through the cold final passage.
+- The Unsworn smiths' release gear lets crews open Stillwater's anchor.
+- Meridian Crawl's engineers keep Cinder Halo's detached districts moving together.
+
+As before, these are earned in the main story. Optional work adds recognisable crews and texture, but survival never depends on a checklist.

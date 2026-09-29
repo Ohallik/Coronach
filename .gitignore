@@ -15,3 +15,8 @@ tools/meshy/.env
 *.user
 # Local agent session transcripts
 coronachstatus.txt
+
+# Suno MP3 downloads stay local; the committed OGG conversions are the game sources
+Music/*.mp3
+# Duplicate re-conversion of Seed Shakers of Xylos (identical audio)
+Music/Seed Shakers of Xylos-2.ogg

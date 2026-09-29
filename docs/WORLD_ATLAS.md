@@ -1,6 +1,6 @@
 # Coronach — world and boss atlas
 
-Draft 2, 2026-09-23. Planning only: **32 main maps across eight chapters/regions, four optional destination maps, 18 major campaign encounters and four optional bosses.** This is a content target to evaluate after the combat slice succeeds, not a production commitment. Read with [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md).
+Draft 3, 2026-09-28. Planning only: **52 main maps across six movements, five optional destination maps, 23 major campaign encounters and five optional bosses.** Draft 3 adds Nathan's requested regions: a warmongering alien people and their volcanic forge world, an ancient town, an ancient near-magical planet, ice and swamp worlds with villages, a moving twilight town, and six distinctive new space areas. See [Draft 3 expansion](#draft-3-expansion--new-regions-2026-09-28). Maps 01–36 keep their Draft 2 numbers; new maps are 37–57. This is a content target, not a production commitment. Read with [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md).
 
 ## Scale and exploration rules
 
@@ -21,18 +21,31 @@ The map graph is a connected archipelago. Local space exploration leads to expli
 ```mermaid
 flowchart LR
   A[Cinder Halo] --> B[Sorrel and Hushwell]
+  A -.optional.-> U[Updraft: Vorun sky harvest]
   B --> C[Gullet]
   C --> D[Tallow Drift]
-  D --> E[Xylos and Many Hands]
+  D --> LW[Lanternwick: ancient town]
+  LW --> E[Xylos and Many Hands]
+  LW --> W[Wendmire: swamp and Driftreed]
   E --> F[Veyr: mountains and Kiln Oath]
   E --> G[Merrow: noble terraces and service city]
-  F --> H[Pale Exchange and Nacre Grave]
-  G --> H
-  H --> I[Cinder Halo launch]
+  E --> HF[Hoarfell: ice and Lastlight]
+  W --> F
+  W --> G
+  W --> HF
+  F --> O[Oriel: ancient near-magical world]
+  G --> O
+  HF --> O
+  O --> V[Vaskar Reach: Picket, Scoria, Harrowgate]
+  V --> H[Pale Exchange and Nacre Grave]
+  H --> DL[Duskline: Meridian Crawl]
+  DL --> I[Cinder Halo launch]
   I --> J[Sorrel nursery and Last Mooring]
   J --> K[Continuance]
   K --> L[Mobile neighbourhood]
 ```
+
+Draft 3 order: Xylos and Wendmire can be taken in either order; Veyr, Merrow and Hoarfell in any order. Oriel and the Vaskar Reach form one continuous chapter whose ending causes the Nacre disaster.
 
 ## How the locations advance the overarching story
 
@@ -104,6 +117,119 @@ These four maps can be cut without damaging the campaign spine. Boss rewards are
 | **35 The House Without Weight** | Rotating residential habitat, 550 m across three decks. Plane-locked play on authored walkable surfaces; rotating rooms reposition bridges between encounters. | **Host of Rooms**, a maintenance swarm moving furniture-sized shells through the house. Recover residents' belongings with their specific permission. |
 | **36 Stormcrown** | Veyr summit, 650 × 400 m. Sheltered chimneys, suspended weather instruments, a storm observatory with a return cable. | **Brass Weather**, a three-stage lightning collector. Earn an alternative counter drive and a route survey epilogue scene. |
 
+## Draft 3 expansion — new regions (2026-09-28)
+
+Nathan asked for more space areas, each distinctive, and more planets and towns: a warmongering alien people, a volcanic world near them, an ancient town, an ancient near-magical planet, ice and swamp worlds with villages, and a few more. Each addition has a job in the Severance so that it strengthens the campaign instead of widening it. The estimated core length rises from 25–30 hours to about 40–46; these are planning estimates, not measurements.
+
+### Peoples introduced
+
+- **The Vaskar and the Muster.** The Vaskar are a tall, plated people with crest-sails. Their state, the **Muster**, is organised for conquest: rank comes from campaigns won and routes held, and foundry clans are conscripted. The Muster reads the Severance as the war of the age. Worlds cut off from the departing routes will be defenceless, and whoever holds a caged passage can reach them, and rule them, for generations. Following designs looted from Oriel, it is forging **Bridles**, cages that leash young Choir into private war-roads, and it wants Sorrel's nursery. Not every Vaskar is a soldier. The **Unsworn** refuse the muster-oath; they are deserters, conscripted smiths and the families who hide them. The Rauk of Veyr have held the frontier against Muster raids for generations, which is why Kiln Oath is militarised and why Idra knows Vaskar tactics. Meret cites the Muster as proof that open routes invite conquest; Stillwater's protected corridor is her answer.
+- **The Ancelane and the Wick-folk.** The Ancelane lived through the *previous* Severance, long before written memory. Most of their towns moved with the Choir. The rulers of their homeworld, **Oriel**, tried to bridle a passage instead, and broke their world. Their descendants, together with the many peoples who later adopted their customs, keep the lanterns of **Lanternwick**, and the Coronach leave-taking comes from their tradition. Ancient technology here looks magical but obeys one visible rule (see Oriel). It provides evidence and a mechanical principle, never a relic that solves the ending.
+- **Lastlight herders** (Hoarfell): rime-beast herders who live inside the ribcage of an adult Choir that froze on their world during the last Severance. They understand Choir cold-dormancy better than any surveyor.
+- **Driftreed raft-folk** (Wendmire): a swamp people whose woven-reed town already drifts with the tides. They are experts in air-scrubbing reed mats, water stills and floating habitation.
+- **The Meridian Crawlers** (Duskline): a whole town on treads, circling a tidally locked world to stay in its habitable twilight. Nobody knows more about moving a town without breaking it.
+
+### How the new regions change the story
+
+| Where | Why the party goes now | What changes | Carried forward |
+|---|---|---|---|
+| **Lanternwick** (after Tallow) | Sela's moving chart matches a lantern pattern from an old courier tale. | The Wick-folk archive shows that towns survived the last Severance by moving, and that Oriel fell by trying to cage a route. The first Muster scavengers are seen looting relay towers. | The convoy gains historical proof; the Wick-folk relay lanterns become the visual beacon chain for distributed navigation. |
+| **Wendmire** (either order with Xylos) | Many Hands can carry food from Xylos but cannot keep its air and water clean. | Rotbloom, a predator luring raft-folk with light, is killed in the Drowned Waystation. Driftreed agrees to join as a floating district that keeps its own rafts. | Reed air-mats keep a breached town section breathing in the finale. |
+| **Hoarfell** (any order with Veyr and Merrow) | The nursery will have to cross a cold passage, and nobody knows how to keep juveniles alive through it. | The Muster is thawing an ancient Ancelane army from the glacier. The party collapses the thaw rig and puts the Host Marshal back to sleep; this is the first sight of the Muster in force. | Lastlight herders travel with the convoy to keep the young Choir dormant through the final passage. |
+| **Oriel** (opens Movement IV) | The Muster's Bridles come from Oriel's plans; to break them, someone must learn how they were released. | The Last Warden stands down once shown the release. The party sees the glass-turned Choir that the first Bridle killed. | The release principle is applied by crews at Scoria, and later with Cantor's collar, Veyr's furnace and Cinder's joints at Stillwater. |
+| **Vaskar Reach** (Picket, Corona, Scoria, Harrowgate) | The Muster attacks the convoy and cages a route to reach Sorrel. | The Slag Colossus is destroyed and a caged juvenile freed at the Bridle Foundry. Conscripted Unsworn smiths join. At Harrowgate the Unsworn rise and Warmaster Drask is defeated and deposed. | Drask's standing order springs a Bridle on the Nacre route. That thrashing Choir causes the Nacre berth disaster, and Meret launches Stillwater early. The Unsworn forge the finale's release gear from Bridle metal. |
+| **Duskline** (before Cinder separation) | Cinder Halo must learn to move its districts before it can launch. | The party races the dawn across the Terminator to recover the Crawl's stalled tread section. | Crawler engineers help Orrin's crews separate and propel Cinder's districts. |
+| **Updraft** (optional, from Act I) | Vorun's cloud-harvesters sell fuel; their kites are being torn apart by storms. | An optional storm organism, Thunderhead. | Harvest kites refuel the convoy at Last Mooring (optional texture, never required). |
+
+### New main maps
+
+| ID / location | Mode, scale, first visit | Layout and distinctive rule | Story / encounter |
+|---|---|---|---|
+| **37 Lanternwick** | Ancient town, 220 × 180 m, 30–40 min | Carved canyon terraces around Ancelane lantern-towers whose crystal lamps brighten when a Choir passes overhead. Districts: lantern stair, market under the great arch, keepers' archive (a wall of light patterns), orchard terraces and courier dock. Towers pivot to relay light down the canyon. | Wick-folk history, the origin of the Coronach custom and the Oriel warning. **Old Village**. |
+| **38 Lantern Gorge** | Canyon exploration, 600 × 350 m, 20–30 min | Fallen relay towers across a dark gorge where cave-grazers hunt in darkness. Realigning relay mirrors lights a safe path, and light also repels the grazers. | First face-to-face Muster scavenger crew; elite Scav-Captain. |
+| **39 The Spore Veil** | Space, 2.2 km, 15–20 min | A bioluminescent spore nebula. Drifting pods burst into blinding clouds, and ship lights attract spore swarms. Fly dark between Driftreed's pulse beacons. **Rule: visibility is the resource.** | Arrival at Wendmire through its own traffic lights. **Starfield Frontier**. |
+| **40 Driftreed** | Swamp raft village, 240 × 200 m, 30–40 min | Woven-reed raft districts on rope bridges: stilt market, smokehouse, weaving halls and a floating school. High and low tide re-pair which rafts connect, giving two authored layouts that are both coherent. | Raft-folk negotiate their own terms. **Despano Lopo**; shops **Shop Theme**. |
+| **41 Mirefen** | Swamp wilds, 700 × 550 m, 30–40 min | Mangrove giants and peat islands. Three moons' tides, visible in the sky, flood and drain channels on a readable cycle. Fog banks and glow-fungus trails; knee-deep water slows footwork. | Ground combat on shifting footing. **Swamp Sprint**. |
+| **42 The Drowned Waystation** | Ruin dungeon, 450 m / 2 levels, 25–35 min | A half-sunk Ancelane route station. Restarting old pumps drains halls in stages and opens shortcuts. | **B19 Rotbloom**. |
+| **43 Aurora Shear** | Space, 2.4 km, 15–20 min | Hoarfell's magnetic storms form visible aurora currents: ride with them for speed, cross them against drag and shield drain. A shattered ice ring surrounds the planet. **Rule: current-riding lanes.** | Approach through a storm the herders read like weather. **Starfield Frontier**. |
+| **44 Lastlight** | Ice village, 200 × 160 m, 25–35 min | Built inside the ribcage of a frozen adult Choir; vents beneath keep the rib-halls warm. Longhouses, a vent bath-house, carving yard, beast pens and a lamp shrine. The streets follow the skeleton, with warm and cold zones. | Herders' dispute about leaving their dead Choir. **Village Circle**. |
+| **45 The White Reach** | Glacier wilds, 750 × 500 m, 30–40 min | Crevasse fields, wind-carved seracs and migrating rime-beast herds. Wind telegraphs each whiteout; shelter at vent pockets. | Muster excavation crews and ice predators. |
+| **46 The Frozen Host** | Glacier dungeon, 550 m / 3 levels, 30–40 min | An Ancelane army of Bridle-guard constructs frozen in blue ice, with Muster thaw-rigs waking them rank by rank. The thaw spreads as the player descends. | **B20 Host Marshal**. **March of the Frozen Host**. |
+| **47 The Orrery** | Space, 2.6 km, 20–25 min | Oriel's broken moons still ride ancient light-rails around the planet like clockwork, and rings open and close in sequence. **Rule: the whole region is one readable machine.** | Arrival at a world that looks impossible. **Starfield Frontier**. |
+| **48 Oriel Skyfields** | Near-magical planet, 700 × 600 m, 30–40 min | Islands float along still-live route fibres, rivers run upward along light-threads, and glass forests ring under pressure. Gardener automatons tend empty gardens. **Visible rule: where a severed route fibre still runs, weight and light follow it.** Fibres are glowing lines; only islands on them float, and their lift carries the party between islands at marked nodes. | The ruin of a world that tried to hold a route still. **Glass Ruans**. |
+| **49 The Glass Choir** | Ruin dungeon, 500 m, 30–40 min | A cathedral built around an adult Choir the Ancelane bridled, its body turned to glass around the original Bridle engine. | **B21 The Last Warden**. |
+| **50 The Picket of Teeth** | Space, 2.8 km, 20–25 min | The Muster border: flak-curtain gates, sensor buoys and carrier patrol loops. Tumbling asteroids cast sensor shadows. **Rule: detection escalates in visible stages (warning, hunter wing, carrier)**, so the player can go quietly or fight. | Crossing into Vaskar space. **Galactic Conquest**; fights **Starfight**. |
+| **51 The Corona Line** | Space, 2.0 km, 15–20 min | Scoria's unstable red star throws flares on a visible cycle; the sky whitens before each. Ejecta rivers flow between basalt shield-rocks. **Rule: flare timing and cover.** | Approach to the forge world. |
+| **52 Scoria Flows** | Volcanic planet, 750 × 550 m, 30–40 min | Lava deltas crust over and break on cycles, with colour showing which crust is safe. Obsidian shelves, ash storms and the camps of conscripted foundry clans. | Free Unsworn crews under Muster garrisons. **Alien Pulse**. |
+| **53 The Bridle Foundry** | Forge dungeon, 600 m / 3 levels, 30–40 min | A magma-powered forge building Bridle cages from Oriel's plans, with a caged juvenile Choir at its heart. | **B22 Slag Colossus**; free the juvenile. |
+| **54 Harrowgate** | Vaskar capital town, 360 × 280 m, 40–50 min | Basalt terraces around a war harbour: muster fields, the oath hall, armourers' streets, family quarters, trophy galleries of conquered worlds and the hidden Unsworn quarter. It is an institution of war, but people live ordinary lives in it. | **B23 Warmaster Drask Vaal**. **Galactic Conquest**. |
+| **55 Meridian Crawl** | Moving town, 260 × 120 m on treads, 2 decks, 30–40 min | A town on enormous crawler treads, keeping ahead of dawn in a twilight band. Tread-halls, a swaying market street, a sky-garden deck and the helm. The horizon light always shifts, because the town never stops. | Crawlers teach Cinder's crews to move districts. **Dventure at Dusk**. |
+| **56 The Terminator** | Twilight surface, 800 × 300 m band, 20–30 min | A stalled tread section lies on the day side while the lethal dawn line advances visibly. Recover and re-mate it while heat-scavengers attack. | Escape set piece: outrun the dawn. There is no boss. |
+
+**Optional 57 Updraft.** Vorun's upper atmosphere, with a sky town on harvest-kite platforms and atmospheric flight with lift and turbulence (**rule: flight with air**). Optional boss **Thunderhead**, a storm organism. It is available from Act I.
+
+### Every space area has its own rule
+
+| Space area | What makes it play differently |
+|---|---|
+| 01 Cinder Halo lanes | Civil traffic, docking and home orientation |
+| 05 The Gullet | Inside a living route: chambers, throat and nursery gate |
+| 07 Xylos nearspace | Seed barges and a weather mirror; rescue around moving cargo |
+| 13 Veyr ascent lanes | Slag islands and live military test ranges |
+| 17 Merrow mirrorwake | Reflective sails; glare and hull silhouettes |
+| 23 Nacre Grave | A wreck field with a salvage spiral |
+| 26 The Broken Ring | Escorting departing town sections |
+| 28 Last Mooring | Arenas divided by anchor chains |
+| 31 The Returning Passage | The convoy run and the turn-back rescue |
+| 34 Chimera Reef (optional) | Living stone organisms form temporary lanes |
+| **39 The Spore Veil** | Light discipline and visibility |
+| **43 Aurora Shear** | Current-riding for speed and drag |
+| **47 The Orrery** | Clockwork rails and timed rings |
+| **50 The Picket of Teeth** | Staged detection and stealth |
+| **51 The Corona Line** | Flare cycles and heat cover |
+| **57 Updraft (optional)** | Atmospheric lift and turbulence |
+
+### New bosses
+
+| ID / boss | Signature encounter and phases | Ending |
+|---|---|---|
+| **B19 Rotbloom** | A floating bloom colony whose lures mimic Driftreed's lamps. Burn lure-stalks to expose feeding mouths; the drained arena shrinks the safe water between phases. | Genuine predator, killed. |
+| **B20 Host Marshal** | An Ancelane construct commander waking its ranks. Break thaw-rig couplings as it rallies thawed soldiers; its final phase fights within a closing ice cage. | Disabled and returned to sleep; the thaw rig collapses. **Boss of the Ages**. |
+| **B21 The Last Warden** | A guardian still enforcing the first Bridle. Its attacks follow the fibre lines, so reading the lines reads its tells. Each released clamp changes its arena. | Stands down once shown the release. **Boss of the Ages**. |
+| **B22 Slag Colossus** | A walking crucible war-engine. Cool its armour with coolant sluices, break the pour-arms, then fight on the cooling slag floor. | Machine destroyed; the juvenile is freed. **Glitch Boss**. |
+| **B23 Warmaster Drask Vaal** | A duel on the muster field against a war-frame lance and command shouts that summon guard wings. The second phase is a flight pursuit over the war harbour. | Defeated and deposed by the Unsworn, then arrested rather than executed. **Alien Boss Battle**. |
+| **O5 Thunderhead** (optional) | A storm organism in Vorun's clouds; lightning follows visible charge build-up. | Driven off; the harvest lanes reopen. |
+
+### Music map
+
+Nathan's supplied tracks (27 unique, listed with hashes in [docs/music/tracks.json](music/tracks.json)) cover almost every region:
+
+| Cue | Track |
+|---|---|
+| Title / home town / shops / Sorrel combat (current) | Title Theme / Hub Town Groove / Moonbase Market / Adventure Awaits |
+| Space combat (current: Gullet, flight arena) | Starfight |
+| Boss encounters (current: Burrower, Cantor) | Alien Boss Battle |
+| Hushwell | Moon Caverns |
+| Xylos | Jungle Planet Groove, Riverbed Stomp, Seed Shakers of Xylos |
+| Merrow, the Gilded Steps | Regal Alien Town |
+| Lanternwick | Old Village |
+| Driftreed / Mirefen | Despano Lopo / Swamp Sprint |
+| Lastlight / The Frozen Host | Village Circle / March of the Frozen Host |
+| Oriel | Glass Ruans |
+| Scoria / Harrowgate and the Picket | Alien Pulse / Galactic Conquest |
+| Duskline | Dventure at Dusk |
+| New-region space exploration | Starfield Frontier |
+| Travel between regions; Many Hands exterior | Starward Journey |
+| Quiet long lanes (Nacre Grave, Returning Passage) | Endless Flight |
+| Machine bosses / ancient bosses / finale | Glitch Boss / Boss of the Ages / Final Stand |
+| Merchant variant | Shop Theme |
+
+Still uncovered: Veyr (Kiln Oath, Whitebreak), Pale Exchange, Many Hands interior, the Cinder separation walk, Updraft and a dedicated finale-flight cue.
+
+### Production reality
+
+Five of the 52 main maps exist in any form today, and none at its planned scale. The 405 remaining Meshy credits cannot fund generated art for 20 new regions. The expansion should be built as it was planned: greybox first, one region at a time, with a generated kit per region only after its blockout passes MAP_EYE_TEST and its combat plays well. Proposed order after the current workshop and first chapter: Lanternwick with Xylos/Many Hands, then Wendmire; Veyr, Merrow and Hoarfell; Oriel and the Vaskar Reach; Pale Exchange, Nacre and Duskline; the Cinder launch and finale; the optional maps last. If scope must shrink, cut optional maps first, then the Lantern Gorge, then one of Wendmire or Hoarfell (their finale contributions can be merged), before cutting combat quality or the ending.
+
 ## Boss direction
 
 Bosses must support the combat hook: readable anticipation, committed attacks, dodge/guard opportunities, break windows and generous retry access. Enormous spectacle does not excuse a distant camera or a tiny player. Rough target: 3–5 minutes for campaign bosses, 5–7 for chapter finales, with difficulty coming from patterns rather than inflated health. Rebalance the slice's much shorter prototype fights only after animation timing is settled.
@@ -137,12 +263,17 @@ Add roughly eight elite encounters by remixing enemy squads and terrain, not by 
 |---|---|---|---|
 | Cinder / Many Hands | Hull modules, doors, rails, shops, utility machinery | Curved market promenade, mismatched tug bows, separation joints, inhabited galley | **Hub Town Groove** in first town; **Moonbase Market** while shopping; **Title Theme** on title. |
 | Sorrel / Hushwell | Rock faces, drill equipment, crystals, supports | Crater skyline, pressure ribs, drilled nursery wall | **Adventure Awaits** on entering the moon combat area. |
-| Choir routes | Membrane walls, rooted apertures, organic anchors | Each route's chamber silhouette and traversal flow | New travel/combat cues later; keep ambience for now. |
+| Choir routes | Membrane walls, rooted apertures, organic anchors | Each route's chamber silhouette and traversal flow | **Starfight** in the Gullet's combat route (implemented September 28); **Alien Boss Battle** for Cantor. |
 | Xylos | Root platforms, trunks, water channels, leaf shelters | Mobile seed islands, braided river, walking canopy | **Riverbed Stomp** proposed for river traversal; **Seed Shakers of Xylos** for canopy exploration. Reserved until these maps exist. |
 | Veyr | Basalt/snow cliffs, bridges, rescue equipment, furnace blocks | Walking forge, avalanche galleries, civilian rescue yards | Percussive ascent and martial-town cues to compose later. |
 | Merrow | Pale terraces, stairs, lifts, garden modules, survey screens | Open theatre, dense service city and survey court | Formal melody with audible working-district variation. **Shop Theme** reserved for a future merchant variant. |
 | Comet / wrecks | Ice ribs, insulated tents, hull fragments, transfer machines | Warm water quay, unoccupied arrival lounge, spiralling grave harbour | Quiet late-game travel and pressure-combat cues later. |
-| Anchor fleet | Heavy clamps, chains, gantries, frame platforms | Continuance silhouette and staged final arenas | Escalating finale built from character/town motifs, no current placeholder assignment. |
+| Anchor fleet | Heavy clamps, chains, gantries, frame platforms | Continuance silhouette and staged final arenas | **Final Stand** for Meret and the Continuance; **Endless Flight** for the Returning Passage. |
+| Ancelane (Lanternwick, Oriel) | Carved terraces, lantern-towers, glass ruin modules, fibre lines | Relay towers that pivot, floating islands only along visible fibres, the glass-turned Choir | **Old Village**, **Glass Ruans**, **Boss of the Ages**. |
+| Wendmire | Reed rafts, rope bridges, mangrove trunks, peat islands, pumps | Tide-paired raft districts, three-moon tide sky, spore nebula beacons | **Despano Lopo**, **Swamp Sprint**, **Shop Theme**. |
+| Hoarfell | Ice cliffs, seracs, vent pockets, longhouses, rib arches | A village inside a frozen Choir skeleton; the frozen army in blue ice | **Village Circle**, **March of the Frozen Host**. |
+| Vaskar Reach | Basalt terraces, war-harbour cranes, flak gates, forge vats, lava crust | Muster fields and trophy galleries; Bridle cages; staged border detection | **Galactic Conquest**, **Alien Pulse**, **Alien Boss Battle**, **Glitch Boss**. |
+| Duskline | Tread modules, swaying street decks, heat shields | A town that never stops moving; the visible dawn line | **Dventure at Dusk**. |
 
 All new visible art remains generated. Existing downloaded assets are donors, particles, glyphs, fonts and sound only. Do not spend the remaining slice Meshy budget building this entire atlas. Reuse kit geometry judiciously, but commission hero landmarks and bosses only when their greybox play proves worthwhile.
 

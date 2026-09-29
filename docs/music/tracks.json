@@ -1,0 +1,302 @@
+{
+  "note": "Original music by Nathan (Suno). OGG conversions are the game sources; MP3 downloads are kept locally, not committed. Measurements are objective only; no listening claim.",
+  "tracks": [
+    {
+      "title": "Adventure Awaits",
+      "file": "Music/Adventure Awaits.ogg",
+      "bytes": 2618301,
+      "sha256": "57e8680286fca60ff002583f482594639e1ae2799c782177c66b33e627c33b93",
+      "seconds": 150.0,
+      "integratedLufs": -16.2,
+      "truePeakDbfs": -5.1,
+      "status": "slice",
+      "cue": "Sorrel combat territory and the ground arena"
+    },
+    {
+      "title": "Alien Boss Battle",
+      "file": "Music/Alien Boss Battle.ogg",
+      "bytes": 2610562,
+      "sha256": "add7851832f46bdbddb8fbbb0ba27c05dd342bc8c2f259083e2da91c3e843244",
+      "seconds": 144.8,
+      "integratedLufs": -16.4,
+      "truePeakDbfs": -5.2,
+      "status": "slice",
+      "cue": "Boss encounters (Burrower, Cantor now); later creature and Muster bosses"
+    },
+    {
+      "title": "Alien Pulse",
+      "file": "Music/Alien Pulse.ogg",
+      "bytes": 2343298,
+      "sha256": "4ca689e5dbb15c91a24f73a3adfc77aa6d24bca090eda235a7faa356327ae21b",
+      "seconds": 128.0,
+      "integratedLufs": -16.5,
+      "truePeakDbfs": -5.5,
+      "status": "planned",
+      "cue": "Scoria volcanic forge world"
+    },
+    {
+      "title": "Boss of the Ages",
+      "file": "Music/Boss of the Ages.ogg",
+      "bytes": 2595164,
+      "sha256": "2109adad878e45c8e2567b5a653a1a77f287ce9dcbe42864d09026f6c345e879",
+      "seconds": 152.4,
+      "integratedLufs": -16.2,
+      "truePeakDbfs": -5.7,
+      "status": "planned",
+      "cue": "Ancient bosses: The Last Warden (Oriel), Host Marshal (Hoarfell)"
+    },
+    {
+      "title": "Despano Lopo",
+      "file": "Music/Despano Lopo.ogg",
+      "bytes": 2977102,
+      "sha256": "ea0daefe49220457159122500d659649094327d33407f5996a04e81190389fb1",
+      "seconds": 157.6,
+      "integratedLufs": -16.4,
+      "truePeakDbfs": -2.9,
+      "status": "planned",
+      "cue": "40 Driftreed swamp raft village"
+    },
+    {
+      "title": "Dventure at Dusk",
+      "file": "Music/Dventure at Dusk.ogg",
+      "bytes": 2693658,
+      "sha256": "88f871ceba71c5883634ac94f7d670eb12f818eabac26ef9bc64a0fc606b0064",
+      "seconds": 157.2,
+      "integratedLufs": -15.0,
+      "truePeakDbfs": -3.5,
+      "status": "planned",
+      "cue": "Duskline: 55 Meridian Crawl and 56 The Terminator"
+    },
+    {
+      "title": "Endless Flight",
+      "file": "Music/Endless Flight.ogg",
+      "bytes": 3025377,
+      "sha256": "1fdf5e376dc50a40cb555f9d06bff18e81d8f13e224ab7a5087213b7a27793b5",
+      "seconds": 170.0,
+      "integratedLufs": -15.2,
+      "truePeakDbfs": -4.1,
+      "status": "planned",
+      "cue": "Quiet long lanes: Nacre Grave and the Returning Passage"
+    },
+    {
+      "title": "Final Stand",
+      "file": "Music/Final Stand.ogg",
+      "bytes": 2895237,
+      "sha256": "4c5e897595fe6b7052538c34927c41a9c3efe3796fd9e1e1bbc43bd84e689981",
+      "seconds": 163.2,
+      "integratedLufs": -15.9,
+      "truePeakDbfs": -4.7,
+      "status": "planned",
+      "cue": "Finale: Meret and the Continuance"
+    },
+    {
+      "title": "Galactic Conquest",
+      "file": "Music/Galactic Conquest.ogg",
+      "bytes": 3478193,
+      "sha256": "2d879b91d174a671a6ba643ffa078f345a0329544bcb237faa0fb815a18b8364",
+      "seconds": 180.8,
+      "integratedLufs": -15.3,
+      "truePeakDbfs": -4.0,
+      "status": "planned",
+      "cue": "The Vaskar Muster: Harrowgate and the Picket of Teeth"
+    },
+    {
+      "title": "Glass Ruans",
+      "file": "Music/Glass Ruans.ogg",
+      "bytes": 2276174,
+      "sha256": "9e0ab804b1210880734dc1c3ad5483e42b026abf5b53f53ce127c0cfe0a8097c",
+      "seconds": 119.9,
+      "integratedLufs": -15.6,
+      "truePeakDbfs": -3.7,
+      "status": "planned",
+      "cue": "Oriel: 48 Skyfields and 49 The Glass Choir"
+    },
+    {
+      "title": "Glitch Boss",
+      "file": "Music/Glitch Boss.ogg",
+      "bytes": 2978937,
+      "sha256": "a5db23b7f785d04af2182c968e4e363c24f3af4807259fa866dbaac50caa2001",
+      "seconds": 163.0,
+      "integratedLufs": -15.3,
+      "truePeakDbfs": -3.8,
+      "status": "planned",
+      "cue": "Machine and construct bosses: Warrant Engine, Glass Regent, Slag Colossus, Keelbreaker"
+    },
+    {
+      "title": "Hub Town Groove",
+      "file": "Music/Hub Town Groove.ogg",
+      "bytes": 3581217,
+      "sha256": "31d6231263578b59f8bf748d6bb16a22f4dc0f7ec208c4441465bad9ae12e3fa",
+      "seconds": 178.8,
+      "integratedLufs": -16.2,
+      "truePeakDbfs": -4.9,
+      "status": "slice",
+      "cue": "The Decks, Cinder Halo exterior and Tallow (civil areas)"
+    },
+    {
+      "title": "Jungle Planet Groove",
+      "file": "Music/Jungle Planet Groove.ogg",
+      "bytes": 2336432,
+      "sha256": "47a29eb12af1ea4c1df3b8d7b6ce13e7762c6d9690a5ded4fa66f3d52ee10c33",
+      "seconds": 122.4,
+      "integratedLufs": -15.7,
+      "truePeakDbfs": -3.4,
+      "status": "planned",
+      "cue": "Xylos wilds (09 Braided River, 10 Seedfall Reach)"
+    },
+    {
+      "title": "March of the Frozen Host",
+      "file": "Music/March of the Frozen Host.ogg",
+      "bytes": 2574593,
+      "sha256": "81a92dd72fb7a78a28d22bf0013bb675ddb1c2e040dbde808687db3329823d17",
+      "seconds": 142.7,
+      "integratedLufs": -16.8,
+      "truePeakDbfs": -4.5,
+      "status": "planned",
+      "cue": "46 The Frozen Host glacier dungeon"
+    },
+    {
+      "title": "Moon Caverns",
+      "file": "Music/Moon Caverns.ogg",
+      "bytes": 2995165,
+      "sha256": "0f5658b7084887d843a9be4ec37988eee6260a52be5eab9b6976cab041e2b2bb",
+      "seconds": 158.0,
+      "integratedLufs": -15.2,
+      "truePeakDbfs": -3.2,
+      "status": "planned",
+      "cue": "04 Hushwell moon cave"
+    },
+    {
+      "title": "Moonbase Market",
+      "file": "Music/Moonbase Market.ogg",
+      "bytes": 1940970,
+      "sha256": "d27ed07fc90281e6fdf5404e1c52a24510ad05e20117d007010ef779b3bfda41",
+      "seconds": 112.0,
+      "integratedLufs": -15.7,
+      "truePeakDbfs": -2.1,
+      "status": "slice",
+      "cue": "Any open shop"
+    },
+    {
+      "title": "Old Village",
+      "file": "Music/Old Village.ogg",
+      "bytes": 2140829,
+      "sha256": "eef84534e4da03ed82f5ce92a01793a46f196b1754f0b439f91cda0d8cbc854e",
+      "seconds": 112.2,
+      "integratedLufs": -15.2,
+      "truePeakDbfs": -3.3,
+      "status": "planned",
+      "cue": "37 Lanternwick ancient town"
+    },
+    {
+      "title": "Regal Alien Town",
+      "file": "Music/Regal Alien Town.ogg",
+      "bytes": 2642958,
+      "sha256": "79be8d2ac47d08cad941b84ba6241797e3eab39579e0571859a818f504579951",
+      "seconds": 145.2,
+      "integratedLufs": -16.8,
+      "truePeakDbfs": -5.4,
+      "status": "planned",
+      "cue": "18 The Gilded Steps (Merrow)"
+    },
+    {
+      "title": "Riverbed Stomp",
+      "file": "Music/Riverbed Stomp.ogg",
+      "bytes": 1641237,
+      "sha256": "4b8911bd35d397f60dabd9663c6818b4e39324b89836821e85a219e350d38450",
+      "seconds": 91.9,
+      "integratedLufs": -15.3,
+      "truePeakDbfs": -1.9,
+      "status": "planned",
+      "cue": "Xylos river traversal"
+    },
+    {
+      "title": "Seed Shakers of Xylos",
+      "file": "Music/Seed Shakers of Xylos.ogg",
+      "bytes": 2259363,
+      "sha256": "e50fc80f816d0d8e0061b09b25d62c0499a32879277cd1b4d828fe517d86ae85",
+      "seconds": 118.4,
+      "integratedLufs": -15.6,
+      "truePeakDbfs": -3.5,
+      "status": "planned",
+      "cue": "08 Rootmarket and canopy exploration"
+    },
+    {
+      "title": "Shop Theme",
+      "file": "Music/Shop Theme.ogg",
+      "bytes": 2029045,
+      "sha256": "40db1122ae4554a9eaa92053903eed75c614a06cd1d0507e9f3d2687310782e8",
+      "seconds": 104.8,
+      "integratedLufs": -15.5,
+      "truePeakDbfs": -3.6,
+      "status": "planned",
+      "cue": "Merchant variant for Rootmarket and Driftreed shops"
+    },
+    {
+      "title": "Starfield Frontier",
+      "file": "Music/Starfield Frontier.ogg",
+      "bytes": 2505573,
+      "sha256": "eba6712f75277ffa73ef17ea3a7042bc5540a47294cdb9915e0a2d76c977605f",
+      "seconds": 138.0,
+      "integratedLufs": -16.2,
+      "truePeakDbfs": -5.7,
+      "status": "planned",
+      "cue": "New-region space exploration (Aurora Shear, Spore Veil, The Orrery, Xylos nearspace)"
+    },
+    {
+      "title": "Starfight",
+      "file": "Music/Starfight.ogg",
+      "bytes": 2797592,
+      "sha256": "39af5cde8b126310325604e3978d750346ca89057048d1f5a1398d3d6366b9f0",
+      "seconds": 148.3,
+      "integratedLufs": -16.9,
+      "truePeakDbfs": -5.0,
+      "status": "slice",
+      "cue": "Space combat: the Gullet and flight arena; later Picket of Teeth and Corona Line fights"
+    },
+    {
+      "title": "Starward Journey",
+      "file": "Music/Starward Journey.ogg",
+      "bytes": 2185895,
+      "sha256": "49b9c92d770b8b24514ddd74888af50a2afe6f27271be8ae3e8ca9a825f815d2",
+      "seconds": 121.6,
+      "integratedLufs": -17.0,
+      "truePeakDbfs": -5.8,
+      "status": "planned",
+      "cue": "Route-chart travel between regions and Many Hands exterior"
+    },
+    {
+      "title": "Swamp Sprint",
+      "file": "Music/Swamp Sprint.ogg",
+      "bytes": 1682299,
+      "sha256": "073efbeda3bef13e26b8c315f089351bc3897f85d7435f2bb2eb8bb875eafdee",
+      "seconds": 92.0,
+      "integratedLufs": -16.3,
+      "truePeakDbfs": -6.2,
+      "status": "planned",
+      "cue": "41 Mirefen swamp wilds"
+    },
+    {
+      "title": "Title Theme",
+      "file": "Music/Title Theme.ogg",
+      "bytes": 2934360,
+      "sha256": "acbf29d147c28723a8abdd651e0aa92558ac55e062c97156678bd590afbf87e3",
+      "seconds": 162.8,
+      "integratedLufs": -15.5,
+      "truePeakDbfs": -5.5,
+      "status": "slice",
+      "cue": "Title screen"
+    },
+    {
+      "title": "Village Circle",
+      "file": "Music/Village Circle.ogg",
+      "bytes": 1428953,
+      "sha256": "a821464b84854f26e4177e4044385053110ca83668c97a48cfaa2721877ffd36",
+      "seconds": 76.8,
+      "integratedLufs": -16.0,
+      "truePeakDbfs": -3.8,
+      "status": "planned",
+      "cue": "44 Lastlight ice village"
+    }
+  ]
+}
