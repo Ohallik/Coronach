@@ -17,6 +17,10 @@ namespace Lattice.Combat
             public Quaternion rotation;
             public float side;
             public int contact=-1;
+            public bool soundReady;
+            public float weight;
+            public Collider ground;
+            public Vector3 surfacePoint,surfaceNormal;
         }
         Animator animator;
         Transform heading,pelvis;
@@ -30,6 +34,7 @@ namespace Lattice.Combat
         GeneratedAnimator driver;
         CombatActor actor;
         FormController form;
+        CharacterController controller;
         public float MaximumReachCorrection {get;private set;}
         public float RequestedSupportDrop {get;private set;}
         void OnEnable(){ResetContacts();}
@@ -44,7 +49,7 @@ namespace Lattice.Combat
             spine=spineBones.ToArray();
             left=Create(true);right=Create(false);
             previousPosition=heading.position;previousRotation=heading.rotation;
-            driver=GetComponent<GeneratedAnimator>();actor=GetComponentInParent<CombatActor>();form=GetComponentInParent<FormController>();
+            driver=GetComponent<GeneratedAnimator>();actor=GetComponentInParent<CombatActor>();form=GetComponentInParent<FormController>();controller=actor!=null?actor.GetComponent<CharacterController>():null;
         }
         Leg Create(bool isLeft)=>new()
         {
@@ -64,12 +69,13 @@ namespace Lattice.Combat
             Correct(actor.motor.Velocity,driver.LocomotionAnimation,info.normalizedTime,driver.StrideScale,
                 animator.IsInTransition(0),GameTime.Paused,driver.ReverseLocomotion,actor.TargetLocked);
         }
-        public void ResetContacts(){if(left!=null)left.contact=right.contact=-1;previousClip=null;previousDirection=Vector3.forward;}
+        public void ResetContacts(){if(left!=null){left.contact=right.contact=-1;left.soundReady=right.soundReady=false;}previousClip=null;previousDirection=Vector3.forward;}
         public void Correct(Vector3 velocity,string clip,float phase,float stride,bool transitioning,bool paused=false,bool reverse=false,bool targetFacing=true)
         {
             if(profile==null)return;
-            bool reset=previousClip!=clip||previousReverse!=reverse||previousTargetFacing!=targetFacing||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
-            if(reset||transitioning){left.contact=right.contact=-1;}
+            bool reset=previousClip==null||previousReverse!=reverse||previousTargetFacing!=targetFacing||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
+            if(reset||previousClip!=clip||transitioning)left.contact=right.contact=-1;
+            if(reset)left.soundReady=right.soundReady=false;
             previousClip=clip;previousReverse=reverse;previousTargetFacing=targetFacing;previousPosition=heading.position;previousRotation=heading.rotation;
             var local=heading.InverseTransformDirection(velocity);local.y=0;
             if(local.sqrMagnitude>.0025f)previousDirection=local.normalized;
@@ -104,6 +110,28 @@ namespace Lattice.Combat
             float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.14f);
             pelvis.position-=Vector3.up*supportDrop;
             Complete(left,directional);Complete(right,directional);
+            if(!paused)
+            {
+                bool canSound=actor!=null&&actor.Health.Alive&&!actor.flight&&!actor.ChangingForm&&
+                    controller!=null&&controller.isGrounded&&velocity.sqrMagnitude>.01f&&!reset;
+                Footfall(left,canSound,transitioning);Footfall(right,canSound,transitioning);
+            }
+        }
+        void Footfall(Leg leg,bool eligible,bool transitioning)
+        {
+            if(!eligible){leg.soundReady=false;return;}
+            // A gait blend is neither a new landing nor a released foot.
+            if(transitioning)return;
+            // Heel-to-toe handover is one stance, not a second footfall. A
+            // transition/reset must first observe a released foot before rearming.
+            if(leg.contact<0){leg.soundReady=true;return;}
+            if(!leg.soundReady||leg.weight<.3f||leg.ground==null||leg.surfaceNormal.y<.5f)return;
+            Vector3 sole=leg.contact==0?leg.foot.TransformPoint(leg.heelOffset):leg.toe.TransformPoint(leg.toeOffset);
+            if(Mathf.Abs(Vector3.Dot(sole-leg.surfacePoint,leg.surfaceNormal))>.06f)return;
+            leg.soundReady=false;
+            float gain=Mathf.Lerp(.14f,.23f,Mathf.InverseLerp(1,10,actor.motor.Velocity.magnitude));
+            AudioManager.Family(AudioSurface.Family(leg.ground,SceneFlow.Current!=null?SceneFlow.Current.Zone:actor.gameObject.scene.name),
+                4,actor.transform,sole,gain,170,.08f);
         }
         void Complete(Leg leg,float directional)
         {
@@ -125,7 +153,7 @@ namespace Lattice.Combat
             warped.x=Mathf.Lerp(warped.x,side*leg.side,directional);
             Vector3 target=heading.position+lowerRotation*warped;
             Vector3 heel=leg.foot.TransformPoint(leg.heelOffset),toe=leg.toe.TransformPoint(leg.toeOffset);
-            int contact=-1;float weight=0;
+            int contact=-1;float weight=0;leg.ground=null;
             if(canPlant)
             {
                 if(clip=="Walk")
@@ -146,6 +174,7 @@ namespace Lattice.Combat
             Vector3 proposed=marker+target-originalFoot;
             if(Physics.Raycast(proposed+Vector3.up*.65f,Vector3.down,out var ground,1.4f,~0,QueryTriggerInteraction.Ignore)&&ground.point.y<=heading.position.y+.4f)
             {
+                leg.ground=ground.collider;leg.surfacePoint=ground.point;leg.surfaceNormal=ground.normal;
                 if(contact>=0)
                 {
                     if(contact==1&&weight>0)
@@ -174,7 +203,7 @@ namespace Lattice.Combat
                 target.y+=Mathf.Max(0,.003f-clearance)/Mathf.Max(.2f,ground.normal.y);
             }
             else contact=-1;
-            leg.contact=contact;
+            leg.contact=contact;leg.weight=weight;
             leg.target=target;leg.pole=lowerRotation*new Vector3(leg.side*.3f,0,1);
             leg.rotation=footRotation;
         }

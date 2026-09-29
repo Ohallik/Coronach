@@ -17,12 +17,13 @@ namespace Lattice.UI
         Canvas canvas;
         GameObject panel;
         int page,offset,gearMode;
+        bool keyboardSettings;
         string feedback="";
         public bool IsOpen=>panel!=null;
         public bool AtBench;
         InputActionRebindingExtensions.RebindingOperation rebind;
-        public void Open(int selected=0,bool bench=false){page=selected;offset=0;feedback="";AtBench=bench;GameServices.Current.Input.Blocked=true;GameTime.Paused=true;Rebuild();}
-        public void Close(){rebind?.Dispose();rebind=null;if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;GameTime.Paused=false;}
+        public void Open(int selected=0,bool bench=false){page=selected;offset=0;keyboardSettings=false;feedback="";AtBench=bench;GameServices.Current.Input.Blocked=true;GameTime.Paused=true;Rebuild(false);}
+        public void Close(){if(AudioMix.Current!=null)AudioMix.Current.Flush();rebind?.Dispose();rebind=null;if(panel!=null)Destroy(panel);panel=null;if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;GameTime.Paused=false;}
         void Start(){canvas=UiKit.CreateCanvas("Menus",30,transform);}
         void Update()
         {
@@ -32,18 +33,18 @@ namespace Lattice.UI
             if(!IsOpen){if(input.Blocked)return;if(pause)Open();else if(input.Find("Log").WasPressedThisFrame())Open(4);return;}
             if(pause||UiActions.Cancel.WasPressedThisFrame()){Close();return;}
             if(page==1&&input.Find("Swap").WasPressedThisFrame()){PartyController.Current.Swap();Rebuild();}
-            if(input.Find("MenuNext").WasPressedThisFrame()){page=(page+1)%tabs.Length;offset=0;Rebuild();}
-            if(input.Find("MenuPrev").WasPressedThisFrame()){page=(page+tabs.Length-1)%tabs.Length;offset=0;Rebuild();}
+            if(input.Find("MenuNext").WasPressedThisFrame()){page=(page+1)%tabs.Length;offset=0;Rebuild(false);}
+            if(input.Find("MenuPrev").WasPressedThisFrame()){page=(page+tabs.Length-1)%tabs.Length;offset=0;Rebuild(false);}
         }
-        void Rebuild()
+        void Rebuild(bool rememberFocus=true)
         {
-            string focus=EventSystem.current.currentSelectedGameObject!=null?EventSystem.current.currentSelectedGameObject.name:null;
+            string focus=rememberFocus&&EventSystem.current.currentSelectedGameObject!=null?EventSystem.current.currentSelectedGameObject.name:null;
             if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,.95f).gameObject;
             var title=UiKit.Heading(panel.transform,"Heading",tabs[page].ToUpperInvariant(),46,UiKit.TextColor,TextAlignmentOptions.Left);
             UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(-150,400),new(1100,75));
             var list=new List<Selectable>();var tabButtons=new List<Selectable>();
             for(int i=0;i<tabs.Length;i++)
-            {int n=i;var b=UiKit.Button(panel.transform,"Tab_"+tabs[i],tabs[i],()=>{page=n;offset=0;Rebuild();});UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(-690,270-i*95),new(290,65));tabButtons.Add(b);}
+            {int n=i;var b=UiKit.Button(panel.transform,"Tab_"+tabs[i],tabs[i],()=>{page=n;offset=0;Rebuild(false);});UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(-690,270-i*95),new(290,65));tabButtons.Add(b);}
             var state=GameServices.Current.State;int row=0;
             void Add(string text,System.Action action=null,string icon=null)
             {
@@ -108,16 +109,23 @@ namespace Lattice.UI
             }
             else
             {
-                var volume=UiKit.Slider(panel.transform,"Volume",AudioListener.volume,v=>{AudioListener.volume=v;PlayerPrefs.SetFloat("volume",v);});UiKit.Rect(volume.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,295),new(1100,42));list.Add(volume);row++;
-                foreach(string name in new[]{"Attack","Dodge","Guard","Swap","Interact","Pause"})
+                if(!keyboardSettings)
                 {
-                    string actionName=name;Add("Rebind keyboard: "+name,()=>BeginRebind(actionName));
+                    AudioSettingsUi.Add(panel.transform,new Vector2(170,290),1150,68,list);row=5;
+                    Add("Keyboard bindings",()=>{keyboardSettings=true;Rebuild(false);});
+                    Note("Left/right adjusts the selected channel. Up/down selects a channel. LB/RB changes tabs.");
                 }
-                Note("Left/right adjusts volume. Select a binding, then press a keyboard key. B cancels listening.");
+                else
+                {
+                    Add("Back to sound controls",()=>{keyboardSettings=false;Rebuild(false);});
+                    foreach(string name in new[]{"Attack","Dodge","Guard","Swap","Interact","Pause"})
+                    {string actionName=name;Add("Rebind keyboard: "+name,()=>BeginRebind(actionName));}
+                    Note("Select a binding, then press a keyboard key. B cancels listening.");
+                }
             }
             var close=UiKit.Button(panel.transform,"Close","B  Back",Close);UiKit.Rect(close.gameObject,new(.5f,.5f),new(.5f,.5f),new(650,-435),new(270,55));list.Add(close);
             UiKit.LinkVertical(tabButtons.ToArray());UiKit.LinkGrid(list);
-            foreach(var b in list){var nav=b.navigation;nav.selectOnLeft=tabButtons[page];b.navigation=nav;}
+            foreach(var b in list)if(b is not Slider){var nav=b.navigation;nav.selectOnLeft=tabButtons[page];b.navigation=nav;}
             for(int i=0;i<tabButtons.Count;i++){var nav=tabButtons[i].navigation;nav.selectOnRight=list[0];tabButtons[i].navigation=nav;}
             var remembered=list.Concat(tabButtons).FirstOrDefault(s=>s.name==focus);
             EventSystem.current.SetSelectedGameObject((remembered!=null?remembered:list[0]).gameObject);

@@ -319,6 +319,12 @@ if ($Mode -in @("verify", "scene", "build", "builddev")) {
 Write-Host "Running Unity headless: $Mode $Method (log: $LogFile)"
 $processExitCode = 1
 $IsTestRun = $Mode -in @("tests", "playtests")
+if ($IsTestRun) {
+    # Audio UI tests must never write Nathan's PlayerPrefs. Keep this separate
+    # from the existing gameplay-save shield and its save/resume coverage.
+    $TestAudioDirectory = Join-Path $LogDir ("test-audio-settings-" + [guid]::NewGuid().ToString("N"))
+    $args2 += @("-audio-settings-path", $TestAudioDirectory)
+}
 $testLaunchNotBeforeUtc = [datetime]::MinValue
 try {
     if ($ShieldPlaytestSaves) {

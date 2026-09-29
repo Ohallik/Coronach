@@ -1,0 +1,890 @@
+{
+  "status": "Prepared candidates only; not staged in game; audition UNVERIFIED",
+  "sampleRate": 48000,
+  "channels": 1,
+  "targetSamplePeakDbfs": -10,
+  "processing": "Decode mono 48k; optional pitch-resample; normalize each layer to unit peak then weighted mix/delay; trim below -60 dB relative activity; 2 ms onset and 12 ms tail fades; normalize composite to -10 dBFS; signed 16-bit PCM.",
+  "clips": [
+    {
+      "key": "step_metal_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_metal_0.wav",
+        "bytes": 35720,
+        "sha256": "8eeab0dab323dec8c62b59e75c270913a48cd3e89d5430d8d2b4674a3b88fe44"
+      },
+      "seconds": 0.371625,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_000.ogg",
+          "gain": 0.8,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_000.ogg",
+          "gain": 0.2,
+          "pitch": 1.18,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "step_rock_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_rock_0.wav",
+        "bytes": 9934,
+        "sha256": "0fd90e05c2b1922856904d6c03507d2aa8786aa5b0aab2c84d6597a264f03db1"
+      },
+      "seconds": 0.10302083333333334,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_000.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_soil_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_soil_0.wav",
+        "bytes": 74414,
+        "sha256": "2084cc3d6bd9e6c1ab164e12b132e91ee7130cc13c932d2e13e154730f6fd81d"
+      },
+      "seconds": 0.7746875,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_grass_000.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_metal_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_metal_1.wav",
+        "bytes": 45286,
+        "sha256": "5627d75f1392002055127f460ee30a948900d47a62572b061c79b6a3cbd1c7e1"
+      },
+      "seconds": 0.47127083333333336,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_001.ogg",
+          "gain": 0.8,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_001.ogg",
+          "gain": 0.2,
+          "pitch": 1.18,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "step_rock_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_rock_1.wav",
+        "bytes": 10100,
+        "sha256": "17e098cc7d36031c7d9289e8f3ffe91abb2f8ed032f6b1c9c6b419f2d9119e78"
+      },
+      "seconds": 0.10475,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_soil_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_soil_1.wav",
+        "bytes": 64432,
+        "sha256": "cf85c8f2f5bb556bd94fb561ddef253e17c906ed50074cfd3cf7954ace73d72a"
+      },
+      "seconds": 0.6707083333333334,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_grass_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_metal_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_metal_2.wav",
+        "bytes": 33774,
+        "sha256": "fbbeaaf69ca523d87f8b1773747ed738380d4d66977e018c71fe0784d0cfe7dc"
+      },
+      "seconds": 0.3513541666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_002.ogg",
+          "gain": 0.8,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_002.ogg",
+          "gain": 0.2,
+          "pitch": 1.18,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "step_rock_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_rock_2.wav",
+        "bytes": 10594,
+        "sha256": "32c28fd03ff778e572128bf1ff9929fd544b8a23544584687cc3126ca0138850"
+      },
+      "seconds": 0.10989583333333333,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_002.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_soil_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_soil_2.wav",
+        "bytes": 66242,
+        "sha256": "6d63c9811387037365e8a92139dd1d77953b3032284add0c3fdd3c81cecef1c6"
+      },
+      "seconds": 0.6895625,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_grass_002.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_metal_3",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_metal_3.wav",
+        "bytes": 35478,
+        "sha256": "05a87b01c7ea1e17358642e390a10e1da89bd01b76b6c2c174a33f6696f869cd"
+      },
+      "seconds": 0.3691041666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_003.ogg",
+          "gain": 0.8,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_003.ogg",
+          "gain": 0.2,
+          "pitch": 1.18,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "step_rock_3",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_rock_3.wav",
+        "bytes": 10374,
+        "sha256": "e4d0ac33f142dbff46dc6ffe7d9fef1e6418c2135296e426e70e90e7f821c3dd"
+      },
+      "seconds": 0.10760416666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_concrete_003.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "step_soil_3",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/step_soil_3.wav",
+        "bytes": 64022,
+        "sha256": "ef3127a31420f151523acd01d67a7cd540d9721c689b7eafdea3f479d595364b"
+      },
+      "seconds": 0.6664375,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "footstep_grass_003.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "hit_soft_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/hit_soft_0.wav",
+        "bytes": 30566,
+        "sha256": "3068645c32cc1e42d07833b0fa5480b41f1c81a57fd9ab9816236052476c83b6"
+      },
+      "seconds": 0.3179375,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPunch_medium_000.ogg",
+          "gain": 0.75,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactSoft_medium_000.ogg",
+          "gain": 0.25,
+          "pitch": 1,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "hit_armor_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/hit_armor_0.wav",
+        "bytes": 49390,
+        "sha256": "b331b0631d8d5198fc6d391a32011bcb33fe10074e5e5c204ab8df55b9226cb4"
+      },
+      "seconds": 0.5140208333333334,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactMetal_medium_000.ogg",
+          "gain": 0.7,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_000.ogg",
+          "gain": 0.3,
+          "pitch": 0.9,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "swing_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/swing_0.wav",
+        "bytes": 53900,
+        "sha256": "fce806315baf55f03b9480db2008edd24c030ee558ef92914b580b634eeff476"
+      },
+      "seconds": 0.561,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio",
+          "name": "knifeSlice.ogg",
+          "gain": 0.8,
+          "pitch": 1.15,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio",
+          "name": "cloth1.ogg",
+          "gain": 0.2,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "needle_taren_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/needle_taren_0.wav",
+        "bytes": 22646,
+        "sha256": "de82c8f466d6371de9b87030dd2ad6211b106c8cc278774cd32d26856444b2eb"
+      },
+      "seconds": 0.2354375,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds",
+          "name": "laserRetro_000.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "needle_sela_0",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/needle_sela_0.wav",
+        "bytes": 22730,
+        "sha256": "44de12cee8c9c8302d36c49984616019e07c5d724d298826822f1b6ee31275fc"
+      },
+      "seconds": 0.2363125,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds",
+          "name": "laserSmall_000.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "hit_soft_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/hit_soft_1.wav",
+        "bytes": 28878,
+        "sha256": "fea8e8e65dcb7815771517af2d9052d5b3462379a6e9a3c073755f777bde77ad"
+      },
+      "seconds": 0.30035416666666664,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPunch_medium_001.ogg",
+          "gain": 0.75,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactSoft_medium_001.ogg",
+          "gain": 0.25,
+          "pitch": 1,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "hit_armor_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/hit_armor_1.wav",
+        "bytes": 59330,
+        "sha256": "f0d3c3a6939e8e4d725f10908adf34cfb3bd9f9a311b0fe6403bd979781f7652"
+      },
+      "seconds": 0.6175625,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactMetal_medium_001.ogg",
+          "gain": 0.7,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_001.ogg",
+          "gain": 0.3,
+          "pitch": 0.9,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "swing_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/swing_1.wav",
+        "bytes": 47598,
+        "sha256": "26436f694a3ba0dba2ee6cf48a345bc1348c0323e973829d7908a7a86b836d35"
+      },
+      "seconds": 0.49535416666666665,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio",
+          "name": "knifeSlice2.ogg",
+          "gain": 0.8,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio",
+          "name": "cloth2.ogg",
+          "gain": 0.2,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "needle_taren_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/needle_taren_1.wav",
+        "bytes": 22654,
+        "sha256": "a8966ac9e2e36123b17e3890881754da2df99ec03a93dfc8c41b911d3e1513d7"
+      },
+      "seconds": 0.23552083333333335,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds",
+          "name": "laserRetro_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "needle_sela_1",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/needle_sela_1.wav",
+        "bytes": 23512,
+        "sha256": "42f89eab4efe74219ff32abc54fb36278dc2bc8eb7b658b97b79c58e1a1d2184"
+      },
+      "seconds": 0.24445833333333333,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds",
+          "name": "laserSmall_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "hit_soft_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/hit_soft_2.wav",
+        "bytes": 35540,
+        "sha256": "18f67b8f86eb0eee77a104f796ab51c0d1d453a2fd4f5a4e2f0422ec04706f4b"
+      },
+      "seconds": 0.36975,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPunch_medium_002.ogg",
+          "gain": 0.75,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactSoft_medium_002.ogg",
+          "gain": 0.25,
+          "pitch": 1,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "hit_armor_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/hit_armor_2.wav",
+        "bytes": 43990,
+        "sha256": "8e4af859baba1d2f49e56078e6441dd641ab42a3c90de193fd47fbbaaf74f3a9"
+      },
+      "seconds": 0.45777083333333335,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactMetal_medium_002.ogg",
+          "gain": 0.7,
+          "pitch": 1,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds",
+          "name": "impactPlate_light_002.ogg",
+          "gain": 0.3,
+          "pitch": 0.9,
+          "delay": 0.008
+        }
+      ]
+    },
+    {
+      "key": "swing_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/swing_2.wav",
+        "bytes": 55138,
+        "sha256": "07be33c09fe770d99f9b651481bc8dbb2b486e58452271dcd0bab424448f31aa"
+      },
+      "seconds": 0.5738958333333334,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio",
+          "name": "knifeSlice.ogg",
+          "gain": 0.8,
+          "pitch": 0.84,
+          "delay": 0
+        },
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio",
+          "name": "cloth3.ogg",
+          "gain": 0.2,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "needle_taren_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/needle_taren_2.wav",
+        "bytes": 24530,
+        "sha256": "38f7fff33cd5017275506705d5d97b40aad2b646c027e9b6d73ddf061a1f7b14"
+      },
+      "seconds": 0.2550625,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds",
+          "name": "laserRetro_002.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "needle_sela_2",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/needle_sela_2.wav",
+        "bytes": 33094,
+        "sha256": "afcc4d9ccd1b0acf5fdf013a4d9ad8570fc48ccfddc6d6ce6b116de3826b0e46"
+      },
+      "seconds": 0.34427083333333336,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds",
+          "name": "laserSmall_002.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "ui_confirm",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/ui_confirm.wav",
+        "bytes": 27870,
+        "sha256": "6fe64d1b1c6fe4a77350fc9ddfe627199a597dc4e64dd64c539738d55c741fec"
+      },
+      "seconds": 0.2898541666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "confirmation_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "ui_cancel",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/ui_cancel.wav",
+        "bytes": 5898,
+        "sha256": "5001279dc9c9e70d574ce5047a90960a1b2587f9494e1592fdd271c0ceaddfac"
+      },
+      "seconds": 0.06097916666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "back_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "ui_error",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/ui_error.wav",
+        "bytes": 15564,
+        "sha256": "85819d5fe7f30de1b3751232dc7a0b57ea4c80296f421e492611b63be39f5965"
+      },
+      "seconds": 0.16166666666666665,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "error_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "ui_move",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/ui_move.wav",
+        "bytes": 3922,
+        "sha256": "ba81dc9460ed0a419b8f9fce4841a407ab3630b9b54a8b14c73244a5a52fe746"
+      },
+      "seconds": 0.04039583333333333,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "select_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    },
+    {
+      "key": "dialogue_tick",
+      "output": {
+        "path": "C:/Users/natem/Projects/SpaceRPG/Builds/quality/C5/palette-candidate-02/dialogue_tick.wav",
+        "bytes": 2424,
+        "sha256": "bc1e07579ea0e0cacb7728ca0dbb0c417e41f41382ceaf1fed06974cf175d03b"
+      },
+      "seconds": 0.024791666666666667,
+      "layers": [
+        {
+          "pack": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds",
+          "name": "tick_001.ogg",
+          "gain": 1,
+          "pitch": 1,
+          "delay": 0
+        }
+      ]
+    }
+  ],
+  "sources": [
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_concrete_000.ogg",
+      "bytes": 5808,
+      "sha256": "d7267e183067757c92c169de2a379abea592cfca6b39bb2e8feea15221ad79fe"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPlate_light_000.ogg",
+      "bytes": 10474,
+      "sha256": "6e797cf8a5bfc52d7ed5eb47c227974c1cf2a674954fec5b539cea7d62c7282c"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_grass_000.ogg",
+      "bytes": 8290,
+      "sha256": "9d49497777405d78d7cf7f2888e28277f3a23192300cfd1d79d54876b20f479f"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_concrete_001.ogg",
+      "bytes": 6308,
+      "sha256": "507a75eb19b897087855a3be3cf11a12d7fa37d143ad535eeebe0b8031c7325d"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPlate_light_001.ogg",
+      "bytes": 11730,
+      "sha256": "947915c2eb6ac57ee08fd3a48b297fd108d69abc72076e79882c21cad0eef56e"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_grass_001.ogg",
+      "bytes": 8313,
+      "sha256": "fb28781bd22b2eefdc14077f1adf5c94d7fe9c3a130194633b55f3e0d39d9f04"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_concrete_002.ogg",
+      "bytes": 6255,
+      "sha256": "b21fa546d74941196b25da8a20b7010abd8c05c4fcf93545d1f344e66a664e13"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPlate_light_002.ogg",
+      "bytes": 9932,
+      "sha256": "8ac5869ea434cf0d364872774efe70b2d666a4f02ba35ddfc1e051d336721be8"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_grass_002.ogg",
+      "bytes": 8278,
+      "sha256": "73a520139f5be716a403bfe9c80e0e94d1e61d8e9de04a354b336392164b53dc"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_concrete_003.ogg",
+      "bytes": 5805,
+      "sha256": "8b513c2f0316324060b9174b8f28df6c2147418c506e6a53b77f18e149a5547b"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPlate_light_003.ogg",
+      "bytes": 10626,
+      "sha256": "dbfb7c1d002576696df3e9a43d6639ee3f342068398b5e7b55bc2389d20508a9"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/footstep_grass_003.ogg",
+      "bytes": 8129,
+      "sha256": "0546e1d8ab2def714425701a18bd34c5ee2794b12e858e5b595aabcf38a34137"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPunch_medium_000.ogg",
+      "bytes": 8800,
+      "sha256": "486988aa2d6440ffc4c62a0e8ccf3c23673ba84424bd4723378d451b7255eb5c"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactSoft_medium_000.ogg",
+      "bytes": 5351,
+      "sha256": "7d3ba0bb5e60a11b5d3e558c141303dcf494256675fbf753c0d252d2cf0481e3"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactMetal_medium_000.ogg",
+      "bytes": 7117,
+      "sha256": "a96f879fec0864a8938e0c745b6996a6c5679c16a234ce31a01cc995e8401003"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio/Audio/knifeSlice.ogg",
+      "bytes": 15532,
+      "sha256": "4cd96dc630bed9840c15f1dd2306da2cc56a4da26a5d3f1a03c5a7265ac5e54f"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio/Audio/cloth1.ogg",
+      "bytes": 16508,
+      "sha256": "ddb93a3671233f95da0e0b10367f082f7eb42fa6caaddcf776410aa8833c747d"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/Audio/laserRetro_000.ogg",
+      "bytes": 12588,
+      "sha256": "2a203a007d24cc7e607eb8bec1d86bedba7f551911217ce2c4c1f31393aed32c"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/Audio/laserSmall_000.ogg",
+      "bytes": 7286,
+      "sha256": "72b589eadd41781257ac859e4f4d030222e623390e4a1a83f6d05329a6e026f1"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPunch_medium_001.ogg",
+      "bytes": 8701,
+      "sha256": "e71d23abcc3f10d9d6bc9615b2a431fff70b12333a5fcdd9964457564ace4349"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactSoft_medium_001.ogg",
+      "bytes": 5506,
+      "sha256": "7642a4fd43e547afe4f7adfadb3dabb681c0ff512f52c1674bae30a726841faf"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactMetal_medium_001.ogg",
+      "bytes": 6151,
+      "sha256": "e8a9eaba7c4d27422e4eeb3e6c7100d5d7dc0f83e005efc98c960adcc5265337"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio/Audio/knifeSlice2.ogg",
+      "bytes": 15099,
+      "sha256": "6c2064d0ef988d1ec3d56868e823ea8823a5cac00f2742560052633529407def"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio/Audio/cloth2.ogg",
+      "bytes": 11787,
+      "sha256": "8a7451193c38bc05483aec25dd193e163a15d44cf7fff04ac7912573231b0201"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/Audio/laserRetro_001.ogg",
+      "bytes": 12732,
+      "sha256": "a0a99efaa755594982d5dfebf3d9cecaed5249bdf1f0de29cf26ca9ea24c191a"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/Audio/laserSmall_001.ogg",
+      "bytes": 7448,
+      "sha256": "ab87913aba9790a0c5fa173d086267ba521ad522fcad2252271db49988313cf5"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactPunch_medium_002.ogg",
+      "bytes": 10399,
+      "sha256": "6492f9ccbc8d24dcef607bb1b48790b7870961474561f7fe5601e1c73a3018ef"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactSoft_medium_002.ogg",
+      "bytes": 5358,
+      "sha256": "5069e3571a77d7f7aae9ef71d0364aa245fb7d64a7c8cc9956f221d03088c089"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/Audio/impactMetal_medium_002.ogg",
+      "bytes": 5857,
+      "sha256": "7e89ce2ca0dbda95ea2b78d4b50791cab35c10d20e9f5ccd45dd0b00e99ff548"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio/Audio/cloth3.ogg",
+      "bytes": 12432,
+      "sha256": "a48632d17a4f1416541d261a32a31612e01267144c407fa3ecab3ff410f0085b"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/Audio/laserRetro_002.ogg",
+      "bytes": 13130,
+      "sha256": "df6112dc4eba5444bc28a1c8b80f6ce942bb2696beb466ac8e736b2ebf3e15b9"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/Audio/laserSmall_002.ogg",
+      "bytes": 8973,
+      "sha256": "e70139466c3e801358c9041ee17db7ff82c0e9a9cdf44647ad0ea6b9f8458f63"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/confirmation_001.ogg",
+      "bytes": 8968,
+      "sha256": "063564703b6094d70718a3e787a55cc9141611e4ecd6b6637f8828f79b4a8c3a"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/back_001.ogg",
+      "bytes": 6997,
+      "sha256": "07db973f79f6ae0f2edc34561e7592e24d0577455919fb602cb8ecc0da991dcf"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/error_001.ogg",
+      "bytes": 7373,
+      "sha256": "46e67425d16339772e8d328fb36a49426c9467418686e11beeb71ff84b0f6433"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/select_001.ogg",
+      "bytes": 5468,
+      "sha256": "aec0c31ea934a35936ae0d2ab8fac8123c93aa5647f935853a58dbaf90278b7a"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/Audio/tick_001.ogg",
+      "bytes": 4497,
+      "sha256": "9d057b918024c787bbe6c00beed13a7ef72a3fa0c259add3cef36582792f4230"
+    }
+  ],
+  "licenses": [
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_ImpactSounds/License.txt",
+      "bytes": 608,
+      "sha256": "b49aa9c56b04528b95913de13e506a0f7c5e807b9925db9bfef86af1f91120db"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_RpgAudio/License.txt",
+      "bytes": 478,
+      "sha256": "5735dfd72cb64cbbceda4ebc00c380c41ca680edb82ff153aa7c9ab97614c539"
+    },
+    {
+      "path": "C:/Users/natem/Projects/SpaceRPG/art-src/Kenney_SciFiSounds/License.txt",
+      "bytes": 571,
+      "sha256": "a9767b25c3533f69d03af136480efad08efba19a9f0d89616992b34c79fd6186"
+    },
+    {
+      "path": "C:/Users/natem/Projects/FrostboundUnity/art-src/Kenney_InterfaceSounds/License.txt",
+      "bytes": 574,
+      "sha256": "f7966c773bbed0eca6a9c75081c44a178b38eae112724dbb5fdfbd4192d118a9"
+    }
+  ],
+  "tool": {
+    "path": "C:/Users/natem/Projects/SpaceRPG/tools/prepare_audio_palette.py",
+    "bytes": 4869,
+    "sha256": "7fc06d07e74b49b14c65c2cbeb1132525ae5f05f9aa51fb0af2f606d98581bf9"
+  }
+}

@@ -13,6 +13,8 @@ namespace Lattice.Combat
         FormController form;
         Vector3 previous;
         string state;
+        string pendingGait;
+        float pendingGaitSince;
         int sequence = -1;
         int emitterLayer=-1,emitterSequence=-1;
         int recoilLayer=-1,recoilSequence=-1;
@@ -27,7 +29,7 @@ namespace Lattice.Combat
         public bool ReverseLocomotion {get;private set;}
         public bool IsLocomotion => state=="Idle"||state=="Walk"||state=="Run"||state=="Sprint";
 
-        void OnEnable() { previous = transform.position; state = null; sequence = emitterSequence = recoilSequence = -1;upperShot=false;emitterWeight=0;GameTime.PauseChanged+=OnPause; }
+        void OnEnable() { previous = transform.position; state = pendingGait = null; sequence = emitterSequence = recoilSequence = -1;upperShot=false;emitterWeight=0;GameTime.PauseChanged+=OnPause; }
         void OnDisable(){GameTime.PauseChanged-=OnPause;}
         void OnPause(bool paused){if(paused&&animator!=null)animator.speed=0;}
         void Start()
@@ -102,6 +104,19 @@ namespace Lattice.Combat
             }
             if (!animator.HasState(0, Animator.StringToHash(wanted))) wanted = speed > .12f ? "Walk" : "Idle";
             bool travelling=wanted=="Walk"||wanted=="Run"||wanted=="Sprint";
+            if(actor!=null&&strideProfile!=null&&travelling&&(state=="Walk"||state=="Run"||state=="Sprint"))
+            {
+                if(wanted!=state)
+                {
+                    if(pendingGait!=wanted){pendingGait=wanted;pendingGaitSince=Time.unscaledTime;}
+                    // A brief recovery-speed pulse must not interrupt the legs
+                    // twice per shot. Cadence/stride still track real travel;
+                    // starts, stops and authored actions remain immediate.
+                    if(Time.unscaledTime-pendingGaitSince<.12f)wanted=state;
+                }
+                else pendingGait=null;
+            }
+            else pendingGait=null;
             StrideScale=1;ReverseLocomotion=false;
             if(strideProfile!=null&&actor?.motor!=null)
             {
@@ -119,12 +134,25 @@ namespace Lattice.Combat
             bool nextAction = fullAction && sequence != actor.AttackSequence;
             if (state != wanted || nextAction)
             {
+                // A pace change continues the same left/right step. Repeated
+                // shots can cross Walk/Run thresholds every recovery; restarting
+                // each take pinned the legs to the start of their gait forever.
+                float phase=-1,priorDuration=1;
+                if(travelling&&(state=="Walk"||state=="Run"||state=="Sprint"))
+                {
+                    var prior=animator.IsInTransition(0)?animator.GetNextAnimatorStateInfo(0):animator.GetCurrentAnimatorStateInfo(0);
+                    phase=Mathf.Repeat(prior.normalizedTime,1);priorDuration=Mathf.Max(.01f,prior.length);
+                }
                 state = wanted;
                 if (actor != null) sequence = actor.AttackSequence;
                 var ground=actor?.motor as GroundMotor;
                 float blend=ground!=null&&ground.Phase==GroundMotor.TravelPhase.Starting?.075f:
                     wanted=="Idle"?.14f:.1f;
-                animator.CrossFadeInFixedTime(wanted, fullAction ? .045f : blend, 0, 0);
+                // The cycle offset stays normalized while cadence changes.
+                // Converting it to fixed seconds produced phase jumps when a
+                // crossfade was interrupted by the next shot's speed change.
+                if(phase>=0)animator.CrossFade(wanted,blend*rate/priorDuration,0,phase);
+                else animator.CrossFadeInFixedTime(wanted, fullAction ? .045f : blend, 0, 0);
             }
             if (fullAction)
             {

@@ -12,7 +12,7 @@ namespace Lattice.UI
     public sealed class TitleScreen:MonoBehaviour
     {
         Canvas canvas;
-        GameObject settings,savePicker;
+        GameObject settings,savePicker,mainMenu;
         Button settingsButton;
         public bool SettingsOpen=>settings!=null;
         void Start()
@@ -22,9 +22,11 @@ namespace Lattice.UI
             var background=new GameObject("KeyArt",typeof(RawImage)); background.transform.SetParent(canvas.transform,false);
             background.GetComponent<RawImage>().texture=Resources.Load<Texture2D>("UI/Title/key-art");
             UiKit.Rect(background,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
-            var title=UiKit.Heading(canvas.transform,"Title",Application.productName.ToUpperInvariant(),105,UiKit.TextColor,TextAlignmentOptions.Left);
+            mainMenu=new GameObject("MainMenu",typeof(RectTransform));mainMenu.transform.SetParent(canvas.transform,false);
+            UiKit.Rect(mainMenu,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
+            var title=UiKit.Heading(mainMenu.transform,"Title",Application.productName.ToUpperInvariant(),105,UiKit.TextColor,TextAlignmentOptions.Left);
             UiKit.Rect(title.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(470,-235),new Vector2(760,150));
-            var subtitle=UiKit.Text(canvas.transform,"Subtitle","ONE BODY. THREE FORMS.",23,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
+            var subtitle=UiKit.Text(mainMenu.transform,"Subtitle","ONE BODY. THREE FORMS.",23,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
             UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
             var buttons=new List<Selectable>();
             var play=MenuButton("New Game",0,()=>StartGame(false)); buttons.Add(play);
@@ -32,7 +34,7 @@ namespace Lattice.UI
             cont.interactable=System.Array.Exists(new[]{"autosave","slot1","slot2","slot3"},GameServices.Current.Saves.Exists); if(cont.interactable)buttons.Add(cont);
             settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
             buttons.Add(MenuButton("Quit",3,Application.Quit)); UiKit.LinkVertical(buttons.ToArray());
-            var hint=UiKit.Text(canvas.transform,"Hint","A / ENTER   CONFIRM     ·     D-PAD / WASD   NAVIGATE",19,UiKit.DimTextColor,TextAlignmentOptions.Left);
+            var hint=UiKit.Text(mainMenu.transform,"Hint","A / ENTER   CONFIRM     ·     D-PAD / WASD   NAVIGATE",19,UiKit.DimTextColor,TextAlignmentOptions.Left);
             UiKit.Rect(hint.gameObject,new Vector2(0,0),new Vector2(0,0),new Vector2(510,85),new Vector2(840,50));
             EventSystem.current.SetSelectedGameObject(play.gameObject);
             Debug.Log("TITLE_BOOT_OK");
@@ -40,24 +42,23 @@ namespace Lattice.UI
         }
         Button MenuButton(string name,int row,System.Action action)
         {
-            var b=UiKit.Button(canvas.transform,name,name,action);
+            var b=UiKit.Button(mainMenu.transform,name,name,action);
             UiKit.Rect(b.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(330,-475-row*92),new Vector2(470,70));return b;
         }
         public void OpenSettings()
         {
             if(settings!=null)return;
-            settings=UiKit.Dim(canvas.transform,.88f).gameObject;
+            mainMenu.SetActive(false);
+            settings=UiKit.Dim(canvas.transform,.97f).gameObject;
             var title=UiKit.Heading(settings.transform,"SettingsTitle","SETTINGS",48,UiKit.TextColor);
-            UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,200),new(700,85));
-            var label=UiKit.Text(settings.transform,"Volume","MASTER VOLUME",26,UiKit.TextColor);
-            UiKit.Rect(label.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,85),new(600,50));
-            var volume=UiKit.Slider(settings.transform,"VolumeSlider",AudioListener.volume,v=>{AudioListener.volume=v;PlayerPrefs.SetFloat("volume",v);});
-            UiKit.Rect(volume.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,15),new(560,40));
+            UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,320),new(900,85));
+            var controls=new List<Selectable>();
+            AudioSettingsUi.Add(settings.transform,new Vector2(0,200),850,80,controls);
             var back=UiKit.Button(settings.transform,"Back","Back",CloseSettings);
-            UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-120),new(380,65));
-            UiKit.LinkVertical(volume,back); EventSystem.current.SetSelectedGameObject(volume.gameObject);
+            UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-265),new(380,65));controls.Add(back);
+            UiKit.LinkVertical(controls.ToArray());EventSystem.current.SetSelectedGameObject(controls[0].gameObject);
         }
-        public void CloseSettings(){if(settings==null)return;Destroy(settings);settings=null;EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
+        public void CloseSettings(){if(settings==null)return;AudioMix.Current.Flush();Destroy(settings);settings=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
         void Update(){if(UiActions.Cancel.WasPressedThisFrame()){if(settings!=null)CloseSettings();if(savePicker!=null){Destroy(savePicker);savePicker=null;}}}
         public void StartGame(bool resume)
         {

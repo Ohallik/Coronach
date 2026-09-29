@@ -28,6 +28,7 @@ namespace Lattice.Core
                 source.spatialBlend = 0;
                 source.volume = 0;
                 source.priority = 32;
+                source.outputAudioMixerGroup = AudioMix.Group(AudioBus.Music);
             }
         }
 

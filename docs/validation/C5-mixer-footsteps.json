@@ -1,0 +1,360 @@
+{
+  "status": "C5 OPEN; mixer, saved controls, pooled voices and planted-foot footsteps checkpoint",
+  "date": "2026-09-29T00:20:26+00:00",
+  "sourceParent": "67c31431122e163b9bd5eaadfc755e04bd9e9dfa",
+  "authorship": "Implementation and targeted runs: Codex session (2026-09-27). Full-suite run, opened settings stills and this summary: Claude Code session (2026-09-28).",
+  "runs": {
+    "footsteps-red01/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-red01/playmode-results.xml",
+        "bytes": 16089,
+        "sha256": "96802ae43b3fedd4a8779b36e036ecbf1eea864d6d9626793e245770c189fb98"
+      },
+      "result": "Failed(Child)",
+      "total": 6,
+      "passed": 1,
+      "failed": 5,
+      "skipped": 0,
+      "start": "2026-09-27 11:12:34Z",
+      "duration": 31.1510172,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests",
+        "Lattice.Tests.PlayMode.AudioFootstepTests",
+        "Lattice.Tests.PlayMode.AudioFootstepTests",
+        "Lattice.Tests.PlayMode.AudioFootstepTests",
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-candidate01/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-candidate01/playmode-results.xml",
+        "bytes": 20151,
+        "sha256": "46251ef3592b4fe5e0c9f08995b7945f500a5108d7edd38bd1393173313e1a0b"
+      },
+      "result": "Failed(Child)",
+      "total": 10,
+      "passed": 7,
+      "failed": 3,
+      "skipped": 0,
+      "start": "2026-09-27 11:14:11Z",
+      "duration": 49.1374691,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests",
+        "Lattice.Tests.PlayMode.AudioFootstepTests",
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-candidate02/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-candidate02/playmode-results.xml",
+        "bytes": 12571,
+        "sha256": "267cf870976a2e8f52d52fefe93656a38fe962c4dca25811c404998046466598"
+      },
+      "result": "Failed(Child)",
+      "total": 3,
+      "passed": 2,
+      "failed": 1,
+      "skipped": 0,
+      "start": "2026-09-27 11:16:15Z",
+      "duration": 44.0295507,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-candidate03/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-candidate03/playmode-results.xml",
+        "bytes": 39804,
+        "sha256": "4d328aa571a749564cd8809004b39899973a05bceecc5214a729c182cefcf56c"
+      },
+      "result": "Failed(Child)",
+      "total": 22,
+      "passed": 21,
+      "failed": 1,
+      "skipped": 0,
+      "start": "2026-09-27 11:18:12Z",
+      "duration": 183.2550083,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-phase-red01/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-phase-red01/playmode-results.xml",
+        "bytes": 20687,
+        "sha256": "d5440b6e1a95e64ae016b38b4e8caff81f7ea2943bd60372b061141d7565f4cd"
+      },
+      "result": "Failed(Child)",
+      "total": 9,
+      "passed": 8,
+      "failed": 1,
+      "skipped": 0,
+      "start": "2026-09-27 11:22:36Z",
+      "duration": 72.8680693,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-phase-candidate02/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-phase-candidate02/playmode-results.xml",
+        "bytes": 9823,
+        "sha256": "90613d6e7e0d2ff0a248c817412cae73b706e8fa44fc52ccdcaf22b4f3ae4078"
+      },
+      "result": "Failed(Child)",
+      "total": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "start": "2026-09-27 11:24:28Z",
+      "duration": 8.5860102,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-phase-candidate03/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-phase-candidate03/playmode-results.xml",
+        "bytes": 9850,
+        "sha256": "395ac243c497ca48d763a099c7dd50a008fb9a8f963da215f977e8157a98c959"
+      },
+      "result": "Failed(Child)",
+      "total": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "start": "2026-09-27 11:25:33Z",
+      "duration": 8.5637848,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "footsteps-phase-green01/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-phase-green01/playmode-results.xml",
+        "bytes": 8308,
+        "sha256": "e632bf689df74848a3e177da28f5536f140214d29d8a406621004ed9c68c69be"
+      },
+      "result": "Passed",
+      "total": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "start": "2026-09-27 11:26:47Z",
+      "duration": 8.5585254,
+      "failedCases": []
+    },
+    "footsteps-phase-fault01/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/footsteps-phase-fault01/playmode-results.xml",
+        "bytes": 9807,
+        "sha256": "aaad083818469dff39059b2945966adfe679ccaf2ea0cc0580ae28e024b6f3b0"
+      },
+      "result": "Failed(Child)",
+      "total": 1,
+      "passed": 0,
+      "failed": 1,
+      "skipped": 0,
+      "start": "2026-09-27 11:28:02Z",
+      "duration": 8.4991894,
+      "failedCases": [
+        "Lattice.Tests.PlayMode.AudioFootstepTests"
+      ]
+    },
+    "mix-foundation-green04/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/mix-foundation-green04/playmode-results.xml",
+        "bytes": 38688,
+        "sha256": "d686a501f58ccef186d07ad0713f651a12c56c333e8190e19ae5877db299f016"
+      },
+      "result": "Passed",
+      "total": 22,
+      "passed": 22,
+      "failed": 0,
+      "skipped": 0,
+      "start": "2026-09-27 11:28:22Z",
+      "duration": 192.6657613,
+      "failedCases": []
+    },
+    "mix-foundation-green04/editmode": {
+      "xml": {
+        "path": "Builds/quality/C5/mix-foundation-green04/editmode-results.xml",
+        "bytes": 8164,
+        "sha256": "56bb53468f5271f2059ebfa3352ce80f055daefb8eb21bd1ea98f5849a94f9c8"
+      },
+      "result": "Passed",
+      "total": 6,
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "start": "2026-09-27 11:31:43Z",
+      "duration": 0.0495272,
+      "failedCases": []
+    },
+    "full-integration01/editmode": {
+      "xml": {
+        "path": "Builds/quality/C5/full-integration01/editmode-results.xml",
+        "bytes": 50137,
+        "sha256": "6550c0dae68399773ee479ff152f5bbca6ce82b9f5afbc255b320a5d21a6c8f7"
+      },
+      "result": "Passed",
+      "total": 56,
+      "passed": 56,
+      "failed": 0,
+      "skipped": 0,
+      "start": "2026-09-29 00:02:38Z",
+      "duration": 0.6325141,
+      "failedCases": []
+    },
+    "full-integration01/playmode": {
+      "xml": {
+        "path": "Builds/quality/C5/full-integration01/playmode-results.xml",
+        "bytes": 221109,
+        "sha256": "2eb05fd33fc6b2efdd1c79df957b80435311056f7c6b7ae122fc492c04bae193"
+      },
+      "result": "Passed",
+      "total": 154,
+      "passed": 154,
+      "failed": 0,
+      "skipped": 0,
+      "start": "2026-09-29 00:03:05Z",
+      "duration": 934.9628475,
+      "failedCases": []
+    }
+  },
+  "builds": {
+    "BuildWindowsDevPlayer": {
+      "log": {
+        "path": "Builds/quality/C5/mix-build04/BuildWindowsDevPlayer.log",
+        "bytes": 605809,
+        "sha256": "9c5f1e5494fc595a8482316f5af564e76ff816400fe96d283b07216fd71e2538"
+      },
+      "buildOk": true
+    },
+    "BuildWindowsPlayer": {
+      "log": {
+        "path": "Builds/quality/C5/mix-build04/BuildWindowsPlayer.log",
+        "bytes": 596891,
+        "sha256": "f6afc9507cd8e5c81cd76acb424ea993bd313bcf513b930071fedee8915376fb"
+      },
+      "buildOk": true
+    }
+  },
+  "scriptsChangedSinceBuild": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/FlightEmitter.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/Health.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/MeleeContact.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/StationRedesign.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/DialoguePanel.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/ShopUi.cs",
+      "difference": "line endings only"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/UI/UiKit.cs",
+      "difference": "bytes differ; no source-control change since HEAD"
+    }
+  ],
+  "settingsRoutes": {
+    "sound-ui-1080-04": {
+      "result": {
+        "status": "ordinary gamepad title/pause gains persisted at 90 then 80 percent; screenshots require separate opening",
+        "player": 17284,
+        "steps": 32,
+        "settingsHash": "3229FED0AD4C3EDBDF8FCEF2E273137963D357BB67FBA8E64FEC9B467396C4DD"
+      },
+      "build": {
+        "input": "ordinary virtual gamepad through ReviewInput, decision-paused; not continuous motion or physical feel",
+        "parent": "4fc7d16bb2ee7e4981d5c6f32931075c97d3bca8",
+        "width": 1920,
+        "assemblyHash": "371445E5DF8AEEB67C3B9ABEB234CD0CC8DA218522753B49BB150D865F5D2DF2"
+      },
+      "openedByClaude": [
+        {
+          "path": "Builds/quality/C5/sound-ui-1080-04/008.png",
+          "bytes": 1341388,
+          "sha256": "33c1fdeaf4a1ae58caf0dbae51874b3aec6b8244801cbfa45f432244dbbc2b59"
+        },
+        {
+          "path": "Builds/quality/C5/sound-ui-1080-04/025.png",
+          "bytes": 911224,
+          "sha256": "5794bb0817a7d924d17c1f73162968056155e4d2e8abecf7fdb42ef8cff8d12f"
+        }
+      ]
+    },
+    "sound-ui-720-02": {
+      "result": {
+        "status": "ordinary gamepad title/pause gains persisted at 90 then 80 percent; screenshots require separate opening",
+        "player": 32336,
+        "steps": 32,
+        "settingsHash": "3229FED0AD4C3EDBDF8FCEF2E273137963D357BB67FBA8E64FEC9B467396C4DD"
+      },
+      "build": {
+        "input": "ordinary virtual gamepad through ReviewInput, decision-paused; not continuous motion or physical feel",
+        "parent": "4fc7d16bb2ee7e4981d5c6f32931075c97d3bca8",
+        "width": 1280,
+        "assemblyHash": "371445E5DF8AEEB67C3B9ABEB234CD0CC8DA218522753B49BB150D865F5D2DF2"
+      },
+      "openedByClaude": [
+        {
+          "path": "Builds/quality/C5/sound-ui-720-02/008.png",
+          "bytes": 709648,
+          "sha256": "6a5df2450e8217f838bbfc2d4f29e202aa569c9acaebe8a0dca4844ed05f3505"
+        },
+        {
+          "path": "Builds/quality/C5/sound-ui-720-02/025.png",
+          "bytes": 458806,
+          "sha256": "47770fae078e04af23a53b70beab7cf0a82484b2446ad575434aa86abc27e38b"
+        }
+      ]
+    }
+  },
+  "pcmRouting": {
+    "file": {
+      "path": "Builds/quality/C5/mix-pcm-green04/audio-mix.json",
+      "bytes": 4786,
+      "sha256": "696da596f37d7e2e6db4a16b35f18c62a2abbd8f05484aff1f9962f8f4fd9dac"
+    },
+    "valid": true,
+    "failures": [],
+    "samples": 24,
+    "accepted": 24
+  },
+  "originalSaves": [
+    {
+      "name": "autosave.json",
+      "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+    },
+    {
+      "name": "autosave.json.bak",
+      "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+    }
+  ],
+  "musicOriginalsUnchanged": true,
+  "audition": "UNVERIFIED: no listening capability in either session",
+  "continuousVideo": "UNVERIFIED",
+  "physicalController": "UNVERIFIED"
+}
