@@ -1,166 +1,192 @@
 {
-  "name": "c4-gullet-circuit03-taren",
+  "name": "c4-gullet-circuit04-taren",
   "scene": "Gullet_Tunnel",
-  "sourceRevision": "Ordinary tactical revision: brake after six second-chamber lunges, cast Pulse/Static Net and finish with sustained nose fire instead of blindly charging laterally into the chamber wall. Same equipment, AI, damage, checkpoint tolerances, flags and focus requirements. Prior failed routes retained.",
+  "sourceRevision": "Redesigned Gullet anatomy (GulletProfile): same tactics, equipment, AI, damage, tolerances, flags and focus requirements as circuit03; the throat is woven instead of charged blindly and handling moves to the salvage eddy.",
   "settleSeconds": 1,
   "frameCap": 60,
   "starterParty": true,
+  "screenshotInterval": 2,
   "steps": [
     {
-      "name": "approach chamber from the empty arrival tunnel",
+      "name": "fly in through the mouth and entry canal",
       "seconds": 17,
       "navigate": true,
       "point": {
-        "x": 5,
+        "x": 2.346,
         "y": 1,
         "z": 35
       },
       "leftTrigger": 1,
+      "tolerance": 0.8,
       "expectedCharacter": "Taren",
       "expectedForm": "Flight"
     },
     {
       "name": "advance lunge 1",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 1",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 2",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 2",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 3",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 3",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 4",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 4",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 5",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 5",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 6",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 6",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 7",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 7",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 8",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 8",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 9",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 9",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "advance lunge 10",
       "seconds": 0.12,
+      "x": 0,
+      "y": 1,
       "buttons": [
         "West"
-      ],
-      "y": 1
+      ]
     },
     {
       "name": "normal thrust and lunge recovery 10",
       "seconds": 0.62,
+      "x": 0,
       "y": 1
     },
     {
       "name": "brake after the attack chain",
       "seconds": 1.2,
+      "x": 0,
+      "y": 0,
       "leftTrigger": 1
     },
     {
       "name": "clear surviving targets with ordinary fire",
       "seconds": 6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
       "buttons": [
         "South"
-      ],
-      "leftTrigger": 1
+      ]
     },
     {
       "name": "regroup beside the measured hulls",
@@ -172,12 +198,12 @@
     },
     {
       "name": "chamber 1 approach the mine cluster",
-      "seconds": 17,
+      "seconds": 30,
       "navigate": true,
       "point": {
-        "x": 10.392304845413264,
+        "x": 0.372,
         "y": 1,
-        "z": 130
+        "z": 185
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -190,9 +216,9 @@
       "seconds": 10,
       "navigate": true,
       "point": {
-        "x": 18.392304845413264,
+        "x": 8.372,
         "y": 1,
-        "z": 144
+        "z": 193
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -215,9 +241,9 @@
       "seconds": 8,
       "navigate": true,
       "point": {
-        "x": 10.392304845413264,
+        "x": 0.372,
         "y": 1,
-        "z": 152
+        "z": 201
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -240,9 +266,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": 2.392304845413264,
+        "x": -7.628,
         "y": 1,
-        "z": 144
+        "z": 193
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -265,9 +291,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": 10.392304845413264,
+        "x": 0.372,
         "y": 1,
-        "z": 136
+        "z": 185
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -292,25 +318,85 @@
       "until": "partyAlive"
     },
     {
-      "name": "cross the opened first membrane along its real passage",
-      "seconds": 52,
+      "name": "cross the opened first valve along its real passage",
+      "seconds": 40,
       "navigate": true,
       "point": {
-        "x": -0.837077684929498,
+        "x": 6.038,
         "y": 1,
-        "z": 230
+        "z": 262
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "approach the second chamber before its trigger",
-      "seconds": 14,
+      "name": "weave the slalom throat past the folds at 285 m",
+      "seconds": 12,
       "navigate": true,
       "point": {
-        "x": -4.880839716909598,
+        "x": 8.486,
         "y": 1,
-        "z": 255
+        "z": 285
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "weave the slalom throat past the folds at 305 m",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 7.95,
+        "y": 1,
+        "z": 305
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "weave the slalom throat past the folds at 330 m",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": -4.907,
+        "y": 1,
+        "z": 330
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "weave the slalom throat past the folds at 350 m",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 1.061,
+        "y": 1,
+        "z": 350
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "weave the slalom throat past the folds at 368 m",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 2.321,
+        "y": 1,
+        "z": 368
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -391,49 +477,17 @@
       ]
     },
     {
-      "name": "second chamber lunge 5",
-      "seconds": 0.12,
-      "x": 0,
-      "y": 1,
-      "buttons": [
-        "West"
-      ]
-    },
-    {
-      "name": "second chamber recovery 5",
-      "seconds": 0.62,
-      "x": 0,
-      "y": 1,
-      "buttons": [
-        "South"
-      ]
-    },
-    {
-      "name": "second chamber lunge 6",
-      "seconds": 0.12,
-      "x": 0,
-      "y": 1,
-      "buttons": [
-        "West"
-      ]
-    },
-    {
-      "name": "second chamber recovery 6",
-      "seconds": 0.62,
-      "x": 0,
-      "y": 1,
-      "buttons": [
-        "South"
-      ]
-    },
-    {
-      "name": "brake before overrunning the second chamber",
+      "name": "brake before overrunning the throat",
       "seconds": 0.6,
+      "x": 0,
+      "y": 0,
       "leftTrigger": 1
     },
     {
-      "name": "ordinary Pulse in the second chamber",
+      "name": "ordinary Pulse in the throat",
       "seconds": 0.12,
+      "x": 0,
+      "y": 0,
       "leftTrigger": 1,
       "buttons": [
         "RightShoulder",
@@ -443,10 +497,12 @@
     {
       "name": "release the visible area skill before sustained fire",
       "seconds": 0.7,
+      "x": 0,
+      "y": 0,
       "leftTrigger": 1
     },
     {
-      "name": "brake and fire after second chamber charge",
+      "name": "brake and fire after the throat charge",
       "seconds": 6,
       "x": 0,
       "y": 0,
@@ -460,9 +516,9 @@
       "seconds": 17,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 13.747,
         "y": 1,
-        "z": 350
+        "z": 392.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -475,9 +531,9 @@
       "seconds": 10,
       "navigate": true,
       "point": {
-        "x": -2.7855285555900053,
+        "x": 20.747,
         "y": 1,
-        "z": 364
+        "z": 400.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -500,9 +556,9 @@
       "seconds": 8,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 13.747,
         "y": 1,
-        "z": 372
+        "z": 408.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -525,9 +581,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": -18.785528555590005,
+        "x": 6.747,
         "y": 1,
-        "z": 364
+        "z": 400.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -550,9 +606,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 13.747,
         "y": 1,
-        "z": 356
+        "z": 392.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8,
@@ -577,85 +633,85 @@
       "until": "partyAlive"
     },
     {
-      "name": "cleared chamber figure eight 1",
+      "name": "eddy figure eight 1",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -15.785528555590005,
+        "x": 4.747,
         "y": 1,
-        "z": 365
+        "z": 407.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "cleared chamber figure eight 2",
+      "name": "eddy figure eight 2",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 9.747,
         "y": 1,
-        "z": 370
+        "z": 412.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "cleared chamber figure eight 3",
+      "name": "eddy figure eight 3",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -5.785528555590005,
+        "x": 14.747,
         "y": 1,
-        "z": 375
+        "z": 417.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "cleared chamber figure eight 4",
+      "name": "eddy figure eight 4",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -5.785528555590005,
+        "x": 14.747,
         "y": 1,
-        "z": 365
+        "z": 407.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "cleared chamber figure eight 5",
+      "name": "eddy figure eight 5",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 9.747,
         "y": 1,
-        "z": 370
+        "z": 412.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "cleared chamber figure eight 6",
+      "name": "eddy figure eight 6",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -15.785528555590005,
+        "x": 4.747,
         "y": 1,
-        "z": 375
+        "z": 417.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
     },
     {
-      "name": "cleared chamber figure eight 7",
+      "name": "eddy figure eight 7",
       "seconds": 6,
       "navigate": true,
       "point": {
-        "x": -15.785528555590005,
+        "x": 4.747,
         "y": 1,
-        "z": 365
+        "z": 407.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
@@ -702,13 +758,13 @@
       "leftTrigger": 1
     },
     {
-      "name": "return to chamber centre",
+      "name": "return to the eddy centre",
       "seconds": 10,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 9.747,
         "y": 1,
-        "z": 370
+        "z": 412.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
@@ -734,13 +790,13 @@
       "leftTrigger": 1
     },
     {
-      "name": "slow approach to visible east wall",
+      "name": "slow approach to the eddy pocket wall",
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": 1.7144714444099947,
+        "x": 20.724,
         "y": 1,
-        "z": 370
+        "z": 412.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
@@ -757,9 +813,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": -10.785528555590005,
+        "x": 9.747,
         "y": 1,
-        "z": 370
+        "z": 412.0
       },
       "leftTrigger": 1,
       "tolerance": 0.8
@@ -812,6 +868,5 @@
       "until": "partyAlive",
       "expectedCharacter": "Taren"
     }
-  ],
-  "screenshotInterval": 2
+  ]
 }

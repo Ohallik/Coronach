@@ -37,7 +37,7 @@ namespace Lattice.UI
             yield return Zone("Gullet_Tunnel");
             for(float z=35;z<=875&&!failed;z+=25)
             {
-                float x=Mathf.Sin(z/900*Mathf.PI*4)*12;yield return Travel(new Vector3(x,1,z),4);
+                float x=Lattice.World.GulletProfile.RouteX(z);yield return Travel(new Vector3(x,1,z),4);
                 if(z>=390&&z<=415){var cache=FindFirstObjectByType<SalvageField>();if(cache!=null&&cache.Available)yield return Use(cache);}
                 if(z==410)yield return Capture("Gullet_Tunnel");
             }

@@ -102,6 +102,23 @@ namespace Lattice.EditorTools
             Shot(camera,folder,"ring-edge",new Vector3(-62,-5.5f,70),Quaternion.Euler(12,90,0),8);
             Debug.Log("MAP_EVIDENCE_OK " + folder);
         });
+        // The Gullet's anatomy: one full-length overhead with the passage running
+        // across the frame, then each section from a gameplay-like angle.
+        public static void GulletReview()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("workshop/gullet-review");
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/Gullet_Tunnel.unity");
+            foreach (var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None)) text.gameObject.SetActive(false);
+            var camera = new GameObject("Evidence camera", typeof(Camera), typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor = new Color(.025f, .035f, .06f); camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.orthographic = true; camera.nearClipPlane = .1f; camera.farClipPlane = 2000;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing = false;
+            Shot(camera,folder,"Gullet-overhead-length",new Vector3(0,0,450),Quaternion.Euler(90,90,0),265);
+            foreach(var (name,z,scale) in new[]{("mouth",4f,24f),("feeding-chamber",165f,38f),("valve-0",262f,16f),("slalom-throat",330f,26f),
+                ("salvage-eddy",410f,26f),("valve-1",490f,16f),("nursery-gate",600f,34f),("valve-2",700f,16f),("cantor-coil",805f,44f),("exit-valve",888f,20f)})
+                Shot(camera,folder,"Gullet-"+name,new Vector3(Lattice.World.GulletProfile.Center(z),0,z),Quaternion.Euler(52,0,0),scale);
+            Debug.Log("MAP_EVIDENCE_OK " + folder);
+        });
         static string Folder(string run)
         {
             run=Lattice.Core.DevArgs.Value("-map-evidence-run")??run;

@@ -1,32 +1,48 @@
 # Gullet - living passage brief
 
-2026-09-26. Source inspection by Codex. Blockout and final MAP_EYE_TEST **OPEN**.
+2026-09-28 redesign (Claude Code). **Blockout MAP_EYE_TEST PASSED (agent review); final in-player pass OPEN** until the ordinary flight circuits run with full focus.
 
-The Gullet is a Choir organism's traversable internal passage. Its chamber constrictions, folded wall tissue and Choir pods should appear to belong to the same living structure. The route is used by travellers and resident organisms; Neve's cache needs a sheltered ledge or maintenance attachment with a believable means of reaching it. The Cantor and navigation collar eventually provide the route-opening story consequence described in the campaign. The existing kill/warp-key workshop flow has not yet been replaced by that rescue.
+The Gullet is the interior passage of an adult Choir that travellers use as a route. It should read as one organism's anatomy, in the order a traveller meets it, rather than a repeated tube. `Lattice.World.GulletProfile` holds the plan; the scene builder, smoke route, circuit generator (`tools/gullet_routes.py`) and layout tests all read it.
 
-```text
-Current longitudinal plan, metres along passage
-0   arrival
-110 chamber / pods -------- membrane 215
-330 chamber / pods -------- membrane 440
-400 Neve cache on side
-550 chamber / pods -------- membrane 675
-805 Cantor space
-890 exit to Tallow
+| z (m) | Section | Function and construction |
+|---|---|---|
+| -14 to 30 | **Mouth** | Opening to space, 34–42 m across, framed by heavy lip folds that flare outward. Arrival spawns inside the lip. |
+| 30 to 110 | **Entry canal** | A 24 m muscular canal that curves slightly east. |
+| 110 to 255 | **Feeding chamber** | Asymmetric belly up to 60 m, fuller on the left. Pod clusters grow from both walls where Chorister darts feed. Encounter `Gullet_Chamber_0`; drifters patrol, and mines drift deeper in the chamber. |
+| 262 | **Valve 0** | An 18 m sphincter with angled lip folds on both sides. `Choir membrane 0` spans exactly the pinch and opens when the feeding chamber is cleared. |
+| 270 to 485 | **Slalom throat** | A 26 m muscular throat. Tissue folds reach 7–8 m from alternating walls at 298, 330, 362 and 452 m, and the travel line weaves between them (at least 6.7 m clearance). Encounter `Gullet_Chamber_1`. |
+| 390 to 432 | **Salvage eddy** | A right-hand pocket up to 44 m wide where the current slows. A lost skiff, cargo crates, Neve's cache and the chamber's mines have collected there. It is the throat's one roomy space. |
+| 490 | **Valve 1** | Sphincter and `Choir membrane 1`. |
+| 495 to 695 | **Nursery gate chamber** | A 52 m oval chamber lined with clustered, luminous egg pods, densest near the far gate; large gate pods flank the next valve. Encounter `Gullet_Chamber_2`, with drifters guarding. |
+| 700 | **Valve 2** | Sphincter and `Choir membrane 2`. |
+| 705 to 868 | **The Cantor's coil** | A 76 m chamber where the route serpent coils, wide enough for both ships and the boss to turn (encounter 66 × 58 m). Four Compact clamp plates bolted into the walls show where its navigation collar is anchored. |
+| 868 to 905 | **Exit valve** | A 20 m aperture with lip folds and the warp to Tallow (`bossdown.Cantor`). |
 
-Section: open camera cutaway above y=4
-         folded walls at x=center +/- (12 to 15)
-         flight plane y=1
-         continuous curved lower membrane to y=-4
-```
+**Rules visible in the scene:** the upper shell is cut away above y=4 for the camera, with the same rule throughout. Membranes close only at valves. Each organ keeps one generated membrane texture, tinted per section: warm feeding tissue, a dark muscular throat, a luminous nursery, a deep coil and a bright exit. The tint changes only at valves, where the sphincter hides the seam. Rib walls follow the curving wall at varied spacing and height.
 
-The built centreline repeats a sinusoid over 900 m. Its 24-30 m width constricts periodically, with 180 repeated side modules. Continuous collision already closes their gaps; that regression does not establish a believable organ. The Cantor encounter trigger is 44 m wide within the narrower passage and needs review against the actual visible fighting space. A large exit trigger is not a visible route opening by itself.
+**Identities preserved:** `Arrival` and `Performance` spawns, encounters `Gullet_Chamber_0..2` and `Gullet_Cantor`, `Choir membrane 0..2`, Neve's `SalvageField`, the `bossdown.Cantor` exit flag and the scene name. Saves record a zone and spawn ID, not a position, so any save in this zone restores at the unchanged `Arrival` or `Performance` spawn.
 
-The next blockout must give each chamber a readable biological function and widening, carry wall folds through its constriction and provide sufficient turning room for the ships and boss. Pods should grow from the wall; mines/debris should collect somewhere plausible. Show the same cutaway rule through the entire route. Keep clear forward/backward navigation and make each membrane's state visible. Retain encounter/cache IDs and completion flags. Any collar revision must preserve old saves through explicit quest-state handling.
+### Blockout review — September 28, Claude Code
 
-Required views: entrance section, narrow turn, pod attachment, cache access, each membrane, Cantor turnaround and exit; unlabelled longitudinal overview and gameplay-height collision edges. Baseline rendering and ordinary flight review remain pending. Do not call repeated curved rails a natural-space pass without opening those views.
+Before (`Builds/quality/workshop/gullet-before-02`): one uniform 27 m sine-wave strip whose floor ends abruptly against space, with evenly alternating rib modules and three identical chambers. Nothing indicated what any part was for. **Rejected**, confirming Codex's September 26 finding.
 
+After (`gullet-blockout-01..03`, the last being current): opened the full-length overhead and all ten section views.
+- The overhead reads as anatomy: distinct bellies, pinched valves and the eddy pocket, from the mouth to the largest belly (the coil).
+- The mouth flares with lip folds. The slalom folds visibly narrow the throat from alternating sides.
+- The eddy's collected debris gives Neve's cache a believable place.
+- Valve membranes now tuck behind the sphincter lips. Blockout 01 showed them poking out of the tube into empty space; that was corrected and is now tested.
+- The nursery's egg clusters read as clusters rather than scattered buds. Blockout 01's small isolated pods were enlarged and grouped.
 
-### Actual baseline image review
+Still open or weak:
+- The mouth's floor still ends in a clean arc against space.
+- The coil's clamp plates are small against the chamber.
+- The atlas's side pocket that previews the Cantor before combat is not built.
+- The collar-release story change is not implemented.
 
-Codex, September 26: Opened the arrival: two uniformly repeated rib walls enclose a featureless membrane strip ending abruptly against black space. The organic materials read clearly, but chamber function, entry anatomy and natural asymmetry do not. This remains rejected. Evidence: `Builds/quality/workshop/maps-before-01/`. No blockout/final acceptance is claimed.
+**Blockout PASS; final pass pending** the ordinary flight review.
+
+The layout checks (`GulletLayoutTests`) were **rejected on the old scene**: the travel line struck the old shell and ribs, and the membranes sat 47 m from any valve. They pass on the new scene.
+
+### History
+
+Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.
