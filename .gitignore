@@ -13,3 +13,5 @@ tools/meshy/.env
 .vs/
 *.pidb
 *.user
+# Local agent session transcripts
+coronachstatus.txt
