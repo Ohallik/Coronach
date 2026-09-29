@@ -88,13 +88,54 @@
         "video.mp4": "25d9cd3bbb4bba545df7a433baf88059fe100107e3dde271ed8827b1b7281134",
         "mix.wav": "caf2c4eb6eefa27b6aa00e129ef4db018b9e57510cce8afe591b51da57f0f52b"
       }
+    },
+    {
+      "name": "tallow-hulls-03",
+      "valid": true,
+      "seconds": 178.166,
+      "focused": 10685,
+      "samples": 10685,
+      "failures": [],
+      "endScene": "TallowDrift",
+      "endIntegrity": [
+        120.0,
+        120.0
+      ],
+      "build": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+      "artifacts": {
+        "run.json": "757df0653bf5fd3e5d05b12d87b933d65d2d6cab91fab1ac81c800c56458fb8b",
+        "frames.csv": "a2e4e891f58f2c0fed8e1f229984bf7705fedc1be3a5b4912785dd19cd6ff4b1",
+        "video.mp4": "7e7ffdb5202bf05b2f37d41f38a252afedf17f1322b95adfc3332a81ea0bab14",
+        "mix.wav": "9f9a066b21215c9b811742010a783e547cae8bdcd32daa6cacec2df3597c01c7"
+      }
+    },
+    {
+      "name": "gullet-circuit-taren-04",
+      "valid": true,
+      "seconds": 336.059,
+      "focused": 20163,
+      "samples": 20163,
+      "failures": [],
+      "endScene": "Gullet_Tunnel",
+      "endIntegrity": [
+        37.7,
+        127.2
+      ],
+      "build": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+      "artifacts": {
+        "run.json": "a97652a8b64a88a35245f89918e78e2d22b4274bad141e020ed4e5451461d01c",
+        "frames.csv": "b17eec11e6737117149cb060ddc3e0f117a5e65d5cb73d184bca531104459d50",
+        "video.mp4": "3985a26dcd8f985e930791d36082c1531e22b9c99ea35e47845d86a54eaab189",
+        "mix.wav": "617f966d0be29524d0332e06428847f17a7d6e0e003dc0232c8f3d503755d89b"
+      }
     }
   ],
   "openedStills": [
     "Builds/quality/C4/civil-hulls-sela-04/003.png",
     "Builds/quality/C4/civil-hulls-sela-04/004.png",
     "Builds/quality/C4/civil-hulls-taren-05/002.png",
-    "Builds/quality/C4/civil-hulls-taren-05/003.png"
+    "Builds/quality/C4/civil-hulls-taren-05/003.png",
+    "Builds/quality/C4/gullet-circuit-taren-04/022.png"
   ],
   "capturedMix": [
     {
@@ -110,7 +151,24 @@
       "integratedLufs": -21.7,
       "silent": false,
       "valid": true
+    },
+    {
+      "input": "Builds/quality/C4/gullet-circuit-taren-04/mix.wav",
+      "truePeakDbtp": -11.7,
+      "integratedLufs": -31.3,
+      "silent": false,
+      "valid": true
+    },
+    {
+      "input": "Builds/quality/C4/tallow-hulls-03/mix.wav",
+      "truePeakDbtp": -10.3,
+      "integratedLufs": -21.5,
+      "silent": false,
+      "valid": true
     }
   ],
-  "focusAttribution": "taren-04 lost focus at 133.3 s while this session issued shell commands; the blocking repeat with no concurrent commands held focus throughout."
+  "focusAttribution": "taren-04 lost focus at 133.3 s while this session issued shell commands; the blocking repeat with no concurrent commands held focus throughout.",
+  "observations": [
+    "The Gullet combat mix integrates at -31.3 LUFS, about 10 LU below civil flight, because the Gullet has no music cue under the existing four assignments. Those assignments are preserved; whether the Gullet should gain a cue is a music decision for Nathan."
+  ]
 }
