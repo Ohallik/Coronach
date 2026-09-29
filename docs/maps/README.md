@@ -1,6 +1,6 @@
 # Map review coverage
 
-2026-09-26. All eight implemented workshop zone definitions are included. A technical scene/build/test pass cannot substitute for either spatial review. Reviewer to date: Codex; no independent or Nathan acceptance is implied.
+2026-09-26, updated 2026-09-28. All nine implemented zone definitions are included. A technical scene/build/test pass cannot substitute for either spatial review. Reviewers to date: Codex, and Claude Code for the Gullet and Hushwell; no independent or Nathan acceptance is implied.
 
 | Zone | Blockout | Final in-player | Brief |
 |---|---|---|---|
@@ -8,8 +8,9 @@
 | Hub_Decks | Passed redesign; post collision corrected | Passed spatial review; C1 pending | [Occupied deck](Hub_Decks.md) |
 | TallowApproach | Corrected layout/envelope fit passed | Passed spatial review; C1 pending | [Exterior](TallowApproach.md) |
 | TallowDrift | Passed refuge and corrected lift fit | Passed spatial review; C1 pending | [Refuge](TallowDrift.md) |
-| Sorrel_Ridges | OPEN | OPEN | [Landscape](Sorrel_Ridges.md) |
-| Gullet_Tunnel | OPEN | OPEN | [Living passage](Gullet_Tunnel.md) |
+| Sorrel_Ridges | In progress: connected basin built, ordinary traversal pending; Hushwell bore added | OPEN | [Landscape](Sorrel_Ridges.md) |
+| Hushwell | Passed (agent review) | Final built with generated kit; in-player OPEN | [Moon cave](Hushwell.md) |
+| Gullet_Tunnel | Passed anatomy redesign (agent review) | OPEN: ordinary circuits focus-blocked | [Living passage](Gullet_Tunnel.md) |
 | Arena_Ground | OPEN | OPEN | [Practice yard](Arena_Ground.md) |
 | Arena_Flight | OPEN | OPEN | [Proving berth](Arena_Flight.md) |
 

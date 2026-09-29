@@ -1,0 +1,92 @@
+[
+  {
+    "name": "HushwellWall",
+    "kind": "static",
+    "batch": "P40-HushwellWall",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellWall.png",
+    "height": 5,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellColumn",
+    "kind": "static",
+    "batch": "P40-HushwellColumn",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellColumn.png",
+    "height": 5,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellSlope",
+    "kind": "static",
+    "batch": "P40-HushwellSlope",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellSlope.png",
+    "height": 6,
+    "fit": "length",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellMarker",
+    "kind": "static",
+    "batch": "P40-HushwellMarker",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellMarker.png",
+    "height": 4,
+    "fit": "length",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellVent",
+    "kind": "static",
+    "batch": "P40-HushwellVent",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellVent.png",
+    "height": 3.5,
+    "fit": "length",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellEggCradle",
+    "kind": "static",
+    "batch": "P40-HushwellEggCradle",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellEggCradle.png",
+    "height": 3.5,
+    "fit": "length",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellScaffold",
+    "kind": "static",
+    "batch": "P40-HushwellScaffold",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellScaffold.png",
+    "height": 2.6,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellOreCart",
+    "kind": "static",
+    "batch": "P40-HushwellOreCart",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellOreCart.png",
+    "height": 1.6,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  },
+  {
+    "name": "HushwellLift",
+    "kind": "static",
+    "batch": "P40-HushwellLift",
+    "ref": "art-src/Generated/P40-Hushwell/isolated/HushwellLift.png",
+    "height": 4,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P40 Hushwell kit board cell (gpt-image-2 board, isolated by connected components)"
+  }
+]

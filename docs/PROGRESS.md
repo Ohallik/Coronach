@@ -1,5 +1,21 @@
 # CORONACH slice progress
 
+## MAP_EYE_TEST Hushwell blockout and first final build - September 28
+
+**Hushwell blockout PASS (agent review); final built with generated art; in-player pass OPEN.** Hushwell, atlas map 04, is a new optional moon cave under Sorrel's drill site. The party enters by the bore once the Burrower is dead.
+
+- **Layout.** Three levels descend from the drill breach through the miners' galleries and a survey-grid stretch, down to a three-chamber pressure gallery, the Bellows chamber and the nursery.
+- **The breathing rule.** The nursery breathes on a shared six-second cycle. Floor vents scald anything in their plume, hounds included. Vent-membranes open side passages to a miners' cache and a crystal seam.
+- **Bellows Below (B02).** Two Kinetic-weak pressure organs brace it (half damage) and blast alternate halves of the chamber on its exhale, so breaking one chooses the safe half. The final model is a limbless domed bellows whose breathing is its animation.
+- **Nursery.** Looking at the eggs is the discovery, and it wakes the lift back to Sorrel. Moon Caverns plays throughout, and Alien Boss Battle during the fight.
+- **Camera cutaway.** The cave is built to the fixed ground camera: no rock or wall face may hide a hero anywhere on the floor.
+- **Art.** Nineteen generated models (a nine-piece kit, the boss, nine dressing props) cost 321 Meshy credits; 3,836 remain.
+- **Tools.** `tools/isolate_board.py` cuts boards for free, and `tools/blender/remove_base_plate.py` strips a backing-plate artefact.
+
+**Tests.** The five new play tests were **rejected before the scene existed**. The sightline sweep then **rejected the first two final builds**: wall slabs poked into floors at bends, and one hid a lower floor down the ramp. The blockout had passed only because its stand-ins were thinner. Mutations removing the organ shield, the plume damage and the half-chamber split each turned the matching test red. The full suites pass ****56/56 EditMode and 171/171 PlayMode** on the final code, zero skips**. Sorrel was rebuilt in its committed blockout mode with the bore added; saves are unchanged.
+
+[Brief](maps/Hushwell.md), [evidence](validation/MAP-Hushwell.md), D119. Hushwell stays optional until the chapter-one quest is rewritten. Its in-player traversal and boss fight, the boss's final exposed-ribs phase, listening and physical feel remain open or UNVERIFIED.
+
 ## MAP_EYE_TEST Gullet blockout checkpoint - September 28
 
 **Gullet blockout PASS (agent review); final in-player pass OPEN.** The Gullet is rebuilt from one shared profile as a Choir's anatomy, replacing the repeated sine-wave tube. It has a flared mouth, entry canal, a 60 m feeding chamber, sphincter valves whose membranes span exactly the pinch, and a slalom throat with alternating tissue folds. There is a salvage eddy where a lost skiff, crates and Neve's cache have collected, a luminous nursery chamber, the Cantor's 76 m coil with Compact collar clamps, and an exit valve. Each organ tints the same generated membrane differently. All encounter, membrane, spawn, cache and flag identities are unchanged. Opened overhead and section views show the anatomy; two first-build defects (membranes poking out of the tube, pods reading as scattered buds) were caught and fixed. The new layout checks were **rejected on the old scene**, then passed; the full suites pass **56/56 EditMode and 166/166 PlayMode**. [Brief](maps/Gullet_Tunnel.md), [evidence](validation/MAP-Gullet-blockout.md). Both ordinary Gullet circuit attempts were rejected because another session's Frostbound batch Unity kept taking the foreground; the focus rule was not relaxed. The scripted slice smoke has been stale at the Cinder dock since the September 26–27 station and hull-size changes, and is recorded for C7 repair.
@@ -14,7 +30,7 @@
 
 ## C5 lifecycle and defence sound checkpoint - September 28
 
-**C5 OPEN.** A second owned palette (13 clips, `lifecycle-candidate.json`) adds creature and machine deaths, ground dodges, Refract interception, hero down and revive. Its preparation tool still reproduces the original 32 clips byte-for-byte. Non-boss enemies now voice their own death at the body by what they are, replacing one generic crunch played at the killer. Downed heroes hit the deck (or fail like a machine in flight), revival rises, a ground dodge moves air and cloth instead of firing a ship thruster, and Refract interception rings. Boss finishes keep the old crunch until each is designed; Cantor's release must never borrow a kill. New checks were **rejected 2/2 without the wiring**, then passed 37/37 across the related suites. The full suites pass **56/56 EditMode and 160/160 PlayMode**, zero skips. The palette test now requires every staged clip to match a committed provenance record. [Evidence](validation/C5-cues.md). Saves and music are unchanged. Skill-specific voices, flight thrust loops, the three captured 60-second mixes and all listening remain open or UNVERIFIED.
+**C5 OPEN.** A second owned palette (13 clips, `lifecycle-candidate.json`) adds creature and machine deaths, ground dodges, Refract interception, hero down and revive. Its preparation tool still reproduces the original 32 clips byte-for-byte. Non-boss enemies now voice their own death at the body by what they are, replacing one generic crunch played at the killer. Downed heroes hit the deck (or fail like a machine in flight), revival rises, a ground dodge moves air and cloth instead of firing a ship thruster, and Refract interception rings. Boss finishes keep the old crunch until each is designed; Cantor's release must never borrow a kill. New checks were **rejected 2/2 without the wiring**, then passed 37/37 across the related suites. The full suites pass 56/56 EditMode and 160/160 PlayMode**, zero skips. The palette test now requires every staged clip to match a committed provenance record. [Evidence](validation/C5-cues.md). Saves and music are unchanged. Skill-specific voices, flight thrust loops, the three captured 60-second mixes and all listening remain open or UNVERIFIED.
 
 ## C4 long circuit completion - September 28
 

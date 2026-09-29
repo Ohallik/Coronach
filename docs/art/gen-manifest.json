@@ -1917,5 +1917,721 @@
       "art-src/Generated/Coronach-SelaFlight/SelaFlight_Meshy.fbx",
       "art-src/Generated/Coronach-SelaFlight/SelaFlight_Meshy_base_color.png"
     ]
+  },
+  {
+    "task": "p40-image2image-01a0ebb9-6c37-750f-bf53-84898f20735b",
+    "task_id": "01a0ebb9-6c37-750f-bf53-84898f20735b",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. Use case: stylized-concept. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference board: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, labels, watermark or borders. Emissive lines are opaque saturated color, not illumination. Every part is visibly rooted in its body; nothing floats. Nine separated concept cells in a 3x3 grid, ONE isolated object per cell, three-quarter view, substantial white gutters: (1) a tall curved cave wall segment of layered darker cave rock with three evenly spaced shallow curved grooves carved across its face, thin cyan mineral light inside the grooves; (2) a thick cave column joining floor and ceiling stumps, layered rock with a few rooted cyan crystal nubs; (3) a broad three-step rock slope shelf for walking down between levels; (4) a low standing slab of smooth rock with concentric curved grooves spiralling inward like a survey mark, cyan inside the grooves; (5) a natural pressure vent: a rounded rock mound with an open throat ringed by thick ribbed lips and a glowing cyan interior, no smoke; (6) a nursery egg cradle: four smooth closed mauve-violet eggs with three cyan slits each, nested in a curved rock cradle whose grooves wrap around them, all attached; (7) a miners' scaffold platform of dark slate plating with cream trim, a railing and a work lamp, sturdy legs, all connected; (8) a small ore cart of dark slate plating on four wheels with a load of cyan crystal ore, one piece; (9) a drill-shaft service lift: a square slate cage platform with cream corner posts and a cyan control panel, open sides. Materials: dusty warm rock #A88461, darker cave rock #6E5540, dark slate plating #485568, small cream accents, cyan #22F5FF seams and mineral light, mauve #68648E eggs. This is a design board, NOT a model input.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. Use case: stylized-concept. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference board: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, labels, watermark or borders. Emissive lines are opaque saturated color, not illumination. Every part is visibly rooted in its body; nothing floats. Nine separated concept cells in a 3x3 grid, ONE isolated object per cell, three-quarter view, substantial white gutters: (1) a tall curved cave wall segment of layered darker cave rock with three evenly spaced shallow curved grooves carved across its face, thin cyan mineral light inside the grooves; (2) a thick cave column joining floor and ceiling stumps, layered rock with a few rooted cyan crystal nubs; (3) a broad three-step rock slope shelf for walking down between levels; (4) a low standing slab of smooth rock with concentric curved grooves spiralling inward like a survey mark, cyan inside the grooves; (5) a natural pressure vent: a rounded rock mound with an open throat ringed by thick ribbed lips and a glowing cyan interior, no smoke; (6) a nursery egg cradle: four smooth closed mauve-violet eggs with three cyan slits each, nested in a curved rock cradle whose grooves wrap around them, all attached; (7) a miners' scaffold platform of dark slate plating with cream trim, a railing and a work lamp, sturdy legs, all connected; (8) a small ore cart of dark slate plating on four wheels with a load of cyan crystal ore, one piece; (9) a drill-shaft service lift: a square slate cage platform with cream corner posts and a cyan control panel, open sides. Materials: dusty warm rock #A88461, darker cave rock #6E5540, dark slate plating #485568, small cream accents, cyan #22F5FF seams and mineral light, mauve #68648E eggs. This is a design board, NOT a model input.",
+      "aspect_ratio": "4:3",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2303960 sha256(base64)=70f49ccc1f52fbfe>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/P40-Hushwell/refs/hushwell-kit-board.png",
+    "batch": "P40-Hushwell",
+    "created_at": "2026-09-29T05:53:14+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-29T05:53:50+00:00"
+  },
+  {
+    "task": "p40-img3d-01a0ebbc-00ee-7430-a0d7-bdf65b95adb8",
+    "task_id": "01a0ebbc-00ee-7430-a0d7-bdf65b95adb8",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellWall (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=753596 sha256(base64)=8bea8cdb2b2602a6>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellWall/HushwellWall.fbx",
+    "batch": "P40-HushwellWall",
+    "created_at": "2026-09-29T05:56:02+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T05:57:03+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellWall/HushwellWall.fbx",
+      "art-src/Generated/P40-HushwellWall/HushwellWall_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebbc-f4c8-759d-9833-d52ff6037ee6",
+    "task_id": "01a0ebbc-f4c8-759d-9833-d52ff6037ee6",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellColumn (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=657328 sha256(base64)=62a16d557d248dbb>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellColumn/HushwellColumn.fbx",
+    "batch": "P40-HushwellColumn",
+    "created_at": "2026-09-29T05:57:05+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T05:57:42+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellColumn/HushwellColumn.fbx",
+      "art-src/Generated/P40-HushwellColumn/HushwellColumn_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebbd-8b80-77b7-94a2-73935f15b0d9",
+    "task_id": "01a0ebbd-8b80-77b7-94a2-73935f15b0d9",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellSlope (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=664780 sha256(base64)=a26d431c82034803>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellSlope/HushwellSlope.fbx",
+    "batch": "P40-HushwellSlope",
+    "created_at": "2026-09-29T05:57:43+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T05:58:20+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellSlope/HushwellSlope.fbx",
+      "art-src/Generated/P40-HushwellSlope/HushwellSlope_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebbe-2083-7196-94e7-b32a078205a5",
+    "task_id": "01a0ebbe-2083-7196-94e7-b32a078205a5",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellMarker (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=515964 sha256(base64)=1013d40e8951c281>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellMarker/HushwellMarker.fbx",
+    "batch": "P40-HushwellMarker",
+    "created_at": "2026-09-29T05:58:21+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T05:58:47+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellMarker/HushwellMarker.fbx",
+      "art-src/Generated/P40-HushwellMarker/HushwellMarker_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebbe-883d-74bb-b04e-220d4c8c3a36",
+    "task_id": "01a0ebbe-883d-74bb-b04e-220d4c8c3a36",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellVent (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=618072 sha256(base64)=833f98c89b45cde5>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellVent/HushwellVent.fbx",
+    "batch": "P40-HushwellVent",
+    "created_at": "2026-09-29T05:58:48+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T05:59:25+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellVent/HushwellVent.fbx",
+      "art-src/Generated/P40-HushwellVent/HushwellVent_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebbf-1e37-7313-b42d-8fb80658755c",
+    "task_id": "01a0ebbf-1e37-7313-b42d-8fb80658755c",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellEggCradle (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=671100 sha256(base64)=81a317d8d6ae0549>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellEggCradle/HushwellEggCradle.fbx",
+    "batch": "P40-HushwellEggCradle",
+    "created_at": "2026-09-29T05:59:26+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T05:59:51+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellEggCradle/HushwellEggCradle.fbx",
+      "art-src/Generated/P40-HushwellEggCradle/HushwellEggCradle_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebbf-850f-76fa-ba6b-5ae66d247660",
+    "task_id": "01a0ebbf-850f-76fa-ba6b-5ae66d247660",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellScaffold (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=679996 sha256(base64)=852b8967a4a95b3c>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellScaffold/HushwellScaffold.fbx",
+    "batch": "P40-HushwellScaffold",
+    "created_at": "2026-09-29T05:59:53+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:00:42+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellScaffold/HushwellScaffold.fbx",
+      "art-src/Generated/P40-HushwellScaffold/HushwellScaffold_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebc0-4934-752b-a399-38acc7fdeb74",
+    "task_id": "01a0ebc0-4934-752b-a399-38acc7fdeb74",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellOreCart (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=732132 sha256(base64)=8e00fca0bce83a83>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellOreCart/HushwellOreCart.fbx",
+    "batch": "P40-HushwellOreCart",
+    "created_at": "2026-09-29T06:00:43+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:01:32+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellOreCart/HushwellOreCart.fbx",
+      "art-src/Generated/P40-HushwellOreCart/HushwellOreCart_base_color.png"
+    ]
+  },
+  {
+    "task": "p40-img3d-01a0ebc1-0f33-77da-b794-2bbb93980af6",
+    "task_id": "01a0ebc1-0f33-77da-b794-2bbb93980af6",
+    "prompt_id": "P40",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hushwell kit: HushwellLift (isolated from hushwell-kit-board)",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=680720 sha256(base64)=9623839bb348539c>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P40-HushwellLift/HushwellLift.fbx",
+    "batch": "P40-HushwellLift",
+    "created_at": "2026-09-29T06:01:33+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:02:23+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P40-HushwellLift/HushwellLift.fbx",
+      "art-src/Generated/P40-HushwellLift/HushwellLift_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-image2image-01a0ebdd-5806-77cf-9b60-6c8a0b6b831d",
+    "task_id": "01a0ebdd-5806-77cf-9b60-6c8a0b6b831d",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. Drawn in EXACTLY the same art style, line weight, cel shading and materials as the reference images: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, labels, watermark or borders. Emissive lines are opaque saturated color, not illumination. Every part is visibly rooted in its body; nothing floats. Use case: 3D model reference for a boss creature. ONE isolated creature, three-quarter front view from slightly above, full body centred with wide white margins. THE BELLOWS BELOW, a cave predator: a squat, heavy, DOME-shaped body about as wide as it is long and half as tall, built like a giant bellows. Six thick accordion pleats of armoured hide arch over the dome from front to back; each pleat is a plate of darker cave rock #6E5540 with dusty warm rock #A88461 ridges, and deep mauve #68648E soft skin shows in the folds between pleats. A wide flat front face with a horizontal slit maw lined with blunt pale cream teeth plates and a cyan #22F5FF glow inside the maw; two small hard amber eyes above the maw. Short cyan vent slits run along the sides of each pleat. The body rests directly on a low, thick fleshy skirt-foot that meets the ground all round. NO legs, NO tail, NO tentacles, NO spines, nothing thin or detached: one solid, compact, rounded silhouette. Not a worm, not a snake, not a turtle.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. Drawn in EXACTLY the same art style, line weight, cel shading and materials as the reference images: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, labels, watermark or borders. Emissive lines are opaque saturated color, not illumination. Every part is visibly rooted in its body; nothing floats. Use case: 3D model reference for a boss creature. ONE isolated creature, three-quarter front view from slightly above, full body centred with wide white margins. THE BELLOWS BELOW, a cave predator: a squat, heavy, DOME-shaped body about as wide as it is long and half as tall, built like a giant bellows. Six thick accordion pleats of armoured hide arch over the dome from front to back; each pleat is a plate of darker cave rock #6E5540 with dusty warm rock #A88461 ridges, and deep mauve #68648E soft skin shows in the folds between pleats. A wide flat front face with a horizontal slit maw lined with blunt pale cream teeth plates and a cyan #22F5FF glow inside the maw; two small hard amber eyes above the maw. Short cyan vent slits run along the sides of each pleat. The body rests directly on a low, thick fleshy skirt-foot that meets the ground all round. NO legs, NO tail, NO tentacles, NO spines, nothing thin or detached: one solid, compact, rounded silhouette. Not a worm, not a snake, not a turtle.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=1977424 sha256(base64)=3a733aa0c4b856b7>",
+        "data:image/png;base64,<omitted chars=2657820 sha256(base64)=5194b8bcb3cf0513>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/P41-BellowsBelow/refs/bellows-below.png",
+    "batch": "P41-BellowsBelow",
+    "created_at": "2026-09-29T06:32:29+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-29T06:33:11+00:00"
+  },
+  {
+    "task": "p41-img3d-01a0ebde-3a2b-70ed-9669-59598a1e1022",
+    "task_id": "01a0ebde-3a2b-70ed-9669-59598a1e1022",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:bellows-below.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1806668 sha256(base64)=07294600712ed2cf>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 15000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-BellowsBelow/BellowsBelow.fbx",
+    "batch": "P41-BellowsBelow",
+    "created_at": "2026-09-29T06:33:26+00:00",
+    "polycount_band": {
+      "min": 6000,
+      "max": 15000,
+      "target": 15000
+    },
+    "updated_at": "2026-09-29T06:34:03+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-BellowsBelow/BellowsBelow.fbx",
+      "art-src/Generated/P41-BellowsBelow/BellowsBelow_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-image2image-01a0ebde-5721-7388-bd77-f3555a5f2261",
+    "task_id": "01a0ebde-5721-7388-bd77-f3555a5f2261",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference board: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, labels, watermark or borders. Emissive lines are opaque saturated color, not illumination. Every part is visibly rooted in its body; nothing floats. Nine separated concept cells in a 3x3 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, every object standing on its own flat base: (1) a stalagmite cluster: three rooted rock spires of different heights on one shared rock base, darker cave rock with one thin cyan seam; (2) a low rubble pile of broken dusty rock chunks, all touching each other, knee height; (3) a low cyan crystal floor cluster: five stubby crystal prisms rooted in a small rock base; (4) a knee-high curved rock ridge for cover, layered rock with one carved groove along it; (5) a toppled miners' work lamp post of dark slate plating with cream trim lying on its side on a small base plate, lamp head attached; (6) a broken giant drill bit segment of dark slate and cream lying on its side, one solid piece; (7) Choir growth: a cluster of soft rounded mauve tube shoots with cyan tips rooted in a rock base; (8) hatched egg shells: three broken cupped mauve-violet egg shell halves with cyan slits, resting touching each other on a small rock base; (9) a stack of three miners' supply crates of dark slate plating with cream trim, bound together as one piece. Materials: dusty warm rock #A88461, darker cave rock #6E5540, dark slate plating #485568, small cream accents, cyan #22F5FF seams and mineral light, mauve #68648E shells and shoots. This is a design board, NOT a model input.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference board: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, labels, watermark or borders. Emissive lines are opaque saturated color, not illumination. Every part is visibly rooted in its body; nothing floats. Nine separated concept cells in a 3x3 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, every object standing on its own flat base: (1) a stalagmite cluster: three rooted rock spires of different heights on one shared rock base, darker cave rock with one thin cyan seam; (2) a low rubble pile of broken dusty rock chunks, all touching each other, knee height; (3) a low cyan crystal floor cluster: five stubby crystal prisms rooted in a small rock base; (4) a knee-high curved rock ridge for cover, layered rock with one carved groove along it; (5) a toppled miners' work lamp post of dark slate plating with cream trim lying on its side on a small base plate, lamp head attached; (6) a broken giant drill bit segment of dark slate and cream lying on its side, one solid piece; (7) Choir growth: a cluster of soft rounded mauve tube shoots with cyan tips rooted in a rock base; (8) hatched egg shells: three broken cupped mauve-violet egg shell halves with cyan slits, resting touching each other on a small rock base; (9) a stack of three miners' supply crates of dark slate plating with cream trim, bound together as one piece. Materials: dusty warm rock #A88461, darker cave rock #6E5540, dark slate plating #485568, small cream accents, cyan #22F5FF seams and mineral light, mauve #68648E shells and shoots. This is a design board, NOT a model input.",
+      "aspect_ratio": "4:3",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2657820 sha256(base64)=5194b8bcb3cf0513>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/P41-HushwellProps/refs/hushwell-props-board.png",
+    "batch": "P41-HushwellProps",
+    "created_at": "2026-09-29T06:33:33+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-09-29T06:34:15+00:00"
+  },
+  {
+    "task": "p41-img3d-01a0ebdf-7ebc-76f3-9ffc-b3dd2fbdda70",
+    "task_id": "01a0ebdf-7ebc-76f3-9ffc-b3dd2fbdda70",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellStalagmites.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=654140 sha256(base64)=f396ea9ec8ebd1fd>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellStalagmites/HushwellStalagmites.fbx",
+    "batch": "P41-HushwellStalagmites",
+    "created_at": "2026-09-29T06:34:48+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:35:25+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellStalagmites/HushwellStalagmites.fbx",
+      "art-src/Generated/P41-HushwellStalagmites/HushwellStalagmites_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe0-156e-74eb-92f0-893c4ae44587",
+    "task_id": "01a0ebe0-156e-74eb-92f0-893c4ae44587",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellRubble.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=667508 sha256(base64)=52f647aff2baca29>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellRubble/HushwellRubble.fbx",
+    "batch": "P41-HushwellRubble",
+    "created_at": "2026-09-29T06:35:27+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:36:04+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellRubble/HushwellRubble.fbx",
+      "art-src/Generated/P41-HushwellRubble/HushwellRubble_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe0-abff-72d8-b9dc-e436bafdf53c",
+    "task_id": "01a0ebe0-abff-72d8-b9dc-e436bafdf53c",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellCrystalBed.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=595288 sha256(base64)=a34b386f062b5eea>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellCrystalBed/HushwellCrystalBed.fbx",
+    "batch": "P41-HushwellCrystalBed",
+    "created_at": "2026-09-29T06:36:05+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:36:43+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellCrystalBed/HushwellCrystalBed.fbx",
+      "art-src/Generated/P41-HushwellCrystalBed/HushwellCrystalBed_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe1-42aa-71bd-8992-9210755194d9",
+    "task_id": "01a0ebe1-42aa-71bd-8992-9210755194d9",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellLowRidge.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=663716 sha256(base64)=280e0e1e990493f1>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellLowRidge/HushwellLowRidge.fbx",
+    "batch": "P41-HushwellLowRidge",
+    "created_at": "2026-09-29T06:36:44+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:37:09+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellLowRidge/HushwellLowRidge.fbx",
+      "art-src/Generated/P41-HushwellLowRidge/HushwellLowRidge_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe1-a9ef-7703-bb63-e1cd629ac4de",
+    "task_id": "01a0ebe1-a9ef-7703-bb63-e1cd629ac4de",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellFallenLamp.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=527244 sha256(base64)=e04a4118c33e6f3b>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellFallenLamp/HushwellFallenLamp.fbx",
+    "batch": "P41-HushwellFallenLamp",
+    "created_at": "2026-09-29T06:37:10+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:37:35+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellFallenLamp/HushwellFallenLamp.fbx",
+      "art-src/Generated/P41-HushwellFallenLamp/HushwellFallenLamp_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe2-10fc-7476-8a52-c8ffac955d96",
+    "task_id": "01a0ebe2-10fc-7476-8a52-c8ffac955d96",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellDrillBit.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=751064 sha256(base64)=8938cd8005f841be>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellDrillBit/HushwellDrillBit.fbx",
+    "batch": "P41-HushwellDrillBit",
+    "created_at": "2026-09-29T06:37:37+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:38:14+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellDrillBit/HushwellDrillBit.fbx",
+      "art-src/Generated/P41-HushwellDrillBit/HushwellDrillBit_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe2-a81f-7194-b5ed-8f4985d04d8b",
+    "task_id": "01a0ebe2-a81f-7194-b5ed-8f4985d04d8b",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellChoirGrowth.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=871452 sha256(base64)=812aecc259b30a8d>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellChoirGrowth/HushwellChoirGrowth.fbx",
+    "batch": "P41-HushwellChoirGrowth",
+    "created_at": "2026-09-29T06:38:15+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:38:52+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellChoirGrowth/HushwellChoirGrowth.fbx",
+      "art-src/Generated/P41-HushwellChoirGrowth/HushwellChoirGrowth_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe3-3dd9-77a0-b0a7-793d2dd102c2",
+    "task_id": "01a0ebe3-3dd9-77a0-b0a7-793d2dd102c2",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellShells.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=755960 sha256(base64)=adc9364d43fc8c65>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellShells/HushwellShells.fbx",
+    "batch": "P41-HushwellShells",
+    "created_at": "2026-09-29T06:38:54+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:39:31+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellShells/HushwellShells.fbx",
+      "art-src/Generated/P41-HushwellShells/HushwellShells_base_color.png"
+    ]
+  },
+  {
+    "task": "p41-img3d-01a0ebe3-d44f-7734-a1d3-85ba4697f5ae",
+    "task_id": "01a0ebe3-d44f-7734-a1d3-85ba4697f5ae",
+    "prompt_id": "P41",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellCrates.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=869324 sha256(base64)=a44a7898efd9b417>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P41-HushwellCrates/HushwellCrates.fbx",
+    "batch": "P41-HushwellCrates",
+    "created_at": "2026-09-29T06:39:32+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-09-29T06:40:09+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P41-HushwellCrates/HushwellCrates.fbx",
+      "art-src/Generated/P41-HushwellCrates/HushwellCrates_base_color.png"
+    ]
   }
 ]

@@ -12,7 +12,7 @@ namespace Lattice.EditorTools
     public static class MusicIntake
     {
         public static readonly string[] SliceTracks =
-            { "Title Theme", "Hub Town Groove", "Moonbase Market", "Adventure Awaits", "Starfight", "Alien Boss Battle" };
+            { "Title Theme", "Hub Town Groove", "Moonbase Market", "Adventure Awaits", "Starfight", "Alien Boss Battle", "Moon Caverns" };
         [Serializable] sealed class Track { public string title, file, sha256, status; public long bytes; }
         [Serializable] sealed class Manifest { public Track[] tracks; }
 

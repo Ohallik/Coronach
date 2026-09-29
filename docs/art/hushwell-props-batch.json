@@ -1,0 +1,92 @@
+[
+  {
+    "name": "HushwellStalagmites",
+    "kind": "static",
+    "batch": "P41-HushwellStalagmites",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellStalagmites.png",
+    "height": 3.2,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellRubble",
+    "kind": "static",
+    "batch": "P41-HushwellRubble",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellRubble.png",
+    "height": 1,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellCrystalBed",
+    "kind": "static",
+    "batch": "P41-HushwellCrystalBed",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellCrystalBed.png",
+    "height": 1.2,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py) ; backing plate removed by tools/blender/remove_base_plate.py"
+  },
+  {
+    "name": "HushwellLowRidge",
+    "kind": "static",
+    "batch": "P41-HushwellLowRidge",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellLowRidge.png",
+    "height": 1.1,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellFallenLamp",
+    "kind": "static",
+    "batch": "P41-HushwellFallenLamp",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellFallenLamp.png",
+    "height": 0.8,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellDrillBit",
+    "kind": "static",
+    "batch": "P41-HushwellDrillBit",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellDrillBit.png",
+    "height": 1.4,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellChoirGrowth",
+    "kind": "static",
+    "batch": "P41-HushwellChoirGrowth",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellChoirGrowth.png",
+    "height": 1.8,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellShells",
+    "kind": "static",
+    "batch": "P41-HushwellShells",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellShells.png",
+    "height": 1,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  },
+  {
+    "name": "HushwellCrates",
+    "kind": "static",
+    "batch": "P41-HushwellCrates",
+    "ref": "art-src/Generated/P41-HushwellProps/isolated/HushwellCrates.png",
+    "height": 1.6,
+    "fit": "height",
+    "family": "Environment",
+    "prompt": "P41 Hushwell props board cell (gpt-image-2 image-to-image from the P40 kit board, isolated by tools/isolate_board.py)"
+  }
+]

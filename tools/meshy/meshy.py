@@ -30,7 +30,12 @@ ENDPOINTS = {
     "img3d": "/openapi/v1/image-to-3d",
     "retexture": "/openapi/v1/retexture",
     "rig": "/openapi/v1/rigging",
+    "text2image": "/openapi/v1/text-to-image",
+    "image2image": "/openapi/v1/image-to-image",
 }
+# Nathan authorised his full Meshy balance on 2026-09-28: 795 credits were
+# already recorded plus 4,157 available, so the cumulative ledger cap is 4,952.
+CREDIT_CAP = 4_952
 # Smart-topology (meshy-t2) generates directly at target_polycount, hard cap 15,000.
 POLY_BANDS = {"prop": (1_000, 6_000), "hero": (6_000, 15_000), "humanoid": (8_000, 15_000)}
 HOUSE_TEXTURE_PROMPT = (
@@ -276,12 +281,12 @@ def create_record(client: Client, api_mode: str, manifest_mode: str, payload: di
     approval = ROOT / "docs" / "art" / "species-approval.json"
     if not approval.exists() or json.loads(approval.read_text(encoding="utf-8")).get("status") != "NATHAN_SPECIES_APPROVED":
         raise MeshyError("NATHAN GATE: species approval receipt is required before starting the ordered art batch")
-    reserves = {"rig": 10, "retexture": 20, "img3d": 50, "text3d": 50}
+    reserves = {"rig": 10, "retexture": 20, "img3d": 50, "text3d": 50, "text2image": 12, "image2image": 12}
     used = sum(row.get("consumed_credits") if row.get("consumed_credits") is not None
                else row.get("credits") if row.get("credits") is not None
                else reserves.get(row.get("mode"), 50) for row in read_manifest())
-    if used + reserves.get(api_mode, 50) > 1200:
-        raise MeshyError(f"BUDGET_STOP spent_or_reserved={used} cap=1200; remaining assets become ART_PENDING")
+    if used + reserves.get(api_mode, 50) > CREDIT_CAP:
+        raise MeshyError(f"BUDGET_STOP spent_or_reserved={used} cap={CREDIT_CAP}; remaining assets become ART_PENDING")
     task_id = client.create(api_mode, payload)
     append_manifest(task_row(task_id, manifest_mode, prompt, payload, batch, prompt_id))
     print(task_id, flush=True)
@@ -394,6 +399,45 @@ def common_generation(parser: argparse.ArgumentParser, bands: bool = True) -> No
         parser.add_argument("--target-polycount", type=int)
 
 
+def download_images(task: dict[str, Any], batch: str, name: str, prompt: str) -> list[Path]:
+    """Reference images land beside their exact prompt under art-src/Generated/<batch>/refs."""
+    urls = task.get("image_urls") or []
+    if not urls:
+        raise MeshyError("image task finished without image_urls")
+    folder = ROOT / "art-src" / "Generated" / batch / "refs"
+    folder.mkdir(parents=True, exist_ok=True)
+    saved = []
+    for index, url in enumerate(urls):
+        target = folder / (f"{name}.png" if len(urls) == 1 else f"{name}-{index}.png")
+        if target.exists():
+            raise MeshyError(f"refusing to overwrite reference {target}")
+        response = requests.get(url, timeout=120)
+        response.raise_for_status()
+        target.write_bytes(response.content)
+        saved.append(target)
+        print(f"downloaded {target.relative_to(ROOT)}")
+    (folder / f"{name}.prompt.txt").write_text(prompt + chr(10), encoding="utf-8")
+    return saved
+
+
+def cmd_image(args: argparse.Namespace, client: Client, mode: str) -> None:
+    payload: dict[str, Any] = {"ai_model": args.ai_model, "prompt": args.prompt}
+    if args.aspect_ratio:
+        payload["aspect_ratio"] = args.aspect_ratio
+    if args.remove_background:
+        payload["remove_background"] = True
+    if mode == "image2image":
+        payload["reference_image_urls"] = [data_uri(path) for path in args.reference]
+    task_id = create_record(client, mode, mode, payload, args.prompt, args.batch, args.prompt_id)
+    task = wait_for(client, mode, task_id, args.interval, args.timeout)
+    update_manifest(task_id, output_path=f"art-src/Generated/{args.batch}/refs/{args.name}.png")
+    download_images(task, args.batch, args.name, args.prompt)
+
+
+def cmd_balance(args: argparse.Namespace, client: Client) -> None:
+    print(json.dumps(client.request("GET", "/openapi/v1/balance")))
+
+
 def parser() -> argparse.ArgumentParser:
     root = argparse.ArgumentParser(description=__doc__)
     sub = root.add_subparsers(dest="command", required=True)
@@ -424,6 +468,22 @@ def parser() -> argparse.ArgumentParser:
     p.add_argument("--height", type=float, required=True)
     common_generation(p, bands=False)
     p.set_defaults(func=cmd_rig)
+    for mode in ("text2image", "image2image"):
+        p = sub.add_parser(mode, help="Generate a reference image (" + mode + ")")
+        p.add_argument("--prompt", required=True)
+        p.add_argument("--name", required=True)
+        p.add_argument("--batch", required=True)
+        p.add_argument("--prompt-id", default="P40")
+        p.add_argument("--ai-model", default="gpt-image-2")
+        p.add_argument("--aspect-ratio")
+        p.add_argument("--remove-background", action="store_true")
+        p.add_argument("--interval", type=float, default=6)
+        p.add_argument("--timeout", type=float, default=900)
+        if mode == "image2image":
+            p.add_argument("--reference", action="append", required=True)
+        p.set_defaults(func=lambda a, c, m=mode: cmd_image(a, c, m))
+    p = sub.add_parser("balance", help="Show the live Meshy credit balance")
+    p.set_defaults(func=cmd_balance)
     for name, func in (("poll", cmd_poll), ("download", cmd_download)):
         p = sub.add_parser(name)
         p.add_argument("mode", choices=ENDPOINTS)

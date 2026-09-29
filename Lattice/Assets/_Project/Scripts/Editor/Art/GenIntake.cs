@@ -42,6 +42,16 @@ namespace Lattice.EditorTools
             foreach(var row in Rows())Build(row);
             AssetDatabase.SaveAssets();Debug.Log("GEN_INTAKE_OK");
         });
+        /// <summary>Isolated intake: only the rows whose ids start with
+        /// -intake-prefix are staged, so existing prefabs are left untouched.</summary>
+        public static void BuildPrefix()=>BatchTools.Run(()=>
+        {
+            string prefix=DevArgs.Value("-intake-prefix");if(string.IsNullOrEmpty(prefix))throw new InvalidOperationException("-intake-prefix is required");
+            var rows=Rows().Where(r=>r.id.StartsWith(prefix,StringComparison.Ordinal)).ToArray();
+            if(rows.Length==0)throw new InvalidOperationException("No intake rows start with "+prefix);
+            foreach(var row in rows)Build(row);
+            AssetDatabase.SaveAssets();Debug.Log("GEN_INTAKE_OK prefix="+prefix+" count="+rows.Length);
+        });
         internal static void Build(Row row)
         {
             if(!System.Text.RegularExpressions.Regex.IsMatch(row.id,"^[A-Za-z0-9-]+$")||row.size<=0)throw new InvalidOperationException("Invalid id/size "+row.id);

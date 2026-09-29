@@ -119,6 +119,47 @@ namespace Lattice.EditorTools
                 Shot(camera,folder,"Gullet-"+name,new Vector3(Lattice.World.GulletProfile.Center(z),0,z),Quaternion.Euler(52,0,0),scale);
             Debug.Log("MAP_EVIDENCE_OK " + folder);
         });
+        public static void HushwellReview()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("workshop/hushwell-review");
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hushwell.unity");
+            foreach (var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None)) text.gameObject.SetActive(false);
+            var camera = new GameObject("Evidence camera", typeof(Camera), typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor = new Color(.025f, .035f, .06f); camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.orthographic = true; camera.nearClipPlane = .1f; camera.farClipPlane = 2000;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing = false;
+            Shot(camera,folder,"Hushwell-overhead",new Vector3(0,0,170),Quaternion.Euler(90,90,0),72);
+            // Review-only stand-in: the boss at its spawn, turned to face the
+            // camera as it would face an approaching hero. Never saved.
+            var bellows=Lattice.Core.GameCatalog.Find<Lattice.Data.EnemyDef>("BellowsBelow");
+            if(bellows!=null&&bellows.prefab!=null)
+            {
+                var body=(GameObject)UnityEditor.PrefabUtility.InstantiatePrefab(bellows.prefab);
+                body.transform.SetPositionAndRotation(new Vector3(0,-8,268),Quaternion.Euler(0,200,0));
+            }
+            // The player's own view: the fixed ground camera's pitch, yaw, distance and field of view.
+            camera.orthographic=false;camera.fieldOfView=30;var view=Quaternion.Euler(40,20,0);
+            foreach(var (name,at) in new[]{("breach",new Vector2(0,4)),("gallery-a",new Vector2(-12,46)),("gallery-b",new Vector2(8,84)),("survey-grid",new Vector2(7,106)),
+                ("ramp-down",new Vector2(1,138)),("chamber-1",new Vector2(0,162)),("east-vent",new Vector2(20,164)),("chamber-2",new Vector2(-4,196)),("west-pocket",new Vector2(-34,212)),
+                ("chamber-3",new Vector2(1,226)),("bellows-entry",new Vector2(0,244)),("bellows",new Vector2(0,262)),("curling-descent",new Vector2(7,304)),("nursery",new Vector2(14,334))})
+            {
+                var target=Lattice.World.HushwellLayout.OnFloor(at)+Vector3.up;
+                camera.transform.SetPositionAndRotation(target-view*Vector3.forward*19.5f,view);
+                Render(camera,folder,"Hushwell-view-"+name);
+            }
+            Debug.Log("MAP_EVIDENCE_OK " + folder);
+        });
+        static void Render(Camera camera,string folder,string name)
+        {
+            var rt = new RenderTexture(1920,1080,24); camera.targetTexture = rt;
+            camera.Render(); camera.Render();
+            var prior = RenderTexture.active; RenderTexture.active = rt;
+            var image = new Texture2D(1920,1080,TextureFormat.RGB24,false);
+            image.ReadPixels(new Rect(0,0,1920,1080),0,0); image.Apply();
+            File.WriteAllBytes(Path.Combine(folder,name+".png"),image.EncodeToPNG());
+            RenderTexture.active = prior; camera.targetTexture = null;
+            Object.DestroyImmediate(image); Object.DestroyImmediate(rt);
+        }
         static string Folder(string run)
         {
             run=Lattice.Core.DevArgs.Value("-map-evidence-run")??run;

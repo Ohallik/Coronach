@@ -6,7 +6,8 @@
     "flash": "Just a little early.",
     "boss": "We can stop shouting now.",
     "zone": "Same body. Different problem.",
-    "cover": "Stay down a second. I've got this."
+    "cover": "Stay down a second. I've got this.",
+    "discovery": "Eggs. The whole cave is a nest."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.",
@@ -15,6 +16,7 @@
     "flash": "You missed. I noticed.",
     "boss": "I liked it better quiet.",
     "zone": "I vote we touch nothing. Yet.",
-    "cover": "Hold still, Vosk. I'm covering you."
+    "cover": "Hold still, Vosk. I'm covering you.",
+    "discovery": "The grooves curl to hold them. Something grew this cave on purpose."
   }
 }

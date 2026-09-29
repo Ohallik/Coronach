@@ -26,7 +26,7 @@ namespace Lattice.EditorTools
         public static void BuildZone(bool grey=false)
         {
             blockout=grey;platforms.Clear();
-            if(!grey)foreach(string id in new[]{"OutpostHab","DeckConsole","DeckCrate","DeckFloor","DeckWall","RidgeRock1","RidgeRock2","RidgeRock3","OutpostDrill","LatticeAnvil","CrystalClusterA","CrystalClusterB","LandingPad"})
+            if(!grey)foreach(string id in new[]{"OutpostHab","DeckConsole","DeckCrate","DeckFloor","DeckWall","RidgeRock1","RidgeRock2","RidgeRock3","OutpostDrill","LatticeAnvil","CrystalClusterA","CrystalClusterB","LandingPad","HushwellScaffold"})
                 if(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/"+id+".prefab")==null)throw new InvalidOperationException("Missing generated Sorrel piece "+id);
             var scene=WorldBuilder.Begin("Sorrel_Ridges");
             Terrain();WorldArt.Planet("Vorun",new Vector3(160,35,350),150);
@@ -83,6 +83,12 @@ namespace Lattice.EditorTools
             WorldBuilder.Encounter("Sorrel_Burrower",new Vector3(0,1,164),new Vector3(24,5,12),"Burrower",1,new[]{entry,exit});
             Platform("Drill service footing",-8,180,9,12,"work");Prop("OutpostDrill",-8,180,8);
             WorldBuilder.Label("DRILL SITE",new Vector3(0,.1f,147));
+            // The drill bored into Hushwell. With the Burrower down, the miners'
+            // scaffold over the bore is the way into the cave and back.
+            WorldBuilder.Spawn("Hushwell",new Vector3(8,0,172));
+            var bore=Prop("HushwellScaffold",8,177,2.6f).AddComponent<WarpBeacon>();
+            bore.prompt="Descend the drill bore — Hushwell";bore.range=3.5f;bore.scene="Hushwell";bore.spawn="Arrival";
+            bore.requiredFlag="bossdown.Burrower";bore.lockedPrompt="The Burrower still guards the bore";
             var key=Prop("LatticeAnvil",0,199,2).AddComponent<KeyPickup>();key.prompt="Recover the warp key";
             Dock("Launch — outer Halo beacon",8,201,"Outer");
             // Hard limits sit within the steep, visible enclosing basin rim.

@@ -43,7 +43,8 @@ namespace Lattice.Core
                 (zone == "Sorrel_Ridges" || zone == "Arena_Ground") && combat ? "Adventure Awaits" :
                 zone == "Hub_Decks" || zone == "Hub_CinderHalo" || zone == "TallowDrift" ||
                 zone == "TallowApproach" || zone == "Sorrel_Ridges" ? "Hub Town Groove" :
-                zone == "Gullet_Tunnel" || zone == "Arena_Flight" ? "Starfight" : null;
+                zone == "Gullet_Tunnel" || zone == "Arena_Flight" ? "Starfight" :
+                zone == "Hushwell" ? "Moon Caverns" : null;
             Current.Refresh();
         }
 

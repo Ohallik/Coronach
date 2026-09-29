@@ -11,6 +11,7 @@ namespace Lattice.Combat
         Health health;
         EnemyBrain brain;
         float nextSpecial,strikeAt,engaged=-1;bool busy;
+        Transform inflated,body;Vector3 inflatedRest,bodyRest;int breaths;
         public bool Busy=>busy;
         public bool Telegraphing=>busy&&Time.time<strikeAt;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
@@ -20,19 +21,21 @@ namespace Lattice.Combat
             // A boss exists only once its encounter begins; its cue lasts until defeat or removal.
             MusicDirector.Encounter(this,"Alien Boss Battle",true);
             nextSpecial=Time.time+5;health.Damaged+=OnDamaged;
+            // The Bellows has no rig: its breathing is its animation.
+            if(health.id=="BellowsBelow"){var presentation=GetComponent<DefeatPresentation>();body=presentation!=null?presentation.visual:null;if(body!=null)bodyRest=body.localScale;}
             for(int i=0;i<3;i++)
             {
                 var weak=new GameObject("WeakPoint_"+i,typeof(SphereCollider),typeof(Hurtbox));weak.transform.SetParent(transform,false);
                 weak.transform.localPosition=new Vector3((i-1)*1.2f,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f;weak.GetComponent<SphereCollider>().isTrigger=true;
                 weak.GetComponent<Hurtbox>().owner=health;weak.GetComponent<Hurtbox>().multiplier=2;
             }
-            health.Died+=(_,__)=>{StopAllCoroutines();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);GameServices.Current.Flags.SetBool("bossdown."+health.id,true);BarkService.Play(PartyController.Current.Active.character,"boss",true);Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");};
+            health.Died+=(_,__)=>{StopAllCoroutines();Deflate();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);GameServices.Current.Flags.SetBool("bossdown."+health.id,true);BarkService.Play(PartyController.Current.Active.character,"boss",true);Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");};
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
             if(engaged<0&&amount>0)engaged=Time.realtimeSinceStartup;
             if(!health.Broken)return;
-            StopAllCoroutines();busy=false;strikeAt=0;
+            StopAllCoroutines();Deflate();busy=false;strikeAt=0;
             nextSpecial=Mathf.Max(nextSpecial,health.BrokenUntil+.5f);
         }
         void OnDestroy(){if(health!=null)health.Damaged-=OnDamaged;MusicDirector.Encounter(this,null,false);}
@@ -42,9 +45,12 @@ namespace Lattice.Combat
             float ratio=health.integrity/health.maximum;int phase=health.id=="Cantor"?(ratio<.33f?3:ratio<.66f?2:1):(ratio<.5f?2:1);
             if(phase!=Phase){Phase=phase;Debug.Log($"BOSS_PHASE {health.id} {Phase}");}
             brain.DamageScale=1+(Phase-1)*.18f;
+            // The Bellows braces against the cave while any pressure organ pumps.
+            if(health.id=="BellowsBelow"&&PressureOrgan.AnyPumping)health.ShieldUntil=Time.time+.25f;
+            if(body!=null&&inflated==null)body.localScale=bodyRest*(1+.035f*Mathf.Sin(Time.time*2.1f));
             if(brain.Passive||busy||health.Broken||GameServices.Current.Input.Blocked||PartyController.Current==null||Time.time<nextSpecial)return;
             if((PartyController.Current.Active.transform.position-transform.position).sqrMagnitude>900)return;
-            StartCoroutine(health.id=="Cantor"?ChoirAttack():BurrowCharge());
+            StartCoroutine(health.id=="Cantor"?ChoirAttack():health.id=="BellowsBelow"?BellowsBreath():BurrowCharge());
         }
         IEnumerator BurrowCharge()
         {
@@ -61,6 +67,47 @@ namespace Lattice.Combat
                 yield return null;
             }
             busy=false;nextSpecial=Time.time+(Phase==2?4:6);
+        }
+        void Deflate()
+        {
+            if(inflated!=null)inflated.localScale=inflatedRest;inflated=null;if(body!=null)body.localScale=bodyRest;
+            foreach(var organ in PressureOrgan.All)organ.Breathe(0);
+        }
+        IEnumerator BellowsBreath()
+        {
+            // Inhale: the body and its organs swell inside a ring that marks the
+            // blast, and one pumping organ, in turn, marks its half of the chamber.
+            // Exhale: everything inside the ring or that half is struck and staggered.
+            busy=true;float radius=Phase==2?13:9.5f,inhale=Phase==2?1.25f:1.05f;strikeAt=Time.time+inhale;
+            PressureOrgan blast=null;int pumping=0;foreach(var organ in PressureOrgan.All)if(organ.Pumping)pumping++;
+            if(pumping>0){int turn=breaths++%pumping;foreach(var organ in PressureOrgan.All)if(organ.Pumping&&turn--==0){blast=organ;break;}}
+            if(blast!=null)
+            {
+                var mid=PressureOrgan.Middle;var side=blast.transform.position-mid;side.y=0;side.Normalize();
+                for(int r=1;r<=3;r++)for(int a=-2;a<=2;a++)CombatVfx.Burst(mid+Quaternion.Euler(0,a*32,0)*side*(r*6)+Vector3.up*.3f,new Color(.7f,.45f,1),"shape");
+            }
+            inflated=body;inflatedRest=bodyRest;
+            for(int i=0;i<16;i++){float a=i*Mathf.PI/8;CombatVfx.Burst(transform.position+new Vector3(Mathf.Cos(a)*radius,.4f,Mathf.Sin(a)*radius),new Color(.85f,.72f,.55f),"shape");}
+            for(float t=0;t<inhale;)
+            {
+                if(GameTime.Paused){yield return null;continue;}
+                t+=Time.deltaTime;float k=Mathf.Clamp01(t/inhale);
+                if(inflated!=null)inflated.localScale=inflatedRest*(1+.35f*k);
+                foreach(var organ in PressureOrgan.All)organ.Breathe(k);
+                yield return null;
+            }
+            Deflate();
+            if(health.Alive&&!health.Broken)
+            {
+                CombatVfx.Burst(transform.position+Vector3.up,new Color(.85f,.72f,.55f),"shape");
+                foreach(var actor in PartyController.Current.members)
+                    if(actor.Health.Alive&&((actor.transform.position-transform.position).sqrMagnitude<radius*radius||blast!=null&&blast.Pumping&&blast.Covers(actor.transform.position)))
+                    {
+                        float damage=actor.Health.Receive(new DamagePacket{source=health,amount=22*brain.DamageScale,type=DamageType.Kinetic});
+                        if(damage>0)actor.Stagger(.5f);
+                    }
+            }
+            busy=false;nextSpecial=Time.time+(Phase==2?4.5f:6);
         }
         IEnumerator ChoirAttack()
         {

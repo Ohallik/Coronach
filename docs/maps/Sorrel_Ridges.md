@@ -62,3 +62,7 @@ A separate red regression proved that opening a membrane removed physical collis
 The actual generated-prop audit now establishes the hab door on +Z and a 5.673 m footprint; final inward yaw is prepared. Iterations 05/06 raise buried launch pads and grade the northern apron. Opened 06 arrival, north-return and excavation-section views show those corrections. The closed barrier also resets correctly if its opening animation is interrupted. Ordinary outpost 01 passes; western 02 clears all four packs without a downed hero but remains rejected for focus loss during return.
 
 Still required: finish ordinary blockout traversal, resolve final equipment supports/operator access, convert and inspect final art, traverse the final routes and return in the player, then rerun integrated regressions. The blockout route uses ordinary virtual gamepad input with the companion active and isolated saves; navmesh reachability alone is not a full ordinary traversal.
+
+### Hushwell bore (September 28)
+
+Claude Code. The drill site now leads down into [Hushwell](Hushwell.md), the moon cave the drill broke into. The miners' scaffold east of the drill, at (8, 177) inside the Burrower's excavation, is gated on `bossdown.Burrower`, and a `Hushwell` spawn at (8, 172) receives parties returning by the breach climb or the nursery lift. Sorrel was rebuilt with `SorrelRedesign.Blockout`, matching its committed blockout state; nothing else in its layout changed, and its terrain asset is byte-identical. `HushwellTests` covers the bore's gate and target.
