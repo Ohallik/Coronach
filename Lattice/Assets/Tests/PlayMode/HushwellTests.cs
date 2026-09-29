@@ -140,6 +140,34 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(100,soft,.01f,"the Bellows stays braced after both organs break");
         }
 
+        [UnityTest] public IEnumerator TheCaveIsASideQuestWithItsOwnObjectives()
+        {
+            // Entering starts "What the drill found"; the HUD leads to the Bellows,
+            // then the nursery, then the lift; the quest completes on the discovery.
+            yield return Load("Hushwell");
+            var state=GameServices.Current.State;
+            Assert.IsTrue(state.questSteps.ContainsKey("Hushwell"),"entering Hushwell does not start its side quest");
+            string Objective()=>Object.FindFirstObjectByType<ObjectiveHud>().GetComponentsInChildren<TMPro.TMP_Text>(true).First(t=>t.name=="Objective").text;
+            yield return new WaitForSecondsRealtime(.4f);
+            StringAssert.Contains("Bellows",Objective(),"the cave has no objective of its own");
+            var bellows=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("BellowsBelow"),PartyController.Current.Active.transform.position+Vector3.forward*12);
+            bellows.Passive=true;yield return null;
+            bellows.Health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=bellows.Health.maximum*50,type=DamageType.Pulse});
+            yield return new WaitForSecondsRealtime(.4f);
+            Assert.IsTrue(GameServices.Current.Flags.GetBool("bossdown.BellowsBelow"));
+            StringAssert.Contains("guarding",Objective(),"the objective does not move on to the nursery");
+            Object.FindFirstObjectByType<DiscoveryPoint>().Interact();yield return new WaitForSecondsRealtime(.4f);
+            Assert.IsTrue(GameServices.Current.Flags.GetBool("quest.Hushwell.complete"),"finding the nursery does not complete the side quest");
+            StringAssert.Contains("lift",Objective());
+            // The Survivor keeps the nursery thread: a third tier after the discovery.
+            yield return Load("Sorrel_Ridges","Hushwell");
+            string node=null;void Heard(string n,string speaker){if(speaker=="Survivor")node=n;}
+            Npc.TalkRequested+=Heard;
+            try{GameServices.Current.Flags.SetBool("warpkey",true);Object.FindObjectsByType<Npc>(FindObjectsSortMode.None).Single(n=>n.speaker=="Survivor").Interact();}
+            finally{Npc.TalkRequested-=Heard;}
+            Assert.AreEqual("SurvivorNursery",node,"the Survivor does not acknowledge the nursery");
+        }
+
         [UnityTest] public IEnumerator TheNurseryIsFoundAndItsLiftAndTheBoreConnectSorrel()
         {
             yield return Load("Hushwell");

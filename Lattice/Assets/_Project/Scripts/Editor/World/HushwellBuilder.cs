@@ -46,6 +46,7 @@ namespace Lattice.EditorTools
 
             Terrain();
             WorldBuilder.Spawn("Arrival",HushwellLayout.OnFloor(HushwellLayout.Arrival));
+            new GameObject("Side quest",typeof(QuestStarter)).GetComponent<QuestStarter>().questId="Hushwell";
             Breach();Galleries();PressureGallery();BellowsChamber();Nursery();Dress();
             Walls();
             WorldBuilder.Boundary("West cave limit",new Vector3(-66,0,170),new Vector3(2,60,400));
@@ -67,6 +68,10 @@ namespace Lattice.EditorTools
             var loot=ArenaBuilder.Asset<LootTable>("BellowsBelow",l=>l.entries=new[]{new LootEntry{id="HuskCore",count=2,chance=1},new LootEntry{id="RidgeCrystal",count=3,chance=1}});
             ArenaBuilder.Asset<EnemyDef>("BellowsBelow",e=>{e.id="BellowsBelow";e.archetype=EnemyArchetype.Spitter;e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.boss=true;
                 e.integrity=12000;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
+            // Side quest: the cave starts it on entry; the Bellows and the nursery finish it.
+            ArenaBuilder.Asset<QuestDef>("Hushwell",q=>{q.id="Hushwell";q.title="What the drill found";
+                q.steps=new[]{new Objective{kind=ObjectiveKind.Kill,target="BellowsBelow",count=1},new Objective{kind=ObjectiveKind.Interact,target="HushwellNursery",count=1}};
+                q.rewardXp=220;q.rewardScrip=150;q.flagsOnComplete=new string[0];});
             AssetDatabase.SaveAssets();return zone;
         }
 

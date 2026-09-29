@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Hushwell side quest and objectives - September 29
+
+**C6 OPEN.** Hushwell now carries its own side quest, **What the drill found**. It starts the first time the cave is entered and completes on the Bellows kill and the nursery discovery, rewarding 220 XP and 150 scrip. Before this the cave had no objective at all: the HUD fell through to the arenas' practice text. It now leads to the Bellows, then the nursery, then the lift. Back in Sorrel, the Survivor mentions the breathing cave after the warp key; after the discovery they answer with a new nursery conversation, through a later speaker tier checked before the post-quest node.
+
+The new test was **rejected before implementation**. Its first green attempt exposed a real defect: killing the generated Bellows raised an unreadable-mesh error, because the rule making enemy bodies readable lived only in a one-off upgrade tool. `GenIntake` now applies it at intake. The full suites pass **56/56 EditMode and 174/174 PlayMode**; saves are unchanged. D121. Reading the new lines in playable context remains open under C6.
+
 ## MAP_EYE_TEST arenas and Sorrel final art - September 29
 
 **Arena_Ground and Arena_Flight blockout PASS (agent review); Sorrel converted to final art; all three in-player passes OPEN.**

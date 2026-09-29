@@ -52,7 +52,7 @@ namespace Lattice.EditorTools
                 if(blockout)ArenaBuilder.Block("Hab entrance blockout",new Vector3(side*10.95f,1.15f,16),new Vector3(.12f,2.3f,1.8f),"Rock");
             }
             var safe=new GameObject("Sheltered outpost",typeof(BoxCollider),typeof(SafePocket));safe.transform.position=new Vector3(0,1,10);safe.GetComponent<BoxCollider>().size=new Vector3(42,5,35);safe.GetComponent<BoxCollider>().isTrigger=true;
-            WorldBuilder.Npc("Survivor",new Vector3(1,0,18));
+            var survivor=WorldBuilder.Npc("Survivor",new Vector3(1,0,18));survivor.finalFlag="hushwell.nursery";survivor.finalNode="SurvivorNursery";
             WorldBuilder.Label("SORREL OUTPOST",new Vector3(0,.1f,2));
             // Rock strata follow route bends. The terrain supplies continuity;
             // these exposed pieces are landmarks and low cover, not fence posts.

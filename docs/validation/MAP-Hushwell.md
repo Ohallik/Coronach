@@ -55,6 +55,9 @@ The runs, in order:
 | Mutation: organ shield removed, plume damage removed | 3/5 | Bellows test red (100 taken, expected 50); pulse test red (hound unhurt). Both mutations reverted and confirmed |
 | Half-chamber blasts added (the atlas's "choose the safe half"), final boss model and dressing | 5/5, plus MusicCueTests 1/1 | Accepted |
 | Mutation: every organ covers the whole chamber | Bellows test red ("Pressure organ east blasts the far half too") | Reverted and confirmed |
+| Side-quest test added, before implementation | Red: "entering Hushwell does not start its side quest" | The cave also had no objective: the HUD fell through to the arena's practice text |
+| Quest, HUD case and Survivor tier implemented | 5/6 | Killing the generated Bellows raised "mesh is not readable". Rigid death placement reads vertices, and the rule that makes enemy bodies readable lived only in a one-off upgrade tool. `GenIntake` now applies it at intake |
+| Re-imported | **6/6** | Accepted |
 
 Full suites: **56/56 EditMode and 171/171 PlayMode**, both before the half-chamber blasts and again on the final code, zero skips.
 

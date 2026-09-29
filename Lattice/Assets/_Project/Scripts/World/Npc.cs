@@ -6,11 +6,13 @@ namespace Lattice.World
     {
         public static event Action<string,string> TalkRequested;
         public string speaker,firstNode,repeatNode,postNode,postFlag="warpkey";
+        // A later tier: once finalFlag is set the speaker acknowledges it.
+        public string finalNode,finalFlag;
         public string hideWhenJoined;
         void Update(){if(!string.IsNullOrEmpty(hideWhenJoined)&&GameServices.Current.State.party.Exists(m=>m.id==hideWhenJoined))gameObject.SetActive(false);}
         public override void Interact()
         {
-            var flags=GameServices.Current.Flags;string node=flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:flags.GetBool("met."+speaker)&&!string.IsNullOrEmpty(repeatNode)?repeatNode:firstNode;
+            var flags=GameServices.Current.Flags;string node=!string.IsNullOrEmpty(finalFlag)&&!string.IsNullOrEmpty(finalNode)&&flags.GetBool(finalFlag)?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:flags.GetBool("met."+speaker)&&!string.IsNullOrEmpty(repeatNode)?repeatNode:firstNode;
             flags.SetBool("met."+speaker,true);TalkRequested?.Invoke(node,speaker);
         }
     }

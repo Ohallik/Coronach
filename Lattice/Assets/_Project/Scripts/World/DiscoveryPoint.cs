@@ -7,11 +7,12 @@ namespace Lattice.World
     /// carries the discovery, the flag only remembers it.</summary>
     public sealed class DiscoveryPoint:InteractionPrompt
     {
-        public string flag="hushwell.nursery",situation="discovery";
+        public string flag="hushwell.nursery",situation="discovery",report="HushwellNursery";
         public override bool Available=>!GameServices.Current.Flags.GetBool(flag);
         public override void Interact()
         {
             if(!Available)return;GameServices.Current.Flags.SetBool(flag,true);Debug.Log("DISCOVERY "+flag);
+            if(!string.IsNullOrEmpty(report))Lattice.Rpg.RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Interact,report);
             if(PartyController.Current!=null)BarkService.Play(PartyController.Current.Active.character,situation,true);
             GameServices.Current.Saves.Save("autosave",GameServices.Current.State);
         }

@@ -40,6 +40,11 @@ namespace Lattice.UI
                     else if(!flags.GetBool("warpkey")){label="Recover the warp key";target=prompts.OfType<KeyPickup>().FirstOrDefault();}
                     else{label="Return to the Halo";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Outer");}
                     break;
+                case "Hushwell":
+                    if(!flags.GetBool("bossdown.BellowsBelow")){label="Follow the breathing down to the Bellows";goal=new Vector3(HushwellLayout.Bellows.x,HushwellLayout.Middle,HushwellLayout.Bellows.y);}
+                    else if(!flags.GetBool("hushwell.nursery")){label="Find what the Bellows was guarding";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault();}
+                    else{label="Ride the drill-shaft lift back to Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.requiredFlag=="hushwell.nursery");}
+                    break;
                 case "Gullet_Tunnel":
                     if(!flags.GetBool("bossdown.Cantor")){label="Break through the Gullet";goal=new Vector3(Mathf.Sin(805f/900*Mathf.PI*4)*12,1,805);}
                     else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
