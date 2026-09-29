@@ -11,7 +11,17 @@ namespace Lattice.EditorTools
     {
         static readonly string[] Sheets={"Taren_Natural","Taren_Shaped","Sela_Natural","Sela_Shaped","Orrin_Natural","Mira_Natural","Hal_Natural","Neve_Natural"};
         const string Destination="Assets/_Project/Art/Portraits/";
-        public static void Import()=>BatchTools.Run(()=>
+        public static void Import()=>BatchTools.Run(()=>ImportSheets(Sheets,true));
+        /// <summary>Isolated intake of the named sheets (-portrait-names A_Natural,B_Natural).
+        /// A speaker without a character definition, such as a ship-borne resident,
+        /// is found by the dialogue's Resources fallback instead of a binding.</summary>
+        public static void ImportNamed()=>BatchTools.Run(()=>
+        {
+            var names=(DevArgs.Value("-portrait-names")??"").Split(new[]{','},StringSplitOptions.RemoveEmptyEntries);
+            if(names.Length==0||names.Any(n=>!n.EndsWith("_Natural")&&!n.EndsWith("_Shaped")))throw new InvalidOperationException("-portrait-names needs Name_Natural/Name_Shaped entries");
+            ImportSheets(names,false);
+        });
+        static void ImportSheets(string[] Sheets,bool requireDefinition)
         {
             string root=Path.GetFullPath(Path.Combine(Application.dataPath,"../.."));
             foreach(string name in Sheets)
@@ -37,11 +47,11 @@ namespace Lattice.EditorTools
                 string setPath="Assets/_Project/Resources/Portraits/"+name+".asset";var set=AssetDatabase.LoadAssetAtPath<PortraitSet>(setPath);
                 if(set==null){set=ScriptableObject.CreateInstance<PortraitSet>();AssetDatabase.CreateAsset(set,setPath);}
                 string character=name.Split('_')[0];set.characterName=character;set.entries.Clear();for(int i=0;i<16;i++)set.entries.Add(new PortraitSet.Entry{emotion=(PortraitEmotion)i,sprite=sprites[i]});EditorUtility.SetDirty(set);
-                var definition=GameCatalog.Find<CharacterDef>(character);if(definition==null)throw new InvalidOperationException("No character definition for "+character);
-                if(name.EndsWith("Natural"))definition.portraitNatural=set;else definition.portraitShaped=set;EditorUtility.SetDirty(definition);
+                var definition=GameCatalog.Find<CharacterDef>(character);if(definition==null&&requireDefinition)throw new InvalidOperationException("No character definition for "+character);
+                if(definition!=null){if(name.EndsWith("Natural"))definition.portraitNatural=set;else definition.portraitShaped=set;EditorUtility.SetDirty(definition);}
                 Debug.Log("PORTRAIT_RECTS_OK "+name+" cell0=576x576 count=16");
             }
-            AssetDatabase.SaveAssets();Debug.Log("PORTRAIT_INTAKE_OK");
-        });
+            AssetDatabase.SaveAssets();Debug.Log("PORTRAIT_INTAKE_OK count="+Sheets.Length);
+        }
     }
 }

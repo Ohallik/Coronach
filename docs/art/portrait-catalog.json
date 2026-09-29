@@ -222,5 +222,59 @@
       15
     ],
     "qa": "Sixteen cells visually inspected in exact enum order, including readable Neutral and Shocked. Fronds, face and palette remain consistent."
+  },
+  {
+    "name": "Oda_Natural",
+    "character": "Oda",
+    "form": "Natural",
+    "reference": "art-src/Generated/P3-portraits/refs/Neve_Natural.png (style) + art-src/Generated/P1/refs/species-faces-v2.png (anatomy)",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown/fronds and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same plume shape and skin markings. Slate-blue matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Readable pale sclera and ring irises. Sync markings remain thin saturated flat local colors, no bloom.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Oda, a new adult Vael woman, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Round warm face, heavy-lidded eyes with amber ring irises, short bristly rust-brown keratin fronds tied back with a cargo strap, faint white sync-lines along one cheek and the throat, warm slate-teal skin with a lighter face. Practical padded ochre work vest over a patched grey shirt, a coil of cargo strapping over one shoulder. Wry humour covering real worry. NATURAL civilian form, no armor or visor.\n",
+    "source": "art-src/Generated/P42-Portraits/refs/Oda_Natural.png",
+    "enum_to_source": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "qa": "2026-09-29 Claude Code: opened the native sheet and the keyed 2304 atlas; sixteen cells in template order, consistent identity, distinct from every existing speaker; Meshy gpt-image-2 image-to-image, 12 credits"
+  },
+  {
+    "name": "Ilo_Natural",
+    "character": "Ilo",
+    "form": "Natural",
+    "reference": "art-src/Generated/P3-portraits/refs/Neve_Natural.png (style) + art-src/Generated/P1/refs/species-faces-v2.png (anatomy)",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown/fronds and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same plume shape and skin markings. Slate-blue matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Readable pale sclera and ring irises. Sync markings remain thin saturated flat local colors, no bloom.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Ilo, a new adult Vael man, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Long narrow face, calm tired eyes with pale ring irises, pale grey keratin fronds trimmed short and neatly swept back, fine white sync-lines at the temples, cool blue-slate skin with a lighter face. Anchor Compact survey uniform: a high-collared navy tunic with a small white anchor-and-arc insignia on the collar and a survey lens clipped at the collar. Professional, conscientious, quietly uneasy. NATURAL civilian form, no armor or visor.\n",
+    "source": "art-src/Generated/P42-Portraits/refs/Ilo_Natural.png",
+    "enum_to_source": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15
+    ],
+    "qa": "2026-09-29 Claude Code: opened the native sheet and the keyed 2304 atlas; sixteen cells in template order, consistent identity, distinct from every existing speaker; Meshy gpt-image-2 image-to-image, 12 credits"
   }
 ]

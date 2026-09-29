@@ -175,6 +175,21 @@ namespace Lattice.EditorTools
             }
             Debug.Log("MAP_EVIDENCE_OK " + folder);
         });
+        public static void CinderResidents()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("workshop/cinder-residents");
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hub_CinderHalo.unity");
+            var camera = new GameObject("Evidence camera", typeof(Camera), typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor = new Color(.025f, .035f, .06f); camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.orthographic = true; camera.nearClipPlane = .1f; camera.farClipPlane = 2000;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing = false;
+            Shot(camera,folder,"Hub_CinderHalo-south-approaches",new Vector3(10,0,-25),Quaternion.Euler(90,0,0),38);
+            // Labels stay on: a hailable ship is marked by its crew's name in play.
+            camera.orthographic=false;camera.fieldOfView=30;var view=Quaternion.Euler(48,0,0);
+            foreach(var (name,at) in new[]{("neve",new Vector3(-5,1,-37)),("oda",new Vector3(17,1,-47)),("ilo",new Vector3(50,1,-11))})
+            {camera.transform.SetPositionAndRotation(at-view*Vector3.forward*26,view);Render(camera,folder,"Hub_CinderHalo-view-"+name);}
+            Debug.Log("MAP_EVIDENCE_OK " + folder);
+        });
         static void Render(Camera camera,string folder,string name)
         {
             var rt = new RenderTexture(1920,1080,24); camera.targetTexture = rt;

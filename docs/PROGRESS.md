@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Cinder ship-borne residents - September 29
+
+**C6 OPEN; Hub_CinderHalo exterior changed and rechecked in controlled views.** Following Nathan's town-music rule, two more crews now hail from their own parked ships beside Neve's skiff. Both carry the story's Act I seeds before Meret appears:
+
+- **Ilo**, an Anchor Compact surveyor, introduces Director Venn's published shelter capacity and its footnotes.
+- **Oda**'s household is packed for the Nacre transfer: "one berth, one departure", which foreshadows its disaster.
+
+Each has three conversation tiers and a new 16-expression portrait set. Both speak through `HailPoint` with no standing body, and neither ship collides, so no recorded circuit or dock approach changes. `CinderResidentTests` was **rejected before the residents existed**. It then caught a speaker placeholder capsule whose live collider was an invisible obstacle in the lane, and was **rejected again before the portraits were imported**. The full suites pass **56/56 EditMode and 175/175 PlayMode**. D122; [station notes](maps/Hub_CinderHalo.md). Reading the new lines in playable context and hailing them in flight remain open under C6/C4.
+
 ## Hushwell side quest and objectives - September 29
 
 **C6 OPEN.** Hushwell now carries its own side quest, **What the drill found**. It starts the first time the cave is entered and completes on the Bellows kill and the nursery discovery, rewarding 220 XP and 150 scrip. Before this the cave had no objective at all: the HUD fell through to the arenas' practice text. It now leads to the Bellows, then the nursery, then the lift. Back in Sorrel, the Survivor mentions the breathing cave after the warp key; after the discovery they answer with a new nursery conversation, through a later speaker tier checked before the post-quest node.

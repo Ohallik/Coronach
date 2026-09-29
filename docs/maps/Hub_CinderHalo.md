@@ -32,3 +32,13 @@ Codex accepts the spatial blockout, with [review evidence](../validation/station
 The closer final-docks-03 hatch/edge inspection rejects a gap beneath the walking deck: lower casing topped at y=-0.5 while the thin walking floor begins at -0.16; bridge support topped at -1. Before acceptance, extend the casing from -3.5 to 0 and each bridge support from -3 to 0 so both overlap the underside of the sealed floor. Keep the occupied deck, ring, doors and dock coordinates unchanged. Record the visible before/after join and rerun station navigation/docking.
 
 Final review, September 26: Codex accepts the integrated spatial construction/circulation after complete focused ordinary-input routes `final-docks-07` and `final-walk-05`, opened hatch/room/approach stills and the unlabelled paired overhead/structure comparisons. The lower-casing/bridge seam is closed. Exact evidence and remaining presentation limits: [station-final.md](../validation/station-final.md). Fresh C1 performance, continuous motion/audio observation and the all-map workshop gate remain open.
+
+### Ship-borne residents (September 29, Claude Code)
+
+The town music is for flying around the station and talking to people in other ships (D118). Two more crews now hail from their own parked vessels, beside Neve's skiff, and bring the story's first-town seeds (STORY_CAMPAIGN Act I) before Meret appears:
+
+- **Oda's hauler**, on the market approach at (17, −45), is a household packed for the Nacre transfer. Oda's worry about one berth and one departure foreshadows Nacre's disaster.
+- **Ilo's Compact cutter**, off the repair hull's east side at (50, −9) on the way to the moon approach, is an Anchor Compact surveyor. Ilo introduces Director Venn's published shelter capacity and its footnotes.
+
+Both speak through `HailPoint` from 7 m with their bodies removed, and neither ship collides, so no recorded flight circuit or dock approach changes. `CinderResidentTests` was rejected before they existed. It then caught a real defect: the speakers' placeholder capsule carried a live collider, an invisible obstacle in the lane, which is now removed. `StationRedesign.Exterior` rebuilt only the flight exterior. Opened views (`workshop/cinder-residents-01`) show both ships clear of the docks, hulls and lanes. Both have their own 16-expression portrait sets. These were generated in the house template (Meshy image-to-image, 12 credits each, 3,812 credits left), upscaled and keyed by the existing pipeline, and imported through the isolated `PortraitIntake.ImportNamed`. The resident test was rejected ("Ilo has no portrait") before the import and passes after it.
+

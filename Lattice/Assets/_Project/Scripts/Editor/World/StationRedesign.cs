@@ -130,6 +130,11 @@ namespace Lattice.EditorTools
             WorldBuilder.Piece("Skiff",neve.transform.position-Vector3.up,new Vector3(4,1.5f,6),"Sela",false);
             WorldBuilder.Label("Neve",neve.transform.position+Vector3.up*3,1.5f);
             var hail=neve.gameObject.AddComponent<HailPoint>();hail.contact=neve;hail.prompt="Hail Neve";hail.range=7;neve.range=0;
+            // Two more crews hail from their own ships, so the wider response is
+            // visible before Meret appears: the Compact is charting which routes
+            // will hold, and a household is packed for the Nacre transfer.
+            Resident("Oda","Hauler",new Vector3(17,1,-45),new Vector3(4,1.5f,8),200);
+            Resident("Ilo","PatrolCutter",new Vector3(50,1,-9),new Vector3(4,1.5f,5),250);
             for(int laneIndex=0;laneIndex<4;laneIndex++)
             {
                 var root=new GameObject("Outer freight lane "+laneIndex,typeof(SplineContainer),typeof(TrafficLane));var container=root.GetComponent<SplineContainer>();var spline=new Spline();
@@ -141,6 +146,16 @@ namespace Lattice.EditorTools
                 for(int j=0;j<2;j++){var ship=WorldBuilder.Piece(j==0?"Hauler":"PatrolCutter",Vector3.zero,new Vector3(4,1.5f,j==0?8:5),"Rock",false);ship.isStatic=false;var mover=ship.AddComponent<TrafficShip>();mover.lane=lane;mover.phase=j*.5f+laneIndex*.2f;ship.transform.SetPositionAndRotation(lane.Position(mover.phase),Quaternion.LookRotation(lane.Tangent(mover.phase)));}
             }
             WorldBuilder.Save(scene,"Hub_CinderHalo");
+        }
+        static void Resident(string id,string ship,Vector3 at,Vector3 size,float yaw)
+        {
+            // They speak from their ships: no standing body, and nothing that collides
+            // (a placeholder capsule would be an invisible obstacle in the lane).
+            var npc=WorldBuilder.Npc(id,at);var placeholder=npc.transform.Find("ART_PENDING_Civilian");if(placeholder!=null)UnityEngine.Object.DestroyImmediate(placeholder.gameObject);
+            foreach(var renderer in npc.GetComponentsInChildren<Renderer>())renderer.enabled=false;npc.GetComponent<Collider>().enabled=false;
+            var hull=WorldBuilder.Piece(ship,at-Vector3.up,size,"Sela",false);hull.transform.rotation=Quaternion.Euler(0,yaw,0);hull.name=id+"'s ship";
+            WorldBuilder.Label(id,at+Vector3.up*3,1.5f);
+            var hail=npc.gameObject.AddComponent<HailPoint>();hail.contact=npc;hail.prompt="Hail "+id;hail.range=7;npc.range=0;
         }
         // A continuous load-bearing box ring built from the hulls' own deck and wall
         // modules at near-native proportions: a deck plate over inner and outer 3.5 m
