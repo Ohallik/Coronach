@@ -9,6 +9,7 @@ parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output',type=Path,required=True)
 parser.add_argument('--owned-art-root',type=Path,default=Path('C:/Users/natem/Projects/FrostboundUnity/art-src'))
 parser.add_argument('--scifi-art-root',type=Path,default=root/'art-src/Kenney_SciFiSounds')
+parser.add_argument('--set',choices=['movement-combat-ui','lifecycle'],default='movement-combat-ui')
 args=parser.parse_args();out=args.output.resolve()
 if not out.is_relative_to(root/'Builds/quality'):raise ValueError('Candidates must stay under Builds/quality')
 out.mkdir(parents=True,exist_ok=False)
@@ -33,19 +34,32 @@ def decode(spec):
     peak=float(np.max(np.abs(pcm)));pcm*=spec['gain']/peak
     return pcm
 recipes=[]
-for i in range(4):
-    recipes += [(f'step_metal_{i}',[layer(impact,f'footstep_concrete_{i:03d}.ogg',.8),layer(impact,f'impactPlate_light_{i:03d}.ogg',.2,1.18,.008)]),
-                (f'step_rock_{i}',[layer(impact,f'footstep_concrete_{i:03d}.ogg')]),
-                (f'step_soil_{i}',[layer(impact,f'footstep_grass_{i:03d}.ogg')])]
-for i in range(3):
-    recipes += [(f'hit_soft_{i}',[layer(impact,f'impactPunch_medium_{i:03d}.ogg',.75),layer(impact,f'impactSoft_medium_{i:03d}.ogg',.25,1,.008)]),
-                (f'hit_armor_{i}',[layer(impact,f'impactMetal_medium_{i:03d}.ogg',.7),layer(impact,f'impactPlate_light_{i:03d}.ogg',.3,.9,.008)]),
-                (f'swing_{i}',[layer(rpg,'knifeSlice.ogg' if i%2==0 else 'knifeSlice2.ogg',.8,[1.15,1,.84][i]),layer(rpg,f'cloth{i+1}.ogg',.2)]),
-                (f'needle_taren_{i}',[layer(scifi,f'laserRetro_{i:03d}.ogg')]),
-                (f'needle_sela_{i}',[layer(scifi,f'laserSmall_{i:03d}.ogg')])]
-for name,file in [('ui_confirm','confirmation_001.ogg'),('ui_cancel','back_001.ogg'),('ui_error','error_001.ogg'),('ui_move','select_001.ogg'),('dialogue_tick','tick_001.ogg')]:
-    recipes.append((name,[layer(ui,file)]))
+if args.set=='movement-combat-ui':
+  for i in range(4):
+      recipes += [(f'step_metal_{i}',[layer(impact,f'footstep_concrete_{i:03d}.ogg',.8),layer(impact,f'impactPlate_light_{i:03d}.ogg',.2,1.18,.008)]),
+                  (f'step_rock_{i}',[layer(impact,f'footstep_concrete_{i:03d}.ogg')]),
+                  (f'step_soil_{i}',[layer(impact,f'footstep_grass_{i:03d}.ogg')])]
+  for i in range(3):
+      recipes += [(f'hit_soft_{i}',[layer(impact,f'impactPunch_medium_{i:03d}.ogg',.75),layer(impact,f'impactSoft_medium_{i:03d}.ogg',.25,1,.008)]),
+                  (f'hit_armor_{i}',[layer(impact,f'impactMetal_medium_{i:03d}.ogg',.7),layer(impact,f'impactPlate_light_{i:03d}.ogg',.3,.9,.008)]),
+                  (f'swing_{i}',[layer(rpg,'knifeSlice.ogg' if i%2==0 else 'knifeSlice2.ogg',.8,[1.15,1,.84][i]),layer(rpg,f'cloth{i+1}.ogg',.2)]),
+                  (f'needle_taren_{i}',[layer(scifi,f'laserRetro_{i:03d}.ogg')]),
+                  (f'needle_sela_{i}',[layer(scifi,f'laserSmall_{i:03d}.ogg')])]
+  for name,file in [('ui_confirm','confirmation_001.ogg'),('ui_cancel','back_001.ogg'),('ui_error','error_001.ogg'),('ui_move','select_001.ogg'),('dialogue_tick','tick_001.ogg')]:
+      recipes.append((name,[layer(ui,file)]))
+else:
+  # Lifecycle and defence: organic and mechanical deaths, hero down/revive,
+  # a cloth dodge distinct from the ship thruster, and Refract interception.
+  for i in range(3):
+    recipes += [(f'death_creature_{i}',[layer(impact,f'impactPunch_heavy_{i:03d}.ogg',.7,.78),layer(impact,f'impactSoft_heavy_{i:03d}.ogg',.45,.7,.045)]),
+                (f'death_mech_{i}',[layer(scifi,f'explosionCrunch_{i:03d}.ogg',.75),layer(impact,f'impactMetal_heavy_{i:03d}.ogg',.45,1,.015)]),
+                (f'dodge_{i}',[layer(rpg,f'cloth{i+1}.ogg',.55),layer(rpg,'knifeSlice2.ogg',.35,.62)])]
+  for i in range(2):
+    recipes.append((f'deflect_{i}',[layer(impact,f'impactBell_heavy_{i:03d}.ogg',.55,1.1),layer(scifi,f'forceField_{i+1:03d}.ogg',.45)]))
+  recipes += [('hero_down',[layer(impact,'impactSoft_heavy_003.ogg',.8,.85),layer(impact,'impactPlate_medium_003.ogg',.3,.9,.06)]),
+              ('hero_revive',[layer(scifi,'forceField_003.ogg',.7,1.2),layer(ui,'confirmation_002.ogg',.3,1,.08)])]
 manifest={'status':'Prepared candidates only; not staged in game; audition UNVERIFIED','sampleRate':rate,'channels':1,'targetSamplePeakDbfs':-10,'processing':'Decode mono 48k; optional pitch-resample; normalize each layer to unit peak then weighted mix/delay; trim below -60 dB relative activity; 2 ms onset and 12 ms tail fades; normalize composite to -10 dBFS; signed 16-bit PCM.','clips':[]}
+if args.set!='movement-combat-ui':manifest['set']=args.set
 for name,specs in recipes:
     arrays=[decode(s) for s in specs];size=max(len(a)+round(s['delay']*rate) for a,s in zip(arrays,specs));mix=np.zeros(size,dtype=np.float64)
     for a,s in zip(arrays,specs):

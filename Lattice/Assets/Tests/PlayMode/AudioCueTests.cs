@@ -112,6 +112,51 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(log.Count("needle_sela",sela.transform),0,"Static Net launch is silent: "+log.All);
             Assert.AreEqual(0,log.Count("laserSmall_000"),"Static Net sounds like hostile fire: "+log.All);
         }
+        [UnityTest] public IEnumerator DeathsDownAndReviveSoundFromTheBodyThatChanged()
+        {
+            var taren=Isolate(PartyController.Current.Active);Assert.AreEqual("Taren",taren.character);
+            fixture=new GameObject("Lifecycle fixture");
+            var hound=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Ridgehound"),taren.transform.position+new Vector3(5,0,5));
+            var husk=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("SentinelHusk"),taren.transform.position+new Vector3(-5,0,5));
+            foreach(var enemy in new[]{hound,husk}){enemy.transform.SetParent(fixture.transform);enemy.Passive=true;}
+            Physics.SyncTransforms();yield return null;
+            using var log=new CueLog();
+            foreach(var enemy in new[]{hound,husk})
+                enemy.Health.Receive(new DamagePacket{source=taren.Health,amount=enemy.Health.maximum*20,type=DamageType.Pulse});
+            yield return new WaitForSecondsRealtime(.2f);
+            Assert.IsFalse(hound.Health.Alive);Assert.IsFalse(husk.Health.Alive);
+            Assert.AreEqual(1,log.Count("death_creature",hound.transform),"a creature death has no body cue: "+log.All);
+            Assert.AreEqual(1,log.Count("death_mech",husk.transform),"a machine failure has no body cue: "+log.All);
+            Assert.AreEqual(0,log.Count("death_mech",hound.transform)+log.Count("death_creature",husk.transform),"death cue ignores what the body is: "+log.All);
+            Assert.AreEqual(0,log.Count("explosionCrunch_000"),"kills still use the generic killer-side crunch: "+log.All);
+
+            log.Clear();
+            taren.Health.Receive(new DamagePacket{amount=taren.Health.maximum*5,type=DamageType.Kinetic});
+            yield return new WaitForSecondsRealtime(.2f);
+            Assert.IsFalse(taren.Health.Alive);
+            Assert.AreEqual(1,log.Count("hero_down",taren.transform),"a downed hero is silent: "+log.All);
+            log.Clear();taren.Health.Heal(taren.Health.maximum*.5f);yield return new WaitForSecondsRealtime(.2f);
+            Assert.AreEqual(1,log.Count("hero_revive",taren.transform),"revival is silent: "+log.All);
+            Assert.AreEqual(0,log.Count("hero_down"));
+        }
+        [UnityTest] public IEnumerator GroundDodgeIsABodyAndRefractInterceptionRings()
+        {
+            var taren=Isolate(PartyController.Current.Active);Assert.AreEqual("Taren",taren.character);
+            yield return null;
+            using var log=new CueLog();
+            Assert.IsTrue(taren.Dodge(Vector3.right));yield return new WaitForSecondsRealtime(.3f);
+            Assert.AreEqual(1,log.Count("dodge",taren.transform),"ground dodge has no body cue: "+log.All);
+            Assert.AreEqual(0,log.Count("thrusterFire_000"),"a ground dodge still plays the ship thruster: "+log.All);
+
+            Assert.IsTrue(PartyController.Current.Swap());yield return new WaitForSecondsRealtime(.6f);
+            var sela=Isolate(PartyController.Current.Active);Assert.AreEqual("Sela",sela.character);
+            sela.charge=100;sela.cooldowns[3]=0;Assert.IsTrue(sela.Skill(3));yield return new WaitForSecondsRealtime(.65f);
+            Assert.IsTrue(sela.Refracting,"fixture Refract never armed");
+            log.Clear();float before=sela.Health.integrity;
+            sela.Health.Receive(new DamagePacket{amount=10,type=DamageType.Beam});yield return new WaitForSecondsRealtime(.1f);
+            Assert.AreEqual(before,sela.Health.integrity,"fixture shot was not intercepted");
+            Assert.AreEqual(1,log.Count("deflect",sela.transform),"Refract interception is silent: "+log.All);
+        }
         [UnityTest] public IEnumerator MenuCuesFollowTheActualOutcome()
         {
             var shop=Object.FindFirstObjectByType<ShopUi>();Assert.IsNotNull(shop);

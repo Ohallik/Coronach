@@ -76,6 +76,10 @@ namespace Lattice.Combat
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
             CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"kill");
+            // Bosses keep the former finish until each gets its own; Cantor's
+            // outcome is a release, so no generic creature death is borrowed.
+            if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
+            else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine);
             CancelAttack();
             if(definition.id=="Scrapmite")CombatActor.Strike(transform.position+Vector3.up*.6f,2.5f,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
             if(warning!=null)warning.SetActive(false);controller.enabled=false;enabled=false;

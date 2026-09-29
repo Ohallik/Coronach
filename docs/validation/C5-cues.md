@@ -29,7 +29,24 @@ The rules are recorded in DECISIONS D112. Skill-specific voices (Cleave, Pulse, 
 | `net-cue-red01` | **2/2 Net assertions rejected as intended** | The Static Net launch still borrowed the bare laser, which is now the hostile shot, on ground and in flight. |
 | `net-cue-green01` | **21/21** | Net fix plus cue tests and the ground/flight skill suites. The full suites above predate only this two-call change. |
 
-Nathan's saves are byte-identical before and after every run (the headless save shield plus hash comparison). No music, sound source, licence or staged derivative changed.
+Nathan's saves are byte-identical before and after every run (the headless save shield plus hash comparison). No music, sound source, licence or previously staged derivative changed.
+
+## Lifecycle and defence cues (second checkpoint)
+
+| Event | Before | After |
+|---|---|---|
+| Non-boss enemy death | `explosionCrunch_000` at the killer, for every body | `death_creature` or `death_mech` at the body; Sentinel and Mine archetypes are machines |
+| Boss defeat | killer-side crunch | the same crunch, owned by the boss body; a designed finish is still open |
+| Hero downed | silent | `hero_down` on the ground; a machine failure for a disabled craft |
+| Hero revived | silent | `hero_revive` |
+| Ground dodge | ship `thrusterFire_000` | `dodge` family; the flight roll keeps the thruster |
+| Refract interception | silent (only the counter shot) | `deflect` family |
+
+| Run | Result | Notes |
+|---|---|---|
+| `lifecycle-cues-red01` | **2/2 new checks rejected as intended** | Wiring set aside: the hound's death played only the killer-side crunch, and the ground dodge played the thruster. The palette test passed with all 45 staged clips matched to their two provenance records. |
+| `lifecycle-cues-green01` | **37/37** | Cue, palette, voice, death lifecycle, creature defeat, ground buff, flight disable and footstep suites. |
+| `full-integration03` | **56/56 EditMode, 160/160 PlayMode** | Full suites with the lifecycle wiring and the provenance-based palette check. |
 
 ## Limits
 

@@ -49,9 +49,10 @@ namespace Lattice.Combat
         void Halt()
         {if(TryGetComponent<GroundMotor>(out var ground))ground.Halt();if(TryGetComponent<FlightMotor>(out var ship))ship.Halt();}
         void OnDown(Health _,DamagePacket __)
-        {CancelAction();State=ActorState.Down;TargetLocked=false;target=null;recoverUntil=0;Halt();}
+        {CancelAction();State=ActorState.Down;TargetLocked=false;target=null;recoverUntil=0;Halt();CombatAudio.HeroDown(this);}
         void OnRevive(Health _)
         {
+            CombatAudio.HeroRevive(this);
             CancelAction();recoverUntil=GameTime.Now+ReviveDuration;actionUntil=nextAttack=recoverUntil;
             Health.InvulnerableUntil=Mathf.Max(Health.InvulnerableUntil,recoverUntil+.35f);State=ActorState.Down;Halt();
         }
@@ -74,7 +75,7 @@ namespace Lattice.Combat
             if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
             refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
             BeginVisual("Dodge",flight?.3f:.25f);
-            AudioManager.Play("thrusterFire_000",.16f);
+            CombatAudio.Dodge(this);
             actionUntil=GameTime.Now+(flight?.3f:.25f);motor.Dash(direction.sqrMagnitude>.01f?direction:motor.Facing,flight?4:3.3f);
             return true;
         }
@@ -82,7 +83,7 @@ namespace Lattice.Combat
         {
             if(GameTime.Now<refractUntil)
             {
-                refractUntil=0;critical=true;
+                refractUntil=0;critical=true;CombatAudio.Deflect(this);
                 var direction=Aim();var counter=Packet(rangedDamage*2,DamageType.Beam,60);
                 if(flight)
                 {
@@ -239,6 +240,7 @@ namespace Lattice.Combat
             return v;
         }
         public void AwardHit(){charge=Mathf.Min(100,charge+7*(1+Mathf.Max(0,resonance-10)*.025f));}
-        public void AwardKill(){Kills++;BarkService.Play(character,"kill");AudioManager.Play("explosionCrunch_000",.22f);}
+        // The defeated body now voices its own death at its position.
+        public void AwardKill(){Kills++;BarkService.Play(character,"kill");}
     }
 }

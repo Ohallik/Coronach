@@ -1,4 +1,8 @@
 using System.Collections;
+using System.Collections.Generic;
+using System.IO;
+using System.Linq;
+using System.Text.RegularExpressions;
 using Lattice.Core;
 using NUnit.Framework;
 using UnityEngine;
@@ -11,7 +15,16 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator ImportedPaletteRetainsPreparedHeadroom()
         {
             var clips = Resources.LoadAll<AudioClip>("Audio/Palette");
-            Assert.AreEqual(32, clips.Length);
+            // Every staged clip is accounted for by a committed provenance record,
+            // and every recorded clip is staged; the original set keeps its 32.
+            var expected = new HashSet<string>();
+            foreach (var file in Directory.GetFiles(Path.Combine(Application.dataPath, "_Project/Audio/Palettes"), "*-candidate.json"))
+            {
+                var keys = Regex.Matches(File.ReadAllText(file), "\"key\":\\s*\"([a-z0-9_]+)\"").Cast<Match>().Select(m => m.Groups[1].Value).ToList();
+                if (Path.GetFileName(file) == "movement-combat-ui-candidate.json") Assert.AreEqual(32, keys.Count);
+                foreach (var key in keys) Assert.IsTrue(expected.Add(key), "sound key staged by two sets: " + key);
+            }
+            CollectionAssert.AreEquivalent(expected, clips.Select(c => c.name));
             foreach (var clip in clips)
             {
                 clip.LoadAudioData();

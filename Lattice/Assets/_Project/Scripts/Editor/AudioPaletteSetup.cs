@@ -10,7 +10,7 @@ namespace Lattice.EditorTools
     {
         [Serializable] sealed class FileRecord {public string path,sha256;public long bytes;}
         [Serializable] sealed class ClipRecord {public string key;public FileRecord output;}
-        [Serializable] sealed class Manifest {public ClipRecord[] clips;public FileRecord[] sources,licenses;}
+        [Serializable] sealed class Manifest {public string set;public ClipRecord[] clips;public FileRecord[] sources,licenses;}
         static string Hash(string path)
         {using var sha=SHA256.Create();using var stream=File.OpenRead(path);return BitConverter.ToString(sha.ComputeHash(stream)).Replace("-","").ToLowerInvariant();}
         static void Verify(FileRecord item)
@@ -22,7 +22,13 @@ namespace Lattice.EditorTools
             string allowed=Path.Combine(root,"Builds","quality")+Path.DirectorySeparatorChar;
             if(!source.StartsWith(allowed,StringComparison.OrdinalIgnoreCase))throw new ArgumentException("Use a prepared quality palette");
             var manifest=JsonUtility.FromJson<Manifest>(File.ReadAllText(source));
-            if(manifest?.clips==null||manifest.clips.Length!=32||manifest.sources==null||manifest.licenses==null)throw new InvalidDataException("Incomplete prepared palette");
+            // Each prepared set keeps its own provenance record; the first set stays
+            // movement-combat-ui-candidate.json with its original 32-clip count.
+            string set=DevArgs.Value("-audio-palette-set")??"movement-combat-ui";
+            if(!System.Text.RegularExpressions.Regex.IsMatch(set,"^[a-z0-9-]+$"))throw new ArgumentException("Invalid palette set name");
+            if(manifest?.clips==null||manifest.clips.Length==0||manifest.sources==null||manifest.licenses==null)throw new InvalidDataException("Incomplete prepared palette");
+            if(set=="movement-combat-ui"&&manifest.clips.Length!=32)throw new InvalidDataException("Incomplete prepared palette");
+            if((string.IsNullOrEmpty(manifest.set)?"movement-combat-ui":manifest.set)!=set)throw new InvalidDataException("Prepared palette belongs to another set");
             foreach(var item in manifest.sources)Verify(item);
             foreach(var item in manifest.licenses)
             {
@@ -62,7 +68,7 @@ namespace Lattice.EditorTools
                 else File.Copy(item.path,copy);
                 PackStaging.StageFile(Path.GetRelativePath(root,copy),"Audio/Licenses/"+name);
             }
-            const string provenance="Audio/Palettes/movement-combat-ui-candidate.json";
+            string provenance="Audio/Palettes/"+set+"-candidate.json";
             string imported=Path.Combine(Application.dataPath,"_Project",provenance);
             if(File.Exists(imported)&&Hash(imported)!=Hash(source))throw new InvalidOperationException("Preserve existing palette provenance");
             PackStaging.StageFile(Path.GetRelativePath(root,source),provenance);AssetDatabase.Refresh();
