@@ -34,13 +34,14 @@ namespace Lattice.Combat
             }
             var rig=FindFirstObjectByType<CameraRig>();if(rig!=null)rig.Apply(Active.transform,zone.definition.cameraProfile);
         }
-        public bool Swap()
+        /// <param name="forced">The active hero went down; the partner covers instead of joking.</param>
+        public bool Swap(bool forced=false)
         {
             int next=(index+1)%members.Length;if(next==index||!members[next].Health.Alive)return false;
             Health target=Active.target;bool locked=Active.TargetLocked;index=next;Active.target=target;Apply();Active.TargetLocked=locked&&target!=null&&target.Alive;
             GameServices.Current.State.activeMember=index;SwapCount++;
             if(ZoneController.Current.Combat)CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35));
-            BarkService.Play(Active.character,"swap",true);Debug.Log("SWAP_OK");return true;
+            BarkService.Play(Active.character,forced?"cover":"swap",true);Debug.Log("SWAP_OK");return true;
         }
         void Update()
         {
@@ -66,7 +67,7 @@ namespace Lattice.Combat
                 revive+=Time.deltaTime;
                 if(revive>=2){reviveTarget.Health.Heal(reviveTarget.Health.maximum*.35f);revive=0;reviveTarget=null;Debug.Log("REVIVE_OK");}
             }
-            if(!Active.Health.Alive)Swap();
+            if(!Active.Health.Alive)Swap(true);
         }
         public void RefreshStats()
         {

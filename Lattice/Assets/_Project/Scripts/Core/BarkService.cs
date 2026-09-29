@@ -12,8 +12,13 @@ namespace Lattice.Core
         public static void Play(string character,string situation,bool priority=false)
         {
             if(Time.unscaledTime<next&&!priority)return;
-            if(table==null){var file=Resources.Load<TextAsset>("Audio/barks");if(file==null)return;table=JsonConvert.DeserializeObject<Dictionary<string,Dictionary<string,string>>>(file.text);}
-            if(!table.TryGetValue(character,out var rows)||!rows.TryGetValue(situation,out var line))return;next=Time.unscaledTime+4;Spoken?.Invoke(character,line);
+            var line=Line(character,situation);if(line==null)return;next=Time.unscaledTime+4;Spoken?.Invoke(character,line);
+        }
+        /// <summary>The authored line for a situation, or null.</summary>
+        public static string Line(string character,string situation)
+        {
+            if(table==null){var file=Resources.Load<TextAsset>("Audio/barks");if(file==null)return null;table=JsonConvert.DeserializeObject<Dictionary<string,Dictionary<string,string>>>(file.text);}
+            return table.TryGetValue(character,out var rows)&&rows.TryGetValue(situation,out var line)?line:null;
         }
     }
 }

@@ -5,7 +5,8 @@
     "kill": "That answers that.",
     "flash": "Just a little early.",
     "boss": "We can stop shouting now.",
-    "zone": "Same body. Different problem."
+    "zone": "Same body. Different problem.",
+    "cover": "Stay down a second. I've got this."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.",
@@ -13,6 +14,7 @@
     "kill": "Beautifully uncooperative.",
     "flash": "You missed. I noticed.",
     "boss": "I liked it better quiet.",
-    "zone": "I vote we touch nothing. Yet."
+    "zone": "I vote we touch nothing. Yet.",
+    "cover": "Hold still, Vosk. I'm covering you."
   }
 }

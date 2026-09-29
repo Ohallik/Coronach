@@ -13,6 +13,10 @@ namespace Lattice.Combat
         Collider[] colliders;bool[] collisionEnabled;
         bool down,recovering,rigid;
         float started,duration,hold;
+        // Corpses leave deliberately: a short settle-and-shrink with a puff of
+        // dust, never a full-size body vanishing between two frames.
+        public const float Cleanup=.45f;
+        bool cleaning;Vector3 cleanupScale,cleanupPosition;
         Vector3 origin,terminal;
         Quaternion originRotation,terminalRotation;
         Vector3 supportPoint,supportNormal;Vector3[] supportVertices;
@@ -29,9 +33,10 @@ namespace Lattice.Combat
         {
             if(down)return;
             down=true;recovering=false;started=GameTime.Now;
+            bool flier=enemy!=null&&enemy.definition.id.StartsWith("Chorister");
             duration=actor!=null?CombatActor.DownDuration:enemy.definition.boss?1.5f:
-                enemy.definition.id=="SentinelHusk"?1.15f:enemy.definition.id=="Ridgehound"?.9f:.75f;
-            hold=enemy!=null&&enemy.definition.boss?1.65f:1.15f;
+                enemy.definition.id=="SentinelHusk"?1.15f:enemy.definition.id=="Ridgehound"?.9f:flier?1.1f:.75f;
+            hold=enemy!=null&&enemy.definition.boss?1.65f:flier?.6f:1.15f;
             colliders=GetComponentsInChildren<Collider>(true);collisionEnabled=new bool[colliders.Length];
             for(int i=0;i<colliders.Length;i++)
             {
@@ -67,6 +72,13 @@ namespace Lattice.Combat
             bool airborne=actor!=null&&actor.flight||enemy!=null&&enemy.definition.id.StartsWith("Chorister");
             terminalRotation=originRotation*Quaternion.Euler(airborne?12:8,0,airborne?58:enemy!=null&&enemy.definition.boss?42:78);
             terminal=origin+Vector3.down*(airborne?.22f:.12f);
+            if(enemy!=null&&airborne)
+            {
+                // A killed flier loses lift: it tumbles and falls away below the
+                // flight plane instead of hovering on a slight tilt.
+                terminalRotation=originRotation*Quaternion.Euler(30,0,150);
+                terminal=origin+visual.parent.InverseTransformVector(Vector3.down*1.8f);
+            }
             bool groundCreature=enemy!=null&&(enemy.definition.id=="Ridgehound"||enemy.definition.id=="Scrapmite"||enemy.definition.id=="Burrower");
             if(groundCreature)
             {
@@ -185,7 +197,22 @@ namespace Lattice.Combat
                     sections[i].localPosition=sectionOrigins[i]+Vector3.down*(.65f*t);
                     sections[i].localRotation=sectionRotations[i]*Quaternion.Euler(8*t,0,(38+i*5)*t);
                 }
-            if(enemy!=null&&elapsed>=duration+hold)Destroy(gameObject);
+            if(enemy!=null&&elapsed>=duration+hold)
+            {
+                // The whole root, so separate serpent sections leave with the body.
+                var body=transform;
+                if(!cleaning)
+                {
+                    cleaning=true;cleanupScale=body.localScale;cleanupPosition=body.position;
+                    var bounds=new Bounds(transform.position+Vector3.up*.5f,Vector3.zero);
+                    foreach(var renderer in GetComponentsInChildren<Renderer>())if(renderer.enabled)bounds.Encapsulate(renderer.bounds);
+                    CombatVfx.Burst(bounds.center,new Color(.62f,.72f,.8f),"hit");
+                }
+                float t=Mathf.Clamp01((elapsed-duration-hold)/Cleanup);
+                body.localScale=cleanupScale*(1-t*t);
+                body.position=cleanupPosition+Vector3.down*(.15f*t);
+                if(t>=1)Destroy(gameObject);
+            }
         }
     }
 }

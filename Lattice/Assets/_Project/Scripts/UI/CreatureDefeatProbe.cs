@@ -78,7 +78,9 @@ namespace Lattice.UI
                     yield return new WaitForSecondsRealtime(.2f);Capture(enemy,label+"-standing",slope,-1,plane,normal);
                     yield return new WaitForEndOfFrame();yield return null;
                     enemy.Health.Receive(new DamagePacket{amount=enemy.Health.maximum*100,type=DamageType.Pulse});float started=GameTime.Now;
-                    float duration=enemy.definition.boss?1.5f:id=="Ridgehound"?.9f:.75f;
+                    bool flier=id.StartsWith("Chorister");
+                    float duration=enemy.definition.boss?1.5f:id=="Ridgehound"?.9f:flier?1.1f:.75f;
+                    float hold=enemy.definition.boss?1.65f:flier?.6f:1.15f;
                     foreach(float phase in new[]{.25f,.5f,.75f,1f})
                     {
                         while(GameTime.Now-started<duration*phase)yield return null;
@@ -88,7 +90,16 @@ namespace Lattice.UI
                     GameTime.Paused=true;camera.transform.position=centre+Quaternion.FromToRotation(Vector3.up,normal)*new Vector3(30,.5f,0);camera.transform.LookAt(centre);
                     yield return new WaitForSecondsRealtime(.3f);Capture(enemy,label+"-side-held",slope,GameTime.Now-started,plane,normal);
                     yield return new WaitForSecondsRealtime(.2f);GameTime.Paused=false;
-                    Destroy(enemy.gameObject);Destroy(floor);Destroy(material);yield return null;
+                    // Deliberate cleanup, viewed from the same three-quarter camera.
+                    camera.transform.position=centre+new Vector3(3,2.3f,4).normalized*30;camera.transform.LookAt(centre);
+                    foreach(float part in new[]{.35f,.75f})
+                    {
+                        while(enemy!=null&&GameTime.Now-started<duration+hold+DefeatPresentation.Cleanup*part)yield return null;
+                        if(enemy==null)break;
+                        yield return null;Capture(enemy,label+"-cleanup"+Mathf.RoundToInt(part*100),slope,GameTime.Now-started,plane,normal);
+                        yield return new WaitForEndOfFrame();yield return null;
+                    }
+                    if(enemy!=null)Destroy(enemy.gameObject);Destroy(floor);Destroy(material);yield return null;
                 }
             }
             yield return new WaitForSecondsRealtime(.25f);

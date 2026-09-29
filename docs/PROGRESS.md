@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## Defeat finish and rescue banter checkpoint - September 28
+
+**C3/C4 OPEN.** Enemy corpses no longer vanish at full size: after their hold they settle and shrink away over 0.45 s with a dust puff. Killed Chorister fliers tumble and fall below the flight plane instead of hovering on a slight tilt. A swap forced by a downed hero now uses a cover line instead of casual banter. The new checks were **rejected 3/3 on the old code**, then passed 20/20; the full suites pass **56/56 EditMode and 164/164 PlayMode**. The extended defeat probe's opened stills show the shrink and the fall. [Evidence](validation/C3-defeat-finish.md). Continuous video remains UNVERIFIED.
+
 ## Soundtrack intake and Draft 3 world expansion - September 28
 
 **C5 OPEN; design only for the expansion.** Nathan's 20 new tracks are committed as hashed OGG sources in `docs/music/tracks.json`; the seven earlier originals are unchanged. The Gullet and flight arena, previously silent, now play **Starfight**. Boss encounters play **Alien Boss Battle** until defeat or removal, and the four original assignments are unchanged. The new check was rejected on the old director, then passed 13/13; the full suites pass **56/56 EditMode and 161/161 PlayMode**. [Music evidence](validation/C5-music-cues.md). The world atlas and campaign are now Draft 3: 52 main and five optional maps, adding the Vaskar Muster and volcanic Scoria, ancient Lanternwick and near-magical Oriel, the Wendmire swamp with Driftreed, the Hoarfell ice world with Lastlight, the moving Meridian Crawl, and six new space areas with distinct rules. Each is tied into the Severance, and the remaining tracks are mapped to regions. [Atlas](WORLD_ATLAS.md#draft-3-expansion--new-regions-2026-09-28), [story](STORY_CAMPAIGN.md#draft-3-amendments-2026-09-28). None of the expansion is built; its art is unfunded beyond the 405 remaining Meshy credits. Listening remains UNVERIFIED.
