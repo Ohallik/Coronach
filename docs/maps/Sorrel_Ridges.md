@@ -84,3 +84,14 @@ Weaknesses:
 - The editor renders show the civilian unanimated; that is expected in edit mode.
 
 The blockout's ordinary-traversal evidence (outpost 01 passed; western 02 rejected for focus loss) was recorded on the same routes. The final routes still need their ordinary in-player traversal and return, which waits for a quiet machine.
+
+### Route-edge dressing (September 29)
+
+Claude Code. Fourteen generated pieces now sit along the route verges:
+
+- rubble and low strata on the western seam;
+- discarded lamps, a broken drill bit and supply crates on the equipment service branch;
+- crates and rubble along the haul road.
+
+Each piece has a little scattered spoil beside it. Placement is computed from the routes and rejects any spot within 8 m of an encounter, within 6 m of ore, within 7 m of another route, north of the drill approach, or on rising ground. The route bake still passes (25 points and six ore stances), and the four Sorrel-dependent test classes pass 35/35. Opened views (`sorrel-final-03`) show the service branch reading as a worked equipment trail. The wide sand between features remains a terrain-surface weakness that props do not solve.
+

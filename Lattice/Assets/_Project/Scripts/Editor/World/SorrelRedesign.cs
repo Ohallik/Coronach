@@ -26,7 +26,7 @@ namespace Lattice.EditorTools
         public static void BuildZone(bool grey=false)
         {
             blockout=grey;platforms.Clear();
-            if(!grey)foreach(string id in new[]{"OutpostHab","DeckConsole","DeckCrate","DeckFloor","DeckWall","RidgeRock1","RidgeRock2","RidgeRock3","OutpostDrill","LatticeAnvil","CrystalClusterA","CrystalClusterB","LandingPad","HushwellScaffold"})
+            if(!grey)foreach(string id in new[]{"OutpostHab","DeckConsole","DeckCrate","DeckFloor","DeckWall","RidgeRock1","RidgeRock2","RidgeRock3","OutpostDrill","LatticeAnvil","CrystalClusterA","CrystalClusterB","LandingPad","HushwellScaffold","HushwellRubble","HushwellLowRidge","HushwellFallenLamp","HushwellDrillBit","HushwellCrates"})
                 if(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/"+id+".prefab")==null)throw new InvalidOperationException("Missing generated Sorrel piece "+id);
             var scene=WorldBuilder.Begin("Sorrel_Ridges");
             Terrain();WorldArt.Planet("Vorun",new Vector3(160,35,350),150);
@@ -73,6 +73,7 @@ namespace Lattice.EditorTools
                 var p=Mines[i];var node=Prop(i%2==0?"CrystalClusterA":"CrystalClusterB",p.x,p.y,2.5f).AddComponent<MineNode>();
                 node.nodeId="ridge_"+(i/2)+"_"+(i%2);node.prompt="Mine Ridge Crystal";node.amount=1;
             }
+            Dress();
             // Service equipment gives Scrapmites an actual salvage/repair context.
             Prop("DeckCrate",40,58,1,20);Prop("DeckConsole",43,79,1.5f,-30);Prop("DeckCrate",30,117,1.1f,10);
             Platform("Drill maintenance bench",7,141,7,6,"work");
@@ -127,6 +128,41 @@ namespace Lattice.EditorTools
             var position=new Vector3(x,-.08f,z);var size=new Vector3(width,.16f,depth);
             var go=blockout?ArenaBuilder.Block(label,position,size,"Taren"):WorldBuilder.Piece("DeckFloor",position,size,"Ground");
             go.name=label;if(!blockout)StationSurfaces.FloorFinish(go,finish);
+        }
+        /// <summary>Route-edge dressing: the natural seam gathers rubble and low
+        /// strata; the equipment branch collects what the workers discarded. Every
+        /// piece keeps clear of encounters, ore, junctions and the excavation.</summary>
+        static void Dress()
+        {
+            int placed=0;
+            foreach(var (path,half,kinds) in new[]{(Seam,5f,new[]{"HushwellRubble","HushwellLowRidge","HushwellRubble"}),(Service,5f,new[]{"HushwellFallenLamp","HushwellCrates","HushwellDrillBit"}),
+                (Haul,6f,new[]{"HushwellCrates","HushwellRubble","HushwellFallenLamp"})})
+            {
+                float along=6;int n=0;
+                for(int i=1;i<path.Length;i++)
+                {
+                    Vector2 a=path[i-1],d=path[i]-a;float length=d.magnitude;var normal=new Vector2(-d.y,d.x)/length;
+                    for(;along<length;along+=13)
+                    {
+                        var p=a+d*(along/length)+normal*((n%2==0?1:-1)*(half-1.4f));
+                        bool clear=true;
+                        foreach(var e in Encounters)if(Vector2.Distance(p,e)<8)clear=false;
+                        foreach(var m in Mines)if(Vector2.Distance(p,m)<6)clear=false;
+                        foreach(var other in new[]{Haul,Seam,Service})if(other!=path&&Distance(p,other)<7)clear=false;
+                        if(p.y>140||p.y<30||Height(p)>.25f)clear=false;
+                        if(!clear)continue;
+                        string key=kinds[n%kinds.Length];n++;placed++;
+                        if(key=="HushwellCrates")Prop(key,p.x,p.y,1.4f,n*47);
+                        else if(key=="HushwellLowRidge")Prop(key,p.x,p.y,1.1f,Mathf.Atan2(d.x,d.y)*Mathf.Rad2Deg+90);
+                        else Prop(key,p.x,p.y,key=="HushwellRubble"?1.2f:key=="HushwellDrillBit"?1.1f:.8f,n*63);
+                        // A little scattered spoil around each piece, toward the verge.
+                        var spoil=p+normal*((n%2==1?1:-1)*1.9f)+d/length*1.2f;
+                        if(Height(spoil)<=.25f&&Distance(spoil,path)<half)Prop("HushwellRubble",spoil.x,spoil.y,.6f,n*29);
+                    }
+                    along-=length;
+                }
+            }
+            Debug.Log("SORREL_DRESSING count="+placed);
         }
         static void Ridge(float x,float z,float height,float yaw)=>Prop("RidgeRock"+(Mathf.RoundToInt(Mathf.Abs(x+z))%3+1),x,z,height,yaw);
         static float Distance(Vector2 p,Vector2[] path)
