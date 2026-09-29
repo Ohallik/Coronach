@@ -66,3 +66,21 @@ Still required: finish ordinary blockout traversal, resolve final equipment supp
 ### Hushwell bore (September 28)
 
 Claude Code. The drill site now leads down into [Hushwell](Hushwell.md), the moon cave the drill broke into. The miners' scaffold east of the drill, at (8, 177) inside the Burrower's excavation, is gated on `bossdown.Burrower`, and a `Hushwell` spawn at (8, 172) receives parties returning by the breach climb or the nursery lift. Sorrel was rebuilt with `SorrelRedesign.Blockout`, matching its committed blockout state; nothing else in its layout changed, and its terrain asset is byte-identical. `HushwellTests` covers the bore's gate and target.
+
+### Final art conversion (September 29)
+
+Claude Code. `SorrelRedesign.Final` now builds the connected basin with the generated kit in place of the blockout stand-ins. Nothing moves; only the pieces' own measured bounds replace the grey envelopes. The route bake still passes (`SORREL_ROUTE_BAKE_OK points=25`: every haul, seam and service point, plus reachable stances at all six ore nodes).
+
+Controlled views in `Builds/quality/workshop/sorrel-final-01` were opened:
+
+- **Outpost.** It reads as an inhabited outpost: domed habs face inward on their footings, with a common court and the Survivor between them. The receiving apron and stores sit beside the landing pad and parked skiff, and the repair pad has its console.
+- **Wilds.** Ridge strata, cover rocks and cyan ore line the western seam and the service branch.
+- **Drill site.** The excavation reads as a cut with cliffs on both sides. Both seals end in those cliffs, the drill stands on its footing, and the Hushwell scaffold is readable beside it.
+
+Weaknesses:
+
+- Wide stretches of sand between features are empty.
+- The generated ridge rocks read as stacked blocks.
+- The editor renders show the civilian unanimated; that is expected in edit mode.
+
+The blockout's ordinary-traversal evidence (outpost 01 passed; western 02 rejected for focus loss) was recorded on the same routes. The final routes still need their ordinary in-player traversal and return, which waits for a quiet machine.

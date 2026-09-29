@@ -8,7 +8,7 @@
 | Hub_Decks | Passed redesign; post collision corrected | Passed spatial review; C1 pending | [Occupied deck](Hub_Decks.md) |
 | TallowApproach | Corrected layout/envelope fit passed | Passed spatial review; C1 pending | [Exterior](TallowApproach.md) |
 | TallowDrift | Passed refuge and corrected lift fit | Passed spatial review; C1 pending | [Refuge](TallowDrift.md) |
-| Sorrel_Ridges | In progress: connected basin built, ordinary traversal pending; Hushwell bore added | OPEN | [Landscape](Sorrel_Ridges.md) |
+| Sorrel_Ridges | In progress: connected basin built, ordinary traversal pending; Hushwell bore added | Final art converted, controlled views inspected; in-player OPEN | [Landscape](Sorrel_Ridges.md) |
 | Hushwell | Passed (agent review) | Final built with generated kit; in-player OPEN | [Moon cave](Hushwell.md) |
 | Gullet_Tunnel | Passed anatomy redesign (agent review) | OPEN: ordinary circuits focus-blocked | [Living passage](Gullet_Tunnel.md) |
 | Arena_Ground | OPEN | OPEN | [Practice yard](Arena_Ground.md) |
