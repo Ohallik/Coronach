@@ -140,6 +140,30 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(100,soft,.01f,"the Bellows stays braced after both organs break");
         }
 
+        [UnityTest] public IEnumerator TheBellowsLastPhaseCrossesTheChamberToItsRibs()
+        {
+            // Below 30% the Bellows leaves the centre and lunges across the chamber
+            // to one of its exposed ribs, then breathes from there.
+            yield return Load("Hushwell");
+            var ribs=Object.FindObjectsByType<BellowsRib>(FindObjectsSortMode.None);
+            Assert.GreaterOrEqual(ribs.Length,4,"the Bellows chamber has no exposed ribs");
+            foreach(var rib in ribs)Assert.Less(Vector2.Distance(new Vector2(rib.Stance.x,rib.Stance.z),HushwellLayout.Bellows),21,rib.name+" is outside the chamber");
+            var party=PartyController.Current;var hero=party.Active;
+            foreach(var member in party.members){member.GetComponent<PlayerBrain>().AutoPilot=true;member.GetComponent<PartnerBrain>().enabled=false;member.Health.InvulnerableUntil=GameTime.Now+120;}
+            var cc=hero.GetComponent<CharacterController>();cc.enabled=false;hero.transform.position=HushwellLayout.OnFloor(HushwellLayout.Bellows+new Vector2(6,-8));cc.enabled=true;
+            fixture=new GameObject("Bellows phase fixture");
+            var bellows=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("BellowsBelow"),HushwellLayout.OnFloor(HushwellLayout.Bellows));bellows.transform.SetParent(fixture.transform);
+            bellows.Health.integrity=bellows.Health.maximum*.25f;
+            float deadline=Time.realtimeSinceStartup+16;bool atRib=false;
+            while(!atRib&&Time.realtimeSinceStartup<deadline)
+            {
+                yield return null;
+                atRib=ribs.Any(r=>{var d=r.Stance-bellows.transform.position;d.y=0;return d.magnitude<1.5f;});
+            }
+            Assert.AreEqual(3,bellows.GetComponent<BossController>().Phase,"the Bellows has no last phase");
+            Assert.IsTrue(atRib,"the Bellows never crossed to a rib; it ended at "+bellows.transform.position);
+        }
+
         [UnityTest] public IEnumerator TheCaveIsASideQuestWithItsOwnObjectives()
         {
             // Entering starts "What the drill found"; the HUD leads to the Bellows,

@@ -153,6 +153,14 @@ namespace Lattice.EditorTools
                 organ.AddComponent<PressureOrgan>().visual=visual.transform;
                 Light("Organ glow",HushwellLayout.OnFloor(p)+Vector3.up*3,new Color(.6f,.4f,1),2,9);
             }
+            // Exposed ribs at the chamber's edge: the Bellows' last phase lunges
+            // between them. Each rib faces the centre; the Bellows sits inside it.
+            foreach(var at in new[]{new Vector2(-9,17),new Vector2(9,17),new Vector2(-14,-10),new Vector2(14,-10)})
+            {
+                var p=b+at;var inward=(b-p).normalized;float yaw=Mathf.Atan2(inward.x,inward.y)*Mathf.Rad2Deg+90;
+                var ridge=Prop("HushwellLowRidge",p.x,p.y,1.1f,yaw,true,4.2f);ridge.name="Bellows rib";
+                var rib=ridge.AddComponent<BellowsRib>();var stance=inward*3.4f;rib.stanceOffset=new Vector3(stance.x,0,stance.y)+Vector3.down*(ridge.transform.position.y-HushwellLayout.Middle);
+            }
             Prop("HushwellColumn",b.x-13,b.y+15,5,10);Prop("HushwellColumn",b.x+13,b.y+15,5,-20);
             WorldBuilder.Label("BELLOWS CHAMBER",new Vector3(b.x,HushwellLayout.Middle+.1f,b.y-17));
         }
@@ -183,7 +191,7 @@ namespace Lattice.EditorTools
             Prop("HushwellLowRidge",4,157,1.1f,-10,true,4);Prop("HushwellRubble",-10,170,1,20,true,2.4f);
             Prop("HushwellChoirGrowth",4,203,1.8f,30);Prop("HushwellLowRidge",-6,190,1.1f,25,true,4);
             Prop("HushwellChoirGrowth",-8,221,1.8f,-40);Prop("HushwellStalagmites",10,232,3.4f,50);
-            Prop("HushwellChoirGrowth",-14,250,2,10);Prop("HushwellChoirGrowth",14,251,1.9f,-70);
+            Prop("HushwellChoirGrowth",-18,261,2,10);Prop("HushwellChoirGrowth",18,262,1.9f,-70);
             Prop("HushwellShells",0,329,1,20,true,2.4f);Prop("HushwellShells",27,329,1,-50,true,2.2f);
             Prop("HushwellChoirGrowth",3,343,2,0);Prop("HushwellChoirGrowth",21,346,1.8f,120);
             Prop("HushwellFallenLamp",38,168,.8f,-60,true,2.6f);Prop("HushwellCrates",36,160,1.4f,25);

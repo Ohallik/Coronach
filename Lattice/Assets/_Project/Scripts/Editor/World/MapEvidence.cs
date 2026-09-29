@@ -129,6 +129,8 @@ namespace Lattice.EditorTools
             camera.orthographic = true; camera.nearClipPlane = .1f; camera.farClipPlane = 2000;
             camera.GetUniversalAdditionalCameraData().renderPostProcessing = false;
             Shot(camera,folder,"Hushwell-overhead",new Vector3(0,0,170),Quaternion.Euler(90,90,0),72);
+            Shot(camera,folder,"Hushwell-bellows-chamber",new Vector3(Lattice.World.HushwellLayout.Bellows.x,-8,Lattice.World.HushwellLayout.Bellows.y),Quaternion.Euler(90,0,0),24);
+            Shot(camera,folder,"Hushwell-bellows-oblique",new Vector3(Lattice.World.HushwellLayout.Bellows.x,-8,Lattice.World.HushwellLayout.Bellows.y),Quaternion.Euler(40,20,0),24);
             // Review-only stand-in: the boss at its spawn, turned to face the
             // camera as it would face an approaching hero. Never saved.
             var bellows=Lattice.Core.GameCatalog.Find<Lattice.Data.EnemyDef>("BellowsBelow");

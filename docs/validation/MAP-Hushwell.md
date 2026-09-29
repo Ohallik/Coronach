@@ -58,6 +58,9 @@ The runs, in order:
 | Side-quest test added, before implementation | Red: "entering Hushwell does not start its side quest" | The cave also had no objective: the HUD fell through to the arena's practice text |
 | Quest, HUD case and Survivor tier implemented | 5/6 | Killing the generated Bellows raised "mesh is not readable". Rigid death placement reads vertices, and the rule that makes enemy bodies readable lived only in a one-off upgrade tool. `GenIntake` now applies it at intake |
 | Re-imported | **6/6** | Accepted |
+| Last-phase test added: no ribs in the scene | Red: "the Bellows chamber has no exposed ribs" | |
+| Ribs built, boss logic not yet | Red: "the Bellows has no last phase" (phase 2 at 25 % health) | Both halves proven separately |
+| Rib crossing implemented | **7/7** (the crossing reached a rib stance within 9 s) | Accepted |
 
 Full suites: **56/56 EditMode and 171/171 PlayMode**, both before the half-chamber blasts and again on the final code, zero skips.
 
@@ -90,7 +93,7 @@ These are orthographic overheads plus perspective renders from the gameplay came
 ## Open
 
 - **In-player pass**, awaiting a quiet machine. Needed: continuous traversal from Sorrel through the bore; combat in the galleries and pressure chambers with live vents; the Bellows fight read at gameplay scale; the nursery discovery and the lift ride.
-- **Bellows Below** has its final model. Breath tuning from real fights waits for that pass, and so does the atlas's last phase, moving across exposed ribs.
+- **Bellows Below** has its final model and all three phases. Breath and crossing tuning from real fights waits for that pass. Opened top-down and oblique chamber views (`hushwell-final-05`) show the four ribs as curved ridges at the edge, clear of the organs, columns and growth.
 - **Visual.** Large chambers are plain floor between their features. Steep rock faces show the planar-projected rock texture stretched. The toon shader scales point lights down, so mineral light pools read weakly. West-side walls are bare stepped rock by the camera rule.
 - **Quest.** Hushwell is not yet part of the chapter-one quest or objective HUD; that waits for the quest rewrite.
 - Listening, continuous video and physical feel remain UNVERIFIED.

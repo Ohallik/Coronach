@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## Bellows Below last phase - September 29
+
+**B02 complete in code; its fight is not yet played.** Below 30 % health the Bellows' dome collapses onto four exposed ribs at the chamber's edge. It marks a path to the rib nearest the party, lunges along it, striking and staggering anything in the way, and breathes from its new rib. The last phase becomes a chase, completing the atlas design: organ bracing, the choice of a safe half, then the ribs. The new test was **rejected twice**: first because the chamber had no ribs, then with the ribs built but no last phase. It passed once the crossing was implemented. The full suites pass **56/56 EditMode and 176/176 PlayMode**. Top-down and oblique chamber views were opened.
+
 ## Cinder ship-borne residents - September 29
 
 **C6 OPEN; Hub_CinderHalo exterior changed and rechecked in controlled views.** Following Nathan's town-music rule, two more crews now hail from their own parked ships beside Neve's skiff. Both carry the story's Act I seeds before Meret appears:
