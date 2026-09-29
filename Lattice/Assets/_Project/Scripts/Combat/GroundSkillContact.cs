@@ -59,7 +59,8 @@ namespace Lattice.Combat
                     NetSeed.Land(safe,packet);CombatVfx.Burst(obstruction.point,Color.cyan,"hit");
                 }
                 else NetSeed.Throw(hand.position,destination,packet);
-                AudioManager.Play("laserSmall_000",.16f);
+                // Sela's own launch voice: the bare laser is now hostile fire.
+                CombatAudio.Shot(actor,hand.position);
             }
             else
             {

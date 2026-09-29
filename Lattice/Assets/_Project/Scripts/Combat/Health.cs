@@ -40,6 +40,11 @@ namespace Lattice.Combat
                 BreakMeter+=DamageMath.Break(packet.breakPower,packet.type,weakness);
                 if(BreakMeter>=breakThreshold){BrokenUntil=Time.time+3;BreakMeter=0;Debug.Log("BREAK_OK "+id);}
             }
+            // Resisted, shielded, guarded and hull hits sound armored, matching the
+            // enemy recoil rule; a clean hit on a body sounds soft.
+            bool armored=actor!=null&&(actor.flight||actor.GuardDamageMultiplier<1)||
+                !friendly&&(Time.time<ShieldUntil&&!Broken||packet.type==resistance);
+            if(damage>0)CombatAudio.Impact(this,armored);
             DamageNumber?.Invoke(this,damage,packet.type==weakness&&!friendly);
             Damaged?.Invoke(this,packet,damage);
             if(!Alive)Died?.Invoke(this,packet);

@@ -47,7 +47,7 @@ namespace Lattice.Combat
             // A posed wrist may cross a thin surface before the sampled release.
             // Never originate a shot on the far side of the shooter's cover.
             if(CombatCover.Sweep(transform.position+Vector3.up*.9f,origin,.09f,out var obstruction))
-            {CombatVfx.Burst(obstruction.point,Color.cyan,"hit");AudioManager.Play("laserSmall_000",.18f);return;}
+            {CombatVfx.Burst(obstruction.point,Color.cyan,"hit");CombatAudio.Shot(actor,origin);return;}
             var direction=aim;
             if(aimedTarget!=null&&aimedTarget.Alive)
             {
@@ -59,7 +59,7 @@ namespace Lattice.Combat
                     direction=(point-origin).normalized;
                 }
             }
-            AudioManager.Play("laserSmall_000",.18f);
+            CombatAudio.Shot(actor,origin);
             CombatVfx.Burst(origin,Color.cyan,"shot");
             if(pattern==Pattern.Lance||pattern==Pattern.Counter)
             {

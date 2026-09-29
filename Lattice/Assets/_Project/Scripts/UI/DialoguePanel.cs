@@ -37,7 +37,7 @@ namespace Lattice.UI
         {
             if(panel!=null&&panel.activeSelf&&Time.frameCount>shownFrame&&(UiActions.Submit.WasPressedThisFrame()||GameServices.Current.Input.Find("Interact").WasPressedThisFrame()))QueueAdvance();
         }
-        void QueueAdvance(){if(Time.frameCount<=shownFrame||lastQueuedFrame==Time.frameCount)return;lastQueuedFrame=Time.frameCount;clicked=true;}
+        void QueueAdvance(){if(Time.frameCount<=shownFrame||lastQueuedFrame==Time.frameCount)return;lastQueuedFrame=Time.frameCount;clicked=true;UiSounds.Advance();}
         public void Show(string name,PortraitEmotion emotion,Sprite sprite,string text)
         {shownFrame=Time.frameCount;clicked=false;panel.SetActive(true);speaker.text=name;body.text=text;body.maxVisibleCharacters=0;portrait.sprite=sprite;portrait.gameObject.SetActive(sprite!=null);}
         public void SetVisibleCharacters(int count){body.maxVisibleCharacters=count;}

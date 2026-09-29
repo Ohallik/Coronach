@@ -21,6 +21,13 @@ namespace Lattice.EditorTools
 
         public static void Blockout() => BatchTools.Run(() => Build(true));
         public static void Final() => BatchTools.Run(() => Build(false));
+        /// <summary>Rebuild only the flight exterior; the walkable Decks and its navigation stay untouched.</summary>
+        public static void Exterior() => BatchTools.Run(() =>
+        {
+            foreach(string key in new[]{"DeckFloor","DeckWall","DeckDoorway","LandingPad"})
+                if(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/"+key+".prefab")==null)throw new InvalidOperationException("Missing generated station piece "+key);
+            BuildExterior(false);AssetDatabase.SaveAssets();Debug.Log("STATION_EXTERIOR_OK");
+        });
         static void Build(bool grey)
         {
             blockout=grey;
@@ -108,16 +115,7 @@ namespace Lattice.EditorTools
             WorldArt.Planet("Vorun",new Vector3(150,-410,460),155);WorldArt.Planet("Sorrel",new Vector3(-85,-120,160),35);
             foreach(float x in HullX) Hull(x,true);
             Bridges(true);
-            // A continuous load-bearing polygonal ring. Adjacent generated panels overlap
-            // at a deliberate joint; the old mismatched floating arc pieces are removed.
-            const int segments=64;const float radius=62;
-            float span=2*radius*Mathf.Tan(Mathf.PI/segments)+.18f;
-            for(int i=0;i<segments;i++)
-            {
-                float angle=i*2*Mathf.PI/segments;
-                var pos=new Vector3(Mathf.Sin(angle)*radius,-5.5f,70+Mathf.Cos(angle)*radius);
-                var beam=Piece("DeckWall",pos,new Vector3(span,4,5));beam.name="Ring keel joint "+i;beam.transform.rotation=Quaternion.Euler(0,angle*Mathf.Rad2Deg,0);
-            }
+            Ring();
             for(int i=0;i<3;i++)
             {
                 float x=HullX[i];string id=DockIds[i];
@@ -143,6 +141,31 @@ namespace Lattice.EditorTools
                 for(int j=0;j<2;j++){var ship=WorldBuilder.Piece(j==0?"Hauler":"PatrolCutter",Vector3.zero,new Vector3(4,1.5f,j==0?8:5),"Rock",false);ship.isStatic=false;var mover=ship.AddComponent<TrafficShip>();mover.lane=lane;mover.phase=j*.5f+laneIndex*.2f;ship.transform.SetPositionAndRotation(lane.Position(mover.phase),Quaternion.LookRotation(lane.Tangent(mover.phase)));}
             }
             WorldBuilder.Save(scene,"Hub_CinderHalo");
+        }
+        // A continuous load-bearing box ring built from the hulls' own deck and wall
+        // modules at near-native proportions: a deck plate over inner and outer 3.5 m
+        // fascias. The former single wall panel was stretched tenfold through the 5 m
+        // section, smearing its texture and exposing its ragged edge all the way round.
+        static void Ring()
+        {
+            const int segments=96;const float radius=62,width=5,top=-3.5f,plate=.5f,fascia=3.5f,skin=.55f;
+            var centre=new Vector3(0,0,70);float half=Mathf.Tan(Mathf.PI/segments);
+            for(int i=0;i<segments;i++)
+            {
+                float angle=i*2*Mathf.PI/segments;var rotation=Quaternion.Euler(0,angle*Mathf.Rad2Deg,0);
+                var radial=new Vector3(Mathf.Sin(angle),0,Mathf.Cos(angle));var mid=centre+radial*radius;
+                // Plates meet at the outer polygon vertex. Alternate plates sit 2 cm
+                // proud so the unavoidable inner overlap never shares a plane.
+                var deck=Piece("DeckFloor",mid+Vector3.up*(top-plate*.5f+(i%2)*.02f),new Vector3(2*(radius+width*.5f)*half+.08f,plate,width));
+                deck.name="Ring deck plate "+i;deck.transform.rotation=rotation;
+                foreach(int side in new[]{-1,1})
+                {
+                    // Each fascia's exposed face meets its neighbour at the vertex.
+                    float face=radius+side*width*.5f;
+                    var wall=Piece("DeckWall",mid+radial*side*(width*.5f-skin*.5f)+Vector3.up*(top-plate-fascia*.5f),new Vector3(2*face*half+.06f,fascia,skin));
+                    wall.name=(side<0?"Ring inner fascia ":"Ring outer fascia ")+i;wall.transform.rotation=rotation;
+                }
+            }
         }
         static void Hull(float x,bool exterior)
         {

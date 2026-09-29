@@ -27,7 +27,7 @@ namespace Lattice.Combat
             if(sockets==null||sockets.muzzle==null)throw new MissingReferenceException("Flight hull lacks its calibrated muzzle: "+actor.character);
             // Sample after FlightShipMotion has posed the actual visible hull.
             pending=false;Vector3 origin=sockets.muzzle.position;
-            AudioManager.Play("laserSmall_000",.18f);
+            CombatAudio.Shot(actor,origin);
             if(CombatCover.Sweep(transform.position+Vector3.up*.9f,origin,.09f,out var wall))
             {CombatVfx.Burst(wall.point,Color.cyan,"hit");return;}
             Vector3 direction=aim;

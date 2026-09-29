@@ -190,7 +190,7 @@ namespace Lattice.UI
             ApplySpriteStates(button, image, "button", "button_hover", "button_pressed", "button_disabled");
             HoverSelect.Attach(button); // mouse and pad share one selection model
             if (onClick != null)
-                button.onClick.AddListener(() => onClick());
+                button.onClick.AddListener(() => UiSounds.Run(onClick));
 
             var text = Text(go.transform, "Label", label, 34f, TextColor);
             Rect(text.gameObject, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);
@@ -216,7 +216,7 @@ namespace Lattice.UI
             HoverSelect.Attach(button); // mouse and pad share one selection model
 
             if (onClick != null)
-                button.onClick.AddListener(() => onClick());
+                button.onClick.AddListener(() => UiSounds.Run(onClick));
 
             var text = Text(go.transform, "Label", label, fontSize, TextColor, align);
             Rect(text.gameObject, Vector2.zero, Vector2.one, Vector2.zero, Vector2.zero);

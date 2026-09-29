@@ -28,10 +28,10 @@ namespace Lattice.UI
         void Update()
         {
             var input=GameServices.Current.Input;
-            if(rebind!=null){if(UiActions.Cancel.WasPressedThisFrame()){rebind.Cancel();}return;}
+            if(rebind!=null){if(UiActions.Cancel.WasPressedThisFrame()){UiSounds.Cancel();rebind.Cancel();}return;}
             bool pause=input.Find("Pause").WasPressedThisFrame();
             if(!IsOpen){if(input.Blocked)return;if(pause)Open();else if(input.Find("Log").WasPressedThisFrame())Open(4);return;}
-            if(pause||UiActions.Cancel.WasPressedThisFrame()){Close();return;}
+            if(pause||UiActions.Cancel.WasPressedThisFrame()){UiSounds.Cancel();Close();return;}
             if(page==1&&input.Find("Swap").WasPressedThisFrame()){PartyController.Current.Swap();Rebuild();}
             if(input.Find("MenuNext").WasPressedThisFrame()){page=(page+1)%tabs.Length;offset=0;Rebuild(false);}
             if(input.Find("MenuPrev").WasPressedThisFrame()){page=(page+tabs.Length-1)%tabs.Length;offset=0;Rebuild(false);}
@@ -76,7 +76,7 @@ namespace Lattice.UI
                     Add($"{(equipped?"[E] ":"")}{def.displayName}  T{def.tier} +{item.upgrade}  {def.slot}",()=>
                     {
                         bool ok=gearMode==3?RpgServices.Inventory.Salvage(item,def):gearMode==2?Gear.Upgrade(state,item):RpgServices.Inventory.Equip(member,item,def,gearMode==1);
-                        feedback=ok?modes[gearMode]+" complete.":"Cannot do that: check equipped parts, materials and upgrade cap.";
+                        feedback=ok?modes[gearMode]+" complete.":"Cannot do that: check equipped parts, materials and upgrade cap.";if(!ok)UiSounds.Error();
                         PartyController.Current.RefreshStats();Rebuild();
                     },def.slot.ToString());
                 }
@@ -88,7 +88,7 @@ namespace Lattice.UI
                 var fabricator=new Fabrication(state);
                 var recipes=GameCatalog.All<RecipeDef>().OrderBy(r=>r.discipline).ThenBy(r=>r.tier).ToArray();
                 foreach(var recipe in recipes.Skip(offset).Take(6))
-                {var r=recipe;Add($"{r.displayName}  T{r.tier}   {string.Join(", ",r.inputs.Select(x=>x.count+" "+x.id))}",()=>{bool ok=fabricator.Craft(r,AtBench,UnityEngine.Random.value,out var made);feedback=ok?(made!=null&&made.affixes.Count>0?"Overclock! ":"Fabricated: ")+r.displayName:"Needs materials, discipline level "+r.unlockLevel+(r.output!=null?" and a bench.":".");Rebuild();},r.output!=null?r.output.slot.ToString():r.consumableOutput);}
+                {var r=recipe;Add($"{r.displayName}  T{r.tier}   {string.Join(", ",r.inputs.Select(x=>x.count+" "+x.id))}",()=>{bool ok=fabricator.Craft(r,AtBench,UnityEngine.Random.value,out var made);if(!ok)UiSounds.Error();feedback=ok?(made!=null&&made.affixes.Count>0?"Overclock! ":"Fabricated: ")+r.displayName:"Needs materials, discipline level "+r.unlockLevel+(r.output!=null?" and a bench.":".");Rebuild();},r.output!=null?r.output.slot.ToString():r.consumableOutput);}
                 Pager(recipes.Length,6);
                 Note("Disciplines: "+string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>d+" "+fabricator.Level(d)))+(AtBench?"\nLattice bench linked":"\nParts require a bench. Consumables can be made anywhere."));
             }
@@ -117,13 +117,13 @@ namespace Lattice.UI
                 }
                 else
                 {
-                    Add("Back to sound controls",()=>{keyboardSettings=false;Rebuild(false);});
+                    Add("Back to sound controls",()=>{UiSounds.Cancel();keyboardSettings=false;Rebuild(false);});
                     foreach(string name in new[]{"Attack","Dodge","Guard","Swap","Interact","Pause"})
                     {string actionName=name;Add("Rebind keyboard: "+name,()=>BeginRebind(actionName));}
                     Note("Select a binding, then press a keyboard key. B cancels listening.");
                 }
             }
-            var close=UiKit.Button(panel.transform,"Close","B  Back",Close);UiKit.Rect(close.gameObject,new(.5f,.5f),new(.5f,.5f),new(650,-435),new(270,55));list.Add(close);
+            var close=UiKit.Button(panel.transform,"Close","B  Back",()=>{UiSounds.Cancel();Close();});UiKit.Rect(close.gameObject,new(.5f,.5f),new(.5f,.5f),new(650,-435),new(270,55));list.Add(close);
             UiKit.LinkVertical(tabButtons.ToArray());UiKit.LinkGrid(list);
             foreach(var b in list)if(b is not Slider){var nav=b.navigation;nav.selectOnLeft=tabButtons[page];b.navigation=nav;}
             for(int i=0;i<tabButtons.Count;i++){var nav=tabButtons[i].navigation;nav.selectOnRight=list[0];tabButtons[i].navigation=nav;}

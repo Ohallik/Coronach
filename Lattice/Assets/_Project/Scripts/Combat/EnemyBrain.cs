@@ -103,8 +103,8 @@ namespace Lattice.Combat
                     var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
-                    {for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
-                    else if(ranged)Projectile.Fire(transform.position+Vector3.up,aim,packet,11);
+                    {CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
+                    else if(ranged){CombatAudio.HostileShot(transform,transform.position+Vector3.up);Projectile.Fire(transform.position+Vector3.up,aim,packet,11);}
                     else CombatActor.Strike(transform.position+aim*1.1f+Vector3.up*.7f,definition.archetype==EnemyArchetype.Mine?3:range*.7f,packet);
                     if(definition.archetype==EnemyArchetype.Mine)Health.Receive(new DamagePacket{amount=Health.maximum*3,type=DamageType.Pulse,source=victim.Health});
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);

@@ -47,7 +47,9 @@ namespace Lattice.Combat
                     }
                     else NetSeed.Throw(origin,destination,packet,true);
                 }
-                AudioManager.Play(kind==Release.Net?"laserSmall_000":"forceField_000",.18f);
+                // Sela's own launch voice: the bare laser is now hostile fire.
+                if(kind==Release.Net)CombatAudio.Shot(actor,sockets!=null&&sockets.muzzle!=null?sockets.muzzle.position:transform.position);
+                else AudioManager.Play("forceField_000",.18f);
             }
             if(actor.Overdriving||actor.Refracting)
                 Show(actor.motor.Facing,180,actor.Refracting?new Color(.1f,.8f,1,.5f):new Color(1,.65f,.2f,.3f));

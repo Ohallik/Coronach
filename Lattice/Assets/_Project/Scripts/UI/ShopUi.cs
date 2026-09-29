@@ -20,7 +20,7 @@ namespace Lattice.UI
         void Switch(){page=1-page;offset=0;feedback="";Rebuild();}
         void Update()
         {
-            if(!IsOpen)return;if(UiActions.Cancel.WasPressedThisFrame()){Close();return;}
+            if(!IsOpen)return;if(UiActions.Cancel.WasPressedThisFrame()){UiSounds.Cancel();Close();return;}
             if(GameServices.Current.Input.Find("MenuNext").WasPressedThisFrame()||GameServices.Current.Input.Find("MenuPrev").WasPressedThisFrame())Switch();
         }
         void Rebuild()
@@ -38,7 +38,7 @@ namespace Lattice.UI
             int Price(int fallback){int i=priceIndex++;return inventory!=null&&inventory.prices!=null&&i<inventory.prices.Length?Mathf.Max(0,inventory.prices[i]):fallback;}
             void Buy(string name,int cost,Action give)
             {
-                offers.Add(($"{name}  —  {cost} scrip",()=>{if(state.scrip<cost)feedback="Not enough scrip.";else{state.scrip-=cost;give();feedback="Purchased "+name+".";}Rebuild();}));
+                offers.Add(($"{name}  —  {cost} scrip",()=>{if(state.scrip<cost){feedback="Not enough scrip.";UiSounds.Error();}else{state.scrip-=cost;give();feedback="Purchased "+name+".";}Rebuild();}));
             }
             if(page==0)
             {
@@ -54,12 +54,12 @@ namespace Lattice.UI
                 var p=item;bool equipped=state.party.Any(m=>m.equipped.Values.Contains(p.instanceId)||m.module2==p.instanceId);
                 var def=GameCatalog.Find<TechPartDef>(p.definitionId);int value=20+(def!=null?def.tier-1:0)*20+p.upgrade*5;
                 offers.Add(($"{(equipped?"[E] ":"")}{(def!=null?def.displayName:p.definitionId)} +{p.upgrade}  —  {value} scrip",()=>
-                {if(equipped)feedback="Unequip this part before selling it.";else if(state.parts.Remove(p)){state.scrip+=value;feedback="Part sold.";}Rebuild();}));
+                {if(equipped){feedback="Unequip this part before selling it.";UiSounds.Error();}else if(state.parts.Remove(p)){state.scrip+=value;feedback="Part sold.";}Rebuild();}));
             }
             if(offset>=offers.Count)offset=0;
             foreach(var offer in offers.Skip(offset).Take(4))Add(offer.label,offer.action);
             if(offers.Count>4)Add($"Next page  ({offset/4+1}/{Mathf.CeilToInt(offers.Count/4f)})",()=>{offset=offset+4<offers.Count?offset+4:0;Rebuild();});
-            Add("Back",Close);
+            Add("Back",()=>{UiSounds.Cancel();Close();});
             var note=UiKit.Text(panel.transform,"Feedback",feedback,25,UiKit.TextColor);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-360),new(1200,70));
             UiKit.LinkVertical(buttons.ToArray());var remembered=buttons.FirstOrDefault(b=>b.name==focus);EventSystem.current.SetSelectedGameObject((remembered!=null?remembered:buttons[0]).gameObject);
         }

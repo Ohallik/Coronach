@@ -43,7 +43,9 @@ namespace Lattice.Combat
                 var firstHand=Vector3.Lerp(previousHand,hand,from);var firstTip=Vector3.Lerp(previousTip,tip,from);
                 var lastHand=Vector3.Lerp(previousHand,hand,to);var lastTip=Vector3.Lerp(previousTip,tip,to);
                 int slices=Mathf.Clamp(Mathf.CeilToInt(Mathf.Max(Vector3.Distance(firstHand,lastHand),Vector3.Distance(firstTip,lastTip))/.1f),1,32);
-                if(!sounded){sounded=true;AudioManager.Play("impactMetal_000",.12f);}
+                // The swing speaks as the edge travels; impacts come only from
+                // bodies it actually damages, so a miss never sounds like a hit.
+                if(!sounded){sounded=true;CombatAudio.Swing(actor,Vector3.Lerp(firstHand,firstTip,.7f));}
                 for(int slice=0;slice<=slices;slice++)
                 {
                     float t=slice/(float)slices;

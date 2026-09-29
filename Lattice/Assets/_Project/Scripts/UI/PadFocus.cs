@@ -37,6 +37,8 @@ namespace Lattice.UI
             Current = this;
             UiActions.Ensure();
             Hook(true);
+            // Navigation feedback belongs to the same persistent selection owner.
+            if (!TryGetComponent<UiSelectionSound>(out _)) gameObject.AddComponent<UiSelectionSound>();
         }
 
         void OnDisable()

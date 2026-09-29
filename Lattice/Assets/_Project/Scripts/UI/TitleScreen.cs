@@ -54,12 +54,12 @@ namespace Lattice.UI
             UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,320),new(900,85));
             var controls=new List<Selectable>();
             AudioSettingsUi.Add(settings.transform,new Vector2(0,200),850,80,controls);
-            var back=UiKit.Button(settings.transform,"Back","Back",CloseSettings);
+            var back=UiKit.Button(settings.transform,"Back","Back",()=>{UiSounds.Cancel();CloseSettings();});
             UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-265),new(380,65));controls.Add(back);
             UiKit.LinkVertical(controls.ToArray());EventSystem.current.SetSelectedGameObject(controls[0].gameObject);
         }
         public void CloseSettings(){if(settings==null)return;AudioMix.Current.Flush();Destroy(settings);settings=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
-        void Update(){if(UiActions.Cancel.WasPressedThisFrame()){if(settings!=null)CloseSettings();if(savePicker!=null){Destroy(savePicker);savePicker=null;}}}
+        void Update(){if(UiActions.Cancel.WasPressedThisFrame()){if(settings!=null||savePicker!=null)UiSounds.Cancel();if(settings!=null)CloseSettings();if(savePicker!=null){Destroy(savePicker);savePicker=null;}}}
         public void StartGame(bool resume)
         {
             if(resume) GameServices.Current.State=GameServices.Current.Saves.Load("autosave")??new GameState();
@@ -78,7 +78,7 @@ namespace Lattice.UI
                 {var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);canvas.gameObject.SetActive(false);});
                 button.interactable=state!=null;UiKit.Rect(button.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,180-row++*100),new(1200,72));if(button.interactable)buttons.Add(button);
             }
-            var back=UiKit.Button(savePicker.transform,"Back","B  Back",()=>{Destroy(savePicker);savePicker=null;});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+            var back=UiKit.Button(savePicker.transform,"Back","B  Back",()=>{UiSounds.Cancel();Destroy(savePicker);savePicker=null;});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
         IEnumerator Capture()
         {

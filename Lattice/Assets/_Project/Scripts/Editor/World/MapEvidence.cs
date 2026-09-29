@@ -84,7 +84,25 @@ namespace Lattice.EditorTools
             }
             Debug.Log("TALLOW_ENVELOPE_MESH_OK");
         });
-        static void Capture(string run,string[] zones=null)
+        // Close construction views of the Cinder ring at roughly gameplay scale:
+        // a free span, the far arc, a hull contact and a wider quadrant.
+        public static void CinderRing()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("station/ring-review");
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hub_CinderHalo.unity");
+            foreach (var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None)) text.gameObject.SetActive(false);
+            var camera = new GameObject("Evidence camera", typeof(Camera), typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor = new Color(.025f, .035f, .06f); camera.clearFlags = CameraClearFlags.SolidColor;
+            camera.orthographic = true; camera.nearClipPlane = .1f; camera.farClipPlane = 2000;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing = false;
+            Shot(camera,folder,"ring-west",new Vector3(-62,-4,70),Quaternion.Euler(55,20,0),12);
+            Shot(camera,folder,"ring-far",new Vector3(0,-4,132),Quaternion.Euler(55,20,0),12);
+            Shot(camera,folder,"ring-hull-joint",new Vector3(-37,-3,20),Quaternion.Euler(55,20,0),14);
+            Shot(camera,folder,"ring-quadrant",new Vector3(-44,-4,110),Quaternion.Euler(40,20,0),30);
+            Shot(camera,folder,"ring-edge",new Vector3(-62,-5.5f,70),Quaternion.Euler(12,90,0),8);
+            Debug.Log("MAP_EVIDENCE_OK " + folder);
+        });
+        static string Folder(string run)
         {
             run=Lattice.Core.DevArgs.Value("-map-evidence-run")??run;
             string folder = Path.GetFullPath(Path.Combine(Application.dataPath, "../../Builds/quality", run));
@@ -92,6 +110,12 @@ namespace Lattice.EditorTools
             if(!folder.StartsWith(root,System.StringComparison.OrdinalIgnoreCase))throw new System.InvalidOperationException("Map evidence must stay under Builds/quality");
             if(Directory.Exists(folder)&&Directory.GetFiles(folder).Length>0)throw new System.InvalidOperationException("Preserve prior map evidence; choose a new -map-evidence-run");
             Directory.CreateDirectory(folder);
+            return folder;
+        }
+        static void Capture(string run,string[] zones=null)
+        {
+            run=Lattice.Core.DevArgs.Value("-map-evidence-run")??run;
+            string folder=Folder(run);
             foreach (string zone in zones??new[] { "Hub_CinderHalo", "Hub_Decks", "TallowApproach", "TallowDrift" })
             {
                 EditorSceneManager.OpenScene("Assets/_Project/Scenes/" + zone + ".unity");
