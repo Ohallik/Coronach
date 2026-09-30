@@ -52,3 +52,24 @@ The initial release stability run `station-stability-01-release-decks-1` complet
 ## Final-layout retry after 48bdff9
 
 The September 26 final-layout retry starts without competitors, but another Frostbound batch begins during Decks headroom. The unchanged harness rejects concurrent Unity/build work and focus loss: only 52,064/70,041 samples retain focus, and twelve navigation/dialogue/shop checks fail in 124.530706 seconds. The seven remaining headroom/first-warm/census starts refuse the contaminated environment. No clean performance conclusion is drawn from this run; no unrelated process was stopped. [Exact rejected evidence](C1-final-timing-rejected.json) retains environment/process records and hashes. C1 remains OPEN; current integrated packages contain the 85/39-tested buff checkpoint. The offline analyzer controls still pass 29/29.
+
+## Clean integrated runs (September 30, Claude Code)
+
+With the other session's Frostbound work finished and no competing process, every run started clean on players rebuilt from `0e5e9c2`, and each ran alone.
+
+| Run | Result |
+|---|---|
+| First/warm, `c1-clean-20260930-{development,release}-{decks,tallow}-1` | All four **valid**. p95 16.95–17.02 ms, p99 17.05–17.13 ms. Worst: Decks 25.5/26.1 ms, Tallow 19.6/19.7 ms. No interval above 33.3 ms |
+| Headroom, `headroom-03-development-tallow` (uncapped, VSync off, no capture) | **Valid**: 120.0 s / 103,531 samples. p95 active CPU 1.00 ms, render thread 1.20 ms, GPU 1.25 ms |
+| Headroom, `headroom-03-development-decks` | CPU **valid**: 124.5 s / 78,493 samples, p95 active CPU 1.03 ms, render thread 1.89 ms. GPU **rejected**: exactly two impossible "GPU Frame Time" samples (≈1.79 × 10¹² ms, timestamp-like), both at the moments the route opens a dialogue (steps 18 and 23). The remaining GPU p95 is 1.87 ms, but the counter evidence stays rejected as the analyzer requires |
+| `headroom-02-*` | Rejected by the analyzer: run with the capped first/warm routes by mistake. The uncapped headroom routes were then used for `headroom-03` |
+| Stability, `station-stability-probe` (Decks, release, census) | **Valid**: 628.8 s / 37,724 samples, all focused. p95/p99/worst 16.97/17.08/25.9 ms; none above 33.3 ms. Memory medians about 150 MB, flat. Census: about 2,960 scene objects start to end (max 2,976), 4–7 audio sources, 2–3 looping. No growth |
+| Stability, `station-stability-03-release-tallow` (release, census) | **Valid**: 600.4 s / 36,024 samples, all focused. p95/p99/worst 16.95/17.06/19.75 ms; none above 25 ms. Memory 140.5–140.9 MB. Census: 563→564 objects, 6–7 audio sources, 2 looping. No growth |
+
+The first `quality-timing -RouteSet Stability` attempt refused to start both runs, probably because the last headroom player had not yet exited. The stability routes were then run directly, one at a time. Nothing was trimmed or re-labelled.
+
+**C1 status:** every timing, hitch, stability and census criterion passes on both stations in both builds, and Tallow's headroom passes in full. Two items remain:
+
+- **Decks GPU headroom** is UNVERIFIED. Unity's GPU Frame Time counter reproducibly returns two timestamp-like values when that route opens a dialogue. An independent GPU source would be needed to verify it; its CPU headroom passes with about 13× margin.
+- **Continuous viewed traversal** by a person remains unavailable.
+

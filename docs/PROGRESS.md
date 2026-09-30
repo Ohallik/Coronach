@@ -1,5 +1,16 @@
 # CORONACH slice progress
 
+## C1 clean station performance - September 30
+
+**C1 timing and stability PASS on both stations and both builds.**
+
+- **Timing.** The four clean first/warm runs are all valid: p95 about 17.0 ms, p99 about 17.1 ms, no frame over 33.3 ms.
+- **Stability.** The ten-minute release runs with the object and audio census are valid for both Decks and Tallow, with full focus, flat memory and no object or voice growth.
+- **Tallow headroom** passes (p95 CPU 1.0 ms, GPU 1.25 ms).
+- **Decks headroom:** CPU passes (p95 1.0 ms). Its GPU counter evidence is still rejected, because Unity's counter returns exactly two timestamp-like values at the route's dialogue openings.
+
+A person viewing continuous traversal, and the Decks GPU counter, remain UNVERIFIED. [Evidence](validation/C1-station-performance.md#clean-integrated-runs-september-30-claude-code).
+
 ## C4 ordinary Gullet circuits and slice smoke - September 30
 
 **Both ordinary Gullet circuits PASS on the redesigned anatomy with full focus; the scripted slice smoke PASSES end to end for the first time since the station redesign.** The other session's Frostbound tests had finished, so the player-window work ran, each capture alone.
