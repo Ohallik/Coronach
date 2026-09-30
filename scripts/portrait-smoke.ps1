@@ -12,8 +12,8 @@ $process=Start-Process -FilePath (Join-Path $repo 'Builds/WindowsDev/Coronach.ex
 try{
     if(-not $process.WaitForExit($TimeoutSec*1000)){throw 'FAILED: portrait smoke timeout'}
     $content=[IO.File]::ReadAllText($log)
-    if($content -match 'FAILED:|Exception:' -or $content -notmatch 'PORTRAIT_SMOKE_OK count=16'){throw "FAILED: portrait smoke; $log"}
-    foreach($character in @('Taren','Sela','Orrin','Mira','Hal','Neve')){
+    if($content -match 'FAILED:|Exception:' -or $content -notmatch 'PORTRAIT_SMOKE_OK count=24'){throw "FAILED: portrait smoke; $log"}
+    foreach($character in @('Taren','Sela','Orrin','Mira','Hal','Neve','Survivor','Keeper','Oda','Ilo')){
         $forms=if($character -in @('Taren','Sela')){@('Natural','Shaped')}else{@('Natural')}
         foreach($form in $forms){foreach($emotion in @('Neutral','Shocked')){
             $path=Join-Path $folder ($character+'_'+$form+'_'+$emotion+'.png')

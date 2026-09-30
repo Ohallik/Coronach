@@ -1,0 +1,48 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 134dc5376489b594494991946c1918cc, type: 3}
+  m_Name: Keeper_Natural
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.PortraitSet
+  characterName: Keeper
+  entries:
+  - emotion: 0
+    sprite: {fileID: -2003802106365381974, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 1
+    sprite: {fileID: 3280099561789806751, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 2
+    sprite: {fileID: 1350689269286740258, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 3
+    sprite: {fileID: 2259526491319270682, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 4
+    sprite: {fileID: 1984959424059065265, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 5
+    sprite: {fileID: -7248741366916258623, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 6
+    sprite: {fileID: -4783997825815456766, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 7
+    sprite: {fileID: -7245934666496738162, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 8
+    sprite: {fileID: 9190682663744159101, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 9
+    sprite: {fileID: 1238922853299941843, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 10
+    sprite: {fileID: -9169320349994445048, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 11
+    sprite: {fileID: 6963421906121490731, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 12
+    sprite: {fileID: 2979362308248094721, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 13
+    sprite: {fileID: 8016528159298046628, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 14
+    sprite: {fileID: -7476567978233816936, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}
+  - emotion: 15
+    sprite: {fileID: 5507796720368829908, guid: dfbf59c021be6b742a3ed23d0ce9d377, type: 3}

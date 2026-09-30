@@ -10,7 +10,9 @@
     "Lattice.UI",
     "Unity.InputSystem",
     "Unity.ugui",
-    "Unity.TextMeshPro"
+    "Unity.TextMeshPro",
+    "YarnSpinner",
+    "YarnSpinner.Unity"
   ],
   "optionalUnityReferences": [
     "TestAssemblies"

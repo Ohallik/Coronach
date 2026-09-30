@@ -18,7 +18,7 @@ namespace Lattice.UI
             var system=DialogueSystem.Current;system.AutoAdvance=false;system.StartNode("ArenaGuide","Hal");
             yield return new WaitForSecondsRealtime(2);
             int count=0;
-            foreach(string name in new[]{"Taren","Sela","Orrin","Mira","Hal","Neve"})
+            foreach(string name in new[]{"Taren","Sela","Orrin","Mira","Hal","Neve","Survivor","Keeper","Oda","Ilo"})
                 foreach(var form in name=="Taren"||name=="Sela"?new[]{BodyForm.Natural,BodyForm.Shaped}:new[]{BodyForm.Natural})
                     foreach(var emotion in new[]{PortraitEmotion.Neutral,PortraitEmotion.Shocked})
                     {

@@ -1,5 +1,15 @@
 # CORONACH slice progress
 
+## C6 dialogue layout and portraits - September 30
+
+**C6 OPEN; its presentation half now has a measured check.** `DialogueLayoutTests` reads every scripted line and choice, confirmed against the compiled Yarn project, and measures them on the real panel at 1280×720, 1920×1080 and 1920×1200. Every line, name and option fits its box. The panel, portrait and options stay on screen and never overlap. Each check was first proven able to fail. It found and fixed three defects:
+
+- **Borrowed faces.** The Survivor and Keeper spoke with Orrin's and Hal's faces (D040). Each now has their own generated 16-expression set, 24 credits, 3,788 left (D125).
+- **Tiny hint.** The "Continue" hint rendered at 13.3 px at 720p. It is now 25 pt.
+- **Hint in the border.** The larger hint then ran into the frame's border, which the recapture showed. A new glyph-border rule was red at 30 units from the edge, and the hint moved inward.
+
+The portrait smoke now covers all ten speakers (`count=24`), and the UI smoke passes. The input-behaviour half of C6 (reveal and advance, cancel rules, device-matched hints, save/load around branches) remains open. [Evidence](validation/C6-dialogue-layout.md)
+
 ## MAP_EYE_TEST Hushwell in-player descent - September 30
 
 **Hushwell passes breach to lift by ordinary input**: `hushwell-descent-08`, 405.8 s, 24,346/24,346 frames focused, analyzer valid. The route clears both Scrapmite galleries and both pressure chambers with live vents. It breaks both organs and then the Bellows, finds the nursery and rides the lift to Sorrel. The slice smoke passes again: 522.5 s, marker contract intact.
