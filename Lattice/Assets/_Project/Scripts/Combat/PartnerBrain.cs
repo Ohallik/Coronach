@@ -17,6 +17,8 @@ namespace Lattice.Combat
             var party=PartyController.Current;if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.Recovering||actor.motor==null||GameServices.Current.Input.Blocked)return;
             var active=party.Active;actor.target=active.target;
             if(actor.State==Lattice.Data.ActorState.Stagger){actor.motor.Move(Vector2.zero,false,true);return;}
+            // Read incoming fire as a player does: roll across a shot about to hit.
+            var shot=IncomingShot();if(shot.HasValue&&actor.Dodge(shot.Value))return;
             var followingRight=Vector3.Cross(Vector3.up,active.motor.Facing).normalized;
             Vector3 goal=active.transform.position-active.motor.Facing*3+followingRight*2;
             bool fighting=ZoneController.Current!=null&&ZoneController.Current.Combat&&actor.target!=null&&actor.target.Alive;
@@ -62,6 +64,22 @@ namespace Lattice.Combat
                 }
                 if(fromThreat.magnitude<(actor.flight||actor.character=="Sela"?14:3))actor.Attack();
             }
+        }
+        Vector3? IncomingShot()
+        {
+            float body=GetComponent<CharacterController>().radius+.45f;
+            foreach(var shot in Projectile.Live)
+            {
+                if(!shot.Threatens(actor.Health.friendly))continue;
+                var v=Planar(shot.Velocity);if(v.sqrMagnitude<.01f)continue;
+                var rel=Planar(transform.position-shot.transform.position);
+                float t=Vector3.Dot(rel,v)/v.sqrMagnitude;if(t<0||t>.35f)continue;
+                var miss=rel-v*t;if(miss.magnitude>body)continue;
+                // Roll to whichever side the shot is already passing, or square across it.
+                var across=Vector3.Cross(Vector3.up,v.normalized);
+                return miss.sqrMagnitude>.01f&&Vector3.Dot(miss,across)<0?-across:across;
+            }
+            return null;
         }
         static Vector3 Planar(Vector3 value){value.y=0;return value;}
     }

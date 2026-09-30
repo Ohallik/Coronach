@@ -10,7 +10,7 @@
 | TallowDrift | Passed refuge and corrected lift fit | Passed spatial review; C1 pending | [Refuge](TallowDrift.md) |
 | Sorrel_Ridges | In progress: connected basin built, ordinary traversal pending; Hushwell bore added | Final art converted, controlled views inspected; in-player OPEN | [Landscape](Sorrel_Ridges.md) |
 | Hushwell | Passed (agent review) | Final built with generated kit; in-player OPEN | [Moon cave](Hushwell.md) |
-| Gullet_Tunnel | Passed anatomy redesign (agent review) | OPEN: ordinary circuits focus-blocked | [Living passage](Gullet_Tunnel.md) |
+| Gullet_Tunnel | Passed anatomy redesign (agent review) | Passed mouth to eddy (both ordinary circuits); gate, coil and exit OPEN | [Living passage](Gullet_Tunnel.md) |
 | Arena_Ground | Passed proving-yard redesign (agent review) | Final built; controlled views inspected; in-player OPEN | [Practice yard](Arena_Ground.md) |
 | Arena_Flight | Passed proving-berth redesign (agent review) | Final built; controlled views inspected; in-player OPEN | [Proving berth](Arena_Flight.md) |
 

@@ -10,6 +10,11 @@ namespace Lattice.Combat
         float life;
         bool counted,hasFaction,friendly;
         public static int ActiveCount {get;private set;}
+        /// <summary>Shots in the air, so AI can read incoming fire as a player does.</summary>
+        public static readonly HashSet<Projectile> Live=new();
+        public Vector3 Velocity=>velocity;
+        /// <summary>Would this shot harm a body on the given side?</summary>
+        public bool Threatens(bool friendlySide)=>hasFaction&&friendly!=friendlySide;
         public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24)
         {
             Projectile p=null;while(pool.Count>0&&p==null)p=pool.Pop();
@@ -21,7 +26,7 @@ namespace Lattice.Combat
             }
             p.transform.position=position;p.packet=damage;p.velocity=direction.normalized*speed;p.life=3;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;
-            p.gameObject.SetActive(true);p.counted=true;ActiveCount++;
+            p.gameObject.SetActive(true);p.counted=true;ActiveCount++;Live.Add(p);
         }
         void Update()
         {
@@ -41,7 +46,7 @@ namespace Lattice.Combat
             if(victim!=null){victim.Hit(packet);Recycle();return;}
             transform.position+=delta;life-=Time.deltaTime;if(life<=0)Recycle();
         }
-        void OnDisable(){if(counted){counted=false;ActiveCount=Mathf.Max(0,ActiveCount-1);}}
+        void OnDisable(){Live.Remove(this);if(counted){counted=false;ActiveCount=Mathf.Max(0,ActiveCount-1);}}
         void Recycle(){gameObject.SetActive(false);pool.Push(this);}
     }
 }

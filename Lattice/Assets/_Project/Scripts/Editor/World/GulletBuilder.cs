@@ -49,9 +49,11 @@ namespace Lattice.EditorTools
             }
             // Salvage eddy: the current slows in the right-hand pocket and debris settles there.
             float eddyX=GulletProfile.RightEdge(GulletProfile.CacheZ)-9;
-            var wreck=WorldBuilder.Piece("Skiff",new Vector3(eddyX-2,.4f,GulletProfile.CacheZ+7),new Vector3(4,1.5f,6),"Rock");wreck.name="Lost skiff in the eddy";
+            // It settles at the back of the pocket, clear of the mines pilots must
+            // clear from every side.
+            var wreck=WorldBuilder.Piece("Skiff",new Vector3(eddyX+4.5f,.4f,GulletProfile.CacheZ+12),new Vector3(4,1.5f,6),"Rock");wreck.name="Lost skiff in the eddy";
             wreck.transform.rotation=Quaternion.Euler(8,118,14);
-            foreach(var (dx,dz) in new[]{(1.5f,-6f),(-3f,-9f),(3.5f,11f)})
+            foreach(var (dx,dz) in new[]{(7.5f,6.5f),(6f,9f),(3f,17f)})
                 WorldBuilder.Piece("DeckCrate",new Vector3(eddyX+dx,.5f,GulletProfile.CacheZ+dz),new Vector3(1.4f,1.1f,1.4f),"Rock").transform.rotation=Quaternion.Euler(0,Range(0,360),Range(-12,12));
 
             string[] anatomy={"FEEDING CHAMBER","SLALOM THROAT","NURSERY GATE"};
@@ -107,6 +109,19 @@ namespace Lattice.EditorTools
                     float edge=side<0?GulletProfile.LeftEdge(z):GulletProfile.RightEdge(z);
                     var rib=WorldBuilder.Piece(random.Next(2)==0?"GulletWallA":"GulletWallB",new Vector3(edge,2,z),new Vector3(1,Range(5.2f,7.2f),11),"Rock");
                     rib.transform.rotation=Quaternion.Euler(0,Yaw(z,side)+Range(-4,4),0);
+                    // The shell is the wall; a rib may lap onto it but never stand in
+                    // the passage. Where the wall bends, a straight rib's ends meet a
+                    // different edge than its centre, so test its whole collision
+                    // footprint against the edge at each point and push out by the worst.
+                    var box=rib.GetComponent<BoxCollider>();float worst=0;
+                    for(int i=0;i<=8;i++)for(int j=0;j<=8;j++)
+                    {
+                        var local=box.center+Vector3.Scale(box.size*.5f,new Vector3(Mathf.Lerp(-1,1,i/8f),0,Mathf.Lerp(-1,1,j/8f)));
+                        var p=rib.transform.TransformPoint(local);
+                        float wall=side<0?GulletProfile.LeftEdge(p.z):GulletProfile.RightEdge(p.z);
+                        worst=Mathf.Max(worst,side*((wall-side*.4f)-p.x));
+                    }
+                    if(worst>0)rib.transform.position+=Vector3.right*side*worst;
                 }
         }
         static void Mouth()

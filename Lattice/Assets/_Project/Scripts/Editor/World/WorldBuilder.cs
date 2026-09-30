@@ -156,10 +156,14 @@ namespace Lattice.EditorTools
             var npc=go.AddComponent<Npc>();npc.speaker=id;npc.firstNode=first??id+"First";npc.repeatNode=id+"Repeat";npc.postNode=id+"Post";npc.prompt="Talk to "+id;npc.range=3.2f;
             Label(id,position+new Vector3(0,2.8f,0),1.5f).transform.SetParent(go.transform,true);return npc;
         }
-        public static DockingPad Dock(string name,Vector3 position,string scene,string spawn)
+        /// <summary>A ship's hull (up to 1.78 m) stops against a flight pad's solid box
+        /// as much as 5.3 m from its centre at a corner; flight docks pass
+        /// FlightDockRange so every open approach reaches the prompt with margin.</summary>
+        public const float FlightDockRange=6.5f;
+        public static DockingPad Dock(string name,Vector3 position,string scene,string spawn,float range=4)
         {
             var go=Piece("LandingPad",position-Vector3.up*.3f,new Vector3(5,.3f,5),"Sela");go.name=name;
-            var dock=go.AddComponent<DockingPad>();dock.prompt=name;dock.range=4;dock.scene=scene;dock.spawn=spawn;return dock;
+            var dock=go.AddComponent<DockingPad>();dock.prompt=name;dock.range=range;dock.scene=scene;dock.spawn=spawn;return dock;
         }
         public static WarpBeacon Warp(string name,Vector3 position,string scene,string flag="warpkey",string spawn="Arrival")
         {

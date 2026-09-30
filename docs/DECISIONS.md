@@ -175,3 +175,9 @@
 
 - **D122 - Station residents speak from their ships (September 29).** Following Nathan's music rule, the station's town is also a place of hailed conversations between vessels. New ship-borne speakers have no standing body and nothing that collides; parked ships never enter a recorded route. The first two carry Act I's planned seeds: an Anchor Compact surveyor and a household bound for the Nacre transfer. Speakers without a generated body must not keep the placeholder capsule, whose collider is an invisible obstacle.
 
+- **D123 - A player must be able to do it, not nearly (September 30).** Ordinary-input circuits are the judge of the Gullet and the docks, and they overturned three things that controlled checks had accepted:
+  - **Docks.** A flight dock's prompt reaches past where a hull physically stops against its pad from every open side. Flight docks use 6.5 m; ground pads keep 4 m.
+  - **Tunnel walls.** The tunnel's collision edge is its shell. Decorative ribs may lap it from outside but never stand in the passage, measured across their whole footprint, because on a bend a straight slab's ends meet a different edge than its centre.
+  - **The partner.** The AI partner reads incoming fire the way a player does and rolls or sidesteps across any hostile shot about to hit, in flight and on the ground; it had been standing under spitter fire.
+
+  The scripted slice smoke may be taught ordinary pilot sense (waypoints, stances, keeping range from mines), but its marker contract is never loosened.

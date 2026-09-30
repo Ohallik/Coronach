@@ -12,7 +12,10 @@ namespace Lattice.UI
     /// <summary>Development-only route driver. Uses motors, attacks, NPCs, pickups and saves; never awards flags or kills directly.</summary>
     public sealed class SliceSmoke:MonoBehaviour
     {
-        bool failed,swapped,flashSeen,lungeSeen;
+        bool failed,swapped,flashSeen,lungeSeen,lungeKilled;
+        void OnEnable()=>Application.logMessageReceived+=Heard;
+        void OnDisable()=>Application.logMessageReceived-=Heard;
+        void Heard(string message,string stack,LogType type){if(message=="LUNGE_KILL")lungeKilled=true;}
         float started;
         IEnumerator Start()
         {
@@ -26,10 +29,16 @@ namespace Lattice.UI
             yield return Talk("Hal");var menu=FindFirstObjectByType<PauseMenu>();if(menu.IsOpen)menu.Close();
             yield return Capture("Hub_Decks");yield return Use(FindObjectsByType<DockingPad>(FindObjectsSortMode.None).First(p=>p.spawn=="Office"));
             yield return Zone("Hub_CinderHalo");yield return Talk("Neve");
+            // Flight travel is a straight line; pass south of the repair hull to the
+            // moon approach, as a pilot would, instead of into its casing.
+            yield return Travel(new Vector3(46,1,-34),3);
             yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.scene=="Sorrel_Ridges"));
             yield return Zone("Sorrel_Ridges");yield return Talk("Survivor");
             yield return Use(FindFirstObjectByType<RepairBay>());yield return Capture("Sorrel_Ridges");
-            foreach(float z in new[]{45f,73f,101f,129f,164f,181f})yield return Travel(new Vector3(0,0,z),2);
+            // The redesigned basin's haul road bends between ridge strata; walk its
+            // actual bends to the drill and the Burrower's excavation.
+            foreach(var p in new[]{new Vector2(9,39),new Vector2(4,58),new Vector2(-8,75),new Vector2(-5,94),new Vector2(9,111),new Vector2(16,129),new Vector2(7,145),new Vector2(0,164),new Vector2(3,181)})
+                yield return Travel(new Vector3(p.x,0,p.y),2);
             yield return FightNearby(45);yield return Use(FindFirstObjectByType<KeyPickup>());
             if(!GameServices.Current.Flags.GetBool("warpkey")){Fail("warp key not earned");yield break;}
             yield return Use(FindObjectsByType<DockingPad>(FindObjectsSortMode.None).First(p=>p.spawn=="Outer"));
@@ -70,7 +79,10 @@ namespace Lattice.UI
         IEnumerator Use(InteractionPrompt prompt)
         {
             if(failed)yield break;if(prompt==null){Fail("missing interactable");yield break;}
-            yield return Travel(prompt.transform.position,Mathf.Max(1,prompt.range-.5f));if(failed)yield break;
+            // A ship's hull stops against a solid pad about 4.3 m from its centre,
+            // so a flight approach aims just inside the prompt's own range.
+            float reach=PartyController.Current.Active.flight?prompt.range-.12f:Mathf.Max(1,prompt.range-.5f);
+            yield return Travel(prompt.transform.position,reach);if(failed)yield break;
             if(!prompt.Available)
             {
                 if(prompt is SalvageField cache&&GameServices.Current.Flags.GetBool("cache."+cache.cacheId))yield break;
@@ -99,7 +111,14 @@ namespace Lattice.UI
                     {
                         nextPath=Time.realtimeSinceStartup+.3f;
                         if(!GroundNavigation.Current.FindPath(actor.transform.position,goal,goal,path))
-                        {Fail("no walking path to "+goal);yield break;}
+                        {
+                            // A solid interactable (an anvil, a crystal) has no floor at its
+                            // centre: walk to any reachable stance within reach instead.
+                            bool found=false;
+                            for(int a=0;a<12&&!found;a++)
+                            {var stance=goal+Quaternion.Euler(0,a*30,0)*Vector3.forward*Mathf.Max(.8f,distance*.8f);found=GroundNavigation.Current.FindPath(actor.transform.position,stance,stance,path);}
+                            if(!found){Fail("no walking path to "+goal);yield break;}
+                        }
                         corners=path.corners;corner=1;
                     }
                     if(corners!=null&&corners.Length>1)
@@ -125,17 +144,23 @@ namespace Lattice.UI
                 if(party.members.All(m=>!m.Health.Alive)){Fail("party defeated");yield break;}
                 actor.target=target;var brain=target.GetComponent<EnemyBrain>();var d=target.transform.position-actor.transform.position;d.y=0;
                 float reach=actor.flight?5:!flashSeen?2.1f:actor.character=="Sela"?8:2.1f;
-                actor.motor.Move(d.magnitude>reach?new Vector2(d.x,d.z).normalized:Vector2.zero,false,true);
-                if(d.magnitude<reach+1)
+                // A mine arms at 2.8 m and ship momentum carries past a 5 m stop:
+                // shoot mines from 7 m and back off if drifting closer, as pilots do.
+                bool mine=brain!=null&&brain.definition.archetype==Lattice.Data.EnemyArchetype.Mine;
+                if(mine)reach=7;
+                actor.motor.Move(d.magnitude>reach?new Vector2(d.x,d.z).normalized:mine&&d.magnitude<reach-1.5f?-new Vector2(d.x,d.z).normalized:Vector2.zero,false,true);
+                if(d.magnitude<reach+1+(mine?2:0))
                 {
                     // Stay above the motors' 0.1-facing threshold after a boss crosses us.
                     actor.motor.Move(new Vector2(d.x,d.z).normalized*.15f,false,true);
                     var boss=target.GetComponent<BossController>();
                     if(boss!=null&&boss.Telegraphing&&boss.TelegraphRemaining<.065f)actor.Dodge(d);
                     else if(brain!=null&&brain.Telegraphing&&brain.TelegraphRemaining<.065f&&d.magnitude<4)actor.Dodge(d);
-                    else if(actor.flight&&d.magnitude<7&&target.integrity<=actor.damage){if(actor.Lunge())lungeSeen=true;}
+                    else if(actor.flight&&!mine&&d.magnitude<7&&target.integrity<=actor.damage){if(actor.Lunge())lungeSeen=true;}
                     else actor.Attack();
-                    if(flashSeen&&actor.charge>=20)actor.Skill(actor.character=="Taren"?1:0);
+                    // In flight, hold skills until a lunge has landed a kill: they would
+                    // otherwise finish every target first and leave the lunge unproven.
+                    if(flashSeen&&actor.charge>=20&&(!actor.flight||lungeKilled))actor.Skill(actor.character=="Taren"?1:0);
                 }
                 if(actor.Health.integrity<actor.Health.maximum*.5f)actor.GetComponent<PlayerBrain>().UseItem("RepairGel");
                 if(swapped&&actor.FlashMoves>0&&!flashSeen){flashSeen=true;PrepareParty();}

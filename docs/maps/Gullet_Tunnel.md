@@ -1,6 +1,6 @@
 # Gullet - living passage brief
 
-2026-09-28 redesign (Claude Code). **Blockout MAP_EYE_TEST PASSED (agent review); final in-player pass OPEN** until the ordinary flight circuits run with full focus.
+2026-09-28 redesign (Claude Code). **Blockout MAP_EYE_TEST PASSED (agent review). Final in-player pass: PASS from the mouth through the salvage eddy** (both heroes' ordinary circuits, full focus, 2026-09-30, [evidence](../validation/C4-gullet-circuits05.md)). The nursery gate, coil and exit were traversed by the scripted smoke only; their ordinary pass remains OPEN.
 
 The Gullet is the interior passage of an adult Choir that travellers use as a route. It should read as one organism's anatomy, in the order a traveller meets it, rather than a repeated tube. `Lattice.World.GulletProfile` holds the plan; the scene builder, smoke route, circuit generator (`tools/gullet_routes.py`) and layout tests all read it.
 
@@ -46,3 +46,12 @@ The layout checks (`GulletLayoutTests`) were **rejected on the old scene**: the 
 ### History
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.
+
+### Ordinary circuits and the rib fix (September 30)
+
+Claude Code. The first ordinary circuits on this anatomy exposed two construction defects the blockout review had missed:
+
+- **Wall ribs in the passage.** Height-fitted rib slabs centred on the edge stood about 2 m inside the passage everywhere, and more at the eddy's flare.
+- **Debris among the mines.** The eddy's debris lay among its mines.
+
+Ribs are now pushed out until no point of their collision footprint stands more than 0.4 m inside the edge; the membrane shell is the wall and the ribs lap it from outside. The wreck and crates now settle at the back of the pocket. New layout tests sweep the whole passage and the eddy's fighting space. Both heroes' ordinary circuits then passed with full focus, and gameplay-scale stills from the passing run read as intended.

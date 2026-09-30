@@ -1,5 +1,24 @@
 # CORONACH slice progress
 
+## C4 ordinary Gullet circuits and slice smoke - September 30
+
+**Both ordinary Gullet circuits PASS on the redesigned anatomy with full focus; the scripted slice smoke PASSES end to end for the first time since the station redesign.** The other session's Frostbound tests had finished, so the player-window work ran, each capture alone.
+
+- **Taren:** `gullet-circuit-taren-11`, 393.6 s, 23,614/23,614 focused. Finished at 110.9 health, partner at 114.9.
+- **Sela:** `gullet-circuit-sela-06`, 393.7 s, 23,621/23,621 focused. Finished at 110.9, partner at 97.3.
+- **Smoke:** `SLICE_SMOKE_OK` in 522 s, with the route marker contract intact.
+
+The ordinary runs overturned things the controlled checks had accepted, and each is now fixed and tested red then green:
+
+- **Gullet ribs.** Wall ribs stood about 2 m inside the passage, and more at the salvage eddy's flare. Ribs are now checked across their whole footprint and pushed out.
+- **Eddy debris.** The debris lay among the mines; it now rests at the back of the pocket.
+- **Partner.** The AI partner never evaded fire. It now rolls or sidesteps from shots about to hit, in flight and on the ground.
+- **Docks.** Flight docks were unreachable head-on: the Repair Bay's 4 m prompt was inside where a hull stops. Flight docks now use 6.5 m.
+
+The Sela route had also lost its opening swap in my generator; it is restored.
+
+The smoke was taught ordinary pilot sense: a hull waypoint, Sorrel's real haul bends, stances beside solid interactables, range from mines, and holding skills until a lunge kill. Its contract is unchanged. [Evidence](validation/C4-gullet-circuits05.md), D123. The Gullet's final in-player pass now covers the mouth to the eddy; the gate, coil and exit have only scripted traversal. The full suites pass **56/56 EditMode and 181/181 PlayMode**; saves are unchanged.
+
 ## Bellows Below last phase - September 29
 
 **B02 complete in code; its fight is not yet played.** Below 30 % health the Bellows' dome collapses onto four exposed ribs at the chamber's edge. It marks a path to the rib nearest the party, lunges along it, striking and staggering anything in the way, and breathes from its new rib. The last phase becomes a chase, completing the atlas design: organ bracing, the choice of a safe half, then the ribs. The new test was **rejected twice**: first because the chamber had no ribs, then with the ribs built but no last phase. It passed once the crossing was implemented. The full suites pass **56/56 EditMode and 176/176 PlayMode**. Top-down and oblique chamber views were opened.

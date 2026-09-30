@@ -50,6 +50,9 @@ def build(hero):
             nav(f'chamber {chamber} {label} mine approach', px, pz, seconds)
             thrust(f'chamber {chamber} {label} mine sustained emitter', 3, y=1, leftTrigger=1, buttons=['South'])
 
+    # The party starts with Taren leading; Sela's circuit swaps to her first,
+    # exactly as the accepted circuit03 route did.
+    if hero == 'sela': steps.append(dict(name='select Sela before the encounter', seconds=.12, buttons=['North']))
     # Navigation holds the brake (about 2 m/s), as in the accepted circuits:
     # the lunge chain, not the approach, carries the ship into the chamber.
     steps.append(dict(name='fly in through the mouth and entry canal', seconds=17, navigate=True, point=dict(x=round(route_x(35), 3), y=1, z=35),
@@ -65,8 +68,13 @@ def build(hero):
     steps.append(dict(name='chamber 1 opens its own membrane', seconds=.2, expectedFlag='clear.Gullet_Chamber_0', until='partyAlive'))
 
     nav('cross the opened first valve along its real passage', route_x(262), 262, 40, False)
+    # Braked navigation covers about 2 m/s: budget each weave leg by its real
+    # length (the folds add sideways travel), never less than the old 12 s.
+    previous = (route_x(262), 262)
     for z in (285, 305, 330, 350, 368):
-        nav(f'weave the slalom throat past the folds at {z} m', route_x(z), z, 12)
+        length = math.hypot(route_x(z) - previous[0], z - previous[1])
+        nav(f'weave the slalom throat past the folds at {z} m', route_x(z), z, max(12, round(length / 1.8 + 2)))
+        previous = (route_x(z), z)
     for n in range(4):
         thrust(f'second chamber lunge {n + 1}', .12, y=1, buttons=['West'])
         thrust(f'second chamber recovery {n + 1}', .62, y=1, buttons=['South'])

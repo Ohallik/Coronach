@@ -76,6 +76,8 @@ namespace Lattice.Combat
             if(!enabled||Mathf.Abs(hit.normal.y)>.5f||hit.collider.GetComponentInParent<Health>()!=null||Time.unscaledTime-contactAt<.6f)return;
             contactAt=Time.unscaledTime;dashRemaining=0;velocity=Vector3.Reflect(velocity,hit.normal)*.4f+hit.normal*4;
             if(Lattice.Core.ZoneController.Current!=null&&Lattice.Core.ZoneController.Current.Combat&&TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
+            // At most once per 0.6 s: evidence of what a route or a pilot actually strikes.
+            Debug.Log($"WALL_CONTACT {name} {hit.collider.name} at {transform.position}");
         }
     }
 }

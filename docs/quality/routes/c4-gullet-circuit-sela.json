@@ -8,6 +8,13 @@
   "screenshotInterval": 2,
   "steps": [
     {
+      "name": "select Sela before the encounter",
+      "seconds": 0.12,
+      "buttons": [
+        "North"
+      ]
+    },
+    {
       "name": "fly in through the mouth and entry canal",
       "seconds": 17,
       "navigate": true,
@@ -331,7 +338,7 @@
     },
     {
       "name": "weave the slalom throat past the folds at 285 m",
-      "seconds": 12,
+      "seconds": 15,
       "navigate": true,
       "point": {
         "x": 8.486,
@@ -346,7 +353,7 @@
     },
     {
       "name": "weave the slalom throat past the folds at 305 m",
-      "seconds": 12,
+      "seconds": 13,
       "navigate": true,
       "point": {
         "x": 7.95,
@@ -361,7 +368,7 @@
     },
     {
       "name": "weave the slalom throat past the folds at 330 m",
-      "seconds": 12,
+      "seconds": 18,
       "navigate": true,
       "point": {
         "x": -4.907,
@@ -376,7 +383,7 @@
     },
     {
       "name": "weave the slalom throat past the folds at 350 m",
-      "seconds": 12,
+      "seconds": 14,
       "navigate": true,
       "point": {
         "x": 1.061,

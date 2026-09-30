@@ -119,7 +119,7 @@ namespace Lattice.EditorTools
             for(int i=0;i<3;i++)
             {
                 float x=HullX[i];string id=DockIds[i];
-                WorldBuilder.Dock("Dock — "+(i==0?"Dock Office":i==1?"Outfitter":"Repair Bay"),new Vector3(x,1,DockZ),"Hub_Decks",id);
+                WorldBuilder.Dock("Dock — "+(i==0?"Dock Office":i==1?"Outfitter":"Repair Bay"),new Vector3(x,1,DockZ),"Hub_Decks",id,WorldBuilder.FlightDockRange);
                 WorldBuilder.Spawn(id,new Vector3(x,1,DockZ-9));
                 WorldBuilder.Label(i==0?"ARRIVALS":i==1?"MARKET":"RECEIVING",new Vector3(x,5,-14),1.3f);
             }

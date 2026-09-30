@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Linq;
+using Lattice.Combat;
 using Lattice.Core;
 using Lattice.UI;
 using Lattice.World;
@@ -40,6 +41,36 @@ namespace Lattice.Tests.PlayMode
                 }
             }
             Assert.IsEmpty(blockers,"tissue or props block the travel line:\n"+string.Join("\n",blockers.Distinct().Take(12)));
+            yield return null;
+        }
+        [UnityTest] public IEnumerator WallRibsStayInTheWallAcrossTheWholePassage()
+        {
+            // Pilots use the whole passage, not only the travel line: the eddy pocket,
+            // the chambers' breadth, the coil. Plain wall ribs may overlap the edge
+            // but never stand inside it. Folds and lips are deliberate and excluded.
+            var intrusions=new System.Collections.Generic.List<string>();
+            for(float z=GulletProfile.Start+8;z<GulletProfile.End-6;z+=1)
+            {
+                if(System.Array.Exists(GulletProfile.Valves,v=>Mathf.Abs(v-z)<9))continue;
+                for(float x=GulletProfile.LeftEdge(z)+2;x<=GulletProfile.RightEdge(z)-2;x+=.75f)
+                    foreach(var c in Physics.OverlapSphere(new Vector3(x,1,z),.4f,~0,QueryTriggerInteraction.Ignore))
+                        if(c.name.StartsWith("GulletWall")||c.transform.root.name.StartsWith("GulletWall"))intrusions.Add($"{c.transform.root.name}/{c.name} at ({x:0.0}, {z:0}), edge {GulletProfile.LeftEdge(z):0.0}..{GulletProfile.RightEdge(z):0.0}");
+            }
+            Assert.IsEmpty(intrusions,"wall ribs stand inside the passage:\n"+string.Join("\n",intrusions.Distinct().Take(15)));
+            yield return null;
+        }
+        [UnityTest] public IEnumerator TheEddyDebrisLiesClearOfItsMines()
+        {
+            // The salvage eddy's wreck and crates settle at the back of the pocket, not
+            // among the mines a pilot must clear from all sides.
+            var mines=Object.FindObjectsByType<Spawner>(FindObjectsSortMode.None).Where(s=>s.definition!=null&&s.definition.id=="Shellmine"&&Mathf.Abs(s.transform.position.z-GulletProfile.CacheZ)<30).ToArray();
+            Assert.AreEqual(1,mines.Length,"the eddy needs its one mine cluster");
+            var mine=mines[0];float reach=mine.radius+6;
+            foreach(var debris in Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Where(c=>c.transform.root.name.StartsWith("DeckCrate")||c.transform.root.name.StartsWith("Lost skiff")))
+            {
+                var d=debris.bounds.ClosestPoint(mine.transform.position)-mine.transform.position;d.y=0;
+                Assert.Greater(d.magnitude,reach,debris.transform.root.name+" lies inside the mine cluster's fighting space");
+            }
             yield return null;
         }
         [UnityTest] public IEnumerator ValvesChambersEddyAndCoilHaveTheirAnatomy()

@@ -47,7 +47,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Piece("DeckFloor",new Vector3(0,3.65f,(LiftFrontZ+LiftBackZ)*.5f),new Vector3(5,.3f,5));
             var hatch=WorldBuilder.Piece("DeckDoorway",new Vector3(0,1.6f,LiftFrontZ),new Vector3(3,3.2f,.5f),"Rock",false);
             StationSurfaces.ClosedHatch(hatch,0);
-            WorldBuilder.Dock("Dock — Tallow Drift",new Vector3(0,1,DockZ),"TallowDrift","Arrival");
+            WorldBuilder.Dock("Dock — Tallow Drift",new Vector3(0,1,DockZ),"TallowDrift","Arrival",WorldBuilder.FlightDockRange);
             WorldBuilder.Label("TALLOW DRIFT",new Vector3(0,5,12));WorldBuilder.Save(approach,"TallowApproach");
         }
         static void BuildInterior()
