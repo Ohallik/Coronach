@@ -1,0 +1,818 @@
+{
+  "name": "hushwell-descent",
+  "scene": "Hushwell",
+  "loadout": "gullet",
+  "sourceRevision": "Hushwell first ordinary descent: both galleries, both pressure chambers with live vents, the Bellows (organs first), the nursery discovery and the lift. Natural in the breach pocket, Shaped from gallery A. Each organ is locked (LB picks the nearest) and chased into reach before melee; the Bellows is locked once and chased as it backs away, each round ending when it falls.",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 2,
+  "steps": [
+    {
+      "name": "leave the drill breach",
+      "seconds": 4.9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 8
+      },
+      "tolerance": 0.8,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "into the first mineral gallery",
+      "seconds": 7.6,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": 22
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "gallery A",
+      "seconds": 9.0,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": 40
+      },
+      "tolerance": 0.8,
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "lock onto gallery A Scrapmites",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release gallery A Scrapmites",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave gallery A Scrapmites",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave release gallery A Scrapmites",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee gallery A Scrapmites",
+      "seconds": 10,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel if hurt gallery A Scrapmites",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release gallery A Scrapmites",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish gallery A Scrapmites",
+      "seconds": 12,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "gallery A Scrapmites cleared",
+      "seconds": 3,
+      "expectedFlag": "clear.Hushwell_0"
+    },
+    {
+      "name": "both heroes ready after gallery A Scrapmites",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "along gallery A",
+      "seconds": 9.9,
+      "navigate": true,
+      "point": {
+        "x": -9,
+        "y": 0,
+        "z": 62
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "toward gallery B",
+      "seconds": 7.2,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 72
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "gallery B",
+      "seconds": 6.8,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 82
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock onto gallery B Scrapmites",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release gallery B Scrapmites",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave gallery B Scrapmites",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave release gallery B Scrapmites",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee gallery B Scrapmites",
+      "seconds": 10,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel if hurt gallery B Scrapmites",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release gallery B Scrapmites",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish gallery B Scrapmites",
+      "seconds": 12,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "gallery B Scrapmites cleared",
+      "seconds": 3,
+      "expectedFlag": "clear.Hushwell_1"
+    },
+    {
+      "name": "both heroes ready after gallery B Scrapmites",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "the survey-grid stretch",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 96
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "past the survey slabs",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 110
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "head of the ramp down",
+      "seconds": 6.9,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 122
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "down the ramp to the pressure gallery",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 136
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "foot of the ramp",
+      "seconds": 6.8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 148
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "into chamber 1 between the vents",
+      "seconds": 6.8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 160
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock onto chamber 1 Ridgehounds",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release chamber 1 Ridgehounds",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave chamber 1 Ridgehounds",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave release chamber 1 Ridgehounds",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee chamber 1 Ridgehounds",
+      "seconds": 12,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel if hurt chamber 1 Ridgehounds",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release chamber 1 Ridgehounds",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish chamber 1 Ridgehounds",
+      "seconds": 14,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 1 Ridgehounds cleared",
+      "seconds": 3,
+      "expectedFlag": "clear.Hushwell_2"
+    },
+    {
+      "name": "both heroes ready after chamber 1 Ridgehounds",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "the neck to chamber 2",
+      "seconds": 8.7,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 178
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "chamber 2 on its dry ledges",
+      "seconds": 8.7,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": 196
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "the neck to chamber 3",
+      "seconds": 7.4,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 210
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "chamber 3",
+      "seconds": 6.8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 222
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock onto chamber 3 Ridgehounds",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release chamber 3 Ridgehounds",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave chamber 3 Ridgehounds",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave release chamber 3 Ridgehounds",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee chamber 3 Ridgehounds",
+      "seconds": 12,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel if hurt chamber 3 Ridgehounds",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release chamber 3 Ridgehounds",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish chamber 3 Ridgehounds",
+      "seconds": 14,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "chamber 3 Ridgehounds cleared",
+      "seconds": 3,
+      "expectedFlag": "clear.Hushwell_3"
+    },
+    {
+      "name": "both heroes ready after chamber 3 Ridgehounds",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "the Bellows entry",
+      "seconds": 8.6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 240
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "into the Bellows chamber",
+      "seconds": 6.1,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 250
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "Bellows arrives",
+      "seconds": 1.5
+    },
+    {
+      "name": "to the west pressure organ",
+      "seconds": 10.1,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": 270
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock onto the west organ",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release west",
+      "seconds": 0.45
+    },
+    {
+      "name": "break the west organ",
+      "seconds": 12,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.2,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "until": "targetDown",
+      "rangedTolerance": 9
+    },
+    {
+      "name": "gel after the west organ",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release west",
+      "seconds": 0.45
+    },
+    {
+      "name": "to the east pressure organ",
+      "seconds": 10.5,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0,
+        "z": 270
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock onto the east organ",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release east",
+      "seconds": 0.45
+    },
+    {
+      "name": "break the east organ",
+      "seconds": 12,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.2,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "until": "targetDown",
+      "rangedTolerance": 9
+    },
+    {
+      "name": "gel after the east organ",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release east",
+      "seconds": 0.45
+    },
+    {
+      "name": "lock onto the Bellows",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock release Bellows",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 1",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse release 1",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 1",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release Bellows 1",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 2",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse release 2",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 2",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release Bellows 2",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 3",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse release 3",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 3",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release Bellows 3",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 4",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse release 4",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 4",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release Bellows 4",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 5",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse release 5",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 5",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release Bellows 5",
+      "seconds": 0.45
+    },
+    {
+      "name": "the Bellows falls",
+      "seconds": 4,
+      "expectedFlag": "bossdown.BellowsBelow"
+    },
+    {
+      "name": "both heroes ready after the Bellows",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "through the opened exit",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 286
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "down the curling descent",
+      "seconds": 6.3,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 296
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lower descent",
+      "seconds": 7.2,
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 308
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "into the nursery",
+      "seconds": 7.6,
+      "navigate": true,
+      "point": {
+        "x": 13,
+        "y": 0,
+        "z": 322
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "among the egg cradles",
+      "seconds": 5.5,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 330
+      },
+      "tolerance": 0.9
+    },
+    {
+      "name": "look at the eggs",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "discovery settles",
+      "seconds": 3,
+      "expectedFlag": "hushwell.nursery"
+    },
+    {
+      "name": "to the drill-shaft lift",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": 25.2,
+        "y": 0,
+        "z": 340.2
+      },
+      "tolerance": 1
+    },
+    {
+      "name": "ride the lift",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "arrive back in Sorrel",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges"
+    }
+  ]
+}

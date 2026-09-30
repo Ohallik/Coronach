@@ -14,6 +14,7 @@ namespace Lattice.UI
             {
                 quality = ContinuousReview.ReadRoute();
                 if (quality.starterParty) DevLoadout.Apply("starter");
+                if (!string.IsNullOrEmpty(quality.loadout)) DevLoadout.Apply(quality.loadout);
                 gameObject.AddComponent<ContinuousReview>();
             }
 #if LATTICE_DEV || UNITY_EDITOR

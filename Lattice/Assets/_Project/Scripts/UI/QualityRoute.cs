@@ -12,6 +12,9 @@ namespace Lattice.UI
         public float screenshotInterval;
         public int frameCap = 60;
         public bool starterParty = true;
+        // Optional DevLoadout (moon, gullet) so a route starts at the level its
+        // place is actually reached; applied after the starter party.
+        public string loadout;
         public QualityStep[] steps;
         public QualitySegment[] segments;
     }
@@ -24,9 +27,18 @@ namespace Lattice.UI
     {
         public string name, expectedScene, expectedCharacter, expectedForm, expectedUi, expectedFlag;
         public string until;
+        // Ends the step early once true, without requiring it: a fight round
+        // that its outcome may or may not cut short.
+        public string stopWhen;
         public float seconds = 1, x, y, leftTrigger, rightTrigger;
         public bool navigate;
         public bool approachPartner;
+        // Chase the active hero's current target as a player holds the stick at a
+        // retreating enemy: re-close whenever it is beyond tolerance, and hold the
+        // step's buttons only once in reach.
+        public bool approachTarget;
+        // A ranged hero's reach in a chase (Sela shoots; she does not close to melee).
+        public float rangedTolerance;
         public Vector3 point;
         public float tolerance = .65f, magnitude = 1, pulseSeconds;
         public string[] buttons;

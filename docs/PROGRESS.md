@@ -1,5 +1,18 @@
 # CORONACH slice progress
 
+## MAP_EYE_TEST Hushwell in-player descent - September 30
+
+**Hushwell passes breach to lift by ordinary input**: `hushwell-descent-08`, 405.8 s, 24,346/24,346 frames focused, analyzer valid. The route clears both Scrapmite galleries and both pressure chambers with live vents. It breaks both organs and then the Bellows, finds the nursery and rides the lift to Sorrel. The slice smoke passes again: 522.5 s, marker contract intact.
+
+The first ordinary descent overturned things no controlled check had exercised (D124). Each is now fixed and tested red then green:
+
+- **Scrapmite swarms.** The Scrapmite had shared the hound's 18-damage bite, so a swarm of six bit twice as hard as a hound pack. It now has its own light `Nip`, and `SwarmPressureTests` holds every swarm to a hound pack's pressure.
+- **The gullet loadout was not a reachable save.** It had the warp key with the Burrower alive, so the lift returned the party into a living Burrower's arena. `LoadoutStateTests` now requires the survivor met, the Burrower down and its arena cleared.
+- **Replay input.** New inputs chase a retreating target, end a step when its locked target falls, and cut a fight round short on its outcome. The analyzer and its tests follow.
+- **Slice smoke.** It now holds the partner in flight until a lunge kill. Otherwise the partner shoots every Dart first, and the marker contract fails.
+
+Face-tanking without dodges, Taren falls in the Bellows' last phase in every run. Sela finishes it from range and revives him. Every attack is telegraphed, so the tuning is left for a person's play. Full suites 56/56 and 183/183. [Evidence](validation/MAP-Hushwell.md#in-player-descent-september-30)
+
 ## MAP_EYE_TEST final in-player: Sorrel, arenas - September 30
 
 **Sorrel (outpost, western loop), Arena_Ground and Arena_Flight pass their ordinary in-player traversals with full focus.**

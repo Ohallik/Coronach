@@ -26,7 +26,7 @@ MonoBehaviour:
   breakThreshold: 80
   speed: 3.2
   attacks:
-  - {fileID: 11400000, guid: 824971de4a15c104180083b7611d45bd, type: 2}
+  - {fileID: 11400000, guid: 508f1e1ddf17fa14db57f0108daa108d, type: 2}
   weakness: 3
   resistance: 0
   archetype: 1

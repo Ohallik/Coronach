@@ -27,6 +27,15 @@ namespace Lattice.EditorTools
             var data=AssetDatabase.LoadAssetAtPath<T>(path);if(data==null){data=ScriptableObject.CreateInstance<T>();AssetDatabase.CreateAsset(data,path);}
             configure(data);EditorUtility.SetDirty(data);return data;
         }
+        // A Scrapmite is one of a swarm of six: its nip is light, so the swarm bites
+        // no harder than a hound pack, and its death burst is what punishes
+        // staying adjacent. It had shared the hound's full Bite.
+        static AttackDef Nip()=>Asset<AttackDef>("Nip",a=>{a.damage=7;a.range=2.4f;a.telegraph=.6f;a.cooldown=1.8f;a.type=DamageType.Kinetic;});
+        public static void SwarmBite()=>BatchTools.Run(()=>
+        {
+            var nip=Nip();Asset<EnemyDef>("Scrapmite",e=>e.attacks=new[]{nip});
+            AssetDatabase.SaveAssets();Debug.Log("SWARM_BITE_OK");
+        });
         public static void Definitions()
         {
             var ground=Asset<CameraProfile>("Ground",p=>{p.pitch=40;p.yaw=20;p.distance=19.5f;p.deadZone=.4f;});
@@ -55,12 +64,13 @@ namespace Lattice.EditorTools
                 Asset<CharacterDef>(character,c=>c.skills=skills);
             }
             var basic=Asset<AttackDef>("Bite",a=>{a.damage=18;a.range=2.8f;a.telegraph=.65f;a.cooldown=1.7f;a.type=DamageType.Kinetic;});
+            var nip=Nip();
             var ranged=Asset<AttackDef>("Volley",a=>{a.damage=14;a.range=15;a.telegraph=.8f;a.cooldown=1.6f;a.projectile=true;a.type=DamageType.Beam;});
             string[] names={"Ridgehound","Scrapmite","SentinelHusk","Burrower","ChoristerDart","ChoristerDrifter","Shellmine","Cantor"};
             EnemyArchetype[] ai={EnemyArchetype.PackHunter,EnemyArchetype.Swarm,EnemyArchetype.Sentinel,EnemyArchetype.Spitter,EnemyArchetype.Swarm,EnemyArchetype.Spitter,EnemyArchetype.Mine,EnemyArchetype.Serpent};
             DamageType[] weak={DamageType.Plasma,DamageType.Pulse,DamageType.Kinetic,DamageType.Beam,DamageType.Beam,DamageType.Pulse,DamageType.Kinetic,DamageType.Plasma};
             DamageType[] resist={DamageType.Kinetic,DamageType.Beam,DamageType.Plasma,DamageType.Pulse,DamageType.Pulse,DamageType.Beam,DamageType.Plasma,DamageType.Kinetic};
-            for(int i=0;i<names.Length;i++){int n=i;Asset<EnemyDef>(names[i],e=>{e.id=names[n];e.archetype=ai[n];e.weakness=weak[n];e.resistance=resist[n];e.boss=n==3||n==7;e.integrity=e.boss?(n==3?14000:22000):n==2?240:n==1||n==4?40:100;e.breakThreshold=e.boss?(n==3?600:900):80;e.xp=e.boss?240:24;e.speed=n==2?2:3.2f;e.attacks=new[]{n==3||n==5||n==7?ranged:basic};});}
+            for(int i=0;i<names.Length;i++){int n=i;Asset<EnemyDef>(names[i],e=>{e.id=names[n];e.archetype=ai[n];e.weakness=weak[n];e.resistance=resist[n];e.boss=n==3||n==7;e.integrity=e.boss?(n==3?14000:22000):n==2?240:n==1||n==4?40:100;e.breakThreshold=e.boss?(n==3?600:900):80;e.xp=e.boss?240:24;e.speed=n==2?2:3.2f;e.attacks=new[]{n==3||n==5||n==7?ranged:n==1?nip:basic};});}
             foreach(string mat in new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal","HuskCore","ChoirResin","CantorPearl"})Asset<MaterialDef>(mat,m=>m.id=m.displayName=mat);
             foreach(string name in names)
             {

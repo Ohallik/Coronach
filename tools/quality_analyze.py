@@ -34,7 +34,8 @@ def analyze(run, frames, route, performance=False):
     errors = list(run.get('failures', []))
     if not run.get('valid'): errors.append('runtime validation rejected')
     if (run.get('width'), run.get('height')) != (1920,1080): errors.append('wrong resolution')
-    duration = sum(s['seconds'] for s in route['steps'] if not s.get('until'))
+    # Steps that may end early (a condition, or a fight its outcome cuts short) do not count toward the length.
+    duration = sum(s['seconds'] for s in route['steps'] if not s.get('until') and not s.get('stopWhen'))
     if len(frames) < duration * 20: errors.append('missing samples')
     if not frames: return {'valid':False, 'failures':errors+['empty trace']}
     times = [float(f['ms']) for f in frames]
@@ -44,8 +45,11 @@ def analyze(run, frames, route, performance=False):
     if abs(sum(times)/1000-elapsed[-1])>.05: errors.append('unaccounted frame intervals')
     if any(f['focus']!='True' for f in frames): errors.append('lost focus')
     if any(f['paused']!='False' for f in frames): errors.append('paused simulation')
-    expected_steps=set(range(len(route['steps'])))
-    if {int(f['step']) for f in frames} != expected_steps: errors.append('checkpoint samples missing')
+    # A condition step (until/stopWhen) ends on its first frame when its condition
+    # already holds; the runtime rejects an until that never does.
+    required_steps={i for i,s in enumerate(route['steps']) if not s.get('until') and not s.get('stopWhen')}
+    sampled={int(f['step']) for f in frames}
+    if not required_steps<=sampled or not sampled<=set(range(len(route['steps']))): errors.append('checkpoint samples missing')
     positions=[(float(f['x']),float(f['z'])) for f in frames]
     distances=[math.dist(a,b) if frames[i]['scene']==frames[i+1]['scene'] and frames[i]['hero']==frames[i+1]['hero'] else 0 for i,(a,b) in enumerate(zip(positions,positions[1:]))]
     distance=sum(distances)
@@ -57,7 +61,8 @@ def analyze(run, frames, route, performance=False):
         if rows[-1]['scene'] != expected: errors.append(step['name']+': wrong scene')
         if step.get('expectedCharacter') and rows[-1]['hero']!=step['expectedCharacter']:errors.append(step['name']+': wrong hero')
         if step.get('expectedForm') and rows[-1]['form']!=step['expectedForm']:errors.append(step['name']+': wrong body form')
-        if step.get('navigate') and not step.get('approachPartner'):
+        # Partner and target approaches have moving goals; the runtime records their arrival.
+        if step.get('navigate') and not step.get('approachPartner') and not step.get('approachTarget'):
             target=(step['point']['x'],step['point']['z'])
             if min(math.dist((float(f['x']),float(f['z'])),target) for f in rows)>step.get('tolerance',.65)+.1:
                 errors.append(step['name']+': checkpoint not reached')

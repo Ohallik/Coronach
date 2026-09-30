@@ -25,7 +25,9 @@ namespace Lattice.UI
                     if(part!=null)inv.Equip(member,inv.GivePart(part),part);
                 }
             }
-            if(name=="gullet")state.flags["warpkey"]=true;
+            // The warp key comes only from the anvil the Burrower guards, so a gullet
+            // party has met the survivor and already won that arena.
+            if(name=="gullet")foreach(string flag in new[]{"met.Survivor","bossdown.Burrower","clear.Sorrel_Burrower","warpkey"})state.flags[flag]=true;
             Debug.Log("DEV_LOADOUT_OK "+name);
         }
     }

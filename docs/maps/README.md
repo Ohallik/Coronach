@@ -1,6 +1,6 @@
 # Map review coverage
 
-2026-09-26, updated 2026-09-28. All nine implemented zone definitions are included. A technical scene/build/test pass cannot substitute for either spatial review. Reviewers to date: Codex, and Claude Code for the Gullet, Hushwell, Sorrel's final art and both arenas; no independent or Nathan acceptance is implied.
+2026-09-26, updated 2026-09-30. All nine implemented zone definitions are included. A technical scene/build/test pass cannot substitute for either spatial review. Reviewers to date: Codex, and Claude Code for the Gullet, Hushwell, Sorrel's final art and both arenas; no independent or Nathan acceptance is implied.
 
 | Zone | Blockout | Final in-player | Brief |
 |---|---|---|---|
@@ -9,7 +9,7 @@
 | TallowApproach | Corrected layout/envelope fit passed | Passed spatial review; C1 pending | [Exterior](TallowApproach.md) |
 | TallowDrift | Passed refuge and corrected lift fit | Passed spatial review; C1 pending | [Refuge](TallowDrift.md) |
 | Sorrel_Ridges | Passed: connected basin, ordinary outpost and western loop traversals | Passed outpost and western loop on final art (ordinary input); service branch OPEN | [Landscape](Sorrel_Ridges.md) |
-| Hushwell | Passed (agent review) | Final built with generated kit; in-player OPEN | [Moon cave](Hushwell.md) |
+| Hushwell | Passed (agent review) | Passed breach to lift by ordinary input (both galleries, both pressure chambers, the Bellows, the nursery); entry walk from Sorrel OPEN | [Moon cave](Hushwell.md) |
 | Gullet_Tunnel | Passed anatomy redesign (agent review) | Passed mouth to eddy (both ordinary circuits); gate, coil and exit OPEN | [Living passage](Gullet_Tunnel.md) |
 | Arena_Ground | Passed proving-yard redesign (agent review) | Passed ordinary yard walk (after the backstop pinch fix) | [Practice yard](Arena_Ground.md) |
 | Arena_Flight | Passed proving-berth redesign (agent review) | Passed ordinary berth flight and lunge routes | [Proving berth](Arena_Flight.md) |

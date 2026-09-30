@@ -75,7 +75,8 @@ namespace Lattice.UI
         GamepadState held;
         QualityStep step;
         int stepIndex;
-        bool recording, arrived;
+        bool recording, arrived, endedByCondition;
+        Health stepTarget;
         double stepStart, previous;
         string folder;
         ProfilerRecorder allocations, mainThread, renderThread, batches, memory, audioVoices, sceneObjects, objects;
@@ -156,11 +157,13 @@ namespace Lattice.UI
             Debug.Log("QUALITY_REPLAY_BEGIN " + route.name);
             for (stepIndex = 0; stepIndex < route.steps.Length; stepIndex++)
             {
-                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;
+                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;endedByCondition=false;
+                var lead = PartyController.Current != null ? PartyController.Current.Active : null;stepTarget = lead != null && lead.TargetLocked ? lead.target : null;
                 Debug.Log("QUALITY_CHECKPOINT_BEGIN " + stepIndex + " " + step.name);
                 while (clock.Elapsed.TotalSeconds - stepStart < step.seconds)
                 {
-                    if (!string.IsNullOrEmpty(step.until) && Condition(step.until)) break;
+                    if (!string.IsNullOrEmpty(step.until) && Condition(step.until)) {endedByCondition=true;break;}
+                    if (!string.IsNullOrEmpty(step.stopWhen) && Condition(step.stopWhen)) {endedByCondition=true;break;}
                     yield return null;
                 }
                 ValidateStep();
@@ -184,15 +187,18 @@ namespace Lattice.UI
             held = default;
             if (recording && step != null && PartyController.Current != null)
             {
-                Vector2 direction = new(step.x, step.y);
+                Vector2 direction = new(step.x, step.y);bool inReach=true;
                 if (step.navigate)
                 {
                     var actor = PartyController.Current.Active;
-                    Vector3 goal = step.approachPartner && PartyController.Current.members.Length > 1
+                    var chased = step.approachTarget && actor.target != null && actor.target.Alive ? actor.target : null;
+                    Vector3 goal = chased != null ? chased.transform.position : step.approachPartner && PartyController.Current.members.Length > 1
                         ? PartyController.Current.members[1-PartyController.Current.index].transform.position : step.point;
                     Vector3 difference = goal - actor.transform.position; difference.y = 0;
-                    if (difference.magnitude <= step.tolerance) arrived = true;
-                    if (!arrived)
+                    float reach = chased != null && step.rangedTolerance > 0 && actor.character == "Sela" ? step.rangedTolerance : step.tolerance;
+                    if (difference.magnitude <= reach) arrived = true;
+                    if (step.approachTarget) inReach = chased != null && difference.magnitude <= reach;
+                    if (step.approachTarget ? chased != null && !inReach : !arrived)
                     {
                         var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * difference.normalized;
                         direction = new Vector2(local.x, local.z) * step.magnitude;
@@ -200,7 +206,7 @@ namespace Lattice.UI
                 }
                 held = new GamepadState { leftStick = Vector2.ClampMagnitude(direction, 1), leftTrigger = step.leftTrigger, rightTrigger = step.rightTrigger };
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
-                if (press && step.buttons != null) foreach (var button in step.buttons)
+                if (press && inReach && step.buttons != null) foreach (var button in step.buttons)
                 {
                     if (!Enum.TryParse<GamepadButton>(button, true, out var parsed)) throw new InvalidOperationException("Invalid replay button " + button);
                     held = held.WithButton(parsed);
@@ -326,7 +332,8 @@ namespace Lattice.UI
         void ValidateStep()
         {
             if (!string.IsNullOrEmpty(step.until) && !Condition(step.until)) failures.Add(step.name + ": condition timeout " + step.until);
-            if (step.navigate && !arrived) failures.Add(step.name + ": navigation checkpoint missed");
+            // A chase that its outcome ended (the target fell first) has nothing left to reach.
+            if (step.navigate && !arrived && !(step.approachTarget && endedByCondition)) failures.Add(step.name + ": navigation checkpoint missed");
             string expected = string.IsNullOrEmpty(step.expectedScene) ? route.scene : step.expectedScene;
             if (SceneFlow.Current.Zone != expected) failures.Add(step.name + ": scene " + SceneFlow.Current.Zone + " expected " + expected);
             if (!string.IsNullOrEmpty(step.expectedCharacter) && PartyController.Current.Active.character != step.expectedCharacter) failures.Add(step.name + ": character mismatch");
@@ -336,8 +343,11 @@ namespace Lattice.UI
             if (step.expectedUi == "world" && GameInput.Current.Blocked) failures.Add(step.name + ": UI did not close");
             if (step.expectedUi == "shop" && FindFirstObjectByType<ShopUi>()?.IsOpen != true) failures.Add(step.name + ": shop did not open");
         }
-        static bool Condition(string name)
+        bool Condition(string name)
         {
+            // The enemy locked when the step began has fallen.
+            if (name == "targetDown") return stepTarget != null && !stepTarget.Alive;
+            if (name.StartsWith("flag:")) return GameServices.Current.Flags.GetBool(name.Substring(5));
             var p = PartyController.Current;
             if (p == null || p.members.Length < 2) return false;
             return name switch {

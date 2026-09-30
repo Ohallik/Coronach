@@ -143,6 +143,9 @@ namespace Lattice.UI
                 var party=PartyController.Current;var actor=party.Active;var target=Nearest(range);if(target==null)yield break;
                 if(party.members.All(m=>!m.Health.Alive)){Fail("party defeated");yield break;}
                 actor.target=target;var brain=target.GetComponent<EnemyBrain>();var d=target.transform.position-actor.transform.position;d.y=0;
+                // Like the skills below, the partner would finish every Dart before a
+                // lunge could reach one, so in flight it holds until a lunge has killed.
+                if(flashSeen)party.members[1-party.index].GetComponent<PartnerBrain>().enabled=!actor.flight||lungeKilled;
                 float reach=actor.flight?5:!flashSeen?2.1f:actor.character=="Sela"?8:2.1f;
                 // A mine arms at 2.8 m and ship momentum carries past a 5 m stop:
                 // shoot mines from 7 m and back off if drifting closer, as pilots do.

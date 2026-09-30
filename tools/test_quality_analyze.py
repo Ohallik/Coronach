@@ -36,6 +36,21 @@ class TraversalContract(unittest.TestCase):
     def test_missed_checkpoint_fails_even_when_avatar_moves(self):
         self.route['steps'][0]['point']['z']=100
         self.assertIn('outbound: checkpoint not reached',self.result()['failures'])
+    def test_fight_round_cut_short_by_its_outcome_passes(self):
+        # A stopWhen round whose outcome already happened ends on its first frame.
+        self.route['steps'].append(dict(name='round 5',seconds=16,navigate=True,approachTarget=True,stopWhen='flag:bossdown.X'))
+        self.assertTrue(self.result()['valid'],self.result()['failures'])
+    def test_unsampled_required_step_still_fails(self):
+        self.route['steps'].append(dict(name='walk on',seconds=1,navigate=True,point=dict(x=0,z=0)))
+        self.frames=self.frames[:7200]
+        self.assertIn('checkpoint samples missing',self.result()['failures'])
+    def test_target_chase_is_not_held_to_a_fixed_point(self):
+        # A chase follows its moving target; the runtime records its arrival.
+        self.route['steps'][1].update(approachTarget=True,point=dict(x=500,z=500))
+        self.assertTrue(self.result()['valid'],self.result()['failures'])
+    def test_fixed_point_on_a_plain_step_is_still_checked(self):
+        self.route['steps'][1]['point']=dict(x=500,z=500)
+        self.assertIn('return: checkpoint not reached',self.result()['failures'])
     def test_capture_cannot_pass_clean_performance(self):
         self.run['captured']=True
         self.assertIn('capture overhead disqualifies clean timing',self.result()['failures'])
