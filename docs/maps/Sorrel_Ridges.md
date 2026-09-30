@@ -95,3 +95,11 @@ Claude Code. Fourteen generated pieces now sit along the route verges:
 
 Each piece has a little scattered spoil beside it. Placement is computed from the routes and rejects any spot within 8 m of an encounter, within 6 m of ore, within 7 m of another route, north of the drill approach, or on rising ground. The route bake still passes (25 points and six ore stances), and the four Sorrel-dependent test classes pass 35/35. Opened views (`sorrel-final-03`) show the service branch reading as a worked equipment trail. The wide sand between features remains a terrain-surface weakness that props do not solve.
 
+### Ordinary traversal on final art (September 30)
+
+Claude Code, release player rebuilt from the integrated source, each capture run alone.
+
+- `workshop/sorrel-final-outpost-01` (`sorrel-outpost-map`): **PASS**, 153.4 s, 9,205/9,205 frames focused.
+- `workshop/sorrel-final-west-01` (`sorrel-west-loop-map`): **PASS**, 280.6 s, 16,837/16,837 focused. All four western packs cleared; the party dipped to 48 health and finished at 138. This is the loop previously rejected only for focus loss.
+- **Stills.** Opened gameplay stills show the outpost's habs, pads and crates at play scale, combat in the seam with crystal ore, and the new verge rubble.
+- **Coverage.** The haul road to the drill, the Burrower and the key are traversed by the passing slice smoke; the service branch has no ordinary route yet.

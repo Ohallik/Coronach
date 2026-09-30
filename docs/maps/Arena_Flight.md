@@ -1,6 +1,6 @@
 # Flight practice area - workshop brief
 
-2026-09-26. Source inspection by Codex. **Blockout PASS (Claude Code agent review, 2026-09-29); final built with generated art, in-player pass OPEN.** Evidence: [validation/MAP-Arenas.md](../validation/MAP-Arenas.md). Included because the scene is packaged with the workshop practice/diagnostic flow.
+2026-09-26. Source inspection by Codex. **Blockout PASS (Claude Code agent review, 2026-09-29); final in-player pass PASS (2026-09-30).** Evidence: [validation/MAP-Arenas.md](../validation/MAP-Arenas.md). Included because the scene is packaged with the workshop practice/diagnostic flow.
 
 The current scene reuses the 40 by 40 m ground square, scattered rock pieces and Hal's standing NPC, adding two Gullet wall rows at x=+/-17. A terrestrial guide standing beside a flight plane inside an otherwise unexplained membrane square is an unresolved contradiction.
 

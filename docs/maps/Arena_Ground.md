@@ -1,6 +1,6 @@
 # Ground practice area - workshop brief
 
-2026-09-26. Source inspection by Codex. **Blockout PASS (Claude Code agent review, 2026-09-29); final built with generated art, in-player pass OPEN.** Evidence: [validation/MAP-Arenas.md](../validation/MAP-Arenas.md). This scene ships with the workshop's diagnostic/practice flow and is included in the map review.
+2026-09-26. Source inspection by Codex. **Blockout PASS (Claude Code agent review, 2026-09-29); final in-player pass PASS (2026-09-30).** Evidence: [validation/MAP-Arenas.md](../validation/MAP-Arenas.md). This scene ships with the workshop's diagnostic/practice flow and is included in the map review.
 
 The current scene is a 40 by 40 m square floor with eight scattered rock pieces, a crystal, Hal standing beside the arrival, and three training enemy spawns. It has no established enclosure, entrance/service route or visible explanation for the practice activity. Technical combat tests do not accept that composition.
 

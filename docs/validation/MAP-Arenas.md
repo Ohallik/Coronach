@@ -2,7 +2,7 @@
 
 2026-09-29, Claude Code. Briefs: [Arena_Ground](../maps/Arena_Ground.md) and [Arena_Flight](../maps/Arena_Flight.md). The originals were written by Codex on September 26; the redesign plans are recorded in each brief.
 
-**Blockout PASS for both (agent review). Final art built and reviewed in controlled views; the in-player passes are OPEN.**
+**Blockout PASS for both (agent review). Final in-player pass: PASS for both** (ordinary virtual-gamepad routes, full focus, September 30; see below).
 
 ## What changed
 
@@ -62,3 +62,25 @@ Full suites on the rebuilt arenas: **56/56 EditMode and 173/173 PlayMode**, zero
 
 - **Ordinary in-player passes**, awaiting a quiet machine. Needed on the yard: the service edge and opposing corners. Needed on the berth: boosting, braking, roll, lunge, both end boundaries and the call to Hal.
 - **Routes.** The flight lunge routes stay inside the core. The ground motion route drives eight directions from the arrival and may now meet the operator fence earlier than the old rocks; it will be rechecked in that pass.
+
+## Ordinary in-player passes (September 30)
+
+Release player rebuilt from the integrated source; each capture ran alone.
+
+**Proving yard, `arena-yard-walk`.** The route fights the three opponents with ordinary melee, a skill and a gel, then walks the service entrance and lane to the landing pad, all four corners, the east barrier and the operator corner beside Hal.
+
+- `arena-yard-walk-01` was **rejected**, and the rejection found a layout defect. The low cover ridge stood 4 m in front of the backstop, whose rock mass reaches into the yard. That left a pinch barely wider than a hero, and Taren was trapped in it for the rest of the route (opened stills). The drill bit also blocked the west walkway.
+- The target props now stand between the opponents' posts and the backstop at z 12–13.5, leaving a clear lane along the rock at z≈17 and a clear walkway beside the outcrop. `ArenaLayoutTests` still pass.
+- `-02` missed only a west waypoint set inside the outcrop's real edge; it was moved onto the edge.
+- `arena-yard-walk-03`: **PASS**, 92.9 s, 5,577/5,577 frames focused, both heroes at full health.
+
+**Proving berth, `arena-berth-flight`.** The route clears the targets with ordinary fire, then boosts, brakes, contacts the north rail, rolls, holds at Hal's call pad, flies the railed lane and touches its closed end.
+
+- `-01` was rejected: one leg's time budget was too short for braked navigation.
+- `-02` passed, but its rail approaches stopped short of contact.
+- `arena-berth-flight-03`: **PASS**, 110.7 s, 6,645/6,645 focused.
+  - North-rail contact by Sela's hull at z 26.05, and lane-end contacts by both hulls at z≈−38. Both are logged as `WALL_CONTACT` on the rail.
+  - "Call control — Hal" was the live prompt for 484 frames at the call pad.
+- The ordinary lunge routes `c4-lunge-{taren,sela}-ordinary` also pass in the new berth (48.3 s and 48.7 s, full focus).
+
+**`c0-motion-arena_ground` was rejected, and it is a fixture problem, not a yard problem.** This eight-direction motion route runs in the live combat yard with an 8-second settle, during which the Ridgehounds attack the idle party. Taren began at 12 of 120 health and went down, forcing a swap; the September C0 baseline had also begun at 30 health and survived by chance. Motion measurement belongs in a quiet scene or with opponents held, which is a C2 fixture decision. The route was left unchanged, and the yard's pass rests on `arena-yard-walk`.

@@ -1,0 +1,197 @@
+{
+  "name": "arena-yard-walk",
+  "scene": "Arena_Ground",
+  "sourceRevision": "Proving-yard redesign (ArenaRedesign): ordinary fight with the three opponents, then the service entrance and lane, all four corners, the east barrier and the operator corner.",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 2,
+  "steps": [
+    {
+      "name": "lock onto the yard opponents",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedCharacter": "Taren",
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "lock release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave the opponents",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary melee",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "use carried repair gel if hurt",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "gel release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish the opponents",
+      "seconds": 10,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46
+    },
+    {
+      "name": "both heroes ready after the fight",
+      "seconds": 4,
+      "until": "partyAlive"
+    },
+    {
+      "name": "toward the service entrance",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -15
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "through the entrance gap in the crate barrier",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -24
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "down the service lane to the landing pad",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -30
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "back up the lane into the yard",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -16
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "south-west corner beside the crate barrier",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -17,
+        "y": 0,
+        "z": -17
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "along the west outcrop",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -15,
+        "y": 0,
+        "z": 0
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "north-west corner under the backstop",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -17,
+        "y": 0,
+        "z": 17
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "along the backstop behind the target area",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 17
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "north-east corner",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 17,
+        "y": 0,
+        "z": 17
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "down the east panel barrier",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 18.5,
+        "y": 0,
+        "z": 5
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "to the operator corner",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": -7
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "stand at the operator corner beside Hal",
+      "seconds": 2
+    },
+    {
+      "name": "both heroes finish the walk",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedCharacter": "Taren"
+    }
+  ]
+}

@@ -1,0 +1,209 @@
+{
+  "name": "arena-berth-flight",
+  "scene": "Arena_Flight",
+  "sourceRevision": "Proving-berth redesign (ArenaRedesign): ordinary fire on the targets, boost, brake, rail contact, roll, the control call pad, the railed lane and its closed end.",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 2,
+  "steps": [
+    {
+      "name": "clear the practice targets with ordinary fire",
+      "seconds": 8,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedCharacter": "Taren",
+      "expectedForm": "Flight"
+    },
+    {
+      "name": "finish the targets",
+      "seconds": 6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "both craft ready",
+      "seconds": 0.2,
+      "until": "partyAlive"
+    },
+    {
+      "name": "line up on the centre of the berth",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 4
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "boost toward the north rail",
+      "seconds": 1.2,
+      "x": 0,
+      "y": 1,
+      "rightTrigger": 1
+    },
+    {
+      "name": "boost release coast",
+      "seconds": 0.5,
+      "x": 0,
+      "y": 0
+    },
+    {
+      "name": "brake before the rail",
+      "seconds": 1.4,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "approach the north rail slowly",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 24.8
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "light contact with the north rail",
+      "seconds": 1.4,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "back away from the rail",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 18
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "roll east",
+      "seconds": 0.12,
+      "x": 1,
+      "y": 0,
+      "buttons": [
+        "East"
+      ]
+    },
+    {
+      "name": "roll finish",
+      "seconds": 0.6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "toward the west rail and the control cabin",
+      "seconds": 15,
+      "navigate": true,
+      "point": {
+        "x": -17,
+        "y": 1,
+        "z": 6
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "onto the control call pad",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 1,
+        "z": -6
+      },
+      "tolerance": 1.2,
+      "leftTrigger": 1
+    },
+    {
+      "name": "hold at the call pad (Hal can be called)",
+      "seconds": 2,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1
+    },
+    {
+      "name": "to the berth mouth",
+      "seconds": 13,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -20
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "down the railed entry lane",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -36.5
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "light contact with the lane end",
+      "seconds": 1.4,
+      "x": 0,
+      "y": -1,
+      "leftTrigger": 1
+    },
+    {
+      "name": "back up the lane",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -28
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "return to the arrival",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4
+      },
+      "tolerance": 0.9,
+      "leftTrigger": 1
+    },
+    {
+      "name": "both craft finish the berth",
+      "seconds": 0.2,
+      "until": "partyAlive",
+      "expectedCharacter": "Taren"
+    }
+  ]
+}

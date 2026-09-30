@@ -1,5 +1,17 @@
 # CORONACH slice progress
 
+## MAP_EYE_TEST final in-player: Sorrel, arenas - September 30
+
+**Sorrel (outpost, western loop), Arena_Ground and Arena_Flight pass their ordinary in-player traversals with full focus.**
+
+- **Sorrel.** The outpost walk (153.4 s) and the western seam loop (280.6 s, four packs cleared) both pass on final art. The loop had previously been rejected only for focus loss.
+- **Proving yard.** The new `arena-yard-walk` route fights the opponents, then walks the service lane, all four corners, the east barrier and the operator corner.
+  - Its first run was **rejected** and found a real layout defect: the low cover ridge and the backstop rock formed a pinch that trapped Taren. The target props were moved forward, leaving a clear lane along the rock.
+  - `-03` then passed (92.9 s).
+- **Proving berth.** The new `arena-berth-flight` route passes (110.7 s): boost, brake and roll, hull contact at the north rail and at the closed lane end, and Hal's call prompt live at the call pad. Both lunge routes also pass in the berth.
+
+`c0-motion-arena_ground` is rejected: the Ridgehounds maul the idle party during its 8-second settle. That is a C2 motion-fixture decision; the route was left unchanged. The fifteen ground-arena test classes pass 91/91. [Arena evidence](validation/MAP-Arenas.md#ordinary-in-player-passes-september-30), [Sorrel](maps/Sorrel_Ridges.md).
+
 ## C1 clean station performance - September 30
 
 **C1 timing and stability PASS on both stations and both builds.**

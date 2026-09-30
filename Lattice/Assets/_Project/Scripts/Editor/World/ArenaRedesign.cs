@@ -46,9 +46,12 @@ namespace Lattice.EditorTools
             for(int i=0;i<9;i++)Piece("RidgeRock"+(i%3+1),new Vector3(-23-(i%2)*1.5f,Yard,-18+i*4.6f),3.2f+(i*7%3),i*37);
             // North: a rock backstop, and the obstacle/target area in front of it.
             for(int i=0;i<9;i++)Piece("RidgeRock"+((i+1)%3+1),new Vector3(-18+i*4.5f,Yard,24+(i%2)),4+(i*5%3),i*53);
-            Piece("HushwellCrates",new Vector3(-10,Yard,15),1.6f,15);Piece("HushwellCrates",new Vector3(9,Yard,16),1.6f,-20);
-            Piece("HushwellLowRidge",new Vector3(-1,Yard,17),1.1f,95,4.2f);Piece("HushwellRubble",new Vector3(15,Yard,12),1,30,2.6f);
-            Piece("HushwellDrillBit",new Vector3(-16,Yard,11),1.1f,70,2.8f);
+            // The target props stand between the opponents' posts and the backstop,
+            // leaving a clear walking lane (z ~17) along the rock and a clear west
+            // walkway beside the outcrop: nothing pins a hero against the rock.
+            Piece("HushwellCrates",new Vector3(-10,Yard,13.5f),1.6f,15);Piece("HushwellCrates",new Vector3(9,Yard,13.5f),1.6f,-20);
+            Piece("HushwellLowRidge",new Vector3(-1,Yard,12.2f),1.1f,95,4.2f);Piece("HushwellRubble",new Vector3(15,Yard,12),1,30,2.6f);
+            Piece("HushwellDrillBit",new Vector3(-6,Yard,12.5f),1.1f,70,2.8f);
             // East: an installed barrier of generated deck panels on their own footings.
             for(int i=0;i<7;i++)Piece("DeckWall",new Vector3(21.2f,Yard,-11.5f+i*5),new Vector3(.6f,3.5f,5),0);
             // South, on the camera side: a low crate barrier either side of the
