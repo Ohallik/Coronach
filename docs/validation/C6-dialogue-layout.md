@@ -38,3 +38,14 @@ The panel, portrait and three-option sets fit on screen at all three resolutions
 - The input-behaviour checks listed above, with real input and `AutoAdvance` off.
 - Button hints are fixed text ("A / E / ENTER"), not matched to the active device.
 - Editorial and play review of the conversations in context.
+
+## Device-matched hints and readable type (September 30, later)
+
+- **Hints follow the active device (D126).** The dialogue "Continue" hint, the title menu hint, the shop's page switch and the pause menu's sound-controls note were fixed text naming both devices ("A / E / ENTER"). They now compose from the prompt service's own bindings for the last-used device, and re-render when it changes, even with the surface open. A keyboard rebind in progress is never redrawn underneath.
+  - `DeviceHintTests` compares glyph tokens against the service's own rendering for each device: the surface must show its device's glyphs and none of the other's. It was **red on the old UI** (the pad dialogue hint named ENTER, the pad title hint lacked the stick) and is green now.
+  - The prompt sprite sheet is absent, so tags fall back to plain labels; key pairs are now joined with " / " so they do not run together.
+- **Every surface reads at 720p.** `ReadableTypeTests` audits every visible text on the title, title settings, the town and combat HUD on both devices, a downed partner, dialogue, shop and all six pause pages. Each text must render at 16 px or more at 1280×720 and fit its box. Framed HUD content must clear the frame's artwork, measured from the panel texture: 34 units in at the sides, 30 at the top and the 42.5-unit slice band at the bottom, plus about 10 units of air. Each rule is proven able to fail with a planted probe.
+  - **First run, red:** the HUD's bar labels rendered at 10 px, the partner line at 12, the hint row at 14, the objective and title subtitle at 15.3, and the title hint at 12.7.
+  - **Fix:** the vitals panel was relaid out at 24-unit type, with a row per label, longer bars and padding to clear the artwork. Skill icons and labels went from 120 to 150 units apart. A downed partner's line drops its 0/max so it stays on one row, and the dialogue speaker name moved 4 units down from the border.
+  - `InputProbe` is excluded: it is a development-build diagnostic. World-space nameplates (the small "Survivor" label) are not yet audited.
+- **Seen.** 1280×720 captures of all six zones (`Builds/logs/look/hud-720c`) were opened. The vitals, objective and hint rows read clearly and sit inside their frames.

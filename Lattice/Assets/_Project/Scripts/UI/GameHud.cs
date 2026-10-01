@@ -35,18 +35,20 @@ namespace Lattice.UI
         void Start()
         {
             canvas=UiKit.CreateCanvas("HUD",5,transform);
-            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.zero,new(230,932),new(430,245));frame.raycastTarget=false;
-            status=Text("Status",new(230,1010),new(360,34),24,TextAlignmentOptions.Left);
-            hpLabel=Text("IntegrityLabel",new(230,980),new(360,22),15,TextAlignmentOptions.Left);
-            chargeLabel=Text("ChargeLabel",new(230,946),new(360,22),15,TextAlignmentOptions.Left);
-            thrustLabel=Text("ThrustLabel",new(230,912),new(360,22),15,TextAlignmentOptions.Left);
-            hp=Bar("Integrity",new(230,964),new Color(.23f,.88f,.72f));
-            charge=Bar("Charge",new(230,930),new Color(.18f,.66f,1));
-            thrust=Bar("Thrust",new(230,896),new Color(1,.65f,.2f));
-            partner=Text("Partner",new(230,865),new(360,28),18,TextAlignmentOptions.Left);
+            // Every line reads at 16 px or more on a 1280x720 screen (24 units at the
+            // 1080p reference): each label has its own row above its bar.
+            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");UiKit.Rect(frame.gameObject,Vector2.zero,Vector2.zero,new(277,918),new(524,298));frame.raycastTarget=false;
+            status=Text("Status",new(297,1010),new(470,38),28,TextAlignmentOptions.Left);
+            hpLabel=Text("IntegrityLabel",new(297,976),new(470,30),24,TextAlignmentOptions.Left);
+            chargeLabel=Text("ChargeLabel",new(297,933),new(470,30),24,TextAlignmentOptions.Left);
+            thrustLabel=Text("ThrustLabel",new(297,890),new(470,30),24,TextAlignmentOptions.Left);
+            hp=Bar("Integrity",new(262,955),new Color(.23f,.88f,.72f));
+            charge=Bar("Charge",new(262,912),new Color(.18f,.66f,1));
+            thrust=Bar("Thrust",new(262,869),new Color(1,.65f,.2f));
+            partner=Text("Partner",new(279,833),new(435,32),24,TextAlignmentOptions.Left);
             target=Text("Target",new(960,972),new(700,80),25);
             zone=Text("Zone",new(1635,1000),new(500,60),26,TextAlignmentOptions.Right);
-            skills=Text("Skills",new(625,50),new(1190,60),21);
+            skills=Text("Skills",new(625,50),new(1190,60),24);
             prompt=Text("Interaction",new(960,205),new(1200,60),28);
             skills.outlineWidth=.2f;skills.outlineColor=new Color32(5,12,22,255);
             prompt.outlineWidth=.22f;prompt.outlineColor=new Color32(5,12,22,255);
@@ -55,20 +57,21 @@ namespace Lattice.UI
             for(int i=0;i<4;i++)
             {
                 skillIcons[i]=UiKit.Panel(canvas.transform,"Skill"+i,Color.white);skillIcons[i].raycastTarget=false;
-                UiKit.Rect(skillIcons[i].gameObject,Vector2.zero,Vector2.zero,new(1410+i*120,102),new(74,74));
-                skillLabels[i]=Text("SkillLabel"+i,new(1410+i*120,45),new(110,45),17);
+                UiKit.Rect(skillIcons[i].gameObject,Vector2.zero,Vector2.zero,new(1340+i*150,112),new(74,74));
+                skillLabels[i]=Text("SkillLabel"+i,new(1340+i*150,42),new(145,62),24);
             }
 #if LATTICE_DEV || UNITY_EDITOR
             probe=Text("InputProbe",new(1630,280),new(500,180),16,TextAlignmentOptions.Right);
 #endif
             Health.DamageNumber+=Damage;
         }
+        const float BarWidth=400;
         TMP_Text Text(string name,Vector2 pos,Vector2 size,int font,TextAlignmentOptions align=TextAlignmentOptions.Center)
         {var t=UiKit.Text(canvas.transform,name,"",font,UiKit.TextColor,align);UiKit.Rect(t.gameObject,Vector2.zero,Vector2.zero,pos,size);return t;}
         Image Bar(string name,Vector2 pos,Color color)
         {
-            var bg=UiKit.Panel(canvas.transform,name+"Back",new Color(.025f,.045f,.065f,.85f));UiKit.Rect(bg.gameObject,Vector2.zero,Vector2.zero,pos,new(360,14));
-            var fill=UiKit.Panel(bg.transform,name,color);var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(360,14));rect.pivot=new(0,.5f);return fill;
+            var bg=UiKit.Panel(canvas.transform,name+"Back",new Color(.025f,.045f,.065f,.85f));UiKit.Rect(bg.gameObject,Vector2.zero,Vector2.zero,pos,new(BarWidth,14));
+            var fill=UiKit.Panel(bg.transform,name,color);var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(BarWidth,14));rect.pivot=new(0,.5f);return fill;
         }
         void Update()
         {
@@ -84,14 +87,15 @@ namespace Lattice.UI
             var party=PartyController.Current;if(party==null||party.members==null)return;
             canvas.enabled=!GameInput.Current.Blocked;
             var a=party.Active;
-            hp.rectTransform.sizeDelta=new Vector2(360*a.Health.integrity/a.Health.maximum,14);
-            charge.rectTransform.sizeDelta=new Vector2(360*a.charge/100,14);thrust.rectTransform.sizeDelta=new Vector2(360*a.thrust/100,14);
+            hp.rectTransform.sizeDelta=new Vector2(BarWidth*a.Health.integrity/a.Health.maximum,14);
+            charge.rectTransform.sizeDelta=new Vector2(BarWidth*a.charge/100,14);thrust.rectTransform.sizeDelta=new Vector2(BarWidth*a.thrust/100,14);
             var state=GameServices.Current.State;int level=state.party.Find(m=>m.id==a.character)?.level??1;
             status.text=$"{a.character.ToUpperInvariant()}   ·   SYNC {level}";
             hpLabel.text=$"INTEGRITY   {a.Health.integrity:0} / {a.Health.maximum:0}";
             chargeLabel.text=$"CHARGE   {a.charge:0} / 100";
             thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
-            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}  {p.Health.integrity:0}/{p.Health.maximum:0}"+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
+            // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
+            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
             zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
             if(a.target!=null&&a.target.Alive)
                 target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+

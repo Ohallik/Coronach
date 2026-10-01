@@ -1,5 +1,12 @@
 # CORONACH slice progress
 
+## C6 device hints, readable type and open questions settled - September 30
+
+**C6 OPEN.** Nathan asked for the best available decision on each open question, and D126 records them. The arena motion fixture retires, the Bellows and Scrapmite tuning stay, and the Decks GPU check gets an independent source. The Survivor and Keeper get generated bodies, and the remaining ordinary routes come before new content. D127 approves Nathan's purchased Staggart water and grass packs; they are git-ignored, because the repo is public.
+
+- **Device-matched hints.** The dialogue, title, shop and pause hints were fixed text naming both devices. They now show only the active device's buttons and update live. `DeviceHintTests` was red on the old UI and is green now.
+- **Readable at 720p.** A new UI-wide audit found HUD text rendering as small as 10 px at 1280×720. The HUD's vitals panel, skill row, objective and title text were relaid out at 24-unit type. Every audited text now reads at 16 px or more, fits its box and clears its frame's measured artwork. The 720p captures were opened. [Evidence](validation/C6-dialogue-layout.md#device-matched-hints-and-readable-type-september-30-later)
+
 ## C6 dialogue layout and portraits - September 30
 
 **C6 OPEN; its presentation half now has a measured check.** `DialogueLayoutTests` reads every scripted line and choice, confirmed against the compiled Yarn project, and measures them on the real panel at 1280×720, 1920×1080 and 1920×1200. Every line, name and option fits its box. The panel, portrait and options stay on screen and never overlap. Each check was first proven able to fail. It found and fixed three defects:

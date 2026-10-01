@@ -20,3 +20,10 @@ coronachstatus.txt
 Music/*.mp3
 # Duplicate re-conversion of Seed Shakers of Xylos (identical audio)
 Music/Seed Shakers of Xylos-2.ogg
+
+# Paid Asset Store packs (Staggart Creations: Stylized Water 3, Stylized Grass Shader).
+# Licensed for this project, never published in this public repo. Import them locally
+# from the Asset Store cache; see D127 in docs/DECISIONS.md.
+Lattice/Assets/Stylized Water 3/
+Lattice/Assets/Stylized Water 3.meta
+Lattice/Packages/xyz.staggart-creations.stylized-grass/

@@ -15,8 +15,12 @@ namespace Lattice.UI
         GameObject settings,savePicker,mainMenu;
         Button settingsButton;
         public bool SettingsOpen=>settings!=null;
+        TMPro.TMP_Text hint;
+        void RefreshHint(){if(hint!=null)hint.text=DeviceHints.TitleMenu();}
+        void OnDestroy(){PromptService.Changed-=RefreshHint;}
         void Start()
         {
+            PromptService.Changed+=RefreshHint;
             MusicDirector.SetLocation("Title",false);
             canvas=UiKit.CreateCanvas("TitleCanvas",10,transform);
             var background=new GameObject("KeyArt",typeof(RawImage)); background.transform.SetParent(canvas.transform,false);
@@ -26,7 +30,7 @@ namespace Lattice.UI
             UiKit.Rect(mainMenu,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
             var title=UiKit.Heading(mainMenu.transform,"Title",Application.productName.ToUpperInvariant(),105,UiKit.TextColor,TextAlignmentOptions.Left);
             UiKit.Rect(title.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(470,-235),new Vector2(760,150));
-            var subtitle=UiKit.Text(mainMenu.transform,"Subtitle","ONE BODY. THREE FORMS.",23,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
+            var subtitle=UiKit.Text(mainMenu.transform,"Subtitle","ONE BODY. THREE FORMS.",24,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
             UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
             var buttons=new List<Selectable>();
             var play=MenuButton("New Game",0,()=>StartGame(false)); buttons.Add(play);
@@ -34,7 +38,7 @@ namespace Lattice.UI
             cont.interactable=System.Array.Exists(new[]{"autosave","slot1","slot2","slot3"},GameServices.Current.Saves.Exists); if(cont.interactable)buttons.Add(cont);
             settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
             buttons.Add(MenuButton("Quit",3,Application.Quit)); UiKit.LinkVertical(buttons.ToArray());
-            var hint=UiKit.Text(mainMenu.transform,"Hint","A / ENTER   CONFIRM     ·     D-PAD / WASD   NAVIGATE",19,UiKit.DimTextColor,TextAlignmentOptions.Left);
+            hint=UiKit.Text(mainMenu.transform,"Hint",DeviceHints.TitleMenu(),24,UiKit.DimTextColor,TextAlignmentOptions.Left);
             UiKit.Rect(hint.gameObject,new Vector2(0,0),new Vector2(0,0),new Vector2(510,85),new Vector2(840,50));
             EventSystem.current.SetSelectedGameObject(play.gameObject);
             Debug.Log("TITLE_BOOT_OK");

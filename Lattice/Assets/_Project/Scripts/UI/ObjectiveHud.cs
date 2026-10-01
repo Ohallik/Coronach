@@ -13,8 +13,8 @@ namespace Lattice.UI
         {
             canvas=UiKit.CreateCanvas("Objective",6,transform);var frame=UiKit.DarkFrame(canvas.transform,"ObjectiveFrame");frame.raycastTarget=false;
             UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
-            text=UiKit.Text(frame.transform,"Objective","",23,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
-            UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(490,95));
+            text=UiKit.Text(frame.transform,"Objective","",24,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
+            UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,95));
         }
         void Update()
         {

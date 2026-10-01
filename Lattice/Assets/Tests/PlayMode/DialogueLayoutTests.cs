@@ -146,8 +146,8 @@ namespace Lattice.Tests.PlayMode
                     else failures.AddRange(problems.Select(p=>$"{w}x{h} {widest.where}: {p}"));
                     panel.ClearOptions();yield return null;
                 }
-                // Rendered glyphs stay clear of the frame's border (about 33 units at the
-                // sides and 25 at top and bottom), not merely inside the panel.
+                // Rendered glyphs stay clear of the frame's artwork, not merely inside the
+                // panel (clearances measured in ReadableTypeTests.FrameClear).
                 var inner=Box((RectTransform)Child<Transform>(canvas,"DialoguePanel"));
                 foreach(var text in Child<Transform>(canvas,"DialoguePanel").GetComponentsInChildren<TMP_Text>(true))
                 {
@@ -155,7 +155,8 @@ namespace Lattice.Tests.PlayMode
                     if(text.name=="Body")Assert.Greater(glyphs.size.x,0,"the body's glyph bounds are empty; the border check cannot fail");
                     if(glyphs.size.x<=0)continue;
                     Vector3 lo=text.transform.TransformPoint(glyphs.min),hi=text.transform.TransformPoint(glyphs.max);
-                    if(lo.x<inner.xMin+40||hi.x>inner.xMax-40||lo.y<inner.yMin+30||hi.y>inner.yMax-30)
+                    var clear=new Vector4(ReadableTypeTests.FrameClear.Side,ReadableTypeTests.FrameClear.Side,ReadableTypeTests.FrameClear.Bottom,ReadableTypeTests.FrameClear.Top);
+                    if(lo.x<inner.xMin+clear.x||hi.x>inner.xMax-clear.y||lo.y<inner.yMin+clear.z||hi.y>inner.yMax-clear.w)
                         failures.Add($"{w}x{h}: {text.name} runs into the frame border ({lo.x-inner.xMin:0} from the left, {inner.xMax-hi.x:0} from the right, {lo.y-inner.yMin:0} from the bottom, {inner.yMax-hi.y:0} from the top)");
                 }
                 // Rendered type size: primary text at least 18 px, secondary hints 16 px.

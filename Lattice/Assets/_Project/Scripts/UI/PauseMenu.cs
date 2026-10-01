@@ -24,7 +24,9 @@ namespace Lattice.UI
         InputActionRebindingExtensions.RebindingOperation rebind;
         public void Open(int selected=0,bool bench=false){page=selected;offset=0;keyboardSettings=false;feedback="";AtBench=bench;GameServices.Current.Input.Blocked=true;GameTime.Paused=true;Rebuild(false);}
         public void Close(){if(AudioMix.Current!=null)AudioMix.Current.Flush();rebind?.Dispose();rebind=null;if(panel!=null)Destroy(panel);panel=null;if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;GameTime.Paused=false;}
-        void Start(){canvas=UiKit.CreateCanvas("Menus",30,transform);}
+        void Start(){canvas=UiKit.CreateCanvas("Menus",30,transform);PromptService.Changed+=Restate;}
+        // A rebind listens for the very key that flips the device; never redraw under it.
+        void Restate(){if(IsOpen&&rebind==null)Rebuild();}
         void Update()
         {
             var input=GameServices.Current.Input;
@@ -113,7 +115,7 @@ namespace Lattice.UI
                 {
                     AudioSettingsUi.Add(panel.transform,new Vector2(170,290),1150,68,list);row=5;
                     Add("Keyboard bindings",()=>{keyboardSettings=true;Rebuild(false);});
-                    Note("Left/right adjusts the selected channel. Up/down selects a channel. LB/RB changes tabs.");
+                    Note(DeviceHints.AudioControls());
                 }
                 else
                 {
@@ -138,6 +140,6 @@ namespace Lattice.UI
             void Finish(){rebind?.Dispose();rebind=null;action.Enable();PlayerPrefs.SetString("keyboardBindings",input.Asset.SaveBindingOverridesAsJson());PromptService.NotifyBindingsChanged();Rebuild();}
             rebind=action.PerformInteractiveRebinding(binding).WithControlsHavingToMatchPath("<Keyboard>").WithCancelingThrough("<Keyboard>/escape").OnComplete(_=>Finish()).OnCancel(_=>Finish());rebind.Start();
         }
-        void OnDestroy(){if(IsOpen)Close();}
+        void OnDestroy(){PromptService.Changed-=Restate;if(IsOpen)Close();}
     }
 }

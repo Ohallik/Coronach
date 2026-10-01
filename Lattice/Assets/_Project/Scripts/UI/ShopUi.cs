@@ -13,7 +13,9 @@ namespace Lattice.UI
     {
         Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="";
         public bool IsOpen=>panel!=null;
-        void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);}
+        void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);PromptService.Changed+=Restate;}
+        void OnDestroy(){PromptService.Changed-=Restate;}
+        void Restate(){if(IsOpen)Rebuild();}
         public void Open(ShopInventory source){inventory=source;page=offset=0;feedback="";GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);Rebuild();}
         public void Close(){if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;MusicDirector.Shop(this,false);}
         void OnDisable(){MusicDirector.Shop(this,false);}
@@ -32,7 +34,7 @@ namespace Lattice.UI
             UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,390),new(1400,80));
             var buttons=new List<Selectable>();int row=0;
             void Add(string label,System.Action action){var b=UiKit.Button(panel.transform,"ShopRow"+row,label,action);UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,260-row++*76),new(1180,62));buttons.Add(b);}
-            Add(page==0?"Sell parts  ·  LB / RB":"Buy supplies  ·  LB / RB",Switch);
+            Add((page==0?"Sell parts":"Buy supplies")+"  ·  "+DeviceHints.Pages(),Switch);
             var offers=new List<(string label,Action action)>();
             int priceIndex=0;
             int Price(int fallback){int i=priceIndex++;return inventory!=null&&inventory.prices!=null&&i<inventory.prices.Length?Mathf.Max(0,inventory.prices[i]):fallback;}
