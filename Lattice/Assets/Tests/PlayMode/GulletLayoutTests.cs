@@ -97,5 +97,39 @@ namespace Lattice.Tests.PlayMode
             }
             yield return null;
         }
+
+        [UnityTest] public IEnumerator TheCoilHasARecessedAndFoldedBed()
+        {
+            var shell = GameObject.Find("Gullet membrane shell").GetComponent<MeshCollider>();
+            float lowest = float.PositiveInfinity, highest = float.NegativeInfinity;
+            for (float z = 780; z <= 830; z += 2)
+                for (float x = -20; x <= 20; x += 2)
+                {
+                    Assert.IsTrue(shell.Raycast(new Ray(new Vector3(x, 8, z), Vector3.down), out var hit, 30), "coil bed has a hole");
+                    lowest = Mathf.Min(lowest, hit.point.y); highest = Mathf.Max(highest, hit.point.y);
+                    Assert.Less(hit.point.y, -1.8f, "bed enters the hull clearance below the flight lane");
+                }
+            Assert.Less(lowest, -7, "the broad coil still reads as a shallow floor");
+            Assert.Greater(highest - lowest, 3, "the coil needs visible relief beneath the fighting space");
+            yield return null;
+        }
+
+        [UnityTest] public IEnumerator CoilMooringsAreSubstantialAndClearOfTheFlightLane()
+        {
+            var anchors = Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Where(t => t.name == "Collar anchor clamp").ToArray();
+            Assert.AreEqual(4, anchors.Length);
+            var shell = GameObject.Find("Gullet membrane shell").GetComponent<MeshCollider>();
+            foreach (var anchor in anchors)
+            {
+                var horizontal = anchor.position - new Vector3(0, 0, GulletProfile.CantorZ); horizontal.y = 0;
+                Assert.Less(horizontal.magnitude, 30, "small distant wall plates cannot explain the coil's mooring machinery");
+                var bounds = anchor.GetComponentsInChildren<Renderer>().Select(r => r.bounds).Aggregate((a, b) => { a.Encapsulate(b); return a; });
+                Assert.Greater(bounds.size.x, 8, "mooring cannot be read at the encounter camera's scale");
+                Assert.Less(bounds.max.y, -1.8f, "mooring blocks ships crossing the fighting space");
+                Assert.IsTrue(shell.Raycast(new Ray(new Vector3(anchor.position.x, 8, anchor.position.z), Vector3.down), out var bed, 30));
+                Assert.Less(bounds.min.y, bed.point.y + .25f, "mooring floats above the tissue instead of being rooted in it");
+            }
+            yield return null;
+        }
     }
 }

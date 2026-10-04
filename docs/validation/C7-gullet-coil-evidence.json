@@ -1,0 +1,271 @@
+{
+  "baseRevision": "e88cdaa",
+  "scope": "D139 controlled views, generated mooring provenance and red/green checks; ordinary release review pending",
+  "files": [
+    {
+      "path": "Builds/quality/workshop/gullet-relief-red/headless-playtests.log",
+      "sha256": "7af49b7d38bfe4d42fe658ec99643ce5560c2ec12f1dca43ab68b3e87ed8721a",
+      "bytes": 239342
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-red/playmode-results.xml",
+      "sha256": "144138ae981061d07accad09b07be06b12eccc332d1b78638664ee641a65b1f8",
+      "bytes": 7696
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-cantor-coil.png",
+      "sha256": "575971fdeeeda9f5b46c0f425657b0c0aed580dd30248b7f06999f0f062ea4a9",
+      "bytes": 1309775
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-exit-valve.png",
+      "sha256": "fe2c304ae71019fa4f21e63fb6c2ba3b9359cf6de448cef428de33e82dc90724",
+      "bytes": 945557
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-feeding-chamber.png",
+      "sha256": "70b1c2734d7f92fe27a3f3c9981b3c01f43da0757452151800a5b218de072060",
+      "bytes": 1066507
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-mouth.png",
+      "sha256": "758cd98702fbde11e2857c4113a6d2edf9494987ac085b71d279acf08706af40",
+      "bytes": 912939
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-nursery-gate.png",
+      "sha256": "985b1aa7448db179ed01fab32cd7a77b21294cfc895073df05272aa45b43f2af",
+      "bytes": 1141433
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-overhead-length.png",
+      "sha256": "d4193bc1e88a09dbec1e64926aa00aecbae7c3ae1f13d25728a8c8b159c0fa5c",
+      "bytes": 311274
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-salvage-eddy.png",
+      "sha256": "b03c963ebc71557b76226bc96d246d4ffc9c60e4159a694dc06dd14372cae9d7",
+      "bytes": 1056620
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-slalom-throat.png",
+      "sha256": "34b8fb38abb88566fbe77dc61f2a4707089876b227dba5e9b0370015b3443b31",
+      "bytes": 837450
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-valve-0.png",
+      "sha256": "502bab6ab383311b9ef157710e7f592d894f716fff008e042a849236a32de99a",
+      "bytes": 1072224
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-valve-1.png",
+      "sha256": "8a56b7762442f366082c89cbd3842a4f4edcd61ea98500e24a696c33fbda6be6",
+      "bytes": 1050320
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/Gullet-valve-2.png",
+      "sha256": "5fe165d9db127c7dbb203dc9164adb3449b88178183710db77e9e62a11e58f0c",
+      "bytes": 1219281
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-views-01/unity.log",
+      "sha256": "d3e52b46be0486e852a015d854f0dad24997714f52def46db76cc10cb326ac70",
+      "bytes": 49441
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-02/Gullet-coil-approach.png",
+      "sha256": "95f6df7a1c939535412dc2ffe4ca00501eae3265191f69f4dbf630726aa3594b",
+      "bytes": 1817959
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-02/Gullet-coil-chamber.png",
+      "sha256": "f6b809f67baab70cbd5f810b8b3c12493faffc939249901af4325b140d76ff0a",
+      "bytes": 2215052
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-02/Gullet-coil-exit.png",
+      "sha256": "5feb1bdf530ba773890647d8729a28387524919414c40c57af1780dcc977cfed",
+      "bytes": 1732485
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-02/Gullet-coil-mooring.png",
+      "sha256": "529e3223a07ba8a1516098a14f735b710fd3a7ea3b8bf4ac2e30d05aa7c8f5b8",
+      "bytes": 1987556
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-02/unity.log",
+      "sha256": "2146870da8e011bce07173837fd0c07eef91e7b932183098d395e9f178908946",
+      "bytes": 49382
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-03/Gullet-coil-approach.png",
+      "sha256": "4e2d2268db3b05debe6add0c0935c0f013e0cc5ec217cd48e74f456af5b2b7e5",
+      "bytes": 1863239
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-03/Gullet-coil-chamber.png",
+      "sha256": "f9acc64c2fe3e943e235644633fa318e71db2d5dc3dbd471c8050c9c379007e1",
+      "bytes": 2347370
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-03/Gullet-coil-exit.png",
+      "sha256": "e8b354beded6408b45f37b4897633d5bde67ecf4406ba3f36c89e3c7ee90eddb",
+      "bytes": 1776494
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-03/Gullet-coil-mooring.png",
+      "sha256": "f95adfde5ced62e1fa803f97122d4b23b6d43c6e213e4b6c7f3c2fdb736eb61d",
+      "bytes": 2089106
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-04/Gullet-coil-approach.png",
+      "sha256": "99a9b0085331ac7879b7aa817bc85f47894cba24885664154efc0d278434194b",
+      "bytes": 1862612
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-04/Gullet-coil-chamber.png",
+      "sha256": "5bbcdf5f4d7d0d18b5a35c398ec414666583d9feb5b124bd7635db87303afa43",
+      "bytes": 2351040
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-04/Gullet-coil-exit.png",
+      "sha256": "e8b354beded6408b45f37b4897633d5bde67ecf4406ba3f36c89e3c7ee90eddb",
+      "bytes": 1776494
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-04/Gullet-coil-mooring.png",
+      "sha256": "887678b42df9c90d8c061b66f93e606db60f1477d567350cabef7756da1a07a6",
+      "bytes": 2087392
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-coil-views-04/unity.log",
+      "sha256": "b4af123453b8de5c685bf4400b8a59b7bb3be8e8fa20fc9b447f9d01f26752ae",
+      "bytes": 49385
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-six-green/headless-playtests.log",
+      "sha256": "2eb5a1a338e15075934761167fe3d313ceacab9e69b7a299c5f6cf4b5270ed70",
+      "bytes": 174239
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-relief-six-green/playmode-results.xml",
+      "sha256": "a13a1e1d9ffab817c7611b4ab3013b4be259f9fde7e29a4ff84de2eadf768e62",
+      "bytes": 10533
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-mooring-intrusion-red/headless-exec-GulletBuilder-RefreshCoil-99847540e4.log",
+      "sha256": "ff1e7b90c3309c81c560214f7b269ff80d7825f556a488b1fd03b9efadb70bed",
+      "bytes": 85652
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-mooring-intrusion-red/headless-playtests.log",
+      "sha256": "0dd74a0a4d8c9e81fe77371f3c497ffdc3c94052748be9d72e82a87c1e90ec23",
+      "bytes": 76485
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-mooring-intrusion-red/playmode-results.xml",
+      "sha256": "803bdd096a76c16bcd92a0f33b046f3707e83c476e676479327cef8805461262",
+      "bytes": 5785
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-mooring-floating-red/headless-exec-GulletBuilder-RefreshCoil-99847540e4.log",
+      "sha256": "566b482a7f03c2ccd3d5f9d4b06a2fcd614a892b8590f36e1c9aaa579c5f32a1",
+      "bytes": 70149
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-mooring-floating-red/headless-playtests.log",
+      "sha256": "d789c433c62fec806991e556c7f9ab55274d1d2f65bddcbd27a85f0be8a31305",
+      "bytes": 76544
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-mooring-floating-red/playmode-results.xml",
+      "sha256": "b29848b5415697b1c36cb5586aec5c5a8d2fd17f6651b0dd998bafafda403896",
+      "bytes": 5799
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-boss-camera-fifteen-green/headless-playtests.log",
+      "sha256": "711687bd4a23bf447177487bede93f89c644a8c1ae34debadb51c7eb8ea9560e",
+      "bytes": 317190
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-boss-camera-fifteen-green/playmode-results.xml",
+      "sha256": "3d07ad11b6a1693d445d0501177bdd66a410bfdd73820459dd38d3f8e35b900b",
+      "bytes": 23299
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-editmode-69-green/editmode-results.xml",
+      "sha256": "354347402f249983e3ece624b9c18eb20a0f3ec2a7b46a0d699edfac6697e782",
+      "bytes": 61981
+    },
+    {
+      "path": "Builds/quality/workshop/gullet-editmode-69-green/headless-tests.log",
+      "sha256": "e134a5ad807b84162fe77500f9b3dfd877039a6e575ea46dc7c87bdd2f52ec93",
+      "bytes": 91606
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/CoilMooring.fbx",
+      "sha256": "ddb59cc009dd6a6fa6f6f24324f40dd02c07b3171a1e748d5466c31c8b4c2509",
+      "bytes": 4409852
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/CoilMooring_base_color.png",
+      "sha256": "d0f2f2ea4f68a37e2b28f60c36542e9e6a3afd86460228de9190f08891ab1a8a",
+      "bytes": 4226386
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/CoilMooring_clean.fbx",
+      "sha256": "749d354052757c418e31214834f47a52cd68129b0b63d9430d7fa063557e517b",
+      "bytes": 183708
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/CoilMooring_emission.png",
+      "sha256": "7777429377990b803a336cf624ed07d49ebd943d24804e753f54594c8b3d0492",
+      "bytes": 5019
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/geometry.json",
+      "sha256": "50d1ec55a529c8ce9e0a3bdcfe64e176d655c63c259889da77bbb38b48b4f911",
+      "bytes": 1028
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/unity-stage.json",
+      "sha256": "c0813adde162fe4f8f69082a7ac5956dd1458f81c0795456e0fbec391255f57b",
+      "bytes": 61
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/refs/CoilMooring.png",
+      "sha256": "b4664a6e77086f95053421d3af8f0903ce7a6edfbaed7fbed629de4417e4d9d4",
+      "bytes": 1612752
+    },
+    {
+      "path": "art-src/Generated/C7-CoilMooring/refs/design-board.png",
+      "sha256": "c38122bbab5853537b3469d7e05a5caa2f4fdc97de295cf0b3f4d0e8094f5880",
+      "bytes": 2193139
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+      "sha256": "48e231a4eace3818d47ec5aab3ba66b66d70b5eb071d02cad2c9b8fa3b9fc948",
+      "bytes": 2986
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletBuilder.cs",
+      "sha256": "baf6cf1f22f2951aa5eca98488cab88161e59b2bdd0d36ae62b7c726afa52fba",
+      "bytes": 17785
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/GulletLayoutTests.cs",
+      "sha256": "f08b5ec36e50e5ce609de90724b0fc6c130cb2efbf233428e35edae14444f73e",
+      "bytes": 8959
+    },
+    {
+      "path": "Lattice/Assets/_Project/Art/WorldMeshes/GulletShell.asset",
+      "sha256": "d7921a48610056bf6210e7d17631a540974cc62efb36ca5e03060d6d05c1ba60",
+      "bytes": 1766456
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scenes/Gullet_Tunnel.unity",
+      "sha256": "a47fecc417067ce025fc7a1edefa0abc39e1801c3b856de2444f49b353c71bfb",
+      "bytes": 1449598
+    }
+  ]
+}

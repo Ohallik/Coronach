@@ -1196,5 +1196,31 @@
       1254
     ],
     "notes": "Generated public biome fallback texture. Gameplay acceptance tracked in landscape validation; independent of purchased pack source."
+  },
+  {
+    "name": "CoilMooringDesign",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/C7-CoilMooring/refs/design-board.png",
+    "prompt": "docs/art/C7-coil-mooring.json",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Board then isolated reference before Meshy T2; generated mooring inspected in Gullet review views. Gameplay gate is separate."
+  },
+  {
+    "name": "CoilMooring",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/C7-CoilMooring/refs/CoilMooring.png",
+    "prompt": "docs/art/C7-coil-mooring.json",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1536,
+      1024
+    ],
+    "notes": "Board then isolated reference before Meshy T2; generated mooring inspected in Gullet review views. Gameplay gate is separate."
   }
 ]

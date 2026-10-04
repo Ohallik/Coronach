@@ -1639,5 +1639,20 @@
         "name": "Armature|Armature|Armature|Sword_Attack"
       }
     ]
+  },
+  {
+    "id": "CoilMooring",
+    "model": "art-src/Generated/C7-CoilMooring/CoilMooring_clean.fbx",
+    "albedo": "art-src/Generated/C7-CoilMooring/CoilMooring_base_color.png",
+    "emission": "art-src/Generated/C7-CoilMooring/CoilMooring_emission.png",
+    "emissionColor": "#22AFC7",
+    "kind": "static",
+    "fit": "height",
+    "folder": "Environment",
+    "size": 3.8,
+    "yaw": -90,
+    "pitch": 0,
+    "roll": 0,
+    "clips": []
   }
 ]

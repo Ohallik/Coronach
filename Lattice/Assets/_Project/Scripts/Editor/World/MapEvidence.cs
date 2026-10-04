@@ -155,6 +155,26 @@ namespace Lattice.EditorTools
                 Shot(camera,folder,"Gullet-"+name,new Vector3(Lattice.World.GulletProfile.Center(z),0,z),Quaternion.Euler(52,0,0),scale);
             Debug.Log("MAP_EVIDENCE_OK " + folder);
         });
+        public static void GulletCoilViews()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("workshop/gullet-coil-views");
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/Gullet_Tunnel.unity");
+            foreach(var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+            var camera=new GameObject("Evidence camera",typeof(Camera),typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor=new Color(.025f,.035f,.06f);camera.clearFlags=CameraClearFlags.SolidColor;
+            camera.nearClipPlane=.1f;camera.farClipPlane=2000;camera.fieldOfView=30;camera.aspect=16f/9;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing=true;
+            // Review-only ship for scale, using the actual flight prefab.
+            var ship=Object.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Characters/TarenFlight.prefab"));
+            var rotation=Quaternion.Euler(48,0,0);
+            foreach(var (name,at,distance) in new[]{("approach",new Vector3(0,1,757),26f),("mooring",new Vector3(-11,1,785),26f),
+                ("chamber",new Vector3(0,1,805),65f),("exit",new Vector3(0,1,850),26f)})
+            {
+                ship.transform.position=at;camera.transform.SetPositionAndRotation(at-rotation*Vector3.forward*distance,rotation);
+                Render(camera,folder,"Gullet-coil-"+name);
+            }
+            Debug.Log("MAP_EVIDENCE_OK "+folder);
+        });
         public static void HushwellReview()=>BatchTools.Run(()=>
         {
             string folder=Folder("workshop/hushwell-review");

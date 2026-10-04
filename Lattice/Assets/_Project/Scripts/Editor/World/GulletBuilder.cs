@@ -21,6 +21,14 @@ namespace Lattice.EditorTools
         public static void Build()=>BatchTools.Run(()=>{WorldBuilder.Prepare();BuildZone();Debug.Log("GULLET_OK");});
         /// <summary>Rebuild only this scene; shared definitions and other maps stay untouched.</summary>
         public static void Rebuild()=>BatchTools.Run(()=>{BuildZone();Debug.Log("GULLET_REBUILT_OK");});
+        /// <summary>Update the coil's shell and moorings without regenerating gameplay objects.</summary>
+        public static void RefreshCoil()=>BatchTools.Run(()=>
+        {
+            var scene=UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Gullet_Tunnel.unity");
+            foreach(var root in scene.GetRootGameObjects())if(root.name=="Collar anchor clamp")Object.DestroyImmediate(root);
+            Shell();GulletCoilArt.Moorings();VerifyWalls();
+            AssetDatabase.SaveAssets();WorldBuilder.Save(scene,"Gullet_Tunnel");Debug.Log("GULLET_COIL_REFRESHED_OK");
+        });
         static System.Random random;
         static float Range(float a,float b)=>a+(float)random.NextDouble()*(b-a);
         public static void BuildZone()
@@ -40,13 +48,7 @@ namespace Lattice.EditorTools
             foreach(float z in new[]{530f,556f,582f,608f,634f,660f})
             {Cluster(z,-1,z>590?5:4,4f,6f);Cluster(z+12,1,z>590?5:4,4f,6f);}
             foreach(int side in new[]{-1,1})Pod(684,side,8.5f,-1);
-            // Compact clamp plates bolted into the coil: the collar the Cantor strains against.
-            foreach(float z in new[]{772f,838f})foreach(int side in new[]{-1,1})
-            {
-                float edge=side<0?GulletProfile.LeftEdge(z):GulletProfile.RightEdge(z);
-                var clamp=WorldBuilder.Piece("DeckWall",new Vector3(edge-side*3.2f,1.4f,z),new Vector3(6,3.5f,.55f),"Rock");clamp.name="Collar anchor clamp";
-                clamp.transform.rotation=Quaternion.LookRotation(new Vector3(GulletProfile.Center(GulletProfile.CantorZ)-clamp.transform.position.x,0,GulletProfile.CantorZ-z));
-            }
+            GulletCoilArt.Moorings();
             // Salvage eddy: the current slows in the right-hand pocket and debris settles there.
             float eddyX=GulletProfile.RightEdge(GulletProfile.CacheZ)-9;
             // It settles at the back of the pocket, clear of the mines pilots must
@@ -188,15 +190,25 @@ namespace Lattice.EditorTools
         static void Shell()
         {
             // Open upper shell: a readable cutaway diorama, with separate left and right bellies.
-            var vertices=new List<Vector3>();var uv=new List<Vector2>();var triangles=new List<int>();int sides=16;
-            var stations=new List<float>();for(float z=GulletProfile.Start;z<=GulletProfile.End;z+=4)stations.Add(z);
+            var vertices=new List<Vector3>();var uv=new List<Vector2>();var colors=new List<Color>();var triangles=new List<int>();int sides=48;
+            var stations=new List<float>();for(float z=GulletProfile.Start;z<GulletProfile.End;z+=z>=705&&z<874?1.5f:4)stations.Add(z);
+            stations.Add(GulletProfile.End);
+            float alongUv=GulletProfile.Start/20;
             for(int step=0;step<stations.Count;step++)
             {
                 float z=stations[step],c=GulletProfile.Center(z),left=GulletProfile.Left(z),right=GulletProfile.Right(z);
+                if(step>0)alongUv+=(z-stations[step-1])/Mathf.Lerp(20,9,GulletCoilArt.Blend((z+stations[step-1])*.5f));
                 for(int side=0;side<=sides;side++)
                 {
                     float angle=side/(float)sides*Mathf.PI,cos=Mathf.Cos(angle);
-                    vertices.Add(new Vector3(c+cos*(cos>=0?right:left),4-Mathf.Sin(angle)*8,z));uv.Add(new Vector2(side/4f,z/20));
+                    float x=c+cos*(cos>=0?right:left),blend=GulletCoilArt.Blend(z);
+                    vertices.Add(new Vector3(x,GulletCoilArt.Height(x,z),z));
+                    // Retain the other organs' original scale; the broad coil uses
+                    // metre-scaled cells and sculpted relief instead of giant flat cells.
+                    // Keep longitudinal UVs continuous; blending absolute z scales
+                    // creates a compressed striped band at the end of the organ.
+                    uv.Add(new Vector2(Mathf.Lerp(side/(float)sides*4,2-(x-c)/9,blend),alongUv));
+                    colors.Add(GulletCoilArt.Tissue(x,z));
                     if(step==stations.Count-1||side==sides)continue;
                     int a=step*(sides+1)+side,b=a+sides+1;triangles.AddRange(new[]{a,a+1,b,a+1,b+1,b});
                 }
@@ -209,11 +221,11 @@ namespace Lattice.EditorTools
                 float z=(vertices[triangles[t]].z+vertices[triangles[t+1]].z+vertices[triangles[t+2]].z)/3;int part=0;while(part<bounds.Length&&z>=bounds[part])part++;
                 parts[part].AddRange(new[]{triangles[t],triangles[t+1],triangles[t+2]});
             }
-            var mesh=new Mesh{name="Gullet cutaway shell"};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.subMeshCount=parts.Length;
+            var mesh=new Mesh{name="Gullet cutaway shell"};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetColors(colors);mesh.subMeshCount=parts.Length;
             for(int i=0;i<parts.Length;i++)mesh.SetTriangles(parts[i],i);mesh.RecalculateNormals();mesh.RecalculateBounds();
             Directory.CreateDirectory("Assets/_Project/Art/WorldMeshes");const string path="Assets/_Project/Art/WorldMeshes/GulletShell.asset";
             var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(existing==null)AssetDatabase.CreateAsset(mesh,path);else{EditorUtility.CopySerialized(mesh,existing);Object.DestroyImmediate(mesh);mesh=existing;}
-            var go=new GameObject("Gullet membrane shell",typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.isStatic=true;go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshCollider>().sharedMesh=mesh;go.GetComponent<Renderer>().sharedMaterials=SectionMaterials();
+            var go=GameObject.Find("Gullet membrane shell")??new GameObject("Gullet membrane shell",typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.isStatic=true;go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshCollider>().sharedMesh=null;go.GetComponent<MeshCollider>().sharedMesh=mesh;go.GetComponent<Renderer>().sharedMaterials=SectionMaterials();
         }
         // One generated membrane, tinted per organ: warm feeding tissue, dark
         // muscular throat, luminous nursery, deep coil and a bright exit.
@@ -228,6 +240,7 @@ namespace Lattice.EditorTools
                 string path="Assets/_Project/Resources/WorldMaterials/gullet-membrane-"+tints[i].Item1+".mat";
                 var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(mat==null){mat=new Material(source);AssetDatabase.CreateAsset(mat,path);}
                 mat.CopyPropertiesFromMaterial(source);mat.SetColor("_BaseColor",tints[i].Item2);mat.SetColor("_EmissionColor",tints[i].Item3);
+                if(tints[i].Item1=="coil"){mat.EnableKeyword("_VCOLOR_ON");mat.SetFloat("_VColor",1);mat.SetColor("_EmissionColor",new Color(.18f,.42f,.8f));}
                 EditorUtility.SetDirty(mat);result[i]=mat;
             }
             return result;
