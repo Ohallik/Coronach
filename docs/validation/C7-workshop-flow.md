@@ -22,6 +22,12 @@ Nathan's assessment remain separate/unverified.
   fixture, path, overwrite, slot-validity or byte-integrity guard fails its
   control (`resume-*-mutation-red`). The copier reads only prior isolated runs
   beneath Builds/quality and refuses an existing destination save directory.
+- D137 adds explicit scene expectations at every Title-route checkpoint and
+  rejects empty routes before launch/copy. Two controls fail on the previous
+  helper (`route-scenes-red`); all eight resume controls then pass
+  (`route-scenes-green`). Preflight rejects the actual preserved Gullet `-01`
+  route at checkpoint 6 (`rejected-gullet-preflight`), while every current
+  repository route passes. Runtime/offline outcome assertions are unchanged.
 
 Run continuation with `scripts/quality-replay.ps1 -ResumeFrom <prior-run>`.
 The route must start at Title with starterParty=false and no loadout. Both

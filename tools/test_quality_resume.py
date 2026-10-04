@@ -15,7 +15,7 @@ class ResumeContract(unittest.TestCase):
         self.target = self.root / 'next'; self.target.mkdir()
         self.save = self.source / 'saves'; self.save.mkdir()
         for name, data in {'run.json': {'valid': True, 'failures': []}, 'analysis.json': {'valid': True, 'failures': []},
-                           'route.json': {'scene': 'Title', 'starterParty': False}, 'build.json': {'source': 'fixture'}}.items():
+                           'route.json': {'scene': 'Title', 'starterParty': False, 'steps': [{'name': 'title', 'expectedScene': 'Title'}]}, 'build.json': {'source': 'fixture'}}.items():
             (self.source / name).write_text(json.dumps(data))
         (self.save / 'slot1.json').write_text(json.dumps(dict(version=1, party=[{'id': 'Taren'}], scrip=60)))
 
@@ -52,6 +52,20 @@ class ResumeContract(unittest.TestCase):
 
     def test_invalid_slot_rejects_before_copy(self):
         (self.save / 'slot1.json').write_text('{"version":1,"party":[]}')
+        with self.assertRaises(ValueError): stage_resume(self.source, self.target, self.root)
+        self.assertFalse((self.target / 'saves').exists())
+
+    def test_title_route_must_name_every_checkpoint_scene(self):
+        route = {'scene': 'Title', 'starterParty': False, 'steps': [
+            {'name': 'title', 'expectedScene': 'Title'},
+            {'name': 'fly into the Gullet', 'navigate': True}]}
+        (self.source / 'route.json').write_text(json.dumps(route))
+        with self.assertRaisesRegex(ValueError, 'fly into the Gullet'):
+            stage_resume(self.source, self.target, self.root)
+        self.assertFalse((self.target / 'saves').exists())
+
+    def test_empty_title_route_cannot_seed_a_workshop(self):
+        (self.source / 'route.json').write_text(json.dumps({'scene': 'Title', 'starterParty': False, 'steps': []}))
         with self.assertRaises(ValueError): stage_resume(self.source, self.target, self.root)
         self.assertFalse((self.target / 'saves').exists())
 

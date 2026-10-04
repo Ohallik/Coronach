@@ -40,6 +40,8 @@ $initialCompetitors=@(Get-QualityCompetitors)
 @{cleanTiming=$cleanTiming;started=[DateTime]::UtcNow.ToString('o');initial=$initialCompetitors} | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $folder 'environment.json')
 if($cleanTiming -and $initialCompetitors.Count){throw "Clean timing unavailable while editor/build/encoder processes are running; see $folder/environment.json"}
 $routePath=[IO.Path]::GetFullPath((Join-Path $repo $Route))
+& python (Join-Path $repo 'tools/quality_route.py') $routePath
+if($LASTEXITCODE -ne 0){throw 'Route checkpoints were rejected; player was not started'}
 if($ResumeFrom){
     $routeData=Get-Content -LiteralPath $routePath -Raw | ConvertFrom-Json
     if($routeData.scene -ne 'Title' -or $routeData.starterParty -ne $false -or $routeData.loadout){throw 'Resume must enter the actual Title Continue menu without a development loadout'}

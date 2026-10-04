@@ -4,6 +4,7 @@ import hashlib
 import json
 from pathlib import Path
 import shutil
+from quality_route import validate_route
 
 
 def stage_resume(previous, output, quality_root):
@@ -19,6 +20,7 @@ def stage_resume(previous, output, quality_root):
         raise ValueError('resume requires a passed runtime and offline analysis')
     if route.get('scene') != 'Title' or route.get('starterParty', True) or route.get('loadout'):
         raise ValueError('workshop resumes must originate from an unseeded Title route')
+    validate_route(route)
     saves = source / 'saves'
     if saves.is_symlink() or saves.resolve(strict=True).parent != source:
         raise ValueError('save directory escapes the prior run')

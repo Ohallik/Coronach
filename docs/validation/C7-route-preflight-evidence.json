@@ -1,0 +1,9 @@
+{
+  "tools/quality_route.py": "01c6a416b18d28965ea77e6601603a83187da00be679af4bbe5ce8d2692c999b",
+  "tools/quality_resume.py": "3176d38ac718a66ccfec3947d8426bffae125a8a11b4d02587dd6457d372dbb3",
+  "tools/test_quality_resume.py": "f9bbf14927cd142de44f1dbc9973c4a81b8d0d501c1d956b5e7fc3d09a8c00fe",
+  "scripts/quality-replay.ps1": "6603e4dab130690952c2ddee7bc5d6d82df211043d6bf52b0fe3a5ca5a28560d",
+  "Builds/quality/workshop/c7-regressions/route-scenes-red.txt": "c7b35e743b8089c9ca4f9cac9cfad202c53d7cce897f7a5bf7263b879f4313dc",
+  "Builds/quality/workshop/c7-regressions/route-scenes-green.txt": "410c4a5c5288032868adf3ac66d447faee27124ab709f294113d70c4a50667f7",
+  "Builds/quality/workshop/c7-regressions/rejected-gullet-preflight.txt": "12c087ec101490462c6d589a1eb7419e412f26a5124ba1439b850f9f37779ca7"
+}
