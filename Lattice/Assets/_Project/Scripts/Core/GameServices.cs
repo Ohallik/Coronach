@@ -21,7 +21,9 @@ namespace Lattice.Core
             // Retain the original Windows save location across the Coronach product rename.
             var root=DevArgs.Value("-savepath")??Path.Combine(Path.GetDirectoryName(Application.persistentDataPath),"Lattice","Saves");
             Saves=new SaveSystem(root);
-            Application.targetFrameRate=60;
+            // Match ordinary play to the measured 60 fps policy. A nonzero
+            // VSync setting overrides targetFrameRate on standalone players.
+            QualitySettings.vSyncCount=0;Application.targetFrameRate=60;
         }
         void Update(){PromptService.Poll();State.playtime+=Time.unscaledDeltaTime;}
         void OnDestroy(){if(Current==this){Input?.Dispose();Current=null;}}

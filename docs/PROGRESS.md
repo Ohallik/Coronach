@@ -1,5 +1,17 @@
 # CORONACH slice progress
 
+## Ordinary startup pacing defect reproduced and corrected - October 4
+
+**C1 startup parity repaired; C7 remains OPEN.** The ground smoke exposed repeated quarter-second frames with the window focused. Ordinary startup enabled VSync while quality replays forced it off. Removing that replay override reproduces the Decks failure: **p95 266.113 ms**, 488 frames over 33.3 ms, missed shop input and routes. Explicit VSync-off / 60 fps startup passes the same route at **p95 17.023 ms, p99 17.172 ms**, no frames over 33.3 ms. Both arena smokes now pass without weakening their combat/timing assertions. Three new analyzer controls were red first; all 113 offline checks pass. [Evidence](validation/C1-startup-pacing.md).
+
+The integrated build before this pacing fix passed 218/218 PlayMode tests and the earned Gullet coil recapture. Final release, full first/warm/headroom checks, remaining smokes and the final integrated suite are next. The frozen workshop copy will be replaced before handoff. C8's nursery integration has a plan and staged test drafts outside Unity; it is not yet implemented.
+
+## Gullet coil repair enters integrated validation - October 4
+
+The coil now has a recessed folded bed and four generated Compact moorings seated below ship clearance. Opened controlled renders rejected the first reused-panel attempt, compressed texture coordinates and tissue clipping through the bases; each was corrected. Two new checks fail on the original map, raised/floating mooring faults are rejected, and the combined map/camera/boss checks pass **15/15**. Full EditMode passes **69/69**. The dedicated mooring cost 15 Meshy credits; live balance is **2,808**. [Evidence and limits](validation/C7-gullet-coil.md).
+
+Both players build from `57147a1`; the full PlayMode suite passes **218/218**, zero skipped, and restores Nathan's save hashes exactly. The earned-save Gullet recapture passes runtime/offline validation in **796.910 s / 47,796 focused frames**, reaching TallowApproach with both heroes alive. Opened fight views show the folded bed, complete moorings and full Cantor. The approach is still sparse; preview pocket and collar connections remain C8 work. **C7 remains OPEN.** Final smoke/performance runs are underway; the ground smoke exposed a delayed hit after a valid dodge, which is being diagnosed without weakening its assertions.
+
 ## Heroes remain visible through the ground bosses - October 4
 
 **D138 visibility repair passes in the release player.** A compact fade reveals the controlled hero through the blocking portion of Burrower/Bellows, preserving the fixed camera and the rest of each boss. Actual-pixel checks fail before repair and reject absent/oversized fades; the combined visibility/camera/entry tests pass 9/9. The earned-loadout Burrower replay passes (185.558 s, 11,115 focused frames), and Hushwell passes through both organs, Bellows, nursery and lift (397.867 s, 23,871 focused frames). Both heroes survive each run. Opened captures confirm the reveal and restoration. [Evidence](validation/C3-boss-visibility.md).

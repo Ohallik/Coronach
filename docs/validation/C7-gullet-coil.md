@@ -1,6 +1,6 @@
 # Gullet coil presentation — October 4
 
-**Controlled views and affected regressions pass; ordinary release recapture is due.**
+**Controlled and ordinary release recaptures pass; full map acceptance remains open.**
 The full earned route exposed a broad blue floor and four remote, undersized
 wall plates. Gameplay navigation passed while the place remained unconvincing.
 
@@ -42,8 +42,24 @@ deliberate isolated scene rebuild. Shared world preparation is never invoked.
 
 The planned pre-combat side pocket and collar-release encounter are still C8
 story/gameplay work. This presentation pass does not implement or claim them.
-Full MAP_EYE_TEST and C7 acceptance remain open pending the in-player review and
-integrated validation. Full EditMode passes **69/69**, zero skipped. Nathan's
-original save hashes match after the affected PlayMode checks.
+Full EditMode passes **69/69** and the full integrated PlayMode suite passes
+**218/218**, zero skipped. Nathan's original save hashes match after restoration.
+
+## Ordinary release recapture
+
+`Builds/quality/workshop/c7-gullet-coil-01` resumes the exact accepted
+`c7-enter-gullet-01` earned arrival save through Title/Continue. It passes runtime
+and offline validation in **796.910 seconds / 47,796 focused frames**, reaching
+TallowApproach with both level-six heroes alive: Taren 69.91, Sela 189.31 of 210
+integrity. This is agent-directed virtual input, with no development loadout.
+
+Codex opened 104, 113, 125 and 163. The approach remains sparse. During combat,
+the darker recessed centre and surrounding folds are visible, the four complete
+winch shoes are seated, and the full Cantor and both ships remain in view. The
+exit prompt and narrowed passage are clear. The moorings still lack working
+collar connections, and the planned preview pocket is absent: these remain
+explicit C8 work, so this does not claim full `MAP_EYE_TEST_OK` or C7 acceptance.
+The recording retains loading/first-use stalls and capture overhead; it is not
+clean performance evidence. Continuous video/audio review remains UNVERIFIED.
 
 [Raw artifact and source hashes](C7-gullet-coil-evidence.json).

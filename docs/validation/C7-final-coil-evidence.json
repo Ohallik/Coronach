@@ -1,0 +1,91 @@
+﻿{
+    "sourceRevision":  "57147a1",
+    "result":  "218/218 PlayMode, 107 offline controls; ordinary Gullet recapture accepted; C7 remains open",
+    "files":  [
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/playmode-results.xml",
+                      "sha256":  "9f83d579e47efe71c32f015973726c717b019d95c59b9b5266f8d7c8b843ee34",
+                      "bytes":  322743
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/headless-playtests.log",
+                      "sha256":  "03f4fc5c3a9bcaf3859d188aa88e69d90603c30595ef19b5a1e98d992f6094e7",
+                      "bytes":  5569157
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/human-save-verification.json",
+                      "sha256":  "a8c89bf8cc448bc8fafb2f2152a4247ca6e2ffd8b5fe7fa5157699be13535158",
+                      "bytes":  462
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/offline-tests.log",
+                      "sha256":  "523ccaf754fef64e4232ae3f59271155bb4412ff350f5a5ece4f51b1dbe586e5",
+                      "bytes":  29054
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/run.json",
+                      "sha256":  "fb88ca1398da0e105012c01b1b499b5b86790bcd6704f233e2fc46e083094b4b",
+                      "bytes":  1439
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/analysis.json",
+                      "sha256":  "6033eccbf30627a67b57281740aed11c0dc867d3bfe8d480befd8840c0ad9dda",
+                      "bytes":  8096
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/build.json",
+                      "sha256":  "683f2bbb01260159526c718ce1b801fb6a2922c87eeb8822c8ca43a89a037991",
+                      "bytes":  12962
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/route.json",
+                      "sha256":  "c1d28c8f26860ba8e9de570566bbf1bf797ba4f1dd85fc77d34023b5b9934666",
+                      "bytes":  155293
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/resume.json",
+                      "sha256":  "20622ac71e3b3a3e12683c5c5cde132fc41314d6ce1410f4ce0feeb35ac7159a",
+                      "bytes":  618
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/final-state.json",
+                      "sha256":  "ff10b451109b2ba74d88c9fcdc28bb86ac04f390dfffc072208371c502edd977",
+                      "bytes":  3242
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/frames.csv",
+                      "sha256":  "ac8f459549eba5ba85dc35b6cad267d6184d527742ea6382ca2cede4ffe28c46",
+                      "bytes":  13772780
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/replay.mp4",
+                      "sha256":  "73c43c078b35e5910d7b52e17bf59e4013cc887652ea8d739b2c6fa44d698e1d",
+                      "bytes":  918323664
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/mix.wav",
+                      "sha256":  "22d6bb9294693746bf86fe8ca98c3df830378fec2d70a12cba1688ae656868bb",
+                      "bytes":  306020396
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/104.png",
+                      "sha256":  "5925886bab226f59edc134e80d58366bd74ec423d932983e4cca12ee6a6db320",
+                      "bytes":  1931785
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/113.png",
+                      "sha256":  "6b470d86c5b07e8c399e86d2684aaacdb6f9861574a149c5e19e88cd11e1b4d3",
+                      "bytes":  2548113
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/125.png",
+                      "sha256":  "03b22322324593799b2e6c05c8e0eb33dbe936b82b7a7851cf2e168a45058b0d",
+                      "bytes":  2102781
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/c7-gullet-coil-01/163.png",
+                      "sha256":  "6da8572fc0fb4ba27bffe48d2c66f8b9fe82b2a4be8a3460c1a0352fd5937fe8",
+                      "bytes":  1962890
+                  }
+              ]
+}

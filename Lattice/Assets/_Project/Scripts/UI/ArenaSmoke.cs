@@ -10,6 +10,7 @@ namespace Lattice.UI
     {
         IEnumerator Start()
         {
+            Debug.Log($"ARENA_SMOKE_PACING cap={Application.targetFrameRate} vsync={QualitySettings.vSyncCount}");
             var party=PartyController.Current;bool flight=ZoneController.Current.Flight;
             foreach(var member in party.members){member.GetComponent<PlayerBrain>().AutoPilot=true;member.GetComponent<PartnerBrain>().enabled=false;}
             var enemies=FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).OrderBy(e=>e.transform.position.x).ToArray();
@@ -40,11 +41,12 @@ namespace Lattice.UI
             }
             // Exercise timing via an actual enemy HitVolume, never a fabricated OK log.
             var active=party.Active;active.motor.Move(Vector2.zero,false,true);
-            float before=active.Health.integrity;active.Dodge(Vector3.right);
+            float before=active.Health.integrity,dodgedAt=GameTime.Now;bool dodged=active.Dodge(Vector3.right);
             yield return new WaitForSecondsRealtime(.05f);
+            float hitDelay=GameTime.Now-dodgedAt;
             CombatActor.Strike(active.transform.position+Vector3.up,3,new DamagePacket{amount=25,type=Lattice.Data.DamageType.Kinetic});
             yield return new WaitForSecondsRealtime(.15f);
-            if(active.FlashMoves==0||active.Health.integrity!=before||party.SwapCount<1||kills!=3){Fail("timing / swap / kill assertions failed");yield break;}
+            if(!dodged||active.FlashMoves==0||active.Health.integrity!=before||party.SwapCount<1||kills!=3){Fail($"timing / swap / kill assertions failed: dodge={dodged} delay={hitDelay:F4} flash={active.FlashMoves} hp={before}->{active.Health.integrity} swap={party.SwapCount} kills={kills} state={active.State}");yield break;}
             yield return new WaitForSecondsRealtime(1.5f);
             string path=DevArgs.Value("-screenshot");
             if(!string.IsNullOrEmpty(path))

@@ -1,0 +1,216 @@
+﻿{
+    "baseRevision":  "57147a1",
+    "scope":  "D140 working-tree source; red default, single-setting control, corrected Decks and both arena smokes; final integrated reruns pending",
+    "files":  [
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/analysis.json",
+                      "sha256":  "e7d5ced6d4e40869061a4efc3fa07ab5067b9b6cd33cb3e5ec56aa1e2517fc0b",
+                      "bytes":  6558
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/ArenaSmoke.cs",
+                      "sha256":  "80eb39e940b390852b91a4b0b4bff859d8baa0f27d4347c7cd2d311fb1d72703",
+                      "bytes":  4632
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/build.json",
+                      "sha256":  "b23e5722de3b2c234570a85ebbc1575ba06f165f97db26160a0c43e806c0ea10",
+                      "bytes":  12967
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/ContinuousReview.cs",
+                      "sha256":  "a372fe1c6f625bd67761950aa98863df3f1030a3b7bb7318a94e7bf5d3e050e4",
+                      "bytes":  37008
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/environment.json",
+                      "sha256":  "5989f422f2b4253d788b470b52e801ec204cff50cf6405f8ff037dca59c77c4a",
+                      "bytes":  122
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/final-state.json",
+                      "sha256":  "5a5370c5ec8a74b677bde6bb5d27d5910925069f224dfdb40b217af5376281e4",
+                      "bytes":  927
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/frames.csv",
+                      "sha256":  "dce955271b92a35020eac9ba145ce7ca3416651994d807414a42b4e80740253f",
+                      "bytes":  260085
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/GameServices.cs",
+                      "sha256":  "e5f96364f9b9c192159f402d625e47af41cb5194ca30f8aa688b0f2b774b7e90",
+                      "bytes":  1347
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/headless-exec-BatchTools-BuildWindowsDevPlayer-a781292494.log",
+                      "sha256":  "5fa076f47479fca5bf064044f9aaeacbcc524a73ec0e446c0a06a7fee9191802",
+                      "bytes":  689995
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/player.log",
+                      "sha256":  "f68fba4f464e366f1704c4bfe0a59817e4cf0fb775f0e609dc5fd2936999ba11",
+                      "bytes":  62261
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/route.json",
+                      "sha256":  "60fdae3f5c4394f62b1ccb1afd258ad1a845cb9faa17711dfbe692d6a0e09563",
+                      "bytes":  29462
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-red/run.json",
+                      "sha256":  "e26a468166782713e365256d39bf98295e8cc5cf1d7dfed88a63e79605394d11",
+                      "bytes":  2569
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/analysis.json",
+                      "sha256":  "27a9ccc820bcd5802eda5a7eebb63a6adb14f67cbdd5a33dbd84d5bd0812d2d4",
+                      "bytes":  4265
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/build.json",
+                      "sha256":  "8be097f0b478c34baea32876cb2ab658e6cb9fbb0fdecc14d81361e066ce220b",
+                      "bytes":  12967
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/environment.json",
+                      "sha256":  "bf2acc17cef9f9b99c358c194c6f3a6c0ea4787d70af507ee4c72671da3d91bc",
+                      "bytes":  122
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/final-state.json",
+                      "sha256":  "f7f2f221613ce78eb9850806cdc7fd1c088552aa4627b4570adefbe8dcdee1fc",
+                      "bytes":  1034
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/frames.csv",
+                      "sha256":  "65c455c4aa7a1f26961a1bea28c6271e9823db867bc2ea323000c647fb7fb5f7",
+                      "bytes":  2267253
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/headless-exec-BatchTools-BuildWindowsDevPlayer-a781292494.log",
+                      "sha256":  "271db8ace00ad030130e89494e09edf8c5bd1df166ea35ec5fbe248d2868e74a",
+                      "bytes":  874392
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/player.log",
+                      "sha256":  "2a25840a9b009e72ad083872d44271fb1ba2fa64f052d26cd91d8cd1740c6cdb",
+                      "bytes":  74694
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/route.json",
+                      "sha256":  "60fdae3f5c4394f62b1ccb1afd258ad1a845cb9faa17711dfbe692d6a0e09563",
+                      "bytes":  29462
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/pacing-decks-default-green/run.json",
+                      "sha256":  "d437ea6cce6c1979cdc9d2dc1d0982aeb12ec348466bfdc4d32339550e8cbb37",
+                      "bytes":  1424
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-final-green/Arena_Flight-player.log",
+                      "sha256":  "4acd9ee8c83511fb28940b0ac6e5c9dffe13c21e6a9c89c6d6096d67eb72288d",
+                      "bytes":  35323
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-final-green/Arena_Flight-screenshot.png",
+                      "sha256":  "d3899542d74a9d514f8aeed15eaa9274a4564ffbec94adc93bded257925fde49",
+                      "bytes":  1859424
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-final-green/Arena_Ground-player.log",
+                      "sha256":  "f2eefb6a7bf2f618bdfe9c822c196296bad04005d618a749f8b58aef8e9ce716",
+                      "bytes":  34137
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-final-green/Arena_Ground-screenshot.png",
+                      "sha256":  "405c94d90216cc943a22349b3a07037b3364d5208730469286c2fedcaab7a522",
+                      "bytes":  3305106
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-final-green/headless-exec-BatchTools-BuildWindowsDevPlayer-a781292494.log",
+                      "sha256":  "271db8ace00ad030130e89494e09edf8c5bd1df166ea35ec5fbe248d2868e74a",
+                      "bytes":  874392
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-dev-rejected/Arena_Ground-player.log",
+                      "sha256":  "8189b84c4b9b81c10bcd702da023099cc5a10282cc1b6688b2ec7cae13750fef",
+                      "bytes":  30559
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-diagnostic-red/Arena_Ground-player.log",
+                      "sha256":  "d035eb0de1c7b9de29bf05687acd70bd414fae88fbc2696179958a4ac5694245",
+                      "bytes":  34214
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-diagnostic-red/headless-exec-BatchTools-BuildWindowsDevPlayer-a781292494.log",
+                      "sha256":  "7a8c4be1f370ea6f9ec547991a9ec8f56fe3fff5ff81ab7c41ea2e7054cc2862",
+                      "bytes":  699721
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-frame-diagnostic-red/Arena_Ground-player.log",
+                      "sha256":  "7d43e4a46f6cf146530ee767704f3739e46705ed73f66b966dbf6b4b4d44d6b2",
+                      "bytes":  33182
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-frame-diagnostic-red/headless-exec-BatchTools-BuildWindowsDevPlayer-a781292494.log",
+                      "sha256":  "03ff6e98d045340964473d6f2d5707b43d5cca6c65bae7211e34e0df8a55887b",
+                      "bytes":  866396
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-release-rejected/Arena_Ground-player.log",
+                      "sha256":  "2d55a402f2a639025e6ebdc5f1f9291f2994c3449f7ead99c1246872c4a7ed12",
+                      "bytes":  2671
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-release-rejected/Arena_Ground-screenshot.png",
+                      "sha256":  "c77a432ea25391434103804a0ef547cfa7e7f5cec2c4ea57874cad168688c4a4",
+                      "bytes":  2263437
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/arena-ground-vsync-off-control/player.log",
+                      "sha256":  "47d3448f851bd3c3fab108fc03b6825dec4fdce71900e14c1d3fb5ca6bcfa75a",
+                      "bytes":  36640
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/pacing-contract-red.log",
+                      "sha256":  "28c8a5e36e6c9d91531d99dc08d19477bd3425cd62dabad9a53b49c342f05de1",
+                      "bytes":  4280
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/pacing-offline-green.log",
+                      "sha256":  "26ca26b3cd295f89ae6714011eb71f282aa0189daa0aedd83e975b3155fc777d",
+                      "bytes":  1118
+                  },
+                  {
+                      "path":  "Builds/quality/workshop/candidate-57147a1/pacing-three-contracts-red.log",
+                      "sha256":  "7c943229dc00e27c2118a5afc1f1a820c3efbe7c2088b9624a231fd1ca3ad9b1",
+                      "bytes":  5936
+                  },
+                  {
+                      "path":  "Lattice/Assets/_Project/Scripts/Core/GameServices.cs",
+                      "sha256":  "37ddd6510bfd6ef093806c545b2f2074b66fa82b014184909db135fd3a40ffe5",
+                      "bytes":  1532
+                  },
+                  {
+                      "path":  "Lattice/Assets/_Project/Scripts/UI/ArenaSmoke.cs",
+                      "sha256":  "335db79d107a4aa7e13ed42263d06b110b345aa1cb62d118dd266a8ea4104c07",
+                      "bytes":  3898
+                  },
+                  {
+                      "path":  "Lattice/Assets/_Project/Scripts/UI/ContinuousReview.cs",
+                      "sha256":  "a372fe1c6f625bd67761950aa98863df3f1030a3b7bb7318a94e7bf5d3e050e4",
+                      "bytes":  37008
+                  },
+                  {
+                      "path":  "tools/quality_analyze.py",
+                      "sha256":  "740ce4b7728663de12c60cc8c94d7aa5c00432aa64f11f40016ab8f11bb0d89f",
+                      "bytes":  18574
+                  },
+                  {
+                      "path":  "tools/test_quality_analyze.py",
+                      "sha256":  "51dc0c0970714b025da660a2b6e6e39189d55a0151de6c572a989a9c53a395ee",
+                      "bytes":  9720
+                  }
+              ]
+}
