@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Survivor and Keeper stand-in bodies replaced — October 3
+
+**Both speakers now have their own generated bodies in the actual maps.** Portrait-matched references, Meshy T2 meshes and humanoid rigs cost 40 credits; live balance is **2,823**. Toon materials, 1024 albedos and real skin deformation checks pass. The first gameplay capture caught baked donor prefabs that definition-only checks missed; new scene checks failed before the isolated visual replacements. Full EditMode passes **60/60**. Final ordinary-input conversations pass with full focus, and their opened images show matching body/portrait identities. [Evidence](validation/C8-speaker-bodies.md)
+
+The body work does not close C8. Land/water integration, C6 input coverage, Cantor framing, the bore's visible opening and the integrated C7 flow remain. The full PlayMode rerun is due before the workshop gate. Saves are unchanged.
+
 ## Decks GPU headroom measured through both APIs — October 3
 
 **Decks GPU headroom PASS in release and development.** Frame Timing Stats is now enabled, and the uncapped ordinary station route records `FrameTimingManager` beside the profiler counter. Both sources agree exactly at p95: **1.855 ms release, 1.935 ms development**, under the unchanged 14 ms budget. No impossible durations, focus loss, competing processes or capture overhead. Positive API coverage is 90.5% / 94.4%; pending rows are retained. The analyzer's eight new rejection cases were red before implementation; all 37 analyzer controls now pass. D129 documents the limits of the shared Unity backend. [Evidence](validation/C1-station-performance.md#frametimingmanager-cross-check-october-3-codex)

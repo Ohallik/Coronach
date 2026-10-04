@@ -2729,5 +2729,123 @@
     "created_at": "2026-09-30T21:53:46+00:00",
     "status": "SUCCEEDED",
     "updated_at": "2026-09-30T21:54:28+00:00"
+  },
+  {
+    "task": "p44-survivor-img3d-01a104c4-bfec-74db-8792-2cc641843575",
+    "task_id": "01a104c4-bfec-74db-8792-2cc641843575",
+    "prompt_id": "P44-Survivor",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Single adult Vael miner, T-pose, portrait-matched Survivor reference; flat toon surface",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1015852 sha256(base64)=62427b5e76e24510>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 10000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P44-NPCBodies/Survivor_Natural.fbx",
+    "batch": "P44-NPCBodies",
+    "created_at": "2026-10-04T02:36:06+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 10000
+    },
+    "updated_at": "2026-10-04T02:37:07+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P44-NPCBodies/Survivor_Natural.fbx",
+      "art-src/Generated/P44-NPCBodies/Survivor_Natural_base_color.png"
+    ]
+  },
+  {
+    "task": "p44-survivor-rig-rig-01a104c5-d816-726c-b24b-a6f59c0f881c",
+    "task_id": "01a104c5-d816-726c-b24b-a6f59c0f881c",
+    "prompt_id": "P44-Survivor-rig",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.85,
+      "input_task_id": "01a104c4-bfec-74db-8792-2cc641843575"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P44-NPCBodies/Survivor_Natural_Rig.fbx",
+    "batch": "P44-NPCBodies",
+    "created_at": "2026-10-04T02:37:20+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-10-04T02:37:33+00:00",
+    "downloaded": [
+      "art-src/Generated/P44-NPCBodies/Survivor_Natural_Rig.fbx",
+      "art-src/Generated/P44-NPCBodies/Survivor_Natural_Rig_walking_fbx.fbx",
+      "art-src/Generated/P44-NPCBodies/Survivor_Natural_Rig_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "p44-keeper-img3d-01a104c6-56e1-7364-903b-ba8783a6d1d4",
+    "task_id": "01a104c6-56e1-7364-903b-ba8783a6d1d4",
+    "prompt_id": "P44-Keeper",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Single older adult Vael refuge keeper, portrait-matched Keeper reference; amber shawl, split brown coat, flat toon surface",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=915392 sha256(base64)=8f31698322e58bee>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 10000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/P44-NPCBodies/Keeper_Natural.fbx",
+    "batch": "P44-NPCBodies",
+    "created_at": "2026-10-04T02:37:50+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 10000
+    },
+    "updated_at": "2026-10-04T02:38:39+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/P44-NPCBodies/Keeper_Natural.fbx",
+      "art-src/Generated/P44-NPCBodies/Keeper_Natural_base_color.png"
+    ]
+  },
+  {
+    "task": "p44-keeper-rig-rig-01a104c7-4b10-7749-8ece-2b7c1a2109ea",
+    "task_id": "01a104c7-4b10-7749-8ece-2b7c1a2109ea",
+    "prompt_id": "P44-Keeper-rig",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.95,
+      "input_task_id": "01a104c6-56e1-7364-903b-ba8783a6d1d4"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/P44-NPCBodies/Keeper_Natural_Rig.fbx",
+    "batch": "P44-NPCBodies",
+    "created_at": "2026-10-04T02:38:55+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-10-04T02:39:08+00:00",
+    "downloaded": [
+      "art-src/Generated/P44-NPCBodies/Keeper_Natural_Rig.fbx",
+      "art-src/Generated/P44-NPCBodies/Keeper_Natural_Rig_walking_fbx.fbx",
+      "art-src/Generated/P44-NPCBodies/Keeper_Natural_Rig_running_fbx.fbx"
+    ]
   }
 ]

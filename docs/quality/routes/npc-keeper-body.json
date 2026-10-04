@@ -1,0 +1,80 @@
+{
+  "name": "npc-keeper-body",
+  "scene": "TallowDrift",
+  "sourceRevision": "P44 generated body intake; artifact hashes recorded",
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 2,
+  "steps": [
+    {
+      "name": "arrival",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "keeper approach",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2.2
+      },
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Keeper conversation",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper",
+      "seconds": 4
+    },
+    {
+      "name": "advance Keeper",
+      "seconds": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release and observe",
+      "seconds": 2,
+      "expectedUi": "world",
+      "expectedFlag": "met.Keeper"
+    },
+    {
+      "name": "east sanctuary body view",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 1
+      },
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "return to refuge arrival",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -6
+      },
+      "expectedForm": "Natural"
+    }
+  ]
+}

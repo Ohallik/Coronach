@@ -1577,5 +1577,67 @@
     "fit": "height",
     "emissionColor": "#22F5FF",
     "yaw": 0.0
+  },
+  {
+    "id": "SurvivorNatural",
+    "model": "art-src/Generated/P44-NPCBodies/SurvivorNatural_clean.fbx",
+    "albedo": "art-src/Generated/P44-NPCBodies/SurvivorNatural_base_color.png",
+    "emission": "art-src/Generated/P44-NPCBodies/SurvivorNatural_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.85,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "yaw": 0,
+    "character": "Survivor",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "KeeperNatural",
+    "model": "art-src/Generated/P44-NPCBodies/KeeperNatural_clean.fbx",
+    "albedo": "art-src/Generated/P44-NPCBodies/KeeperNatural_base_color.png",
+    "emission": "art-src/Generated/P44-NPCBodies/KeeperNatural_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.95,
+    "fit": "height",
+    "emissionColor": "#22F5FF",
+    "yaw": 0,
+    "character": "Keeper",
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
   }
 ]

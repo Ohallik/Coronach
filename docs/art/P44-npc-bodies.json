@@ -1,0 +1,34 @@
+{
+  "date": "2026-10-03",
+  "generator": "built-in image_gen",
+  "meshGenerator": "Meshy T2 image-to-3D + humanoid rig",
+  "meshCredits": 40,
+  "balanceBefore": 2863,
+  "balanceAfter": 2823,
+  "balanceNote": "The live API balance was 925 lower than D125's earlier estimate before this batch; no charge for that difference is attributed to this session.",
+  "references": [
+    {
+      "id": "SurvivorNatural",
+      "reference": "art-src/Generated/P44-NPCBodies/refs/Survivor_Natural.png",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its Survivor character, no sheet, no extra views. Adult male Vael alien miner, lean tired build, slate-grey blue skin, lighter face/throat, gaunt angular cheeks, pale green ring irises, flat broad swept-back blue-grey keratin fronds with dusty ochre edges, no human hair or ears. Keep his scuffed leather mining headlamp band and small headlamp, rebreather hanging at collar, and burnt-orange mining coverall with worn off-white reflective chest stripe. Extend clothing naturally into simple straight coverall trousers tucked into dark charcoal work boots, broad utility belt and simple matte gloves. No armor, weapon, backpack, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+      "qa": "Accepted reference, four-view Meshy review, Unity humanoid/skin-motion intake, and actual dialogue recapture with the matching body and portrait. Independent scene-level checks pass after replacing baked donor prefabs.",
+      "native_resolution": [
+        1145,
+        1374
+      ],
+      "reference_sha256": "a7db11b5acd5efa09295be93dd826535cb2a2441105040314ffb9832267fa43f"
+    },
+    {
+      "id": "KeeperNatural",
+      "reference": "art-src/Generated/P44-NPCBodies/refs/Keeper_Natural.png",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait atlas is ONLY an identity and style reference. Create exactly ONE full-body figure of its Keeper character, no sheet, no alternate views. Older adult male Vael alien, broad calm face with gentle smile creases, gold ring irises, matte slate-blue skin with lighter face and throat, long swept-back cream-white broad keratin fronds, delicate white sync lines on forehead, no external ears or human hair. Match the existing face, fronds, amber-gold wax-stained knitted shawl and tiny brass lantern pin. A simple dark brown long keeper coat under the shawl, knee-length split coat hem, straight dark trousers and rounded leather boots. Welcoming upright posture and neutral warm expression. No armor, weapon, staff or held objects. Front-facing orthographic full-body view, head straight aligned with torso, adult humanoid game proportions. Both arms straight horizontally in a T pose; shawl closely wraps upper chest and shoulders without hanging under arms, sleeves clearly separated from torso, open hands with separated fingers. Feet shoulder-width separated and pointing forward. Complete head, feet and fingertips comfortably within a generous white margin. Flat matte toon-color illustration, restrained crisp linework, subtle local shading only, no cast shadows, ground shadow, glossy highlights, bloom, ambient occlusion or dramatic lighting. Plain pure white background, no scenery, labels, words, borders, watermark or extra characters. Exactly one isolated full-body figure.",
+      "qa": "Accepted reference, four-view Meshy review, Unity humanoid/skin-motion intake, and actual dialogue recapture with the matching body and portrait. Independent scene-level checks pass after replacing baked donor prefabs.",
+      "native_resolution": [
+        1141,
+        1379
+      ],
+      "reference_sha256": "d5af874fdef6391de68cc578ea579b15d2da7b284c18bd69e023cb551603a095"
+    }
+  ],
+  "previewCorrection": "Keeper's first contact sheet cropped his crown. A posed-vertex projection assertion rejected the old preview on its back view. The preview now freezes imported FBX animation before scale normalization and measures posed vertices; both four-view checks pass. Raw red/green logs and PNGs under Builds/quality/session-2026-10-03 and Builds/logs/blender-p64_preview-20261003-1940*."
+}

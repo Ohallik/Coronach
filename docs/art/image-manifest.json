@@ -1144,5 +1144,32 @@
     "prompt": "docs/art/coronach-flight-batch.json",
     "inspected": true,
     "notes": "Generated isolated spacecraft reference from the corresponding inspected Shaped character board; used by Meshy for a separate flight hull."
+  },
+  {
+    "name": "SurvivorNatural",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/P44-NPCBodies/refs/Survivor_Natural.png",
+    "prompt": "docs/art/P44-npc-bodies.json",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1145,
+      1374
+    ],
+    "notes": "Accepted reference, four-view Meshy review, Unity humanoid/skin-motion intake, and actual dialogue recapture with the matching body and portrait. Independent scene-level checks pass after replacing baked donor prefabs."
+  },
+  {
+    "name": "KeeperNatural",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/P44-NPCBodies/refs/Keeper_Natural.png",
+    "prompt": "docs/art/P44-npc-bodies.json",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1141,
+      1379
+    ],
+    "notes": "Accepted reference, four-view Meshy review, Unity humanoid/skin-motion intake, and actual dialogue recapture with the matching body and portrait. Independent scene-level checks pass after replacing baked donor prefabs."
   }
+
 ]

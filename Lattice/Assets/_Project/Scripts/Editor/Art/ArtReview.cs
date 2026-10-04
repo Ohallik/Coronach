@@ -22,7 +22,12 @@ namespace Lattice.EditorTools
         static readonly Dictionary<Animator,PlayableGraph> graphs=new();
         static IEnumerator routine;
         static double nextTick;
-        static GenIntake.Row[] Rows()=>JsonConvert.DeserializeObject<GenIntake.Row[]>(File.ReadAllText(Path.Combine(Root,"docs/art/intake.json")));
+        static GenIntake.Row[] Rows()
+        {
+            var rows=JsonConvert.DeserializeObject<GenIntake.Row[]>(File.ReadAllText(Path.Combine(Root,"docs/art/intake.json")));
+            string prefix=Lattice.Core.DevArgs.Value("-intake-prefix");
+            return string.IsNullOrEmpty(prefix)?rows:rows.Where(r=>r.id.StartsWith(prefix,StringComparison.Ordinal)).ToArray();
+        }
         public static void Render(){routine=ReviewRoutine();nextTick=0;EditorApplication.update+=Tick;}
         static void Tick()
         {
@@ -75,7 +80,7 @@ namespace Lattice.EditorTools
             Frame(rowBounds,new Vector3(0,.08f,1),Mathf.Max(1920,rows.Length*180),1080);Capture("true-scale-row",Mathf.Max(1920,rows.Length*180),1080);
             foreach(var actor in lineup)actor.SetActive(false);
             var cantor=Lattice.Core.GameCatalog.Find<Lattice.Data.EnemyDef>("Cantor");
-            if(cantor!=null&&cantor.prefab!=null&&cantor.bodySegment!=null&&cantor.tailSegment!=null)
+            if(string.IsNullOrEmpty(Lattice.Core.DevArgs.Value("-intake-prefix"))&&cantor!=null&&cantor.prefab!=null&&cantor.bodySegment!=null&&cantor.tailSegment!=null)
             {
                 var root=new GameObject("Cantor chain review");var head=UnityEngine.Object.Instantiate(cantor.prefab,root.transform);Lattice.Combat.SerpentSegments.CenterVisual(head,Lattice.Combat.SerpentSegments.CenterHeight);
                 root.AddComponent<Lattice.Combat.SerpentSegments>().Initialize(cantor,null);yield return null;

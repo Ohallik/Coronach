@@ -1,0 +1,119 @@
+{
+  "name": "npc-survivor-body",
+  "scene": "Sorrel_Ridges",
+  "sourceRevision": "P44 generated body intake; artifact hashes recorded",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "starterParty": true,
+  "steps": [
+    {
+      "name": "arrival receiving approach",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": -14
+      }
+    },
+    {
+      "name": "receiving clear apron",
+      "seconds": 3.4,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -14
+      }
+    },
+    {
+      "name": "parts delivery aisle",
+      "seconds": 4.9,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": -10
+      }
+    },
+    {
+      "name": "stores worker access",
+      "seconds": 5.7,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 1
+      }
+    },
+    {
+      "name": "public approach",
+      "seconds": 7.2,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 6
+      }
+    },
+    {
+      "name": "Survivor approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 15.4
+      },
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "Survivor conversation",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Survivor",
+      "seconds": 4
+    },
+    {
+      "name": "advance Survivor",
+      "seconds": 1,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release and observe",
+      "seconds": 2,
+      "expectedUi": "world",
+      "expectedFlag": "met.Survivor"
+    },
+    {
+      "name": "east common path body view",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 16
+      },
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "outpost public return",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 6
+      },
+      "expectedForm": "Natural"
+    }
+  ],
+  "screenshotInterval": 2
+}

@@ -19,8 +19,9 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import bpy
+from bpy_extras.object_utils import world_to_camera_view
 from mathutils import Vector
-from _common import cli_args, import_model, mesh_objects, reset, world_bounds
+from _common import cli_args, import_model, mesh_objects, reset
 
 VIEWS = [("front", 0.0), ("threequarter", 45.0), ("side", 90.0), ("back", 180.0)]
 
@@ -47,6 +48,19 @@ def build_lights(center):
     point_at(fill, center)
 
 
+def posed_bounds(meshes):
+    bpy.context.view_layer.update()
+    depsgraph = bpy.context.evaluated_depsgraph_get()
+    points = []
+    for obj in meshes:
+        evaluated = obj.evaluated_get(depsgraph)
+        mesh = evaluated.to_mesh()
+        points.extend(evaluated.matrix_world @ v.co for v in mesh.vertices)
+        evaluated.to_mesh_clear()
+    return {"min": [min(p[i] for p in points) for i in range(3)],
+            "max": [max(p[i] for p in points) for i in range(3)]}
+
+
 def main():
     p = argparse.ArgumentParser()
     p.add_argument("--input", required=True)
@@ -63,11 +77,17 @@ def main():
 
     reset()
     import_model(args.input)
+    # Freeze the imported pose before normalization. Rendering evaluates FBX
+    # actions; an animated root scale would otherwise undo that normalization
+    # after the camera had already been fitted, changing later views too.
+    bpy.context.scene.frame_set(bpy.context.scene.frame_current)
+    for obj in bpy.context.scene.objects:
+        obj.animation_data_clear()
     meshes = mesh_objects()
     if not meshes:
         raise SystemExit("P64_PREVIEW_FAIL no mesh objects in input")
 
-    bounds = world_bounds(meshes)
+    bounds = posed_bounds(meshes)
     lo, hi = Vector(bounds["min"]), Vector(bounds["max"])
     height = max(.001, hi.z - lo.z)
     if not args.true_scale:
@@ -78,7 +98,7 @@ def main():
     # Bounds and cameras must see the new root transform before fitting. Without
     # this update a normalized short character is cropped in every panel.
     bpy.context.view_layer.update()
-    bounds = world_bounds(mesh_objects())
+    bounds = posed_bounds(meshes)
     lo, hi = Vector(bounds["min"]), Vector(bounds["max"])
     center = (lo + hi) * .5
     # Every extent matters. The old framing took max(x-extent, z-extent) and never
@@ -152,6 +172,18 @@ def main():
         distance = max(half_w, half_h) / tan_half * MARGIN + half_d
         camera.location = center + offset * distance
         point_at(camera, center)
+        bpy.context.view_layer.update()
+        # Audit the actual posed mesh, rather than trusting an imported bounding
+        # box. A cropped head makes a four-view review incomplete.
+        depsgraph = bpy.context.evaluated_depsgraph_get()
+        projected = []
+        for obj in meshes:
+            evaluated = obj.evaluated_get(depsgraph)
+            posed = evaluated.to_mesh()
+            projected.extend(world_to_camera_view(scene, camera, evaluated.matrix_world @ v.co) for v in posed.vertices)
+            evaluated.to_mesh_clear()
+        if any(p.z <= 0 or not .03 <= p.x <= .97 or not .03 <= p.y <= .97 for p in projected):
+            raise RuntimeError(f"P64_FRAMING_REJECTED view={name} posed vertices touch or leave frame")
         panel = out.with_name(f"{out.stem}_{name}.png")
         scene.render.filepath = str(panel)
         bpy.ops.render.render(write_still=True)
