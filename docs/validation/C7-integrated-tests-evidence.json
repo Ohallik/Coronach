@@ -1,0 +1,21 @@
+{
+  "sourceRevision": "ee24597",
+  "result": "213/213 PlayMode; zero skipped; original human saves restored exactly",
+  "files": [
+    {
+      "path": "Builds/quality/workshop/full-integration-213-green/headless-playtests.log",
+      "sha256": "0702b90768b2e33cb61d47f548fc2c45ac2d1b8375a9c10344a87fd6ddf8ca38",
+      "bytes": 5494120
+    },
+    {
+      "path": "Builds/quality/workshop/full-integration-213-green/human-save-verification.json",
+      "sha256": "e873859b2b2f623d400ebdac3b59e0c59569c57b91e9f539e9dbf723a0d4826d",
+      "bytes": 373
+    },
+    {
+      "path": "Builds/quality/workshop/full-integration-213-green/playmode-results.xml",
+      "sha256": "f029d983368f78a3d90e6fbb4e3afa89eff7a6bf7d2f4357628b0cf5eff69a63",
+      "bytes": 315930
+    }
+  ]
+}

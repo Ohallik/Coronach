@@ -51,7 +51,9 @@ After the full-suite completion/unload failures, the combined Cinder resident,
 core, Hushwell and C6 input rerun passes **44/44**, zero skipped, in 230.2 seconds.
 `completion-integration-44-green.{xml,log}` includes each previously failed case
 and all eleven input tests / 35 story outcomes. No assertion was weakened. The
-complete suite must still be repeated on the final integrated workshop source.
+complete suite now passes **213/213**, zero skipped, on workshop source `ee24597`
+(October 4). All completion/unload cases pass in that full run; the original save
+hashes match after restoration. [Integrated evidence](C7-integrated-tests-evidence.json).
 
 ## Remaining evidence
 

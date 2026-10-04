@@ -143,7 +143,8 @@ at some melee bearings; this route pass does not accept that presentation.
 
 Nathan's autosave/backup hashes match the session manifest after the town and
 Continue captures and again after the Burrower recapture. The full integrated
-PlayMode rerun is in progress. Required final validation and presentation repairs
+PlayMode rerun passes **213/213**, zero skipped; both original save hashes match
+after restoration. [Full result hashes](C7-integrated-tests-evidence.json). Required final validation and presentation repairs
 remain due; this document does not close C7 or any remaining map gate.
 
 Raw artifact/source hashes: [C7-workshop-flow-evidence.json](C7-workshop-flow-evidence.json).
