@@ -1,0 +1,136 @@
+{
+  "name": "chapter-03-defeat-retry",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 1,
+  "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ]
+    },
+    {
+      "name": "release selection",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load outpost autosave",
+      "seconds": 4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "met.Survivor"
+    },
+    {
+      "name": "leave sheltered outpost",
+      "seconds": 6,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "pauseUi": "defeat"
+    },
+    {
+      "name": "enter first hound clearing",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 39
+      },
+      "pauseUi": "defeat"
+    },
+    {
+      "name": "take the consequences without defence",
+      "seconds": 90,
+      "expectedScene": "Sorrel_Ridges",
+      "until": "ui:defeat",
+      "expectedUi": "defeat",
+      "pauseUi": "defeat"
+    },
+    {
+      "name": "inspect defeat choice",
+      "seconds": 2,
+      "expectedScene": "Sorrel_Ridges",
+      "expectedUi": "defeat",
+      "pauseUi": "defeat"
+    },
+    {
+      "name": "retry last ordinary autosave",
+      "seconds": 4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "pauseUi": "defeat",
+      "expectedFlag": "met.Survivor"
+    },
+    {
+      "name": "both heroes restored",
+      "seconds": 1,
+      "expectedScene": "Sorrel_Ridges",
+      "until": "partyAlive",
+      "expectedUi": "world"
+    },
+    {
+      "name": "walk to repair after retry",
+      "seconds": 5,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "repair and save restored party",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release and inspect recovery",
+      "seconds": 2,
+      "expectedScene": "Sorrel_Ridges",
+      "expectedUi": "world"
+    }
+  ]
+}

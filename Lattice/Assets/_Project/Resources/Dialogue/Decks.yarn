@@ -1,13 +1,13 @@
 title: OrrinFirst
 ---
-Orrin: Sorrel missed three check-ins. The drill still turns. I can hear it through the ring. #emotion:Worried
+Orrin: Sorrel missed three deliveries. Their last telemetry showed the drill still turning. #emotion:Worried
 Taren: A working drill and nobody asking for spare parts. That is suspicious. #emotion:Curious
-Orrin: Find the survivor at the outpost. Then shut down whatever is nesting at the drill head. #emotion:Determined
+Orrin: Find the workers at the outpost. Then shut down whatever keeps them from answering. #emotion:Determined
 <<startQuest Sorrel>>
 Sela: You said "whatever". Excellent briefing. I am coming. #emotion:Amused
 Taren: I was counting on it. #emotion:Happy
 <<joinParty Sela>>
-Orrin: Launch from any Decks airlock. Sorrel's approach marker is east of the ring. Bring back the warp key. #emotion:Neutral
+Orrin: Launch from any Decks airlock. Sorrel is east of the ring. Bring the drill's survey key; ours no longer matches the Gullet. #emotion:Neutral
 ===
 title: OrrinRepeat
 ---
@@ -16,7 +16,7 @@ Orrin: The outpost first, then the drill. If Sela stops talking, run. #emotion:S
 title: OrrinPost
 ---
 Orrin: The drill went quiet. For once, silence is good news. #emotion:Tender
-Orrin: Your key will open the outer beacon. The Gullet comes next. Keep each other in sight. #emotion:Worried
+Orrin: The key names the route. Sela's chart must show where it actually goes. Check them against each other. #emotion:Worried
 ===
 title: MiraFirst
 ---
@@ -65,7 +65,7 @@ Hal: You can mend a body. It is harder to mend a hurry. #emotion:Neutral
 ===
 title: HalPost
 ---
-Hal: I felt the Burrower stop through the pipes. Thank you. #emotion:Happy
+Hal: Orrin's board says the drill is quiet. Your collar node agrees. Thank you. #emotion:Happy
 -> Repair and save.
     <<repair>>
 -> Use the bench.

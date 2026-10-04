@@ -15,6 +15,8 @@
   "optionalUnityReferences": [
     "TestAssemblies"
   ],
+  "overrideReferences": true,
+  "precompiledReferences": ["Newtonsoft.Json.dll"],
   "includePlatforms": [
     "Editor"
   ]

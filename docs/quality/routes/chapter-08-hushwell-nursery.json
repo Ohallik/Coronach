@@ -1,13 +1,57 @@
 {
-  "name": "hushwell-descent",
-  "scene": "Hushwell",
-  "loadout": "hushwell",
-  "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
-  "settleSeconds": 1,
+  "name": "chapter-08-hushwell-nursery",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
   "frameCap": 60,
-  "starterParty": true,
-  "screenshotInterval": 2,
+  "screenshotInterval": 0,
+  "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
   "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load earned Hushwell entrance autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hushwell",
+      "expectedUi": "world",
+      "expectedFlag": "warpkey",
+      "expectedCharacter": "Taren"
+    },
     {
       "name": "leave the drill breach",
       "seconds": 4.9,
@@ -19,7 +63,8 @@
       },
       "tolerance": 0.8,
       "expectedCharacter": "Taren",
-      "expectedForm": "Natural"
+      "expectedForm": "Natural",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "into the first mineral gallery",
@@ -30,7 +75,8 @@
         "y": 0,
         "z": 22
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gallery A",
@@ -42,18 +88,21 @@
         "z": 40
       },
       "tolerance": 0.8,
-      "expectedForm": "Shaped"
+      "expectedForm": "Shaped",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto gallery A Scrapmites",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release gallery A Scrapmites",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave gallery A Scrapmites",
@@ -61,11 +110,13 @@
       "buttons": [
         "RightShoulder",
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave release gallery A Scrapmites",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "ordinary melee gallery A Scrapmites",
@@ -73,16 +124,19 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "repair gel if hurt gallery A Scrapmites",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release gallery A Scrapmites",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "finish gallery A Scrapmites",
@@ -90,17 +144,20 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gallery A Scrapmites cleared",
       "seconds": 3,
-      "expectedFlag": "clear.Hushwell_0"
+      "expectedFlag": "clear.Hushwell_0",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "both heroes ready after gallery A Scrapmites",
       "seconds": 0.2,
-      "until": "partyAlive"
+      "until": "partyAlive",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "along gallery A",
@@ -111,7 +168,8 @@
         "y": 0,
         "z": 62
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "toward gallery B",
@@ -122,7 +180,8 @@
         "y": 0,
         "z": 72
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gallery B",
@@ -133,18 +192,21 @@
         "y": 0,
         "z": 82
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto gallery B Scrapmites",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release gallery B Scrapmites",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave gallery B Scrapmites",
@@ -152,11 +214,13 @@
       "buttons": [
         "RightShoulder",
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave release gallery B Scrapmites",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "ordinary melee gallery B Scrapmites",
@@ -164,16 +228,19 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "repair gel if hurt gallery B Scrapmites",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release gallery B Scrapmites",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "finish gallery B Scrapmites",
@@ -181,17 +248,20 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gallery B Scrapmites cleared",
       "seconds": 3,
-      "expectedFlag": "clear.Hushwell_1"
+      "expectedFlag": "clear.Hushwell_1",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "both heroes ready after gallery B Scrapmites",
       "seconds": 0.2,
-      "until": "partyAlive"
+      "until": "partyAlive",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "the survey-grid stretch",
@@ -202,7 +272,8 @@
         "y": 0,
         "z": 96
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "past the survey slabs",
@@ -213,7 +284,8 @@
         "y": 0,
         "z": 110
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "head of the ramp down",
@@ -224,7 +296,8 @@
         "y": 0,
         "z": 122
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "down the ramp to the pressure gallery",
@@ -235,7 +308,8 @@
         "y": 0,
         "z": 136
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "foot of the ramp",
@@ -246,7 +320,8 @@
         "y": 0,
         "z": 148
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "into chamber 1 between the vents",
@@ -257,18 +332,21 @@
         "y": 0,
         "z": 160
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto chamber 1 Ridgehounds",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release chamber 1 Ridgehounds",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave chamber 1 Ridgehounds",
@@ -276,11 +354,13 @@
       "buttons": [
         "RightShoulder",
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave release chamber 1 Ridgehounds",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "ordinary melee chamber 1 Ridgehounds",
@@ -288,16 +368,19 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "repair gel if hurt chamber 1 Ridgehounds",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release chamber 1 Ridgehounds",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "finish chamber 1 Ridgehounds",
@@ -305,17 +388,20 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chamber 1 Ridgehounds cleared",
       "seconds": 3,
-      "expectedFlag": "clear.Hushwell_2"
+      "expectedFlag": "clear.Hushwell_2",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "both heroes ready after chamber 1 Ridgehounds",
       "seconds": 0.2,
-      "until": "partyAlive"
+      "until": "partyAlive",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "the neck to chamber 2",
@@ -326,7 +412,8 @@
         "y": 0,
         "z": 178
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chamber 2 on its dry ledges",
@@ -337,7 +424,8 @@
         "y": 0,
         "z": 196
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "the neck to chamber 3",
@@ -348,7 +436,8 @@
         "y": 0,
         "z": 210
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chamber 3",
@@ -359,18 +448,21 @@
         "y": 0,
         "z": 222
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto chamber 3 Ridgehounds",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release chamber 3 Ridgehounds",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave chamber 3 Ridgehounds",
@@ -378,11 +470,13 @@
       "buttons": [
         "RightShoulder",
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Arc Cleave release chamber 3 Ridgehounds",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "ordinary melee chamber 3 Ridgehounds",
@@ -390,16 +484,19 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "repair gel if hurt chamber 3 Ridgehounds",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release chamber 3 Ridgehounds",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "finish chamber 3 Ridgehounds",
@@ -407,17 +504,20 @@
       "pulseSeconds": 0.46,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chamber 3 Ridgehounds cleared",
       "seconds": 3,
-      "expectedFlag": "clear.Hushwell_3"
+      "expectedFlag": "clear.Hushwell_3",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "both heroes ready after chamber 3 Ridgehounds",
       "seconds": 0.2,
-      "until": "partyAlive"
+      "until": "partyAlive",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "the Bellows entry",
@@ -428,7 +528,8 @@
         "y": 0,
         "z": 240
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "into the Bellows chamber",
@@ -439,11 +540,13 @@
         "y": 0,
         "z": 250
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Bellows arrives",
-      "seconds": 1.5
+      "seconds": 1.5,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "to the west pressure organ",
@@ -454,18 +557,21 @@
         "y": 0,
         "z": 270
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto the west organ",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release west",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "break the west organ",
@@ -478,16 +584,19 @@
         "South"
       ],
       "until": "targetDown",
-      "rangedTolerance": 9
+      "rangedTolerance": 9,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel after the west organ",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release west",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "to the east pressure organ",
@@ -498,18 +607,21 @@
         "y": 0,
         "z": 270
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto the east organ",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release east",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "break the east organ",
@@ -522,27 +634,32 @@
         "South"
       ],
       "until": "targetDown",
-      "rangedTolerance": 9
+      "rangedTolerance": 9,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel after the east organ",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release east",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock onto the Bellows",
       "seconds": 0.18,
       "buttons": [
         "LeftShoulder"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lock release Bellows",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chase and melee the Bellows 1",
@@ -556,7 +673,8 @@
         "South"
       ],
       "stopWhen": "flag:bossdown.BellowsBelow",
-      "rangedTolerance": 12
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse Burst on the Bellows 1",
@@ -564,20 +682,24 @@
       "buttons": [
         "RightShoulder",
         "West"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse release 1",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel during the Bellows 1",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release Bellows 1",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chase and melee the Bellows 2",
@@ -591,7 +713,8 @@
         "South"
       ],
       "stopWhen": "flag:bossdown.BellowsBelow",
-      "rangedTolerance": 12
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse Burst on the Bellows 2",
@@ -599,20 +722,24 @@
       "buttons": [
         "RightShoulder",
         "West"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse release 2",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel during the Bellows 2",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release Bellows 2",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chase and melee the Bellows 3",
@@ -626,7 +753,8 @@
         "South"
       ],
       "stopWhen": "flag:bossdown.BellowsBelow",
-      "rangedTolerance": 12
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse Burst on the Bellows 3",
@@ -634,20 +762,24 @@
       "buttons": [
         "RightShoulder",
         "West"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse release 3",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel during the Bellows 3",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release Bellows 3",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chase and melee the Bellows 4",
@@ -661,7 +793,8 @@
         "South"
       ],
       "stopWhen": "flag:bossdown.BellowsBelow",
-      "rangedTolerance": 12
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse Burst on the Bellows 4",
@@ -669,20 +802,24 @@
       "buttons": [
         "RightShoulder",
         "West"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse release 4",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel during the Bellows 4",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release Bellows 4",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "chase and melee the Bellows 5",
@@ -696,7 +833,8 @@
         "South"
       ],
       "stopWhen": "flag:bossdown.BellowsBelow",
-      "rangedTolerance": 12
+      "rangedTolerance": 12,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse Burst on the Bellows 5",
@@ -704,30 +842,36 @@
       "buttons": [
         "RightShoulder",
         "West"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "Pulse release 5",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel during the Bellows 5",
       "seconds": 0.18,
-      "leftTrigger": 1
+      "leftTrigger": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "gel release Bellows 5",
-      "seconds": 0.45
+      "seconds": 0.45,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "the Bellows falls",
       "seconds": 4,
-      "expectedFlag": "bossdown.BellowsBelow"
+      "expectedFlag": "bossdown.BellowsBelow",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "both heroes ready after the Bellows",
       "seconds": 0.2,
-      "until": "partyAlive"
+      "until": "partyAlive",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "through the opened exit",
@@ -738,7 +882,8 @@
         "y": 0,
         "z": 286
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "down the curling descent",
@@ -749,7 +894,8 @@
         "y": 0,
         "z": 296
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "lower descent",
@@ -760,7 +906,8 @@
         "y": 0,
         "z": 308
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "into the nursery",
@@ -771,7 +918,8 @@
         "y": 0,
         "z": 322
       },
-      "tolerance": 0.8
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "among the egg cradles",
@@ -782,7 +930,8 @@
         "y": 0,
         "z": 330
       },
-      "tolerance": 0.9
+      "tolerance": 0.9,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "look at the eggs",
@@ -790,12 +939,14 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery interaction",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 1",
@@ -803,24 +954,28 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 1",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 1",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 1",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 2",
@@ -828,24 +983,28 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 2",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 2",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 2",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 3",
@@ -853,24 +1012,28 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 3",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 3",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 3",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 4",
@@ -878,24 +1041,28 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 4",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 4",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 4",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 5",
@@ -903,24 +1070,28 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 5",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 5",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 5",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 6",
@@ -928,24 +1099,28 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 6",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 6",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 6",
       "seconds": 0.3,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "reveal nursery line 7",
@@ -953,30 +1128,35 @@
       "buttons": [
         "South"
       ],
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "read nursery line 7",
       "seconds": 3.5,
-      "expectedUi": "dialogue"
+      "expectedUi": "dialogue",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "advance nursery line 7",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "release nursery line 7",
       "seconds": 0.3,
       "expectedUi": "world",
-      "expectedFlag": "hushwell.nursery"
+      "expectedFlag": "hushwell.nursery",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "discovery settles",
       "seconds": 3,
-      "expectedFlag": "hushwell.nursery"
+      "expectedFlag": "hushwell.nursery",
+      "expectedScene": "Hushwell"
     },
     {
       "name": "to the drill-shaft lift",
@@ -987,14 +1167,16 @@
         "y": 0,
         "z": 340.2
       },
-      "tolerance": 1
+      "tolerance": 1,
+      "expectedScene": "Hushwell"
     },
     {
       "name": "ride the lift",
       "seconds": 0.18,
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Hushwell"
     },
     {
       "name": "arrive back in Sorrel",

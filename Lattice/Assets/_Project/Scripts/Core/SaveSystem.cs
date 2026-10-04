@@ -1,6 +1,7 @@
 using System;
 using System.IO;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 
 namespace Lattice.Core
 {
@@ -29,8 +30,13 @@ namespace Lattice.Core
             var path=PathForSlot(slot);
             try {
                 if(!File.Exists(path)) return null;
-                var state=JsonConvert.DeserializeObject<GameState>(File.ReadAllText(path),new JsonSerializerSettings{ObjectCreationHandling=ObjectCreationHandling.Replace});
-                return state!=null && state.version==1 && state.party?.Count>0 ? state : null;
+                // Keep serialized timestamp strings byte-for-byte as values;
+                // JObject's default date parsing would rewrite their formatting.
+                using var reader=new JsonTextReader(new StringReader(File.ReadAllText(path))){DateParseHandling=DateParseHandling.None};
+                var document=JObject.Load(reader);
+                if(document["version"]?.Type!=JTokenType.Integer)return null;
+                var state=document.ToObject<GameState>(JsonSerializer.Create(new JsonSerializerSettings{ObjectCreationHandling=ObjectCreationHandling.Replace}));
+                return ChapterProgress.Migrate(state)?state:null;
             } catch(JsonException) { return null; } catch(IOException) { return null; }
         }
         public bool Exists(string slot) => Load(slot)!=null;

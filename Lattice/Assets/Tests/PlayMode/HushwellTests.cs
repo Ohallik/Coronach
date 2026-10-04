@@ -3,6 +3,7 @@ using System.Linq;
 using Lattice.Combat;
 using Lattice.Core;
 using Lattice.Data;
+using Lattice.Dialogue;
 using Lattice.UI;
 using Lattice.World;
 using NUnit.Framework;
@@ -35,6 +36,14 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(.3f);
         }
         static Membrane Seal(string name)=>Object.FindObjectsByType<Membrane>(FindObjectsSortMode.None).Single(m=>m.name==name);
+        static IEnumerator FinishDiscovery()
+        {
+            var dialogue=DialogueSystem.Current;dialogue.AutoAdvance=true;
+            float deadline=Time.unscaledTime+8;
+            while(dialogue.Running&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(dialogue.Running,"nursery conversation did not finish");
+            yield return new WaitForSecondsRealtime(.4f);
+        }
         // Membrane.Open is runtime state; a loaded seal is open when nothing collides.
         static bool Passable(Membrane seal)=>seal.GetComponentsInChildren<Collider>(true).All(c=>!c.enabled);
         static bool Walkable(Vector3 from,Vector3 to)
@@ -164,13 +173,13 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(atRib,"the Bellows never crossed to a rib; it ended at "+bellows.transform.position);
         }
 
-        [UnityTest] public IEnumerator TheCaveIsASideQuestWithItsOwnObjectives()
+        [UnityTest] public IEnumerator TheCaveHasItsOwnObjectivesWithinTheChapter()
         {
             // Entering starts "What the drill found"; the HUD leads to the Bellows,
             // then the nursery, then the lift; the quest completes on the discovery.
             yield return Load("Hushwell");
             var state=GameServices.Current.State;
-            Assert.IsTrue(state.questSteps.ContainsKey("Hushwell"),"entering Hushwell does not start its side quest");
+            Assert.IsTrue(state.questSteps.ContainsKey("Hushwell"),"entering Hushwell does not start its quest");
             string Objective()=>Object.FindFirstObjectByType<ObjectiveHud>().GetComponentsInChildren<TMPro.TMP_Text>(true).First(t=>t.name=="Objective").text;
             yield return new WaitForSecondsRealtime(.4f);
             StringAssert.Contains("Bellows",Objective(),"the cave has no objective of its own");
@@ -180,8 +189,8 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(.4f);
             Assert.IsTrue(GameServices.Current.Flags.GetBool("bossdown.BellowsBelow"));
             StringAssert.Contains("guarding",Objective(),"the objective does not move on to the nursery");
-            Object.FindFirstObjectByType<DiscoveryPoint>().Interact();yield return new WaitForSecondsRealtime(.4f);
-            Assert.IsTrue(GameServices.Current.Flags.GetBool("quest.Hushwell.complete"),"finding the nursery does not complete the side quest");
+            Object.FindFirstObjectByType<DiscoveryPoint>().Interact();yield return FinishDiscovery();
+            Assert.IsTrue(GameServices.Current.Flags.GetBool("quest.Hushwell.complete"),"finding the nursery does not complete its quest");
             StringAssert.Contains("lift",Objective());
             // The Survivor keeps the nursery thread: a third tier after the discovery.
             yield return Load("Sorrel_Ridges","Hushwell");
@@ -201,7 +210,7 @@ namespace Lattice.Tests.PlayMode
             var lift=beacons.Single(b=>b.requiredFlag=="hushwell.nursery");var climb=beacons.Single(b=>string.IsNullOrEmpty(b.requiredFlag));
             Assert.AreEqual(("Sorrel_Ridges","Hushwell"),(lift.scene,lift.spawn));Assert.AreEqual(("Sorrel_Ridges","Hushwell"),(climb.scene,climb.spawn));
             Assert.IsFalse(GameServices.Current.Flags.GetBool("hushwell.nursery"));
-            Assert.IsTrue(look.Available);look.Interact();
+            Assert.IsTrue(look.Available);look.Interact();yield return FinishDiscovery();
             Assert.IsTrue(GameServices.Current.Flags.GetBool("hushwell.nursery"));Assert.IsFalse(look.Available,"the discovery repeats");
 
             yield return Load("Sorrel_Ridges","Hushwell");

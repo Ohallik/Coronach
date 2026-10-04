@@ -46,7 +46,7 @@ namespace Lattice.EditorTools
 
             Terrain();
             WorldBuilder.Spawn("Arrival",HushwellLayout.OnFloor(HushwellLayout.Arrival));
-            new GameObject("Side quest",typeof(QuestStarter)).GetComponent<QuestStarter>().questId="Hushwell";
+            new GameObject("Chapter discovery",typeof(QuestStarter)).GetComponent<QuestStarter>().questId="Hushwell";
             Breach();Galleries();PressureGallery();BellowsChamber();Nursery();Dress();
             Walls();
             WorldBuilder.Boundary("West cave limit",new Vector3(-66,0,170),new Vector3(2,60,400));
@@ -68,7 +68,7 @@ namespace Lattice.EditorTools
             var loot=ArenaBuilder.Asset<LootTable>("BellowsBelow",l=>l.entries=new[]{new LootEntry{id="HuskCore",count=2,chance=1},new LootEntry{id="RidgeCrystal",count=3,chance=1}});
             ArenaBuilder.Asset<EnemyDef>("BellowsBelow",e=>{e.id="BellowsBelow";e.archetype=EnemyArchetype.Spitter;e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.boss=true;
                 e.integrity=12000;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
-            // Side quest: the cave starts it on entry; the Bellows and the nursery finish it.
+            // The cave starts its chapter quest on entry; Bellows and the nursery finish it.
             ArenaBuilder.Asset<QuestDef>("Hushwell",q=>{q.id="Hushwell";q.title="What the drill found";
                 q.steps=new[]{new Objective{kind=ObjectiveKind.Kill,target="BellowsBelow",count=1},new Objective{kind=ObjectiveKind.Interact,target="HushwellNursery",count=1}};
                 q.rewardXp=220;q.rewardScrip=150;q.flagsOnComplete=new string[0];});
@@ -170,6 +170,7 @@ namespace Lattice.EditorTools
             Prop("HushwellMarker",n.x,n.y,.4f,0,false,8);
             for(int i=0;i<5;i++){float a=(i*72+18)*Mathf.Deg2Rad;Prop("HushwellEggCradle",n.x+Mathf.Cos(a)*6.5f,n.y+Mathf.Sin(a)*5.5f,1.8f,-i*72+90,true,3.4f);}
             var look=new GameObject("The nursery",typeof(DiscoveryPoint)).GetComponent<DiscoveryPoint>();look.transform.position=HushwellLayout.OnFloor(n);
+            look.dialogueNode="SelaNursery";look.dialogueSpeaker="Sela";
             look.prompt="Look at the eggs";look.range=9;look.flag="hushwell.nursery";
             var lift=Prop("HushwellLift",n.x+13,n.y+6,4,-90).AddComponent<WarpBeacon>();
             lift.prompt="Ride the drill-shaft lift — Sorrel";lift.lockedPrompt="The lift is dead until you look around";lift.range=4;lift.scene="Sorrel_Ridges";lift.spawn="Hushwell";lift.requiredFlag="hushwell.nursery";

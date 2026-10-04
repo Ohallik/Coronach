@@ -26,6 +26,7 @@ namespace Lattice.Dialogue
         public string Speaker{get;private set;}
         public bool Running=>dialogueActive||Runner!=null&&Runner.IsDialogueRunning;
         string pendingUi;
+        Action<bool> pendingCompletion;
         bool leaving,preparationComplete,dialogueActive;
         readonly List<string> pendingJoins=new();
         static readonly ProfilerMarker LoadProjectMarker=new("Coronach.Dialogue.LoadProject");
@@ -40,6 +41,7 @@ namespace Lattice.Dialogue
             Runner.onDialogueStart??=new UnityEvent();Runner.onDialogueComplete??=new UnityEvent();
             Runner.onDialogueComplete.AddListener(()=>
             {
+                bool completed=false;
                 try
                 {
                 if(leaving||GameServices.Current==null)return;
@@ -54,8 +56,9 @@ namespace Lattice.Dialogue
                 }
                 pendingJoins.Clear();
                 if(pendingUi!=null){string action=pendingUi;pendingUi=null;UiRequested?.Invoke(action);}
+                completed=true;
                 }
-                finally {dialogueActive=false;}
+                finally {try{FinishPending(completed);}finally{dialogueActive=false;}}
             });
             Runner.AddCommandHandler("setFlag",(Action<string>)(key=>GameServices.Current.Flags.SetBool(key,true)));
             Runner.AddCommandHandler("giveItem",(Action<string,int>)((id,count)=>RpgServices.Inventory.Give(id,count)));
@@ -94,15 +97,18 @@ namespace Lattice.Dialogue
             }
             finally {Preparing=false;}
         }
-        public void StartNode(string node,string speaker)
+        public bool StartNode(string node,string speaker,Action<bool> completed=null)
         {
-            if(Preparing||Running||!Prepared)return;
+            if(Preparing||Running||!Prepared)return false;
             // Yarn's VM stops before its presenters and completion commands drain.
             // Keep the conversation owned until those commands finish, so callers
             // cannot start a second node against the first node's cancellation state.
-            Speaker=speaker;Interrupted=false;dialogueActive=true;GameServices.Current.Input.Blocked=true;
+            Speaker=speaker;Interrupted=false;pendingCompletion=completed;dialogueActive=true;GameServices.Current.Input.Blocked=true;
             using(StartNodeMarker.Auto())Runner.StartDialogue(node).Forget();
+            return true;
         }
+        void FinishPending(bool completed)
+        {var callback=pendingCompletion;pendingCompletion=null;callback?.Invoke(completed);}
         sealed class PreparationView:IDialogueView
         {
             public bool AdvanceRequested=>true;
@@ -113,7 +119,7 @@ namespace Lattice.Dialogue
             public void ClearOptions(){}
         }
         void OnEnable(){leaving=false;}
-        void OnDisable(){leaving=true;}
+        void OnDisable(){leaving=true;FinishPending(false);}
         void OnDestroy(){if(Current==this)Current=null;}
     }
 }

@@ -1,0 +1,135 @@
+{
+  "name": "chapter-09-calibrated-gullet",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load completed nursery and surface lift autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Sorrel_Ridges",
+      "expectedUi": "world",
+      "expectedFlag": "hushwell.nursery",
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "cross cleared excavation",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 182
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cradle approach",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 197
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "outer launch pad",
+      "seconds": 5,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 199
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "launch at the outer Halo",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_CinderHalo",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "Hub_CinderHalo"
+    },
+    {
+      "name": "outer warp approach",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 144
+      },
+      "tolerance": 0.65,
+      "leftTrigger": 1,
+      "expectedScene": "Hub_CinderHalo"
+    },
+    {
+      "name": "enter the Gullet",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel",
+      "expectedForm": "Flight"
+    },
+    {
+      "name": "Gullet arrival autosave",
+      "seconds": 1,
+      "expectedScene": "Gullet_Tunnel",
+      "expectedFlag": "warpkey",
+      "expectedUi": "world"
+    }
+  ]
+}

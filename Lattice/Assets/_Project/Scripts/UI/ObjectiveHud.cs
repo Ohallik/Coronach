@@ -27,8 +27,8 @@ namespace Lattice.UI
             {
                 case "Hub_CinderHalo":
                     if(!flags.GetBool("met.Orrin")){label="Dock at Orrin's office";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Office");}
-                    else if(flags.GetBool("warpkey")){label="Enter the Gullet";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Gullet_Tunnel");}
-                    else{label="Land on Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Sorrel_Ridges");}
+                    else if(ChapterProgress.CanEnterGullet(state)){label="Enter the Gullet";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Gullet_Tunnel");}
+                    else{label=flags.GetBool("warpkey")?"Explore Hushwell beneath Sorrel":"Land on Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Sorrel_Ridges");}
                     break;
                 case "Hub_Decks":
                     if(!flags.GetBool("met.Orrin")){label="Talk to Orrin";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Orrin");}
@@ -38,6 +38,7 @@ namespace Lattice.UI
                     if(!flags.GetBool("met.Survivor")){label="Reach the outpost survivor";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Survivor");}
                     else if(!flags.GetBool("bossdown.Burrower")){label="Follow the ridges to the drill";goal=new Vector3(0,0,164);}
                     else if(!flags.GetBool("warpkey")){label="Recover the warp key";target=prompts.OfType<KeyPickup>().FirstOrDefault();}
+                    else if(ChapterProgress.NeedsNursery(state)){label="Descend the bore into Hushwell";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Hushwell");}
                     else{label="Return to the Halo";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Outer");}
                     break;
                 case "Hushwell":

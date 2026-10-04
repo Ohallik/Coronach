@@ -1,0 +1,26 @@
+{
+  "asset": "NurseryGroove",
+  "date": "2026-10-04",
+  "stage": "Reference board and isolated reference inspected; 3D model not commissioned or accepted",
+  "generator": "built-in imagegen",
+  "meshyCreditsSpent": 0,
+  "reason": "Opened Hushwell views show an overly regular manufactured concentric disc; the discovery needs a readable living-route sweep that joins the cave grooves to the eggs.",
+  "board": {
+    "path": "art-src/Generated/C8-NurseryGroove/refs/NurseryGroove-board.png",
+    "sha256": "2e85807b02ba9aa8f346c5af7e1ab113b0b020476864e0f20ed349070de23e80",
+    "prompt": "Use case: stylized-concept. Asset type: production reference board for one low ground ornament in Coronach, an HD-2D toon action RPG. Primary request: replace an overly perfect manufactured concentric stone disc in the Hushwell route nursery with a natural living-route impression. Create a clean three-panel board showing the SAME single shallow irregular ground formation from an oblique game-camera view (40-degree pitch), directly overhead, and a thin side profile. The feature is about 8 metres across, but only 15–20 centimetres raised above adjoining ground, so heroes can walk across it and the fixed camera remains unobstructed. Subject: broad weathered warm-brown/slate mineral laminae with a readable gently spiralling sweep, irregularly broken outer edges, and two branching grooves that curl outward toward unseen egg cradles. The sweep first resembles a survey line, then reveals that the route itself grew it. It must feel grown and compressed over time, not engraved or built. A few restrained thin cyan-violet bioluminescent seams within damp dark grooves connect its visual language to living passages. Mostly matte, chunky, readable shapes and painted texture; controlled toon shading compatible with small low-poly generated game props, not photorealistic or ornate. Background: plain muted neutral grey for modelling reference. Keep all outer edges visible in each panel. No eggs, pots, pillars, characters, grass, water, machinery, UI, text, logos, concentric precision rings, runes, metal trim, spikes, tall roots, dramatic depth of field, or rendered cinematic atmosphere. This board is a shape and material reference, not a finished gameplay screenshot."
+  },
+  "isolated": {
+    "path": "art-src/Generated/C8-NurseryGroove/refs/NurseryGroove.png",
+    "sha256": "131424513b813d461ee2aba95906a51b8544b9f56444a5b8797601dcae6cfae5",
+    "reference": "NurseryGroove-board.png",
+    "prompt": "Use case: stylized-concept. Asset type: single isolated reference for image-to-3D modelling. Input image is a design reference board, not a gameplay screenshot. Produce one clean oblique overhead view of the SAME shallow living-route ground formation from its upper-left panel. Preserve the irregular swept mineral layers, readable natural spiral and two outward curling grooves, warm brown/slate rock palette, sparse restrained cyan-violet seams, and very thin tapered profile. The entire single formation must fit within the frame with a generous clean margin. It is 8 metres wide but only 15–20 centimetres tall, a walkable layer almost flush with surrounding ground. Background flat neutral light grey, faint neutral contact shadow only. Material reads matte painted low-poly toon rock, with broad readable forms rather than tiny noise. No multi-panel layout, no side-view inset, no other objects, no floor plane, no eggs or cradles, no machinery, no text, no labels, no precision circular rings. This is the isolated geometry reference for the approved board, so keep its identity and low silhouette unchanged."
+  },
+  "inspection": "The isolated reference retains the board's three sweeping arms and irregular layered edges. It removes the machined ring and keeps the low profile. The gameplay model, floor contact, water/grass integration, camera sightlines and ordinary traversal still require in-player verification.",
+  "constraints": [
+    "Keep the nursery, discovery and lift identities and travel paths",
+    "Floor contact must agree with hero foot placement; do not leave a raised visual surface without corresponding support",
+    "No licensed source or textures in generated/public assets",
+    "No 3D spend before the connected gameplay increment is proven"
+  ]
+}

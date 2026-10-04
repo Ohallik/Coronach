@@ -24,7 +24,7 @@ try {
     if($RequirePad -and $text -notmatch 'PAD_BRIDGE_ATTACH[^\r\n]*vid=(0x)?046D pid=(0x)?C21A profile=Logitech'){throw 'FAILED: physical Logitech not attached'}
     if($Route){
         $position=0
-        $markers=@('TITLE_BOOT_OK','NEW_GAME_OK','ZONE_ENTER Hub_CinderHalo','DOCK_OK','DIALOGUE_OK Orrin','PARTY_JOIN Sela','ZONE_ENTER Sorrel_Ridges','FORM Shaped','COMBAT_KILL Ridgehound','SWAP_OK','FLASH_MOVE_OK','BOSS_DOWN Burrower','QUEST_STEP warpkey','ZONE_ENTER Gullet_Tunnel','FORM Flight','LUNGE_KILL','BOSS_DOWN Cantor','ZONE_ENTER TallowApproach','FORM CivilFlight','DOCK_OK','ZONE_ENTER TallowDrift','FORM Natural','SAVE_OK','SLICE_COMPLETE')
+        $markers=@('TITLE_BOOT_OK','NEW_GAME_OK','ZONE_ENTER Hub_CinderHalo','DOCK_OK','DIALOGUE_OK Orrin','PARTY_JOIN Sela','ZONE_ENTER Sorrel_Ridges','FORM Shaped','COMBAT_KILL Ridgehound','SWAP_OK','FLASH_MOVE_OK','BOSS_DOWN Burrower','QUEST_STEP warpkey','ZONE_ENTER Hushwell','ORGAN_DOWN','ORGAN_DOWN','BOSS_DOWN BellowsBelow','DISCOVERY hushwell.nursery','ZONE_ENTER Sorrel_Ridges','ZONE_ENTER Gullet_Tunnel','FORM Flight','LUNGE_KILL','BOSS_DOWN Cantor','ZONE_ENTER TallowApproach','FORM CivilFlight','DOCK_OK','ZONE_ENTER TallowDrift','FORM Natural','SAVE_OK','SLICE_COMPLETE')
         foreach($required in $markers){$found=$text.IndexOf($required,$position,[StringComparison]::Ordinal);if($found -lt 0){throw "FAILED: absent/out-of-order route marker $required"};$position=$found+$required.Length}
         Write-Host 'ROUTE_MARKER_CONTRACT_OK'
     }

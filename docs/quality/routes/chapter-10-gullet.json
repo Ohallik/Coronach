@@ -1,0 +1,1727 @@
+{
+  "name": "chapter-10-gullet",
+  "scene": "Title",
+  "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "starterParty": false,
+  "screenshotInterval": 0,
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load actual Gullet arrival",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel",
+      "expectedUi": "world",
+      "expectedFlag": "warpkey",
+      "expectedCharacter": "Taren",
+      "expectedForm": "Flight"
+    },
+    {
+      "name": "fly in through the mouth and entry canal",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 2.346,
+        "y": 1,
+        "z": 35
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "expectedCharacter": "Taren",
+      "expectedForm": "Flight",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 1",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 1",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 2",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 2",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 3",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 3",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 4",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 4",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 5",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 5",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 6",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 6",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 7",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 7",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 8",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 8",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 9",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 9",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "advance lunge 10",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "normal thrust and lunge recovery 10",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after the attack chain",
+      "seconds": 1.2,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "clear surviving targets with ordinary fire",
+      "seconds": 6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "regroup beside the measured hulls",
+      "seconds": 8,
+      "approachPartner": true,
+      "navigate": true,
+      "leftTrigger": 1,
+      "tolerance": 3.8,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 approach the mine cluster",
+      "seconds": 30,
+      "navigate": true,
+      "point": {
+        "x": 0.372,
+        "y": 1,
+        "z": 185
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 east mine approach",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 8.372,
+        "y": 1,
+        "z": 193
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 east mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 north mine approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 0.372,
+        "y": 1,
+        "z": 201
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 north mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 west mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -7.628,
+        "y": 1,
+        "z": 193
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 west mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 south mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0.372,
+        "y": 1,
+        "z": 185
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 south mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 1 opens its own membrane",
+      "seconds": 0.2,
+      "expectedFlag": "clear.Gullet_Chamber_0",
+      "until": "partyAlive",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "cross the opened first valve along its real passage",
+      "seconds": 40,
+      "navigate": true,
+      "point": {
+        "x": 6.038,
+        "y": 1,
+        "z": 262
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "weave the slalom throat past the folds at 285 m",
+      "seconds": 15,
+      "navigate": true,
+      "point": {
+        "x": 8.486,
+        "y": 1,
+        "z": 285
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "weave the slalom throat past the folds at 305 m",
+      "seconds": 13,
+      "navigate": true,
+      "point": {
+        "x": 7.95,
+        "y": 1,
+        "z": 305
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "weave the slalom throat past the folds at 330 m",
+      "seconds": 18,
+      "navigate": true,
+      "point": {
+        "x": -4.907,
+        "y": 1,
+        "z": 330
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "weave the slalom throat past the folds at 350 m",
+      "seconds": 14,
+      "navigate": true,
+      "point": {
+        "x": 1.061,
+        "y": 1,
+        "z": 350
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "weave the slalom throat past the folds at 368 m",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 2.321,
+        "y": 1,
+        "z": 368
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber lunge 1",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber recovery 1",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber lunge 2",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber recovery 2",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber lunge 3",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber recovery 3",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber lunge 4",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "second chamber recovery 4",
+      "seconds": 0.62,
+      "x": 0,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake before overrunning the throat",
+      "seconds": 0.6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "ordinary Pulse in the throat",
+      "seconds": 0.12,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "release the visible area skill before sustained fire",
+      "seconds": 0.7,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake and fire after the throat charge",
+      "seconds": 6,
+      "x": 0,
+      "y": 0,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 approach the mine cluster",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 13.747,
+        "y": 1,
+        "z": 392.0
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 east mine approach",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 20.747,
+        "y": 1,
+        "z": 400.0
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 east mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 north mine approach",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 13.747,
+        "y": 1,
+        "z": 408.0
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 north mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 west mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 6.747,
+        "y": 1,
+        "z": 400.0
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 west mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 south mine approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 13.747,
+        "y": 1,
+        "z": 392.0
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.8,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 south mine sustained emitter",
+      "seconds": 3,
+      "x": 0,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "chamber 2 opens its own membrane",
+      "seconds": 0.2,
+      "expectedFlag": "clear.Gullet_Chamber_1",
+      "until": "partyAlive",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "leave the salvage eddy",
+      "seconds": 20,
+      "navigate": true,
+      "point": {
+        "x": -4.26,
+        "y": 1,
+        "z": 430
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "through the second valve toward the nursery 452",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": -5.446,
+        "y": 1,
+        "z": 452
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "through the second valve toward the nursery 474",
+      "seconds": 17,
+      "navigate": true,
+      "point": {
+        "x": 2.809,
+        "y": 1,
+        "z": 474
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "through the second valve toward the nursery 490",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 3.981,
+        "y": 1,
+        "z": 490
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "through the second valve toward the nursery 515",
+      "seconds": 18,
+      "navigate": true,
+      "point": {
+        "x": 3.503,
+        "y": 1,
+        "z": 515
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "through the second valve toward the nursery 540",
+      "seconds": 18,
+      "navigate": true,
+      "point": {
+        "x": 1.549,
+        "y": 1,
+        "z": 540
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 1",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 1",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 2",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 2",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 3",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 3",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 4",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 4",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 5",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 5",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 6",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 6",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge 7",
+      "seconds": 0.12,
+      "y": 1,
+      "buttons": [
+        "West"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery lunge recovery 7",
+      "seconds": 0.62,
+      "y": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake in the nursery chamber",
+      "seconds": 1,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Pulse in the nursery gate",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Pulse in the nursery gate release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "ordinary fire on nursery defenders",
+      "seconds": 12,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine south approach",
+      "seconds": 24,
+      "navigate": true,
+      "point": {
+        "x": -1.095,
+        "y": 1,
+        "z": 620
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine fire south approach",
+      "seconds": 4,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine east",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 6.905,
+        "y": 1,
+        "z": 628
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine fire east",
+      "seconds": 4,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine north",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": -1.095,
+        "y": 1,
+        "z": 636
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine fire north",
+      "seconds": 4,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine west",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -9.095,
+        "y": 1,
+        "z": 628
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine fire west",
+      "seconds": 4,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine south",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -1.095,
+        "y": 1,
+        "z": 620
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery mine fire south",
+      "seconds": 4,
+      "y": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "nursery gate opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Gullet_Chamber_2",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "cross the nursery gate",
+      "seconds": 46,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 1,
+        "z": 700
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "enter the collar chamber",
+      "seconds": 32,
+      "navigate": true,
+      "point": {
+        "x": 0.145,
+        "y": 1,
+        "z": 755
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "engage the Cantor inside its coil",
+      "seconds": 19,
+      "navigate": true,
+      "point": {
+        "x": -0.116,
+        "y": 1,
+        "z": 784
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "lock Cantor",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "lock Cantor release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 1",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 1 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 1",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 2",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 2 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 2",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 3",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 3 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 3",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 4",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 4 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 4",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 5",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 5 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 5",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 6",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 6 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 6",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 7",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 7 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 7",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 8",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 8 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 8",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 9",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 9 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 9",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 10",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 10 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 10",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor releases the exit",
+      "seconds": 3,
+      "expectedFlag": "bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "regroup after the coil",
+      "seconds": 18,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 3.8,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "both pilots ready for the exit",
+      "seconds": 0.3,
+      "until": "partyAlive",
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "leave the coil by its centre",
+      "seconds": 44,
+      "navigate": true,
+      "point": {
+        "x": -0.0,
+        "y": 1,
+        "z": 850
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "through the exit valve",
+      "seconds": 18,
+      "navigate": true,
+      "point": {
+        "x": -0.0,
+        "y": 1,
+        "z": 876
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Tallow warp stance",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -0.0,
+        "y": 1,
+        "z": 887
+      },
+      "tolerance": 0.8,
+      "leftTrigger": 1,
+      "buttons": [],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "use the Tallow exit",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "arrive at Tallow approach",
+      "seconds": 8,
+      "expectedScene": "TallowApproach",
+      "expectedForm": "CivilFlight"
+    }
+  ]
+}

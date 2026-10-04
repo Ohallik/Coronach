@@ -1,0 +1,391 @@
+{
+  "scope": "Nursery chapter integration; gate limits in C8-nursery-integration.md",
+  "indexedAtRevision": "e8976dda6eb2d2c5bf27914d9333e019f2f90cf6",
+  "tests": [
+    {
+      "path": "Builds/quality/C8/integrated/editmode-results.xml",
+      "result": "Passed",
+      "total": "84",
+      "passed": "84",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.8121947",
+      "start-time": "2026-10-04 22:34:43Z",
+      "end-time": "2026-10-04 22:34:44Z"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/playmode-results.xml",
+      "result": "Passed",
+      "total": "226",
+      "passed": "226",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "1248.9792939",
+      "start-time": "2026-10-04 22:35:18Z",
+      "end-time": "2026-10-04 22:56:07Z"
+    }
+  ],
+  "ordinaryRuns": [],
+  "files": [
+    {
+      "path": "Builds/quality/C8/integrated/editmode-results.xml",
+      "bytes": 75985,
+      "sha256": "38862e30f0665f6b8fd4fb2b8cd710077429e536be19ed5920513ca2463afb19"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/headless-playtests.log",
+      "bytes": 5768608,
+      "sha256": "0bb01a198ce70fa1b772b7e8acbf06c6adaaa662790e1c923354f90e02dc9f23"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/headless-tests.log",
+      "bytes": 374733,
+      "sha256": "6a153c6537e5bd09c9ecf01f5878c994e26ff5a8455344971a7c133854d26af9"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/human-saves-after.json",
+      "bytes": 401,
+      "sha256": "fc1befe6d6c2d52868bd2a309a914cfa3bd239a53a5f7286b67d94eb26a01fb0"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/offline-115-green.log",
+      "bytes": 220,
+      "sha256": "bc0641d9c6368fbc862ac594931ab92d9f9465ec7900b38f58dcf166fff5fbb0"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/offline-tests.log",
+      "bytes": 1094,
+      "sha256": "bac9644e2f13521cd6c7f4e6a34c40392e3e80a08a7748a6c71759ad0763cc78"
+    },
+    {
+      "path": "Builds/quality/C8/integrated/playmode-results.xml",
+      "bytes": 334931,
+      "sha256": "392f0231f30e81d996b89cf907cb4d6469283e980fdc39c69e5e27cb5ee72243"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/cancel-commits/launcher.log",
+      "bytes": 389,
+      "sha256": "d178997b65140c4be84535908298bdf7e1914220b66766ce2cc4158fdf2fd679"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/cancel-commits/mutant.cs",
+      "bytes": 2088,
+      "sha256": "d2127872290fe09f540ffab691226bb40e9d146cba3d3bfc2edd523afff5a49a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/cancel-commits/original.cs",
+      "bytes": 2054,
+      "sha256": "f4582d46a38c381896ebdeb459f4a3307e7f99e82995cadd2c9403b30119f220"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/cancel-commits/results.xml",
+      "bytes": 5877,
+      "sha256": "63b6e0843296b403d0ef213d6609507aa3b2a34a04317c7632ccb289de845278"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/cancel-commits/unity.log",
+      "bytes": 97627,
+      "sha256": "b9ea2ff28ff413e0685e77d192570ea11bd3fd22f986e9ae992a89d169fceaaa"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/chapter-first-implementation.log",
+      "bytes": 1623628,
+      "sha256": "1093abfbbb257f7b2f9718c0fb7ff93241df0cacccfd71c827a73790ccb2165c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/chapter-first-implementation.xml",
+      "bytes": 908816,
+      "sha256": "455b79bd8aa049dd62b281013343502e283ec852fb4602a09340e139bbf483a4"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/chapter-integration-31-green.log",
+      "bytes": 1586074,
+      "sha256": "02e8d900bb39236b6953e327de0ba002a048aeec1ef8df3f5b6ad21e0298ad14"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/chapter-integration-31-green.xml",
+      "bytes": 53265,
+      "sha256": "5a021d80d369733d91d631e49515df8fc046ef1879a38d624acc173afdd8fbfe"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/chapter-original-red.log",
+      "bytes": 222537,
+      "sha256": "94dacd5100231034d2278cb1f9910600c5c422577d5d4e41ce605e27166be08c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/chapter-original-red.xml",
+      "bytes": 20885,
+      "sha256": "1812f23f808bee9e1ebc967189f8c55a57908c4d5e6f64e630ff4894c958ee02"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/controls.json",
+      "bytes": 3463,
+      "sha256": "e80ecab245a2f147a6548b76165d9af3b1729d000b7f0209e4bf1c99f9ed2513"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/future-version/launcher.log",
+      "bytes": 248,
+      "sha256": "876fb64d824203afdadb13ab137233933770a54c31385244222b8c20f44593b8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/future-version/mutant.cs",
+      "bytes": 1211,
+      "sha256": "06867431af93bcdede23c80ce46ea90a9403298ff2ca3d90dc66786aff384641"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/future-version/original.cs",
+      "bytes": 1160,
+      "sha256": "649cfb90df37e2f02fa3a701a201f35deb71e9ba253d055f0b74b3d90dec192d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/future-version/results.xml",
+      "bytes": 9134,
+      "sha256": "221236739f0c4f7de912524784f817161a89433793639dcd140387793d401d6b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/future-version/unity.log",
+      "bytes": 46960,
+      "sha256": "687c0b5e89ade196da1aa4cc86c2f2de43c440174b049c4f0f53925bc350b706"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-format-write/launcher.log",
+      "bytes": 248,
+      "sha256": "876fb64d824203afdadb13ab137233933770a54c31385244222b8c20f44593b8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-format-write/mutant.cs",
+      "bytes": 2278,
+      "sha256": "cb3ccd259c65c5636480c3743b5d696b943419f11366847b665319e4d360ac3d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-format-write/original.cs",
+      "bytes": 2194,
+      "sha256": "e8dd62f8216faae7bf4cdb627ca62f52c7d97fa48ba88ecb31bb148016298d69"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-format-write/results.xml",
+      "bytes": 13971,
+      "sha256": "c68edd482ef7778aa7816bf31d729a9df809edd2098527f573f988cb8108ac55"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-format-write/unity.log",
+      "bytes": 46987,
+      "sha256": "13b1b8233dc2cf310503c456cc0485ce06afe324fefb56eba9da1c86fe394ffd"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-writes/launcher.log",
+      "bytes": 248,
+      "sha256": "876fb64d824203afdadb13ab137233933770a54c31385244222b8c20f44593b8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-writes/mutant.cs",
+      "bytes": 2316,
+      "sha256": "517c01c91d114f343fb1f66d09714c50b21062abcba428c19790d997ac90ff99"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-writes/original.cs",
+      "bytes": 2194,
+      "sha256": "e8dd62f8216faae7bf4cdb627ca62f52c7d97fa48ba88ecb31bb148016298d69"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-writes/results.xml",
+      "bytes": 13396,
+      "sha256": "4ae4b625af19951932e7a75eba502288ebac0b7d22c168a551ae8561a07e5830"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/load-writes/unity.log",
+      "bytes": 168377,
+      "sha256": "74dba3109e1334a4b1849543f4d05c70f469fe7aeb6f827dd0a9de78e74c15f2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/migration-first-implementation.log",
+      "bytes": 268158,
+      "sha256": "6de30d0c98871ab1db0fcb12aa6601e9a315bf05bb17e426149b8fbeb6f10f78"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/migration-first-implementation.xml",
+      "bytes": 20390,
+      "sha256": "95e24358fab9ca2c6c6285c05e510fe7eed764b54d336409b9b54c726016a24f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/migration-green.log",
+      "bytes": 137604,
+      "sha256": "7694f8c54184ced1711735a3359c3fcfdd5b99c2f9e4d2b71609906358b1fb57"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/migration-green.xml",
+      "bytes": 16610,
+      "sha256": "7c0e644b73fa6f93bcef6609ed7e6cfaaf0849ac5d9f8480a4f7b3c452f94aae"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/migration-original-red.log",
+      "bytes": 46434,
+      "sha256": "ce9a304b63277c4ed43262401b9a381b61325f064488cc23e18e2eaab243799d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/migration-original-red.xml",
+      "bytes": 21975,
+      "sha256": "b000e8d6fbafe63ada01970405d494739f124e892b30856994647da2657fe494"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/old-slice-marker-red.json",
+      "bytes": 171,
+      "sha256": "84c7183a80cb6fb2f4cd4f526b3a66752f7255b0f38032646627183d3412e2bf"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/repeat-discovery/launcher.log",
+      "bytes": 389,
+      "sha256": "07d2905696333ebcc0dc814f310191772443871a2013e74f56a0bf2d02b9d499"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/repeat-discovery/mutant.cs",
+      "bytes": 2056,
+      "sha256": "b97311e23955a8ce8b6c70473507a11bded7fe2006d6082650e180810dd34b83"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/repeat-discovery/original.cs",
+      "bytes": 2054,
+      "sha256": "f4582d46a38c381896ebdeb459f4a3307e7f99e82995cadd2c9403b30119f220"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/repeat-discovery/results.xml",
+      "bytes": 5826,
+      "sha256": "f5ef4dfd87d9cff1b4ec56a7b0570b4491b9c845658536a87263bbbdba4df858"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/repeat-discovery/unity.log",
+      "bytes": 89816,
+      "sha256": "8d58133597c3fdbfa8146e53302f6d13a7540d50355b02106f76e8a158826a3f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/resume-v2-green.log",
+      "bytes": 3846,
+      "sha256": "7b98d791faa71dd57db944901c2a744ca3de7347353b4d259899d4b7b53eedcf"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/resume-v2-red.log",
+      "bytes": 8978,
+      "sha256": "726a02afd208354e93e256b46b5929a83c5af8da374e2ca6bfa58d929072f289"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/test-fixture-compile-rejected.log",
+      "bytes": 220229,
+      "sha256": "aca5dc6d2bea4659aeda27ee2e10821fee84990252349456bac81dc72d3e8964"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/unload-commits/launcher.log",
+      "bytes": 389,
+      "sha256": "836112142eed58880115ffaf4726e095fe695aad9788af8edf9c30c06751a0e0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/unload-commits/mutant.cs",
+      "bytes": 2183,
+      "sha256": "b7665df0c5e76d08e0b6f8a0bf3623a4e5dbe5b1c6a57355863f5d14c0b4977a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/unload-commits/original.cs",
+      "bytes": 2054,
+      "sha256": "f4582d46a38c381896ebdeb459f4a3307e7f99e82995cadd2c9403b30119f220"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/unload-commits/results.xml",
+      "bytes": 6005,
+      "sha256": "ef5b157d50dd753dce6b0bced2b79f4bc907678e30363bafe797c4f6ae9baf76"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/unload-commits/unity.log",
+      "bytes": 86921,
+      "sha256": "50115083604d36172fab41348c13205d5a6f3f3168e7f4bab55c2d4e362c2afc"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/wrong-state/launcher.log",
+      "bytes": 389,
+      "sha256": "2f85df2d236a03e79683407f964a5f04f4ae966dc95960a997cb4d97dee51d1f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/wrong-state/mutant.cs",
+      "bytes": 2088,
+      "sha256": "0fdc77012b0c08288f1fb47074756330bc52082744b70790bd7086a01a5a0241"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/wrong-state/original.cs",
+      "bytes": 2054,
+      "sha256": "f4582d46a38c381896ebdeb459f4a3307e7f99e82995cadd2c9403b30119f220"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/wrong-state/results.xml",
+      "bytes": 5867,
+      "sha256": "f9617f79bbb246805c91f0fdd6efec374c5f0f7eb1270f553ba2e688c016d165"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-regressions/wrong-state/unity.log",
+      "bytes": 92851,
+      "sha256": "c4a0922440e0edc0c8b365b85dd4006ce4ea2fae8e2ce7bac479677ed38529b7"
+    },
+    {
+      "path": "docs/quality/routes/chapter-01-new-game-decks.json",
+      "bytes": 14231,
+      "sha256": "15b5fbfa4a62b61d2c1b3331c26e28f806c675dcc454e22351ef5f859a1ece19"
+    },
+    {
+      "path": "docs/quality/routes/chapter-02-continue-sorrel.json",
+      "bytes": 5962,
+      "sha256": "027d070f850a238a348e57b9b30468a6580097b1e19b97d8f7c05296c4d96ca7"
+    },
+    {
+      "path": "docs/quality/routes/chapter-03-defeat-retry.json",
+      "bytes": 3074,
+      "sha256": "3ab40cf8d7d97842d9d265ea7ba5213178be735a1e983bc18bcee4a9d3e4e011"
+    },
+    {
+      "path": "docs/quality/routes/chapter-04-haul-preparation.json",
+      "bytes": 16155,
+      "sha256": "f8a3227dd55baf9b4cf04c6e4f88a0ed549b2dea1920d1694a4128df9078bc7c"
+    },
+    {
+      "path": "docs/quality/routes/chapter-05-drill-equipment.json",
+      "bytes": 22364,
+      "sha256": "2f5c44c2d71718e3577f4bdb79524c07c29a873c62b2ab581ebc96b4b737e6ed"
+    },
+    {
+      "path": "docs/quality/routes/chapter-06-burrower.json",
+      "bytes": 13027,
+      "sha256": "b3aa40b4c3a479a86466969f9eabc05c85dc699fc07bda9a5ae97e02763e8579"
+    },
+    {
+      "path": "docs/quality/routes/chapter-07-enter-hushwell.json",
+      "bytes": 5282,
+      "sha256": "7e621578aa43e7a8bee31648031954d557488aba720eaa3d42666085ed6f683a"
+    },
+    {
+      "path": "docs/quality/routes/chapter-08-hushwell-nursery.json",
+      "bytes": 26756,
+      "sha256": "2a94cffb07917ec978d4dd3082962a306309a48be08d0b64538f6b98692cb7bc"
+    },
+    {
+      "path": "docs/quality/routes/chapter-09-calibrated-gullet.json",
+      "bytes": 3011,
+      "sha256": "4e7e4746e3247400f30fe04da6f4e06d057d0995084e56b8c2a3a3e5cb7ecb09"
+    },
+    {
+      "path": "docs/quality/routes/chapter-10-gullet.json",
+      "bytes": 37505,
+      "sha256": "76bf9c720d33ba356c5cf59e6049cb4a6c92a146ed83c142a21f6e313d6b3da0"
+    },
+    {
+      "path": "docs/quality/routes/chapter-11-tallow.json",
+      "bytes": 3733,
+      "sha256": "74b6f45aec0cbe42437c7f474fb5c5306acd36105fb979be6ac331cb0a4b0880"
+    },
+    {
+      "path": "docs/quality/routes/hushwell-descent.json",
+      "bytes": 20795,
+      "sha256": "950068655d086ac6ad8886e0fa4db459f8fc891c8f2120bbcaac44cbde60cdd5"
+    },
+    {
+      "path": "docs/quality/routes/sorrel-hushwell-approach.json",
+      "bytes": 10928,
+      "sha256": "ff8a8993b72745606a9efe437e58d71d376f83de2276eb3bb88c9c20f6fc4e32"
+    }
+  ]
+}

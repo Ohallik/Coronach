@@ -17,6 +17,7 @@ namespace Lattice.UI
         void OnDisable()=>Application.logMessageReceived-=Heard;
         void Heard(string message,string stack,LogType type){if(message=="LUNGE_KILL")lungeKilled=true;}
         float started;
+        Health preferredTarget;
         IEnumerator Start()
         {
             started=Time.realtimeSinceStartup;
@@ -41,6 +42,29 @@ namespace Lattice.UI
                 yield return Travel(new Vector3(p.x,0,p.y),2);
             yield return FightNearby(45);yield return Use(FindFirstObjectByType<KeyPickup>());
             if(!GameServices.Current.Flags.GetBool("warpkey")){Fail("warp key not earned");yield break;}
+            // The nursery chart now supplies the living route missing from the key.
+            yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.scene=="Hushwell"));
+            yield return Zone("Hushwell");
+            foreach(var p in HushwellLayout.Main.Where(p=>p.y<=226))yield return Travel(HushwellLayout.OnFloor(p),2);
+            if(PartyController.Current.Active.character!="Taren"){PartyController.Current.Swap();PrepareParty();}
+            foreach(var organ in PressureOrgan.All.ToArray())
+            {
+                if(!organ.Pumping)continue;
+                preferredTarget=organ.Health;
+                yield return Travel(organ.transform.position,2);yield return FightNearby(45);
+                preferredTarget=null;
+            }
+            yield return FightNearby(45);
+            if(PressureOrgan.AnyPumping||!GameServices.Current.Flags.GetBool("bossdown.BellowsBelow"))
+            {Fail("the Bellows or its organs remain");yield break;}
+            foreach(var p in HushwellLayout.Main.Where(p=>p.y>=284))yield return Travel(HushwellLayout.OnFloor(p),2);
+            DialogueSystem.Current.AutoAdvance=true;yield return Use(FindFirstObjectByType<DiscoveryPoint>());
+            float discoveryDeadline=Time.realtimeSinceStartup+15;
+            while(DialogueSystem.Current.Running&&Time.realtimeSinceStartup<discoveryDeadline)yield return null;
+            if(!GameServices.Current.Flags.GetBool("hushwell.nursery")){Fail("nursery chart not earned");yield break;}
+            yield return Capture("Hushwell");
+            yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.requiredFlag=="hushwell.nursery"));
+            yield return Zone("Sorrel_Ridges");
             yield return Use(FindObjectsByType<DockingPad>(FindObjectsSortMode.None).First(p=>p.spawn=="Outer"));
             yield return Zone("Hub_CinderHalo");yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.scene=="Gullet_Tunnel"));
             yield return Zone("Gullet_Tunnel");
@@ -97,6 +121,7 @@ namespace Lattice.UI
             Vector3[] corners=null;int corner=1;float nextPath=0;
             while(!failed&&Time.realtimeSinceStartup<until)
             {
+                if(preferredTarget!=null&&!preferredTarget.Alive)yield break;
                 var actor=PartyController.Current.Active;Vector3 delta=goal-actor.transform.position;delta.y=0;if(delta.magnitude<=distance)yield break;
                 if(ZoneController.Current.Combat&&Nearest(22)!=null)
                 {
@@ -140,7 +165,8 @@ namespace Lattice.UI
             float until=Time.realtimeSinceStartup+150;
             while(!failed&&Time.realtimeSinceStartup<until)
             {
-                var party=PartyController.Current;var actor=party.Active;var target=Nearest(range);if(target==null)yield break;
+                if(preferredTarget!=null&&!preferredTarget.Alive)yield break;
+                var party=PartyController.Current;var actor=party.Active;var target=preferredTarget!=null&&preferredTarget.Alive?preferredTarget:Nearest(range);if(target==null)yield break;
                 if(party.members.All(m=>!m.Health.Alive)){Fail("party defeated");yield break;}
                 actor.target=target;var brain=target.GetComponent<EnemyBrain>();var d=target.transform.position-actor.transform.position;d.y=0;
                 // Like the skills below, the partner would finish every Dart before a

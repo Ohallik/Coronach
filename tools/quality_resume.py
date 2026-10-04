@@ -32,7 +32,10 @@ def stage_resume(previous, output, quality_root):
         if slot.is_symlink() or not slot.is_file() or slot.resolve(strict=True).parent != saves:
             raise ValueError('save slot escapes the prior run')
         state = json.loads(slot.read_text(encoding='utf-8-sig'))
-        if state.get('version') != 1 or not state.get('party'):
+        # Copy both supported formats exactly; migration belongs to the player.
+        # bool and float compare equal to integers in Python but are not save versions.
+        version = state.get('version')
+        if type(version) is not int or version not in {1, 2} or not state.get('party'):
             raise ValueError('invalid ordinary save slot')
     destination = target / 'saves'
     destination.mkdir()  # Refuse an existing save directory, even when empty.

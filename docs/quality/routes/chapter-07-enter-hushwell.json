@@ -1,0 +1,250 @@
+{
+  "name": "chapter-07-enter-hushwell",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load earned warp key autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Sorrel_Ridges",
+      "expectedUi": "world",
+      "expectedFlag": "warpkey",
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "top up charge before excavation",
+      "seconds": 5,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "use outpost repair",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release repair input",
+      "seconds": 0.4,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "leave outpost",
+      "seconds": 9,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared lower haul",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared strata",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared west bend",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared wash",
+      "seconds": 12,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 98
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "upper haul",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 111
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "excavation approach",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 129
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "bench operator path",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 139
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "haul lane west of the anvil",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 8.0,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 0.0,
+        "z": 147.0
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "cleared excavation entry",
+      "seconds": 7,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 162
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cross the excavation floor",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 169
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "stand beside the drill bore",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 174.5
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "descend into Hushwell",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "arrive in the breach",
+      "seconds": 8,
+      "expectedScene": "Hushwell",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "breach floor",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 8
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    }
+  ]
+}

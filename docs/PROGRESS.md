@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Nursery story integration passes both full suites - October 4
+
+**C8 remains OPEN.** Fresh profiles now combine the nursery chart with the survey key before entering the Gullet. The objective leads through Hushwell; seven Taren/Sela lines connect its grooves and eggs to the moving route. Discovery/reward/save wait for conversation completion in the same state. Version-1 key owners retain explicit legacy access without fictional visits or duplicate rewards; loading writes nothing. The frozen workshop candidate remains unchanged.
+
+Eight chapter checks and eleven migration cases fail on the original runtime. The implementation passes **15/15 migration**, **31/31 combined chapter/dialogue/layout**, **84/84 full EditMode** and **226/226 full PlayMode**, zero skipped; six deliberate faults are rejected and all 115 offline controls pass. The first implementation's timestamp formatting and prompt-unregistration bugs were caught and repaired. Nathan's original save hashes are unchanged after the full suite. New player builds, the expanded smoke and eleven earned-save chapter segments are next. [Evidence and remaining art/story work](validation/C8-nursery-integration.md).
+
 ## Frozen workshop candidate validated - October 4
 
 **The playable candidate is ready at `Builds/Workshop/Play Coronach.cmd`; C7 acceptance remains OPEN.** Runtime `06b0686` includes the ordinary-startup pacing fix. The final full suites pass **69/69 EditMode and 218/218 PlayMode**, zero skipped; all 113 offline controls pass. Both stations pass release/development first/warm timing with no frame over 33.3 ms, and valid GPU p95 measurements span 1.36–2.04 ms. One impossible-timing run stays rejected; the unchanged repeat passes. Both ships' 394-second circuits pass. Both arena smokes, the 496-second slice, UI and all portraits pass. [Candidate report](validation/C7-candidate.md).

@@ -7,7 +7,7 @@ namespace Lattice.Core
     [Serializable]
     public sealed class GameState
     {
-        public int version=1;
+        public int version=ChapterProgress.SaveVersion;
         public string savedAtUtc;
         public string zone="Hub_CinderHalo";
         public string spawn="Arrival";

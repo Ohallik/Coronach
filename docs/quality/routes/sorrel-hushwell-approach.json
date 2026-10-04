@@ -1,7 +1,7 @@
 {
   "name": "sorrel-hushwell-approach",
   "scene": "Sorrel_Ridges",
-  "loadout": "gullet",
+  "loadout": "hushwell",
   "sourceRevision": "Ordinary haul-road walk into Hushwell after the warp key: level 5 reachable cleared-Burrower save; four haul encounters clear through input, then the bore changes scenes.",
   "settleSeconds": 1,
   "frameCap": 60,
