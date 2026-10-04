@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Decks GPU headroom measured through both APIs — October 3
+
+**Decks GPU headroom PASS in release and development.** Frame Timing Stats is now enabled, and the uncapped ordinary station route records `FrameTimingManager` beside the profiler counter. Both sources agree exactly at p95: **1.855 ms release, 1.935 ms development**, under the unchanged 14 ms budget. No impossible durations, focus loss, competing processes or capture overhead. Positive API coverage is 90.5% / 94.4%; pending rows are retained. The analyzer's eight new rejection cases were red before implementation; all 37 analyzer controls now pass. D129 documents the limits of the shared Unity backend. [Evidence](validation/C1-station-performance.md#frametimingmanager-cross-check-october-3-codex)
+
+C1's prior capped timing and stability evidence remains intact. Continuous human observation is still UNVERIFIED, and materially changed final art will need fresh performance runs. Nathan's save hashes are unchanged.
+
 ## Remaining ordinary routes exercised — October 3
 
 **Sorrel's service branch, the walk into Hushwell, and the whole Gullet route to TallowApproach pass ordinary virtual-gamepad input with full focus.** The captures cover the service encounters and return repair, all four haul encounters and the bore, and all three Gullet chambers, Cantor, revive and the exit valve. [Evidence](validation/MAP-remaining-routes.md)

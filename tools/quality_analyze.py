@@ -147,9 +147,79 @@ def analyze_headroom(run, frames, route):
         if len(values)<len(frames)*.9: errors.append(key+': insufficient valid timing samples')
         if percentile(values,.95)>14: errors.append(key+': p95 active work exceeds 14 ms')
     result['headroomCounters']=counters
+    if run.get('frameTimingRequested'):
+        api, comparison, api_errors = compare_frame_timing(run, frames, counters, visit_ms)
+        result['frameTimingApi'] = api
+        result['gpuComparison'] = comparison
+        errors.extend(api_errors)
     result['valid']=not errors
     result['note']='FrameTiming work counters exclude CPU cap/presentation waits; asynchronous GPU samples are not assigned to a specific input frame. Unsupported counters remain explicit. Impossible durations reject the counter evidence; raw samples and all positive values remain in the statistics.'
     return result
+
+def compare_frame_timing(run, frames, counters, visit_ms):
+    """Retain and cross-check Unity's direct API, independent of recorder access.
+
+    Both access paths use Unity's timing backend. This cannot independently
+    certify the driver/GPU clock; it exposes disagreements or shared corruption.
+    Frame timestamps deduplicate cached API returns, never GPU durations.
+    """
+    errors = []
+    if not run.get('frameTimingEnabled'):
+        errors.append('FrameTimingManager is disabled')
+    seen = set()
+    values = []
+    impossible = []
+    nonfinite = []
+    repeated = pending = 0
+    previous = 0
+    for row in frames:
+        timestamp = int(row.get('ftmTimestamp', 0))
+        value = float(row.get('ftmGpuMs', -1))
+        if not math.isfinite(value):
+            nonfinite.append(dict(elapsed=float(row['elapsed']), value=str(value)))
+            continue
+        if timestamp <= 0 or value <= 0:
+            pending += 1
+            continue
+        if timestamp < previous:
+            errors.append('FrameTimingManager timestamps moved backward')
+        previous = timestamp
+        if timestamp in seen:
+            repeated += 1
+            continue
+        seen.add(timestamp)
+        values.append(value)
+        if value > visit_ms:
+            impossible.append(dict(elapsed=float(row['elapsed']), milliseconds=value, timestamp=timestamp))
+    if nonfinite:
+        errors.append('FrameTimingManager returned nonfinite GPU duration')
+    if impossible:
+        errors.append('FrameTimingManager: impossible frame duration; API evidence rejected')
+    api = dict(samples=len(values), repeatedRows=repeated, unavailableOrPendingRows=pending,
+               nonfiniteSamples=nonfinite, impossibleSamples=impossible)
+    comparison = dict(status='UNVERIFIED')
+    if not values:
+        api['status'] = 'UNSUPPORTED'
+        errors.append('FrameTimingManager GPU work was not measured')
+    else:
+        api.update(p95Ms=percentile(values, .95), p99Ms=percentile(values, .99), worstMs=max(values))
+        if len(values) < len(frames) * .9:
+            errors.append('FrameTimingManager: insufficient distinct valid timing samples')
+        if api['p95Ms'] > 14:
+            errors.append('FrameTimingManager: p95 GPU work exceeds 14 ms')
+        profiler = counters.get('gpuWorkNs')
+        if not isinstance(profiler, dict):
+            errors.append('GPU source agreement unavailable: profiler GPU work missing')
+        else:
+            difference = abs(api['p95Ms'] - profiler['p95Ms'])
+            tolerance = max(.25, .1 * max(api['p95Ms'], profiler['p95Ms']))
+            disagreement = difference > tolerance or bool(impossible or nonfinite or profiler['impossibleSamples'])
+            comparison = dict(status='DISAGREEMENT_OR_INVALID' if disagreement else 'AGREE',
+                              profilerP95Ms=profiler['p95Ms'], apiP95Ms=api['p95Ms'],
+                              differenceMs=difference, toleranceMs=tolerance)
+            if disagreement:
+                errors.append('GPU source agreement rejected; retain both raw sources')
+    return api, comparison, errors
 
 def analyze_census(rows, seconds):
     """Report actual object/source inventories; source counts are not voice counts.

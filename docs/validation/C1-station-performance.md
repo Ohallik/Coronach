@@ -73,3 +73,44 @@ The first `quality-timing -RouteSet Stability` attempt refused to start both run
 - **Decks GPU headroom** is UNVERIFIED. Unity's GPU Frame Time counter reproducibly returns two timestamp-like values when that route opens a dialogue. An independent GPU source would be needed to verify it; its CPU headroom passes with about 13× margin.
 - **Continuous viewed traversal** by a person remains unavailable.
 
+
+## FrameTimingManager cross-check (October 3, Codex)
+
+**Decks GPU headroom PASS** under D126/D129, in both rebuilt players. Each ordinary
+virtual-gamepad run was isolated and blocking: 1920 x 1080, Ultra, uncapped, VSync
+off, no capture/profile/census, no competing process, every recorded frame focused.
+Frame Timing Stats is enabled in Player Settings; the recorder retains direct API
+durations (milliseconds), original CPU frame-start ticks, timer frequency and the
+profiler GPU counter (nanoseconds). Unity's API returns asynchronous completed
+frames, so rows are not attributed to the current input frame. The API and counter
+share Unity's timing backend; agreement is not a second hardware-clock validation.
+[Unity API](https://docs.unity.com/en-us/engine/6000.7/script-reference/unityengine/frametimingmanager),
+[feature enablement](https://docs.unity.com/en-us/engine/6000.0/script-reference/unityengine/frametimingmanager/isfeatureenabled).
+
+| Under `Builds/quality/workshop/` | Release `decks-ftm-release-01` | Development `decks-ftm-development-01` |
+|---|---:|---:|
+| Seconds / focused frames | 124.524 / 79,376 | 124.527 / 76,655 |
+| Direct API distinct positive GPU samples | 71,801 (90.46%) | 72,397 (94.45%) |
+| API pending/unavailable rows | 7,575 | 4,258 |
+| GPU p95, API and profiler | **1.855232 ms** | **1.934848 ms** |
+| GPU p99 / worst, API | 1.984512 / 3.494912 ms | 2.053376 / 2.908160 ms |
+| Active CPU / render p95 | 0.8086 / 1.8809 ms | 1.0607 / 1.9454 ms |
+| Whole-frame p95 / p99 / worst | 1.9562 / 2.1261 / 10.8305 ms | 2.0224 / 2.1921 / 9.8947 ms |
+| Analyzer | valid, AGREE | valid, AGREE |
+
+Neither API returns impossible, nonfinite or repeated-frame readings in these
+runs. The profiler has one fewer positive row per run because the access paths
+are sampled asynchronously. No positive sample is removed for being slow.
+The earlier timestamp-like anomalies were not reproduced with this configuration;
+this is not proof of their underlying cause. Eight new analyzer negative cases
+(disabled, missing, zero, cached, impossible, nonfinite, disagreement and slow API)
+all failed against the old analyzer before implementation. The corrected analyzer
+passes 37 controls including existing traversal/headroom cases. Raw red/green
+output: `Builds/quality/session-2026-10-03/frame-timing-{red,green}.txt`.
+
+The complete player, assembly and evidence hashes are indexed in
+[C1-frametiming-evidence.json](C1-frametiming-evidence.json). Nathan's original save
+SHA-256 values match the pre-session manifest after both runs. Prior capped and
+stability evidence is historical and retained; continuous visual/audio observation
+is still UNVERIFIED, and final material/layout changes require new performance
+evidence before accepting the integrated workshop.
