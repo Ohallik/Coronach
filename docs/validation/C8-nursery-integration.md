@@ -65,6 +65,13 @@ The [evidence index](C8-nursery-evidence.json) records the retained artifacts.
 Development/release builds, the expanded smoke and the fresh
 earned-save chapter route remain due.
 
+Both player builds succeed from `e0c290e`. The first expanded smoke clears the
+Burrower, both cave organs and the Bellows, then completes the nursery conversation
+and reward. It is retained as a rejection in `Builds/quality/C8/slice-01`: the
+development driver tries to path to the lift's elevated pivot, outside its floor
+sampling radius. The corrected approach uses the ordinary route's walkable stance
+before interacting. The repeat remains due; no gameplay or assertion is relaxed.
+
 The chapter route has eleven separately resumable segments, retaining New Game,
 real shop/bench/equipment/save menus and defeat/Retry. It adds the actual bore
 walk, cave combat, readable pauses on every discovery line, lift return and the

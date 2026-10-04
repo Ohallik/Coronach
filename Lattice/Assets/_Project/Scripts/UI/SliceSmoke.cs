@@ -63,6 +63,9 @@ namespace Lattice.UI
             while(DialogueSystem.Current.Running&&Time.realtimeSinceStartup<discoveryDeadline)yield return null;
             if(!GameServices.Current.Flags.GetBool("hushwell.nursery")){Fail("nursery chart not earned");yield break;}
             yield return Capture("Hushwell");
+            // The lift's pivot sits above its floor; approach the same walkable
+            // stance used by the ordinary route before requesting interaction.
+            yield return Travel(HushwellLayout.OnFloor(new Vector2(25.2f,340.2f)),1);
             yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.requiredFlag=="hushwell.nursery"));
             yield return Zone("Sorrel_Ridges");
             yield return Use(FindObjectsByType<DockingPad>(FindObjectsSortMode.None).First(p=>p.spawn=="Outer"));
