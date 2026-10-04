@@ -1170,6 +1170,31 @@
       1379
     ],
     "notes": "Accepted reference, four-view Meshy review, Unity humanoid/skin-motion intake, and actual dialogue recapture with the matching body and portrait. Independent scene-level checks pass after replacing baked donor prefabs."
+  },
+  {
+    "name": "GrassClump",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/P45-Biomes/refs/GrassClump.png",
+    "prompt": "docs/art/P45-biome-surfaces.json",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1246,
+      1263
+    ],
+    "notes": "Generated public biome fallback texture. Gameplay acceptance tracked in landscape validation; independent of purchased pack source."
+  },
+  {
+    "name": "CalmWater",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/P45-Biomes/refs/CalmWater.png",
+    "prompt": "docs/art/P45-biome-surfaces.json",
+    "inspected": true,
+    "status": "ACCEPTED_REFERENCE",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "notes": "Generated public biome fallback texture. Gameplay acceptance tracked in landscape validation; independent of purchased pack source."
   }
-
 ]

@@ -1,0 +1,604 @@
+{
+  "name": "sorrel-landscape-headroom",
+  "scene": "Sorrel_Ridges",
+  "loadout": "moon",
+  "sourceRevision": "Uncapped ordinary service-branch combat and traversal with the optional local grass and renderer: level-3 reachable loadout. Same checkpoints and outcomes as the accepted service route; exact source/build hashes in evidence.",
+  "settleSeconds": 1,
+  "frameCap": -1,
+  "starterParty": true,
+  "screenshotInterval": 0,
+  "steps": [
+    {
+      "name": "arrival to common court",
+      "seconds": 18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "leave the outpost on the haul road",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "service fork below the hound clearing",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 31
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "service spur",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 37
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "discarded equipment clearing",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 8",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 8 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 8 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 8",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_8"
+    },
+    {
+      "name": "Pulse encounter 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 8 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 8",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_8"
+    },
+    {
+      "name": "encounter 8 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_8"
+    },
+    {
+      "name": "carried repair gel after encounter 8",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at discarded equipment clearing",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "service trail bend",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": 39,
+        "y": 0,
+        "z": 64
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "scrapmite equipment pocket",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 36,
+        "y": 0,
+        "z": 73
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 9",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 9 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 9 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 9",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_9"
+    },
+    {
+      "name": "Pulse encounter 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 9 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 9",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_9"
+    },
+    {
+      "name": "encounter 9 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_9"
+    },
+    {
+      "name": "carried repair gel after encounter 9",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at scrapmite equipment pocket",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 36,
+        "y": 0,
+        "z": 73
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "console operator side",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": 83
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "upper service sentinel",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 34,
+        "y": 0,
+        "z": 103
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 10",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 10 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 10 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 10",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_10"
+    },
+    {
+      "name": "Pulse encounter 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 10 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 10",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_10"
+    },
+    {
+      "name": "encounter 10 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_10"
+    },
+    {
+      "name": "carried repair gel after encounter 10",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at upper service sentinel",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 34,
+        "y": 0,
+        "z": 103
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "stores approach",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": 116
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "upper junction sentinel",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 126
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 11",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 11 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 11 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 11",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_11"
+    },
+    {
+      "name": "Pulse encounter 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 11 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 11",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_11"
+    },
+    {
+      "name": "encounter 11 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_11"
+    },
+    {
+      "name": "carried repair gel after encounter 11",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at upper junction sentinel",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 126
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "stores return",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": 116
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "upper service return",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 35,
+        "y": 0,
+        "z": 103
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "console return",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 31,
+        "y": 0,
+        "z": 83
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lower bend return",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 39,
+        "y": 0,
+        "z": 64
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "equipment return",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 29,
+        "y": 0,
+        "z": 46
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "service spur return",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 37
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lower fork return",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 31
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "outpost threshold",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "common court return",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "repair operator stance",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "repair and save the service branch",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair and save the service branch release",
+      "seconds": 0.45
+    },
+    {
+      "name": "both heroes ready",
+      "seconds": 2,
+      "until": "partyAlive",
+      "expectedFlag": "clear.Sorrel_11"
+    }
+  ]
+}

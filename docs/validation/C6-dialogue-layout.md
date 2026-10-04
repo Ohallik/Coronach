@@ -49,3 +49,7 @@ The panel, portrait and three-option sets fit on screen at all three resolutions
   - **Fix:** the vitals panel was relaid out at 24-unit type, with a row per label, longer bars and padding to clear the artwork. Skill icons and labels went from 120 to 150 units apart. A downed partner's line drops its 0/max so it stays on one row, and the dialogue speaker name moved 4 units down from the border.
   - `InputProbe` is excluded: it is a development-build diagnostic. World-space nameplates (the small "Survivor" label) are not yet audited.
 - **Seen.** 1280×720 captures of all six zones (`Builds/logs/look/hud-720c`) were opened. The vitals, objective and hint rows read clearly and sit inside their frames.
+
+## Input behavior (October 3)
+
+The focused input suite now covers all 28 compiled story nodes and 35 outcomes with AutoAdvance off, held/rapid confirms, live device changes, option availability, UI focus, handoffs and save/reload consequences. Eleven tests pass after three cancellation defects were reproduced and fixed. Nine deliberate mutations prove the checks reject broken behavior. Full integrated rerun, OS focus/physical input and contextual editorial review remain open. [Input evidence](C6-dialogue-input.md).

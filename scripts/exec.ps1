@@ -2,7 +2,8 @@
 param(
     [Parameter(Mandatory=$true)][string]$Method,
     [Parameter(Mandatory=$true)][string]$Marker,
-    [string[]]$ExtraArgs=@(), [switch]$Graphics, [switch]$Async, [int]$TimeoutSec=600
+    [string[]]$ExtraArgs=@(), [switch]$Graphics, [switch]$Async, [int]$TimeoutSec=600,
+    [switch]$PackageRetry
 )
 $ErrorActionPreference='Stop'
 . (Join-Path $PSScriptRoot 'unity-process.ps1')
@@ -31,6 +32,7 @@ if(-not $proc.Start()){throw 'FAILED: Unity process did not start'}
 Write-Host "UNITY_EXEC pid=$($proc.Id) method=$Method"
 $deadline=[datetime]::UtcNow.AddSeconds($TimeoutSec)
 $green=$false
+$retryKnownPackage=$false
 try {
     while([datetime]::UtcNow -lt $deadline){
         if(Test-Path $log){
@@ -47,4 +49,21 @@ try {
     }
     if(-not $proc.WaitForExit(5000)){Stop-LatticeProcessTree $proc.Id}
     Write-Host "$Marker log=$log"
+} catch {
+    # A cold clone resolves PackageCache after the pre-launch compatibility
+    # pass. Retry once only for the known Unity 6000.4 Shader Graph GUID error.
+    $compileErrors=@([regex]::Matches([string]$content,'(?m)^[^\r\n]*error CS\d+[^\r\n]*'))
+    $unexpected=@($compileErrors | Where-Object {$_.Value -notmatch 'PackageCache[\\/]com\.unity\.shadergraph@.+error CS0246:.+[''"]GUID[''"]'})
+    if(-not $PackageRetry -and $compileErrors.Count -gt 0 -and $unexpected.Count -eq 0 -and $content -notmatch 'FAILED:|No valid Unity Editor license'){
+        $retryKnownPackage=$true
+    } else {throw}
 } finally {if(-not $proc.HasExited){Stop-LatticeProcessTree $proc.Id}}
+if($retryKnownPackage){
+    $coldLog=$log+'.cold-import-'+[datetime]::UtcNow.ToString('yyyyMMdd-HHmmss')+'.log'
+    Copy-Item -LiteralPath $log -Destination $coldLog
+    $patchResult=& python (Join-Path $repo 'tools/patch_unity_packages.py')
+    $patchResult | Write-Output
+    if($LASTEXITCODE -ne 0 -or $patchResult -notmatch 'modified=[1-9]\d*'){throw "FAILED: known cold-import error was not corrected; $coldLog"}
+    Write-Host "UNITY_COLD_IMPORT_RETRY evidence=$coldLog"
+    & $PSCommandPath -Method $Method -Marker $Marker -ExtraArgs $ExtraArgs -Graphics:$Graphics -Async:$Async -TimeoutSec $TimeoutSec -PackageRetry
+}

@@ -438,7 +438,7 @@
       "point": {
         "x": 0,
         "y": 0,
-        "z": -2.5
+        "z": -4.2
       },
       "rightTrigger": 0,
       "leftTrigger": 1,
@@ -447,6 +447,7 @@
     {
       "name": "redock refuge",
       "seconds": 2,
+      "expectedScene": "TallowDrift",
       "buttons": [
         "South"
       ]
@@ -454,6 +455,7 @@
     {
       "name": "arrival restored",
       "seconds": 2,
+      "expectedScene": "TallowDrift",
       "buttons": []
     }
   ]

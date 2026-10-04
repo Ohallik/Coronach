@@ -483,6 +483,118 @@ Transform:
   - {fileID: 2100461742}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &176938017
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 176938018}
+  - component: {fileID: 176938021}
+  - component: {fileID: 176938020}
+  - component: {fileID: 176938019}
+  m_Layer: 0
+  m_Name: yard-0
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &176938018
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176938017}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18, y: -0.19, z: -13}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1497983559}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &176938019
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176938017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
+  resourceKey: Arena_Ground-yard-0
+  palette: Sorrel
+  water: 0
+  sprouts:
+  - {x: 1.90942, y: 0, z: 0.36411285, w: 0.30990407}
+  - {x: 2.0512362, y: 0, z: 0.5963936, w: 0.3573205}
+  - {x: 1.52384, y: 0, z: 1.2451649, w: 0.2748753}
+  - {x: 0.9101925, y: 0, z: 1.9007883, w: 0.39469543}
+  - {x: 0.8848343, y: 0, z: 2.391119, w: 0.28675348}
+--- !u!23 &176938020
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176938017}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7129d9f5ce3c1c04e902bf59f398df20, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &176938021
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176938017}
+  m_Mesh: {fileID: 4300000, guid: 75c0e877265899743bc0a65a743c264c, type: 2}
 --- !u!1 &184206675
 GameObject:
   m_ObjectHideFlags: 0
@@ -1428,6 +1540,129 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 127073406483113034, guid: 62376566ce5b75344920b0c7bb0d83e0, type: 3}
   m_PrefabInstance: {fileID: 477580808}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &508183402
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 508183403}
+  - component: {fileID: 508183406}
+  - component: {fileID: 508183405}
+  - component: {fileID: 508183404}
+  m_Layer: 0
+  m_Name: yard-7
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &508183403
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508183402}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 18, y: -0.19, z: -4}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1497983559}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &508183404
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508183402}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
+  resourceKey: Arena_Ground-yard-7
+  palette: Sorrel
+  water: 0
+  sprouts:
+  - {x: -0.7484436, y: 0, z: -2.3787613, w: 0.39367226}
+  - {x: 0.9776554, y: 0, z: -1.9633393, w: 0.357919}
+  - {x: 1.6665344, y: 0, z: -1.6534576, w: 0.3228387}
+  - {x: 0.55065155, y: 0, z: -0.932333, w: 0.38046888}
+  - {x: 1.6698952, y: 0, z: -1.0883446, w: 0.27373463}
+  - {x: 1.0058289, y: 0, z: -0.33094168, w: 0.402518}
+  - {x: 1.6337376, y: 0, z: -0.26885748, w: 0.33879858}
+  - {x: 0.9867401, y: 0, z: 0.27332544, w: 0.31263933}
+  - {x: 1.4814548, y: 0, z: 0.06781292, w: 0.30080208}
+  - {x: -1.9374027, y: 0, z: 0.85668707, w: 0.29878145}
+  - {x: 0.57427025, y: 0, z: 0.8865886, w: 0.33499542}
+  - {x: 0.93343544, y: 0, z: 0.82131815, w: 0.3531659}
+  - {x: 0.39364243, y: 0, z: 1.4193506, w: 0.29935434}
+  - {x: 1.0545006, y: 0, z: 1.590045, w: 0.38734564}
+  - {x: 0.2266407, y: 0, z: 1.9028311, w: 0.32167894}
+  - {x: 1.0449982, y: 0, z: 2.1661355, w: 0.31867996}
+--- !u!23 &508183405
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508183402}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7129d9f5ce3c1c04e902bf59f398df20, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &508183406
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 508183402}
+  m_Mesh: {fileID: 4300000, guid: efa9cb9e33451d54daa9645f70d701c0, type: 2}
 --- !u!1 &524888615
 GameObject:
   m_ObjectHideFlags: 0
@@ -4640,6 +4875,124 @@ Transform:
   - {fileID: 1016291323}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1184274058
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1184274059}
+  - component: {fileID: 1184274062}
+  - component: {fileID: 1184274061}
+  - component: {fileID: 1184274060}
+  m_Layer: 0
+  m_Name: yard-2
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1184274059
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184274058}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -18, y: -0.19, z: 8}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1497983559}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1184274060
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184274058}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
+  resourceKey: Arena_Ground-yard-2
+  palette: Sorrel
+  water: 0
+  sprouts:
+  - {x: -0.2404232, y: 0, z: 0.19751644, w: 0.40227544}
+  - {x: 0.45225716, y: 0, z: -0.07002258, w: 0.36711252}
+  - {x: -0.23965836, y: 0, z: 0.88950443, w: 0.39398652}
+  - {x: 0.34336472, y: 0, z: 0.83111095, w: 0.35857567}
+  - {x: 1.422121, y: 0, z: 0.6480675, w: 0.3080395}
+  - {x: 0.408453, y: 0, z: 1.2776594, w: 0.36950096}
+  - {x: 1.078413, y: 0, z: 1.469635, w: 0.41357702}
+  - {x: 1.4983406, y: 0, z: 1.5841131, w: 0.27620125}
+  - {x: -0.26553154, y: 0, z: 1.8214455, w: 0.32180122}
+  - {x: 0.4730034, y: 0, z: 1.9842625, w: 0.39083803}
+  - {x: 0.91420364, y: 0, z: 2.1006737, w: 0.37493312}
+--- !u!23 &1184274061
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184274058}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7129d9f5ce3c1c04e902bf59f398df20, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1184274062
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1184274058}
+  m_Mesh: {fileID: 4300000, guid: 157b7d606e9de464c97c3940c34c544c, type: 2}
 --- !u!1 &1226574065
 GameObject:
   m_ObjectHideFlags: 0
@@ -5870,6 +6223,126 @@ Transform:
   - {fileID: 1129255876}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1419762949
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1419762950}
+  - component: {fileID: 1419762953}
+  - component: {fileID: 1419762952}
+  - component: {fileID: 1419762951}
+  m_Layer: 0
+  m_Name: yard-3
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1419762950
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419762949}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -13, y: -0.19, z: 19}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1497983559}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1419762951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419762949}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
+  resourceKey: Arena_Ground-yard-3
+  palette: Sorrel
+  water: 0
+  sprouts:
+  - {x: -0.32607937, y: 0, z: -1.9180851, w: 0.40349966}
+  - {x: 1.6109362, y: 0, z: -1.4877319, w: 0.40225795}
+  - {x: -0.08264637, y: 0, z: -1.2076645, w: 0.34014454}
+  - {x: 0.49582767, y: 0, z: -1.1110649, w: 0.35888156}
+  - {x: 1.2453127, y: 0, z: -1.2468185, w: 0.29700235}
+  - {x: 1.6653175, y: 0, z: -0.8833313, w: 0.2925568}
+  - {x: -0.91138077, y: 0, z: -0.68948364, w: 0.30436638}
+  - {x: -0.12938213, y: 0, z: -0.53342056, w: 0.2941984}
+  - {x: 0.27830315, y: 0, z: -0.69625664, w: 0.36912698}
+  - {x: 1.108161, y: 0, z: -0.47360992, w: 0.31859797}
+  - {x: 1.793252, y: 0, z: -0.5398464, w: 0.36898255}
+  - {x: 0.25976372, y: 0, z: 0.14531136, w: 0.33503282}
+  - {x: 1.281496, y: 0, z: 0.11873436, w: 0.33191907}
+--- !u!23 &1419762952
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419762949}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7129d9f5ce3c1c04e902bf59f398df20, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1419762953
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1419762949}
+  m_Mesh: {fileID: 4300000, guid: 50e402043a0258e4b98691b244a634a7, type: 2}
 --- !u!1 &1452700263
 GameObject:
   m_ObjectHideFlags: 0
@@ -6366,6 +6839,42 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 127073406483113034, guid: 62376566ce5b75344920b0c7bb0d83e0, type: 3}
   m_PrefabInstance: {fileID: 1492760930}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1497983558
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1497983559}
+  m_Layer: 0
+  m_Name: Biome surfaces
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1497983559
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497983558}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 176938018}
+  - {fileID: 1184274059}
+  - {fileID: 1419762950}
+  - {fileID: 1741645036}
+  - {fileID: 508183403}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1548865798
 GameObject:
   m_ObjectHideFlags: 0
@@ -6787,6 +7296,130 @@ Transform:
   - {fileID: 1994077015}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1741645035
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1741645036}
+  - component: {fileID: 1741645039}
+  - component: {fileID: 1741645038}
+  - component: {fileID: 1741645037}
+  m_Layer: 0
+  m_Name: yard-6
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1741645036
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741645035}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 18, y: -0.19, z: 5}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1497983559}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1741645037
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741645035}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
+  resourceKey: Arena_Ground-yard-6
+  palette: Sorrel
+  water: 0
+  sprouts:
+  - {x: -1.4055347, y: 0, z: -1.695591, w: 0.3122724}
+  - {x: -1.3634338, y: 0, z: -1.1890788, w: 0.30186436}
+  - {x: -1.2097607, y: 0, z: -0.40658712, w: 0.40863317}
+  - {x: -1.998682, y: 0, z: 0.3150978, w: 0.41542864}
+  - {x: -1.220892, y: 0, z: 0.07951927, w: 0.305053}
+  - {x: -0.812912, y: 0, z: 0.08715582, w: 0.3845127}
+  - {x: 0.4925995, y: 0, z: 0.37210655, w: 0.3116266}
+  - {x: 1.2314034, y: 0, z: 0.087750435, w: 0.29986456}
+  - {x: 1.760601, y: 0, z: 0.25106192, w: 0.40093186}
+  - {x: -1.2916508, y: 0, z: 0.9718647, w: 0.3901047}
+  - {x: -0.695076, y: 0, z: 0.9768863, w: 0.3714784}
+  - {x: -0.29769516, y: 0, z: 0.8889494, w: 0.35221452}
+  - {x: 1.198309, y: 0, z: 0.6336813, w: 0.39957815}
+  - {x: -1.4156227, y: 0, z: 1.3577104, w: 0.38654625}
+  - {x: -0.101724625, y: 0, z: 2.1217537, w: 0.27857944}
+  - {x: 0.5434971, y: 0, z: 2.1504269, w: 0.39195076}
+  - {x: 0.42481804, y: 0, z: 2.5270247, w: 0.3921714}
+--- !u!23 &1741645038
+MeshRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741645035}
+  m_Enabled: 1
+  m_CastShadows: 0
+  m_ReceiveShadows: 1
+  m_DynamicOccludee: 1
+  m_StaticShadowCaster: 0
+  m_MotionVectors: 1
+  m_LightProbeUsage: 1
+  m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
+  m_RayTraceProcedural: 0
+  m_RayTracingAccelStructBuildFlagsOverride: 0
+  m_RayTracingAccelStructBuildFlags: 1
+  m_SmallMeshCulling: 1
+  m_ForceMeshLod: -1
+  m_MeshLodSelectionBias: 0
+  m_RenderingLayerMask: 1
+  m_RendererPriority: 0
+  m_Materials:
+  - {fileID: 2100000, guid: 7129d9f5ce3c1c04e902bf59f398df20, type: 2}
+  m_StaticBatchInfo:
+    firstSubMesh: 0
+    subMeshCount: 0
+  m_StaticBatchRoot: {fileID: 0}
+  m_ProbeAnchor: {fileID: 0}
+  m_LightProbeVolumeOverride: {fileID: 0}
+  m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
+  m_PreserveUVs: 0
+  m_IgnoreNormalsForChartDetection: 0
+  m_ImportantGI: 0
+  m_StitchLightmapSeams: 1
+  m_SelectedEditorRenderState: 3
+  m_MinimumChartSize: 4
+  m_AutoUVMaxDistance: 0.5
+  m_AutoUVMaxAngle: 89
+  m_LightmapParameters: {fileID: 0}
+  m_GlobalIlluminationMeshLod: 0
+  m_SortingLayerID: 0
+  m_SortingLayer: 0
+  m_SortingOrder: 0
+  m_MaskInteraction: 0
+  m_AdditionalVertexStreams: {fileID: 0}
+--- !u!33 &1741645039
+MeshFilter:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1741645035}
+  m_Mesh: {fileID: 4300000, guid: 591108d2bf6080a4fb4ae7e5fb0d68f3, type: 2}
 --- !u!1 &1743680696
 GameObject:
   m_ObjectHideFlags: 0
@@ -8801,3 +9434,4 @@ SceneRoots:
   - {fileID: 251830118}
   - {fileID: 270349453}
   - {fileID: 2034492648}
+  - {fileID: 1497983559}

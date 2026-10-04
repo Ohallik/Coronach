@@ -1,0 +1,28 @@
+[
+  {
+    "name": "GrassClump",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/P45-Biomes/refs/GrassClump.png",
+    "sha256": "19209974f4a15b77268385f46028ca2f83e1f337f9411ac20b58dda1d3bea4ec",
+    "native_resolution": [
+      1246,
+      1263
+    ],
+    "prompt": "Use case: stylized-concept. Asset type: game foliage cutout texture for Coronach, an HD-2D toon alien-world RPG. Exactly ONE isolated small clump of fine, gracefully curved meadow-grass blades, viewed straight on from ground level, complete blade tips and a compact shared base visible. A natural asymmetric fan of about twenty slender pointed leaves, some short and some long, maximum height twice the base width. A few broader ribbon-like leaves give an alien silhouette, with no flowers. Soft sage-green and dusty warm-gold leaf colors, darker muted olive bases, broad flat local color shapes and very subtle cel shading. Crisp clean edges readable at small gameplay size. Fully transparent background, no ground plane, pot, dirt mound, scenery, text, frame, labels, cast shadow, glow, highlights, lighting baked into the leaves or extra objects. Keep a generous clear margin around every blade and the base. One foliage clump only, centered upright, polished hand-painted game texture rather than photorealism.\n",
+    "use": "Public project-owned fallback surface; independent of purchased pack source",
+    "inspected": true
+  },
+  {
+    "name": "CalmWater",
+    "generator": "built-in image_gen",
+    "source": "art-src/Generated/P45-Biomes/refs/CalmWater.png",
+    "sha256": "5a8df24d7c2288628d341aee6357be612701301a17d1604b8906a8fbc3689c64",
+    "native_resolution": [
+      1254,
+      1254
+    ],
+    "prompt": "Use case: stylized-concept. Asset type: seamless tileable water-surface albedo texture for an HD-2D toon game, viewed exactly orthographically from above. A square continuous field of quiet shallow alien spring water. Muted blue-green teal base, with sparse delicate pale-sage ripple arcs and broad soft variations of teal. Calm, clean, restrained, low contrast, large simple shapes that remain legible from a fixed angled gameplay camera. Hand-painted flat local colors, no photorealism, no directional illumination or cast shadows. Edge-to-edge water only, matching all four borders for seamless repetition. No shore, stones, plants, fish, objects, scene, horizon, perspective, text, frame, transparency, bright white sparkles, foam clusters, caustic net patterns or heavy outlines. This is a subtle repeating surface texture, not an illustration of a pond.\n",
+    "use": "Public project-owned fallback surface; independent of purchased pack source",
+    "inspected": true
+  }
+]

@@ -222,9 +222,29 @@ namespace Lattice.UI
                         direction = new Vector2(local.x, local.z) * .25f;
                     }
                 }
+                bool evading = false;
+                var lead = PartyController.Current.Active;
+                if (step.evadeTelegraphs && lead.target != null && lead.target.Alive)
+                {
+                    var boss = lead.target.GetComponent<BossController>();
+                    var threat = lead.target.GetComponent<EnemyBrain>();
+                    var offset = lead.transform.position - lead.target.transform.position; offset.y = 0;
+                    evading = boss != null && boss.Telegraphing && boss.TelegraphRemaining < .16f && offset.sqrMagnitude < 18 * 18 ||
+                        threat != null && threat.Telegraphing && threat.TelegraphRemaining < .16f && offset.sqrMagnitude < 5 * 5;
+                    if (evading)
+                    {
+                        // Read the visible tell and send an ordinary lateral dodge.
+                        // Release at the end of the tell; do not call actor actions
+                        // or alter damage, cooldowns, time, or the fight's outcome.
+                        var lateral = Vector3.Cross(Vector3.up, offset.normalized);
+                        var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * lateral;
+                        direction = new Vector2(local.x, local.z);
+                    }
+                }
                 held = new GamepadState { leftStick = Vector2.ClampMagnitude(direction, 1), leftTrigger = step.leftTrigger, rightTrigger = step.rightTrigger };
+                if (evading) held = held.WithButton(GamepadButton.East);
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
-                if (press && inReach && step.buttons != null) foreach (var button in step.buttons)
+                if (!evading && press && inReach && step.buttons != null) foreach (var button in step.buttons)
                 {
                     if (!Enum.TryParse<GamepadButton>(button, true, out var parsed)) throw new InvalidOperationException("Invalid replay button " + button);
                     held = held.WithButton(parsed);

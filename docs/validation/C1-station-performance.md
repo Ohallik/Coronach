@@ -114,3 +114,30 @@ SHA-256 values match the pre-session manifest after both runs. Prior capped and
 stability evidence is historical and retained; continuous visual/audio observation
 is still UNVERIFIED, and final material/layout changes require new performance
 evidence before accepting the integrated workshop.
+
+## Optional landscape pipeline (October 3, Codex)
+
+The final private renderer and water/grass settings were measured again in both
+builds. These are isolated ordinary-input, uncapped runs at 1920 x 1080 with no
+capture, profile or census. All samples retain focus and all environments have
+no competing Unity/player/encoder work. API and profiler agree at p95 in all four.
+
+| Under `Builds/quality/workshop/biomes/` | Frames | GPU p95 ms | Frame p95 / p99 / worst ms |
+|---|---:|---:|---:|
+| `decks-headroom-release-01` | 73,678 | 1.896960 | 2.0992 / 2.2758 / 10.6904 |
+| `decks-headroom-development-01` | 70,659 | 1.991424 | 2.1893 / 2.3785 / 10.1804 |
+| `tallow-headroom-release-01` | 97,248 | 1.273344 | 1.4771 / 1.6213 / 9.2335 |
+| `tallow-headroom-development-01` | 92,830 | 1.330432 | 1.5372 / 1.6797 / 9.4345 |
+
+Both the unchanged 14 ms GPU budget and distinct-positive API coverage pass;
+raw pending samples remain in the recordings. These measurements cover the
+global renderer and Tallow water. They do not substitute for dense Sorrel combat
+performance, capped first/warm routes, long stability or continuous observation.
+
+The subsequent clean release Sorrel service-combat run,
+`biomes/sorrel-headroom-release-01`, covers the densest grass placement: 259.946 s,
+221,548 focused frames, active CPU p95 0.9178 ms, render 1.2474 ms, and GPU
+**1.247744 ms** from both timing sources. API coverage is 96.18%; its 8,464 pending
+rows are retained. No impossible values or repeated API frames. Whole-frame
+p95/p99/worst is 1.4232/1.5637/15.7015 ms, and all route outcomes pass. Exact hashes
+are in [the landscape evidence index](C8-landscape-evidence.json).

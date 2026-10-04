@@ -2,7 +2,7 @@
   "name": "hushwell-descent",
   "scene": "Hushwell",
   "loadout": "gullet",
-  "sourceRevision": "Hushwell first ordinary descent: both galleries, both pressure chambers with live vents, the Bellows (organs first), the nursery discovery and the lift. Natural in the breach pocket, Shaped from gallery A. Each organ is locked (LB picks the nearest) and chased into reach before melee; the Bellows is locked once and chased as it backs away, each round ending when it falls.",
+  "sourceRevision": "Hushwell first ordinary descent: both galleries, both pressure chambers with live vents, the Bellows (organs first), the nursery discovery and the lift. Natural in the breach pocket, Shaped from gallery A. Each organ is locked (LB picks the nearest) and chased into reach before melee; the Bellows is locked once and chased as it backs away, each round ending when it falls and responding to visible wind-ups with ordinary lateral dodge input.",
   "settleSeconds": 1,
   "frameCap": 60,
   "starterParty": true,
@@ -546,6 +546,7 @@
     },
     {
       "name": "chase and melee the Bellows 1",
+      "evadeTelegraphs": true,
       "seconds": 16,
       "navigate": true,
       "approachTarget": true,
@@ -580,6 +581,7 @@
     },
     {
       "name": "chase and melee the Bellows 2",
+      "evadeTelegraphs": true,
       "seconds": 16,
       "navigate": true,
       "approachTarget": true,
@@ -614,6 +616,7 @@
     },
     {
       "name": "chase and melee the Bellows 3",
+      "evadeTelegraphs": true,
       "seconds": 16,
       "navigate": true,
       "approachTarget": true,
@@ -648,6 +651,7 @@
     },
     {
       "name": "chase and melee the Bellows 4",
+      "evadeTelegraphs": true,
       "seconds": 16,
       "navigate": true,
       "approachTarget": true,
@@ -682,6 +686,7 @@
     },
     {
       "name": "chase and melee the Bellows 5",
+      "evadeTelegraphs": true,
       "seconds": 16,
       "navigate": true,
       "approachTarget": true,

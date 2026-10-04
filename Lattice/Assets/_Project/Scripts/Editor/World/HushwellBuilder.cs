@@ -358,7 +358,7 @@ namespace Lattice.EditorTools
 
         // ---- Navigation ----------------------------------------------------
 
-        static void BakeNavigation()
+        internal static void BakeNavigation()
         {
             Physics.SyncTransforms();var sources=new List<NavMeshBuildSource>();
             foreach(var collider in UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None))

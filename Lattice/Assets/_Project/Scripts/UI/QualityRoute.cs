@@ -39,6 +39,9 @@ namespace Lattice.UI
         public bool approachTarget;
         // A ranged hero's reach in a chase (Sela shoots; she does not close to melee).
         public float rangedTolerance;
+        // Opt-in agent reaction to the chased enemy's visible attack wind-up.
+        // It queues a lateral stick + dodge press through the ordinary input path.
+        public bool evadeTelegraphs;
         public Vector3 point;
         public float tolerance = .65f, magnitude = 1, pulseSeconds;
         public string[] buttons;

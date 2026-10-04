@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Landscape integration and dialogue input checks - October 3
+
+**Work in progress toward the workshop.** Purchased grass/water are installed only in ignored local roots. Four maps now have low vegetation, real nursery basins, a contained Tallow recycling garden and a visible Sorrel bore cut; public generated fallbacks compile in a no-pack source export. Opened views caught and corrected water density/shoreline defects. EditMode passes 69/69. Tallow, both Sorrel branches, the complete Hushwell descent/lift and the proving yard now pass fresh ordinary-input captures. All four Decks/Tallow GPU headroom runs pass with the private pipeline (1.27-1.99 ms p95); dense Sorrel combat also passes at 1.248 ms GPU p95. [Landscape evidence](validation/C8-landscape-surfaces.md), [fresh-clone/local setup](OPTIONAL_ART_PACKS.md).
+
+**C6 focused input tests pass 11/11**, including all 28 compiled story nodes / 35 outcomes, held/rapid confirms, device changes, selection recovery, shop/bench handoffs and state reloads. Cancellation had silently selected an option, raced the stopped Yarn runner and granted quest credit; all three have red evidence and fixes. Nine deliberate faults are rejected by the new tests. The full integrated rerun reached 200/203 and exposed three completion/unload defects; the repaired completion/unload behavior passes the combined affected classes, 44/44. A final full-suite rerun remains due. Cantor framing, C7 flow and continuous/physical review remain open. [Input evidence](validation/C6-dialogue-input.md).
+
 ## Survivor and Keeper stand-in bodies replaced — October 3
 
 **Both speakers now have their own generated bodies in the actual maps.** Portrait-matched references, Meshy T2 meshes and humanoid rigs cost 40 credits; live balance is **2,823**. Toon materials, 1024 albedos and real skin deformation checks pass. The first gameplay capture caught baked donor prefabs that definition-only checks missed; new scene checks failed before the isolated visual replacements. Full EditMode passes **60/60**. Final ordinary-input conversations pass with full focus, and their opened images show matching body/portrait identities. [Evidence](validation/C8-speaker-bodies.md)

@@ -40,3 +40,7 @@ Opened the rebuilt unlabelled arrival and overhead views in `station/maps-after-
 ## Final spatial review
 
 Codex accepts the corrected pressure-lift/refuge arrangement after opening the unlabelled maps-after-11 comparisons and final-tallow-03 release arrival, repair/service, launch and redock views. The complete 47-checkpoint ordinary-input route passes in 177.594 s, including both heroes, repair/save and return. [Final review](../validation/station-final.md) records concrete observations and prior rejections. The historical OPEN notes above document the iterations before this review. C1 reruns, watched continuous motion, audio audition and physical controller feel remain separate pending checks.
+
+## Recycling garden (October 3)
+
+A low contained water/plant bed at x=11, z=-2 makes the refuge's maintained life-support work visible. Its 2 by 5 m rim belongs to the starboard hull edge, outside the x<=9 public aisle and south of the boundary waypoint at (11,1). Service and repair access stay open. [Changed-map review and recapture](../validation/C8-landscape-surfaces.md).

@@ -225,7 +225,7 @@ namespace Lattice.EditorTools
             var obstacle=seal.gameObject.AddComponent<NavMeshObstacle>();obstacle.shape=NavMeshObstacleShape.Box;obstacle.center=box.center;obstacle.size=box.size;
             obstacle.carving=true;obstacle.carveOnlyStationary=false;obstacle.enabled=!open;
         }
-        static void BakeNavigation()
+        internal static void BakeNavigation()
         {
             Physics.SyncTransforms();var sources=new List<NavMeshBuildSource>();
             foreach(var collider in UnityEngine.Object.FindObjectsByType<Collider>(FindObjectsSortMode.None))

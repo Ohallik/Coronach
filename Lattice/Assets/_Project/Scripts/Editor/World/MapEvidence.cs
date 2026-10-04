@@ -9,6 +9,42 @@ namespace Lattice.EditorTools
     /// <summary>Read-only scene review renders. Never saves or regenerates maps.</summary>
     public static class MapEvidence
     {
+        public static void Biomes()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("workshop/biomes/views-01");
+            bool local=Lattice.Core.DevArgs.Has("-local-biomes");
+            var before=UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline;
+            var beforeQuality=QualitySettings.renderPipeline;
+            try
+            {
+                if(local)
+                {
+                    var pipeline=Resources.Load<UnityEngine.Rendering.RenderPipelineAsset>("LocalBiomes/LocalPipeline");
+                    if(pipeline==null)throw new System.InvalidOperationException("Local biome pipeline is missing");
+                    UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline=pipeline;QualitySettings.renderPipeline=pipeline;
+                }
+                foreach(var zone in new[]{"Sorrel_Ridges","Arena_Ground","Hushwell","TallowDrift"})
+                {
+                    var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
+                    foreach(var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+                    if(local)foreach(var patch in Object.FindObjectsByType<Lattice.World.BiomePatch>(FindObjectsSortMode.None))
+                        if(!patch.ApplyLocalArt())throw new System.InvalidOperationException("Local art missing for "+patch.resourceKey);
+                    var camera=new GameObject("Evidence camera",typeof(Camera),typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+                    camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.025f,.035f,.06f);
+                    camera.nearClipPlane=.1f;camera.farClipPlane=2000;camera.fieldOfView=30;
+                    camera.GetUniversalAdditionalCameraData().renderPostProcessing=true;
+                    var views=zone=="Sorrel_Ridges"?new[]{("outpost",new Vector3(0,1,20)),("seam",new Vector3(-35,1,58)),("service",new Vector3(35,1,82)),("bore",new Vector3(8,1,174))}:
+                        zone=="Arena_Ground"?new[]{("yard",new Vector3(-13,1,9))}:
+                        zone=="Hushwell"?new[]{("nursery",new Vector3(14,-15,334)),("nursery-west",new Vector3(6,-15,336)),("nursery-north",new Vector3(14,-15,340))}:
+                        new[]{("refuge",new Vector3(7,1,-1))};
+                    var rotation=Quaternion.Euler(40,20,0);
+                    foreach(var view in views)
+                    {camera.transform.SetPositionAndRotation(view.Item2-rotation*Vector3.forward*19.5f,rotation);Render(camera,folder,zone+"-"+view.Item1);}
+                }
+            }
+            finally{UnityEngine.Rendering.GraphicsSettings.defaultRenderPipeline=before;QualitySettings.renderPipeline=beforeQuality;}
+            Debug.Log("BIOME_EVIDENCE_OK "+folder);
+        });
         public static void Baseline() => BatchTools.Run(() => Capture("C0/maps-before"));
         public static void StationAfter() => BatchTools.Run(() => Capture("station/maps-after"));
         public static void StationBlockout() => BatchTools.Run(() => Capture("station/blockout-03"));

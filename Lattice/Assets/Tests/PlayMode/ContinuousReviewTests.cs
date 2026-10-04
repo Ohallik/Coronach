@@ -91,5 +91,52 @@ namespace Lattice.Tests.PlayMode
             while (Time.unscaledTime < deadline) { Call(replay, "InputUpdate"); yield return null; }
             Assert.Less(victim.Health.integrity, 950, $"the replay fires across the target instead of re-aiming after the roll; facing={actor.motor.Facing}, actor={actor.transform.position}, victim={victim.transform.position}, input={GameInput.Current.Move}, blocked={GameInput.Current.Blocked}, fire={GameInput.Current.Held("Fire")}");
         }
+
+        [UnityTest] public IEnumerator TelegraphReactionDodgesThroughInputAndReleasesForTheNextTell()
+        {
+            DevLoadout.Apply("starter"); SceneFlow.Current.LoadZone("Arena_Ground");
+            float deadline = Time.unscaledTime + 10;
+            while (SceneFlow.Current.Loading && Time.unscaledTime < deadline) yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading);
+            foreach (var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None)) enemy.Passive = true;
+            foreach (var hero in PartyController.Current.members) hero.GetComponent<PartnerBrain>().enabled = false;
+            var actor = PartyController.Current.Active;
+            var target = new GameObject("Visible boss tell fixture", typeof(Health));
+            target.transform.position = actor.transform.position + Vector3.forward * 8;
+            var boss = target.AddComponent<BossController>(); boss.enabled = false;
+            actor.target = target.GetComponent<Health>(); actor.TargetLocked = true;
+            Set(replay, "pad", InputSystem.AddDevice<Gamepad>("ReplayTelegraphRegression"));
+            Call(replay, "InputUpdate"); yield return null; yield return null;
+            Set(replay, "recording", true);
+            var chase = new QualityStep { navigate = true, approachTarget = true, tolerance = 18, evadeTelegraphs = true };
+            Set(replay, "step", chase);
+            try
+            {
+                for (int tell = 0; tell < 2; tell++)
+                {
+                    Set(boss, "busy", true); Set(boss, "strikeAt", Time.time + .45f);
+                    bool dodged = false;
+                    while (boss.Telegraphing)
+                    {
+                        Call(replay, "InputUpdate"); yield return null;
+                        if (actor.State == ActorState.Dodge) dodged = true;
+                    }
+                    Assert.IsTrue(dodged, "visible tell " + tell + " received no ordinary dodge input");
+                    Assert.IsTrue(GameInput.Current.Move.sqrMagnitude > .1f, "dodge requires lateral stick input, not an actor call");
+                    float before = actor.Health.integrity;
+                    actor.Health.Receive(new DamagePacket { source = actor.target, amount = 20, type = DamageType.Kinetic });
+                    Assert.AreEqual(before, actor.Health.integrity, "the input arrived outside the dodge window");
+                    Set(boss, "busy", false);
+                    deadline = Time.unscaledTime + .6f;
+                    while (Time.unscaledTime < deadline) { Call(replay, "InputUpdate"); yield return null; }
+                    Assert.IsFalse(GameInput.Current.Held("Dodge"), "dodge must release between tells");
+                }
+                chase.evadeTelegraphs = false;
+                Set(boss, "busy", true); Set(boss, "strikeAt", Time.time + .1f);
+                Call(replay, "InputUpdate"); yield return null; yield return null;
+                Assert.IsFalse(GameInput.Current.Held("Dodge"), "ordinary routes must not gain implicit evasive input");
+            }
+            finally { Object.Destroy(target); }
+        }
     }
 }

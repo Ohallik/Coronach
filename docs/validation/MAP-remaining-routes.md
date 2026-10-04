@@ -75,3 +75,13 @@ Nathan's two ordinary save files were SHA-256 checked against the pre-run
 manifest after the captures and are unchanged. Manifest:
 `Builds/quality/session-2026-10-03/save-hashes-before.json`.
 Small artifact/source hash index: [MAP-remaining-routes-evidence.json](MAP-remaining-routes-evidence.json).
+
+## Landscape recapture (October 3, later)
+
+D131 adds low grass to Sorrel and a real compact terrain cut below the bore scaffold.
+The final service route (260.149 s) and bore-to-Hushwell walk (208.641 s) pass again
+with full focus. Hushwell's complete descent, nursery and lift also pass after
+D133 adds ordinary dodge input to its Bellows rounds (410.834 s). Opened captures
+confirm dry paths around the new nursery water. [Surface evidence](C8-landscape-surfaces.md)
+records the rejected runs and exact scope. Broad bare stretches of Sorrel remain
+chapter-polish work; Cantor framing remains open.

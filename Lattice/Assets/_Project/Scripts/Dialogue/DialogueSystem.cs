@@ -18,14 +18,15 @@ namespace Lattice.Dialogue
         public bool Preparing{get;private set;}
         public bool Prepared{get;private set;}
         readonly IDialogueView preparationView=new PreparationView();
-        internal IDialogueView PresenterView=>Preparing?preparationView:View;
+        internal IDialogueView PresenterView=>leaving||View is UnityEngine.Object viewObject&&viewObject==null?null:Preparing?preparationView:View;
         public DialogueRunner Runner{get;private set;}
         public bool AutoAdvance;
+        internal bool Interrupted;
         public int LinesPresented{get;internal set;}
         public string Speaker{get;private set;}
-        public bool Running=>Runner!=null&&Runner.IsDialogueRunning;
+        public bool Running=>dialogueActive||Runner!=null&&Runner.IsDialogueRunning;
         string pendingUi;
-        bool leaving,preparationComplete;
+        bool leaving,preparationComplete,dialogueActive;
         readonly List<string> pendingJoins=new();
         static readonly ProfilerMarker LoadProjectMarker=new("Coronach.Dialogue.LoadProject");
         static readonly ProfilerMarker SetProjectMarker=new("Coronach.Dialogue.SetProject");
@@ -39,9 +40,12 @@ namespace Lattice.Dialogue
             Runner.onDialogueStart??=new UnityEvent();Runner.onDialogueComplete??=new UnityEvent();
             Runner.onDialogueComplete.AddListener(()=>
             {
+                try
+                {
                 if(leaving||GameServices.Current==null)return;
                 if(Preparing){preparationComplete=true;return;}
                 View?.Hide();GameServices.Current.Input.Blocked=false;
+                if(Interrupted){pendingJoins.Clear();pendingUi=null;Debug.Log("DIALOGUE_CANCELLED "+Speaker);return;}
                 Debug.Log("DIALOGUE_OK "+Speaker);RpgServices.Quests.Report(ObjectiveKind.TalkTo,Speaker);
                 foreach(string id in pendingJoins)
                 {
@@ -50,6 +54,8 @@ namespace Lattice.Dialogue
                 }
                 pendingJoins.Clear();
                 if(pendingUi!=null){string action=pendingUi;pendingUi=null;UiRequested?.Invoke(action);}
+                }
+                finally {dialogueActive=false;}
             });
             Runner.AddCommandHandler("setFlag",(Action<string>)(key=>GameServices.Current.Flags.SetBool(key,true)));
             Runner.AddCommandHandler("giveItem",(Action<string,int>)((id,count)=>RpgServices.Inventory.Give(id,count)));
@@ -91,7 +97,10 @@ namespace Lattice.Dialogue
         public void StartNode(string node,string speaker)
         {
             if(Preparing||Running||!Prepared)return;
-            Speaker=speaker;GameServices.Current.Input.Blocked=true;
+            // Yarn's VM stops before its presenters and completion commands drain.
+            // Keep the conversation owned until those commands finish, so callers
+            // cannot start a second node against the first node's cancellation state.
+            Speaker=speaker;Interrupted=false;dialogueActive=true;GameServices.Current.Input.Blocked=true;
             using(StartNodeMarker.Auto())Runner.StartDialogue(node).Forget();
         }
         sealed class PreparationView:IDialogueView

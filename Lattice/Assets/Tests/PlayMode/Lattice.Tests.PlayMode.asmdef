@@ -16,5 +16,7 @@
   ],
   "optionalUnityReferences": [
     "TestAssemblies"
-  ]
+  ],
+  "overrideReferences": true,
+  "precompiledReferences": ["YarnSpinner.dll"]
 }
