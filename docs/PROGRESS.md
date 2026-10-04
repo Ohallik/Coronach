@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## New Game to Tallow passes with earned saves - October 4
+
+**Ordinary release flow PASS; C7 acceptance remains OPEN.** Nine chained virtual-gamepad segments total **1,804.057 seconds (30:04), 108,115/108,115 focused frames**. They cover New Game, Sela joining, shop, bench/equipment, manual save/Continue, live defeat/Retry, Sorrel preparation/Burrower/key, launch/warp, all Gullet chambers/Cantor, Tallow docking/Keeper/repair and a completion autosave. Every continuation uses an accepted run's exact ordinary save; no development loadout or gameplay-state edits. Final save: both level-six heroes, 210 integrity/100 charge, `sliceComplete=true`. [Report and evidence](validation/C7-workshop-flow.md).
+
+The first tunnel continuation is retained as a rejection: its inherited checkpoints accidentally expected Title after loading the Gullet. Explicit scene expectations fix route authoring; the full repeat passes (797.194 s, Cantor 86.2 s). Opened final captures still show weak coil floor/clamp composition and Burrower melee occlusion in the prior leg. The full integrated PlayMode suite is now running with `-TimeoutSec 3600`; final builds/performance/smokes, remaining map repairs and continuous motion/audio review are still due. This is agent-directed play, not Nathan or physical-controller acceptance.
+
 ## Earned preparation and Burrower clear - October 4
 
 **C7's chained playthrough now owns the warp key.** Ordinary haul combat/mining and outpost repair pass (231.528 s, 13,878 focused frames). The real bench crafts gels, a refined edge and two protective frames; equipment and slot1 save pass (111.841 s, 6,698 focused frames). Continue loads that exact gear and defeats the Burrower in 48.1 seconds, with both heroes alive, then collects/saves the key (179.961 s, 10,784 focused frames). No development loadout or balance change. [Workshop evidence](validation/C7-workshop-flow.md).

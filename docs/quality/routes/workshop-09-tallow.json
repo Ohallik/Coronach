@@ -1,0 +1,166 @@
+{
+  "name": "workshop-09-tallow",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "1a94da7; ordinary earned Tallow arrival, Keeper, repair and slice completion autosave",
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load actual Tallow approach",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "world",
+      "expectedFlag": "bossdown.Cantor",
+      "expectedCharacter": "Taren",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "approach refuge dock",
+      "seconds": 15,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4.2
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "dock at Tallow Drift",
+      "seconds": 3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "release docking input",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "walk through pressure cabin",
+      "seconds": 6,
+      "expectedScene": "TallowDrift",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "stand beside the Keeper",
+      "seconds": 3,
+      "expectedScene": "TallowDrift",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.15
+    },
+    {
+      "name": "greet the Keeper",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read refuge welcome",
+      "seconds": 5,
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance refuge welcome",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "Keeper conversation complete",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "met.Keeper"
+    },
+    {
+      "name": "reach the refuge repair console",
+      "seconds": 5,
+      "expectedScene": "TallowDrift",
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.3
+    },
+    {
+      "name": "repair save and rest",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "sliceComplete"
+    },
+    {
+      "name": "completion saved at refuge",
+      "seconds": 2,
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "sliceComplete"
+    }
+  ]
+}

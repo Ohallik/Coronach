@@ -1,6 +1,6 @@
-# Workshop ordinary-input flow - October 3
+# Workshop ordinary-input flow - October 4
 
-**OPEN.** Reviewer/operator: Codex, agent-directed virtual gamepad through the
+**New Game-to-Tallow route PASS; C7 acceptance OPEN.** Reviewer/operator: Codex, agent-directed virtual gamepad through the
 normal input stack. This is a chained playthrough from New Game with earned
 gear. No development loadout, actor action calls or health edits are used in
 these player runs. Physical Logitech, continuous motion/audio acceptance and
@@ -40,8 +40,14 @@ read-only snapshot, not a new save operation.
 | c7-haul-preparation-01 | 231.528 s; 13,878/13,878 focus | Four haul encounters, both ridge crystals, ordinary return to outpost repair |
 | c7-drill-equipment-01 | 111.841 s; 6,698/6,698 focus | Three crafted gels, refined edge, two frames, both heroes equipped, manual slot1 |
 | c7-burrower-03 | 179.961 s; 10,784/10,784 focus | Continue slot1, repair/haul, whole-party boss entry, 48.1 s Burrower fight, key and autosave |
+| c7-enter-gullet-01 | 141.548 s; 8,477/8,477 focus | Continue key autosave, repair, cleared haul road, outer Halo launch, real warp into Gullet |
+| c7-gullet-02 | 797.194 s; 47,814/47,814 focus | Earned party clears all three chambers, Cantor (86.2 s) and exit to TallowApproach |
+| c7-tallow-01 | 47.276 s; 2,824/2,824 focus | Continue, refuge dock, Keeper first conversation, repair/rest and completion autosave |
 
-All six runtime and offline analyses pass. The first run retains 728 paused
+All nine runtime and offline analyses pass: **1,804.057 seconds (30:04),
+108,115 focused frames**. This includes deliberate menu reading, braked travel
+and the demonstrated death/retry; it is not a first-chapter playtime claim.
+The first run retains 728 paused
 bench frames. The defeat run observes 122 defeat-menu frames and 214 frames with
 both heroes down. These captured/menu runs are excluded from clean C1 timing.
 
@@ -58,6 +64,23 @@ landing form, generated Survivor and outpost repair. Defeat view 009 shows both
 heroes down and the actual Retry choice. Earlier town menu inspections exposed
 the incorrectly assumed recipe order and were used to correct ordinary d-pad
 navigation. No source changes were needed for those route-authoring mistakes.
+
+The final three runs use the same built runtime as the accepted entry repair.
+Their `build.json` contains packaged assembly/content hashes; its source HEAD
+alone does not describe the earlier build's then-uncommitted entry changes.
+The committed source correspondence is D136 / 1a94da7.
+
+Opened outer-warp view 024, Gullet views 104/113/163 and refuge views 012/017
+show the warp prompt, coil approach, complete Cantor framing, exit prompt,
+Keeper's own body/portrait and saved completion. Both heroes survive Cantor;
+Taren finishes the tunnel at 31.5/210, Sela at 179.0/210. Tallow's actual autosave
+has `met.Keeper`, `sliceComplete`, both level-six heroes at 210 integrity and
+100 charge, two carried gels and 992 scrip. The original gear instance IDs remain.
+The Keeper conversation completes through confirm/release with AutoAdvance off.
+
+The opened coil still reads as a broad uniform blue floor. Its clamp/collar
+composition and preview pocket remain map work. This route does not close
+MAP_EYE_TEST, continuous motion/audio observation or physical controller checks.
 
 ## Whole-party encounter entry repair - October 4
 
@@ -106,10 +129,17 @@ at some melee bearings; this route pass does not accept that presentation.
   seconds at 2.6 m/s. It ended at (-1.48, 21.57) instead of (0, 25). Increase
   duration to nine seconds with the same destination/tolerance; `-03` passes.
   Although `-02` cleared the boss, its saves never seed another segment.
+- `c7-gullet-01`: 797.252 s, all 47,818 frames focused, but rejected because
+  inherited Gullet steps fell back to the new route's starting scene, Title.
+  It has no other runtime failure and reaches TallowApproach, but is never
+  resumed. The route now states Gullet_Tunnel explicitly for those checkpoints;
+  the full `-02` repeat passes with the same physical inputs and outcome checks.
 
 Nathan's autosave/backup hashes match the session manifest after the town and
-Continue captures and again after the preparation work. Required final integrated validation and New Game-to-Tallow
-completion remain due; this document does not close C7 or any remaining map gate.
+Continue captures and again after the Burrower recapture. The full integrated
+PlayMode rerun is in progress. Required final validation and presentation repairs
+remain due; this document does not close C7 or any remaining map gate.
 
 Raw artifact/source hashes: [C7-workshop-flow-evidence.json](C7-workshop-flow-evidence.json).
 Entry/preparation extension: [C7-encounter-entry-evidence.json](C7-encounter-entry-evidence.json).
+Gullet/refuge extension: [C7-tallow-completion-evidence.json](C7-tallow-completion-evidence.json).
