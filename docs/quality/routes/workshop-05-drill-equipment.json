@@ -1,0 +1,962 @@
+{
+  "name": "workshop-05-drill-equipment",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "8ee64d7 + encounter fixes; craft refined edge, frames and gels from earned haul materials",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ]
+    },
+    {
+      "name": "release selection",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load outpost autosave",
+      "seconds": 4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "met.Survivor"
+    },
+    {
+      "name": "take lead as Taren for preparation",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "release preparation swap",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "leave outpost",
+      "seconds": 6,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared lower haul",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared strata",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared west bend",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared wash",
+      "seconds": 12,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 98
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "upper haul",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 111
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "excavation approach",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 129
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "bench operator path",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 139
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "reach the anvil control",
+      "seconds": 3,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 139.5
+      },
+      "tolerance": 0.15
+    },
+    {
+      "name": "open drill fabrication bench",
+      "seconds": 0.5,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release open drill fabrication bench",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Repair Gel 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Repair Gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Repair Gel 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Repair Gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate carried gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release fabricate carried gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate carried gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release fabricate carried gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate carried gel 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release fabricate carried gel 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Refined Edge 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Refined Edge 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Refined Edge 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Refined Edge 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Refined Edge 3",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Refined Edge 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "craft the learned refined edge",
+      "seconds": 0.4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release craft the learned refined edge",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next recipe page 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next recipe page 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "next recipe page",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release next recipe page",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Scrap Frame 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Scrap Frame 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Scrap Frame 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Scrap Frame 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Scrap Frame 3",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Scrap Frame 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Scrap Frame 4",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Scrap Frame 4",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Scrap Frame 5",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Scrap Frame 5",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Scrap Frame 6",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Scrap Frame 6",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "craft protective frame 1",
+      "seconds": 0.4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release craft protective frame 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "craft protective frame 2",
+      "seconds": 0.4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release craft protective frame 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "open Gear",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release open Gear",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next gear page 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next gear page 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next gear page 3",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next gear page 4",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 4",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next gear page 5",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 5",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select next gear page 6",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 6",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "view new crafted equipment",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release view new crafted equipment",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select refined edge 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select refined edge 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select refined edge 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select refined edge 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "equip refined edge on Taren",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release equip refined edge on Taren",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select first frame 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select first frame 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "equip frame on Taren",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release equip frame on Taren",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "switch equipment to Sela",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "North"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release switch equipment to Sela",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select second frame 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select second frame 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "equip frame on Sela",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release equip frame on Sela",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select first gear page 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select first gear page 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "return to purchased equipment",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release return to purchased equipment",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select purchased emitter 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select purchased emitter 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select purchased emitter 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select purchased emitter 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select purchased emitter 3",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select purchased emitter 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "give emitter to Sela",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release give emitter to Sela",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "return active hero to Taren",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "North"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release return active hero to Taren",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "open Party",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release open Party",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select manual save slot1 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select manual save slot1 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select manual save slot1 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select manual save slot1 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select manual save slot1 3",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select manual save slot1 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "save earned boss preparation",
+      "seconds": 0.5,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release save earned boss preparation",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "close drill bench",
+      "seconds": 0.5,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "East"
+      ],
+      "pauseUi": "bench",
+      "expectedUi": "world"
+    },
+    {
+      "name": "release bench close",
+      "seconds": 1,
+      "expectedScene": "Sorrel_Ridges",
+      "expectedUi": "world",
+      "expectedFlag": "clear.Sorrel_7",
+      "expectedCharacter": "Taren"
+    }
+  ]
+}

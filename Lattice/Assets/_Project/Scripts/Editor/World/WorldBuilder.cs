@@ -176,9 +176,9 @@ namespace Lattice.EditorTools
             var spawner=spawn.GetComponent<Spawner>();spawner.definition=GameCatalog.Find<EnemyDef>(enemy);spawner.count=count;spawner.radius=count>1?3:0;
             var e=go.GetComponent<EncounterVolume>();e.encounterId=id;e.spawners=new[]{spawner};e.membranes=membranes??Array.Empty<Membrane>();return e;
         }
-        public static Membrane Membrane(string id,Vector3 position,float width,bool open)
+        public static Membrane Membrane(string id,Vector3 position,float width,bool open,float height=6)
         {
-            var go=Piece("GulletMembrane",position,new Vector3(width,6,.6f),"Emission");go.name=id;var membrane=go.AddComponent<Membrane>();membrane.SetOpen(open);return membrane;
+            var go=Piece("GulletMembrane",position,new Vector3(width,height,.6f),"Emission");go.name=id;var membrane=go.AddComponent<Membrane>();membrane.SetOpen(open);return membrane;
         }
     }
 }

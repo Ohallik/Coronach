@@ -1,0 +1,564 @@
+{
+  "name": "workshop-06-burrower",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "8ee64d7 + encounter entry and low-seal fixes; earned slot1 from workshop-05",
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select manual slot1",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release select manual slot1",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load manual slot1",
+      "seconds": 4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "clear.Sorrel_7",
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "top up charge before excavation",
+      "seconds": 5,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "use outpost repair",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release repair input",
+      "seconds": 0.4,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "leave outpost",
+      "seconds": 9,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared lower haul",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared strata",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared west bend",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "cleared wash",
+      "seconds": 12,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 98
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "upper haul",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 111
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "excavation approach",
+      "seconds": 10,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 129
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "bench operator path",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 139
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "haul lane west of the anvil",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 8.0,
+      "navigate": true,
+      "point": {
+        "x": 2.0,
+        "y": 0.0,
+        "z": 147.0
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "enter Burrower excavation",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 7.0,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 162.0
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "lock Burrower",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "release boss lock",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 1",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 1",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 1",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 1",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 1",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 1",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 1",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 2",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 2",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 2",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 2",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 2",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 2",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 2",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 3",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 3",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 3",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 3",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 3",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 3",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 3",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 4",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 4",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 4",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 4",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 4",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 4",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 4",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 5",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 5",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 5",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 5",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 5",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 5",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 5",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Burrower defeated",
+      "expectedScene": "Sorrel_Ridges",
+      "expectedFlag": "bossdown.Burrower",
+      "until": "flag:bossdown.Burrower",
+      "seconds": 2.0
+    },
+    {
+      "name": "both heroes ready after Burrower",
+      "expectedScene": "Sorrel_Ridges",
+      "until": "partyAlive",
+      "seconds": 20.0
+    },
+    {
+      "name": "cross excavation toward the cradle",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 15.0,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 182.0
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "approach warp key",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 10.0,
+      "navigate": true,
+      "point": {
+        "x": 0.0,
+        "y": 0.0,
+        "z": 197.0
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "recover warp key",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "key and autosave secured",
+      "expectedScene": "Sorrel_Ridges",
+      "expectedFlag": "warpkey",
+      "seconds": 2.0
+    }
+  ]
+}

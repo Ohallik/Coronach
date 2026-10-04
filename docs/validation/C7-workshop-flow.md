@@ -37,8 +37,11 @@ read-only snapshot, not a new save operation.
 | c7-new-game-03 | 102.791 s; 6,152/6,152 focus | Title New Game, office docking, Orrin/Sela, Mira shop, Hal gift/bench, crafting/equipment, manual slot1 |
 | c7-continue-sorrel-03 | 130.331 s; 7,806/7,806 focus | Title Continue loads slot1, launch/flight/landing, Survivor, outpost repair/autosave |
 | c7-defeat-retry-01 | 61.586 s; 3,682/3,682 focus | Both heroes fall to live hounds; real defeat menu retries the outpost autosave; repair follows |
+| c7-haul-preparation-01 | 231.528 s; 13,878/13,878 focus | Four haul encounters, both ridge crystals, ordinary return to outpost repair |
+| c7-drill-equipment-01 | 111.841 s; 6,698/6,698 focus | Three crafted gels, refined edge, two frames, both heroes equipped, manual slot1 |
+| c7-burrower-03 | 179.961 s; 10,784/10,784 focus | Continue slot1, repair/haul, whole-party boss entry, 48.1 s Burrower fight, key and autosave |
 
-All three runtime and offline analyses pass. The first run retains 728 paused
+All six runtime and offline analyses pass. The first run retains 728 paused
 bench frames. The defeat run observes 122 defeat-menu frames and 214 frames with
 both heroes down. These captured/menu runs are excluded from clean C1 timing.
 
@@ -56,7 +59,31 @@ heroes down and the actual Retry choice. Earlier town menu inspections exposed
 the incorrectly assumed recipe order and were used to correct ordinary d-pad
 navigation. No source changes were needed for those route-authoring mistakes.
 
-## Preserved rejections and current blocker
+## Whole-party encounter entry repair - October 4
+
+The haul preparation save contains two level-three heroes at full 156 integrity,
+39 alloy, 11 filament, two crystals and 204 scrip. The bench spends earned
+materials on three Repair Gels, EdgesT2 and two FramesT1. Slot1 retains the exact
+instances: Taren carries the refined edge and a frame, Sela the purchased emitter
+and the other frame. It leaves 21 alloy and 11 filament. Opened bench views
+035/053/075/087/099 show fabrication and both equipment selections.
+
+`EncounterEntryTests` first rejects the stranded living/downed companion,
+incorrect loaded Open state and six-metre wall sightlines (`entry-state-sightlines-red`,
+4/4 failures). The initial entry guard alone also failed because the Open property
+was not serialized (`entry-initial-guard-red`). The repaired entry waits for every
+body to cross the open gate with collision clearance. An isolated scene upgrade
+lowers only the two Sorrel seals to 0.6 m. A subsequent disabled-collider mutation
+fails the travel-blocking assertion (`seal-collision-mutation-red`). The final
+combined Sorrel/Gullet/Hushwell/entry checks pass 17/17 in
+`entry-map-collision-seventeen-green`. No enemy tuning changed.
+
+Opened accepted boss views 020/027/063 show both heroes inside, the low entry
+seal and key recovery. Both survive at level four, Taren 139.4 and Sela 100.2
+of 174 integrity, with two gels left. The large boss body still occludes Taren
+at some melee bearings; this route pass does not accept that presentation.
+
+## Preserved rejections and remaining work
 
 - `c7-new-game-01`: dock waypoint extended into hull clearance; Orrin/Hal
   waypoints stopped outside prompt range. Adjusted reachable standing positions,
@@ -73,10 +100,16 @@ navigation. No source changes were needed for those route-authoring mistakes.
   Opened 064/071 show the encounter seal separating the party: Sela remains on
   the far side, then inherits control with the boss behind the opaque membrane.
   Both fall, and later queued confirms retry; that does not salvage the run.
-  Enemy balance is unchanged while the entry defect is investigated.
+  The entry repair above resolves the stranded-party defect; enemy balance stays unchanged.
+- `c7-burrower-02`: 175.966 s, rejected for a missed outpost walking checkpoint.
+  The repair detour made the civilian walk about 19 m, too far for its old six
+  seconds at 2.6 m/s. It ended at (-1.48, 21.57) instead of (0, 25). Increase
+  duration to nine seconds with the same destination/tolerance; `-03` passes.
+  Although `-02` cleared the boss, its saves never seed another segment.
 
 Nathan's autosave/backup hashes match the session manifest after the town and
-Continue captures. Required final integrated validation and New Game-to-Tallow
+Continue captures and again after the preparation work. Required final integrated validation and New Game-to-Tallow
 completion remain due; this document does not close C7 or any remaining map gate.
 
 Raw artifact/source hashes: [C7-workshop-flow-evidence.json](C7-workshop-flow-evidence.json).
+Entry/preparation extension: [C7-encounter-entry-evidence.json](C7-encounter-entry-evidence.json).

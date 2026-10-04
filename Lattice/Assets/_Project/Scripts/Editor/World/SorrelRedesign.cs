@@ -78,8 +78,8 @@ namespace Lattice.EditorTools
             Prop("DeckCrate",40,58,1,20);Prop("DeckConsole",43,79,1.5f,-30);Prop("DeckCrate",30,117,1.1f,10);
             Platform("Drill maintenance bench",7,141,7,6,"work");
             var bench=Prop("LatticeAnvil",8,142,2).AddComponent<Bench>();bench.prompt="Link to the Lattice Anvil";
-            var entry=WorldBuilder.Membrane("Drill entry seal",new Vector3(0,2,153),26,true);
-            var exit=WorldBuilder.Membrane("Drill cradle seal",new Vector3(0,2,191),26,false);
+            var entry=WorldBuilder.Membrane("Drill entry seal",new Vector3(0,.3f,153),26,true,.6f);
+            var exit=WorldBuilder.Membrane("Drill cradle seal",new Vector3(0,.3f,191),26,false,.6f);
             SealObstacle(entry,true);SealObstacle(exit,false);
             WorldBuilder.Encounter("Sorrel_Burrower",new Vector3(0,1,164),new Vector3(24,5,12),"Burrower",1,new[]{entry,exit});
             Platform("Drill service footing",-8,180,9,12,"work");Prop("OutpostDrill",-8,180,8);

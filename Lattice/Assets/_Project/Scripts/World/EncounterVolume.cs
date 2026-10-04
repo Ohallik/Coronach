@@ -11,7 +11,29 @@ namespace Lattice.World
         public bool Started{get;private set;}
         public string encounterId;
         public bool Cleared=>Started&&Remaining==0;
-        void OnTriggerEnter(Collider other){if(other.TryGetComponent<Health>(out var h)&&h.friendly)Begin();}
+        void OnTriggerEnter(Collider other)=>TryEnter(other);
+        void OnTriggerStay(Collider other)=>TryEnter(other);
+        void TryEnter(Collider other)
+        {
+            if(Started||!other.TryGetComponent<Health>(out var h)||!h.friendly)return;
+            var party=PartyController.Current;
+            // An open gate is an entrance. Wait until every body has crossed it
+            // before sealing; a downed companion outside still needs rescuing.
+            // Closed exits do not impose an impossible pre-entry requirement.
+            if(party!=null)foreach(var membrane in membranes)
+            {
+                if(membrane==null||!membrane.Open)continue;
+                var inward=transform.position-membrane.transform.position;inward.y=0;
+                if(inward.sqrMagnitude<.01f)continue;
+                inward.Normalize();
+                foreach(var hero in party.members)
+                {
+                    float radius=hero.flight?HeroCollision.HullRadius(hero.character):hero.GetComponent<CharacterController>().radius;
+                    if(Vector3.Dot(hero.transform.position-membrane.transform.position,inward)<radius+.5f)return;
+                }
+            }
+            Begin();
+        }
         public void Begin()
         {
             if(Started)return;Started=true;

@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Earned preparation and Burrower clear - October 4
+
+**C7's chained playthrough now owns the warp key.** Ordinary haul combat/mining and outpost repair pass (231.528 s, 13,878 focused frames). The real bench crafts gels, a refined edge and two protective frames; equipment and slot1 save pass (111.841 s, 6,698 focused frames). Continue loads that exact gear and defeats the Burrower in 48.1 seconds, with both heroes alive, then collects/saves the key (179.961 s, 10,784 focused frames). No development loadout or balance change. [Workshop evidence](validation/C7-workshop-flow.md).
+
+The original stranded-partner defect is fixed: an encounter waits for every party body to cross its open entrance, including a downed companion; loaded membranes recover their authored passability. Sorrel's six-metre seals are now low barriers that preserve the fixed camera's view and still stop travel. Four new tests fail on the broken state, a disabled-collision mutation also fails, and the combined map/entry checks pass 17/17. The first repaired ordinary run rejected a too-short civilian walking step; its rejection is retained. The accepted recapture proves the entrance repair, but the Burrower's body still hides Taren at some melee bearings. Gullet/Tallow continuation, that visibility defect, remaining map polish and final integrated validation remain open. Nathan's save hashes still match the original manifest.
+
 ## Workshop playthrough reaches Sorrel through real menus - October 3
 
 **C7 remains OPEN.** New Game through town preparation passes ordinary input (102.791 s, 6,152 focused frames): Sela joins, an emitter is purchased, three edges are crafted, gear is equipped, and slot1 is saved. A second process uses Title/Continue to load that exact slot and reaches the Survivor/outpost repair (130.331 s, 7,806 focused frames). A third proves live combat defeat and the actual Retry menu (61.586 s, 3,682 focused frames). Saves continue through a hash-recorded isolated chain; no development loadout is used. Title, loading and intentional menu frames remain in the evidence. [Workshop evidence](validation/C7-workshop-flow.md).

@@ -5,6 +5,13 @@ namespace Lattice.World
     {
         public bool Open{get;private set;}
         Coroutine dissolve;
+        void Awake()
+        {
+            // Scene authors serialize collider passability, not this property.
+            var colliders=GetComponentsInChildren<Collider>(true);
+            Open=colliders.Length>0;
+            foreach(var collider in colliders)if(collider.enabled){Open=false;break;}
+        }
         public void SetOpen(bool open)
         {
             bool changed=Open!=open;Open=open;
