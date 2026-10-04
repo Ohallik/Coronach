@@ -1,0 +1,2154 @@
+{
+  "runtimeSourceRevision": "06b0686",
+  "scope": "Final candidate checks; see C7-candidate.md for verdicts and pending review",
+  "runs": [
+    {
+      "name": "decks-first-warm-development",
+      "valid": true,
+      "failures": [],
+      "seconds": 250.655676,
+      "samples": 15039,
+      "p95Ms": 17.006,
+      "p99Ms": 17.1353,
+      "worstMs": 26.0901,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Development",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "seconds": 124.57341190000001,
+          "samples": 7475,
+          "p95Ms": 16.9987,
+          "p99Ms": 17.1197,
+          "worstMs": 26.0901,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "seconds": 126.08226409999999,
+          "samples": 7564,
+          "p95Ms": 17.0169,
+          "p99Ms": 17.1531,
+          "worstMs": 19.3659,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "decks-first-warm-release",
+      "valid": true,
+      "failures": [],
+      "seconds": 250.660735,
+      "samples": 15039,
+      "p95Ms": 16.9584,
+      "p99Ms": 17.0786,
+      "worstMs": 26.4017,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "seconds": 124.58096590000001,
+          "samples": 7475,
+          "p95Ms": 16.959,
+          "p99Ms": 17.0815,
+          "worstMs": 26.4017,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "seconds": 126.0797691,
+          "samples": 7564,
+          "p95Ms": 16.9583,
+          "p99Ms": 17.0735,
+          "worstMs": 18.6392,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "decks-headroom-development",
+      "valid": true,
+      "failures": [],
+      "seconds": 124.530504,
+      "samples": 69953,
+      "p95Ms": 2.2433,
+      "p99Ms": 2.5133,
+      "worstMs": 10.0212,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Development",
+      "headroom": true,
+      "cpuP95Ms": 1.0741,
+      "gpuP95Ms": 2.039807,
+      "frameTimingApi": {
+        "samples": 68807,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1146,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 2.039808,
+        "p99Ms": 2.245888,
+        "worstMs": 4.845568
+      },
+      "segments": []
+    },
+    {
+      "name": "decks-headroom-release",
+      "valid": true,
+      "failures": [],
+      "seconds": 124.527158,
+      "samples": 71910,
+      "p95Ms": 2.2156,
+      "p99Ms": 2.4909,
+      "worstMs": 12.1034,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": true,
+      "cpuP95Ms": 0.8647,
+      "gpuP95Ms": 1.986816,
+      "frameTimingApi": {
+        "samples": 70360,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1550,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 1.986816,
+        "p99Ms": 2.21312,
+        "worstMs": 4.088832
+      },
+      "segments": []
+    },
+    {
+      "name": "flight-sela-release",
+      "valid": true,
+      "failures": [],
+      "seconds": 393.634779,
+      "samples": 23617,
+      "p95Ms": 16.9545,
+      "p99Ms": 17.0672,
+      "worstMs": 21.7996,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": []
+    },
+    {
+      "name": "flight-taren-release-02",
+      "valid": true,
+      "failures": [],
+      "seconds": 393.516724,
+      "samples": 23610,
+      "p95Ms": 16.9588,
+      "p99Ms": 17.0716,
+      "worstMs": 22.0756,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": []
+    },
+    {
+      "name": "frozen-new-game",
+      "valid": false,
+      "failures": [
+        "stationary or insufficient traversal"
+      ],
+      "seconds": 18.003278,
+      "samples": 1065,
+      "p95Ms": 17.0974,
+      "p99Ms": 19.6522,
+      "worstMs": 236.4668,
+      "hitches": {
+        "25": 5,
+        "33.3": 3,
+        "50": 2,
+        "100": 1
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": []
+    },
+    {
+      "name": "frozen-opening",
+      "valid": true,
+      "failures": [],
+      "seconds": 102.854304,
+      "samples": 6156,
+      "p95Ms": 17.1193,
+      "p99Ms": 17.3225,
+      "worstMs": 227.6146,
+      "hitches": {
+        "25": 6,
+        "33.3": 4,
+        "50": 2,
+        "100": 1
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": []
+    },
+    {
+      "name": "frozen-title",
+      "valid": false,
+      "failures": [
+        "stationary or insufficient traversal"
+      ],
+      "seconds": 7.987191,
+      "samples": 481,
+      "p95Ms": 17.0139,
+      "p99Ms": 17.0495,
+      "worstMs": 17.8488,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": []
+    },
+    {
+      "name": "tallow-first-warm-development",
+      "valid": true,
+      "failures": [],
+      "seconds": 240.144999,
+      "samples": 14408,
+      "p95Ms": 16.9883,
+      "p99Ms": 17.1107,
+      "worstMs": 19.6319,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Development",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "seconds": 120.05697359999999,
+          "samples": 7204,
+          "p95Ms": 16.9811,
+          "p99Ms": 17.1098,
+          "worstMs": 19.6319,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "seconds": 120.08802450000002,
+          "samples": 7204,
+          "p95Ms": 16.9951,
+          "p99Ms": 17.1159,
+          "worstMs": 19.5092,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "tallow-first-warm-release",
+      "valid": true,
+      "failures": [],
+      "seconds": 240.170858,
+      "samples": 14410,
+      "p95Ms": 16.9366,
+      "p99Ms": 17.0461,
+      "worstMs": 20.1725,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": false,
+      "cpuP95Ms": null,
+      "gpuP95Ms": null,
+      "frameTimingApi": null,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "seconds": 120.0754987,
+          "samples": 7205,
+          "p95Ms": 16.933,
+          "p99Ms": 17.0531,
+          "worstMs": 19.7701,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "seconds": 120.09535910000001,
+          "samples": 7205,
+          "p95Ms": 16.9394,
+          "p99Ms": 17.0351,
+          "worstMs": 20.1725,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          }
+        }
+      ]
+    },
+    {
+      "name": "tallow-headroom-development",
+      "valid": false,
+      "failures": [
+        "gpuWorkNs: impossible frame duration; counter evidence rejected",
+        "FrameTimingManager: impossible frame duration; API evidence rejected",
+        "GPU source agreement rejected; retain both raw sources"
+      ],
+      "seconds": 120.019271,
+      "samples": 90720,
+      "p95Ms": 1.6236,
+      "p99Ms": 1.8513,
+      "worstMs": 12.6789,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Development",
+      "headroom": true,
+      "cpuP95Ms": 1.0535,
+      "gpuP95Ms": 1.418752,
+      "frameTimingApi": {
+        "samples": 88871,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1849,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 1.81405,
+            "milliseconds": 1791148975948.56,
+            "timestamp": 16788048006496
+          },
+          {
+            "elapsed": 88.56738,
+            "milliseconds": 1791149062699.52,
+            "timestamp": 16788915539999
+          }
+        ],
+        "p95Ms": 1.418752,
+        "p99Ms": 1.605888,
+        "worstMs": 1791149062699.52
+      },
+      "segments": []
+    },
+    {
+      "name": "tallow-headroom-development-02",
+      "valid": true,
+      "failures": [],
+      "seconds": 120.016399,
+      "samples": 90653,
+      "p95Ms": 1.6256,
+      "p99Ms": 1.8469,
+      "worstMs": 11.1723,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Development",
+      "headroom": true,
+      "cpuP95Ms": 1.0523,
+      "gpuP95Ms": 1.4208,
+      "frameTimingApi": {
+        "samples": 88837,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1816,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 1.4208,
+        "p99Ms": 1.606656,
+        "worstMs": 4.361728
+      },
+      "segments": []
+    },
+    {
+      "name": "tallow-headroom-release",
+      "valid": true,
+      "failures": [],
+      "seconds": 120.01879,
+      "samples": 95369,
+      "p95Ms": 1.5548,
+      "p99Ms": 1.7948,
+      "worstMs": 10.739,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "build": "Release",
+      "headroom": true,
+      "cpuP95Ms": 0.7549,
+      "gpuP95Ms": 1.363712,
+      "frameTimingApi": {
+        "samples": 92879,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 2490,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 1.363712,
+        "p99Ms": 1.553408,
+        "worstMs": 3.1424
+      },
+      "segments": []
+    }
+  ],
+  "files": [
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/analysis-output.txt",
+      "sha256": "69323df3a69cfc3bae280218679552365e86a0b0b80a73b1ec8caf9a34c2992f",
+      "bytes": 32550
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/analysis.json",
+      "sha256": "ef1772991aec94681af8daf918e8a8b5c85cb29d1199d98d8a86e0409e77c5c0",
+      "bytes": 16274
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/available-counters.txt",
+      "sha256": "efc05736c8fbaa4f7d22cf9512a81fc353b390afd6f005fa5295ea58671ef67f",
+      "bytes": 181702
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/build.json",
+      "sha256": "0d8cada2ec3adfc4c665d9d50d3058d2abdb32110c88bff620ca8e3ac25dd674",
+      "bytes": 12967
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/environment.json",
+      "sha256": "3504084cfae52af5ab76fdaaa788476b60af9232693362be0a7b22b70de566d7",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/final-state.json",
+      "sha256": "6f24102cc537b3d3f4d131db856bfe0ded9d28e97ba9e8c3f87c792a66afb246",
+      "bytes": 1020
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/frames.csv",
+      "sha256": "80dda3cff915b6ac7b41a3eb4f5965288437b5e7313f97454d65250de683fcdc",
+      "bytes": 4572073
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/player.log",
+      "sha256": "1a8baffadd9f3f711e329fa2368963b1f8f72344e2c55ddc9f13fd9fe2917b34",
+      "bytes": 124056
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/process.txt",
+      "sha256": "df3ecada3c2f52f195b2a6f9a1a78107619917e152f5bb229d20da3e8223ae9f",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/route.json",
+      "sha256": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d",
+      "bytes": 57110
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/run.json",
+      "sha256": "6d50252bfad9797a53c741f1bf06f6e9671f76f586ffed73d60f23bccb94a395",
+      "bytes": 1956
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-development/saves/autosave.json",
+      "sha256": "ecd21360b1c24e70992197f447ae014ed40bc82a8ccf68ecaf80b3fa2adcf8b8",
+      "bytes": 897
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/analysis-output.txt",
+      "sha256": "d74f2b61bc0ae6f54ee126b81e9f63fc75e026df0efe940b2fe9c2224b50e95c",
+      "bytes": 27124
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/analysis.json",
+      "sha256": "04794cd2fd91523f26473c429db7afcd023ba9121309c0bd8b1948706431b711",
+      "bytes": 13561
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/build.json",
+      "sha256": "7c3fce66d24fd1ce954ecda3fd1491301f49d7c9b61862252043b5987652071a",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/environment.json",
+      "sha256": "59a579c0a7854526775a7304d92b9782adf6141404feac47b65b03c818dd9e88",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/final-state.json",
+      "sha256": "5eadd15f99b987c69d6d64eb26a66640ff405320d58a2f88e3b44c97f17ece34",
+      "bytes": 1018
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/frames.csv",
+      "sha256": "e85c53904199826c2bc0cd0ec6d1c5eb3d99528a5b899255c3199818959b3685",
+      "bytes": 4467333
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/player.log",
+      "sha256": "dba2008ab0ccc519b0beff862eb6ba3c86f56643a3d8dd05fc13d97a53aa84d9",
+      "bytes": 6100
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/process.txt",
+      "sha256": "dfc546dc6aa522dfe4ada9aa89877aa1c671aca9fdb6fd4dd95785aafccdc60a",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/route.json",
+      "sha256": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d",
+      "bytes": 57110
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/run.json",
+      "sha256": "a9a50518142841def38f2d983afcc8cea6143dbb940e30ea68b525aae8a8b389",
+      "bytes": 1946
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-first-warm-release/saves/autosave.json",
+      "sha256": "2ef7cbdfdf41395f25032d79f9baccf0bc2194f8e864133d18e20800593fd2ec",
+      "bytes": 896
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/analysis-output.txt",
+      "sha256": "721e0f447f3c9a8951d1da2a47b40db157aab61b21bdd6dd0cfd0269d3ced877",
+      "bytes": 10934
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/analysis.json",
+      "sha256": "cb9fcb403e9a09821ae1f435aa7f9ed5091a298674ea8739c9d999ff93a720e2",
+      "bytes": 5466
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/available-counters.txt",
+      "sha256": "501121d597cd5ec424ce0abe3376ad8f984ac7bf9c2947047c82696fc9db92c0",
+      "bytes": 181702
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/build.json",
+      "sha256": "9568079d9312a56a7e08ed4e8dea2dd700848d70457d24c16d08ed51a8f0ba42",
+      "bytes": 12967
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/environment.json",
+      "sha256": "7b53f825054c2fd5570d5772a781f18442164baead5cb4244eafe1e08e16c9df",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/final-state.json",
+      "sha256": "ba7ef9e96e9df0d5bf6b11868be60c996325bae45872d5d5c87d579c16389a62",
+      "bytes": 1034
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/frames.csv",
+      "sha256": "ef39c7a9ea9e737c6328c61db11848f86f950720ddab66ce6f7bee6953385a5f",
+      "bytes": 22791945
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/player.log",
+      "sha256": "4a65b6f0062716a3212fa5d3090a99fadf04c2860377075eb2841d2c99dc427e",
+      "bytes": 74712
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/process.txt",
+      "sha256": "3130326a1d059e78bbb000308d9ed5cd65f54ef12177875dd60291e84312be99",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/route.json",
+      "sha256": "a6c659b8605909191d5d07208ea3da6b349cba000a643a9f2dfc302da2f77ee7",
+      "bytes": 29471
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/run.json",
+      "sha256": "13df3325f40c4bff48d20110f1f33991fe66d872b4dedaa6fe78c27c0aa27f17",
+      "bytes": 1460
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-development/saves/autosave.json",
+      "sha256": "f4d8c323c9cd9933ef790627a3a344a9606d1860223a4e60ef98d78c7c734486",
+      "bytes": 897
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/analysis-output.txt",
+      "sha256": "76923c779c9165ddf1a7915487d4d92d18849c412438fdffae615af2ce1800df",
+      "bytes": 9666
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/analysis.json",
+      "sha256": "f103e86fde2b55641789e63eb519f6c3c3b17d2a5e3229dbb4a1e6a07a99c655",
+      "bytes": 4832
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/build.json",
+      "sha256": "2964a8e67d50491722afae70ba4e0e72daf1a7a0b051a355244935261100ca17",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/environment.json",
+      "sha256": "6b6ecfa17d0ab7daa3959d6c69cc846f8386247d558c3cce11d1ea7bd2310dde",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/final-state.json",
+      "sha256": "05e6c2da1ea5fd3f0940a23648e17426dc4e98a3ca7158a71295f8bc7b2b8803",
+      "bytes": 1030
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/frames.csv",
+      "sha256": "1c2d53cc845cf4d03cf242c107be6d6ee4c6e48b0ea3390ba8eaa15859833b07",
+      "bytes": 22916791
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/player.log",
+      "sha256": "bab52b1b80c376b989dd8ea878458bc88cbc8cf92780e673b048361de28e8491",
+      "bytes": 4435
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/process.txt",
+      "sha256": "6ff86e2ad3f80a635595ab78f71cf86e703372fa1cd6b14af9370ac12290c267",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/route.json",
+      "sha256": "a6c659b8605909191d5d07208ea3da6b349cba000a643a9f2dfc302da2f77ee7",
+      "bytes": 29471
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/run.json",
+      "sha256": "bca1e7af7bde9b1391aa555b0ce9a53f64164b35fe78459b6f8e76334fa81f4a",
+      "bytes": 1470
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/decks-headroom-release/saves/autosave.json",
+      "sha256": "262311079f86d7f3e7f48e5bc2db27a8b0f61c139d1f3c6698232919c9b429de",
+      "bytes": 897
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/development-build.log",
+      "sha256": "271db8ace00ad030130e89494e09edf8c5bd1df166ea35ec5fbe248d2868e74a",
+      "bytes": 874392
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/editmode-results.xml",
+      "sha256": "4ad52c45aa485761bedd9b24b3a3b22d4a12f12b6e0f1af63a28a40b3f2616c7",
+      "bytes": 61979
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/analysis-output.txt",
+      "sha256": "e56cf55943b1f69352e81b7c544df87c87b5f2c96f46290e84317d4b875e2385",
+      "bytes": 9850
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/analysis.json",
+      "sha256": "346ac8537f326ac21b691b3bc93bee06af60cf2e735eaa67b4628973e8fa3a84",
+      "bytes": 4924
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/build.json",
+      "sha256": "221c10d7bd3ee66e019cffffd7e5631de26b079e25d5c6069595191548cf1199",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/environment.json",
+      "sha256": "b0b942110d9b139471f2bf398434a751a4f0e1cb705c36768ece0ac8ba6b7bc6",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/final-state.json",
+      "sha256": "37134a52dc62b222bbec9b5911173358796a0ef2fa7d24af2ff98ae5c98a5fd8",
+      "bytes": 1097
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/frames.csv",
+      "sha256": "8e298301e27c4dc970fbdbd031bb56036d3abfcba243466ebde988cdd59ba82d",
+      "bytes": 6756891
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/player.log",
+      "sha256": "2df5b3b6c57cd4a292a62a8093c88524298995e5884f6890a9da6b8094140dc1",
+      "bytes": 8966
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/process.txt",
+      "sha256": "ff035f408123ee1f4c173bb45c50d79899ea9c8285df10ab4b47e0aa8e91de0e",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/route.json",
+      "sha256": "fc2943dbf92c38e946868a79bd2f7a7f9de59b02ee7773097322664679d7302c",
+      "bytes": 82067
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/run.json",
+      "sha256": "065d1421c18db7ee229d520a0b278ba0a7db0f0d15de2ac28fd7aef4e734342b",
+      "bytes": 1077
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-sela-release/saves/autosave.json",
+      "sha256": "fd7cb8991c5bb36e614040fed728f019118d0c0cfee009ef0da806457b44b6c8",
+      "bytes": 899
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release/build.json",
+      "sha256": "260f63f20086281c62536fbdb04216a23fbd4e970e69d8b48712c723b1ed749b",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release/environment.json",
+      "sha256": "bcd83ec0320953f8a29f54e695a48411637c784bc2313e29262b30d55fd5e49c",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release/player.log",
+      "sha256": "98fdf6b78e8eebdb6583bfa7386f0e69582c0780b4439cfdbfb5138688007833",
+      "bytes": 4342
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release/process.txt",
+      "sha256": "6934b4c7a15fe9629b77da6bcc7e86d7cedd6f1d634540c3d03ef7dc82166478",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release/saves/autosave.json",
+      "sha256": "0b4b4f7b5e994602ca6a0b452a862ddf04a9d081cfca7c48bfc54894bed04b9c",
+      "bytes": 901
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/analysis-output.txt",
+      "sha256": "c3aa87612992b869420f136f58262a4224e17efdf5f43c57150cd9abd78b3998",
+      "bytes": 9754
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/analysis.json",
+      "sha256": "3e6d5e764b8e3f3f5ef5da5ecb0e41d1dc2fa75c4203b8275ff366bcf936095d",
+      "bytes": 4876
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/build.json",
+      "sha256": "804da476393468090ee7b924d79189e0f43b42d87724548c06ede68772e07b83",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/environment.json",
+      "sha256": "61f340051f23fa5443c380aad120664df7a14d599077fccb42d5c380bca04d29",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/final-state.json",
+      "sha256": "17d8fd9519ed82e6d47a653f571bed4f0bed07d3f95082e03c580eacb39c966d",
+      "bytes": 1097
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/frames.csv",
+      "sha256": "31b7812e07b720c7c13eb670329c28640ab554d434ce69c4b498c284e9cff174",
+      "bytes": 6777182
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/player.log",
+      "sha256": "7d26fa4e2095bd0cbbaf87c5864ff0bb1c97710fffe293f4bcb65c9f2a288a3c",
+      "bytes": 8983
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/process.txt",
+      "sha256": "ad3246f88112a71bb9dc6d756783c6929a604d8b030fd08f54b8e57f74dc009e",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/route.json",
+      "sha256": "43841daa764932ce314a1bb4e7d831678345158a8dcab1c7bd07a8f45b38e75e",
+      "bytes": 81130
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/run.json",
+      "sha256": "d687fa085ec18e508d924d441f64fd718242a98cc62ae79f977f975b2991e7e5",
+      "bytes": 1071
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/flight-taren-release-02/saves/autosave.json",
+      "sha256": "3f05629de1504ce876acf918b942e341ae59958085e9fbae47cf3ae13734e087",
+      "bytes": 901
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/000.png",
+      "sha256": "c77a432ea25391434103804a0ef547cfa7e7f5cec2c4ea57874cad168688c4a4",
+      "bytes": 2263437
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/001.png",
+      "sha256": "54215cb1769bfd3a0ed80027115f6e9778dbffa56fb5db8d30ffde39b6be687e",
+      "bytes": 1037307
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/002.png",
+      "sha256": "86b6871d2d29d8576975808645f88aef945c4dcf314d2f1ee6d464b0b7822479",
+      "bytes": 1186105
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/003.png",
+      "sha256": "f073e7487f874628a60dc53d494ffa54f837fb9fd7b00a96c2f83c1ce152af56",
+      "bytes": 1944040
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/analysis.json",
+      "sha256": "1d0fd94ca572d17eb3c3dcdfd047a99bfd5703d1be6e5e5d4aa954e69f438850",
+      "bytes": 2716
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/available-counters.txt",
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d",
+      "bytes": 14766
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/capture-frames.csv",
+      "sha256": "058266e10dc4a2810b345a58eef3d65fd4c55bf1bae79e8ea79f30d51213590a",
+      "bytes": 7603
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/capture.txt",
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab",
+      "bytes": 160
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/final-state.json",
+      "sha256": "556d3ca43ffe43021cf69bc99873c67d591e75813188832723ff805cbb6bee9c",
+      "bytes": 606
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/frames.csv",
+      "sha256": "eec2750e132086134c39fb91917946813f28d3ac4edbb86c48f605ecca361b6b",
+      "bytes": 320130
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/launcher.ps1",
+      "sha256": "72c18efa870fe6f4f37d6f4c53015f577e3aa54e18ba54812539cb545933e73e",
+      "bytes": 2074
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/player-manifest.json",
+      "sha256": "a82abfdafaffe8940b055bfac27cff7dfb6e99f8962cdebd80c5a3b87f9ab4be",
+      "bytes": 65032
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/player.log",
+      "sha256": "e2b8794754e646581a16915822b2dacdf6c8e7ef01119157af4553d80a638f37",
+      "bytes": 3210
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/route.json",
+      "sha256": "bfcd6fc45547641a590e836349160e34e9893dccf66be07fc53526b8d90b8047",
+      "bytes": 3955
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/run.json",
+      "sha256": "f437c375bd86c9e719e998cacd0a99948d7d1a281b2b8cab9a319d3bbfb49a37",
+      "bytes": 1260
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-new-game/saves/autosave.json",
+      "sha256": "c81129ffc3c66ffea23f2278d95da3ea57824eb9abd7d5380b75b46a8d3c124d",
+      "bytes": 606
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/000.png",
+      "sha256": "c77a432ea25391434103804a0ef547cfa7e7f5cec2c4ea57874cad168688c4a4",
+      "bytes": 2263437
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/001.png",
+      "sha256": "80c5441fdba83aaeb8e2f4eecb660a5feeff402debc73d548292072b00f8e9bd",
+      "bytes": 1036032
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/002.png",
+      "sha256": "9369cec0851bc89f1f4a4d8195bf455ec516d5daa1922ea8e0c917fdcb7cba4b",
+      "bytes": 1186022
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/003.png",
+      "sha256": "961dfacba673a0eda22827d8b7f03df44edbed03d02ef106bdbaa522f086104b",
+      "bytes": 1943939
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/004.png",
+      "sha256": "fbedadc1558e2900d4353368d4126a9f9d61ab4aa05cb7284635cd70b19e2fdf",
+      "bytes": 1810113
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/005.png",
+      "sha256": "3c735df5995bd776238670347660e233baac26c054c545ebbadc327c77b150ee",
+      "bytes": 1717094
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/006.png",
+      "sha256": "3ed53dbf2ffae2db4636f0cb96e5c687e7b5924d5b46755c88a2f2e1797ba514",
+      "bytes": 1731631
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/007.png",
+      "sha256": "2539198721150f232ded8c684ca2470f39f51f241435daf05eca248b7d36ad84",
+      "bytes": 1834642
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/008.png",
+      "sha256": "c531c43d2eca13df007d066d67fc4c3e36f2a76c6ecdd2273afa1c05bb92210d",
+      "bytes": 1836418
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/009.png",
+      "sha256": "1bc44833f14aa836da0289aee95146a54c3881a0f9ce45ee86ede5aae8bea0ef",
+      "bytes": 1705761
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/010.png",
+      "sha256": "4531ceaae8e80660a2ded2258f5c1350e3cffd1f3b46ff178b2892de8275180c",
+      "bytes": 1736908
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/011.png",
+      "sha256": "21a64a7fa99befef9f25847290712bb6592b2032399ba9756b272491634e03b4",
+      "bytes": 1722901
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/012.png",
+      "sha256": "f9cfeb3f82772a48e8e8db7f2afa843384d01d697f0883732fdec02494b21cfe",
+      "bytes": 1824139
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/013.png",
+      "sha256": "114e651ad6488382154ce5151ea292aef19011533c09f957b9feacce5d8d0792",
+      "bytes": 1813403
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/014.png",
+      "sha256": "1141cf8d91785b4f0b7ebf16b8d7956e5f3c8bca9fab45dfbfc81ebe7ec2e98b",
+      "bytes": 1797728
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/015.png",
+      "sha256": "1df159f40f2a5efcefd4e3216ab9f3074b9ee9379edd41e7e17dacad25d3e0da",
+      "bytes": 1891847
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/016.png",
+      "sha256": "7f8cbe9cc00b651d8a1cebaf2d62cfda1e38c0b720e35da8003bf25a42607d75",
+      "bytes": 1893815
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/017.png",
+      "sha256": "b485ac9c5b9991ad92d7dbc99ac1aa193ed96cf7857bdcd497db57cfb7fee1dc",
+      "bytes": 1961495
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/018.png",
+      "sha256": "5ac718fa04ab5154d84ba471febd72cc07cc9b6fae8375b5b4952a06449913df",
+      "bytes": 1960323
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/019.png",
+      "sha256": "9027f0eb02b3f4b5a653538dd2b59c02b670f16889df75d393f40c38e50ae945",
+      "bytes": 1415348
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/020.png",
+      "sha256": "17fbb59b912f2484adb12832dff41aa7fe3febea7684e9733251be9cfa18445a",
+      "bytes": 1415552
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/021.png",
+      "sha256": "f99949da2e5861568b59ef06d9946f25278ce3faf41e983c66f0f3f1ee9f9031",
+      "bytes": 1415639
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/022.png",
+      "sha256": "c16369acfaecf8863e187c9303b503928d735c4b3318f9f418e0aa5abb69e6f7",
+      "bytes": 1415711
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/023.png",
+      "sha256": "59deb566be916b90f1e0cc83b023fafb2602571e71dc4818613efd171a1fa6a7",
+      "bytes": 1421911
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/024.png",
+      "sha256": "1470586dd7082e598b19a0a480017345bac293ac734a861b8e0823cbe97e1e7c",
+      "bytes": 1421977
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/025.png",
+      "sha256": "76ce8f7871e519e15fd481281a3dfa460f42df2410d70706fd9e351c965108bb",
+      "bytes": 1796899
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/026.png",
+      "sha256": "e567d64af0832786204afbeacdcb7bd282e91c2dab32317d581f8eccddf93a77",
+      "bytes": 1797452
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/027.png",
+      "sha256": "51222828a92e62e9e601da9cbf340bfc6af451417f3bf144054526ce7b630bae",
+      "bytes": 1838486
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/028.png",
+      "sha256": "8846063ed75295575aca06082c3f7ef75e9745c1daf9a61c49c7af5fef14a073",
+      "bytes": 1872797
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/029.png",
+      "sha256": "fcf67562aea733040640ca4a9adadb97d8ac92d59a9e88fd6846cdb44597e247",
+      "bytes": 1833084
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/030.png",
+      "sha256": "d78546a15dd3811a2f61f12ffa8084b8826968f867130e8fd8085e5618094d6c",
+      "bytes": 1805490
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/031.png",
+      "sha256": "27993c039388fccdd830f03418766c6b401b90c2324e34dac60dc2af6296514d",
+      "bytes": 1848744
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/032.png",
+      "sha256": "7dd8dc446812ea969b12cecb2414db953a3df8237012a416887c1fe63a73d260",
+      "bytes": 1850563
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/033.png",
+      "sha256": "cc93852d0c87b9daa7939ad38b04cb9c351952ab04cb418b414c2d8152506e0b",
+      "bytes": 1920539
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/034.png",
+      "sha256": "045f2c73a3150dc3ce9ab9a6bb70db26a3d6f280d7e928ecdbda04bdcf957ca7",
+      "bytes": 1919137
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/035.png",
+      "sha256": "7538378d759a09189a3b55711bbbcf405a56985fa265e41a673519b6dc41d3df",
+      "bytes": 1443863
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/036.png",
+      "sha256": "60caffe85c578b84111d0e5a9dcd7dade8c525c0435a5f038706b4205a0dbb6e",
+      "bytes": 1443853
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/037.png",
+      "sha256": "eb6c096bf39ee7235dacf48470367b7d8bf678ddc48a738fce5030ffd15fca0f",
+      "bytes": 1444103
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/038.png",
+      "sha256": "926dc3b5d93af86d6049f4d4a7d2f92fd93d6ba67ba7693778b5492aa24f0149",
+      "bytes": 1443991
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/039.png",
+      "sha256": "4b45adffb08524ff1a70b3bcb92b5db71fd36d90abe789842b7ab00100b77040",
+      "bytes": 1444019
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/040.png",
+      "sha256": "55f2ab94c6aaf09c96670e8c4e5ab5f7ce2e994ab06831b1cd0bd1c58b46c531",
+      "bytes": 1443893
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/041.png",
+      "sha256": "12a9e27131b719c766562b300f342cd0b01a91efd51fb863756ac6b3dba5a007",
+      "bytes": 1443930
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/042.png",
+      "sha256": "d9de9c982f2d13009183262c7f597e22e3c929dda6dda60320024940b6936f21",
+      "bytes": 1444004
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/043.png",
+      "sha256": "caddccdcfa91475f8949059b7e98072b26ebbb8bf96f4410cb30414e4401addd",
+      "bytes": 1443473
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/044.png",
+      "sha256": "11c423cbe15738d2b3fd39acc19a42a9da62f3d0731c1062b129b41dd571c80f",
+      "bytes": 1443553
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/045.png",
+      "sha256": "4ce96729528cc319a7125c1156ef7bb8d05c6c88840ed8942170a1055c29d753",
+      "bytes": 1448799
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/046.png",
+      "sha256": "914ba3f67107b2dfc1b85546441dca684f64b0b42315edf0fc5b498179b7e2a5",
+      "bytes": 1448759
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/047.png",
+      "sha256": "c7a6dd3d367a5615726109be1060fb9a530f00c1457f0bec7c202a80c5c1e65d",
+      "bytes": 1448861
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/048.png",
+      "sha256": "2e6a7425886d8ecaca03539c2d400a4504c4718e9356abcd2a197b97890c8c8e",
+      "bytes": 1448789
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/049.png",
+      "sha256": "56a9cf6c546df1dfad8ed427492309863355c525325e71e5698294ba3d365ea0",
+      "bytes": 1448919
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/050.png",
+      "sha256": "ebe477b53246dba608de92712740bc044968001f6e7d606d300561cc0b3fab64",
+      "bytes": 1448909
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/051.png",
+      "sha256": "31916509fe0ba2733db5f32be748459628ecda3cdf0110bbbbe4f1f7a18c63de",
+      "bytes": 1402707
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/052.png",
+      "sha256": "9087034795ec8faf2d65f228a911d263cd7dcd429ce63af611a4ead5e2372adf",
+      "bytes": 1402700
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/053.png",
+      "sha256": "f51c3403ae0cb31f88c16890ad8808c2218d9a85848d738ce607e62e10928576",
+      "bytes": 1402746
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/054.png",
+      "sha256": "df5feb1969dafa722532b99f58f2bfaecaab01f793e686e2fe7d3f20a2224d6a",
+      "bytes": 1402690
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/055.png",
+      "sha256": "df2b960984affd99af0fa1fa73778afc741c37a648d72b24614bbdc3b9589970",
+      "bytes": 1402895
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/056.png",
+      "sha256": "fe904e7af6d7ed15fc33f3af908b5352a9431bcc82f3b1b199ddbbedb8b8993a",
+      "bytes": 1402952
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/057.png",
+      "sha256": "f5719daa1881186252a890d7c78ab82e884ff5eff34462cf1547079d9e033193",
+      "bytes": 1401855
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/058.png",
+      "sha256": "7eff76443c885b923879d20f3034a8d7dec7190d31b90dd9ca0df5da1791d581",
+      "bytes": 1401892
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/059.png",
+      "sha256": "d7c115ea0c3313b936964fc151963d92345003a8ae3f2821135301d4548bf1c0",
+      "bytes": 1401883
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/060.png",
+      "sha256": "504a9a401423776d186a8a59b911b5d6553d577801187865a39399e86dd456e0",
+      "bytes": 1401937
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/061.png",
+      "sha256": "433042df3eafa3a038fd19f2f279bcc9f01cbdb0d432a7bcd208bb222421de35",
+      "bytes": 1402081
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/062.png",
+      "sha256": "7165564914b2785c018c27896a8f870ff9851a3838eb9c6f5d4edf61c59c2e77",
+      "bytes": 1402127
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/063.png",
+      "sha256": "c1970d84859daec4677c66b42f8672747be35574cec725bda4c0c0f6ea9c38ed",
+      "bytes": 1390879
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/064.png",
+      "sha256": "9dcd317c974cb71c2ef4dfefa2401281d5c310c03779aabcd9b265235bba4c5d",
+      "bytes": 1390936
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/065.png",
+      "sha256": "895e9641fde8761bca533c6f267305902508f6122fc5e91fc7f4fe9f7d42c353",
+      "bytes": 1391112
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/066.png",
+      "sha256": "3995d869b5556984cf82ea11dbed6e064821ffb12381e286bf72fb07f49e9b8d",
+      "bytes": 1391055
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/067.png",
+      "sha256": "883dd2a082d6f08343a1d609642a29b694f086978e64b81bb55c1d7a96010606",
+      "bytes": 1391428
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/068.png",
+      "sha256": "89d9fdb4276ac30592927cc74c64df5006fb626277567670611660b603879da9",
+      "bytes": 1391356
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/069.png",
+      "sha256": "63bafb26126acebb6e03e12bcc7f2ca02a4b21b5c3702c375228e39f2d159256",
+      "bytes": 1391140
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/070.png",
+      "sha256": "c5a28d09750a474dde6c1e13c3d8ff3f4d5fc4da92c3b1255f7b53d37a6f71cd",
+      "bytes": 1391127
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/071.png",
+      "sha256": "c3821c01a0449069583105b0baba533b67d88f3f2ba054e7ea82054a40c0f198",
+      "bytes": 1391170
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/072.png",
+      "sha256": "3a2309a25d92890f23eae8e2444494e1db8c214c3499228c65a0b15d8842fb32",
+      "bytes": 1391071
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/073.png",
+      "sha256": "99fef84b4dd0a6fdd072d547713aee05aebe6d2f50917e438ba4c3ebaa008306",
+      "bytes": 1806407
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/074.png",
+      "sha256": "03c8f3d3d300d77fcb396678aaf0801471f5b3066028b6900a37c813bb31e9c9",
+      "bytes": 1805631
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/075.png",
+      "sha256": "71c0aa958ceb79a1dd9c47013ae8eeb99d152c339867707b9c2d87e829ce2535",
+      "bytes": 1805855
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/analysis.json",
+      "sha256": "b25d268db94dcf6f222566f7348503c3db0777e774e893cf518b67fc12dfd144",
+      "bytes": 7472
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/available-counters.txt",
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d",
+      "bytes": 14766
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/capture-frames.csv",
+      "sha256": "2398741ff252f47524f37bed9a59f6d036c4b782b3ca119c984c007218325c68",
+      "bytes": 47965
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/capture.txt",
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab",
+      "bytes": 160
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/final-state.json",
+      "sha256": "84134980eb2568f9eb2e71d916517934922d7f2182fad47e744f956fbd5b0f2e",
+      "bytes": 1772
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/frames.csv",
+      "sha256": "c2344049153deba9417dcbff2557f48280c51982978b0f68d3ecd69510807fb4",
+      "bytes": 1840606
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/launcher.ps1",
+      "sha256": "3c80bbee3029904f2f71e32fdd0eb85d665121724d5031bc836fc8fff6bb5932",
+      "bytes": 2077
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/player-manifest.json",
+      "sha256": "a82abfdafaffe8940b055bfac27cff7dfb6e99f8962cdebd80c5a3b87f9ab4be",
+      "bytes": 65032
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/player.log",
+      "sha256": "e6adff5c55e7d4c6b372f7df2418b7548db350680e19971d944eab571f49fe14",
+      "bytes": 7043
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/route.json",
+      "sha256": "4a84a2f10ff780cea6119e9b545ffd28004d3d0ea1f3ad205f2ca79074a6dee0",
+      "bytes": 70112
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/run.json",
+      "sha256": "9d3eab80f422107b3a6f5482fb7e5293636d65daca077c7967b4fb5ccb8f3377",
+      "bytes": 6429
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/saves/autosave.json",
+      "sha256": "dcc50f6ba2f1e7e9e0595bbd0bd02aa48b7d4e8ea3de936aa54c6165650593a6",
+      "bytes": 606
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-opening/saves/slot1.json",
+      "sha256": "a73ab0338d78dbe3285b6367fa894d2761709a40257e3c3b7223a6fe1f8bc654",
+      "bytes": 1770
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/000.png",
+      "sha256": "c77a432ea25391434103804a0ef547cfa7e7f5cec2c4ea57874cad168688c4a4",
+      "bytes": 2263437
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/analysis.json",
+      "sha256": "38e3f5d0cd40e720b39794afef2a6451a7449e9b5c23f230137c528e8d0ab2a9",
+      "bytes": 2494
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/available-counters.txt",
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d",
+      "bytes": 14766
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/capture-frames.csv",
+      "sha256": "252ec5cda97a82b206f7305954903289464f227941360b29f1ea78ea7a33bdaf",
+      "bytes": 3264
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/capture.txt",
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab",
+      "bytes": 160
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/final-state.json",
+      "sha256": "1e2474a5583aa5e8971281a6b2e3784bd8546150bb305d69913071afa3fe895b",
+      "bytes": 586
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/frames.csv",
+      "sha256": "09bd4c00e1c5f3d59e0490a1d2bbfdd56a6cee14182d9289b499f5b0cfd82ca0",
+      "bytes": 127395
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/launcher.ps1",
+      "sha256": "311004ee3f4a69f7a384cca14f5a8df480429aa7f4661dd136a32ed2bde46884",
+      "bytes": 2046
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/player-manifest.json",
+      "sha256": "a82abfdafaffe8940b055bfac27cff7dfb6e99f8962cdebd80c5a3b87f9ab4be",
+      "bytes": 65032
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/player.log",
+      "sha256": "5fd52c33074733c722266764ef26344192f0c96a56501b4b7e599a1287d925b7",
+      "bytes": 2730
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/route.json",
+      "sha256": "d11436591799f97526b0656d65e5f0938396f23905d2057b06ca57951001016a",
+      "bytes": 1209
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/frozen-title/run.json",
+      "sha256": "9821ee186fa67821cf38f2980db1581332a54a1ea8f4d05c441e64f99621667d",
+      "bytes": 918
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/headless-playtests.log",
+      "sha256": "eac9eb8eb8a5ae874892df8ae1d5588372c93a82e7c8b59cbc1687d7a3b0a05b",
+      "bytes": 5562848
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/headless-tests.log",
+      "sha256": "113925282ecfa5499b1cb2784f8ccfff75b0cee5144933e0823b950e979a7042",
+      "bytes": 91764
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/package-copy-verification.json",
+      "sha256": "c551eca7e913063909ff5897fcf890f81f306f5809c0076070ae7abbfd08586a",
+      "bytes": 139
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/playmode-results.xml",
+      "sha256": "10a12f7d0b7e043ec6b4e65dd7a5ee06ef24b3cd87690fbc60b1f87832f14397",
+      "bytes": 322597
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portrait-smoke.log",
+      "sha256": "6cac773ad4722e00a5e8f032567ca57e9cc4e8b0e2730389e44e98607395072d",
+      "bytes": 52978
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/dialogue-review-1.png",
+      "sha256": "33058d46167f2c2dc54b70ce6df8c015713f7d31f13e06aca695c19f4831198a",
+      "bytes": 296760
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/dialogue-review-2.png",
+      "sha256": "62f2e9a2d6e74b360c2ea3c3e1232c8b976e441b51e084895bcb2ef74c89cc3f",
+      "bytes": 303729
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/dialogue-review-3.png",
+      "sha256": "3f2d9fbaa08db70da53b2ac6b82f8ff7031b9ace3cf7057d45e9da3c4f898714",
+      "bytes": 283586
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/dialogue-review-4.png",
+      "sha256": "ec6fcc2229521c941133ac90d7ce44b10e6bcf38f1e3b96ccc89997777afb72c",
+      "bytes": 282980
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Hal_Natural_Neutral.png",
+      "sha256": "d1c44e92f6c304c05280a27987df400d2dbf83848c2a50e660e803de3582912a",
+      "bytes": 3015729
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Hal_Natural_Shocked.png",
+      "sha256": "2085e848b8f6b9206767fc96792cbde12cf7970947ccda91cb9b49d8582faa90",
+      "bytes": 3011392
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Ilo_Natural_Neutral.png",
+      "sha256": "ac9e2249f71c8828f5380a79fefc9a5a67dffb299f74af14743a5c1c8ba9a6e9",
+      "bytes": 3014692
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Ilo_Natural_Shocked.png",
+      "sha256": "b659fdc8926690069d0eccfd7780777cbd2b334b43504bfde8b489fee082067c",
+      "bytes": 3011198
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Keeper_Natural_Neutral.png",
+      "sha256": "9326821fb6c504cbf6328c5a713b56284c3a23a0d5d2d9dbaa46fbe5853f45d5",
+      "bytes": 3048698
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Keeper_Natural_Shocked.png",
+      "sha256": "16552c94ba38bb2c66f641bef2a734b58e71cd22729faaef38b4771ac71b446a",
+      "bytes": 3046469
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Mira_Natural_Neutral.png",
+      "sha256": "d01e7520de8462eae3769d1f8fa7c6d0b4fee3e7f1612c820def1aaa3bdf9943",
+      "bytes": 3025180
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Mira_Natural_Shocked.png",
+      "sha256": "2bd6ff9a927788c4845955472cb2b767e36028fdc09f27fef5741204a27a429e",
+      "bytes": 3021193
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Neve_Natural_Neutral.png",
+      "sha256": "33c0f47e43dea8792dfae3adfea18fe603add599ed20f326b33c0e85f08c854b",
+      "bytes": 3022644
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Neve_Natural_Shocked.png",
+      "sha256": "9352efdb0b616858c3d4d0519d761ea3142cfc5113b89d3171e9a0f7d3cc155c",
+      "bytes": 3018897
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Oda_Natural_Neutral.png",
+      "sha256": "8f418d1b463393c2b44cb3129b49413b803e86d85520951d25ac8b0cb399e787",
+      "bytes": 3037345
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Oda_Natural_Shocked.png",
+      "sha256": "5c92e1c9d1ecb94f4e3ad71f108d41576aa731f87ba40f99a6c850210dc4c2c5",
+      "bytes": 3032009
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Orrin_Natural_Neutral.png",
+      "sha256": "e5ea7865d90751852323afcd6fc7c56e4f61cb5f5f6a4ac55171b4ade34c90f1",
+      "bytes": 3015607
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Orrin_Natural_Shocked.png",
+      "sha256": "71c33fcb749c52b7b5300ed698bcd086320751edb9302636b88b5448ffbd975a",
+      "bytes": 3012687
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Sela_Natural_Neutral.png",
+      "sha256": "f952909120fa4410f589ac4792cafd50abb4614643cff1aa8d92dcdd3aa78ace",
+      "bytes": 3045380
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Sela_Natural_Shocked.png",
+      "sha256": "e314ce541934ffe388b6b972f5ba47455d95686964cd86c48fb9e122ea3dbefd",
+      "bytes": 3041684
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Sela_Shaped_Neutral.png",
+      "sha256": "11962d96c41872437948accd9b51232f0814f100b65e9bf180d9378d23a3b704",
+      "bytes": 3050707
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Sela_Shaped_Shocked.png",
+      "sha256": "13f41c9dc0a1b4a4111db67dd093f11c386bef6280e653208f30bb5147fa32f2",
+      "bytes": 3049090
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Survivor_Natural_Neutral.png",
+      "sha256": "4612ccfac381aac0d7f05bac93453146c2423e02ccb93c40207d98f36a15aad1",
+      "bytes": 3036737
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Survivor_Natural_Shocked.png",
+      "sha256": "1347b1c2b9e425a3d08b6b4e6fa9e7bc6405c5364eb42b34121ed970fae93405",
+      "bytes": 3032267
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Taren_Natural_Neutral.png",
+      "sha256": "40ed67d582adb72aea0bcb6e4b564fccef914553b6b898a959bca17ccd55be60",
+      "bytes": 3032528
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Taren_Natural_Shocked.png",
+      "sha256": "f42695e301ca54fda52c276898eaa5c756c6f3a1f1fdf2e1d6048ecf089ab713",
+      "bytes": 3028299
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Taren_Shaped_Neutral.png",
+      "sha256": "7bd1b9318de1e9b11eedc89bb3e731dede23cd7c26ee5735594eef8cc9253e41",
+      "bytes": 3038882
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/portraits/Taren_Shaped_Shocked.png",
+      "sha256": "3e7831e42ca90d3742f1ca66c0f80ff3586d3d8807f1dd3772e86ecac161af06",
+      "bytes": 3036587
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/dialogue.png",
+      "sha256": "ae714a2ec7db2b029d4cbba9bc1adf204c938d3cc696ff2068fad580ad036304",
+      "bytes": 3017491
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/menu-0.png",
+      "sha256": "24e98d99cc2d045bb5c9ece513508b3098df9a2ef7dd0b10736ede56b2fb92ea",
+      "bytes": 2260668
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/menu-1.png",
+      "sha256": "49fc8af75670f7a1ed020273f5e25a37530cf589cacabeae59afc52cfa3a2e73",
+      "bytes": 2275372
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/menu-2.png",
+      "sha256": "162a37f95db21f45c52ce5d0e5a69b8263cde9ae9f7e7545600ce08cf4f65d52",
+      "bytes": 2281259
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/menu-3.png",
+      "sha256": "9d78209cb9e94e0ea45252b0b411f8f212c932e47a93a5a360d3d79d116de17d",
+      "bytes": 2259983
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/menu-4.png",
+      "sha256": "e500c634d936c0d6a8cfc4485830523c4747f776a960ae34259c79ffb4393ac5",
+      "bytes": 2280237
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/menu-5.png",
+      "sha256": "31a5d1dc8c6ffb9c155995f7b469d00fbbf1e7daabeb7489d3b41f0e394d2ebe",
+      "bytes": 2327335
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui/shop.png",
+      "sha256": "b430382d9609274696c2936932386aa46681e92f3aa7fa6b26f6230c569c6b1a",
+      "bytes": 2190224
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/presentation/ui-smoke.log",
+      "sha256": "6800d863a6a5e829a5d901ce5da9a644d6668e2fd6e44f7171ce03e5ddebbb04",
+      "bytes": 41496
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/release-build.log",
+      "sha256": "c6e983d392707bd129cabbc8f2d6df46b2ced195f03752e59789bdfb739ef60d",
+      "bytes": 663762
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/save-hashes-after-candidate.json",
+      "sha256": "e039157e9e21f1ed63a91223d92604b927f4c9915cb6b1a289f7d204d3c9e0b2",
+      "bytes": 401
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/save-hashes-after-playmode.json",
+      "sha256": "e039157e9e21f1ed63a91223d92604b927f4c9915cb6b1a289f7d204d3c9e0b2",
+      "bytes": 401
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/route-slice-player.log",
+      "sha256": "abe57dcadedcfd12c0d80cb80dc20bc4653e3e2225665ca41fb751efa4b40805",
+      "bytes": 396762
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/route-slice-screenshot.png",
+      "sha256": "aafc32118019c11aef2877e59cd9be8ad8dcf75477d2c7521dec8ca6129fe001",
+      "bytes": 1907778
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Gullet_Tunnel-0.png",
+      "sha256": "b203f6f7924cf4c830efbc04deb8350adac313d7a9324459b116e4b7103b469b",
+      "bytes": 1690917
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Gullet_Tunnel-1.png",
+      "sha256": "b1569e5199de1bf4b9c337d466466ce54a2937c3eba1672aa8579d8c2124cdc1",
+      "bytes": 1589666
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Gullet_Tunnel-2.png",
+      "sha256": "8e5e77b33a8c6285da3e115355353deed079a8cd859b9c892431f402defa8eaa",
+      "bytes": 1646794
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Hub_CinderHalo-0.png",
+      "sha256": "0cb49de2dff1e661ceeaf4e16b8500fbb7a6ca9660bca3a9bee2def21a5a1512",
+      "bytes": 889394
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Hub_CinderHalo-1.png",
+      "sha256": "28aa3ac6ec9e34dd63ae80f2b67b3edb26b82d545274626b338bfb9437692d8d",
+      "bytes": 1013426
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Hub_CinderHalo-2.png",
+      "sha256": "07be6d68e8415ce1b7a2a3fa1b4642f4791918013c3d708fee8fed1bd2788b25",
+      "bytes": 1115610
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Hub_Decks-0.png",
+      "sha256": "377c61578617f68a2858e4c7e9cc2e76cd53fd7ac281428a390c050650930ae5",
+      "bytes": 1607586
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Hub_Decks-1.png",
+      "sha256": "7377fff6e0f9a41bff16f7add1af69fb5c248d8e22b23afb52206fee1db6275b",
+      "bytes": 1798885
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Hub_Decks-2.png",
+      "sha256": "cb6229011b5c19389b92765fce4e88fcc977c712a21279ca35d32c33392ad1ab",
+      "bytes": 1853432
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Sorrel_Ridges-0.png",
+      "sha256": "9ec62c76180653b54ece2a0d0900af66ad1cc4ff673205c1873c885ab942a2cc",
+      "bytes": 2255460
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Sorrel_Ridges-1.png",
+      "sha256": "52f0e167293ca914b96c907c62d3006a0740799abbf640ece1c0549468360143",
+      "bytes": 2376747
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/Sorrel_Ridges-2.png",
+      "sha256": "19ac7ede0e8dba5314241b909a5f60eb36a5a664b5bdda34f6ef100207758417",
+      "bytes": 2422969
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/TallowApproach-0.png",
+      "sha256": "676acfb1ab1f3318fb35dd84e01101458718adee534dd1252cdfa95c2cd5c026",
+      "bytes": 1238251
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/TallowApproach-1.png",
+      "sha256": "35895eb4f3558170193f9618b824378c675e3fa1315735ff7dbf957ddf1f9baa",
+      "bytes": 1237655
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/TallowApproach-2.png",
+      "sha256": "7475af20ef683716ffa812df2e125a27832508750891a3d01768c5f8984ccb65",
+      "bytes": 1242363
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/TallowDrift-0.png",
+      "sha256": "47b09d2a8db5141576140dd0755d356564b1748007ee62442c3371d65d501b02",
+      "bytes": 1731079
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/TallowDrift-1.png",
+      "sha256": "f8491c0b91eae8add4321d16fccba6eb13d2d8ec762be45e08643930e4331e0d",
+      "bytes": 1907134
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/slice/zones/TallowDrift-2.png",
+      "sha256": "3103a7075a5b44027ba7fbae32c4b6d04091e42dc4e840e2f1b991fd25bc7763",
+      "bytes": 1967169
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/analysis-output.txt",
+      "sha256": "9591ad46fc208b3ac4cd5fd238ec39f99be5497521faf92dd444a0d1d37badfd",
+      "bytes": 29740
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/analysis.json",
+      "sha256": "4697d1afd39bb32819b77983d86d01e536b0e5684587f224da56b51e2519dec9",
+      "bytes": 14869
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/available-counters.txt",
+      "sha256": "2e37fb5e7e4a465fffab5595978d2ba7a79abe1042f330095eac0bc86685fe86",
+      "bytes": 181702
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/build.json",
+      "sha256": "d47154bbb8b4ab454dc8f59e22dc729cbfc0be8b96d19d983178527e7f07a735",
+      "bytes": 12967
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/environment.json",
+      "sha256": "07b78eb5cf86c34b929b0ab353bc70281ed4dad5518e39dcf257a4980fe3b023",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/final-state.json",
+      "sha256": "96ff6e5b7e155a22dc8154ea830509bc4813ffd1bd0e95b578828c3ec639fa38",
+      "bytes": 935
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/frames.csv",
+      "sha256": "f6291bcaa3b51b78b74136eb5c602ea5df5974360ba788b09e3938487fd333f9",
+      "bytes": 4407699
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/player.log",
+      "sha256": "5d5b3a6f6e846db967136392b03e20f72b996567881a119ce949fcf1e1d23dfe",
+      "bytes": 106866
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/process.txt",
+      "sha256": "5e0c678126ae00779ebb95c6c5349f8e4893fe610597f513aba0eed56b82cb0b",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/route.json",
+      "sha256": "f0e7d274879152dc6999cb828fda4a807b8f833d5a296252432eba9cd686536c",
+      "bytes": 53286
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/run.json",
+      "sha256": "d735cba0aeb7045b5fa7ce1249e5c69ea0ab3a37798858dc31ace00d44a71609",
+      "bytes": 1263
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-development/saves/autosave.json",
+      "sha256": "1af052be31474f2eab027c266c1f6203db2c66ead95f3f6bd70c1fe0cca1ae30",
+      "bytes": 899
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/analysis-output.txt",
+      "sha256": "24616d43654c60861c287ec7f6e1c2602f1c6ef8a9ba371a425b02fe49151484",
+      "bytes": 24526
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/analysis.json",
+      "sha256": "1cbf4c0abb077d7cc7bfc976fdc56af2542b94b8195f21747af641ef66eddd0c",
+      "bytes": 12262
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/build.json",
+      "sha256": "4df50425ebfa7749455211c837aeb796e727ecb10d7cdcd29fb562ae147a81fd",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/environment.json",
+      "sha256": "bba62ed63a9cc0e411b9a671618a9ad1d15fa71b89149d4854f9240db94cac84",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/final-state.json",
+      "sha256": "2fe687e415ffd95a5b32129f89f1ce76413569465f5519f3d2b5775438fbe100",
+      "bytes": 935
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/frames.csv",
+      "sha256": "7bf04fe53e1d9b9be78c23a8cf04740af7e7c3a691fa8938bd2050208f961e00",
+      "bytes": 4322147
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/player.log",
+      "sha256": "cb2697bdbdd5f7e94d33591d56d374d64bd659edcf006cd2fb085c9006e03c81",
+      "bytes": 5480
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/process.txt",
+      "sha256": "336ebb2d399dd4c626ef685fdf7270d8e93ead7b700ed670ec6e51fb69b54189",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/route.json",
+      "sha256": "f0e7d274879152dc6999cb828fda4a807b8f833d5a296252432eba9cd686536c",
+      "bytes": 53286
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/run.json",
+      "sha256": "ab24122ad2af8658c66456c48188c2bc3b579e75ceabe24c84c7adeb604f7da8",
+      "bytes": 1253
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-first-warm-release/saves/autosave.json",
+      "sha256": "23512a0aa7eb0fede2fd0b932c735e12a66f9ad7b6f8d21ace5d7526c688ee27",
+      "bytes": 897
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/analysis-output.txt",
+      "sha256": "4d23018738f128ec183227ebb86c2ca97c854bb9e4c5da73bed9281d20a37004",
+      "bytes": 11704
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/analysis.json",
+      "sha256": "2c157d3316658f58dce7b2e5e895b6bb12a62bd70ffdfbf93c0dc9c6cbf203d3",
+      "bytes": 5851
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/available-counters.txt",
+      "sha256": "f6565f606af1bfa85853ee0739005d376b4aa3cf49f97418cd0178739f963bd4",
+      "bytes": 181702
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/build.json",
+      "sha256": "aa3e2d1acdde7ede488e27bb22b4fa972ccaf20c76584d0a7c5fcd0f4ec08695",
+      "bytes": 12967
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/environment.json",
+      "sha256": "fd545aebf5ca60fc6190faedec76cc4e80e04f0331c7666e364df31cc2248321",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/final-state.json",
+      "sha256": "fadb9afb83b72d2b25d848e617cd5691b2dc42a5be862db7f8bb4c7d5c0b7c70",
+      "bytes": 937
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/frames.csv",
+      "sha256": "4d8e0f0aa50ae5488d9e2bd158ed4a7fa252e69875daedf00994bdf16c601d23",
+      "bytes": 29602111
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/player.log",
+      "sha256": "acd70300dc87b664030a5eefb0da558abe7cc8ec6118e6e09d9b4a0c9844dc72",
+      "bytes": 64995
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/process.txt",
+      "sha256": "982e8b1e2b9804abcc758f1db6ba8cf0b1c59d95562c625c76eeca543824d2f4",
+      "bytes": 6
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/route.json",
+      "sha256": "6ea873ecba7ddc81891cd793047dc5f59023d92fa7ce347c1a27797f2733752c",
+      "bytes": 26685
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/run.json",
+      "sha256": "cb1f81537defbb8ad86161f48cc6489a943a17bd8026f3f812c90a2497d12c40",
+      "bytes": 1123
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development/saves/autosave.json",
+      "sha256": "772884199c8eee0a87a4709b9cb017ec1b50606d7ed83038060387d3e85a2ede",
+      "bytes": 899
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/analysis-output.txt",
+      "sha256": "5d0429113fc4b0488224c294dd6333af41845b2b80735443622894e48ac26366",
+      "bytes": 10272
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/analysis.json",
+      "sha256": "e7d4e417b3016180bdda66b98ba6f9c33013fbd1097bf959ccbe6be036524d89",
+      "bytes": 5135
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/available-counters.txt",
+      "sha256": "8040cdaf2c9ee03da65897ec6570710dd938959f830acf2e2809ab09f766fce4",
+      "bytes": 181702
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/build.json",
+      "sha256": "d053c4d966414ffbf016b0587307c2de11f14046af7c7ff7564b6ebbe6a9fc08",
+      "bytes": 12967
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/environment.json",
+      "sha256": "9bc402cbc994c757a2e42d83db4168ff4f50fdf9975533c68fec57662b531bc4",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/final-state.json",
+      "sha256": "60642dc7e10ae5630290e2ee1068b181e2744fcf9849516c61cc3b34603acb8f",
+      "bytes": 937
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/frames.csv",
+      "sha256": "5957edfd083093c8c4863732e71e3c077430e533db1d05bc1f0a1c10c4ab0b54",
+      "bytes": 29580912
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/player.log",
+      "sha256": "22de5a208beeb8bdbe5fd0866bdf41c4022ff550a0caf72776132ccc5bb3704c",
+      "bytes": 64996
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/process.txt",
+      "sha256": "89d676d691fc159d710ddb9c26fd17a9e385fa9bc7a19443513ac51c6b3b6f32",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/route.json",
+      "sha256": "6ea873ecba7ddc81891cd793047dc5f59023d92fa7ce347c1a27797f2733752c",
+      "bytes": 26685
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/run.json",
+      "sha256": "8e7d5582e01ece8331329bea724878bdd12e10e9bfba67437d51361a7dfe0f38",
+      "bytes": 1129
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-development-02/saves/autosave.json",
+      "sha256": "7c880da9e63bff0040738a0bcebb34c1f3dc86c592fb020915624834ba1cf63b",
+      "bytes": 897
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/analysis-output.txt",
+      "sha256": "24e1675cab51c1475892db017cafaec1c59e47f6581febf7b4d63685363d13fd",
+      "bytes": 9088
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/analysis.json",
+      "sha256": "c522c0894a9ca608917ded126c28b2726131dc58c632ab99bd3bed1714e6699a",
+      "bytes": 4543
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/build.json",
+      "sha256": "8e6d054067d3a36ceda243b83dcad605c791d8d49c8c7ac02ba61e657fcbdd66",
+      "bytes": 12963
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/environment.json",
+      "sha256": "cdfb55e5d5286316d3bfe1afe39dff5e94fc0fab503f83cd2758cb1d1d0811f4",
+      "bytes": 122
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/final-state.json",
+      "sha256": "57698a93d27bdcfb5c546bdac2d8f0a7dd59c2a52eb87ea928e4e909929e5c10",
+      "bytes": 935
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/frames.csv",
+      "sha256": "391564c82840c362e7308eb703021393d4c09e9cd3b1ab8810837dcf360370f0",
+      "bytes": 30533416
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/player.log",
+      "sha256": "d6897a5d6d0d71dd4637fa2c615f6c52eb39ddbd025bd12507021c2361d31b61",
+      "bytes": 4112
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/process.txt",
+      "sha256": "bbc4aa4618637270a55a569bd6bde8bbeb834ed66c6ff193619e9d00a503ad73",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/route.json",
+      "sha256": "6ea873ecba7ddc81891cd793047dc5f59023d92fa7ce347c1a27797f2733752c",
+      "bytes": 26685
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/run.json",
+      "sha256": "aa537b3bc97b2b02d36e7a15be6fecd829ff3101fe78a9058e584bb5ad3a7311",
+      "bytes": 1118
+    },
+    {
+      "path": "Builds/quality/workshop/candidate-06b0686/tallow-headroom-release/saves/autosave.json",
+      "sha256": "f2c3b45223752eab911fd5aaeb68d9567fff352f7304e4b47d6c201418fed509",
+      "bytes": 899
+    },
+    {
+      "path": "Builds/quality/workshop/process-path-green.log",
+      "sha256": "a0d89d8313f0fa9c0e1c56f612baf72c890261ab7721d9a08f6339d4cac13ebd",
+      "bytes": 156
+    },
+    {
+      "path": "Builds/quality/workshop/process-path-red.log",
+      "sha256": "0d2ad10ce96498382441efbd3215dab43d220ba276cd6c34483410597d26e15b",
+      "bytes": 1794
+    },
+    {
+      "path": "Builds/Workshop/Play Coronach.cmd",
+      "sha256": "216d3bd6a644623b625d6d8060ad7caa3236291aef15778202be0b8a7a3aaf83",
+      "bytes": 118
+    },
+    {
+      "path": "Builds/Workshop/player-manifest.json",
+      "sha256": "a82abfdafaffe8940b055bfac27cff7dfb6e99f8962cdebd80c5a3b87f9ab4be",
+      "bytes": 65032
+    },
+    {
+      "path": "scripts/quality-replay.ps1",
+      "sha256": "0ec9ec8357bbea3442d087280d762cc629cc5d9dd1182af0e87d89956461a74c",
+      "bytes": 6661
+    },
+    {
+      "path": "scripts/test-unity-process.ps1",
+      "sha256": "498e65711c057bb62a895da4996f5890c5b8b7aa452d307c7dcd99491cc56a53",
+      "bytes": 1319
+    },
+    {
+      "path": "scripts/unity-process.ps1",
+      "sha256": "ef3d6765c28d45ced5f4b57ee1eb65b2873671ab6c94b003d4a35516fd157b0d",
+      "bytes": 1486
+    },
+    {
+      "path": "scripts/workshop.ps1",
+      "sha256": "3ca3f2a4f31a05acdfe6719cb70161f78b370b38ac4ae1df84e6e0fb6a85c0c1",
+      "bytes": 1199
+    }
+  ]
+}

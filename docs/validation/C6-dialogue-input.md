@@ -1,6 +1,6 @@
 # C6 dialogue input — October 3, Codex
 
-**Focused automated input coverage passes, 11/11; full integrated suite and workshop play review remain due.** This complements [layout, portraits and readable type](C6-dialogue-layout.md). It does not substitute for physical-controller, OS focus/disconnect or continuous editorial review.
+**Focused automated input coverage passes, 11/11.** Subsequent integrated suites and the ordinary New Game-to-Tallow chain are recorded in [the workshop candidate report](C7-candidate.md). This complements [layout, portraits and readable type](C6-dialogue-layout.md). It does not substitute for physical-controller, OS focus/disconnect or continuous editorial review.
 
 ## Exercised behavior
 
@@ -57,4 +57,4 @@ hashes match after restoration. [Integrated evidence](C7-integrated-tests-eviden
 
 ## Remaining evidence
 
-The ordinary route captures cover speaker interactions in their maps, but do not yet replace a single New Game-to-Tallow workshop playthrough. OS window-focus loss, physical disconnect/reconnect, physical Logitech comfort, and continuous audiovisual/editorial review remain **UNVERIFIED**. No claim of Nathan approval or physical validation is made. A controller-window replay still rejects every focus loss.
+The [ordinary workshop chain](C7-workshop-flow.md) now carries exact earned saves from New Game through Tallow in 30:04, including speaker interactions and real shop/bench handoffs. It uses separate processes for continuation and retains every rejection. OS window-focus recovery, physical disconnect/reconnect, physical Logitech comfort, and continuous audiovisual/editorial review remain **UNVERIFIED**. No claim of Nathan approval or physical validation is made. A controller-window replay still rejects every focus loss.

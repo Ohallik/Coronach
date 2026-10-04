@@ -29,10 +29,7 @@ function Get-QualityCompetitors([int]$IgnoreId=0) {
         if($_.Name -match '^UnityCrashHandler(32|64)?\.exe$'){return $false}
         if($_.Name -match '^(Unity|UnityShaderCompiler|bee_backend|ffmpeg|ffmpeg-win-x86_64-v7.1)\.exe$'){return $true}
         # A second Unity player can consume the GPU and steal focus just as an editor can.
-        if($_.ExecutablePath){
-            $parent=Split-Path -Path $_.ExecutablePath -Parent
-            if($parent){return Test-Path -LiteralPath (Join-Path $parent 'UnityPlayer.dll')}
-        }
+        if(Test-UnityPlayerPath $_.ExecutablePath){return $true}
         return $false
     } | Select-Object ProcessId,Name,CommandLine)
 }

@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Frozen workshop candidate validated - October 4
+
+**The playable candidate is ready at `Builds/Workshop/Play Coronach.cmd`; C7 acceptance remains OPEN.** Runtime `06b0686` includes the ordinary-startup pacing fix. The final full suites pass **69/69 EditMode and 218/218 PlayMode**, zero skipped; all 113 offline controls pass. Both stations pass release/development first/warm timing with no frame over 33.3 ms, and valid GPU p95 measurements span 1.36–2.04 ms. One impossible-timing run stays rejected; the unchanged repeat passes. Both ships' 394-second circuits pass. Both arena smokes, the 496-second slice, UI and all portraits pass. [Candidate report](validation/C7-candidate.md).
+
+The frozen copy's complete ordinary opening passes again: **102.854 s / 6,156 focused frames**, New Game through shop, fabrication, equipment and save. It complements the existing earned-save **30:04 New Game-to-Tallow chain**. The copy has 243 hash-verified files and a launcher that isolates saves/audio preferences. Nathan's original save hashes are unchanged. D141 fixes extended Windows executable-path inspection after reproducing the launcher failure. [Launch instructions and Q01–Q07 report](WORKSHOP.md).
+
+The sparse Gullet approach, collar/preview story and unavailable continuous audiovisual/physical review remain open. C8's nursery connection and explicit legacy-save migration are staged outside Unity for broken-state testing next; they are not in this workshop candidate.
+
 ## Ordinary startup pacing defect reproduced and corrected - October 4
 
 **C1 startup parity repaired; C7 remains OPEN.** The ground smoke exposed repeated quarter-second frames with the window focused. Ordinary startup enabled VSync while quality replays forced it off. Removing that replay override reproduces the Decks failure: **p95 266.113 ms**, 488 frames over 33.3 ms, missed shop input and routes. Explicit VSync-off / 60 fps startup passes the same route at **p95 17.023 ms, p99 17.172 ms**, no frames over 33.3 ms. Both arena smokes now pass without weakening their combat/timing assertions. Three new analyzer controls were red first; all 113 offline checks pass. [Evidence](validation/C1-startup-pacing.md).
