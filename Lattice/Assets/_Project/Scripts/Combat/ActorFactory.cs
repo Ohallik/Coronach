@@ -43,7 +43,9 @@ namespace Lattice.Combat
             if(definition.archetype==EnemyArchetype.Sentinel)root.AddComponent<EnemyArmorPresentation>();
             root.AddComponent<LootDrop>().definition=definition;
             if(definition.boss)root.AddComponent<BossController>();if(definition.id=="Cantor")root.AddComponent<SerpentSegments>();
-            root.AddComponent<DefeatPresentation>().visual=visual.transform;return enemy;
+            root.AddComponent<DefeatPresentation>().visual=visual.transform;
+            if(definition.id=="Burrower"||definition.id=="BellowsBelow")root.AddComponent<BossOcclusion>();
+            return enemy;
         }
         static void AddBodyHurtbox(GameObject root,Health health,CharacterController movement)
         {

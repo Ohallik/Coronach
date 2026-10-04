@@ -64,7 +64,11 @@ namespace Lattice.EditorTools
             string materialPath=Dir(row)+row.id+"_Toon.mat";
             var stagedMaterial=AssetDatabase.LoadAssetAtPath<Material>(materialPath);
             if(stagedMaterial==null){stagedMaterial=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(stagedMaterial,materialPath);}
-            stagedMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_base_color.png"));EditorUtility.SetDirty(stagedMaterial);AssetDatabase.SaveAssets();
+            stagedMaterial.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_base_color.png"));
+            // Retain the hero visibility shader variant in release builds and fresh intake.
+            if(row.enemy=="Burrower"||row.enemy=="BellowsBelow")
+            {stagedMaterial.EnableKeyword("_OCCFADE_ON");stagedMaterial.SetFloat("_OccFadeToggle",1);stagedMaterial.SetFloat("_OccFade",0);}
+            EditorUtility.SetDirty(stagedMaterial);AssetDatabase.SaveAssets();
             PackStaging.StageFile(row.model,destination+row.id+"_clean.fbx");AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             var importer=(ModelImporter)AssetImporter.GetAtPath(Model(row));
             // Flight folding and rigid enemy death placement read real vertices;

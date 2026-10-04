@@ -1,0 +1,356 @@
+{
+  "baseRevision": "032835f",
+  "scope": "Owned boss bodies; pixel and PlayMode evidence. Ordinary release recapture pending.",
+  "files": [
+    {
+      "path": "Builds/quality/workshop/boss-readability-red/headless-playtests.log",
+      "sha256": "e44f9fa8404b8085519cc6e7a8e5c5ee12866b466454b40c0975581fb6caa0ce",
+      "bytes": 286301
+    },
+    {
+      "path": "Builds/quality/workshop/boss-readability-red/playmode-results.xml",
+      "sha256": "0aca6c253d6ccec3ce508d95850e8ba16d941cc5f5e30436dd7f4ab87224f48b",
+      "bytes": 8865
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/coverage.csv",
+      "sha256": "76697834ac5471f0e986e5cda5d6ee48e37775923c6221da88df06296f83f5c5",
+      "bytes": 234
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Sela-BellowsBelow-opaque.png",
+      "sha256": "6aa6e660cee2e5f7e3681c3376a693ad95bf97dbbe7a17cc40c017df4ccb8953",
+      "bytes": 204133
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Sela-BellowsBelow-revealed.png",
+      "sha256": "6aa6e660cee2e5f7e3681c3376a693ad95bf97dbbe7a17cc40c017df4ccb8953",
+      "bytes": 204133
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Sela-Burrower-opaque.png",
+      "sha256": "66384ee891ff7581f2f88d5e921b2e41a0ccab3748e1e530ff7c8bfce395126e",
+      "bytes": 88305
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Sela-Burrower-revealed.png",
+      "sha256": "66384ee891ff7581f2f88d5e921b2e41a0ccab3748e1e530ff7c8bfce395126e",
+      "bytes": 88305
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Sela-unobscured.png",
+      "sha256": "28a835ea4591aed6ad7bcf160b41d5552deefbcb4e318be144c6464e56177055",
+      "bytes": 13443
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Taren-BellowsBelow-opaque.png",
+      "sha256": "085b8e4660633b7c9535732e95621539381fdaa7abbe2ed5f2010f622bacbfe0",
+      "bytes": 204012
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Taren-BellowsBelow-revealed.png",
+      "sha256": "085b8e4660633b7c9535732e95621539381fdaa7abbe2ed5f2010f622bacbfe0",
+      "bytes": 204012
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Taren-Burrower-opaque.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Taren-Burrower-revealed.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/Taren-unobscured.png",
+      "sha256": "8ab7c4d2c1528afadc5987ce2317c9db5aa39874abc24b30a93e7ed031c0c07a",
+      "bytes": 13695
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-red/unity.log",
+      "sha256": "0f3a427ea109d7a04faf3316a09b0f8b2892b91d21acc903d3cac322a295f224",
+      "bytes": 49463
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-01/coverage.csv",
+      "sha256": "bffcfdd086a92483d3f188d43e07114b6f73799ad44054be7ece91f3612a3a26",
+      "bytes": 80
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-01/Taren-Burrower-opaque.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-01/Taren-unobscured.png",
+      "sha256": "8ab7c4d2c1528afadc5987ce2317c9db5aa39874abc24b30a93e7ed031c0c07a",
+      "bytes": 13695
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-01/unity.log",
+      "sha256": "e4d29d038b1bbb9044750f6cfc29f1987469ee53e3a5b78e0cdb8b68756fa24d",
+      "bytes": 52185
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/coverage.csv",
+      "sha256": "039c88e647a864d5a3454b1177db3cfcf0cc7f66360f0760164ffd09f3b3ca52",
+      "bytes": 234
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Sela-BellowsBelow-opaque.png",
+      "sha256": "6aa6e660cee2e5f7e3681c3376a693ad95bf97dbbe7a17cc40c017df4ccb8953",
+      "bytes": 204133
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Sela-BellowsBelow-revealed.png",
+      "sha256": "c2266d9f5a99ab5b4eb600309b84cdc75c18e6a0c60c7c30aa72c0e779648978",
+      "bytes": 200703
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Sela-Burrower-opaque.png",
+      "sha256": "66384ee891ff7581f2f88d5e921b2e41a0ccab3748e1e530ff7c8bfce395126e",
+      "bytes": 88305
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Sela-Burrower-revealed.png",
+      "sha256": "165d96068a9a7303d50dbd81a5fce9a72ea849ee5f2484f931857a2c02758adc",
+      "bytes": 82804
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Sela-unobscured.png",
+      "sha256": "28a835ea4591aed6ad7bcf160b41d5552deefbcb4e318be144c6464e56177055",
+      "bytes": 13443
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Taren-BellowsBelow-opaque.png",
+      "sha256": "085b8e4660633b7c9535732e95621539381fdaa7abbe2ed5f2010f622bacbfe0",
+      "bytes": 204012
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Taren-BellowsBelow-revealed.png",
+      "sha256": "ac830a6cf545214c1f12df14cfde589b29adb7ffbc7b855fe5b6f3558464e17a",
+      "bytes": 200791
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Taren-Burrower-opaque.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Taren-Burrower-revealed.png",
+      "sha256": "25b027114c6fede11332e0e1906086e3ebafea303951a008b65fe4dd07e4861a",
+      "bytes": 82919
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/Taren-unobscured.png",
+      "sha256": "8ab7c4d2c1528afadc5987ce2317c9db5aa39874abc24b30a93e7ed031c0c07a",
+      "bytes": 13695
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-green-02/unity.log",
+      "sha256": "103b0b56eaf09074c9afd0546afbe9c8f222018d91532ddb689e7abc99acc501",
+      "bytes": 37650
+    },
+    {
+      "path": "Builds/quality/workshop/boss-readability-three-green/headless-playtests.log",
+      "sha256": "9ede89c28395df9d9bef3432ae512c48c00cafd7d202d4961a8f04e7909e5feb",
+      "bytes": 126728
+    },
+    {
+      "path": "Builds/quality/workshop/boss-readability-three-green/playmode-results.xml",
+      "sha256": "002d900b1375ab1cc6c32f7fec342d24a53c8076606f5b5960b8abc0a8fa3f08",
+      "bytes": 6774
+    },
+    {
+      "path": "Builds/quality/workshop/boss-flight-mutation-red/headless-playtests.log",
+      "sha256": "a6fed075d53ccd08af06c15e20733c6812938f8591023bccee4b574657381555",
+      "bytes": 80626
+    },
+    {
+      "path": "Builds/quality/workshop/boss-flight-mutation-red/playmode-results.xml",
+      "sha256": "c29a3f76ee7d8b6671f484c40eade923e07d7ddec5dcb8eee89dd390aeb2e6a8",
+      "bytes": 5646
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/coverage.csv",
+      "sha256": "76697834ac5471f0e986e5cda5d6ee48e37775923c6221da88df06296f83f5c5",
+      "bytes": 234
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Sela-BellowsBelow-opaque.png",
+      "sha256": "6aa6e660cee2e5f7e3681c3376a693ad95bf97dbbe7a17cc40c017df4ccb8953",
+      "bytes": 204133
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Sela-BellowsBelow-revealed.png",
+      "sha256": "6aa6e660cee2e5f7e3681c3376a693ad95bf97dbbe7a17cc40c017df4ccb8953",
+      "bytes": 204133
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Sela-Burrower-opaque.png",
+      "sha256": "66384ee891ff7581f2f88d5e921b2e41a0ccab3748e1e530ff7c8bfce395126e",
+      "bytes": 88305
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Sela-Burrower-revealed.png",
+      "sha256": "66384ee891ff7581f2f88d5e921b2e41a0ccab3748e1e530ff7c8bfce395126e",
+      "bytes": 88305
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Sela-unobscured.png",
+      "sha256": "28a835ea4591aed6ad7bcf160b41d5552deefbcb4e318be144c6464e56177055",
+      "bytes": 13443
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Taren-BellowsBelow-opaque.png",
+      "sha256": "085b8e4660633b7c9535732e95621539381fdaa7abbe2ed5f2010f622bacbfe0",
+      "bytes": 204012
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Taren-BellowsBelow-revealed.png",
+      "sha256": "085b8e4660633b7c9535732e95621539381fdaa7abbe2ed5f2010f622bacbfe0",
+      "bytes": 204012
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Taren-Burrower-opaque.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Taren-Burrower-revealed.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/Taren-unobscured.png",
+      "sha256": "8ab7c4d2c1528afadc5987ce2317c9db5aa39874abc24b30a93e7ed031c0c07a",
+      "bytes": 13695
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-opaque-red/unity.log",
+      "sha256": "da4b4672600ca7b6ae63cab9fc8b52683559b98fc1767fe5d42668ce18122061",
+      "bytes": 53379
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/coverage.csv",
+      "sha256": "fcce4b154fce27307af995919e360c583183c0c10bbd8f7953de3a35d2f670dd",
+      "bytes": 250
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Sela-BellowsBelow-opaque.png",
+      "sha256": "6aa6e660cee2e5f7e3681c3376a693ad95bf97dbbe7a17cc40c017df4ccb8953",
+      "bytes": 204133
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Sela-BellowsBelow-revealed.png",
+      "sha256": "eed4f0f65644d8517a31da4383662c995989fb3cc9d98e9d5f50b0f568e9f32f",
+      "bytes": 83848
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Sela-Burrower-opaque.png",
+      "sha256": "66384ee891ff7581f2f88d5e921b2e41a0ccab3748e1e530ff7c8bfce395126e",
+      "bytes": 88305
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Sela-Burrower-revealed.png",
+      "sha256": "47c4f9026a290921cd26f52bae59593bbec4dc30386c13d394c3c9de8b83bb97",
+      "bytes": 40711
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Sela-unobscured.png",
+      "sha256": "28a835ea4591aed6ad7bcf160b41d5552deefbcb4e318be144c6464e56177055",
+      "bytes": 13443
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Taren-BellowsBelow-opaque.png",
+      "sha256": "085b8e4660633b7c9535732e95621539381fdaa7abbe2ed5f2010f622bacbfe0",
+      "bytes": 204012
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Taren-BellowsBelow-revealed.png",
+      "sha256": "2c84b745079d8c2ab966e1673bb7006ba6ddb5b319c522210b6500c0eace6e0c",
+      "bytes": 83959
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Taren-Burrower-opaque.png",
+      "sha256": "becf9d4b7e12e1fd9dcc5fba3d52c82312a0276542ede3bad1e4af5f0e693f95",
+      "bytes": 88263
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Taren-Burrower-revealed.png",
+      "sha256": "0b3191dd85676d11af51e9aaa11b4651cb89b926202dd862a8ea4640e33a9654",
+      "bytes": 40766
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/Taren-unobscured.png",
+      "sha256": "8ab7c4d2c1528afadc5987ce2317c9db5aa39874abc24b30a93e7ed031c0c07a",
+      "bytes": 13695
+    },
+    {
+      "path": "Builds/quality/workshop/boss-pixels-wide-red/unity.log",
+      "sha256": "15fec00274c074ff3bc9b73a52694bedddeb6e4217fbee54910e15cb7a61d07c",
+      "bytes": 32879
+    },
+    {
+      "path": "Builds/quality/workshop/boss-entry-camera-combined-01/headless-playtests.log",
+      "sha256": "fe0025c251167fe15f1898156c4e62e03c4cfa6f273c9674f20dc4db459fdd92",
+      "bytes": 263303
+    },
+    {
+      "path": "Builds/quality/workshop/boss-entry-camera-combined-01/playmode-results.xml",
+      "sha256": "c7e2a478131641e358958a94881b88c6d160c0dfa78f5c0e35f6b4c47109f0ef",
+      "bytes": 17388
+    },
+    {
+      "path": "Builds/quality/workshop/boss-restore-diagnostic-red/headless-playtests.log",
+      "sha256": "a123f3470f1500d163637b87f73f5cf85b967fbc46c729f9ccf843cb53e0ff7b",
+      "bytes": 255802
+    },
+    {
+      "path": "Builds/quality/workshop/boss-restore-diagnostic-red/playmode-results.xml",
+      "sha256": "28624d5c87b8361008668c4d670deb349407d874b677d8a623be25c82b8c14b8",
+      "bytes": 8382
+    },
+    {
+      "path": "Builds/quality/workshop/boss-entry-camera-nine-green/headless-playtests.log",
+      "sha256": "f83ccb3d4f55679da1d487c22faea48221f919f707e616b25e6531e06f0f5d60",
+      "bytes": 363947
+    },
+    {
+      "path": "Builds/quality/workshop/boss-entry-camera-nine-green/playmode-results.xml",
+      "sha256": "1f56b294c52552f0a1faac1c6052f89b96e61e18cf2f4f2423b968d0088bf9c8",
+      "bytes": 15330
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+      "sha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c",
+      "bytes": 3299
+    },
+    {
+      "path": "Lattice/Assets/Tests/PlayMode/BossOcclusionTests.cs",
+      "sha256": "b4cc72c93e60c445424e04673057b387f14b45ca3bf104c4ffac3d3bd00267be",
+      "bytes": 4993
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/BossVisibilityAudit.cs",
+      "sha256": "ff7c8cc2a39dd165922f3ca6334cb7f6ca856db49a53ef05698ad04bf8949f5d",
+      "bytes": 8962
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/BossReadabilityUpgrade.cs",
+      "sha256": "cd5795ab5f87674cfbc638b4aa4345e2f3aac019b30269739eec785e4638d2d7",
+      "bytes": 882
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+      "sha256": "d7909e13db5599b0f7a5b8d3ff04bf416456197fa54437d381483a0281cc0dff",
+      "bytes": 5468
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Editor/Art/GenIntake.cs",
+      "sha256": "31d55e975705c2a6131aeed8d1495dddd5482976e22624370bb01cf93931f0af",
+      "bytes": 17518
+    }
+  ]
+}
