@@ -15,6 +15,7 @@ namespace Lattice.UI
         GameObject settings,savePicker,mainMenu;
         Button settingsButton;
         public bool SettingsOpen=>settings!=null;
+        public bool SavesOpen=>savePicker!=null;
         TMPro.TMP_Text hint;
         void RefreshHint(){if(hint!=null)hint.text=DeviceHints.TitleMenu();}
         void OnDestroy(){PromptService.Changed-=RefreshHint;}

@@ -8,6 +8,7 @@ param(
     [switch]$Headroom,
     [switch]$Census,
     [switch]$Motion,
+    [string]$ResumeFrom,
     [int]$TimeoutSec=780
 )
 $ErrorActionPreference='Stop'
@@ -39,6 +40,12 @@ $initialCompetitors=@(Get-QualityCompetitors)
 @{cleanTiming=$cleanTiming;started=[DateTime]::UtcNow.ToString('o');initial=$initialCompetitors} | ConvertTo-Json -Depth 5 | Set-Content (Join-Path $folder 'environment.json')
 if($cleanTiming -and $initialCompetitors.Count){throw "Clean timing unavailable while editor/build/encoder processes are running; see $folder/environment.json"}
 $routePath=[IO.Path]::GetFullPath((Join-Path $repo $Route))
+if($ResumeFrom){
+    $routeData=Get-Content -LiteralPath $routePath -Raw | ConvertFrom-Json
+    if($routeData.scene -ne 'Title' -or $routeData.starterParty -ne $false -or $routeData.loadout){throw 'Resume must enter the actual Title Continue menu without a development loadout'}
+    & python (Join-Path $repo 'tools/quality_resume.py') (Join-Path $repo $ResumeFrom) $folder
+    if($LASTEXITCODE -ne 0){throw 'Prior replay saves were rejected; player was not started'}
+}
 $exe=Join-Path $repo $(if($Build -eq 'Release'){'Builds/Windows/Coronach.exe'}else{'Builds/WindowsDev/Coronach.exe'})
 $log=Join-Path $folder 'player.log'
 $launch=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-quality-route',$routePath,'-quality-output',$folder,'-savepath',(Join-Path $folder 'saves'),'-logFile',$log)

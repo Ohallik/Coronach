@@ -8,6 +8,7 @@ namespace Lattice.UI
     public sealed class DefeatPanel:MonoBehaviour
     {
         bool shown;
+        public bool IsOpen=>shown;
         float downAt=-1;
         void Update()
         {

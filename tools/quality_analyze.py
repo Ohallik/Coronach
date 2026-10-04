@@ -44,7 +44,17 @@ def analyze(run, frames, route, performance=False):
     if any(b <= a for a,b in zip(elapsed,elapsed[1:])): errors.append('nonmonotonic trace')
     if abs(sum(times)/1000-elapsed[-1])>.05: errors.append('unaccounted frame intervals')
     if any(f['focus']!='True' for f in frames): errors.append('lost focus')
-    if any(f['paused']!='False' for f in frames): errors.append('paused simulation')
+    def expected_menu_pause(frame):
+        index = int(frame['step'])
+        if not 0 <= index < len(route['steps']): return False
+        observed = frame.get('ui')
+        return observed in ('bench', 'pause', 'defeat') and route['steps'][index].get('pauseUi') == observed
+    # A workshop may intentionally inspect a bench/menu or a defeat screen.
+    # Retain its frames and require the actual UI observation to match the step.
+    # Every clean performance mode still rejects any simulation pause.
+    paused = [f for f in frames if f['paused'] != 'False']
+    if any(performance or run.get('headroom') or not expected_menu_pause(f) for f in paused):
+        errors.append('paused simulation')
     # A condition step (until/stopWhen) ends on its first frame when its condition
     # already holds; the runtime rejects an until that never does.
     required_steps={i for i,s in enumerate(route['steps']) if not s.get('until') and not s.get('stopWhen')}
@@ -89,6 +99,7 @@ def analyze(run, frames, route, performance=False):
         moving.append(cam)
     return dict(valid=not errors, failures=sorted(set(errors)), samples=len(frames), seconds=elapsed[-1], distance=distance,
         medianMs=percentile(times,.5),p95Ms=percentile(times,.95),p99Ms=percentile(times,.99),worstMs=max(times),hitches=hitches,
+        pausedSamples=len(paused),
         gcCollections=int(frames[-1]['gcCollections'])-int(frames[0]['gcCollections']),
         gcBytesPerFrameMedian=percentile([int(f['gcBytes']) for f in frames],.5),
         movingSamples=len(moving), stoppedCameraWhileWalking=sum(v<.02 for v in moving),

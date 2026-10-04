@@ -26,6 +26,9 @@ namespace Lattice.UI
     [Serializable] public sealed class QualityStep
     {
         public string name, expectedScene, expectedCharacter, expectedForm, expectedUi, expectedFlag;
+        // Permits a simulation pause only when this exact menu is observed.
+        // Offline clean timing and runtime headroom always reject paused frames.
+        public string pauseUi;
         public string until;
         // Ends the step early once true, without requiring it: a fight round
         // that its outcome may or may not cut short.

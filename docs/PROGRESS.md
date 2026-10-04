@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Workshop playthrough reaches Sorrel through real menus - October 3
+
+**C7 remains OPEN.** New Game through town preparation passes ordinary input (102.791 s, 6,152 focused frames): Sela joins, an emitter is purchased, three edges are crafted, gear is equipped, and slot1 is saved. A second process uses Title/Continue to load that exact slot and reaches the Survivor/outpost repair (130.331 s, 7,806 focused frames). A third proves live combat defeat and the actual Retry menu (61.586 s, 3,682 focused frames). Saves continue through a hash-recorded isolated chain; no development loadout is used. Title, loading and intentional menu frames remain in the evidence. [Workshop evidence](validation/C7-workshop-flow.md).
+
+The first earned-loadout haul/Burrower run is rejected. It clears four encounters but arrives depleted, and the opened boss capture exposes a real entry-seal defect: Sela can remain outside when the fight closes, then inherit control behind the opaque barrier. That defect is being regression-tested before another balance verdict. This is not a completed New Game-to-Tallow pass. Final full suites/builds, remaining map polish and motion/audio review remain due.
+
 ## Cantor stays in frame through combat and swapping - October 3
 
 **Flight framing repaired; Gullet visual polish remains open.** The camera fits the active ship and its nearby locked enemy's visible geometry, preserving the authored angle and ground camera. The original camera clipped Cantor above the viewport at 17 m; a second regression caught the same jump on hero swap. Both now pass, together with ground-camera isolation, station motion and replay checks (9/9). The full ordinary Gullet route passes again in 783.852 s, all 47,025 frames focused. Opened fight views keep Cantor's complete body and both ships visible. Both heroes survived this run; it does not add revival evidence. [Framing evidence](validation/C4-flight-framing.md).

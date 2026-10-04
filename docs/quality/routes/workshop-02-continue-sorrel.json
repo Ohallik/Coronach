@@ -1,0 +1,275 @@
+{
+  "name": "workshop-02-continue-sorrel",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "d20be16 + workshop recorder; continuation from passed workshop 01 slot1",
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select manual slot1",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release select manual slot1",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load manual slot1",
+      "seconds": 4,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "hal.lesson",
+      "expectedCharacter": "Taren",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "office launch control",
+      "seconds": 3,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -15.5
+      }
+    },
+    {
+      "name": "launch from office",
+      "seconds": 4,
+      "expectedScene": "Hub_CinderHalo",
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "clear office docking apron",
+      "seconds": 5,
+      "expectedScene": "Hub_CinderHalo",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -35
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "east clearance beneath station",
+      "seconds": 42,
+      "expectedScene": "Hub_CinderHalo",
+      "navigate": true,
+      "point": {
+        "x": 46,
+        "y": 0,
+        "z": -35
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "Sorrel beacon approach",
+      "seconds": 25,
+      "expectedScene": "Hub_CinderHalo",
+      "navigate": true,
+      "point": {
+        "x": 62,
+        "y": 0,
+        "z": 7
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "enter Sorrel approach",
+      "seconds": 4,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Shaped"
+    },
+    {
+      "name": "arrival receiving approach",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": -14
+      },
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "receiving clear apron",
+      "seconds": 3.4,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": -14
+      },
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "parts delivery aisle",
+      "seconds": 4.9,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": -10
+      },
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "stores worker access",
+      "seconds": 5.7,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 1
+      },
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "public approach",
+      "seconds": 7.2,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 6
+      },
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "common route toward Survivor",
+      "seconds": 4,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      }
+    },
+    {
+      "name": "speak within Survivor range",
+      "seconds": 2,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 16
+      }
+    },
+    {
+      "name": "talk to Survivor",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release talk to Survivor",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "read Survivor warning",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "met.Survivor"
+    },
+    {
+      "name": "release after warning",
+      "seconds": 0.5,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "outpost repair approach",
+      "seconds": 5,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 7
+      }
+    },
+    {
+      "name": "repair and autosave",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release repair and autosave",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "ready for the ridges",
+      "seconds": 2,
+      "expectedScene": "Sorrel_Ridges",
+      "expectedUi": "world",
+      "expectedFlag": "met.Survivor"
+    }
+  ]
+}

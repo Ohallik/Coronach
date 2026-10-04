@@ -17,6 +17,7 @@ namespace Lattice.UI
         bool clicked;
         int shownFrame,lastQueuedFrame=-1;
         public bool IsVisible=>panel!=null&&panel.activeInHierarchy;
+        public bool OptionsVisible=>options!=null&&options.activeInHierarchy;
         public bool AdvanceRequested
         {
             get{if(Time.frameCount<=shownFrame||!clicked)return false;clicked=false;return true;}

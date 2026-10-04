@@ -12,6 +12,7 @@
     "Unity.TextMeshPro",
     "Unity.ugui",
     "Unity.Collections",
-    "Unity.Cinemachine"
+    "Unity.Cinemachine",
+    "Unity.Newtonsoft.Json"
   ]
 }

@@ -12,11 +12,13 @@ using Unity.Profiling.LowLevel.Unsafe;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.LowLevel;
+using UnityEngine.SceneManagement;
 
 namespace Lattice.UI
 {
     /// <summary>Opt-in continuous ordinary-input replay, with no simulation pauses
-    /// or direct actor/combat calls. Capture runs are separate from timing runs.</summary>
+    /// or direct actor/combat calls. Declared, observed menus may pause a traversal;
+    /// timing runs always reject pauses. Capture runs are separate from timing runs.</summary>
     [DefaultExecutionOrder(2000)]
     public sealed class ContinuousReview : MonoBehaviour
     {
@@ -25,7 +27,7 @@ namespace Lattice.UI
             public double elapsed;
             public float ms, gameDelta, health, partnerHealth, reportedSpeed, pelvisYaw, chestYaw, animationTime;
             public Vector3 player, camera, forward;
-            public string scene, hero, clip, prompt, speaker;
+            public string scene, hero, clip, prompt, speaker, ui;
             public BodyForm form;
             public ActorState state;
             public ActorState partnerState;
@@ -71,6 +73,39 @@ namespace Lattice.UI
         InteractionResponse interaction;
         DialoguePanel dialoguePanel;
         ShopUi shopUi;
+        PauseMenu pauseMenu;
+        DefeatPanel defeatPanel;
+        TitleScreen titleScreen;
+        ZoneController uiOwner;
+        string uiScene;
+        static string ActualScene => !string.IsNullOrEmpty(SceneFlow.Current?.Zone) ? SceneFlow.Current.Zone :
+            SceneManager.GetSceneByName("Title").isLoaded ? "Title" : "_Boot";
+        string ObserveUi()
+        {
+            if (SceneFlow.Current != null && SceneFlow.Current.Loading) return "loading";
+            string scene = ActualScene;
+            if (uiScene != scene || uiOwner != ZoneController.Current)
+            {
+                uiScene = scene; uiOwner = ZoneController.Current;
+                // One discovery per loaded zone, never repeated absent-type searches
+                // on every uncapped frame. All zone UI lives on ArenaRuntime's root.
+                dialoguePanel = uiOwner != null ? uiOwner.GetComponent<DialoguePanel>() : null;
+                shopUi = uiOwner != null ? uiOwner.GetComponent<ShopUi>() : null;
+                pauseMenu = uiOwner != null ? uiOwner.GetComponent<PauseMenu>() : null;
+                defeatPanel = uiOwner != null ? uiOwner.GetComponent<DefeatPanel>() : null;
+                titleScreen = scene == "Title" ? FindFirstObjectByType<TitleScreen>() : null;
+            }
+            if (scene == "Title") return titleScreen == null ? "unavailable" : titleScreen.SavesOpen ? "saves" : titleScreen.SettingsOpen ? "settings" : "title";
+            if (defeatPanel != null && defeatPanel.IsOpen) return "defeat";
+            if (pauseMenu != null && pauseMenu.IsOpen) return pauseMenu.AtBench ? "bench" : "pause";
+            if (shopUi != null && shopUi.IsOpen) return "shop";
+            if (dialoguePanel != null && dialoguePanel.OptionsVisible) return "options";
+            if (dialoguePanel != null && dialoguePanel.IsVisible) return "dialogue";
+            return PartyController.Current != null && !GameInput.Current.Blocked ? "world" : "unavailable";
+        }
+        static bool UiMatches(string expected, string actual) => expected == actual || expected == "dialogue" && actual == "options";
+        bool AllowedPause(Sample sample) => !headroom && sample.step >= 0 && sample.step < route.steps.Length &&
+            (sample.ui == "bench" || sample.ui == "pause" || sample.ui == "defeat") && route.steps[sample.step].pauseUi == sample.ui;
         double loadWaitSeconds;
         readonly Dictionary<Animator, Transform[]> bones = new();
         readonly System.Diagnostics.Stopwatch clock = new();
@@ -98,6 +133,8 @@ namespace Lattice.UI
             if (string.IsNullOrWhiteSpace(save)) throw new InvalidOperationException("Quality replay requires an explicit isolated -savepath");
             var result = JsonUtility.FromJson<QualityRoute>(File.ReadAllText(DevArgs.Value("-quality-route")));
             if (result?.steps == null || result.steps.Length == 0 || string.IsNullOrEmpty(result.scene)) throw new InvalidOperationException("Empty quality route");
+            if (result.scene == "Title" && (result.starterParty || !string.IsNullOrEmpty(result.loadout)))
+                throw new InvalidOperationException("Title replay must use starterParty=false and no development loadout");
             foreach (var s in result.steps)
                 if (string.IsNullOrEmpty(s.name) || s.seconds <= 0 || s.seconds > 180) throw new InvalidOperationException("Invalid quality step");
             return result;
@@ -115,7 +152,7 @@ namespace Lattice.UI
             pad = InputSystem.AddDevice<Gamepad>("CoronachContinuousReview");
             InputSystem.onBeforeUpdate += InputUpdate;
             double loadStart=Time.realtimeSinceStartupAsDouble;
-            while (PartyController.Current == null || SceneFlow.Current.Loading) yield return null;
+            while (SceneFlow.Current.Loading || (route.scene == "Title" ? !SceneManager.GetSceneByName("Title").isLoaded : PartyController.Current == null)) yield return null;
             loadWaitSeconds=Time.realtimeSinceStartupAsDouble-loadStart;
             Application.targetFrameRate = route.frameCap;
             QualitySettings.vSyncCount = 0;
@@ -192,10 +229,11 @@ namespace Lattice.UI
         void InputUpdate()
         {
             held = default;
-            if (recording && step != null && PartyController.Current != null)
+            if (recording && step != null)
             {
                 Vector2 direction = new(step.x, step.y);bool inReach=true;
-                if (step.navigate)
+                var party = PartyController.Current;
+                if (step.navigate && party != null && party.Active != null)
                 {
                     var actor = PartyController.Current.Active;
                     var chased = step.approachTarget && actor.target != null && actor.target.Alive ? actor.target : null;
@@ -223,8 +261,8 @@ namespace Lattice.UI
                     }
                 }
                 bool evading = false;
-                var lead = PartyController.Current.Active;
-                if (step.evadeTelegraphs && lead.target != null && lead.target.Alive)
+                var lead = party != null ? party.Active : null;
+                if (step.evadeTelegraphs && lead != null && lead.target != null && lead.target.Alive)
                 {
                     var boss = lead.target.GetComponent<BossController>();
                     var threat = lead.target.GetComponent<EnemyBrain>();
@@ -260,8 +298,9 @@ namespace Lattice.UI
         }
         void LateUpdate()
         {
-            if (!recording || PartyController.Current == null) return;
-            var actor = PartyController.Current.Active;
+            if (!recording) return;
+            var actor = PartyController.Current != null ? PartyController.Current.Active : null;
+            string observedUi = ObserveUi();
             double now = clock.Elapsed.TotalSeconds;
             if(census&&now>=nextCensus)
             {
@@ -275,19 +314,16 @@ namespace Lattice.UI
             }
             if(interaction!=null&&interaction.visibleResponseMs<0)
             {
-                if(dialoguePanel==null)dialoguePanel=FindFirstObjectByType<DialoguePanel>();
-                if(shopUi==null)shopUi=FindFirstObjectByType<ShopUi>();
-                bool visible=interaction.expectedUi=="dialogue"?dialoguePanel!=null&&dialoguePanel.IsVisible:
-                    interaction.expectedUi=="shop"?shopUi!=null&&shopUi.IsOpen:!GameInput.Current.Blocked;
+                bool visible = UiMatches(interaction.expectedUi, observedUi);
                 if(visible)interaction.visibleResponseMs=(now-interaction.inputSeconds)*1000;
             }
             // Keep the binary trace bounded while retaining the first conversation,
             // options and shop. HUD counters continue throughout the diagnostic run.
             if(tracing && now>45)StopProfile();
-            if (samples.Count > 0 && samples[^1].hero == actor.character)
+            if (actor != null && samples.Count > 0 && samples[^1].hero == actor.character)
                 measuredMotion = (actor.transform.position - samples[^1].player) / Mathf.Max(.001f, (float)(now - previous));
-            var animator = actor.GetComponentInChildren<Animator>();
-            var driver = actor.GetComponentInChildren<GeneratedAnimator>();
+            var animator = actor != null ? actor.GetComponentInChildren<Animator>() : null;
+            var driver = actor != null ? actor.GetComponentInChildren<GeneratedAnimator>() : null;
             float pelvis = float.NaN, chest = float.NaN, animationTime = 0;
             if (animator != null && animator.isHuman)
             {
@@ -313,7 +349,7 @@ namespace Lattice.UI
                     leftToe=leftToe,rightToe=rightToe,leftGroundY=SurfaceY(leftToe),rightGroundY=SurfaceY(rightToe)});
             }
             var party = PartyController.Current;
-            var partner = party.members.Length > 1 ? party.members[1-party.index] : null;
+            var partner = party != null && party.members.Length > 1 ? party.members[1-party.index] : null;
             FrameTiming timing = default;
             bool hasTiming = false;
             if (headroom)
@@ -327,13 +363,13 @@ namespace Lattice.UI
             }
             samples.Add(new Sample {
                 elapsed = now, ms = (float)((now - previous) * 1000), gameDelta = Time.deltaTime,
-                player = actor.transform.position, camera = Camera.main.transform.position, forward = actor.transform.forward,
-                reportedSpeed = actor.motor.Velocity.magnitude, health = actor.Health.integrity,
+                player = actor != null ? actor.transform.position : Vector3.zero, camera = Camera.main.transform.position, forward = actor != null ? actor.transform.forward : Vector3.zero,
+                reportedSpeed = actor != null ? actor.motor.Velocity.magnitude : 0, health = actor != null ? actor.Health.integrity : -1,
                 partnerHealth = partner != null ? partner.Health.integrity : -1,
                 partnerState = partner != null ? partner.State : ActorState.Idle,
                 pelvisYaw = pelvis, chestYaw = chest, animationTime = animationTime,
-                scene = SceneFlow.Current.Zone, hero = actor.character, form = actor.GetComponent<FormController>().Current,
-                state = actor.State, clip = driver != null ? driver.CurrentAnimation : "ship",
+                scene = ActualScene, ui = observedUi, hero = actor != null ? actor.character : "", form = actor != null ? actor.GetComponent<FormController>().Current : default,
+                state = actor != null ? actor.State : ActorState.Idle, clip = driver != null ? driver.CurrentAnimation : actor != null ? "ship" : "none",
                 prompt = PromptService.Interaction?.prompt ?? "", speaker = DialogueSystem.Current?.Speaker ?? "",
                 lines = DialogueSystem.Current?.LinesPresented ?? 0, step = stepIndex,
                 collections = GC.CollectionCount(0), allocation = allocations.Valid ? allocations.LastValue : -1,
@@ -386,29 +422,31 @@ namespace Lattice.UI
             // A chase that its outcome ended (the target fell first) has nothing left to reach.
             if (step.navigate && !arrived && !(step.approachTarget && endedByCondition)) failures.Add(step.name + ": navigation checkpoint missed");
             string expected = string.IsNullOrEmpty(step.expectedScene) ? route.scene : step.expectedScene;
-            if (SceneFlow.Current.Zone != expected) failures.Add(step.name + ": scene " + SceneFlow.Current.Zone + " expected " + expected);
+            if (ActualScene != expected) failures.Add(step.name + ": scene " + ActualScene + " expected " + expected);
+            if (!string.IsNullOrEmpty(step.expectedFlag) && !GameServices.Current.Flags.GetBool(step.expectedFlag)) failures.Add(step.name + ": missing flag " + step.expectedFlag);
+            string observedUi = ObserveUi();
+            if (!string.IsNullOrEmpty(step.expectedUi) && !UiMatches(step.expectedUi, observedUi)) failures.Add(step.name + ": UI " + observedUi + " expected " + step.expectedUi);
             if (PartyController.Current == null || PartyController.Current.Active == null)
             {
-                failures.Add(step.name + ": party unavailable");
+                if (expected != "Title" || ActualScene != "Title" || !string.IsNullOrEmpty(step.expectedCharacter) || !string.IsNullOrEmpty(step.expectedForm))
+                    failures.Add(step.name + ": party unavailable");
                 return;
             }
             if (!string.IsNullOrEmpty(step.expectedCharacter) && PartyController.Current.Active.character != step.expectedCharacter) failures.Add(step.name + ": character mismatch");
             if (!string.IsNullOrEmpty(step.expectedForm) && PartyController.Current.Active.GetComponent<FormController>().Current.ToString() != step.expectedForm) failures.Add(step.name + ": form mismatch");
-            if (!string.IsNullOrEmpty(step.expectedFlag) && !GameServices.Current.Flags.GetBool(step.expectedFlag)) failures.Add(step.name + ": missing flag "+step.expectedFlag);
-            if (step.expectedUi == "dialogue" && !DialogueSystem.Current.Running) failures.Add(step.name + ": dialogue did not open");
-            if (step.expectedUi == "world" && GameInput.Current.Blocked) failures.Add(step.name + ": UI did not close");
-            if (step.expectedUi == "shop" && FindFirstObjectByType<ShopUi>()?.IsOpen != true) failures.Add(step.name + ": shop did not open");
+
         }
         bool Condition(string name)
         {
             // The enemy locked when the step began has fallen.
             if (name == "targetDown") return stepTarget != null && !stepTarget.Alive;
             if (name.StartsWith("flag:")) return GameServices.Current.Flags.GetBool(name.Substring(5));
+            if (name.StartsWith("ui:")) return UiMatches(name.Substring(3), ObserveUi());
+            if (name.StartsWith("scene:")) return !SceneFlow.Current.Loading && ActualScene == name.Substring(6);
             var p = PartyController.Current;
-            if (p == null || p.members.Length < 2) return false;
             return name switch {
-                "partnerDown" => !p.members[1-p.index].Health.Alive && p.Active.Health.Alive,
-                "partyAlive" => p.members[0].Health.Alive && p.members[1].Health.Alive,
+                "partnerDown" => p != null && p.members.Length > 1 && !p.members[1-p.index].Health.Alive && p.Active.Health.Alive,
+                "partyAlive" => p != null && p.members.Length > 1 && p.members[0].Health.Alive && p.members[1].Health.Alive,
                 _ => throw new InvalidOperationException("Unknown replay condition " + name)
             };
         }
@@ -416,13 +454,13 @@ namespace Lattice.UI
         {
             if (samples.Count < 2) failures.Add("missing samples");
             foreach (var s in samples) if (!s.focus) { failures.Add("focus lost"); break; }
-            foreach (var s in samples) if (s.paused) { failures.Add("simulation paused"); break; }
+            foreach (var s in samples) if (s.paused && !AllowedPause(s)) { failures.Add("simulation paused"); break; }
             if (Screen.width != 1920 || Screen.height != 1080) failures.Add("wrong resolution");
             if (capture != null && !string.IsNullOrEmpty(capture.Failure)) failures.Add(capture.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
-                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs");
-                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait},{s.ftmTimestamp},{s.ftmGpuMs:F6},{s.ftmCpuMs:F6}"));
+                writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs,ui");
+                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait},{s.ftmTimestamp},{s.ftmGpuMs:F6},{s.ftmCpuMs:F6},{s.ui}"));
             }
             var report = new Report { route = route.name, sourceRevision = route.sourceRevision, build = Debug.isDebugBuild ? "Development" : "Release", unity = Application.unityVersion,
                 cpu = SystemInfo.processorType, gpu = SystemInfo.graphicsDeviceName, quality = QualitySettings.names[QualitySettings.GetQualityLevel()],
@@ -435,6 +473,9 @@ namespace Lattice.UI
             if(headroom)report.gpuTiming=samples.Exists(s=>s.gpuWork>0)?"GPU Frame Time counter (nanoseconds; asynchronous)":"UNAVAILABLE (counter produced no positive samples)";
             File.WriteAllText(Path.Combine(folder, "run.json"), JsonUtility.ToJson(report, true));
             File.WriteAllText(Path.Combine(folder, "route.json"), JsonUtility.ToJson(route, true));
+            // Read-only snapshot: Save() would mutate savedAtUtc and create an
+            // autosave the player did not request.
+            File.WriteAllText(Path.Combine(folder, "final-state.json"), Newtonsoft.Json.JsonConvert.SerializeObject(GameServices.Current.State, Newtonsoft.Json.Formatting.Indented));
             if(census)
             {
                 using var writer=new StreamWriter(Path.Combine(folder,"census.csv"));
