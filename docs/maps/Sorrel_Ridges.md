@@ -103,3 +103,12 @@ Claude Code, release player rebuilt from the integrated source, each capture run
 - `workshop/sorrel-final-west-01` (`sorrel-west-loop-map`): **PASS**, 280.6 s, 16,837/16,837 focused. All four western packs cleared; the party dipped to 48 health and finished at 138. This is the loop previously rejected only for focus loss.
 - **Stills.** Opened gameplay stills show the outpost's habs, pads and crates at play scale, combat in the seam with crystal ore, and the new verge rubble.
 - **Coverage.** The haul road to the drill, the Burrower and the key are traversed by the passing slice smoke; the service branch has no ordinary route yet.
+
+### Remaining ordinary routes (October 3)
+
+Codex: the east service branch and return pass ordinary input (260.1 s, full
+focus); the haul road through all four encounters into Hushwell also passes
+(208.7 s, full focus). [Evidence](../validation/MAP-remaining-routes.md).
+Opened gameplay views retain two presentation issues for the land pass: uniform
+bare sand, and the bore scaffold standing over intact-looking ground. Traversal
+coverage is complete; these are not erased by the route result.

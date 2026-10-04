@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Remaining ordinary routes exercised — October 3
+
+**Sorrel's service branch, the walk into Hushwell, and the whole Gullet route to TallowApproach pass ordinary virtual-gamepad input with full focus.** The captures cover the service encounters and return repair, all four haul encounters and the bore, and all three Gullet chambers, Cantor, revive and the exit valve. [Evidence](validation/MAP-remaining-routes.md)
+
+The first Gullet run exposed two recorder defects: a flight chase fired sideways after rolling, and losing the party caused validation to throw instead of preserving a rejection report. Both were reproduced before fixing them (D128). The first full suite also caught a synthetic gamepad leaking from the new inactive test fixture: 187/191. Explicit teardown fixes that leak; the affected replay/core/pad classes then pass 32/32. The full integrated rerun is still due.
+
+**Visual acceptance remains OPEN.** Opened captures show bare stretches of Sorrel, a bore scaffold over apparently intact sand, and Cantor off screen at normal firing range. The route pass does not accept these presentation defects. Nathan's save hashes are unchanged after the captures and full suite.
+
 ## C6 device hints, readable type and open questions settled - September 30
 
 **C6 OPEN.** Nathan asked for the best available decision on each open question, and D126 records them. The arena motion fixture retires, the Bellows and Scrapmite tuning stay, and the Decks GPU check gets an independent source. The Survivor and Keeper get generated bodies, and the remaining ordinary routes come before new content. D127 approves Nathan's purchased Staggart water and grass packs; they are git-ignored, because the repo is public.

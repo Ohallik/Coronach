@@ -1,0 +1,525 @@
+{
+  "name": "sorrel-hushwell-approach",
+  "scene": "Sorrel_Ridges",
+  "loadout": "gullet",
+  "sourceRevision": "Ordinary haul-road walk into Hushwell after the warp key: level 5 reachable cleared-Burrower save; four haul encounters clear through input, then the bore changes scenes.",
+  "settleSeconds": 1,
+  "frameCap": 60,
+  "starterParty": true,
+  "screenshotInterval": 2,
+  "steps": [
+    {
+      "name": "arrival to common court",
+      "seconds": 18,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 14
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "leave the outpost",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 25
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lower haul bend",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 4",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 4 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 4 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 4",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_4"
+    },
+    {
+      "name": "Pulse encounter 4",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 4 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 4",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_4"
+    },
+    {
+      "name": "encounter 4 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_4"
+    },
+    {
+      "name": "carried repair gel after encounter 4",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at lower haul bend",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 39
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "haul road below strata",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 4,
+        "y": 0,
+        "z": 58
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "western haul bend",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 5",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 5 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 5 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 5",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_5"
+    },
+    {
+      "name": "Pulse encounter 5",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 5 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 5",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_5"
+    },
+    {
+      "name": "encounter 5 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_5"
+    },
+    {
+      "name": "carried repair gel after encounter 5",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at western haul bend",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 75
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "central wash encounter",
+      "seconds": 14,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 98
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 6",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 6 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 6 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 6",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_6"
+    },
+    {
+      "name": "Pulse encounter 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 6 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 6",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_6"
+    },
+    {
+      "name": "encounter 6 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_6"
+    },
+    {
+      "name": "carried repair gel after encounter 6",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at central wash encounter",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0,
+        "z": 98
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "upper haul bend",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 111
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "excavation approach",
+      "seconds": 12,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 129
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "lock service encounter 7",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ]
+    },
+    {
+      "name": "lock service encounter 7 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "Arc Cleave encounter 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "Arc Cleave encounter 7 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "ordinary attacks encounter 7",
+      "seconds": 14,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_7"
+    },
+    {
+      "name": "Pulse encounter 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "Pulse encounter 7 release",
+      "seconds": 0.45
+    },
+    {
+      "name": "finish encounter 7",
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "stopWhen": "flag:clear.Sorrel_7"
+    },
+    {
+      "name": "encounter 7 opens",
+      "seconds": 0.3,
+      "expectedFlag": "clear.Sorrel_7"
+    },
+    {
+      "name": "carried repair gel after encounter 7",
+      "seconds": 0.18,
+      "leftTrigger": 1
+    },
+    {
+      "name": "release gel",
+      "seconds": 0.45
+    },
+    {
+      "name": "regroup at excavation approach",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 0,
+        "z": 129
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "bench operator access from the south",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 139
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "haul lane west of the anvil",
+      "seconds": 8,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 147
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "through the cleared Burrower entry",
+      "seconds": 11,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 159
+      },
+      "tolerance": 0.8,
+      "expectedFlag": "bossdown.Burrower"
+    },
+    {
+      "name": "cross the excavation floor",
+      "seconds": 9,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 0,
+        "z": 169
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "stand beside the drill bore",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 174.5
+      },
+      "tolerance": 0.8
+    },
+    {
+      "name": "descend into Hushwell",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "arrive in the breach",
+      "seconds": 8,
+      "expectedScene": "Hushwell",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "breach floor",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 8
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    }
+  ]
+}

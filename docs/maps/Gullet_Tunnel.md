@@ -43,6 +43,15 @@ Still open or weak:
 
 The layout checks (`GulletLayoutTests`) were **rejected on the old scene**: the travel line struck the old shell and ribs, and the membranes sat 47 m from any valve. They pass on the new scene.
 
+### Gate, coil and exit traversal (October 3)
+
+Codex: the whole mouth-to-TallowApproach route passes ordinary input, all three
+chambers and Cantor cleared, 784.98 s, 47,093/47,093 frames focused. [Evidence](../validation/MAP-remaining-routes.md).
+The replay's first attempt exposed and then regression-tested two recorder
+defects. Opened gameplay views still reject the coil's framing: Cantor is often
+above the screen at ordinary firing range and the chamber reads as floor.
+Traversal is now proven; the final visual MAP_EYE_TEST remains OPEN.
+
 ### History
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.

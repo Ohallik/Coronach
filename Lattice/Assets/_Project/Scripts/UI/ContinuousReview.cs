@@ -203,6 +203,17 @@ namespace Lattice.UI
                         var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * difference.normalized;
                         direction = new Vector2(local.x, local.z) * step.magnitude;
                     }
+                    else if (chased != null && actor.flight && difference.sqrMagnitude > .01f && Vector3.Angle(actor.motor.Facing, difference) > 5)
+                    {
+                        // A roll changes the nose. At firing range, keep a small
+                        // ordinary stick correction toward the visible target;
+                        // otherwise a chase resumes firing sideways after a roll.
+                        var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * difference.normalized;
+                        // .25 clears the Input System's radial dead zone and the
+                        // motor's facing threshold. Release once aligned, so
+                        // staying at range does not become a slow forward thrust.
+                        direction = new Vector2(local.x, local.z) * .25f;
+                    }
                 }
                 held = new GamepadState { leftStick = Vector2.ClampMagnitude(direction, 1), leftTrigger = step.leftTrigger, rightTrigger = step.rightTrigger };
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
@@ -336,6 +347,11 @@ namespace Lattice.UI
             if (step.navigate && !arrived && !(step.approachTarget && endedByCondition)) failures.Add(step.name + ": navigation checkpoint missed");
             string expected = string.IsNullOrEmpty(step.expectedScene) ? route.scene : step.expectedScene;
             if (SceneFlow.Current.Zone != expected) failures.Add(step.name + ": scene " + SceneFlow.Current.Zone + " expected " + expected);
+            if (PartyController.Current == null || PartyController.Current.Active == null)
+            {
+                failures.Add(step.name + ": party unavailable");
+                return;
+            }
             if (!string.IsNullOrEmpty(step.expectedCharacter) && PartyController.Current.Active.character != step.expectedCharacter) failures.Add(step.name + ": character mismatch");
             if (!string.IsNullOrEmpty(step.expectedForm) && PartyController.Current.Active.GetComponent<FormController>().Current.ToString() != step.expectedForm) failures.Add(step.name + ": form mismatch");
             if (!string.IsNullOrEmpty(step.expectedFlag) && !GameServices.Current.Flags.GetBool(step.expectedFlag)) failures.Add(step.name + ": missing flag "+step.expectedFlag);
