@@ -85,3 +85,12 @@ D133 adds ordinary dodge input to its Bellows rounds (410.834 s). Opened capture
 confirm dry paths around the new nursery water. [Surface evidence](C8-landscape-surfaces.md)
 records the rejected runs and exact scope. Broad bare stretches of Sorrel remain
 chapter-polish work; Cantor framing remains open.
+
+## Flight framing recapture (October 3, later)
+
+The off-screen Cantor defect is repaired in D134. The complete Gullet route
+passes again in 783.852 s, 47,025/47,025 frames focused; both heroes survive.
+Actual mesh viewport checks also cover eight bearings and the hero swap that
+initially reset the composition. Opened fight images retain the full boss body
+and readable ships. The coil's uniform floor and weak clamps remain open visual
+work. [Framing evidence](C4-flight-framing.md) separates that scope from traversal.

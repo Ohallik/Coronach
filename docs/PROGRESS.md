@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Cantor stays in frame through combat and swapping - October 3
+
+**Flight framing repaired; Gullet visual polish remains open.** The camera fits the active ship and its nearby locked enemy's visible geometry, preserving the authored angle and ground camera. The original camera clipped Cantor above the viewport at 17 m; a second regression caught the same jump on hero swap. Both now pass, together with ground-camera isolation, station motion and replay checks (9/9). The full ordinary Gullet route passes again in 783.852 s, all 47,025 frames focused. Opened fight views keep Cantor's complete body and both ships visible. Both heroes survived this run; it does not add revival evidence. [Framing evidence](validation/C4-flight-framing.md).
+
+The coil still presents too much uniform membrane floor, and its small clamps do not yet tell the collar story. Those remain visual/story work before full map acceptance. C7's New Game, real menus and save/continue route is next. The final full PlayMode rerun remains due.
+
 ## Landscape integration and dialogue input checks - October 3
 
 **Work in progress toward the workshop.** Purchased grass/water are installed only in ignored local roots. Four maps now have low vegetation, real nursery basins, a contained Tallow recycling garden and a visible Sorrel bore cut; public generated fallbacks compile in a no-pack source export. Opened views caught and corrected water density/shoreline defects. EditMode passes 69/69. Tallow, both Sorrel branches, the complete Hushwell descent/lift and the proving yard now pass fresh ordinary-input captures. All four Decks/Tallow GPU headroom runs pass with the private pipeline (1.27-1.99 ms p95); dense Sorrel combat also passes at 1.248 ms GPU p95. [Landscape evidence](validation/C8-landscape-surfaces.md), [fresh-clone/local setup](OPTIONAL_ART_PACKS.md).

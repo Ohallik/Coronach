@@ -12,6 +12,11 @@ namespace Lattice.Combat
         public CombatActor Active=>members[index];
         float revive,nextStats;
         CombatActor reviveTarget;
+        CameraRig cameraRig;
+        CombatActor framedHero;
+        Health framedTarget;
+        Renderer[] heroMeshes, targetMeshes;
+        int targetChildCount;
         public float ReviveProgress=>reviveTarget!=null?Mathf.Clamp01(revive/2):0;
         public CombatActor ReviveTarget=>reviveTarget;
         public int SwapCount{get;private set;}
@@ -32,7 +37,7 @@ namespace Lattice.Combat
                 flight.plane=zone.definition.flightPlane;m.motor=zone.Flight?(IMotor)flight:ground;
                 m.GetComponent<FormController>().Set(zone.Form);
             }
-            var rig=FindFirstObjectByType<CameraRig>();if(rig!=null)rig.Apply(Active.transform,zone.definition.cameraProfile);
+            if(cameraRig==null)cameraRig=FindFirstObjectByType<CameraRig>();if(cameraRig!=null)cameraRig.Apply(Active.transform,zone.definition.cameraProfile);
         }
         /// <param name="forced">The active hero went down; the partner covers instead of joking.</param>
         public bool Swap(bool forced=false)
@@ -68,6 +73,37 @@ namespace Lattice.Combat
                 if(revive>=2){reviveTarget.Health.Heal(reviveTarget.Health.maximum*.35f);revive=0;reviveTarget=null;Debug.Log("REVIVE_OK");}
             }
             if(!Active.Health.Alive)Swap(true);
+            FrameFlightEncounter();
+        }
+        void FrameFlightEncounter()
+        {
+            if(cameraRig==null)return;
+            var hero=Active;var target=hero.target;
+            if(!hero.flight||!ZoneController.Current.Combat||target==null||!target.Alive||
+                (hero.transform.position-target.transform.position).sqrMagnitude>900)
+            {cameraRig.FrameEncounter(null);return;}
+            if(framedHero!=hero)
+            {
+                framedHero=hero;
+                heroMeshes=hero.GetComponent<FormController>().flight.GetComponentsInChildren<Renderer>(true);
+            }
+            // Cantor adds its tail in Start. Refresh once those children exist,
+            // without collecting arrays on every flight frame.
+            if(framedTarget!=target||targetChildCount!=target.transform.childCount)
+            {
+                framedTarget=target;targetChildCount=target.transform.childCount;
+                targetMeshes=target.GetComponentsInChildren<Renderer>(true);
+            }
+            var bounds=new Bounds(hero.transform.position+Vector3.up*.8f,Vector3.one*HeroCollision.HullRadius(hero.character)*2);
+            IncludeMeshes(ref bounds,heroMeshes);IncludeMeshes(ref bounds,targetMeshes);
+            cameraRig.FrameEncounter(bounds);
+        }
+        static void IncludeMeshes(ref Bounds bounds,Renderer[] meshes)
+        {
+            if(meshes==null)return;
+            foreach(var mesh in meshes)
+                if(mesh!=null&&mesh.enabled&&mesh.gameObject.activeInHierarchy&&mesh.name!="Telegraph"&&
+                    (mesh is MeshRenderer||mesh is SkinnedMeshRenderer))bounds.Encapsulate(mesh.bounds);
         }
         public void RefreshStats()
         {

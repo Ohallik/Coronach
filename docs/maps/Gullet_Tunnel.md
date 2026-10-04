@@ -52,6 +52,16 @@ defects. Opened gameplay views still reject the coil's framing: Cantor is often
 above the screen at ordinary firing range and the chamber reads as floor.
 Traversal is now proven; the final visual MAP_EYE_TEST remains OPEN.
 
+### Encounter framing recapture (October 3, later)
+
+D134 fits the active ship and nearby locked target while retaining the flight
+camera's angle. The complete ordinary route passes again in 783.852 s with
+47,025/47,025 focused frames. Opened views 099/107/117 now show Cantor's full
+segmented body and both ships; 155/157 show travel framing and the exit restored.
+The off-screen combat defect is resolved. The broad uniform coil floor and small
+clamp plates remain weak; this is **not** full final MAP_EYE_TEST acceptance.
+[Tests, capture and limitations](../validation/C4-flight-framing.md).
+
 ### History
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.
