@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Heroes remain visible through the ground bosses - October 4
+
+**D138 visibility repair passes in the release player.** A compact fade reveals the controlled hero through the blocking portion of Burrower/Bellows, preserving the fixed camera and the rest of each boss. Actual-pixel checks fail before repair and reject absent/oversized fades; the combined visibility/camera/entry tests pass 9/9. The earned-loadout Burrower replay passes (185.558 s, 11,115 focused frames), and Hushwell passes through both organs, Bellows, nursery and lift (397.867 s, 23,871 focused frames). Both heroes survive each run. Opened captures confirm the reveal and restoration. [Evidence](validation/C3-boss-visibility.md).
+
+The preceding integrated source passed 213/213 PlayMode tests and restored Nathan's saves exactly. C7 remains OPEN for the final integrated reruns, Gullet coil composition/preview and remaining presentation review.
+
 ## New Game to Tallow passes with earned saves - October 4
 
 **Ordinary release flow PASS; C7 acceptance remains OPEN.** Nine chained virtual-gamepad segments total **1,804.057 seconds (30:04), 108,115/108,115 focused frames**. They cover New Game, Sela joining, shop, bench/equipment, manual save/Continue, live defeat/Retry, Sorrel preparation/Burrower/key, launch/warp, all Gullet chambers/Cantor, Tallow docking/Keeper/repair and a completion autosave. Every continuation uses an accepted run's exact ordinary save; no development loadout or gameplay-state edits. Final save: both level-six heroes, 210 integrity/100 charge, `sliceComplete=true`. [Report and evidence](validation/C7-workshop-flow.md).

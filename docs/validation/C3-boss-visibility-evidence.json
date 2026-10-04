@@ -1,6 +1,6 @@
 {
   "baseRevision": "032835f",
-  "scope": "Owned boss bodies; pixel and PlayMode evidence. Ordinary release recapture pending.",
+  "scope": "D138 source f0a601d: focused regression and pixel checks, plus ordinary release recaptures.",
   "files": [
     {
       "path": "Builds/quality/workshop/boss-readability-red/headless-playtests.log",
@@ -351,6 +351,686 @@
       "path": "Lattice/Assets/_Project/Scripts/Editor/Art/GenIntake.cs",
       "sha256": "31d55e975705c2a6131aeed8d1495dddd5482976e22624370bb01cf93931f0af",
       "bytes": 17518
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/000.png",
+      "sha256": "2dd35fa3aa0052d422a37001c0615fbf0fb0fd848c6237207c1bb51aa7bcf9cf",
+      "bytes": 2271779
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/001.png",
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b",
+      "bytes": 2272482
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/002.png",
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b",
+      "bytes": 2272482
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/003.png",
+      "sha256": "be5b06ae7d16d0e7090427f0378b157d3baf2a527e835c79106132ccbca1e99f",
+      "bytes": 1331774
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/004.png",
+      "sha256": "be5b06ae7d16d0e7090427f0378b157d3baf2a527e835c79106132ccbca1e99f",
+      "bytes": 1331774
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/005.png",
+      "sha256": "df6a214da3e07cdca0daa29e73cccb8750f7c85c146874caa412b3670e4ec230",
+      "bytes": 1333731
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/006.png",
+      "sha256": "df6a214da3e07cdca0daa29e73cccb8750f7c85c146874caa412b3670e4ec230",
+      "bytes": 1333731
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/007.png",
+      "sha256": "6d22dd30aa30c953d8b5a3b00fa9ebebd71b4198345c75601be78bb8d334fab5",
+      "bytes": 2599365
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/008.png",
+      "sha256": "4fe0e1e2e652a0d3eb9f54fa135bf9f6197fb2fe38d1adccc21deb23483d438d",
+      "bytes": 2338260
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/009.png",
+      "sha256": "21d978b5edd97c8ab2e908e2e70934a94b10b6e1c2a216f953671682d800dd47",
+      "bytes": 2337539
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/010.png",
+      "sha256": "98047696e4f3d96b766a80bda0b05599f18af46047a3ff83d86da2b9d4cc41a3",
+      "bytes": 2337136
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/011.png",
+      "sha256": "b312c22b102f9f6ee552a84e7f99db82b9eb05f90f2381725d6568eb089d6a3b",
+      "bytes": 2987398
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/012.png",
+      "sha256": "8614f38dcd71034f3a430e2d02e08d502701becde594fa75251b9ba122f22e4e",
+      "bytes": 3025816
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/013.png",
+      "sha256": "e4d7d2e2f609263f6be42f12378702532b660192560a9a40b9da2dc9b285d491",
+      "bytes": 3065577
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/014.png",
+      "sha256": "974810f832842002e17f44741e6dbaf19110dba4f3ef29f7a4c4b89fb0e5a90d",
+      "bytes": 3042485
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/015.png",
+      "sha256": "c0731432eaded114c9187cff5ada90e5e7fc874d03cdd61192eec543b53869bf",
+      "bytes": 3082794
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/016.png",
+      "sha256": "068f0ae4fd8bb1f05e9bf8a5d126c29b49428403144b52224f82f1487c7b99a8",
+      "bytes": 3097347
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/017.png",
+      "sha256": "d41a49817dae8b9d5205d7d7ff0b972196703a3fae3abd68a5cfa1483b154ee8",
+      "bytes": 2949993
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/018.png",
+      "sha256": "99386e13609d62224117e9457c29528e5f23f28c9107f92d09f92edeeb557208",
+      "bytes": 2673217
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/019.png",
+      "sha256": "183f0d28a95ee387c1af97c839da8d251feb38497eab129e09807ebbcf3f1006",
+      "bytes": 2577758
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/020.png",
+      "sha256": "28ae503834d95aca02540d8a1e007561c33cc89c90f2a3d13b2bdc256361335c",
+      "bytes": 2750666
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/021.png",
+      "sha256": "7c12b6242d342938c3ceabb362f7b3ba7bde25b0b98ad74472522d3b7d4a8a4f",
+      "bytes": 2770599
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/022.png",
+      "sha256": "1266008faf5fb0a32a16acd231a1b4658ad5ee01d9cc7c4e9b9917a9ddcba8c0",
+      "bytes": 2755349
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/023.png",
+      "sha256": "740f7a2489e09f9d48fc4c3a92710f292a2c97995bc99928965880fb9c4684fa",
+      "bytes": 2753084
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/024.png",
+      "sha256": "bf8353d8d8253e35c28d78362af367e3e88629bd89bed6cd70cc7448a3deff53",
+      "bytes": 2773330
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/025.png",
+      "sha256": "eceb50d40cdd4a7f9feef4ea26070d670e934fcd5d2199bd9e071ea32f033377",
+      "bytes": 2765072
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/026.png",
+      "sha256": "bb910b7cc6fa8737dc825d38728caad0336e47eb0dc24f644ccf89cabced5c90",
+      "bytes": 2786982
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/027.png",
+      "sha256": "157f18db6c5587dddbee5886473544759ab888a8a458f022de5a2be5d2380c0c",
+      "bytes": 2689506
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/028.png",
+      "sha256": "e248cb046fa5c1bbe97f4b2c74d56c870475778f4a9c53416fc5b1822369217f",
+      "bytes": 2676951
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/029.png",
+      "sha256": "a229b5fbd6ae113d1f857d1b3a9fda26147580b183272e4f73dd9d8320f2697a",
+      "bytes": 2677400
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/030.png",
+      "sha256": "50978f7d022907b1c7b813a8a8d5b6d082acfcf64c2b44f7ad8508141e1bb9a5",
+      "bytes": 2671565
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/031.png",
+      "sha256": "7444b35424206d4448977e325649b24189e860ab050ed9f1036fe941d43406bd",
+      "bytes": 2672320
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/032.png",
+      "sha256": "c9571ec403f6f5f766b72deb0ed3240ffe80ef64a769cc8a09063f1d2edd7db4",
+      "bytes": 2673514
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/033.png",
+      "sha256": "6097c93157131caf1f5f238023d0034a924ee3bd00c6de6c54f437f95777af21",
+      "bytes": 2701328
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/035.png",
+      "sha256": "9045057ec6d6794bb86673a76d94dea49249cb4b9becd483923e58d27ef6a82a",
+      "bytes": 2670397
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/037.png",
+      "sha256": "27bb3ae7cb4f31d295385edddba5eb7bda0ca747161d72d7d9f5b6e5c70d351d",
+      "bytes": 2645445
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/039.png",
+      "sha256": "a14d6519bc17c3d3698769372c2ec95ed9acdcc7b3a6c51500649324fe9c0aa3",
+      "bytes": 2645708
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/042.png",
+      "sha256": "c06b6cc9e5194bae5f5ada21519e597783a5dba1e774ce5b46ac40528dd0f6e7",
+      "bytes": 2641103
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/044.png",
+      "sha256": "53b85ec9049d88afac366cce6157a3224a337febdfae1ede093093027946355a",
+      "bytes": 2639799
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/046.png",
+      "sha256": "25f309499a006076bad5ce6fbb8cec3c04587ff248a9f71d5cede9991ec863c5",
+      "bytes": 2639307
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/049.png",
+      "sha256": "4610a7d6d1089a827acb03b0aebf7c761cb5256e208db260935ce3e45771c3ef",
+      "bytes": 2639132
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/051.png",
+      "sha256": "50ff4d2ba17325fbb61c8dbc7eb514e7c3431ff38e9edba52b18c9ca13c127de",
+      "bytes": 2639470
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/053.png",
+      "sha256": "67d1d2235ee1a95edfe44137c45ed7bebe152fca8f25380eab2f0b2fbe75de6a",
+      "bytes": 2635299
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/056.png",
+      "sha256": "cfe7bf31a2f4fb711aaac6794d36053c3b8c198f20f516efdfb5ce9c15668b6e",
+      "bytes": 2603082
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/059.png",
+      "sha256": "21aedb5365a1bffaad2b76408f8c6e22fa0f16a29471ebeb6dcb2f25c729f0c8",
+      "bytes": 2602962
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/060.png",
+      "sha256": "e4adb62434764c32b90414fb69e20bae7ec4a0aa0fd14e770a5d3764af553dca",
+      "bytes": 2646768
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/061.png",
+      "sha256": "b2cf7fa4055caa179e0b57baa36884414231a9857bf79b08d9afe69da778022a",
+      "bytes": 2777589
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/062.png",
+      "sha256": "4403ea647d35d8c436e0c7d3e7c7ac75b820fd796245665d5453b8cca550aff1",
+      "bytes": 2766561
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/063.png",
+      "sha256": "c10cc3e795b077f458f4719948f2bf1f815f562d9365afa50899e1ec07f33476",
+      "bytes": 2766139
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/analysis-output.txt",
+      "sha256": "6690c2a1f472f8cff8e72a61dea3ba75d71dd30dda6db0a95ed8c31c293beae1",
+      "bytes": 8390
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/analysis.json",
+      "sha256": "3ad10a27abae4f428e509fdabced7394b5e960d8eb9c1fe6b63626bd14c3ea59",
+      "bytes": 4194
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/available-counters.txt",
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d",
+      "bytes": 14766
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/build.json",
+      "sha256": "a37581b5cf7a14e62491aa01128d924c146d413f322ed7161d42f4220f1df520",
+      "bytes": 12960
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/capture-frames.csv",
+      "sha256": "5c75af022beabddf5282982885796025aa9b7a9c7e5f2dd12f733c4ffcbe9cdf",
+      "bytes": 90115
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/capture.txt",
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab",
+      "bytes": 160
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/environment.json",
+      "sha256": "47c6b891f8af6c3253bc41c02bdd99d04dbf8a8957b5b02ab54fd9cb3a249e62",
+      "bytes": 123
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/final-state.json",
+      "sha256": "05b94bb661eec10c1ae693938a2a132c649151218f8467428897eed8677bd96a",
+      "bytes": 2968
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/frame-times.svg",
+      "sha256": "3cd8e5304c9ab7460140cb3d0eb347dcf9fa2ab1469ee89cd091cffb5ae1c67a",
+      "bytes": 143081
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/frames.csv",
+      "sha256": "dc69b54e0276c143a37abdb306df57af11d5f24d36fd91dc4c290f18a3155879",
+      "bytes": 3296349
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/mix.wav",
+      "sha256": "32f39d341f758a5c445dd02c250a8331abcf6b9adbb1207f2883735e2bd933b4",
+      "bytes": 71270444
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/player.log",
+      "sha256": "29010bac489901a5930a3951f99f4a2c48609b872bd2bef4d181f1651b187aa8",
+      "bytes": 6617
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/process.txt",
+      "sha256": "7733f67fc45e701ab2604c32d6e2269232cd6493f4d38e063a78de7676866b01",
+      "bytes": 5
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/replay.mp4",
+      "sha256": "41cf0cc77406808a20235ebed7d253cbfa0c6aa41209d72175d66f59f5531e13",
+      "bytes": 417542590
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/resume.json",
+      "sha256": "27179919ef7d89dec3e544a9155ab4c8021cfc44e60efbcca2ed658e8d1f59c5",
+      "bytes": 621
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/route.json",
+      "sha256": "d10ab3a41f03a81adf140c590e54828bdab7d079be2a968e03b8a915eb6bd7b3",
+      "bytes": 59525
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/run.json",
+      "sha256": "8c6d4d5c409d7beb4d948e18c9b14449a6d53203676c7e1b6063a20f0bc71f0c",
+      "bytes": 1592
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/saves/autosave.json",
+      "sha256": "297de9a3363d256fc2f1a17f41c7d30fbea08882b7b9bac395f7ef8a299605cb",
+      "bytes": 2972
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/saves/autosave.json.bak",
+      "sha256": "9baa849ecafb9b47615f4f28ccd82472aaa9acfeec153db2db5ae4bb3da0928f",
+      "bytes": 2708
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/saves/slot1.json",
+      "sha256": "306f239e27e84e7241dabde23a19d462dd2c1ef44ec95873a33e210eaa7eec5b",
+      "bytes": 2718
+    },
+    {
+      "path": "Builds/quality/workshop/c7-burrower-visibility-01/video.mp4",
+      "sha256": "585745a4570df43dc87104ecd5154c0c72cca80afe7648db6fcdfaf982fbd1fa",
+      "bytes": 412911534
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/000.png",
+      "sha256": "25184cc9d037ab4575aac3bb403e188ed86551b2654c2f124e5b92b92202f039",
+      "bytes": 2246215
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/001.png",
+      "sha256": "181a5807f3469f84e906239e3d972b0af704fea1b1940ff389a196030f33f80c",
+      "bytes": 2151915
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/002.png",
+      "sha256": "a159dc16bb948811002a3cceaf17a82fbe94163eea9c1903a86e2d85dc5af91e",
+      "bytes": 2254602
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/007.png",
+      "sha256": "8e3a4c2c6b86afc70abef7650bfe0b8e44790b6bc908814eb46774d1337932a7",
+      "bytes": 2220529
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/010.png",
+      "sha256": "3e0ab3eac14b157eac3cc1d4372e6b6008da7a69c00d2f353b2060a3805d838f",
+      "bytes": 2221474
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/011.png",
+      "sha256": "6fcc25b95bfc85bb4def0507d451651040bba170efdf57b2ffe86077ef1626a8",
+      "bytes": 2221617
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/013.png",
+      "sha256": "06353b2840ac632a16b6a83ddb9b643ee5172783f3aeeb9928d201b8f73a361d",
+      "bytes": 2195679
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/014.png",
+      "sha256": "1e5ddfc6b2d129e778f5086b67c903149bf5402314de973cfc9eedaa37f2de55",
+      "bytes": 2122092
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/015.png",
+      "sha256": "64b1a1af89cfe9b8a50521a5353527c5b7e033d2976c0d41bd2de1323ba85b69",
+      "bytes": 2315031
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/020.png",
+      "sha256": "f352830a02d2b335dad7fdeec66d6d15e01609a2572d8026d7c8d1042ee8e3d3",
+      "bytes": 2277288
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/023.png",
+      "sha256": "fb10a3c79d6fa1b5fb98134bca2070a14e20df256dd17b84499cc0ce38c171dd",
+      "bytes": 2273897
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/024.png",
+      "sha256": "537474bbcbcb28689e28d091b756dde4ce2ca626eb2c56b9f9c1f21425ba4caa",
+      "bytes": 2274980
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/026.png",
+      "sha256": "1003c07c584432e80cbddfa26c348ecdddeca9d42bd5edc36332f0ce6752fdec",
+      "bytes": 2306141
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/027.png",
+      "sha256": "6ee21297d8ccfaa7a65bea3ccf2de0644e1b9ea0a66a6ee56c88959fadca567c",
+      "bytes": 2275088
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/028.png",
+      "sha256": "f6cc2da9a95a650061ca57f8ac7c70978c0e0178257e2c3eeadc8c6896d7cc53",
+      "bytes": 2137862
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/029.png",
+      "sha256": "618c6b775500846a50c35010b2a27cdd0c9066e5eed55f750ceebfa682c4c08d",
+      "bytes": 2135510
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/030.png",
+      "sha256": "7151646e7b6e9e36afa8305f577c725627f606fe488bc61d55025c645075e858",
+      "bytes": 2134195
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/031.png",
+      "sha256": "77d29c470d028c3ec9a92a2ea71b793962f1e7801636ce24b7adb43fc57cd6cc",
+      "bytes": 2311625
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/036.png",
+      "sha256": "2467587367c950ab87f5c75ad6a7cb3e04dfb689d45328ca9ffeb1c29154a826",
+      "bytes": 2303924
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/039.png",
+      "sha256": "7578d88d986779f2683ec45e0040088d1ca005403f534f8a93aafe688498e5be",
+      "bytes": 2328247
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/040.png",
+      "sha256": "cad6b122f8aaab3d2e288ecde9d2acbbdf8672ef27ab3d62f0b9ce41d3d8cf8d",
+      "bytes": 2309694
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/042.png",
+      "sha256": "bca5f80757b165746ed6e2ed2c078834c17657c1b5eaf20f5fcb5110f510e2a9",
+      "bytes": 2179963
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/043.png",
+      "sha256": "1d5a02e12100a0438974e3d844280b47b8fbc4cb1e1d1b5bba412d565f6528e5",
+      "bytes": 2336709
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/044.png",
+      "sha256": "0728dc2b7b018af9e038d4b2f31a1c29ce8909c1b58f72db818e5e71dbfe7ab4",
+      "bytes": 2242878
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/045.png",
+      "sha256": "280e9e687b910e412b2d16a05fd56dfaa9732d7fe8cbb38317d2c8936da9e4d4",
+      "bytes": 2301682
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/050.png",
+      "sha256": "9e17ee9c7e86991be2d646b4cf1ca77ed59562e74efc10ca976e6ab2a7cafe52",
+      "bytes": 2291054
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/053.png",
+      "sha256": "539a2d069e1147273d37349d9b66c1462e5771a5827ee0520da29628fd5d7cef",
+      "bytes": 2285529
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/054.png",
+      "sha256": "43f0d01e8fd08d997b3681fcd390182c59908af595e413282a99fb5a4aba5356",
+      "bytes": 2293384
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/056.png",
+      "sha256": "f51c367f5391d322ab10e5464c0a2135c56a583643c5ec25fcf57fea621bb714",
+      "bytes": 2155349
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/057.png",
+      "sha256": "93b8c7f7c18a2ab3a8433d3b1a263ee89e7957164551be4013caaec673358813",
+      "bytes": 2285252
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/059.png",
+      "sha256": "5ff5dc2d722f0fa5cd7744756802355699c98487cbb1e0ddc69231ded564b142",
+      "bytes": 2397489
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/062.png",
+      "sha256": "853e3fb5b8e6df06177e82f9c1153a24e80a0f8b08e28b38164ec18026c12163",
+      "bytes": 2439060
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/065.png",
+      "sha256": "7542cf90952600db0978246c631a6cfc155de973ae8bffd6ea7b34646519f369",
+      "bytes": 2309547
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/068.png",
+      "sha256": "1207937c9e5d53a359ae38372d40b5ad70d39e1bf2ef46cb85a836850f350077",
+      "bytes": 2299626
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/073.png",
+      "sha256": "ad89a789c57381d19e7da575de3d13f1a38a380cef49a4063c775db2730b1126",
+      "bytes": 2428552
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/078.png",
+      "sha256": "9761f5561350b5087d95ac235e92d0dc34d42ce3bc2b24b95b8f7c48dfa86b4f",
+      "bytes": 2418632
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/083.png",
+      "sha256": "0a3b2da571b8bd5c4f134776c85b8601583525f3a1c5499ce7d4eb0a31a5cf6d",
+      "bytes": 2255710
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/091.png",
+      "sha256": "a4c61c91d7d5fde8abf59d88f2400d8c54e3f2dca00f012e9d5869fb2bc77415",
+      "bytes": 2226715
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/098.png",
+      "sha256": "f221b219faf2a96ed6d89a983761d6a5c610ba7190eb8261dede4da558fd18e9",
+      "bytes": 2158611
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/100.png",
+      "sha256": "1d57a283a74f913b708b6bb2106f038febd2b70532a2bf98435fa77a057ebac2",
+      "bytes": 2188520
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/101.png",
+      "sha256": "ce2a8c93ff3f42573055e4ddbf508573f6adc99534d7cddd98137ed05e2c8b97",
+      "bytes": 2126736
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/102.png",
+      "sha256": "43047e4e4df0e65a5228b145422f8f34ef5240f2129e1e9f1af9bed8a653f265",
+      "bytes": 2073575
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/103.png",
+      "sha256": "87198bde0d4ac60f9366ccee57b8f292a3233f2af1be672d243e26e71f3cfc3f",
+      "bytes": 2137655
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/104.png",
+      "sha256": "174fa01f508caab1a63ad5a4118f9490e8bd109a99d3436d4efa4a9c4e5271aa",
+      "bytes": 2490426
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/106.png",
+      "sha256": "6bc7d2453475ae77079e80e5d63c2fe49441ae081e75e867ceac5ba00a8c95d8",
+      "bytes": 2490616
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/107.png",
+      "sha256": "c1ea420f7baa6263a6c59e9a9d1294c3a654b2c4b0200d101a8f643c4685a611",
+      "bytes": 2379752
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/109.png",
+      "sha256": "9ad16700a7501866938016a9a4730dbcf7e0308cd28a8a9b0eb78e794dc6dd54",
+      "bytes": 2655329
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/analysis-output.txt",
+      "sha256": "5de970539f372f3401093f3ba2117b0e4147e4d103ef11f6dc520a83ecfc037b",
+      "bytes": 9690
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/analysis.json",
+      "sha256": "1645a3c08420afe63f71a7abc91f9676a2601e08425b26533535f66e38f910f6",
+      "bytes": 4844
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/available-counters.txt",
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a",
+      "bytes": 14940
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/build.json",
+      "sha256": "6ec8b1e6cf55963abbad0bc90c8c1d0ef322dab9f8def29f4a6eb00febb5c880",
+      "bytes": 12960
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/capture-frames.csv",
+      "sha256": "2044c9568a061c4bbc6120f4bc55e3a83dd1a61f6cfaee6ff8bbd8b8d12d3ec4",
+      "bytes": 200474
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/capture.txt",
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab",
+      "bytes": 160
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/environment.json",
+      "sha256": "002d6f22a4670b004fb66a230d317101f6ce35231abcae0dec3c68738e5a7d08",
+      "bytes": 123
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/final-state.json",
+      "sha256": "d041e3e8c37187f70f2e408c61d37249004621eb0ab75180006aa4ec6d350860",
+      "bytes": 1916
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/frame-times.svg",
+      "sha256": "eb5ab57af800acd68b3fb4f29de611de673808c346f2dd39e23aa5afe3241296",
+      "bytes": 306083
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/frames.csv",
+      "sha256": "f422b0f48677c3401d9199a51a417c6372a340dd6e6554c217d25b20acc1fe52",
+      "bytes": 6966588
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/mix.wav",
+      "sha256": "10650af296b3ec763748b3af71aedc6bc6ea4189667dc905cdc3813b065842ab",
+      "bytes": 152789036
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/player.log",
+      "sha256": "030a1048e20183c4bf36520961851e54537799c02a60f47107b7b2e43b975de2",
+      "bytes": 10513
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/process.txt",
+      "sha256": "2a21e1c48150e51e58d712d08fe372719a045094021bf8e9bd4ca6d3488f36a0",
+      "bytes": 7
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/replay.mp4",
+      "sha256": "d81ddcdf86096350e47564bb624fb818bc892664f71660f080c3653b6ace41fa",
+      "bytes": 380634657
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/route.json",
+      "sha256": "c670ce7c0fc3e9f9d6a8977460da131332dc6332140e65f1df9fbf74153408ff",
+      "bytes": 101044
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/run.json",
+      "sha256": "928acc4f74561e59f1719ae14423b2ef2fc0e81e2055f0fd0d31ff5a622f9fd6",
+      "bytes": 1274
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/saves/autosave.json",
+      "sha256": "7f60b33ea06e5ae238f540b19db44b900becc7ee5dd889a0b43d8ea229cbc8c2",
+      "bytes": 1919
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/saves/autosave.json.bak",
+      "sha256": "19111091a93bbe26166d9d4c744eb65c538ed0c24a70b6225aa304cef1bb0763",
+      "bytes": 1909
+    },
+    {
+      "path": "Builds/quality/workshop/hushwell-boss-visibility-01/video.mp4",
+      "sha256": "b2330c34185950c4d42e4d6d1cce8fa4cd8544ba0d553d9bddaec4c588139e05",
+      "bytes": 370639149
     }
   ]
 }
