@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Lattice.Core;
 using UnityEngine;
 namespace Lattice.Combat
 {
@@ -14,6 +15,7 @@ namespace Lattice.Combat
     {
         public static readonly List<PressureOrgan> All=new();
         public Transform visual;
+        public string defeatedFlag;
         public Health Health{get;private set;}
         public bool Pumping=>Health!=null&&Health.Alive;
         public static bool AnyPumping{get{foreach(var organ in All)if(organ.Pumping)return true;return false;}}
@@ -31,11 +33,23 @@ namespace Lattice.Combat
             Health=GetComponent<Health>();if(visual!=null)rest=visual.localScale;
             Health.Died+=(_,__)=>
             {
+                if(GameServices.Current!=null&&!string.IsNullOrEmpty(defeatedFlag))GameServices.Current.Flags.SetBool(defeatedFlag,true);
                 CombatVfx.Burst(transform.position+Vector3.up*1.5f,new Color(.55f,.35f,.9f),"shape");
-                if(visual!=null)visual.localScale=new Vector3(rest.x*1.15f,rest.y*.35f,rest.z*1.15f);
+                Collapse();
                 Debug.Log("ORGAN_DOWN "+name);
             };
         }
+        void Start()
+        {
+            if(GameServices.Current==null)return;
+            var flags=GameServices.Current.Flags;
+            if(flags.GetBool("bossdown.BellowsBelow")||!string.IsNullOrEmpty(defeatedFlag)&&flags.GetBool(defeatedFlag))Settle();
+        }
+        void Collapse(){if(visual!=null)visual.localScale=new Vector3(rest.x*1.15f,rest.y*.35f,rest.z*1.15f);}
+        // Restoration and boss completion are quiet state changes, not fresh hits:
+        // do not replay damage/death effects or invent individual defeat history.
+        void Settle(){Health.integrity=0;Collapse();}
+        public static void SettleAll(){foreach(var organ in All)organ.Settle();}
         void OnEnable()=>All.Add(this);
         void OnDisable()=>All.Remove(this);
         /// <summary>Organs swell with the Bellows' inhale and slump on its exhale.</summary>

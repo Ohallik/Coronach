@@ -31,6 +31,19 @@ namespace Lattice.EditorTools
         public static void Blockout()=>BatchTools.Run(()=>{Build(true);AssetDatabase.SaveAssets();Debug.Log("HUSHWELL_BLOCKOUT_OK");});
         public static void Final()=>BatchTools.Run(()=>{Build(false);AssetDatabase.SaveAssets();Debug.Log("HUSHWELL_FINAL_OK");});
 
+        public static void RefreshOrganSaveKeys()=>BatchTools.Run(()=>
+        {
+            var scene=UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hushwell.unity");
+            var organs=scene.GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<PressureOrgan>()).ToArray();
+            if(organs.Length!=2)throw new InvalidOperationException("Expected the two authored pressure organs");
+            foreach(string side in new[]{"west","east"})
+            {
+                var organ=organs.Single(o=>o.name=="Pressure organ "+side);organ.defeatedFlag="hushwell.organ."+side;
+                EditorUtility.SetDirty(organ);
+            }
+            WorldBuilder.Save(scene,"Hushwell");Debug.Log("HUSHWELL_ORGAN_KEYS_OK");
+        });
+
         /// <summary>Replace only the nursery's decorative floor. All gameplay
         /// objects, colliders, navigation and save identities stay authored.</summary>
         public static void RefreshNurseryFloor()=>BatchTools.Run(()=>
@@ -162,7 +175,8 @@ namespace Lattice.EditorTools
                 var visual=blockout?ArenaBuilder.Block("Pressure organ blockout",Vector3.zero,new Vector3(3,3,3),"Enemy"):WorldBuilder.Piece("ChoirPod",Vector3.zero,Vector3.one*3.2f,"Emission",false);
                 visual.isStatic=false;visual.transform.SetParent(organ.transform,false);visual.transform.localPosition=Vector3.up*1.5f;
                 foreach(var c in visual.GetComponentsInChildren<Collider>())UnityEngine.Object.DestroyImmediate(c);
-                organ.AddComponent<PressureOrgan>().visual=visual.transform;
+                var pressure=organ.AddComponent<PressureOrgan>();pressure.visual=visual.transform;
+                pressure.defeatedFlag="hushwell.organ."+(side<0?"west":"east");
                 Light("Organ glow",HushwellLayout.OnFloor(p)+Vector3.up*3,new Color(.6f,.4f,1),2,9);
             }
             // Exposed ribs at the chamber's edge: the Bellows' last phase lunges

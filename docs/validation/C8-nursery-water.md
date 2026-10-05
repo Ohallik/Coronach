@@ -1,6 +1,8 @@
 # Nursery shoreline refinement
 
-October 4, 2026. **Controlled visual and geometry checks pass; player validation is pending.** This follows the [generated nursery floor](C8-nursery-art.md), without claiming whole-map or C8 acceptance.
+October 4, 2026. **Shoreline geometry and opened player views pass; one first-visit hitch remains unresolved.** This follows the [generated nursery floor](C8-nursery-art.md), without claiming whole-map or C8 acceptance.
+
+[Raw evidence hashes](C8-nursery-water-evidence.json) cover the rejected and accepted views, tests, player captures and timing runs.
 
 Opened fixed-camera images exposed hard blue pool edges and a cracked surface. Two causes were distinct: the licensed shader's former 0.18 setting produced only a 1.8 mm depth fade, and portions of the water mesh ended above the wet basin floor. The original geometry check fails at pool zero: surface -16.085 m versus bed -16.119 m. A wider fade alone could not fix the exposed mesh boundary.
 
@@ -18,4 +20,17 @@ Raw evidence is under `Builds/quality/C8/`:
 - `nursery-water-public-02`: softened public fallback, opened at the same fixed camera.
 - `nursery-water-checks/rim-original-red.*`: new boundary check rejects the original assets. `surfaces-green.*` passes all ten surface checks; `final-editmode-green.*` passes all 85 EditMode checks, zero skipped.
 
-These static images establish the shoreline improvement, not continuous motion or audio quality. Standalone traversal and clean timing remain due; the frozen chapter package is still runtime 56a013e.
+Runtime **b1df12b** builds in both configurations and passes 85/85 EditMode and seven affected Hushwell PlayMode checks. Separate standalone runs at 1920x1080, Ultra, VSync off and 60 fps:
+
+| Run under `Builds/quality/C8/` | Result |
+|---|---|
+| `nursery-water-performance-release` | REJECTED by offline timing: 378.052 s / 22,675 focused frames; p95 16.972 ms, p99 17.080 ms, one 152.800 ms hitch at 231.288 s, first nursery approach |
+| `nursery-water-headroom-development` | Capped timing PASS: 378.027 s / 22,681 focused frames; p95 17.012 ms, p99 17.143 ms, worst 20.653 ms; zero over 25 ms |
+| `nursery-water-performance-release-repeat` | Unchanged-build timing PASS: 378.071 s / 22,683 focused frames; p95 16.971 ms, p99 17.074 ms, worst 19.824 ms; zero over 25 ms |
+| `nursery-water-player-views` | Captured ordinary traversal PASS: 378.059 s / 22,683 focused frames; opened frames 024/030/036 show the banks, floor and unobscured heroes |
+
+The development folder's name reflects requested counters: its route remained capped, so this is **not an uncapped headroom gate**. `counter-diagnostic.json` retains that policy rejection. Its observed active CPU p95 is 1.562 ms, and GPU p95 is 1.330176 ms through both APIs, with no impossible samples. The initial release hitch had no lost focus or detected competing process. It did not recur in development or the unchanged release repeat. Its cause is unknown; retain the rejection and do not infer that a shader-cache or GC fault has been fixed.
+
+The views also exposed a live-organ defect in the supposedly completed cave. These runs used the recorded `gullet` fixture and ordinary virtual-gamepad walking; they are not earned progression or proof of a quiet completed cave. [The resulting save/revisit repair](C8-organ-persistence.md) is under validation. Nathan's original save hashes and count still match the session manifest. The frozen chapter package is still runtime 56a013e.
+
+Continuous video and mixed audio are retained as `nursery-water-player-views/replay.mp4`. Static images were opened; continuous audiovisual quality and physical-controller feel remain UNVERIFIED.

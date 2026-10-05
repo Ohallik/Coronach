@@ -6080,6 +6080,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.PressureOrgan
   visual: {fileID: 446075429}
+  defeatedFlag: hushwell.organ.east
 --- !u!114 &643320474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14945,6 +14946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.PressureOrgan
   visual: {fileID: 866324016}
+  defeatedFlag: hushwell.organ.west
 --- !u!114 &1464566486
 MonoBehaviour:
   m_ObjectHideFlags: 0

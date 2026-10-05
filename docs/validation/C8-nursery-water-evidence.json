@@ -1,0 +1,901 @@
+{
+  "sourceRevision": "b1df12b",
+  "scope": "Shoreline geometry, public/private controlled views and ordinary fixture walking; original first-visit hitch and live-organ revisit defect retained",
+  "tests": [
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/final-editmode-green.xml",
+      "result": "Passed",
+      "total": "85",
+      "passed": "85",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.8161761"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/full-editmode-green.xml",
+      "result": "Passed",
+      "total": "85",
+      "passed": "85",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.8944897"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/hushwell-playmode-green.xml",
+      "result": "Passed",
+      "total": "7",
+      "passed": "7",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "39.8722462"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/rim-original-red.xml",
+      "result": "Failed(Child)",
+      "total": "1",
+      "passed": "0",
+      "failed": "1",
+      "skipped": "0",
+      "duration": "0.1633394"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/surfaces-green.xml",
+      "result": "Passed",
+      "total": "10",
+      "passed": "10",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.5011835"
+    }
+  ],
+  "runs": [
+    {
+      "name": "nursery-water-headroom-development",
+      "valid": true,
+      "seconds": 378.027051,
+      "samples": 22681,
+      "p95Ms": 17.0123,
+      "p99Ms": 17.1426,
+      "worstMs": 20.6534,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "failures": []
+    },
+    {
+      "name": "nursery-water-performance-release",
+      "valid": false,
+      "seconds": 378.052192,
+      "samples": 22675,
+      "p95Ms": 16.9719,
+      "p99Ms": 17.0803,
+      "worstMs": 152.8003,
+      "hitches": {
+        "25": 1,
+        "33.3": 1,
+        "50": 1,
+        "100": 1
+      },
+      "failures": [
+        "first approach: hitch budget exceeded"
+      ]
+    },
+    {
+      "name": "nursery-water-performance-release-repeat",
+      "valid": true,
+      "seconds": 378.070633,
+      "samples": 22683,
+      "p95Ms": 16.9705,
+      "p99Ms": 17.0738,
+      "worstMs": 19.8238,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "failures": []
+    },
+    {
+      "name": "nursery-water-player-views",
+      "valid": true,
+      "seconds": 378.058564,
+      "samples": 22683,
+      "p95Ms": 17.1228,
+      "p99Ms": 17.2944,
+      "worstMs": 20.8432,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "failures": []
+    }
+  ],
+  "files": [
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Hushwell-nursery-north.png",
+      "bytes": 2481151,
+      "sha256": "949fcbce4b573b0bd2bd2889dc3459e361ee093b5995cbe58309f33cdfd04a3e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Hushwell-nursery-west.png",
+      "bytes": 2557551,
+      "sha256": "11a402033743afd0229aab080c23d8d98e1eac09403cd63efda68c1d69ba3b92"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Hushwell-nursery.png",
+      "bytes": 2684409,
+      "sha256": "d72befa36516b42933279f802514eec848784dd62e15c1939670a40474158afe"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Arena_Ground-yard.png",
+      "bytes": 3273389,
+      "sha256": "f96533d16999abe0e3fbba3c5d62d0ee62d8ca13522666790315b47d16999191"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Hushwell-nursery-north.png",
+      "bytes": 2469900,
+      "sha256": "4a6fdfd3b077efd34c821218a7183d074442180d89e0cf7a1347afff156bf24f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Hushwell-nursery-west.png",
+      "bytes": 2533597,
+      "sha256": "2ced4ebbf031a7f4a08fec37dff6d8b598889b0161639ad1e080c238935f3c6d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Hushwell-nursery.png",
+      "bytes": 2664556,
+      "sha256": "1f6fba0170b357bfa672670604bd36fe235f9263be4c1babd1fae0fa125bb951"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Sorrel_Ridges-outpost.png",
+      "bytes": 2843481,
+      "sha256": "3b9b1fdb68c96bb6ff0efb68999d5cff68d0907346244cd7ace969877317f8b1"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Sorrel_Ridges-seam.png",
+      "bytes": 3087918,
+      "sha256": "908ee32d414bf074f6132b89d6e307bac26e48a6786914a1b3b1585b345679a2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/Sorrel_Ridges-service.png",
+      "bytes": 3002493,
+      "sha256": "ee3fe6b1184b9eddf6a495bfee90ae1632433a61ebada22c32482f9d8854d222"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-01/TallowDrift-refuge.png",
+      "bytes": 1668010,
+      "sha256": "cb1aa0bb8f28fb88618192d9bd3886b4bec24b0198bc4871fbe921a2a81c08e6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Arena_Ground-yard.png",
+      "bytes": 3273602,
+      "sha256": "968943ea9b0c647a3df20239cbf4234355d28d83a958b86e2e6cde0d5be98def"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Hushwell-nursery-north.png",
+      "bytes": 2450352,
+      "sha256": "698a5223dc183b31600662e7a42f8e38146a2441bcbcfda5993cd8f98d16ea58"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Hushwell-nursery-west.png",
+      "bytes": 2492594,
+      "sha256": "420bb1ef11b50d4a4d320ae7206281f253a911a9832cf30ed69102474967f41e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Hushwell-nursery.png",
+      "bytes": 2626400,
+      "sha256": "51c4fb489a74643875517fb67fb31fe957ccc57fb7ae63f993b1684afd3722d9"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Sorrel_Ridges-outpost.png",
+      "bytes": 2843758,
+      "sha256": "f9c30877afb56d2425b79f65ce8bd7f3d07a963af8c59080e5225424b52e8383"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Sorrel_Ridges-seam.png",
+      "bytes": 3088110,
+      "sha256": "9187bdf1a515cb4aa25b46d40f2f596e33f169f3a623275d8bed97975c887d00"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/Sorrel_Ridges-service.png",
+      "bytes": 3002853,
+      "sha256": "248e8c41c44c3ec82ed4804cb88746f82b0e5b3f62c20b4832d425786f51dd83"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-02/TallowDrift-refuge.png",
+      "bytes": 1667876,
+      "sha256": "33af1fcd8ac639a016241b041714665ba655ca1eb406745c378e6bb5fc9f9e12"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Arena_Ground-yard.png",
+      "bytes": 3273601,
+      "sha256": "3b6110417c3d277b40c5db11927c60a778e172a38652eb6b90885ab915826463"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Hushwell-nursery-north.png",
+      "bytes": 2450561,
+      "sha256": "648153c4a15daae078e88c78882d40637f6f99698bea25c4fe804a9e0419b75f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Hushwell-nursery-west.png",
+      "bytes": 2491189,
+      "sha256": "ce3994f052eb1e2d48824e607ca082f11c67e095b9fc888693f07e2fd83cd711"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Hushwell-nursery.png",
+      "bytes": 2625128,
+      "sha256": "e0253b534eca7540a7634e1fb51de82274bed809f6ae653522fe7d92f3573cf4"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Sorrel_Ridges-outpost.png",
+      "bytes": 2843415,
+      "sha256": "51af9bf43ad379931a65471e090a0a197b3835bb041aac882608fa7acf3b255c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Sorrel_Ridges-seam.png",
+      "bytes": 3087765,
+      "sha256": "33c239e7a1e015b213d56ee3a384032aba273fec635478f65fb70f1ad8b463bb"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/Sorrel_Ridges-service.png",
+      "bytes": 3002654,
+      "sha256": "4ee0b9945cb8cd779c91ee5da1e026ece4798d8a2d4fcab6ed1233d3f7ef8aba"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-03/TallowDrift-refuge.png",
+      "bytes": 1667928,
+      "sha256": "ebe2c811683385e6be4782cf042444d5acc1dd6f5fd7131bca53de5cf480fadd"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/build-development.log",
+      "bytes": 625161,
+      "sha256": "59b86c21ddbc726121605eef750a53f78bc47329a6dc34671268b44bd4855739"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/build-release.log",
+      "bytes": 635800,
+      "sha256": "e2b35dbb9a600b01edfd8292035cdf0eec043a5a3056e73e64bd228c89ee6a7f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/development-analysis-console.json",
+      "bytes": 35004,
+      "sha256": "9b13c8808727bc42698db8c65c97907f6970ba4d2b4d25776122f8efd41e94e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/final-editmode-green.log",
+      "bytes": 168558,
+      "sha256": "3562c310242ab37576c2b0c8a3eef1e5e16053bbdd0b6b033129a1db20d8374e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/final-editmode-green.xml",
+      "bytes": 76717,
+      "sha256": "6ed3b794ba0f42f99105b21565b0a2408bb38eca4f84db8f676f0470a1968d13"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/full-editmode-green.log",
+      "bytes": 168624,
+      "sha256": "d3b534735714ee109a42eb5480d88cc645f1566597a49ab62eb75aa55649041d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/full-editmode-green.xml",
+      "bytes": 76719,
+      "sha256": "4fb9755092adfcb491d5af9b0c8a8d5b8f4f1980fc0ee41a7280acfe45f24054"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/human-saves-after-release.json",
+      "bytes": 401,
+      "sha256": "e039157e9e21f1ed63a91223d92604b927f4c9915cb6b1a289f7d204d3c9e0b2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/hushwell-playmode-green.log",
+      "bytes": 240328,
+      "sha256": "d5ce423e91ce60407eb40e3ba5fb562e6eb2c96551a1aa119e922a07772478a2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/hushwell-playmode-green.xml",
+      "bytes": 12652,
+      "sha256": "b5301cc6dcd5f273f4f34b9c5c5320ba80d9d18be2071cc493034280c2b42752"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/prepare-views.py",
+      "bytes": 548,
+      "sha256": "8fad64986daf5a6bd6b6207b56283940c8eb88c2b1e07620e9990df46cf3d82c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/read-capped-counters.py",
+      "bytes": 813,
+      "sha256": "5a698ff3a0da2ffb573b6099e3e6be1bdf3caa7cd93645869f81ae6b329f3f68"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/release-analysis-console.json",
+      "bytes": 27340,
+      "sha256": "8fd682a774963f23de1e8941e9bff9072054029e26c70f8b95307f87b087f145"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/release-repeat-analysis-console.json",
+      "bytes": 27196,
+      "sha256": "08157b3b7e9ac9195e2cead96e7bf443dfcd0665397c43f2f3ac7f3de5246ed5"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/render-public.ps1",
+      "bytes": 270,
+      "sha256": "c7c5c631cfa869ed5ef27eac62bcacbcd75613e2b514ea9afcec69eba621d27e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/rim-original-red.log",
+      "bytes": 57851,
+      "sha256": "3ec40488cf9a82a7e8df87150f7fd4dbee09707870c5af1a42f4bd9d652a8f37"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/rim-original-red.xml",
+      "bytes": 5128,
+      "sha256": "634eba2f7acb77cbb2087956ab1f8a0ec32cff35ad62f5969d6de0224e3cb331"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/surfaces-green.log",
+      "bytes": 42946,
+      "sha256": "3c8b19a4718f6a1f4c71bd3d02d51dd097f47c7eacf5bdf11713cf9b23bfa106"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/surfaces-green.xml",
+      "bytes": 10653,
+      "sha256": "726adf23cf8fa9165b92d1d2765f1afcb522d413ca97731694437a8e8451ece3"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/views-analysis-console.json",
+      "bytes": 27204,
+      "sha256": "9ba0d22cfadce4d04152352c19dd09d5753285c1913415b2e501e1b8bedd6680"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/views-route.json",
+      "bytes": 14730,
+      "sha256": "e3e9af2ce0d18469b265520df5d1c385a9d1ae25e935de59792efc93977ab5ca"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-checks/write-evidence.py",
+      "bytes": 1562,
+      "sha256": "f45caeade663052e8706daa46601595c5103a4207662da491d93860bf6a1aebc"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Arena_Ground-yard.png",
+      "bytes": 3273827,
+      "sha256": "42d532e0663f2ee303c62d4e669efee32f8986139ed60e346f285ba54f83413c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Hushwell-nursery-north.png",
+      "bytes": 2450387,
+      "sha256": "704a4f920084cee22175d23eb1d1bf6cd6dba66c587dac54d24c723999558fa8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Hushwell-nursery-west.png",
+      "bytes": 2490867,
+      "sha256": "63e66a607b8cf910850bc589edb503b9b7267ff32db2ca4d042e8ad6ec9535aa"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Hushwell-nursery.png",
+      "bytes": 2625660,
+      "sha256": "e23ca0b83dea08d92988f83951c5ed6364556228b96b7f5f31561e94bdc4e8f2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Sorrel_Ridges-outpost.png",
+      "bytes": 2842451,
+      "sha256": "1fe08374de8522c7965ec246735546de1876b910e27b8a10f524ca369acbf667"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Sorrel_Ridges-seam.png",
+      "bytes": 3090288,
+      "sha256": "d47c48d7f9e8f6c146be59f659ce05fa9bfe9063702023d9119022f1b9f1c4cc"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/Sorrel_Ridges-service.png",
+      "bytes": 3001527,
+      "sha256": "64333091044fda6351a33e939e9a07c4381b7c7191d466f3566540f839b28189"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-final/TallowDrift-refuge.png",
+      "bytes": 1667912,
+      "sha256": "a9bfac65c26fc58a3663182a02aff5ce2d2869a009cfa0561805980ec3f60446"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/analysis.json",
+      "bytes": 17501,
+      "sha256": "b6cdd21b8b6a8564538b563b1afa436f7fefdeaede5e9d2b7d2f85d1e0d02a4d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/available-counters.txt",
+      "bytes": 181702,
+      "sha256": "80c89efad0ab917392b297d1f8b29a201ce1b9f785d56472e70f00aaaf15271c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/build.json",
+      "bytes": 12967,
+      "sha256": "b669520ddf0b016d71529f21f423265593d55f820bfeb587d42e4b0b1885a030"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/counter-diagnostic.json",
+      "bytes": 8036,
+      "sha256": "5117d6b12258a8c546acf9db122a5c62bc513ce3d3f8ffa52c2b4bfcc5517a7b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/environment.json",
+      "bytes": 122,
+      "sha256": "127a23ac9b89942c1133280b33a4a0c31649f66c4a9752cc3175660b115da48d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/final-state.json",
+      "bytes": 1778,
+      "sha256": "289108ed64856b162afab91afbed022fb1909e8e282648d29395f32839377845"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/frame-times.svg",
+      "bytes": 286287,
+      "sha256": "a92f0807dad98dfdf97d29530d060c395ea24e1d6599bd02301711b17d7a86b7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/frames.csv",
+      "bytes": 7446120,
+      "sha256": "a2ecc82a72f39794b18c862c640218664a6f5a63fab337d76176a0d9fffea602"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/player.log",
+      "bytes": 96534,
+      "sha256": "169bc0968887baea7d4dbdc7ea8da1a88ab13990f49f3112933a2d8defbe4a2c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/process.txt",
+      "bytes": 7,
+      "sha256": "e398ae0e7f3de842126a56020398515143618c27b84ecd205ff2c94546e83630"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/route.json",
+      "bytes": 51414,
+      "sha256": "1a8d7d632c7756da0c79afde387a96378543c2324f8c65b12f29fe78cbee487c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/run.json",
+      "bytes": 1011,
+      "sha256": "55b03d8a78251ae7bc41f3e04381b0baebc7a3069355df4364c96f9c386792dd"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-headroom-development/saves/autosave.json",
+      "bytes": 1784,
+      "sha256": "bbd024d0e5d9c9981096475cda915930d1b922fd41773dcfe5f46ab868f06094"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/analysis.json",
+      "bytes": 13669,
+      "sha256": "d8d303375a0a0ba455a47bd05e7f8780b5df889d2ded8999888b1d5c948191d8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/available-counters.txt",
+      "bytes": 14940,
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/build.json",
+      "bytes": 12963,
+      "sha256": "38f528e4d6dd0d4261074d92bafc1be9e3cfc2b03d154f5c390223a502b4a03d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/environment.json",
+      "bytes": 122,
+      "sha256": "93a5e245436cf77513e63776b955794e7675c7572aa74dfdf098dbdc6f06ce38"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/final-state.json",
+      "bytes": 1780,
+      "sha256": "84900228dab94e9e2c427641e4be1b77c4bbc599ee20f5da89bbaf616d87ead4"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/frame-times.svg",
+      "bytes": 286216,
+      "sha256": "ace6ed60efd067febb3288d30e150dba3263dd5779f2b1448fbcd4bccdaccbf2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/frames.csv",
+      "bytes": 6574381,
+      "sha256": "e35d84fba58b42a4028a0008c3445e7b105f815be53f6ea4a7876f68bbc4c17c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/player.log",
+      "bytes": 6112,
+      "sha256": "6024007242e111d061fc64adab4bea719beece0dcd808f6435de5bb0e3cb509c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/process.txt",
+      "bytes": 7,
+      "sha256": "fb26f611ea4fe62fc562adbd377198480056fc259261980555ddfb3850dbad9a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/route.json",
+      "bytes": 51414,
+      "sha256": "1a8d7d632c7756da0c79afde387a96378543c2324f8c65b12f29fe78cbee487c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/run.json",
+      "bytes": 965,
+      "sha256": "6048abb4897653c5fed8e4ec0cad60e37ea01d8e8bf13ef7719f49f1a8adb3d0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release/saves/autosave.json",
+      "bytes": 1784,
+      "sha256": "e66795ccca1f531d7488185341f637402c49212d8a1ec6ead0800f7d2b0980a5"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/analysis.json",
+      "bytes": 13597,
+      "sha256": "c8dd9163e85ff1f42b7c2699516fcf08d402b799c9f71186675d2772bb6b7e6b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/available-counters.txt",
+      "bytes": 14940,
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/build.json",
+      "bytes": 12963,
+      "sha256": "16e20a8b1f343ef282973e081291497e2ac8b29b11506c8a7e8270f22a6f14e6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/environment.json",
+      "bytes": 122,
+      "sha256": "663f033731db8d88566e2b34bbad5a5f8c14a9ccee131528adb84ee64298b3b5"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/final-state.json",
+      "bytes": 1780,
+      "sha256": "b26dff2e18a70720f60a3018af02b1cfb2a364776d64e6180592f28d656c58e8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/frame-times.svg",
+      "bytes": 286312,
+      "sha256": "cfbaeb1d41a3ea031d3ef6b8b1780fdc8d1d55f588ee28aa8fd0b25d7f8019df"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/frames.csv",
+      "bytes": 6576699,
+      "sha256": "c44f2ebf5fe5535164df045ba28fad105c185b94a9479fc097ffd0344cd22983"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/player.log",
+      "bytes": 6112,
+      "sha256": "4936f4a5c8fd34f2cf1437d0aadaf7a3c66d1f1a4c10de96324e1870f7ffe878"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/process.txt",
+      "bytes": 7,
+      "sha256": "5f10c71d1ddcac2cdc875cdff65d351ebfe81431c024f6af1a80daecd1450161"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/route.json",
+      "bytes": 51414,
+      "sha256": "1a8d7d632c7756da0c79afde387a96378543c2324f8c65b12f29fe78cbee487c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/run.json",
+      "bytes": 958,
+      "sha256": "bea8c7a7c77582a758ad7dc75db6e83b2ebe881116399d32b77dc909484c3d06"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-performance-release-repeat/saves/autosave.json",
+      "bytes": 1784,
+      "sha256": "6dbeadf266f535960213bfcb1abf979a9d050da01acc083cf31f0fc144ca6a3a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/000.png",
+      "bytes": 2243308,
+      "sha256": "ac446668a08df7cce806896525abdb505ff997de4b2cd1e0b2c715724282e7ec"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/002.png",
+      "bytes": 2141603,
+      "sha256": "831a871e9f7d2ed91eaac19509b5c83afb6dd9d1d80299983d0bea6efa55cbe0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/004.png",
+      "bytes": 2191102,
+      "sha256": "4d5e784a9286b22b70889bd42565f4d5a5eab8746cdf954326d7c0b7402090e3"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/006.png",
+      "bytes": 2264990,
+      "sha256": "6097197d407bdf9194739de62f516a841c9bae61c201068289b49158749f8acf"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/008.png",
+      "bytes": 2272464,
+      "sha256": "b4709ea391e8a4ef0d8b653789daccdd6def50ff735fa9bba5edb6fb9d78fb0f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/010.png",
+      "bytes": 2133715,
+      "sha256": "92155e32b1b29a5c875f6165ede4235c3101e95fd5952627bc78387f8d314ba4"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/012.png",
+      "bytes": 2325479,
+      "sha256": "2eb2af5d238f71fa7be9980c97947053eee29435240295f5609a0e18ca2a9577"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/014.png",
+      "bytes": 2352437,
+      "sha256": "4e3711e3c07724544d744a3fc7a98156227299c449509f08d369c78179d29917"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/016.png",
+      "bytes": 2233452,
+      "sha256": "90a2f367e66020db23182cb317be21d57dc44097c9bcc128257b1a2549e2c21a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/018.png",
+      "bytes": 2165221,
+      "sha256": "3f7a2fdd35fd78c3c22ff2a9ac068da254e0f289a1ce176bd1edf30a80530d91"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/020.png",
+      "bytes": 2237341,
+      "sha256": "388614e3c7f0107b111cd72909a53cba5c70ee3d75ce306be6e6a54bc7b7f422"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/022.png",
+      "bytes": 2054481,
+      "sha256": "0eb07e04cbd7e0c84c4dec35027c5f4b1ce7a87a111e487f3faeb66ea471f90a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/024.png",
+      "bytes": 2572012,
+      "sha256": "e944e5768792c37b1ca76d94d933b29370477b3a70a7b7824b3432811f47846b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/027.png",
+      "bytes": 2593910,
+      "sha256": "d2abebc451ad060405dd224effda3a2a160d4e6de93511adbd58a28bb7b66540"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/030.png",
+      "bytes": 2590538,
+      "sha256": "98f8d6e6d5f569eaa4c942ee83e1d752bdbd7d9df21f3d69642e46f75d3d06a0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/033.png",
+      "bytes": 2535030,
+      "sha256": "6153f2adaafc8d4ab2a89ba059b7be0344be6bd8939783976d11f362da2ab368"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/036.png",
+      "bytes": 2555948,
+      "sha256": "e39cf77200027f2f4709c62e6ee96b0f0e7321b912dccb7bb28fa362071d993b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/039.png",
+      "bytes": 2593934,
+      "sha256": "296ca4cba7366a54fcf70b10a6b19e303b36264e2b38187a1008f8ab3f8f8a33"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/042.png",
+      "bytes": 2591139,
+      "sha256": "1066ffcb545e98aae8f11cb2fd185fc4c2748d0cf0e885ec713b6274f2e37b3e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/045.png",
+      "bytes": 2532304,
+      "sha256": "11e24f3c102c655eb3a39a3f1eec507af4dcd29f1133a366dda53716a3f9c422"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/048.png",
+      "bytes": 2556215,
+      "sha256": "fb746d69317964495dea56f8163f756d25ebb188a9ded3f35884c2c800cbb46c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/051.png",
+      "bytes": 2593901,
+      "sha256": "62a550d744f8d41a4bb3230eda57034cf2894ca57567b8d1b6320b9b3cee80df"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/054.png",
+      "bytes": 2589335,
+      "sha256": "86da5dc1fb01d618e2157debebc67b0022635f0fa93770fdd18197564622de40"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/analysis.json",
+      "bytes": 13601,
+      "sha256": "3465195f833bd82a609a558bf5e2fa441b438e680a0c0dcb799314a966a2345c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/available-counters.txt",
+      "bytes": 14940,
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/build.json",
+      "bytes": 12962,
+      "sha256": "bda44aae9bc2beb5c74dd73a3f59e8f940257ee1fea7327ec0bc000fc2c7b4dc"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/capture-frames.csv",
+      "bytes": 189764,
+      "sha256": "8bbcc37d2f38fa49d7be8b770ec186b7dd268cd6c51c8eac8a532674c8a1388d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/environment.json",
+      "bytes": 123,
+      "sha256": "8884ed92ace8bff4c4fdf34f88d6c0526d28f0811fbe0053a81dc0ac37118bf6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/final-state.json",
+      "bytes": 1780,
+      "sha256": "1d75851da105949d5f2c5eb4da6af099b84e23fa9d3db5bc8c351c6238a13f32"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/frame-times.svg",
+      "bytes": 286324,
+      "sha256": "cb6f47f8d6de3ccc3955b3db4a770a7d7b8b75fc387f79a93beae26b610df43e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/frames.csv",
+      "bytes": 6576697,
+      "sha256": "ac47d85c155f90538fc845903a3c2fa68ec29efd07be39a6b76f19f6340f2602"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/mix.wav",
+      "bytes": 145186860,
+      "sha256": "704269821159a279460c2e2972f036b795d58a264b362c031feb5442e431c223"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/player.log",
+      "bytes": 6084,
+      "sha256": "b9dc88fe44a416d6f1717d1ff0877e2d0cefb6eed594323d5ad5af97a505a68a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/process.txt",
+      "bytes": 7,
+      "sha256": "45d0634a9a5bac343442bbb962ed931c71a848d44f5560597ff6f064330e85c9"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/replay.mp4",
+      "bytes": 434804703,
+      "sha256": "ea92ea7767e66a4846e1730ace42b4e1087f8ae413e79513a54e16ab055dfc78"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/route.json",
+      "bytes": 51436,
+      "sha256": "581fd919edb685710d72438a87dce5a109b4656b9861f7825a5ed96fa8e69106"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/run.json",
+      "bytes": 978,
+      "sha256": "911384433768a3491788eb30ea02ad9289043db9890890b0b11cbe682a87be9e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/saves/autosave.json",
+      "bytes": 1784,
+      "sha256": "78229dee7ff846320097782240b98892012c63bba25caf31abdb5a3935b2bcb3"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-player-views/video.mp4",
+      "bytes": 425252950,
+      "sha256": "827263eb1e9e34f59a520773686b7171c61e0dbbdb49f5b9c7c1dd0f24fd5354"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Arena_Ground-yard.png",
+      "bytes": 3236730,
+      "sha256": "b897702b09a90a5bb5caec95f30094a1d86ad6d556e9f5381907ec8210343dcf"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Hushwell-nursery-north.png",
+      "bytes": 2374389,
+      "sha256": "5a0a329af51c36bd1847ed5df386cfb2d19c5c9edb8734a60b668ce6bffa0fd9"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Hushwell-nursery-west.png",
+      "bytes": 2361078,
+      "sha256": "6ee9bc30c4976f99cd387dc6f4c8a4a7f87084657dd551d9ca890dd571262c93"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Hushwell-nursery.png",
+      "bytes": 2523037,
+      "sha256": "b9d456a7c5760ada3ef84b8e3a9d6a958c7537ba3a98b8aef9e642ce36c5dd6a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Sorrel_Ridges-outpost.png",
+      "bytes": 2676250,
+      "sha256": "6e50b728916324b6fba29f3fb42c86c2e4dfc2701647851c479e7d3128ec1491"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Sorrel_Ridges-seam.png",
+      "bytes": 2833970,
+      "sha256": "b4ebfb8f78c7aedd4b60246d696191c13b84df0beefca55aa33d3199c4050171"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/Sorrel_Ridges-service.png",
+      "bytes": 2857692,
+      "sha256": "7087a047fa7f32fa1a5196d02edee89a14751ebf99aba37773c5244741fc619f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public/TallowDrift-refuge.png",
+      "bytes": 1654239,
+      "sha256": "008a26e0eabb084438ace2eef67fbf123ad54958d050dca97619adb8068f725e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Arena_Ground-yard.png",
+      "bytes": 3236730,
+      "sha256": "b897702b09a90a5bb5caec95f30094a1d86ad6d556e9f5381907ec8210343dcf"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Hushwell-nursery-north.png",
+      "bytes": 2398507,
+      "sha256": "aea691794c619c86416d1732bbd8f2cc2e5483d579757d3897084ec4d0fd5855"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Hushwell-nursery-west.png",
+      "bytes": 2439647,
+      "sha256": "8fd5319bccc30951e5735d78184df36d9d7d6bc891c2f81091e7f0bedabfed5f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Hushwell-nursery.png",
+      "bytes": 2583225,
+      "sha256": "cff648a001f7a85a980fb4a580d6294b8dc27783886f8784d763be4c81a4afa5"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Sorrel_Ridges-outpost.png",
+      "bytes": 2676250,
+      "sha256": "6e50b728916324b6fba29f3fb42c86c2e4dfc2701647851c479e7d3128ec1491"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Sorrel_Ridges-seam.png",
+      "bytes": 2833970,
+      "sha256": "b4ebfb8f78c7aedd4b60246d696191c13b84df0beefca55aa33d3199c4050171"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/Sorrel_Ridges-service.png",
+      "bytes": 2857692,
+      "sha256": "7087a047fa7f32fa1a5196d02edee89a14751ebf99aba37773c5244741fc619f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-water-public-02/TallowDrift-refuge.png",
+      "bytes": 1654366,
+      "sha256": "a3459d02fdd546c537bbfd4f0bcfa5431b27676bc5b88a7514fd7479777277a6"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 using System;
 using System.IO;
+using System.Threading;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 
@@ -21,9 +22,31 @@ namespace Lattice.Core
             var path=PathForSlot(slot); Directory.CreateDirectory(directory);
             state.savedAtUtc=DateTime.UtcNow.ToString("o");
             File.WriteAllText(path+".tmp",JsonConvert.SerializeObject(state,Formatting.Indented));
-            if(File.Exists(path)) File.Replace(path+".tmp",path,path+".bak");
+            if(File.Exists(path)) ReplaceWithBriefRetry(path);
             else File.Move(path+".tmp",path);
             UnityEngine.Debug.Log($"SAVE_OK slot={slot} zone={state.zone}");
+        }
+        static void ReplaceWithBriefRetry(string path)
+        {
+            int lastError=0;
+            for(int retry=0;;retry++)
+            {
+                try
+                {
+                    File.Replace(path+".tmp",path,path+".bak");
+                    if(retry>0)UnityEngine.Debug.Log($"SAVE_REPLACE_RECOVERED retries={retry} error=0x{lastError:X8}");
+                    return;
+                }
+                catch(IOException error) when(retry<7&&
+                    (error.HResult==unchecked((int)0x80070020)||error.HResult==unchecked((int)0x80070497)))
+                {
+                    // Windows sharing denial / held backup. Both retain the original
+                    // names. Never delete a save to make replacement succeed; other
+                    // errors (including partially moved files) must propagate.
+                    lastError=error.HResult;
+                    Thread.Sleep(1<<retry); // 127 ms requested sleep total; OS scheduling adds latency.
+                }
+            }
         }
         public GameState Load(string slot)
         {

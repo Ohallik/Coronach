@@ -2,13 +2,13 @@
 
 2026-09-26. This is the execution plan for correcting the playable Unity workshop and then building the campaign. Start with the reported defects, prove a polished first chapter, and expand through playable regional milestones. The next-session instructions are in [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md).
 
-The existing project is `Lattice/`, product Coronach. The latest gameplay implementation is commit `9479126`; `fc1a8d3` added the connected campaign plan. Recheck the actual working tree before starting. This document changes no gameplay and claims no new runtime verification.
+The Unity project is `Lattice/`, product Coronach. Read [PROGRESS.md](PROGRESS.md) for current source/build revisions and dated evidence; recheck the working tree before starting. This is the acceptance plan, not a claim that its gates have passed.
 
 ## What the previous checks missed
 
 Nathan reports station-walking performance problems, bodies running askew in combat form, weak sound effects, inadequate deaths and an implausible first-station layout. Treat these as open defects even though the September 23 suites and scripted route passed. Motion, flight and dialogue had partial checks; they were not a complete experience-quality gate. Every release map must also pass the spatial-believability gate below.
 
-| Finding | Evidence in the current implementation | First diagnostic; do not assume the cause |
+| Finding | September 26 baseline evidence | First diagnostic; do not assume the cause |
 |---|---|---|
 | **Q01 — Station walking stutters** | `scripts/performance.ps1` and `Scripts/UI/PerformanceProbe.cs` measure a 30-second, uncapped Gullet fight with very little player movement. They do not measure station traversal or ordinary 60 fps frame pacing. | Reproduce in Hub_Decks and TallowDrift with moving camera, companion, music, prompts and shops. Separate actual frame stalls from camera/animation judder. |
 | **Q02 — Shaped bodies face right while running** | `GroundMotor` rotates the actor toward travel. `GeneratedAnimator` selects forward clips by speed; it has no directional blend. `PresentationUpgrade` bakes humanoid root orientation, and the imported body adds another transform hierarchy. | Record actor-forward, calibrated pelvis/chest-forward, velocity, clip/time and target. Compare both Natural and Shaped forms in all eight directions, without and with lock-on. The source of the unwanted yaw is not yet established. |
@@ -186,6 +186,8 @@ Then play the ordinary release flow from New Game through town, moon, Gullet and
 
 The next deliverable to Nathan is a playable workshop build with a concise before/after report for Q01–Q07, final test evidence, actual motion/audio artifacts, station layout comparisons and remaining limitations. Commit the gate and include the runnable EXE path.
 
+October 4 candidate status: [the workshop report](WORKSHOP.md) and [nursery chapter candidate](WORKSHOP_CHAPTER.md) provide isolated launchers, exact packaged revisions and ordinary-input evidence. They are playable candidates; C7 acceptance, unavailable continuous/physical review and outstanding map/story polish remain open.
+
 ## C8 — Build and prove the first complete chapter
 
 Use [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md) and [WORLD_ATLAS.md](WORLD_ATLAS.md) as the campaign plan. Turn the Decks, Sorrel Ridges and Hushwell into the first polished chapter, then align the Gullet/Tallow continuation with the nursery and collar-release story. Keep current saves compatible through explicit migrations or separate development fixtures.
@@ -193,6 +195,8 @@ Use [STORY_CAMPAIGN.md](STORY_CAMPAIGN.md) and [WORLD_ATLAS.md](WORLD_ATLAS.md) 
 For each map: functional brief, overhead layout, exterior/section relationship, traversal-time blockout, landmarks/sightlines, encounter and dialogue graph, checkpoint/return loop, asset list/cost, lighting/audio target and performance route. Pass MAP_EYE_TEST at blockout and final art stages. Build gameplay before final generated art. Enlarge meaningful loops and interiors rather than filling a rectangle with repeated floor modules.
 
 Implement the connected opening, communications shutdown, nursery discovery and contrasting Burrower/Bellows encounters. Expand town residents/interiors, enemy tells, meaningful gear/skill choices, companion behavior and menus as required by this chapter. Author boss patterns with placeholder geometry before commissioning expensive final models; final accepted visible art remains generated.
+
+October 4: the [nursery story connection and version-two save compatibility](validation/C8-nursery-integration.md) pass a fresh 38:37 New Game-to-Tallow chain. [Generated floor art](validation/C8-nursery-art.md), [shoreline refinement](validation/C8-nursery-water.md) and [organ revisit state](validation/C8-organ-persistence.md) have separate evidence/status. The opening walkway, richer town loops, Burrower disable finish, Gullet preview/collar release and Tallow's moving-refuge story remain production work.
 
 **C8_FIRST_CHAPTER_OK:** a fresh profile can complete the chapter and return through its shortcuts; every map passes applicable C1–C6 checks; the story can be understood through play; combat holds up over multiple encounters; no required content remains a stand-in. Measure actual playtime and density instead of declaring atlas time estimates achieved.
 
@@ -220,10 +224,10 @@ Run performance captures in each worst-case town, exploration map and dense boss
 
 ## Assets, budget and tools
 
-All visible final art remains generated. Use the session image-generation tool for new 2D art and the Meshy bridge adapted from `C:/Users/natem/Projects/FrostboundUnity/tools/meshy` for needed new 3D work. Read the generated-character skill and current art-intake instructions before generation/rig edits. Owned animation skeletons/clips, particles, glyphs, fonts and licensed sounds are permitted; donor body geometry is not final art. Frostbound is read-only.
+Generated art remains the default. D127 explicitly approves Nathan's purchased Stylized Water 3 and Stylized Grass Shader; [their source and derived assets stay private, with working public fallbacks](OPTIONAL_ART_PACKS.md). Use the session image-generation tool for new 2D art and the project's Meshy bridge for needed new 3D work. Read applicable available skills and current art-intake instructions before generation/rig edits. Owned animation skeletons/clips, particles, glyphs, fonts and licensed sounds are permitted; donor body geometry is not final art. Frostbound is read-only.
 
-At this plan's creation, Meshy spending is **795/1,200 credits**, leaving **405**. Recompute `consumed_credits` before paid work. That remainder is not an approved unlimited campaign budget. Prioritize current-character quality, reuse generated kits and greybox later content. Estimate each art batch before submission; stay within the cap. If full campaign final art cannot fit, record the exact unfunded assets/cost and continue independent work without pretending stand-ins pass final acceptance. Do not spend credits merely because a later atlas row exists.
+The September 26 balance was 405 credits; that is historical. Nathan's later available balance funds the current work. The last recorded live balance is **2,778 credits** after the October 4 nursery intake ([P46 ledger](art/P46-nursery-groove.json)). Recheck live balance and consumed credits before paid work. This is not an unlimited campaign budget. Prioritize current-character quality, reuse generated kits and greybox later content. Estimate and record each art batch before submission. If full campaign final art cannot fit, record the exact unfunded assets/cost and continue independent work without pretending stand-ins pass final acceptance. Do not spend credits merely because a later atlas row exists.
 
-Existing tools: `scripts/headless.ps1`, `smoketest.ps1`, `performance.ps1`, `review-step.ps1`, `look.ps1`, `ui-smoke.ps1`, `portrait-smoke.ps1`, `balance.ps1`. C1's moving performance routes, continuous-input recording, audio audition report and per-move/death quality checks are **work to implement**, not current tool capabilities. Inspect script parameters before calling them. Preserve one Unity owner of the project and use bounded watchdogs for owned batch jobs.
+Existing tools include `scripts/headless.ps1`, `quality-replay.ps1`, `smoketest.ps1`, `performance.ps1`, `review-step.ps1`, `look.ps1`, `ui-smoke.ps1`, `portrait-smoke.ps1` and `balance.ps1`. Moving ordinary-input routes, continuous capture, frame timing, GPU API cross-checks and dialogue-input regressions are implemented; their dated evidence and remaining observation limits live in `docs/validation/`. Inspect script parameters before calling them. Run the full PlayMode suite with `-TimeoutSec 3600`. Run each player-window session alone as one blocking call; preserve one Unity owner of the project and never stop unrelated processes. Verify Nathan's original save hashes after big runs.
 
 The immediate next work is C0, followed by C1 and C2. Do not start by generating the remaining planets.

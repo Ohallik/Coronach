@@ -39,6 +39,7 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(flags.GetBool("legacy.gulletAccess"));yield return Cave();
             Assert.IsFalse(Object.FindFirstObjectByType<DiscoveryPoint>().Available);
             Assert.AreEqual(2,GameServices.Current.State.questSteps["Hushwell"]);
+            Assert.IsFalse(Lattice.Combat.PressureOrgan.AnyPumping,"the completed-cave fixture still has live targets");
         }
     }
 }

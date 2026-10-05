@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Cleared-cave revisit defect found and repaired - October 4
+
+The water capture exposed live pressure-organ targets in a supposedly cleared cave. Organs had no saved state and ignored Bellows completion. Four cases fail on the original runtime; stable west/east save keys and quiet restoration now preserve the chosen safe half and settle completed chambers. The affected 18 checks and all 85 EditMode checks pass. [Repair evidence](validation/C8-organ-persistence.md).
+
+The integrated repair now passes **89/89 EditMode and 229/229 PlayMode**, zero skipped. Two earlier full runs remain **228/229 REJECTED**: the unchanged C6 branch test hit a Windows file-replacement I/O exception at different outcomes. A real held-backup probe reproduces it; bounded replacement retries pass four red-tested checks, including persistent-failure preservation. [Save repair](validation/C6-save-replacement.md). Nathan's original save hashes and count are restored after all completed suites. Rebuilt players and an earned cave recapture are next. The shoreline pass also retains one unexplained 152.8 ms first-visit hitch; unchanged release and development repeats pass with no frame over 25 ms. [Water evidence](validation/C8-nursery-water.md). The frozen chapter package remains runtime 56a013e.
+
 ## Nursery shorelines corrected in both art layers - October 4
 
 Opened views exposed hard pool borders and cracked-looking surface foam. A new check rejects the original mesh ending above its submerged bed; the three water meshes now extend beneath the bank. Licensed water gets a 20 cm depth fade and quiet foam-free ripples; the public fallback also blends its edges. Collision, navigation and the fixed camera remain unchanged. **85/85 EditMode checks pass**, and both final controlled versions have been opened. Standalone traversal/timing and the affected cave checks are next. The frozen chapter package remains available at runtime 56a013e. [Evidence](validation/C8-nursery-water.md).

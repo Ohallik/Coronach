@@ -29,7 +29,14 @@ namespace Lattice.Combat
                 weak.transform.localPosition=new Vector3((i-1)*1.2f,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f;weak.GetComponent<SphereCollider>().isTrigger=true;
                 weak.GetComponent<Hurtbox>().owner=health;weak.GetComponent<Hurtbox>().multiplier=2;
             }
-            health.Died+=(_,__)=>{StopAllCoroutines();Deflate();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);GameServices.Current.Flags.SetBool("bossdown."+health.id,true);BarkService.Play(PartyController.Current.Active.character,"boss",true);Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");};
+            health.Died+=(_,__)=>
+            {
+                StopAllCoroutines();Deflate();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);
+                GameServices.Current.Flags.SetBool("bossdown."+health.id,true);
+                if(health.id=="BellowsBelow")PressureOrgan.SettleAll();
+                BarkService.Play(PartyController.Current.Active.character,"boss",true);
+                Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");
+            };
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
