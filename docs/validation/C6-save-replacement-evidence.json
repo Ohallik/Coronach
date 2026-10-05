@@ -1,0 +1,185 @@
+{
+  "sourceRevision": "a3aaad6",
+  "scope": "Real OS-handle red/green controls; original interfering process unknown; integrated suite retained with organ evidence",
+  "tests": [
+    {
+      "path": "Builds/quality/C8/save-replace-checks/editmode-89-green.xml",
+      "result": "Passed",
+      "total": "89",
+      "passed": "89",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "1.4131385"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/focused-green.xml",
+      "result": "Passed",
+      "total": "4",
+      "passed": "4",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.6353889"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/original-red.xml",
+      "result": "Failed(Child)",
+      "total": "4",
+      "passed": "2",
+      "failed": "2",
+      "skipped": "0",
+      "duration": "0.2384094"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/swallowed-error-red.xml",
+      "result": "Failed(Child)",
+      "total": "2",
+      "passed": "0",
+      "failed": "2",
+      "skipped": "0",
+      "duration": "0.4990549"
+    }
+  ],
+  "runs": [],
+  "files": [
+    {
+      "path": "Builds/quality/C8/save-replace-checks/editmode-89-green.log",
+      "bytes": 281617,
+      "sha256": "c6dd453389eac2e39d193b2c2397de2e51a22a66a58ece85f305bb3f7235b0b6"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/editmode-89-green.xml",
+      "bytes": 82092,
+      "sha256": "d1f57ebda27026e9f680a9c999bbfd64308989b8c808fa2f2b70f7ee42de5d7f"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/first-failure-files/slot3.json",
+      "bytes": 1128,
+      "sha256": "8fc0c1b7c2d9a84d4985f78147dd7fde2306013b55dbabc88a03a2e25b6aa9fa"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/first-failure-files/slot3.json.bak",
+      "bytes": 1132,
+      "sha256": "dc08ebc17f175fb235b94db9001f6148ff565f1d533d7a36c2ceea7874405a1c"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/first-failure-files/slot3.json.tmp",
+      "bytes": 1128,
+      "sha256": "49a67baf15d7da5909f89d4aef10bf90bd7080c9251a23df8dd1e9f1414ad188"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/first-failure-files/snapshot.json",
+      "bytes": 1468,
+      "sha256": "3d5a747306c8d2390f2c0fd2471e6c0d5d17b4e565efcdffcd488c76ae4db146"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/focused-green.log",
+      "bytes": 169534,
+      "sha256": "eb854bd3c09211b08bb205fe4f495f97b5af56dfcff892449ca0a70b9016f627"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/focused-green.xml",
+      "bytes": 7919,
+      "sha256": "9d7fc71c4f4f12a5d5945e82d94b8dcaeb9724f32b500995911f3a7dec3b3e56"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/lock-backup.json",
+      "bytes": 7,
+      "sha256": "97b0560280ed60a5a1eaa1bc45492543c8a986ad5a25b468c427eb83c3e88191"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/lock-backup.json.bak",
+      "bytes": 8,
+      "sha256": "6da0633528deaa0144e7b058315f0b753ec0b945163a72bf96a0d18180f9de0d"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/lock-backup.json.tmp",
+      "bytes": 3,
+      "sha256": "11507a0e2f5e69d5dfa40a62a1bd7b6ee57e6bcd85c67c9b8431b36fff21c437"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/lock-primary.json",
+      "bytes": 7,
+      "sha256": "97b0560280ed60a5a1eaa1bc45492543c8a986ad5a25b468c427eb83c3e88191"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/lock-primary.json.bak",
+      "bytes": 8,
+      "sha256": "6da0633528deaa0144e7b058315f0b753ec0b945163a72bf96a0d18180f9de0d"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/lock-primary.json.tmp",
+      "bytes": 3,
+      "sha256": "11507a0e2f5e69d5dfa40a62a1bd7b6ee57e6bcd85c67c9b8431b36fff21c437"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/native-lock-probe.json",
+      "bytes": 1028,
+      "sha256": "9be820f0d64c5138b392a3ca5c5fd53b3c78049453f2ab4257564c1d965cedf8"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/native-rapid-probe.json",
+      "bytes": 138,
+      "sha256": "5a3ebc8490340622d048456c55b91e989eaa63d404f498a29a9d514176641c45"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/original-red.log",
+      "bytes": 125598,
+      "sha256": "e82b6571d833aaa6d557b99d408798f8068c51418211eefe3e50affa67a10a8f"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/original-red.xml",
+      "bytes": 12174,
+      "sha256": "130cc1e08398c56e026862d37f6410b32d80fb77f070d2771ccec01349fb05e9"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/replace-probe.json",
+      "bytes": 4,
+      "sha256": "ce8457d59078a699acb70416f88155a96a906b7b7aad43708402e3a3bcc8a4b4"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/replace-probe.json.bak",
+      "bytes": 4,
+      "sha256": "d54123de468bd42ea00dafbd777f85fe5fa1ff6404d9838c007953c25c92a1c5"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/SaveReplacementTests.cs",
+      "bytes": 2602,
+      "sha256": "071c775dca017e4ab8369353ef35ee244c5bedd1ae9a2ce6f945ab0f459a6577"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/SaveSystem.fixed.cs",
+      "bytes": 3247,
+      "sha256": "e6ced20e7aba265e39c21cf25eb299d640c2ed22fa4db863cdd85487f8d95a9a"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/second-failure-files/slot3.json",
+      "bytes": 984,
+      "sha256": "5fad2cfc3a24accc052cc32c05736d4f4cdd85137fc36ac17efafe7fd238ee3d"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/second-failure-files/slot3.json.bak",
+      "bytes": 984,
+      "sha256": "07a8b594dae0fbf86a517ec562cd7e94e4b2a532a9be9add02817f57e821445c"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/second-failure-files/slot3.json.tmp",
+      "bytes": 984,
+      "sha256": "ba62190c912a7c6fee4ec0437f1159bcbaa5f10808e794f3f68b04e963f0e42b"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/second-failure-files/snapshot.json",
+      "bytes": 1474,
+      "sha256": "a5c06328811a4336c35b998a81ea6bdcce3f5519594d1dd203f4e91997dfbb90"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/swallowed-error-red.log",
+      "bytes": 99348,
+      "sha256": "58746a1035f8c5e89388c8277adb9b3629f5de2e9ad23c31b20964023d1c0b25"
+    },
+    {
+      "path": "Builds/quality/C8/save-replace-checks/swallowed-error-red.xml",
+      "bytes": 7317,
+      "sha256": "11df38dee93668c662a11c90db78f53a5e98606c9694bc9c388700404b61e856"
+    }
+  ]
+}

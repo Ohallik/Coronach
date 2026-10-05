@@ -13,17 +13,22 @@ logs go to its `Logs` folder. Nathan's LocalLow saves and the earlier workshop p
 are separate. The launcher does not erase either. `-Chapter -ShowCommand` prints
 the exact command without starting a player.
 
-This frozen release is source **56a013e**, with 243 hash-verified files totalling
-616,478,606 bytes. `Builds/Workshop-Chapter/player-manifest.json` records every file.
+This frozen release is source **a3aaad6**, with 243 hash-verified files totalling
+616,521,326 bytes. `Builds/Workshop-Chapter/player-manifest.json` records every file.
 Subsequent builds in `Builds/Windows` do not change this copy. Builds are local and
 git-ignored; a fresh clone builds from the public source with generated fallbacks.
 [Purchased-pack setup](OPTIONAL_ART_PACKS.md).
+
+The previous chapter player is preserved in `Builds/Workshop-Chapter/Player-56a013e`
+with `player-manifest-56a013e.json`. The existing chapter profile is retained.
 
 Play Decks -> Sorrel -> Hushwell -> Halo -> Gullet -> Tallow. Orrin's missing
 deliveries lead to the silent outpost. After the Burrower, collect the survey key
 and descend the drill bore. Sela's nursery discovery completes the chart needed
 at the Halo beacon. The lift provides the surface shortcut. The nursery now has
-an organic glowing floor sweep that matches the discovery.
+an organic glowing floor sweep that matches the discovery, softly blended pool
+banks and quieter water. Broken pressure organs now stay broken across saves;
+defeating Bellows leaves the whole chamber quiet, including older completed saves.
 
 Prepare through the shop, bench and equipment menus. Repair at Sorrel's outpost
 between expeditions; use the drill bench to replenish gels before the cave.
@@ -31,15 +36,21 @@ Approach a downed companion to revive them. The tested route uses earned resourc
 including a refined edge and protective frames, and dodges visible attack tells.
 Repair at Tallow to save the completed slice.
 
-The fresh ordinary-input chain passes in **38:37**, including real menus,
-save/Continue, defeat/Retry, cave discovery, return lift and Cantor. The final save
-has both heroes alive at level seven with six gels remaining. Both full suites
-pass before the decorative floor change (**84 EditMode / 226 PlayMode**); afterwards
-84 EditMode and 15 focused chapter/cave checks pass. The final floor recapture
-passes in 446.8 seconds, and clean nursery timing has p95 16.98 ms with no frame
-over 25 ms. The packaged executable's full opening passes again in 103.0 seconds.
+The earlier fresh ordinary-input chain passes in **38:37**, including real menus,
+save/Continue, defeat/Retry, cave discovery, return lift and Cantor. That chain ends
+with both heroes alive at level seven and six gels. The current runtime passes
+**89/89 EditMode and 229/229 PlayMode**, zero skipped. A held-backup save failure
+found during validation is repaired with bounded retries and preservation checks.
+
+The current earned cave recapture passes in **443.25 seconds**, with both heroes
+alive at level six and five gels. Clean nursery walking has p95 **16.968 ms**,
+p99 **17.081 ms** and one **37.782 ms** frame across 378 seconds. The earlier
+152.8 ms first-visit hitch remains unexplained and retained. Neither captured
+progression run is a clean timing measurement. The packaged executable's full
+opening passes in **102.90 seconds / 6,158 focused frames**.
 [Progression evidence](validation/C8-nursery-integration.md),
-[art and timing evidence](validation/C8-nursery-art.md).
+[art](validation/C8-nursery-art.md), [shorelines](validation/C8-nursery-water.md),
+[revisit and final package evidence](validation/C8-organ-persistence.md).
 
 Still unfinished: repetitive egg-cradle construction, sparse Sorrel stretches,
 the opening walkway/Sela arrival scene, more resident interiors, the Burrower

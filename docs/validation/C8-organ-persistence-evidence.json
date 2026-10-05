@@ -1,0 +1,1596 @@
+{
+  "sourceRevision": "a3aaad6",
+  "scope": "Saved safe halves, completed chamber restoration, rejected and repaired integrated suites, earned cave recapture, clean return walk, frozen release opening",
+  "tests": [
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/dialogue-isolated-green.xml",
+      "result": "Passed",
+      "total": "1",
+      "passed": "1",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "20.7949372"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/editmode-85-green.xml",
+      "result": "Passed",
+      "total": "85",
+      "passed": "85",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.8302548"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/focused-18-green.xml",
+      "result": "Passed",
+      "total": "18",
+      "passed": "18",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "73.9326578"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-first.xml",
+      "result": "Failed(Child)",
+      "total": "229",
+      "passed": "228",
+      "failed": "1",
+      "skipped": "0",
+      "duration": "1254.578092"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-repaired.xml",
+      "result": "Passed",
+      "total": "229",
+      "passed": "229",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "1261.0443534"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-second.xml",
+      "result": "Failed(Child)",
+      "total": "229",
+      "passed": "228",
+      "failed": "1",
+      "skipped": "0",
+      "duration": "1249.3506117"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/original-red.xml",
+      "result": "Failed(Child)",
+      "total": "5",
+      "passed": "1",
+      "failed": "4",
+      "skipped": "0",
+      "duration": "13.5551832"
+    }
+  ],
+  "runs": [
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/analysis.json",
+      "valid": true,
+      "seconds": 443.249466,
+      "samples": 26581,
+      "p95Ms": 17.1359,
+      "p99Ms": 17.3268,
+      "worstMs": 218.1715,
+      "hitches": {
+        "25": 4,
+        "33.3": 2,
+        "50": 1,
+        "100": 1
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/analysis.json",
+      "valid": true,
+      "seconds": 102.897281,
+      "samples": 6158,
+      "p95Ms": 17.1481,
+      "p99Ms": 17.385,
+      "worstMs": 240.6156,
+      "hitches": {
+        "25": 6,
+        "33.3": 3,
+        "50": 2,
+        "100": 1
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/analysis.json",
+      "valid": true,
+      "seconds": 378.09511,
+      "samples": 22684,
+      "p95Ms": 16.968,
+      "p99Ms": 17.0814,
+      "worstMs": 37.7817,
+      "hitches": {
+        "25": 1,
+        "33.3": 1,
+        "50": 0,
+        "100": 0
+      },
+      "failures": []
+    }
+  ],
+  "files": [
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/000.png",
+      "bytes": 2271779,
+      "sha256": "2dd35fa3aa0052d422a37001c0615fbf0fb0fd848c6237207c1bb51aa7bcf9cf"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/001.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/002.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/003.png",
+      "bytes": 1329551,
+      "sha256": "126b9f4d4eec3186fcc20b58d48593bc797904b142a9187b811a95e3c8fa206b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/004.png",
+      "bytes": 1329551,
+      "sha256": "126b9f4d4eec3186fcc20b58d48593bc797904b142a9187b811a95e3c8fa206b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/005.png",
+      "bytes": 2317578,
+      "sha256": "e6ad024da9aa50964751f0e6b0751a4ff1f367c8e8a6dc72621fe5370b68a53a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/006.png",
+      "bytes": 2244939,
+      "sha256": "1c6441421d72239a056b5b09fe08d7bf9c7667e99938510de31db356581cb7bc"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/007.png",
+      "bytes": 2153068,
+      "sha256": "a4864bf89d1ec9b017239fc78863f5521b89b605ce0d46c1a9cdebb701d4e295"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/008.png",
+      "bytes": 2270805,
+      "sha256": "1d1d4fcb462da5925aea9c81405f6202995fab65054b7c3ae56aadba9cc5e54e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/009.png",
+      "bytes": 2270556,
+      "sha256": "f3260c56767dfe08123fc9f2e397fc80353a53efeaa054459ee5cf3766765d1c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/010.png",
+      "bytes": 2270514,
+      "sha256": "2fbf817e15940e6aefbaed8d9adcb91557fb0699ee3da6421076684419a63698"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/011.png",
+      "bytes": 2265758,
+      "sha256": "e0243ea493e793615fd362a6b56c92a9519221b8b28e2537afad49be361538cb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/012.png",
+      "bytes": 2270681,
+      "sha256": "68309cdf304a3ef99423a96a243ee82464215493e49c43318a916dd8c71a1cb4"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/013.png",
+      "bytes": 2196865,
+      "sha256": "319bd15588d5de119b6f1cc1f89f42fb188b94448f001092e5190b33a7971cdd"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/014.png",
+      "bytes": 2193731,
+      "sha256": "62478488235dcfdbd4d8def350736bd935f2f5455d89978f2ce600d879e3722d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/015.png",
+      "bytes": 2194483,
+      "sha256": "a2760edd6f51a00e7774ef0687e31e457310df58ec0cb997cbdd4e6e0adc6178"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/016.png",
+      "bytes": 2199097,
+      "sha256": "8dca43bcf9edb86af2ab42d3d0912af6f770163d19c632649d7ef32bf89641a8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/018.png",
+      "bytes": 2194009,
+      "sha256": "8794863704970b4d525e28582c0fb825fa5205a743c98fb5982201ef609e4b2a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/019.png",
+      "bytes": 2194725,
+      "sha256": "ec6cb606bc6ae2c556cecfb8250d84de045f601ec7eb475911b42279413673ed"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/020.png",
+      "bytes": 2111983,
+      "sha256": "6727384ee8e441238853b578cb49856cc60d73e59c833bca2788d4e7f786872d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/021.png",
+      "bytes": 2311509,
+      "sha256": "3a9f90776a820a60f730fe1902f52f15c2bae2a4da1c698523978f80a5b89294"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/022.png",
+      "bytes": 2309201,
+      "sha256": "6311624929b49ab56912cd8e25b4f7be3b3351685c61b16230901484429d831a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/023.png",
+      "bytes": 2307550,
+      "sha256": "eb83b9579391505ac5c4b7d01991aa5767ec9a5fc2be4ac42d71fd25ead8ced1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/024.png",
+      "bytes": 2301465,
+      "sha256": "16b442251d746b7bce40366f59b410d191a3faf6c6aa2fa139db2fde73081760"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/025.png",
+      "bytes": 2287882,
+      "sha256": "606e185fd8a908de1ec80a663b8bbe7bb9c3e42f060f41babe6523a9d572c248"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/026.png",
+      "bytes": 2269027,
+      "sha256": "8d423dba4987b996299766c512c980aed11b128961c6289d459a68b0db9ae209"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/027.png",
+      "bytes": 2265286,
+      "sha256": "192de86934349a4f46196972f742e4afb3ce8a3483f84bc2520fdac883586658"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/028.png",
+      "bytes": 2266648,
+      "sha256": "95afc9495a27c59ca6a968ae4cb3cba186b8e1f53b3abec16b768b825c7ebf22"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/029.png",
+      "bytes": 2265655,
+      "sha256": "cd78ed29de1e07ac0093a6cba5e9db9d84da57a99b29d8621c3a9511c1127d1a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/031.png",
+      "bytes": 2266749,
+      "sha256": "553540417bb4ef956fe836c212a4e615f8701e16b80aa563baf1030624a2df35"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/032.png",
+      "bytes": 2296927,
+      "sha256": "892aca8d16e0eea59940cef4b1c572f01f5285d6b8fc4393913550bb85f0b1a5"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/033.png",
+      "bytes": 2263214,
+      "sha256": "44f9df2067277b80e9f89741985d3b2ac852c95d5bcc7833af6fc9623ea65686"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/034.png",
+      "bytes": 2127897,
+      "sha256": "a0b76e4ff4b65aa042f35b887014c210429d4974146592db1cf71adef67df160"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/035.png",
+      "bytes": 2126040,
+      "sha256": "90605938a0c34d401487314caa7439336999b621a47c3d57003b07fd618973f0"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/036.png",
+      "bytes": 2123798,
+      "sha256": "d4234c7927d6d448fcc3dfd7f0cc87c5cc56a4abdc37cc636539ac19b1ef6ddd"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/037.png",
+      "bytes": 2306374,
+      "sha256": "964dd27b6fbc73b783aea10e420c91300829705ae785c376bc8c43439d377885"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/038.png",
+      "bytes": 2306556,
+      "sha256": "3afe26e6e1a8ed75d005458898bf8262828046eda2e1b4353c03875969427d59"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/039.png",
+      "bytes": 2307047,
+      "sha256": "81a2456fa51c0cdb2314c1e879e934b3f2b369266020a497aef101f45356d662"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/040.png",
+      "bytes": 2306819,
+      "sha256": "73ef0c8585d95c34e89654e54cda60027a6b7af4a6206c7a4fea57854d572439"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/041.png",
+      "bytes": 2301243,
+      "sha256": "881c9bf4d75bc5b99a3997f9dce584fa2cee3049553d8cd4f4e4baaabe8cd044"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/042.png",
+      "bytes": 2300712,
+      "sha256": "b551609e21c8f189c1401e0bc27b168ac6047185a44aa31f7c4426599e571052"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/043.png",
+      "bytes": 2295339,
+      "sha256": "1db7367c5355266d1e02254b75dd15449d8dd72965211187356f0e38f9a8a219"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/044.png",
+      "bytes": 2297988,
+      "sha256": "9a4f4b315d69f79aa9d775cbc86f83288ce1594ba52ed9d93096291f49491fdf"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/045.png",
+      "bytes": 2315224,
+      "sha256": "ef5e07ffcd369d8367189d79d4e76719431811d3686a7ab145c9187e45a3fa1b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/047.png",
+      "bytes": 2298052,
+      "sha256": "911a435aa834589bd55808e3d6e1cce4bf2049dc0f3ffc73e18af901ff417334"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/048.png",
+      "bytes": 2179971,
+      "sha256": "6f75727f73c970c0876a672a64e6491a7a111f77715efc2698e137ae24b421c1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/049.png",
+      "bytes": 2335236,
+      "sha256": "28fdfd2c30441ac99af932c02fb47e8c2ecdc23a3552dd6ca8ee29e21a69bd57"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/050.png",
+      "bytes": 2242659,
+      "sha256": "aa2ccc31d494a04bb7f79e0d4a48c15cdd730fbd4e0a5aa0eaa2e716ac013743"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/051.png",
+      "bytes": 2310143,
+      "sha256": "6256f70b5d251f967b16b994cdabcaca333d267cf80aebbd61ad8553f6b39124"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/052.png",
+      "bytes": 2323160,
+      "sha256": "f65afeaf069fa2a9b1bc2913934c956e33742e0eaa44161401a0f47d031a88ad"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/053.png",
+      "bytes": 2318204,
+      "sha256": "c9b79db5da3010e45a8b0563f099cb91780839d416715c39d5aa9c332c6edda9"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/054.png",
+      "bytes": 2317458,
+      "sha256": "ac26e4b5beba0fc81768933fe88cd4b1eb2595e9e2a29e7fa2c1a1b0f8aacf26"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/055.png",
+      "bytes": 2310427,
+      "sha256": "af7bf092b7771f7799c19c75d66115835a984689bc00a1f98418c1c6d8dd4c43"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/056.png",
+      "bytes": 2289681,
+      "sha256": "59dc9ff312c63b2ce5cc2c5d1726e51fdbab5b162c847728f5ac453457d7a70b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/057.png",
+      "bytes": 2285757,
+      "sha256": "2e3b7101c84d732d91fd53afd70741b2c6869bf5997704d3dd0c11b98e88c6c6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/058.png",
+      "bytes": 2285532,
+      "sha256": "ce15a3cc402eac71c83a8a105b00c2a1dfcad85580cab76a439600ad42116266"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/059.png",
+      "bytes": 2280117,
+      "sha256": "d0672255baf2b2d7e3abadd6594211783e736a25ca8ebc6f159b35758b673b09"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/061.png",
+      "bytes": 2291809,
+      "sha256": "45472c91754eb98100855ba66f410237a4c01b8c23043843cde69efd9d14130d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/062.png",
+      "bytes": 2154587,
+      "sha256": "8cd317cd6bdf30ed80b795f0bfab1fd263f07800092bcd88ba008dab60ceb566"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/063.png",
+      "bytes": 2285674,
+      "sha256": "7d5db52c79748c252a4d026528a109454ef7a753c9a7e5dde307e09697b03b84"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/064.png",
+      "bytes": 2286039,
+      "sha256": "bcae594ba1d1549bb202b8a1fcbb3b2dcce195195bc925699e5aec9b1cbf6ce7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/065.png",
+      "bytes": 2397616,
+      "sha256": "27c7cb230d4b212cd3936d4ae7279cc80e74813c469349694b0071e430af6299"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/066.png",
+      "bytes": 2397225,
+      "sha256": "380cce38086b6e068ca4817168d00fce6a51db06eecbc5305f6101dcb32c514e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/067.png",
+      "bytes": 2397448,
+      "sha256": "df1726ed93cd17d0930b7c0a26431df78fb04043998b8106adc2f0a1b30913fb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/068.png",
+      "bytes": 2439293,
+      "sha256": "b99273625a2bdb7cd6a01664ac21e095c9ef06dca40bc90c6da491828834e4af"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/069.png",
+      "bytes": 2444868,
+      "sha256": "ef6b6ed891e0288ef7ccacd22d33c1de620d66d270b4917e0861f94edf433579"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/070.png",
+      "bytes": 2433994,
+      "sha256": "b76609a760b783d877a4f35af2f90f059e405c4d6799d98beb52612dab46c15f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/071.png",
+      "bytes": 2310869,
+      "sha256": "10e1428a040a7bff105b4ea684ed3c0a0621f876b0ffd15f21ea6b081468af99"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/072.png",
+      "bytes": 2314571,
+      "sha256": "7195bff46f721f1cde1c25ece022f10614fc7a22fb257f85f15861b17cfd22fa"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/073.png",
+      "bytes": 2315373,
+      "sha256": "8119d47a6f0d4879fd1d265f7b0fc724f3f3ecf6a20db5669d15290fc53caea5"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/074.png",
+      "bytes": 2306045,
+      "sha256": "982c18e342f24611c9c67172b71e202b6c25e740a260b86c3d0d69219df7fd82"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/075.png",
+      "bytes": 2305005,
+      "sha256": "8f0ba8a171a815dcff3099ea224d95275a27b2b89b215312b2cef3002826d9a7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/076.png",
+      "bytes": 2306835,
+      "sha256": "f4434f667ec1decf443673866e67696cc76e171be4e0e106e75e6e5ed4cd26f9"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/077.png",
+      "bytes": 2303945,
+      "sha256": "298b36232bf992b7c7bdf875e5d815032aa8efe900554da0e82cee488dc3cd67"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/078.png",
+      "bytes": 2305531,
+      "sha256": "953a92264120832e83f757e0ed47e4e5600799c98aea9357d2fdc2408b940af3"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/079.png",
+      "bytes": 2415530,
+      "sha256": "12fca9ad7b32200e498c75c0927d7e50f7fda7e70f19ee54a760b95159e65a91"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/080.png",
+      "bytes": 2411512,
+      "sha256": "3484c704469205f268aebc391ef22aa60a09602b6aeaa8c319a682d9f63036e0"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/081.png",
+      "bytes": 2411661,
+      "sha256": "03424d1c2b9b57d15591a521a203236e243882bd89edd9450a988e4b1fe3edf6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/082.png",
+      "bytes": 2406799,
+      "sha256": "3cf066a471310acd653cc23e19fef116386ed6d424ea1d412d6d16f962b525bb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/083.png",
+      "bytes": 2397741,
+      "sha256": "57ad1d402f4bc6aa54a029043dda1ad467ef81c6e4e2475dcbd7396c81918a7f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/084.png",
+      "bytes": 2499948,
+      "sha256": "de2a2e0c0661baf0bcd38891a4c10cb869f22189303a6e2384cca970652d254d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/085.png",
+      "bytes": 2499661,
+      "sha256": "1123e5952f270429042dd8bd258f5e4af47fdb93753870952cc1269b52180241"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/086.png",
+      "bytes": 2541029,
+      "sha256": "dc661eccf53bed83dce35e841d873672fadeca7e1361dc595832560b36113252"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/087.png",
+      "bytes": 2498026,
+      "sha256": "c40d91ef969c873c670cc46d71deb86514c93dd77eec6e4aa595d372cc7a1fd6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/088.png",
+      "bytes": 2490430,
+      "sha256": "9ab3d3c091ac87529cce810509d28be314a3b90a1e155f9b2f0f03397d88ae6e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/089.png",
+      "bytes": 2374169,
+      "sha256": "1962626eb3be43127101ebcb61135e164a70f004d44852a42aff1d3c21997ae1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/090.png",
+      "bytes": 2377285,
+      "sha256": "bccea2125f9dc77dc8ee7eeb191c56399621d932f8aaa6744e0215e75a849169"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/091.png",
+      "bytes": 2418372,
+      "sha256": "845b9559e76f8343d9efe5d9f74466446a2880b3c70b425f45f29d8d94a97d91"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/092.png",
+      "bytes": 2377494,
+      "sha256": "b34db1ae045c0b3fad3f3f5f58420199f70f2760a90a3a9730595e8bbed0ca78"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/093.png",
+      "bytes": 2389304,
+      "sha256": "0886a54f32e0d1988f14bc48fba8b04728d875152caa7a0e80b6f1cd6a38d422"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/094.png",
+      "bytes": 2445656,
+      "sha256": "3584054c6f65beab42258709bf01570061de2f2d540e22daf316873c13dfeea2"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/095.png",
+      "bytes": 2443592,
+      "sha256": "15325f08f404edd0bf29818a9f844353b1f24deb977f91a5921e2a6820982694"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/096.png",
+      "bytes": 2467057,
+      "sha256": "3f91e2edec550ac9b19ebea201d6a2cf48598eb6e7145ccc5906bcbf57e85e9b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/097.png",
+      "bytes": 2464454,
+      "sha256": "2b958551285c45ef8528552b8ed5f9959706b4551755c3abc2345f677b0d047c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/099.png",
+      "bytes": 2459643,
+      "sha256": "d5bb09f7d2a9cf5776915c77a39a3364fde39a82acf651d8e8f1664e627d80bc"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/100.png",
+      "bytes": 2457497,
+      "sha256": "f2241b0efefc6774dcb63314f2cdb50f4a4058da70fdd8f71550320c4cf623d1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/101.png",
+      "bytes": 2479442,
+      "sha256": "2d2dc360cdc82f00acd1584b7b07d71be6ed7defbdd4be40b4f53826a00562f8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/102.png",
+      "bytes": 2456125,
+      "sha256": "25adbad47431a9cc28586cfa4d9e096a51a50c3044ba2eddb20c12d56e96a8a4"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/103.png",
+      "bytes": 2455463,
+      "sha256": "d4e079305217c9ff3c715b2936679e6c8f9f740ad277d5454c4391e82105049a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/105.png",
+      "bytes": 2396164,
+      "sha256": "50995c509865226337498c1fdc532c963e95a04f922894cc415eebf0a098f00a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/106.png",
+      "bytes": 2164584,
+      "sha256": "0fc13e1003d73a6b5f4307772bf341ba683d4e4a1524970c2114ca2ef5c31930"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/107.png",
+      "bytes": 2121407,
+      "sha256": "0fe152fef0c73ae598b3f0772686253c1d8d1e65dd4dbea2c253cce5280b8308"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/108.png",
+      "bytes": 2072949,
+      "sha256": "88e5df3444c7e0d2b989d888c678d44365fd33eb8110718ba4ed2dca12ee328e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/109.png",
+      "bytes": 2143067,
+      "sha256": "fd1cfd49ae33f640c407fc6d216d3613f96e864295eea60667e56a76e05e827c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/110.png",
+      "bytes": 2468912,
+      "sha256": "9ffe732137afc5fa9652650cad1345f6db35fde6bc018b975d061e8dd6c30872"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/111.png",
+      "bytes": 2369668,
+      "sha256": "f3cd98ffbe3a90bf321cca58bd3d29b406c031f835a31d0977498cd8183a496b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/112.png",
+      "bytes": 2371173,
+      "sha256": "921a6c4a5aa102ebaa9b7fc25d2fe2af79cbd3e83a8e91da7e9faafbce5df422"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/113.png",
+      "bytes": 2375219,
+      "sha256": "aa1b5c2ec8d1d07d3865214b9768edd70e5691abcc779805647a6769dda6143d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/114.png",
+      "bytes": 2383340,
+      "sha256": "972283ded43a4ac884b90ca1fa3bdd3fdf5e82643ec52961e7ad9b48b847d941"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/115.png",
+      "bytes": 2383020,
+      "sha256": "d5501edd544d2a390f498d0902620796851af04684bab36c079c0a5a5105c4f5"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/116.png",
+      "bytes": 2386574,
+      "sha256": "b41f481e75387bd947cd0654073d1a8993e04e7183e140c987e42058adbae390"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/117.png",
+      "bytes": 2389094,
+      "sha256": "e6d2b994e07e258cf87ac50347dbdca1aa6156bd3c5803e9095ede57776f4edf"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/118.png",
+      "bytes": 2395724,
+      "sha256": "c6899f53c8d243a62f41f0872ffa040d8419283d651dd9df9b0c36c527401771"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/119.png",
+      "bytes": 2368480,
+      "sha256": "feec2adb088c0666b8ceb8c9aded32e1511e3db7241a8c4751e479f27132c542"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/120.png",
+      "bytes": 2371365,
+      "sha256": "0ef53ef30f4a30792fba8f083ac5c7b4f3e7b1ec992064a9132579973aa2c9d8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/121.png",
+      "bytes": 2373520,
+      "sha256": "4bc76e265e18e988640aaf52dee44da2f24a267349a2cb8d263ee9dc6798f73b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/122.png",
+      "bytes": 2381662,
+      "sha256": "d4871948f698f2fa3dd95effeefe824f1cac6e1db676056e99e4aa85ed1b251f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/123.png",
+      "bytes": 2383960,
+      "sha256": "e5271c800bbf82c090b405c8df8006a0c48a9489f9e5e058651fcaa374b07cbe"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/124.png",
+      "bytes": 2386337,
+      "sha256": "2f35dbbbefa65322cb80bccf8df8fe11c094e0ef8e6e95a49abcdc1d99f38a50"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/125.png",
+      "bytes": 2390093,
+      "sha256": "ac62ac36964bdb07bac2d9c2e625d198c5a06b7a721225e2f917d65c31207c0c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/126.png",
+      "bytes": 2399383,
+      "sha256": "b4f770269379a9d64406292ecb0a5182d4db9f57216823ed80369cb5cdef6ab7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/127.png",
+      "bytes": 2360726,
+      "sha256": "df68373671ede6763ff75fb4cb0c795e06304e11b8aaf03cdab238c73f830fe7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/128.png",
+      "bytes": 2370603,
+      "sha256": "d6f2b295894fdfa39178274c87a4dbf25d6f3882f5d2d89f3c2c9e9c0f49d8c4"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/129.png",
+      "bytes": 2370181,
+      "sha256": "81fe45b1444681833531ea287479abd109d5c7936ef90ca8cacc1bbce0e81287"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/130.png",
+      "bytes": 2378848,
+      "sha256": "8e86de91a36a213d427908043830d4107fa0d2613d067a24d09851a8bc5ba249"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/131.png",
+      "bytes": 2376872,
+      "sha256": "ebb83e29769809bc420457a445ad5a632f78e8990f835be201489d3d9aabb7ac"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/132.png",
+      "bytes": 2387190,
+      "sha256": "0394fd907a11d72a85fe937baf96c7f5e0a9162f25b6e5da44c9a59b10a12030"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/133.png",
+      "bytes": 2399946,
+      "sha256": "bfc2fb24cccba5f7d54db656911cd18245181743308c61b544ac36606ae56839"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/134.png",
+      "bytes": 2401154,
+      "sha256": "889e53ed297ff05bd8aa4390395f5491d48a1af1d8b08989fae13b38ed55911e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/135.png",
+      "bytes": 2361660,
+      "sha256": "d781ca333ca5ae7dcbebc2992361fff6ae327d8b04497c94e57c3c7d8c423cf4"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/136.png",
+      "bytes": 2372531,
+      "sha256": "bbcdf0e6b8a21c2e25b8e8a074e96a19da75dc7a5cb74b0e3047b77c0550a19f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/137.png",
+      "bytes": 2372051,
+      "sha256": "51844610fbd3cba2a3f6e8c2bd1a69068fe2588f771ceb41d48ab61e77d59bc7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/138.png",
+      "bytes": 2380264,
+      "sha256": "26fd1a7383a11c3e77b94f48dbec676827519f27ff33aaf28e22bf0733f78548"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/139.png",
+      "bytes": 2469280,
+      "sha256": "3cff2d01a675ff60dac2a67beed32728c62e15e08e347b2698c547057acaab08"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/140.png",
+      "bytes": 2469284,
+      "sha256": "cc222e60448080ae8bcc5402ed6dcd406cbc124a1e4d418abc6d4417df24515f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/141.png",
+      "bytes": 2469922,
+      "sha256": "c5e578b68a06a12c0b8bf1a05c87a638437d93463bee2a3a63e9b2c7770eef1f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/142.png",
+      "bytes": 2329961,
+      "sha256": "7c50eca2dcb6df15273627d13805bb49c5d53b0efb412c3417fd462c4136895d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/143.png",
+      "bytes": 1977680,
+      "sha256": "cca771f265429a082cfb5a6a0eb88ce5ea8a8891a1e253d63c6c26965c71d53d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/144.png",
+      "bytes": 2655478,
+      "sha256": "9745b303d5a236233c4c4b5eb7a79cb033b6d7f84b23032a3d6c49b891ff7731"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/analysis.json",
+      "bytes": 6944,
+      "sha256": "2fb1c70edb62d085655044b6395f8c1c9ae1e14d0df24378d99dd47c18d3aff9"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/available-counters.txt",
+      "bytes": 14766,
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/build.json",
+      "bytes": 12962,
+      "sha256": "d7259629b232f704439ca5ab909b1c8e9d2badfe5ddc3a1d0453202911b7225d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/capture-frames.csv",
+      "bytes": 224894,
+      "sha256": "508d47e60438e5cf481141d7493ccffa6df4a158445c1bdcc257cda6c47dc5f7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/environment.json",
+      "bytes": 123,
+      "sha256": "b2488c1f7550c9326a3dee85a717c941076883d8d46897d66b3a3568f4fffbc8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/final-state.json",
+      "bytes": 3368,
+      "sha256": "e7983b3e0847fbf75705e83d87f41e4898dd15952c97e51539b99a7cefbc724b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/frame-times.svg",
+      "bytes": 343538,
+      "sha256": "d7dfb632a5d8c0e55bcaa4aeab793122d38b2bf0c3d38fd5dd88277c65d6d97b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/frames.csv",
+      "bytes": 7764923,
+      "sha256": "7d8bf2eed522ff78171e0f25c5453fdafb3c4e35578f2a3602163313a30cc099"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/mix.wav",
+      "bytes": 170221612,
+      "sha256": "37e2e684fd025bd5cdc902539cd655e5a8c478be57e1e35814922da76fe6e8a2"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/player.log",
+      "bytes": 12425,
+      "sha256": "855a984d67367ec8895f48edf91aa8fe6f8a700ddf8ede1778002a71639213ff"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/process.txt",
+      "bytes": 7,
+      "sha256": "a958b5aa732c89cc40498139c9d59f814e34ca4caf6daf343aaed89acfeeb99b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/replay.mp4",
+      "bytes": 415248435,
+      "sha256": "26d4bd1202382c894e858ff5510596bc4fcf5db432dfbb20c4db9ff861bfe5b6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/resume.json",
+      "bytes": 616,
+      "sha256": "40ac72ac9fb833cdc02ce4a56bdb3d9a17a7140846e4144047586c4de202b68f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/route.json",
+      "bytes": 133749,
+      "sha256": "82fc3adb6036639d213696c489702df4faf48246a000aa35e7dc98fc06e7db42"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/run.json",
+      "bytes": 2890,
+      "sha256": "da557d57a9ad8ab6ee6953934904c039aaeff1a9a02898e4f29e8d29da2d42cc"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/saves/autosave.json",
+      "bytes": 3369,
+      "sha256": "0ddf22121cb87694d048b315577861d54f50d5bdc347c7a99a829a9e8d566cca"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/saves/autosave.json.bak",
+      "bytes": 3360,
+      "sha256": "25a167c0f12d172f9c413a9c008bf7fd56199ba148f2a4a5ced4baefc70ffdd3"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/saves/slot1.json",
+      "bytes": 2714,
+      "sha256": "ae007cb145c6367bfbadc1048191ecb6b1c0b6cb05d04fac51c260727ed1a946"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-organ-final/video.mp4",
+      "bytes": 404098682,
+      "sha256": "51abfcc69030d836c136e25455539ce9f9c0cd0cedfe25fae54f37a87e806b50"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/000.png",
+      "bytes": 2263437,
+      "sha256": "c77a432ea25391434103804a0ef547cfa7e7f5cec2c4ea57874cad168688c4a4"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/001.png",
+      "bytes": 1035023,
+      "sha256": "1287de71c2bfda2c3dec112ecf9d750f4ca3d1c8f9f7dfd1b2f670cd0ae91d33"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/002.png",
+      "bytes": 1186117,
+      "sha256": "762a6ba566bfe52756f3a738d475451ac1d69c052fc5ed26b90c582e44ca99b2"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/003.png",
+      "bytes": 1944063,
+      "sha256": "ef417f423e88e9e8fb4efc0a7cd1850b88b4eeff4f6eccc9efc056f144b11bc5"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/004.png",
+      "bytes": 1810165,
+      "sha256": "bac3b94a6ad2853fee652e177beef8d7a8022603f072659660b6089dd0fa9c41"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/005.png",
+      "bytes": 1717085,
+      "sha256": "b0021620d672b67d447bb4b23403375f3a9debb7ee3e88c6034402d44fe0bfbb"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/006.png",
+      "bytes": 1732596,
+      "sha256": "73a2d3ddc26e1ec7cfcb3d692339e4d14cd566d011fba574b1508d32be2c323b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/007.png",
+      "bytes": 1834854,
+      "sha256": "2c5d28d929026f10b2eb9ce1c1b33f8480bab4acd68f07341f7c8565d7871e82"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/008.png",
+      "bytes": 1836573,
+      "sha256": "641bab09f9cc952fc6a4785b35b35f8af4b5686a95e3ec49b963380820a26ce0"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/009.png",
+      "bytes": 1705662,
+      "sha256": "b4bbc6f34fa1340f0ebac3135fe35fbbef697ddc8840066f1f71e995a7286487"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/010.png",
+      "bytes": 1736874,
+      "sha256": "ffc7e4b8de702e017c9614d92858c5701b1885ac3eeb46aebc8bee72ff415663"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/011.png",
+      "bytes": 1722662,
+      "sha256": "214c910d68c30fa432eebf3497b75970298eeeef1c269f628a81a915536bc550"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/012.png",
+      "bytes": 1823531,
+      "sha256": "9ad5141b4fd174d1c17202865129fd33a285d25732fca32e446d1a82396a4c87"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/013.png",
+      "bytes": 1812858,
+      "sha256": "6b38d8941e473e451da9e9ecd5ed0d1726740aed9612b8228e423f8528d16e9d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/014.png",
+      "bytes": 1796969,
+      "sha256": "39c248f7cfff403b6f13673cf5aa196d6baf29efe2a3361ef7d6e59ccc18b20f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/015.png",
+      "bytes": 1891037,
+      "sha256": "ca5764a7bf5569f8bef518a6c253651a03500495efdad08596974dfe113162b7"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/016.png",
+      "bytes": 1892739,
+      "sha256": "ddebc9be6c1e88058d47f87e32cfec20af6c4b190c85726f640527f564517a41"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/017.png",
+      "bytes": 1960861,
+      "sha256": "2441451a01b06ca1b7574d012a93efd8e42f3c1a0143366be3d3cb27d9bc32e6"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/018.png",
+      "bytes": 1959010,
+      "sha256": "777012767d860dfaf5316c3b70e4be274720490aeec6a1c88cf7bd8ddb9381b3"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/019.png",
+      "bytes": 1414761,
+      "sha256": "d170ee3e21bf89fa1bddd352cf0fd44762e2e088562c2882d5b7de500a558789"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/020.png",
+      "bytes": 1414623,
+      "sha256": "5f9aa8a9545439bc2760b11f491a6de06aa6bfda104198f4a05bee35dfdee5a0"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/021.png",
+      "bytes": 1417145,
+      "sha256": "b9da0369f1f681e366c363b5a6ff261c8005f26840d514d3a4feb8f90793f743"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/022.png",
+      "bytes": 1417074,
+      "sha256": "af416df13c2398988215b2b96abcce131f338d5f262a4fd8263f55604ce54836"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/023.png",
+      "bytes": 1423228,
+      "sha256": "58f946acc5875f6c1862d717f06a83d83da4bae0a1cc799b62fe007af67bf754"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/024.png",
+      "bytes": 1423427,
+      "sha256": "0a385ec84b80e3b405f744e5d1135b3855c0a9f61245d063d7ce962148b5bf37"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/025.png",
+      "bytes": 1796627,
+      "sha256": "2efb6333fc8624014ec78f9f36bb32e03b7b72fd68ad11d5058075f557ac90fa"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/026.png",
+      "bytes": 1797165,
+      "sha256": "76d6bee73642563d5e18d69e89a2650553293753509e42cdf856a30a48130eee"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/027.png",
+      "bytes": 1839360,
+      "sha256": "ebce73e00ae6d4f639d617abf401eb901142472da50ac0ab7a2e0ef5ae549b8b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/028.png",
+      "bytes": 1871948,
+      "sha256": "cde7ef2c52dd3ad489087952fab1df331b58363325741934ef68bb7db35a74ab"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/029.png",
+      "bytes": 1834119,
+      "sha256": "c3d62d64df6f21a88765bd845c0083e3a467ae170f54ac685cab7f464f872e77"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/030.png",
+      "bytes": 1806472,
+      "sha256": "1883790149a9c9d3c1d88c35cd36d2de83650aac13282710d3586efbf5af4e6f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/031.png",
+      "bytes": 1848936,
+      "sha256": "bcfdc8b676b01fe53ee3822cfc3628d7ccc48eab16a6654ca95b8532e075eb83"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/032.png",
+      "bytes": 1849817,
+      "sha256": "927f1820541fe3fbd1e5edd8fe6b7ce538009cac06a7b7b937d23e489d09eae5"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/033.png",
+      "bytes": 1920349,
+      "sha256": "1b199c39205efa197df599564530bf401c1ee8246b2a8ef6d0c6201f321e606c"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/034.png",
+      "bytes": 1919383,
+      "sha256": "2a4410bfbf17643eced13398da47ce2774ff01db489e9dbfd2d555f8691c338a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/035.png",
+      "bytes": 1445520,
+      "sha256": "96400416b217f79a35bd1b594574aa1ec9af30897a071c08545580881ffae0c7"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/036.png",
+      "bytes": 1445684,
+      "sha256": "4d626051383c1caae1b87fa62db6d118145b704fb33c6da943affb27d339a086"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/037.png",
+      "bytes": 1444086,
+      "sha256": "72b312e570fb3ea33adf0d7b6760975a140b2fe6e80e03eeba1a40a291398f2d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/038.png",
+      "bytes": 1444083,
+      "sha256": "4c631a354ad47de4a8f3a1552ef350f4fca016852fec5c75284a2a8a4b373305"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/039.png",
+      "bytes": 1445786,
+      "sha256": "b25753fde0c9062f9d02e06e3bc365e6e096e12d8d6a6c8fee5cf6fffe44fa90"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/040.png",
+      "bytes": 1445802,
+      "sha256": "353b7049f21b6b7c91543ae6c803204f71287e6ee830c6146d2ce4be841fb816"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/041.png",
+      "bytes": 1445784,
+      "sha256": "bb7fcb930ffca98c51b928d534de22ae9fb240863e37d9d5ae3cc316a3f2cba3"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/042.png",
+      "bytes": 1445710,
+      "sha256": "a7b432c96a121bf2c011bff935edeaacc1722b0a068f2fcf0afaf5cb65767f3d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/043.png",
+      "bytes": 1445441,
+      "sha256": "3b8fa412d67d5018faf729e3b9221cc0e415d019292fdcf0d399faa3abfa6a73"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/044.png",
+      "bytes": 1445469,
+      "sha256": "367b5dcfc31d07b99139c96b69ba72ba634c271ca3a35ede9916979ca103e43c"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/045.png",
+      "bytes": 1450256,
+      "sha256": "0228af5fd940b808dc1ed77d1192ad764fbe7d17d07328b2855495a72ead205a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/046.png",
+      "bytes": 1450332,
+      "sha256": "2bf82597dc04a7e7b5a2199c2675e2048eace647aa964e130b904d0195da11a2"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/047.png",
+      "bytes": 1450404,
+      "sha256": "1d217874ed04119940c82fa3d68dc79bb9e70e66669084986d1a39f36b80911e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/048.png",
+      "bytes": 1450319,
+      "sha256": "b3cd4441512137d12cf0878215754dc483f4894ae52aff413c4b75dd1db9364b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/049.png",
+      "bytes": 1450532,
+      "sha256": "a4f7575fab2241fb7a32cf7f63ecd81bb6193cd86ea5fd1ce6394faad07f884f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/050.png",
+      "bytes": 1450593,
+      "sha256": "8a5dc0044e1c92304e5a574919f10c3ef45068e05580977dcdeec3eb2096b413"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/051.png",
+      "bytes": 1404614,
+      "sha256": "775a0e72a60ac3fceceb2e8d56968320ff9d0a80b2ad0f2e3c7c18417fdd4eb5"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/052.png",
+      "bytes": 1404522,
+      "sha256": "7b69627e12ebdaa89f25784601d60d3096171318271256818f4d4490c026efc3"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/053.png",
+      "bytes": 1403061,
+      "sha256": "1ad094ab4605d38e9a12f4182d5d320987b7391215c9d812d747ecdb9c8e1eba"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/054.png",
+      "bytes": 1403054,
+      "sha256": "f046e472aa3cf37eea5e9f6d55ea373fd5377816500ba48422005131ee82581a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/055.png",
+      "bytes": 1404806,
+      "sha256": "3d43e813641054387eafe3416d94057a4a42391468ffa1decb16a6ca08d8cddc"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/056.png",
+      "bytes": 1404830,
+      "sha256": "d3e3146b6232fbf8dd4e109edf78a0e6682d241c8495f5b9cc86b84a374bea22"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/057.png",
+      "bytes": 1403607,
+      "sha256": "eeae5d093a0fa1ca9d5f9abc6bb92ab879b1fd709f044ca02e737fa9356f0622"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/058.png",
+      "bytes": 1403597,
+      "sha256": "fa1fa7745ce2fbe04556fab679c6eb72d140241a9151e8a3d3e70a9177cfb871"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/059.png",
+      "bytes": 1403680,
+      "sha256": "712cc8569ddb7b38b5680bd30b0454918c6e365fa283fd855941d91f6268e48f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/060.png",
+      "bytes": 1403725,
+      "sha256": "152e301d4ab189124ffb89456902a39d7c161f6ecc7a4f007b4e0fe941eb3f73"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/061.png",
+      "bytes": 1403953,
+      "sha256": "9ccc75b0b80e14d8395d1437d59db8f1de8dbc6de577eeca6c56dc6f0e12a3d9"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/062.png",
+      "bytes": 1404057,
+      "sha256": "b946aa481a3ec23f494fbe2c0535f219225d6800feb77eebc9d06069dc897ef4"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/063.png",
+      "bytes": 1393184,
+      "sha256": "aa5360e79ec56d80395387a042d9162766b4e440b83ec1c46f2be66c782d97c4"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/064.png",
+      "bytes": 1393013,
+      "sha256": "3829ec0f04d0c0f1135155222dec5a11a3ea58c000af6ebb73563f921a87bc28"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/065.png",
+      "bytes": 1391181,
+      "sha256": "d6eaf624309308452beaa24af46adb03e9c86d5bb0fcdf0aa2c7edd440500f8a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/066.png",
+      "bytes": 1391124,
+      "sha256": "a1ac88cdc2933f29ce5702ccd293fb545f478264cd2c848c57e60868d4c5c901"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/067.png",
+      "bytes": 1393231,
+      "sha256": "bd244ffbfdf9021f97e779b892eb21f2274e40c286eb41176a1ad98e9cfcf0dc"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/068.png",
+      "bytes": 1393293,
+      "sha256": "7ce719b955d8b1765463595e5d6ede6ccf712ac04213b3dab66d7f95906ee9f9"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/069.png",
+      "bytes": 1393366,
+      "sha256": "74c21e9f0559cf3b4762687ad9482b0869e84a5e42f5a8a9cb8a02624e1af675"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/070.png",
+      "bytes": 1393333,
+      "sha256": "a6e09bbf954038249b8ee7a46d0a02ddcc338768eef14fee4671d80e18aa5849"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/071.png",
+      "bytes": 1393460,
+      "sha256": "9bffd3c8d5606670c5b7c583fe2a5ce7757237598253eec9f1d2bdc63041beff"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/072.png",
+      "bytes": 1393331,
+      "sha256": "493a529fe3aa025419598fb80d0bea77ad18b2c4331a88cf4371e7f574b8ae13"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/073.png",
+      "bytes": 1805724,
+      "sha256": "cc8c2a6955ecc3bd58803422a842f668a421abeed31f1279da7ff37c46c6c2c1"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/074.png",
+      "bytes": 1805230,
+      "sha256": "687e3d5e2475ef89bbdc19978c723482ba419d8cf23b0491a1ec7af560e63726"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/075.png",
+      "bytes": 1805987,
+      "sha256": "fa1301c27d6f93153f655833dbbb3bf525302a4e4b9dfdf80cd0ba2b4497eaf6"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/analysis.json",
+      "bytes": 7514,
+      "sha256": "2de3beffee075b145b13cbd0001bd120ef2208e6e185a83a4fc54fec1367d14e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/available-counters.txt",
+      "bytes": 14766,
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/capture-frames.csv",
+      "bytes": 47986,
+      "sha256": "2eccc8b570e9359bfb6203cc306adf723ac10bebf19356e110baf6cf7ef6c42b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/final-state.json",
+      "bytes": 1772,
+      "sha256": "2fc97f7fdd5537130edad4a9a80f9dfa635c78990129f5d5a492726e6727af85"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/frame-times.svg",
+      "bytes": 85098,
+      "sha256": "7b530a1fd397e3f66c782e7795714a09dd158ad051f2d2060a6a2e562e243338"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/frames.csv",
+      "bytes": 1841177,
+      "sha256": "6093628e4209cb7a948cfa372e6356d9c17e77982c953274b2afce984dbaf98e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/mix.wav",
+      "bytes": 39518252,
+      "sha256": "3f799bf149107bcc56da346b7b6a4edce512df5420a9709c7c671147f9545b0f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/player-manifest.json",
+      "bytes": 45815,
+      "sha256": "1e182606f614deb389925a920ffe0a074ab42528d6d0d84ba0471a5467add63e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/player.log",
+      "bytes": 7071,
+      "sha256": "c887217e1c11127222755f60c51e5ac203420259befe0aa3b462d25788d8f9f3"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/route.json",
+      "bytes": 70119,
+      "sha256": "96267057c110ca22bab8eff0bacb6cd6dd49e1cf80e96f884b8db249b867f062"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/run.json",
+      "bytes": 6473,
+      "sha256": "1b2a9afc2c91c30accbdaed49a8c0e08f8ca899cde6922a3352e3be2a6572164"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/saves/autosave.json",
+      "bytes": 606,
+      "sha256": "cc1dddf18a3d87a2cb0f2dbc6a5121fd92b983a9882bf07b437587ac0bb45660"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/saves/autosave.json.bak",
+      "bytes": 612,
+      "sha256": "fe263923d6817c6479651cdb1251869bae18361c2be6d7a241176d2ece02ef89"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/saves/slot1.json",
+      "bytes": 1770,
+      "sha256": "5f53c34aa91548a2b1003ed25958e137bea8bf40b6856623efc2171b181c5621"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-organ-opening/video.mp4",
+      "bytes": 187147552,
+      "sha256": "d5d04a2a65a6e8cc70602bc162e3ec5ba03b5e2500446c0ab46d90e65ff8ae6b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/analysis.json",
+      "bytes": 13619,
+      "sha256": "0a3a1f85e04834dbeebe17e42e513524653a362c4a3e39d573797b4c158fa7d7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/available-counters.txt",
+      "bytes": 14940,
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/build.json",
+      "bytes": 12963,
+      "sha256": "4aa682e20c02721bc451ef71b3200c262b0233539a6b9a49d4d8fd1c8fd5b2de"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/environment.json",
+      "bytes": 122,
+      "sha256": "6cc2f3eb05dbea1ddb4e13feacb2d815971ef946cb45581019b20ca2ef5a961c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/final-state.json",
+      "bytes": 1780,
+      "sha256": "b242ecfc249191df1323d2c68ffbf42960b9f3ea0288873ab8480ee44208af50"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/frame-times.svg",
+      "bytes": 286338,
+      "sha256": "5cecd4f77af0b5f51ed9496abf70dce6af8d3d1f861ef5d18bb4cb5d245779aa"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/frames.csv",
+      "bytes": 6574146,
+      "sha256": "e84454d62971f8aaabc6eef05ebaaeb47b2dd20f43929a8a3bc07b5935b071ef"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/player.log",
+      "bytes": 6112,
+      "sha256": "302c3a5ca22c201f922da2571ec270602a3b5d9c57e3466468fe9c0392d7170c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/process.txt",
+      "bytes": 7,
+      "sha256": "15be601faf86e0f98cd5245b9402e650ab9ea7fc4d0ed81f0d53bf6f6ea22593"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/route.json",
+      "bytes": 51414,
+      "sha256": "1a8d7d632c7756da0c79afde387a96378543c2324f8c65b12f29fe78cbee487c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/run.json",
+      "bytes": 958,
+      "sha256": "a46ad0670cb804336bdf5158da1e8efb4e0d33f43d1a5b3e20463e92cf5e0692"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-organ-performance-release/saves/autosave.json",
+      "bytes": 1784,
+      "sha256": "a673238fa9ff242bdec2af26005b6570acb6c6b027eed78cf4f8f2880f404297"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/archive-art-manifest.py",
+      "bytes": 650,
+      "sha256": "304b036ed029d63b5baf3470c14fc84251f704f838ad0eed457b4675aab053da"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/build-development.log",
+      "bytes": 667260,
+      "sha256": "c0bce7c8d4174cf786722a833e7b5f3b4da12d07dfc0a60c2945742ecd8f7ffe"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/build-release.log",
+      "bytes": 675133,
+      "sha256": "4cdc8e3b3ea14cd22b6fd9f6dab5cdcf3f555ba4cf62292307694a0f1693ec2f"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/check-promotion-guard.py",
+      "bytes": 1238,
+      "sha256": "a439a7acb54b7341792b6f66925b1ff732ba42c658b9363d051b98a8c735e5b2"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/dialogue-isolated-green.log",
+      "bytes": 667997,
+      "sha256": "2ef6496519e3938e4d3e42ce6ce7a96944d72fc8b147c9a6492e1177d02e54da"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/dialogue-isolated-green.xml",
+      "bytes": 9715,
+      "sha256": "e9abea8d79add716297d21ab61020becf0a30859beb800d5a1c42c3c2bfa9aa2"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/editmode-85-green.log",
+      "bytes": 305034,
+      "sha256": "7d00fb939f5e3eec74067ba78538da7e4f93e3a0696d5b9585663f94b22ede68"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/editmode-85-green.xml",
+      "bytes": 76720,
+      "sha256": "c0224aa4471de2d16191327dc386491e80a6c2587a1b1022d95e55c3364ec079"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/focused-18-green.log",
+      "bytes": 515659,
+      "sha256": "02663f8718cff0d440def6e5a9c7c8f9a7e014e3cafecb241aed3725aee6abf9"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/focused-18-green.xml",
+      "bytes": 29793,
+      "sha256": "0c8102224555a27afe17f6ba711f7adf33ba40ddba776ce51d983cd10f6974f6"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/freeze-chapter.py",
+      "bytes": 1418,
+      "sha256": "9b8705a3cbad69a5d0107e24a6f35e60a37b0df9e931e974c551e12c92e2b14a"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-first.log",
+      "bytes": 5799930,
+      "sha256": "d8802b014eef9ab76e27cb29073e4ab25c58ff2a48bad89d5781631cb1f81acd"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-first.xml",
+      "bytes": 341799,
+      "sha256": "2a3b0100455c825449587e28322c9dad960e2ced2b59f10abf39360e1c1eda9b"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-repaired.log",
+      "bytes": 5893625,
+      "sha256": "2286cc25cde8a58214558f89e226ee7ed07d4f3c3b638592f18ace37476eeb51"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-repaired.xml",
+      "bytes": 340397,
+      "sha256": "42f17dc2d5bc2fb2f69a8788207f5595b2af55a8c1162fda1498a398ceb754b8"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-second.log",
+      "bytes": 5391783,
+      "sha256": "78d58f4df3940fae27ead8933341ad595ccb92ed8293b3b73315c2552025b515"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/full-second.xml",
+      "bytes": 338246,
+      "sha256": "f705736b50a9a8bec14422c295ab28de6368c4f70026663c90281cdf0d04cf81"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/human-saves-after-clean-walk.json",
+      "bytes": 404,
+      "sha256": "d5673ad91651c2caba35e735bf3e54e6698d053f16ea7137c7e8e54ba24382d0"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/human-saves-after-earned-cave.json",
+      "bytes": 404,
+      "sha256": "d5673ad91651c2caba35e735bf3e54e6698d053f16ea7137c7e8e54ba24382d0"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/human-saves-after-full-first.json",
+      "bytes": 401,
+      "sha256": "e039157e9e21f1ed63a91223d92604b927f4c9915cb6b1a289f7d204d3c9e0b2"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/human-saves-after-full-repaired.json",
+      "bytes": 404,
+      "sha256": "d5673ad91651c2caba35e735bf3e54e6698d053f16ea7137c7e8e54ba24382d0"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/human-saves-after-full-second.json",
+      "bytes": 283,
+      "sha256": "abce6d1cd631abc78af873db615b6d85c25b7b323b9c482cc7325d913414de80"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/human-saves-final.json",
+      "bytes": 404,
+      "sha256": "d5673ad91651c2caba35e735bf3e54e6698d053f16ea7137c7e8e54ba24382d0"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/original-red.log",
+      "bytes": 406465,
+      "sha256": "4c3273de5881566432ac1ca393893689f494dfc016a9884a9513ba91c640f343"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/original-red.xml",
+      "bytes": 14238,
+      "sha256": "54b7caa4a7e34eb62aa3f8af2f69a5d87283b187294e42e1805c663f1dcfe059"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/promote-chapter.ps1",
+      "bytes": 2364,
+      "sha256": "db6a8796e961a924bae62c3723e779350634df998d9ab961617515b571c15ff5"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/promotion-corrupt-red.log",
+      "bytes": 662,
+      "sha256": "7e627afa9fa20019bb8ba08f14ccbb344fea6a52efc7aba6b459d2e75af9802f"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/save-audit-parser-note.txt",
+      "bytes": 562,
+      "sha256": "ade13a315c9acb949662b3d8f49e0358c5bce6258b467433b96c3312eda24b35"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/tidy-scene.py",
+      "bytes": 814,
+      "sha256": "3e4ace168706a47407e76d684b17d0d7d4a55835f369697b2c09bcfb31bbfed6"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/verify-human-saves.ps1",
+      "bytes": 1120,
+      "sha256": "e13d6edc4bc0d6862cb32437c4fe32c27245cbac419a4b1f0991f22b564d4b98"
+    },
+    {
+      "path": "Builds/quality/C8/organ-persistence-checks/write-evidence.py",
+      "bytes": 2106,
+      "sha256": "7276331a8d3ac2c2ad2fe0d21086686d6100fa052a0663a49bb1a167e9e3b74e"
+    },
+    {
+      "path": "Builds/Workshop-Chapter/player-manifest.json",
+      "bytes": 45815,
+      "sha256": "1e182606f614deb389925a920ffe0a074ab42528d6d0d84ba0471a5467add63e"
+    }
+  ]
+}

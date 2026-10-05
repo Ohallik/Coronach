@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Refined nursery and persistent cave state packaged - October 4
+
+**Updated playable chapter: `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`, runtime a3aaad6.** The nursery has softer pool banks in both public and licensed art, quieter water, and pressure organs that stay broken across saves. Cleared Bellows chambers remain quiet, including older completed saves. A reproducible Windows save-replacement failure now has bounded recovery without losing the current or previous save. [Chapter report](WORKSHOP_CHAPTER.md), [repair and package evidence](validation/C8-organ-persistence.md).
+
+**89/89 EditMode and 229/229 PlayMode pass**, zero skipped, with broken-state controls retained. Both players build. The final earned cave capture passes in **443.249 s / 26,581 focused frames**, and the packaged New Game/shop/bench/gear/save opening passes in **102.897 s / 6,158 focused frames**. The 243-file package is hash-verified; its predecessor is archived. Nathan's save hashes and count remain unchanged.
+
+Clean nursery walking passes the existing gate at **p95 16.968 ms / p99 17.081 ms** across 378 seconds, including one 37.782 ms frame. The prior 152.8 ms first-visit hitch remains unexplained. C7/C8 acceptance, broader map/story polish, continuous audiovisual review and physical-controller feel remain open. The earlier 38:37 fresh New Game-to-Tallow chain remains progression evidence, with this runtime's affected cave and opening recaptured separately.
+
 ## Cleared-cave revisit defect found and repaired - October 4
 
 The water capture exposed live pressure-organ targets in a supposedly cleared cave. Organs had no saved state and ignored Bellows completion. Four cases fail on the original runtime; stable west/east save keys and quiet restoration now preserve the chosen safe half and settle completed chambers. The affected 18 checks and all 85 EditMode checks pass. [Repair evidence](validation/C8-organ-persistence.md).

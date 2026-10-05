@@ -5,6 +5,11 @@ C8 and full map acceptance remain OPEN. Runtime source is `56a013e`.
 The [artifact index](C8-nursery-art-evidence.json) records 314 retained files,
 including the rejected first model, budget control, captures and frozen package.
 
+The later shoreline/revisit update is packaged separately as a3aaad6; see
+[the current chapter report](../WORKSHOP_CHAPTER.md). This report's 56a013e player
+and manifest are retained under `Player-56a013e` and `player-manifest-56a013e.json`.
+The artifact index now points to that exact archived manifest, with its original hash.
+
 The nursery's precise concentric slab is replaced with a generated mineral sweep.
 Three irregular arms and luminous grooves make the growing passage described by
 Sela visible in the room. The fixed camera, egg cradles, discovery, lift, gameplay
