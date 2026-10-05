@@ -1,0 +1,1646 @@
+{
+  "runtimeSourceRevision": "56a013e",
+  "scope": "Generated nursery relief, ordinary recapture, capped performance and frozen chapter opening; map acceptance remains open",
+  "tests": [
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/editmode-results.xml",
+      "result": "Passed",
+      "total": "84",
+      "passed": "84",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "0.9109852"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/playmode-results.xml",
+      "result": "Passed",
+      "total": "15",
+      "passed": "15",
+      "failed": "0",
+      "skipped": "0",
+      "duration": "64.4909017"
+    }
+  ],
+  "runs": [
+    {
+      "name": "chapter-08-art",
+      "valid": true,
+      "seconds": 446.782349,
+      "samples": 26793,
+      "p95Ms": 17.1563,
+      "p99Ms": 17.3496,
+      "worstMs": 214.6121,
+      "hitches": {
+        "25": 4,
+        "33.3": 2,
+        "50": 1,
+        "100": 1
+      },
+      "failures": []
+    },
+    {
+      "name": "nursery-performance-release",
+      "valid": true,
+      "seconds": 378.055307,
+      "samples": 22682,
+      "p95Ms": 16.9762,
+      "p99Ms": 17.0933,
+      "worstMs": 21.1709,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "failures": []
+    },
+    {
+      "name": "frozen-chapter-opening",
+      "valid": true,
+      "seconds": 102.9922,
+      "samples": 6164,
+      "p95Ms": 17.1288,
+      "p99Ms": 17.351,
+      "worstMs": 238.9101,
+      "hitches": {
+        "25": 6,
+        "33.3": 3,
+        "50": 2,
+        "100": 1
+      },
+      "failures": []
+    }
+  ],
+  "files": [
+    {
+      "path": "Builds/quality/C8/chapter-08-art/000.png",
+      "bytes": 2271779,
+      "sha256": "2dd35fa3aa0052d422a37001c0615fbf0fb0fd848c6237207c1bb51aa7bcf9cf"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/001.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/002.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/003.png",
+      "bytes": 1329551,
+      "sha256": "126b9f4d4eec3186fcc20b58d48593bc797904b142a9187b811a95e3c8fa206b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/004.png",
+      "bytes": 1329551,
+      "sha256": "126b9f4d4eec3186fcc20b58d48593bc797904b142a9187b811a95e3c8fa206b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/005.png",
+      "bytes": 2317120,
+      "sha256": "4c1e86d0cb0e8d99ea0c419a86b6f9c87165512ae9d7f0213aa0ffbb7811297e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/006.png",
+      "bytes": 2246116,
+      "sha256": "2c0a16b3645afb66a150ab00d75056f57f7e9c31573ca97fa39c78dbff6b3ffd"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/007.png",
+      "bytes": 2153518,
+      "sha256": "4f6f60d8a16f4aa78b623bd2ba424b546b130a7ca6eeaff47efa50b1ddc5f847"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/008.png",
+      "bytes": 2268758,
+      "sha256": "5f46a7f244e5f5f88c044529c25d87df79eadb72239dddb7043c8f25e0c7d0e0"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/009.png",
+      "bytes": 2270894,
+      "sha256": "cc19e1da4dae39b5cbefc8e662018b91988146e9dfa1dea35e9b020f9741b6f7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/010.png",
+      "bytes": 2270877,
+      "sha256": "3b742b708352d86f805163bd095e4fd9749e54a44d4b859916a322780be67f38"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/011.png",
+      "bytes": 2264646,
+      "sha256": "c776cb43b9ec127186abf1699dd7338d2f6b79606472e344d98ec78bc3fe0782"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/012.png",
+      "bytes": 2271785,
+      "sha256": "ad4333a34b1acfa7bd34c170b630205e8f6d19926dff5629bfa80f8609e7ecf6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/013.png",
+      "bytes": 2196549,
+      "sha256": "5e18d107c4ac3378725c232771ad9c1b09d452ac5a9addd39b71ae7268e01506"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/014.png",
+      "bytes": 2193265,
+      "sha256": "5f839509b79c99a9f4634d1b0db86683db103bea69156e169f6044ecf3b179eb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/015.png",
+      "bytes": 2193198,
+      "sha256": "e8f83c98026cbf96300b966dcfb5a32367635fca884276b348dc45ec0f748e68"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/016.png",
+      "bytes": 2198992,
+      "sha256": "58106a35bebb719ce832f73d4be091057a9f86899a7f87623956d0639331646f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/018.png",
+      "bytes": 2193178,
+      "sha256": "2e2052a924461609e673a17acdc7ad0dcd3e07e05bf39bc1dca395aa33613d84"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/019.png",
+      "bytes": 2193325,
+      "sha256": "713e3fed0ca53de00f250052bc72cca72bdd89ec464ba1a756849948f55fdd66"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/020.png",
+      "bytes": 2111192,
+      "sha256": "21d22d6aa411007dde1e30b21788e59620e757f3b2cc87018608909ad10f8ca9"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/021.png",
+      "bytes": 2309118,
+      "sha256": "f582889f0c7c2ba4ee2f8273e64f8c5a19574a45a8ff9a96305e184aba905107"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/022.png",
+      "bytes": 2309738,
+      "sha256": "ed407bacbcdc0fff7c9d5891440675fb7de27b26764fddde1de50b85ccd2ba3d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/023.png",
+      "bytes": 2300360,
+      "sha256": "e68f03c97b312b8f7416b6083520c1b1f79425b6cb903a60ff6b074be4dc99a8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/024.png",
+      "bytes": 2293209,
+      "sha256": "785713b490c611b99a4b21ae65b90076e1bc66ef086d8a78b5c502a89d377137"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/025.png",
+      "bytes": 2287717,
+      "sha256": "646644b76c9db4cca0f53faf387eca036977b194777692140f156f09ee72cc59"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/026.png",
+      "bytes": 2264912,
+      "sha256": "cb1b223a37d9149676cf6ed2bb74b048b32f788a26e590b745c85589be8fb441"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/027.png",
+      "bytes": 2262431,
+      "sha256": "b2e7b7d7ddc3afd8e104865d57f9539311c4a31e0a6da3b2255b3500548b0ca8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/028.png",
+      "bytes": 2262739,
+      "sha256": "5a0bfe3eaa5bf02b5246781c71e016bf431dac4c3933b59b486bd6dfde5bb8b1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/029.png",
+      "bytes": 2262475,
+      "sha256": "610e8098c3fc4616df629803aa2ba677f000fd7fc0813a1d515fc8fe54cdd029"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/031.png",
+      "bytes": 2262786,
+      "sha256": "d5d14645d6d9b54ee427235bf0c4258cdb4b47b2043be7969bc65f6a3026fa05"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/032.png",
+      "bytes": 2296853,
+      "sha256": "eddab652684e880dd47f9511a631a72b8fa37c166f0dee28c0dbd276303f60ce"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/033.png",
+      "bytes": 2265182,
+      "sha256": "ac5e50662608a1b9d6364381a31c8872aaabba8db6b4a415426a653e35a5d048"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/034.png",
+      "bytes": 2128590,
+      "sha256": "df06dab30fe67413c61dcb4699b110b9cb13d6138561728c04af1eca51aa2e7c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/035.png",
+      "bytes": 2127021,
+      "sha256": "49be8ca118cc309026958a47bb618fe23b284cfdb1c2362e38e770ef298bc4a3"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/036.png",
+      "bytes": 2124684,
+      "sha256": "adac76cd89c7ca9c6df23c85a6dc622b296270fa2e81a694dff3d37433d75337"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/037.png",
+      "bytes": 2307921,
+      "sha256": "bc188733da1aff558cf4d3637d592f7e620f1a0287957e2f0938cf514aacab7b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/038.png",
+      "bytes": 2307730,
+      "sha256": "0be1634f7f50d32e0f4c015dfe7c86169a7d836cf3494f9b673242054497126e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/039.png",
+      "bytes": 2307683,
+      "sha256": "c22a0aff5b6ec8d66239af9e47239e3c633bfc299ccdf6ee1bf4c5b1cda520b2"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/040.png",
+      "bytes": 2307357,
+      "sha256": "bfdcfe01d27d17d594599a5edd2490e773b2cb50775eca447d92af9e2588b825"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/041.png",
+      "bytes": 2303414,
+      "sha256": "9d64e88d141db672b4f4784939e90fb69a335e22dde5f654910adab3f374040d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/042.png",
+      "bytes": 2303064,
+      "sha256": "1b40a5aa05b13b51d6832b620b57ac13ad41342d925bb1030b2e0a78f561b952"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/043.png",
+      "bytes": 2297269,
+      "sha256": "4461f625909e1c8abe9ba4de50ad547ebf42ae67c93499d45906866e45d26763"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/044.png",
+      "bytes": 2300091,
+      "sha256": "6e952ec569c82f033438f50a2a455083fe923b1f05ee05cf30e214a3113bca37"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/045.png",
+      "bytes": 2315376,
+      "sha256": "0fab90b17f75e23505e44c7e7891c7f261e9c85cd4349bd0a834b76634ca3e17"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/047.png",
+      "bytes": 2299558,
+      "sha256": "bf9e34c456f9af97bab6cf6b89110299d4f15f8550eabeb606832570bc357dd6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/048.png",
+      "bytes": 2182493,
+      "sha256": "38d4f110be288eec073eb095e8fa288f7cb8bba52e34e859f01a97e1abbc350a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/049.png",
+      "bytes": 2335589,
+      "sha256": "e648a37e4c1e91ac131da7b56385553516a5ae913f4e180eda978bfaffdd8af7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/050.png",
+      "bytes": 2241124,
+      "sha256": "052724fc22c8d22cb462cbbe80c5d5ee45db6ddb235b228d0c2d7141cb9a4aa8"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/051.png",
+      "bytes": 2333550,
+      "sha256": "d7cf5be09dd2d62be8826db4e4d5fe22e842affc56920b41c8f4cec6461274a5"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/052.png",
+      "bytes": 2335166,
+      "sha256": "d9cdf8e5cb6723d47daabe822396eb675214f8381c75849d202521d165aceea9"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/053.png",
+      "bytes": 2336633,
+      "sha256": "0dfabaaeb61b125667e5ff99ce45983f661c400151a1a004cea42ce66bded2c7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/054.png",
+      "bytes": 2336084,
+      "sha256": "7d067b61154e6decdca2b2b9ae7cadeabe1940a5d754454d926e5b1b9406e61e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/055.png",
+      "bytes": 2324367,
+      "sha256": "9bf5b8dbe0a9e05679d7a5508e2a29e860a087690b1566cb8f876af54177c37c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/056.png",
+      "bytes": 2280960,
+      "sha256": "8435a30c11db368c8d117d6c4ec3228d41540d987999fb7b7c15bcd18ba319c7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/057.png",
+      "bytes": 2278694,
+      "sha256": "702dcc1e0b549fdf9d849f120bfd3ca8e597dac6f20218edf68b96f6494a8fc4"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/058.png",
+      "bytes": 2277089,
+      "sha256": "62955bad67cf746ce9cda6b45951af7377b91e94fc9846e051ff35497ca67975"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/059.png",
+      "bytes": 2274663,
+      "sha256": "7985177cffee34fffb283fe846e1363b516e9e91434b25b920291d2743e695b1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/061.png",
+      "bytes": 2283536,
+      "sha256": "b55f37388ce84fedc91084bada00870a04ef3df0c753c3e9fe365cb99e7e3795"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/062.png",
+      "bytes": 2154527,
+      "sha256": "0402a0b0762dc8644ee04648d6418d7430fd5acd900dcf888917b0235d768ba7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/063.png",
+      "bytes": 2287242,
+      "sha256": "fe9a0ebce3975b697d4ed1fb427ff448cc2ca7faf81bf1adbc628783548a7ac7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/064.png",
+      "bytes": 2286889,
+      "sha256": "8c39b32afc818d4f4abd5184a53b9680d50a52cf61375ad3fcc0cc88ae96db81"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/065.png",
+      "bytes": 2398029,
+      "sha256": "28b2654d2f76b3edea6d9316b031d9e9af4adb49da53ee36b54ac461aecf21de"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/066.png",
+      "bytes": 2399278,
+      "sha256": "370940397f495d613f0259eb99e1c323acc0dd2f53c204b03244d9570dc12032"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/067.png",
+      "bytes": 2399075,
+      "sha256": "1dbc1da86fb559fa843083c6977fab687e587d2bd964a36a8002c8bc5da632b6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/068.png",
+      "bytes": 2438056,
+      "sha256": "3a86aa9ed9b4234f9ec5122e611cbea265b03ecf509407497e91ac15820d6fba"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/069.png",
+      "bytes": 2434356,
+      "sha256": "957270f506a32014a89bb37b59cf6fe8365ad40b1ee2920a5948266aac9ec9f1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/070.png",
+      "bytes": 2435224,
+      "sha256": "aebd08b35017b15ee7a8df36273c66716856097aaeb09d72320956a035214145"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/071.png",
+      "bytes": 2318265,
+      "sha256": "d4742faf6785532e1a76f9578388d53d7b2f0599b5937b0321ddd4a09f42fe38"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/072.png",
+      "bytes": 2322299,
+      "sha256": "2adf9d2032403cc3f1942d0696bbe61b3ccb92fca4979272cc20a33c707ec053"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/073.png",
+      "bytes": 2322044,
+      "sha256": "dd23add89899c67d5c1160b7ef6aacae5e70d10681c2186ea6c35b21f79703b2"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/074.png",
+      "bytes": 2294945,
+      "sha256": "9f7450c7adaa815230632ee22a141fa02d077d08667435cee28c3df6d5ea1f75"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/075.png",
+      "bytes": 2295262,
+      "sha256": "cf1eb1590df88b182a12375e232d7f537d876b342d60a6746e00c435b5f28e5b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/076.png",
+      "bytes": 2332906,
+      "sha256": "bebaf8ed214216741fec1b2823b06d1ed199f131cd4a365342a2ad801de6787a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/077.png",
+      "bytes": 2335697,
+      "sha256": "71907d025c1dea97ae51d37ffc3595f7b51914f6ee3eaabf8c64500798682d68"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/078.png",
+      "bytes": 2298053,
+      "sha256": "ba23b88b845ee54f2acdaa7e33be675fdce610b89011204c6faacab73c0bbf1b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/079.png",
+      "bytes": 2447563,
+      "sha256": "450bff2fca452d8854d3fc8aa994c7bb4e709299ad5bfb60eb03c4acf14d94f2"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/080.png",
+      "bytes": 2450522,
+      "sha256": "bccfa4d5e4a345b00e769e4ecf27b4eda4e9ce3cc9da0633614c573654653de1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/081.png",
+      "bytes": 2458090,
+      "sha256": "22dfd4674a187042dd84b823d65ba1075eed47139f73be9c724bf7d5e260d743"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/082.png",
+      "bytes": 2435226,
+      "sha256": "84810f497d37fb692789d674c7cc4420089bf322100197e3c2177c386eddf3ab"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/083.png",
+      "bytes": 2431115,
+      "sha256": "06fa01587414adbc8ac9fad14d77f6eabdf498f96d9f389f3f00c693ee422edb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/084.png",
+      "bytes": 2502198,
+      "sha256": "ed4b76a884a3a9bf5a8c5fa6edb161bab74bd887a1be6dac23857fb179ddb2bb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/085.png",
+      "bytes": 2498958,
+      "sha256": "e96500085ea28e310fb9695d9b3bff6d820517bca7405f82ccc3e2dd2a2b5a86"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/086.png",
+      "bytes": 2498420,
+      "sha256": "59d8706a74f4e0779f4de46c7719fe3abae72d932b28d11805899b9c22dd8878"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/087.png",
+      "bytes": 2497319,
+      "sha256": "57c346d692dec12ae522be1c01b5d1000a5fe46740b143c44881b0022358b686"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/088.png",
+      "bytes": 2496678,
+      "sha256": "4371f67060d7408fe95bdcf61de5d9d8eb5f48f0f6d978c277b98153c6c8605d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/089.png",
+      "bytes": 2419180,
+      "sha256": "24754dea05a634b2b3b69c45adf1a21701e1e4b610f189a30dc25687304a9703"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/090.png",
+      "bytes": 2420198,
+      "sha256": "eb494ddfb2662473f0c89f8df35ab188360a374f9d737b76c52a4e2825a60c3a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/091.png",
+      "bytes": 2455910,
+      "sha256": "46a886aff38901689544914511420bf75bc2c66edf4e98d16d0d9467f33f0e69"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/092.png",
+      "bytes": 2422178,
+      "sha256": "4c939a3e13c4c049a8c4cddba4c60a39561ee55359c2157048f5b4d9c9f8082e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/093.png",
+      "bytes": 2419903,
+      "sha256": "e0f61b7d723c5f5c87a3a3efc324ca5cea8ac23cff9e3eefa0bb0d3f69c7c91b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/094.png",
+      "bytes": 2419160,
+      "sha256": "fc4afc02fcb41fa696bc0d779fd6f88e164cf2157bad3b56de4c27a751f140a2"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/095.png",
+      "bytes": 2414072,
+      "sha256": "765024baf9b0ad0b3631a3980bcf97100e6e617ae0c99eca39f8fc3031b7d439"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/096.png",
+      "bytes": 2420801,
+      "sha256": "3b971bc76e8b6d9cf5c8ffc5730ec9fe1ca5198a0efae97f0e27a29de9c89932"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/097.png",
+      "bytes": 2420048,
+      "sha256": "57c49646d4e53a8b48e808d48d8c4a72b53a57d9006e6f48eba34894aa93d303"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/099.png",
+      "bytes": 2414640,
+      "sha256": "5246858d5ca2420802afb216c992f8a89111c29f6bbbaf5bd344acb463432dcc"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/100.png",
+      "bytes": 2416370,
+      "sha256": "7e17ac83776a44918356cd81524fd839a4f98d30aa5149ce6e5a2a46c1765ea6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/101.png",
+      "bytes": 2443335,
+      "sha256": "2b85358d524de5694f5fcb98e3639187788219428e083f8b7791ee572659b2e0"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/102.png",
+      "bytes": 2416618,
+      "sha256": "daa7ef6d744646823e8a0a0b272c68a8337d0bbc21993de11d6ff7cf089e0fa1"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/103.png",
+      "bytes": 2416477,
+      "sha256": "d188f468392b8853529a17f00f715a6e8870c2a56373f54b040a03010a19d95f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/105.png",
+      "bytes": 2356400,
+      "sha256": "38ad555b6d3d3487f5a2df699cb7510caf8cd0319ad63d208323853f166c6c9a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/106.png",
+      "bytes": 2196835,
+      "sha256": "4ff6af9bb13e009cd95d70055258e08a428a33482bb49e2569af7a276cc67162"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/107.png",
+      "bytes": 2126468,
+      "sha256": "dcb3728df51409824c8364c8f963786d4302fa4a827cd4902a044d979f3e9ea4"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/108.png",
+      "bytes": 2073270,
+      "sha256": "ebb747c986a93726758302debc01b41897911eeb9c19765be88f058b97cb4e8d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/109.png",
+      "bytes": 2141465,
+      "sha256": "3a1a7c9af6dea1296d210f17f50f4be7280ddf89f8567174a82a07f42b3a1d87"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/110.png",
+      "bytes": 2480678,
+      "sha256": "b720d16bb56780e22c430d22d5b9b40c8d42a8f535a3e1843a447375e2c982f7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/111.png",
+      "bytes": 2400851,
+      "sha256": "0d230a93b6dbe5f9f41aeb6580792d3ee916b7cd148bd16eea2997af2db56c2b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/112.png",
+      "bytes": 2403039,
+      "sha256": "fda58b9af588b004a0e0ceda41cddeca39d3feebe789439702bdbda1f90b223f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/113.png",
+      "bytes": 2413988,
+      "sha256": "572486770d8e0505942a08a6791ac9b137cc928e2a9b508f7a34f45a84ef89e5"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/114.png",
+      "bytes": 2415542,
+      "sha256": "561b6efadc91c90ce7e58db2cf913bfdbd7407c8385cc71263f8cf98ddd92759"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/115.png",
+      "bytes": 2415924,
+      "sha256": "d17d7ef01a2ce557e5ba88b885077db2d829092f6223b2171b4d029a69373e05"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/116.png",
+      "bytes": 2419677,
+      "sha256": "6ac776a213e8e6e16e0e16e411747f6a361a3773698daafe9b82478bb18e3748"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/117.png",
+      "bytes": 2420313,
+      "sha256": "f35c1241c4b17897278f82f1d9278e21d4d0c51d86887e1c439d29aef05e868f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/118.png",
+      "bytes": 2425853,
+      "sha256": "a4dd3cef0468f095ff413df7b08d157645be2e0f15dbfa82e1a11ec8f5dd9384"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/119.png",
+      "bytes": 2391710,
+      "sha256": "14ab87cb3e3cfdf5d0bd119f3dc206aa32abba6a75d0cc120f9822177b99d2ed"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/120.png",
+      "bytes": 2402073,
+      "sha256": "b6ed213034f7b349d1f134dc444e4db7635ff5f8a85c1191a44291d52f7c690e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/121.png",
+      "bytes": 2411582,
+      "sha256": "d4ed186ac14042981bb958430c6f6238119c9f38ec6653019c2d834404f32278"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/122.png",
+      "bytes": 2411156,
+      "sha256": "48fa35026c68c4f863a876000f4c989fc0d81cf95187eaaf2ceb22bb4b5bd79b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/123.png",
+      "bytes": 2407245,
+      "sha256": "879cf4873bd27c148cfd323abfcedcd93e274a7f475097cba573aa141c0e4f2e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/124.png",
+      "bytes": 2417514,
+      "sha256": "f726983eba12f0af0a0bf6ede90b7a35790805c5161fb2406c72246fa77a014d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/125.png",
+      "bytes": 2420954,
+      "sha256": "8d2bd6c7e011cd4fb32ea78e6012a87bff6a3115cde4f953da7484444cac13af"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/126.png",
+      "bytes": 2431482,
+      "sha256": "91c87c04255d3f687dd77fd326471508672cb80c28c319045436cbeca19af5bb"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/127.png",
+      "bytes": 2399520,
+      "sha256": "f714fd20a9f412c6fcfce2743a4555e7ba290e7dc394769603a230c2927185b7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/128.png",
+      "bytes": 2401540,
+      "sha256": "0087c37c8fd61bed3e568daea04ab9bea4325aa49b4705840c6eef22bdf030ae"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/129.png",
+      "bytes": 2402007,
+      "sha256": "fbcb49177b655b8e651cab39c3ca63eea6b70112cd68d10219d4836cd8c4a9ab"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/130.png",
+      "bytes": 2409269,
+      "sha256": "2fe25c7a99431350d5463c8ab8cf15a17878371907073287bb9533885180fcab"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/131.png",
+      "bytes": 2408658,
+      "sha256": "f374f82bb904a83ef33414e81c15bcbc5720aaa52289570b5a8940ecb3353b80"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/132.png",
+      "bytes": 2418543,
+      "sha256": "0c208f591c49e0d6f134f13b02d4409836ccf90733dc81891c846818c8ab0ebc"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/133.png",
+      "bytes": 2424294,
+      "sha256": "4f4969e9029d1aba71527958aa418c886eb6139622f7fa352276788254a73456"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/134.png",
+      "bytes": 2433356,
+      "sha256": "4bd37821e3e8c64c9686d1650ed04d9667bc0be372ed17424c2d976673636564"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/135.png",
+      "bytes": 2394589,
+      "sha256": "d66c0668092ed994455eff9a7deea2785ff6facff71e2c83fcecc5dffc00ee5b"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/136.png",
+      "bytes": 2404190,
+      "sha256": "59d701b60324068e6a8dc7046aca4d4e7b6e3323c1161223b7ab4ccfc5d6d9bc"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/137.png",
+      "bytes": 2403399,
+      "sha256": "36c050963b99fd9150093df216eca4104a0bde6ba6651e89dead27018d7d4022"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/138.png",
+      "bytes": 2411927,
+      "sha256": "a7f0dbc07acc5796026f4b6114e6f6131e94086bd497c992c2e85fa0d5ab2fe3"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/139.png",
+      "bytes": 2481161,
+      "sha256": "d26e9ae95d05b5f4ac74be43e8dd4d25643f3f51d904ef9ae8ea0e8b5f10a65c"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/140.png",
+      "bytes": 2480788,
+      "sha256": "214e2a423f79f46fc3174a9ff35e4fd3d5f7965c3a76837fa145f0da488aa4a9"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/141.png",
+      "bytes": 2481618,
+      "sha256": "ec25daaead5f812a948dc624c51c400f8af99ae045ae5f4a07f5efd0fd5aab93"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/142.png",
+      "bytes": 2382138,
+      "sha256": "d6c1b6824463c749efba2c37d2ea07e1a744ca2589968cd98f268ed0094cc4de"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/143.png",
+      "bytes": 2025942,
+      "sha256": "d1393994aacd8fe9c88575b1bc38a08eeb7b4ebadaae292c9ba742d507756e85"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/144.png",
+      "bytes": 2655349,
+      "sha256": "47ee0c5f8c4c6703cfa84925dd3255084baa8e7c554b556bb8896edae45fb8db"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/analysis.json",
+      "bytes": 6948,
+      "sha256": "c8e64fc28e330e2bb6620039668076f837cdfe532bf8f89b304a45d4a4086358"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/analyzer-output.txt",
+      "bytes": 13898,
+      "sha256": "88480099f700dc25238e0b9a1ea3c69ea7762949eebec2f89d91506dd1f3cebf"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/available-counters.txt",
+      "bytes": 14766,
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/build.json",
+      "bytes": 12962,
+      "sha256": "b06912a98f6499bccf621181a0a485d183cf7ffcad359ee0bdb55025d8b27cb6"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/capture-frames.csv",
+      "bytes": 226802,
+      "sha256": "df1fee29ec07c3404f522b557d72a98151985fc9137ad1023ab508a0f99ae03e"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/environment.json",
+      "bytes": 123,
+      "sha256": "e42eb05fc5dfcb04999c27894431d50d9b79fcaf5caca725a1ebdc9ed055743d"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/final-state.json",
+      "bytes": 3301,
+      "sha256": "b4115d36d09e2180f7bdda158496031602278fc828ea287d5f5e3328cb16444a"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/frames.csv",
+      "bytes": 7833152,
+      "sha256": "2cae7dc32da0c5e289d412d24a5d097cbcd54e5aa32d4e5dbcd83b659c66e277"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/player.log",
+      "bytes": 12427,
+      "sha256": "3176dcd5fb5335b1161c063aeb565702afa6adfc751915f28daefeae7f03c949"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/process.txt",
+      "bytes": 7,
+      "sha256": "620c4084e9c2a8dab37507af72e156a4fb05eded080cef47f8df8f6ec142bfec"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/resume.json",
+      "bytes": 616,
+      "sha256": "40ac72ac9fb833cdc02ce4a56bdb3d9a17a7140846e4144047586c4de202b68f"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/route.json",
+      "bytes": 133749,
+      "sha256": "82fc3adb6036639d213696c489702df4faf48246a000aa35e7dc98fc06e7db42"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/run.json",
+      "bytes": 2877,
+      "sha256": "ee0591eb1da91ac582c86a534b463fa28834bd2df0a70443cfcbcdf97ae5b974"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/saves/autosave.json",
+      "bytes": 3298,
+      "sha256": "7a0525a097a5c14be2eee9b09f231840f87c1923646c0045874afcb6ca7fd7e7"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-08-art/saves/slot1.json",
+      "bytes": 2714,
+      "sha256": "ae007cb145c6367bfbadc1048191ecb6b1c0b6cb05d04fac51c260727ed1a946"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-launcher-green.log",
+      "bytes": 56,
+      "sha256": "fd03c65300ffe2c5516c0b2cccfdd0b195e6ea7856b87804c8e3c17b91962d75"
+    },
+    {
+      "path": "Builds/quality/C8/chapter-launcher-original-red.log",
+      "bytes": 1926,
+      "sha256": "2d951a7e9cddfd7ae5126292ae12866b62400ae05f946cf2aac33c0f4e9a502c"
+    },
+    {
+      "path": "Builds/quality/C8/check-chapter-launcher.ps1",
+      "bytes": 560,
+      "sha256": "26e2985cbcbce6b5c0dde0a2cbc1a27c5f7e2cbe230bd2ab620b69353f556391"
+    },
+    {
+      "path": "Builds/quality/C8/freeze-chapter.py",
+      "bytes": 1569,
+      "sha256": "7cdceb28a9c65621a5a6b7815c7cb70598122f96181878910ecbbcb1d8c66e52"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/000.png",
+      "bytes": 2263437,
+      "sha256": "c77a432ea25391434103804a0ef547cfa7e7f5cec2c4ea57874cad168688c4a4"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/001.png",
+      "bytes": 1036795,
+      "sha256": "dbc9a50adf48e664fbf63a2630c9658c24dfe6adc5fba0efc8c5701375b3c5fe"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/002.png",
+      "bytes": 1186303,
+      "sha256": "46f3a5b6bc7657de065631de36fb34a5f931cb82d9c266f972854392bfb63623"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/003.png",
+      "bytes": 1944134,
+      "sha256": "b46c9b84813dc8bf5920f9b56af39ec16c9ecc0dbee5b28f734dde1032702c94"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/004.png",
+      "bytes": 1811068,
+      "sha256": "0c45e22056f058176bd37157997c57039e3f2ef53ce9a25c18497014eb28de13"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/005.png",
+      "bytes": 1717382,
+      "sha256": "799bc9a55c11dd440d4399550bc5c69034f96d1fdff46657716169fa0bc70b5d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/006.png",
+      "bytes": 1731657,
+      "sha256": "8d4b7c6c2bc6cc3273c5afc1d07cdbd82238490a46008b21403c6a427662fcee"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/007.png",
+      "bytes": 1833386,
+      "sha256": "cbfc88088ba6c68206a398b42f64a5f15b188bc7d8779a2bcb2221ead36e5341"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/008.png",
+      "bytes": 1835288,
+      "sha256": "bb81df4419034eb7594cf95baed78d964cfd4ecde526e672111e815ba93a090a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/009.png",
+      "bytes": 1704731,
+      "sha256": "7602de75da3769fbaa31e2492babcda7cd3915d19551d5dfe38f4655a000176a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/010.png",
+      "bytes": 1735964,
+      "sha256": "97fdd7a34e5521f43e793bd87af6fb3468dc7bea101c6053ae16a56b65b52521"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/011.png",
+      "bytes": 1722373,
+      "sha256": "86ae298eca93d056baefcc2705b4e8ce9099061760ae3a28dc71aa3e7826b520"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/012.png",
+      "bytes": 1823096,
+      "sha256": "e673e0f8c9d70550a2973e7fc09006b15722f4962574cc1fa18efd8024876174"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/013.png",
+      "bytes": 1812389,
+      "sha256": "a84f16195bdf670f549c95b486feebb4a3c6a10401a620d51076afbb68232d8a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/014.png",
+      "bytes": 1797305,
+      "sha256": "7f5a66ae2cd8ec6227b97b09234392c287080e080373643ceda734cc3e0aba6c"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/015.png",
+      "bytes": 1892256,
+      "sha256": "a9c0a23c7a388a3a70a6749ac3409fe069aafaf48e73be60e9dfce5bac631d8b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/016.png",
+      "bytes": 1894275,
+      "sha256": "1c01ca7be8f2482707beaa85f3d1200068df118ef0d7b64576e5a4039aa00bfd"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/017.png",
+      "bytes": 1961416,
+      "sha256": "5c962dec5149f974d34a0d2166ebe1a53bb9f03e49bec308571d55e9999f33f1"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/018.png",
+      "bytes": 1960532,
+      "sha256": "c497c55cc374ab6664cb804f6ce973078bf8c5c878c81478038ebcc8c8566310"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/019.png",
+      "bytes": 1414922,
+      "sha256": "de49294825c1f49da71d48bf4b00f8a508eddfecfcec6990affa253a55259776"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/020.png",
+      "bytes": 1414965,
+      "sha256": "dd0999f4bb9be8694a275c3b9f6ac3195521b30a2d76fe5b70f00c6efb5d3d50"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/021.png",
+      "bytes": 1415029,
+      "sha256": "7cae4cd1dd0b7e62394c1827bac33cf75bef3df5f251c5c5ae08152b237db101"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/022.png",
+      "bytes": 1415466,
+      "sha256": "b5a80017bf8faf51679df80d2ee2b079ff2001683b234cef095f79bd926d65bb"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/023.png",
+      "bytes": 1421175,
+      "sha256": "852428b332f890b4b91aefdc25a98ea7d6c0c18de5b63c59633ab20722b37009"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/024.png",
+      "bytes": 1421588,
+      "sha256": "decbd619f70bfe3e3ce9593740a448c8bcc4446cb70f34c6c5a85fc7ca0559ea"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/025.png",
+      "bytes": 1796586,
+      "sha256": "68279da88b04b4f8bb204f374bf7c95b5699a9380a17d93636faa4ae90aa7e25"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/026.png",
+      "bytes": 1797139,
+      "sha256": "31f2123923dd3bdd364e4ef6d042b15024038f6fc5a5150154c9db5ca0043218"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/027.png",
+      "bytes": 1838838,
+      "sha256": "9383f04c89d8ffc9cd99e25fd4a8ebe91ad38d907da458992ad2bd76bd9c1c32"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/028.png",
+      "bytes": 1872509,
+      "sha256": "8e775b0c7297ba6d5065d9a5acb56f7677670abfca6a28e295c39e7326ebb835"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/029.png",
+      "bytes": 1833678,
+      "sha256": "25e330cc559779208925501d2562012e5d3f1f655b8afb7c37d0db0fd376b956"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/030.png",
+      "bytes": 1805755,
+      "sha256": "88708edefc926d1b85a9ea79864d06c669cfc73097b92eb3ba430e3fd4ff7a3a"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/031.png",
+      "bytes": 1847811,
+      "sha256": "88ae56e0f1495275e7e892f521656dfa81507246fdbfbcaa040baa1a228bc8f7"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/032.png",
+      "bytes": 1849963,
+      "sha256": "0a1de2353fe461f7b4682a29865c84a7e19480ba038696bc09b1bd6122b766d7"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/033.png",
+      "bytes": 1919187,
+      "sha256": "5dad94efe78aadd209481eca71e18ef5fc0122859e99f776dc208fffa6a3934b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/034.png",
+      "bytes": 1918501,
+      "sha256": "2b654d22942edb88c569e5ae057ac25032b8e584fd79c153e53546365a9f090c"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/035.png",
+      "bytes": 1443516,
+      "sha256": "fa652e943dc99fa37de7a7a7415696863e79df20d98bf1cdac6bc862115f9e5b"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/036.png",
+      "bytes": 1443539,
+      "sha256": "6985366816cc5b012cbd0b4df481497501ee9ae8a8a6db7a6817f581e00695b5"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/037.png",
+      "bytes": 1443635,
+      "sha256": "abdb77ce5aa7b4afd9a06af3b510f7563e0528bbaef0976f93af4a91a16ac229"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/038.png",
+      "bytes": 1443707,
+      "sha256": "863e7a7f12a955bb3d9593ee7d16f2333ac99c1dae4f457a85a14e9527cadf8f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/039.png",
+      "bytes": 1443647,
+      "sha256": "2f9f3abfab577dc70c47ef6b9d1de05a23fa9a8ad91695cc8c98abfad799f9a2"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/040.png",
+      "bytes": 1443543,
+      "sha256": "dff63eedc1be4b01d22a6e1c23393fcae89549231f54a782ed2af1d86c873a5e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/041.png",
+      "bytes": 1443703,
+      "sha256": "ac3c2e93b2bf2dcdbe8215500f350cbede89192a1a415e66d6b4d618b4fb6b09"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/042.png",
+      "bytes": 1443610,
+      "sha256": "f6cc497f4307e1f2acfa42869e434540f1bbb65bf5f0c7eb5656ebfd33db9fbf"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/043.png",
+      "bytes": 1443342,
+      "sha256": "566a011d43c4116dbd354e3c66ab7330bb15dadfff118d9d9f3ecda1a5c9ea82"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/044.png",
+      "bytes": 1443240,
+      "sha256": "87da80df13885b9a3b0812cfa4a74d5180f80f2dac81bdadc90da768fba71ead"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/045.png",
+      "bytes": 1448470,
+      "sha256": "0811364211a7ba22b7d5e23220e364462996d2a83ce10f4bb33011ae9c2dc02d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/046.png",
+      "bytes": 1448421,
+      "sha256": "43811116444de8bad7465067b51f8db40efdc271690e13a1fe0284e96a8914db"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/047.png",
+      "bytes": 1448270,
+      "sha256": "87c6eb6113c9bad5d9a4f8584b982bc40ff6e70879050dbc62483b4aa81cdd4f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/048.png",
+      "bytes": 1448195,
+      "sha256": "13bfdb16305cc625be287260ebe06b7a283dd11d7b2d8cf1ec439926f4ca6166"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/049.png",
+      "bytes": 1448421,
+      "sha256": "c3615107f8c8f26281fd4e79f527311d8571fd7736c8eb9421fe43320a67bf9e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/050.png",
+      "bytes": 1448341,
+      "sha256": "a95be90bc67545344ae3f79c9b60b7ff9d2aa434317b4b8ecbdb2422bcbcb3a9"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/051.png",
+      "bytes": 1402249,
+      "sha256": "6ceeb45d9df48d5b2d1f11ad55b067e953a11d5ba09e2a4f89407ccfea232de3"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/052.png",
+      "bytes": 1402274,
+      "sha256": "e1238c4e834e93d0b52f35e7b2d424cb0c5b1841d64211d3765d8d43dc858183"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/053.png",
+      "bytes": 1402437,
+      "sha256": "a220164db61fcb148d7d5a4b74cefe15e33a49598d9718ab3ead2adad482af6e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/054.png",
+      "bytes": 1402328,
+      "sha256": "7fd0439e4af8377785ccb76b937bd8bde22e720a0ccb3ecd131d47a04e0a5502"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/055.png",
+      "bytes": 1402392,
+      "sha256": "7013b3f4d71ecadafee47b0385d8b30facc57f080c714243eb3b9a0a71931e62"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/056.png",
+      "bytes": 1402475,
+      "sha256": "b4d56f474801ba8bdc1568a4e5e1857cce02c1e2cf3645b4db7f57c6e63e8fb6"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/057.png",
+      "bytes": 1401222,
+      "sha256": "2407384a9f48c73d2c30fc4f58b8709eb134512aaff876621695ff36be65a26c"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/058.png",
+      "bytes": 1401242,
+      "sha256": "1fd8d0ac1d8e756d78f443432471d79f8d417651b907b2c07f306bbd1686e78f"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/059.png",
+      "bytes": 1401247,
+      "sha256": "7398e57cdf872b5a4fa125071fc89bb1defc598a4db3ba7cd7a62ba8cd9f8f74"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/060.png",
+      "bytes": 1401291,
+      "sha256": "18d93518b72b993d2ac4ac810e58b3ea8f536a4c4428cdfe52cc8d64bc3f7799"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/061.png",
+      "bytes": 1401509,
+      "sha256": "4f318245608578ea669f6deb9960a7ff8a1ebf3b8ef7be9ce7c31b97d95239a0"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/062.png",
+      "bytes": 1401525,
+      "sha256": "4cd1569636244df454bcc206968a91287f5d1eeea2c30038e9a0de737c133363"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/063.png",
+      "bytes": 1390259,
+      "sha256": "b61d1c2d59f7af8201771368e2ea90b01bf2c7c432bc7ffa6b393c40d47458ec"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/064.png",
+      "bytes": 1390338,
+      "sha256": "3a3f1887e538d567da7c9a0a79e5d4ad47e1024c80b5e0e0541339818935f7cd"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/065.png",
+      "bytes": 1390327,
+      "sha256": "fc54320d82109608c8735b205d7f5151245520f3167eec2e5bb943441e196264"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/066.png",
+      "bytes": 1390226,
+      "sha256": "727e2b8a01743b2285d8dd5fc5c0235f8582151a9472e140d72443a83ca4ac94"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/067.png",
+      "bytes": 1390503,
+      "sha256": "5e3e56c0092baa3cb7cb6bdd65aa5a5b2e0c1ce7575650f0145b09a86cebc125"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/068.png",
+      "bytes": 1390526,
+      "sha256": "2bbd8a238feee85d1c7b662208b8414f90eb19953426a631f39fe4911b6c2b44"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/069.png",
+      "bytes": 1390595,
+      "sha256": "27a521b380cd7d23e1851ac6cce7f8f7d60d6f5094657df848e676212a53091e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/070.png",
+      "bytes": 1390611,
+      "sha256": "78ba791e46fcf8a4af9bc850d8978dc7f6b494f01abb467fe84c0d473b16fa6c"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/071.png",
+      "bytes": 1390602,
+      "sha256": "897a2ecbe4bcb6b73d14b51d26f21569848aceae4f3674ba74e73b3bee3ec433"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/072.png",
+      "bytes": 1390538,
+      "sha256": "3887d6a8338d76b762e910da6c5e09255739f13d57b4ea414165a85b5f0eba53"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/073.png",
+      "bytes": 1804957,
+      "sha256": "6b86e869fa026565711e9095c90190a3859bb3f08f17a2597ae0a5297a4094dd"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/074.png",
+      "bytes": 1805331,
+      "sha256": "78a188c29a17ee015ff586e7c8d14a27372232e5cb7d1893d7905647a021bb09"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/075.png",
+      "bytes": 1805780,
+      "sha256": "f88888c5f7eedfe70b9062eaf0c1745115872c5cc4304affaa129369c575418e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/analysis.json",
+      "bytes": 7504,
+      "sha256": "6cbeb44b70b75d5dd85d7b7905bb08241147f2e9aa3c3e644b032d1e83a569d3"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/available-counters.txt",
+      "bytes": 14766,
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/capture-frames.csv",
+      "bytes": 48033,
+      "sha256": "563d8662639a194b0fdc5e30ecf7cf27339dce383a07f2a2c80cb97b67409b38"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/final-state.json",
+      "bytes": 1800,
+      "sha256": "a8f7edd7d763cae4a48ce2d083151d884c6a567d407c7494a781190ebe180bfa"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/frames.csv",
+      "bytes": 1843047,
+      "sha256": "ac0d3efc4fa0bf89c219a1c622894c819bddccdc1a0ee0d86e0028027e9e0a7d"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/launcher.ps1",
+      "bytes": 2108,
+      "sha256": "9ad34136a35c00fc573bd1e34109eeb5fd6140d61f19be8fa795b40cbe55983e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/player-manifest.json",
+      "bytes": 45815,
+      "sha256": "ee27734760d4abe88fcdef6181f0f2b98c49d6352b11093773ea49715362e837"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/player.log",
+      "bytes": 7071,
+      "sha256": "be5dbfe5192a2a5508268de6f41dadc3f480f5e2a9a4b9fa6da812342ef31044"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/route.json",
+      "bytes": 70119,
+      "sha256": "96267057c110ca22bab8eff0bacb6cd6dd49e1cf80e96f884b8db249b867f062"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/run.json",
+      "bytes": 6479,
+      "sha256": "1224205ce24214237c5e4bb3e7d6958ca75cc7a95eaf7703a508409ba38e3c00"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/saves/autosave.json",
+      "bytes": 606,
+      "sha256": "6ac66d81483b7a0970f798f97da026b519ee39204b0d05cbbd8d6fa46b24ec7e"
+    },
+    {
+      "path": "Builds/quality/C8/frozen-chapter-opening/saves/slot1.json",
+      "bytes": 1798,
+      "sha256": "c444c2be0da7f52b92a2c0820cf870513f5ef2fa644abfab6b095af006ef09b6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/build-development.log",
+      "bytes": 625144,
+      "sha256": "9139005594f46aa60d26ee82bfb4756c43b90f75b1d452cfb2250e64cfe765f6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/build-release.log",
+      "bytes": 643308,
+      "sha256": "8f01e8f56554a6f2bbae8b3ed8e69faf4094ea9bd9a78c40ef18530b93c69d36"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/editmode-results.xml",
+      "bytes": 75986,
+      "sha256": "339c1c66a200fecb770dafae8579dd241bb1809b34c87107e9345f342e2e1d47"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/editmode.log",
+      "bytes": 151484,
+      "sha256": "3d42e627dd7a944b4f47f16434be7c51791b86b745e559a389ab2cab963739ca"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/human-saves-after-player.json",
+      "bytes": 401,
+      "sha256": "fc1befe6d6c2d52868bd2a309a914cfa3bd239a53a5f7286b67d94eb26a01fb0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/human-saves-after.json",
+      "bytes": 401,
+      "sha256": "fc1befe6d6c2d52868bd2a309a914cfa3bd239a53a5f7286b67d94eb26a01fb0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/playmode-results.xml",
+      "bytes": 24696,
+      "sha256": "a09a5841e6695f635e2a576e1911cdbabae594a34b2438bc27551cb67134800c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-art-checks/playmode.log",
+      "bytes": 422110,
+      "sha256": "289417576d5ff07ae0c4184f1b6f05ee118996cac00be0c3dbc3cb5fad532a3e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Arena_Ground-yard.png",
+      "bytes": 3273731,
+      "sha256": "0ed956be7c80d270a3d8dfcfd7b1904e2a1c404c2af2d702d8881c72fecad030"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Hushwell-nursery-north.png",
+      "bytes": 2481349,
+      "sha256": "2f064f5bdb14dd729c3ce22100d27f5a3ac83ea949c908c1c8d8cf840720b8d6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Hushwell-nursery-west.png",
+      "bytes": 2557163,
+      "sha256": "2327a4ca2349438bcb73b870f230a5b15dff98b663120f4a7bda47d51f1aec1f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Hushwell-nursery.png",
+      "bytes": 2683560,
+      "sha256": "7b0905b9902112956d026585c750848133fd9f2648dba9190858ed1bbde4fdea"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Sorrel_Ridges-outpost.png",
+      "bytes": 2841843,
+      "sha256": "bad9c895d3bd7302130d2382910abf2c20950b975f02ee9007059276273ae313"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Sorrel_Ridges-seam.png",
+      "bytes": 3090361,
+      "sha256": "284b020c0162b34f0bef6ef334a393763500b1649fd90f48f342b48af4814fbc"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/Sorrel_Ridges-service.png",
+      "bytes": 3002537,
+      "sha256": "51ef867c1649d37f52af416bb38f066ba92ee18d6d64b148e8194758b95436c4"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-01/TallowDrift-refuge.png",
+      "bytes": 1667739,
+      "sha256": "901c3c0ce4eba56e79ab80053d3cc99e2979f89a28003336626fb15dfb083936"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Arena_Ground-yard.png",
+      "bytes": 3273588,
+      "sha256": "e7eb0c4330805dc9ddebcdebeffa1ccb9eb4aa4db1608b829f897830c59c8d8e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Hushwell-nursery-north.png",
+      "bytes": 2481151,
+      "sha256": "949fcbce4b573b0bd2bd2889dc3459e361ee093b5995cbe58309f33cdfd04a3e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Hushwell-nursery-west.png",
+      "bytes": 2557551,
+      "sha256": "11a402033743afd0229aab080c23d8d98e1eac09403cd63efda68c1d69ba3b92"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Hushwell-nursery.png",
+      "bytes": 2684409,
+      "sha256": "d72befa36516b42933279f802514eec848784dd62e15c1939670a40474158afe"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Sorrel_Ridges-bore.png",
+      "bytes": 2618931,
+      "sha256": "702d8adb4f4c9ff8a2d1d6e534d4f4f1a847061dcad4fbc3ef886708063dc0e7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Sorrel_Ridges-outpost.png",
+      "bytes": 2843347,
+      "sha256": "19c0793ee5f7318a03fff9f8909993d2ffaf931350c4cc1bee52fad89784a601"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Sorrel_Ridges-seam.png",
+      "bytes": 3087949,
+      "sha256": "7977464821d4c7810b4cf2b47577be97bd5fa9b70389931ba705568ddd8fc7ea"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/Sorrel_Ridges-service.png",
+      "bytes": 3002340,
+      "sha256": "e8b9ec32ba1f33ff1436f2a3a8763c825810137aec54abf88c9e758f600b52fb"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-floor-02/TallowDrift-refuge.png",
+      "bytes": 1667911,
+      "sha256": "084162bbe94deb1f45bec7fd08864e8df6ff8678165cb65edb1af3ae909beb2f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-meshy-v2.log",
+      "bytes": 814,
+      "sha256": "644a4dff205ff60f018ebdef4d2dbb48cd6dffa0737f75a7484d8056beb23c7b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-meshy.log",
+      "bytes": 808,
+      "sha256": "41e18255a7929d02608f1c224ac1f03eb5d4b05cf893cc856a787e277093c794"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-01/intake.log",
+      "bytes": 49832,
+      "sha256": "a479896329280ff27f1d6ce4ccc47d0486fb67b0d1ab19225e320b48d36304c3"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-01/NurseryGroove-idle-3quarter.png",
+      "bytes": 269848,
+      "sha256": "fd951a299d86660d3aaea6ab2cec9d18d2e659c45b7ae7a653ca923096b7ee48"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-01/NurseryGroove-idle-back.png",
+      "bytes": 179107,
+      "sha256": "f1f8f6fc56b698464b0a5795f1af0b20bc64444e514efae40345638d5768d6b0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-01/NurseryGroove-idle-front.png",
+      "bytes": 155226,
+      "sha256": "413eb5c933ba737c84d9afd00e325f8f688ee62051e447aaa6d979bccf3aaa2c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-01/NurseryGroove-idle-side.png",
+      "bytes": 204809,
+      "sha256": "c29e4330f71a069f464d3815a850d239bfd4a361ea3b30f744c617b394b75e2a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-01/render.log",
+      "bytes": 53559,
+      "sha256": "76c567c4f335fdb8e0ed103eae5a467d1c41c461fb7e887874ef46500a5795a2"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/budget-original-red.json",
+      "bytes": 751,
+      "sha256": "0837c6a402f15bf22865c0001aaf0b65d48b4c44e1b3d3835fcb6b09b27da43f"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/budget-original-red.log",
+      "bytes": 484,
+      "sha256": "c38e4f7a94c726848cd12a221c46e1f58773ea46e719717caa8173dc2427affa"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/budget-reduced-green.json",
+      "bytes": 751,
+      "sha256": "f64b6de9a3af008ee8fca02f5c9a1df5003ae8499a7175bd780110020ea3baec"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/budget-reduced-green.log",
+      "bytes": 430,
+      "sha256": "762044c317fcfcb7043ea2cc89709ac3d1a13f12f8966c111dcf94f04eddc32b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/export-reimport-green.json",
+      "bytes": 757,
+      "sha256": "acbcd640ead42ccaeea12aaf8b64ebf0f771509708d675932556a532f26f9bc7"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/model-review.json",
+      "bytes": 175,
+      "sha256": "5b5b48126c1e5b4036dbb20d81b8906586b194497cb849642c36564014a41611"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/NurseryGroove-idle-3quarter.png",
+      "bytes": 144803,
+      "sha256": "3042a25fe1cc550d2b4d30b8dbf938e5d7c7eed560790c4bff896aba9aa294e1"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/NurseryGroove-idle-back.png",
+      "bytes": 112661,
+      "sha256": "0e5d8443d7ed37a937aa4000e17d5f7260e0bd1bd202b635ad53ecbd8f1de596"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/NurseryGroove-idle-front.png",
+      "bytes": 105206,
+      "sha256": "4e5dcc8173a3076a82a777bd5c5da6401625414ba040b48fdcb706160f69339e"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/NurseryGroove-idle-side.png",
+      "bytes": 170284,
+      "sha256": "7bfc91899bf58e5a9bbe15d9c903512e28910cebee48fa216f72c5ca722750d8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02/source-inspection.json",
+      "bytes": 1042,
+      "sha256": "a472ae8da6d1344fca6dcbc6da18a82fd239641a741656caf51ffab882783f52"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02-upright/NurseryGroove-idle-3quarter.png",
+      "bytes": 380916,
+      "sha256": "4686ace7ecc0419b48aedeb698376332701ef868a3c725b0c08416f9db0b26c9"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02-upright/NurseryGroove-idle-back.png",
+      "bytes": 362716,
+      "sha256": "0e9e2f39799cf3287bb84abbde8c8d4ddc390e62083a56bece1bbe5dc8d4b7eb"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02-upright/NurseryGroove-idle-front.png",
+      "bytes": 345683,
+      "sha256": "44bff18f8b232add94bad1260326da3850045e25b6640a99727d8556343c0822"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-model-02-upright/NurseryGroove-idle-side.png",
+      "bytes": 109039,
+      "sha256": "526e62082e65402ace51dcfbde641f1b7cef2c1307f6fffeca94ff3520ebb5e0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/analysis.json",
+      "bytes": 13621,
+      "sha256": "7ad0db965e94b55ee88c520aef13002f5ad57c4f04b6f8d6749da4c7237b04ba"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/analyzer-output.txt",
+      "bytes": 27244,
+      "sha256": "42b2bbc92cf9cd97a9bf90bcc0b8e7421c08b69db3e3673346305f0214e19e4a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/available-counters.txt",
+      "bytes": 14940,
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/build.json",
+      "bytes": 12963,
+      "sha256": "11a14190207b2592b51e962aceeaebfab25eb05ed933087da9cecfb45be196d8"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/environment.json",
+      "bytes": 122,
+      "sha256": "f6b6dbb506e3a1f3085a5757991a7ea15edfb777d4e51e2648c88abf5d06ed3d"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/final-state.json",
+      "bytes": 1780,
+      "sha256": "71ce25db8344585dd6963fd143699e6890bf8c39f86f59e58d6ff877fff3bfc3"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/frames.csv",
+      "bytes": 6576397,
+      "sha256": "bb695c56c1e266432205415249b1d54dbd9bb44765b7280997ed8b3ec9904435"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/player.log",
+      "bytes": 6084,
+      "sha256": "a469d0ea275f3841dd23abc2d1509e2f6486605687ade890c3705376dd59c0a0"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/process.txt",
+      "bytes": 7,
+      "sha256": "4c41d29d04b297f29277fd20c345fbbcbe294f62e15dd68c6cc79c805409cce6"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/route.json",
+      "bytes": 51414,
+      "sha256": "1a8d7d632c7756da0c79afde387a96378543c2324f8c65b12f29fe78cbee487c"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/run.json",
+      "bytes": 958,
+      "sha256": "67b5e4123d4b9601541fc7c6bb9bddc3b812fe6134faf935cab80c0dd9798e4b"
+    },
+    {
+      "path": "Builds/quality/C8/nursery-performance-release/saves/autosave.json",
+      "bytes": 1784,
+      "sha256": "356606b6c58da18a4ea2914817352a6a2f3971daaa69e8e6a2bad8c73a54435d"
+    },
+    {
+      "path": "Builds/Workshop-Chapter/Play Coronach Chapter.cmd",
+      "bytes": 130,
+      "sha256": "0c5a81f3560fd8d2e0eeba87583942cbcc6610c1e673d3ecb6d1101fedb026ed"
+    },
+    {
+      "path": "Builds/Workshop-Chapter/player-manifest.json",
+      "bytes": 45815,
+      "sha256": "ee27734760d4abe88fcdef6181f0f2b98c49d6352b11093773ea49715362e837"
+    },
+    {
+      "path": "docs/art/P46-nursery-groove.json",
+      "bytes": 7863,
+      "sha256": "2f62b100e012e5fed242eae21accedc24cea5946963cbd31af7a144849775602"
+    },
+    {
+      "path": "scripts/workshop.ps1",
+      "bytes": 1297,
+      "sha256": "6aa015ac03008017bab7ea687ef923cfd90b9215c551cb41b0ec09c932ed757d"
+    },
+    {
+      "path": "tools/blender/p46_nursery_relief.py",
+      "bytes": 1599,
+      "sha256": "ff97c0ecdde6409c905ece666fdf8c5c28090b922bb658c6610aefb1c0f75baf"
+    }
+  ]
+}

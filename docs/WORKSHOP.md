@@ -1,5 +1,8 @@
 # Coronach workshop candidate
 
+The newer [nursery chapter candidate](WORKSHOP_CHAPTER.md) is available separately
+with `scripts/workshop.ps1 -Chapter`. This page records the earlier frozen candidate.
+
 October 4, 2026. **Playable candidate; C7 acceptance remains open.**
 
 From the repository root, run:

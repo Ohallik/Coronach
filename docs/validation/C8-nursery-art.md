@@ -1,7 +1,9 @@
 # Nursery floor art
 
-October 4, 2026. Controlled art and focused regression checks pass; ordinary-player
-and clean timing validation remain pending. C8 and full map acceptance remain OPEN.
+October 4, 2026. **Art increment, ordinary traversal and clean timing PASS.**
+C8 and full map acceptance remain OPEN. Runtime source is `56a013e`.
+The [artifact index](C8-nursery-art-evidence.json) records 314 retained files,
+including the rejected first model, budget control, captures and frozen package.
 
 The nursery's precise concentric slab is replaced with a generated mineral sweep.
 Three irregular arms and luminous grooves make the growing passage described by
@@ -25,11 +27,37 @@ produces 5,949 triangles with UVs intact. The original, red/green reports and lo
 remain under `nursery-model-02`. Opened isolated and in-cave renders establish the
 shape and placement; they do not replace normal traversal evidence.
 
+Both players build. The release recapture in `Builds/quality/C8/chapter-08-art`
+loads the accepted earned preparation save and passes the complete cave, both
+organs, Bellows, seven discovery lines and lift return: **446.782 seconds,
+26,793/26,793 focused frames**. Opened capture `118.png` shows the new growing
+grooves behind the discovery, with fitting dialogue, unobstructed heroes and
+consistent floor contact. No outcome assertion or gameplay tuning changed.
+
+The separate clean release fixture in `nursery-performance-release` starts with
+the cave cleared, walks its main route and repeats eight nursery circuits. It is
+explicitly performance evidence, not earned progression. Runtime and offline
+`--performance` checks pass, with no capture, pause, focus loss or competing process:
+
+| Segment | Seconds | p95 / p99 ms | Worst ms | Frames over 25 ms |
+| --- | ---: | ---: | ---: | ---: |
+| First approach | 250.038 | 16.979 / 17.099 | 21.171 | 0 |
+| Warm nursery circuits | 128.017 | 16.971 / 17.082 | 19.999 | 0 |
+| Whole run | 378.055 | 16.976 / 17.093 | 21.171 | 0 |
+
+All 22,682 frames retain focus. This is capped frame timing; GPU headroom was not
+requested for this run. The station FrameTimingManager measurements remain in the
+[C7 candidate report](C7-candidate.md).
+
 After the scene replacement, full EditMode passes **84/84** and the Hushwell,
 opening-chapter and development-loadout PlayMode checks pass **15/15**, zero skipped.
 Nathan's save hashes are restored exactly. These complement the full **226/226**
 PlayMode pass and fresh **38:37 New Game-to-Tallow chain** immediately before the
 decorative change, documented in [the integration report](C8-nursery-integration.md).
+The packaged chapter copy also passes the full ordinary opening: **102.992 seconds,
+6,164 focused frames**. Its 243 files match their source hashes. Nathan's original
+save hashes and file count still match after all player runs.
+[Chapter launch instructions](../WORKSHOP_CHAPTER.md).
 
 The first chained render/refresh launcher stopped because its owned render process
 was still exiting. The one-owner guard prevented another Unity instance from

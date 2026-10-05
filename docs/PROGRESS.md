@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Nursery chapter package ready to try - October 4
+
+**New local candidate: `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`.** Runtime `56a013e` includes the connected nursery and its new living-route floor. The 243-file package is hash-verified and uses a fresh separate profile. Its full ordinary opening passes in **102.992 s / 6,164 focused frames**. The older C7 package remains available separately. [Launch and short report](WORKSHOP_CHAPTER.md).
+
+The final art recapture passes the earned cave combat, discovery and lift in **446.782 s / 26,793 focused frames**. A separate clean first/warm nursery traversal passes **378.055 s**, p95 **16.976 ms**, p99 **17.093 ms**, worst **21.171 ms**, zero frames over 25 ms. Both players build; 84/84 EditMode and 15/15 affected PlayMode checks complement the preceding full 226/226 suite and 38:37 fresh chapter chain. Nathan's original save hashes and file count are unchanged. C7/C8 acceptance, broader map/story polish and unavailable continuous audiovisual/physical review remain open. [Art gate evidence](validation/C8-nursery-art.md).
+
 ## Nursery floor gains a living-route sweep - October 4
 
 The manufactured concentric slab is replaced by a generated three-arm mineral inlay, with luminous grooves connecting the nursery's visual language to Sela's discovery. The first flower-like model was rejected; the second was oriented horizontally and reduced from 6,359 to **5,949 triangles** after a red budget check. It stays one to seven centimetres above the existing floor, preserving camera, collision, navigation and gameplay identities. Two conversions cost 30 credits; **2,778 remain**. [Art record](validation/C8-nursery-art.md).

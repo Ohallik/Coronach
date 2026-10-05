@@ -1,9 +1,11 @@
-param([switch]$ShowCommand)
+param([switch]$ShowCommand,[switch]$Chapter)
 $ErrorActionPreference='Stop'
 $repo=Split-Path $PSScriptRoot -Parent
-$exe=Join-Path $repo 'Builds/Workshop/Player/Coronach.exe'
-$profile=Join-Path $repo 'Builds/Workshop/Profile'
-$logs=Join-Path $repo 'Builds/Workshop/Logs'
+$package=if($Chapter){'Workshop-Chapter'}else{'Workshop'}
+$packageRoot=Join-Path $repo ('Builds/'+$package)
+$exe=Join-Path $packageRoot 'Player/Coronach.exe'
+$profile=Join-Path $packageRoot 'Profile'
+$logs=Join-Path $packageRoot 'Logs'
 if(-not (Test-Path -LiteralPath $exe -PathType Leaf)){throw 'The workshop package is missing. See docs/WORKSHOP.md for the local package and build instructions.'}
 $log=Join-Path $logs ('play-'+[DateTime]::Now.ToString('yyyyMMdd-HHmmss')+'.log')
 $launch=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-savepath',$profile,'-audio-settings-path',$profile,'-logFile',$log)

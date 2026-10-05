@@ -1,7 +1,7 @@
 {
   "asset": "NurseryGroove",
   "date": "2026-10-04",
-  "stage": "Second model accepted in controlled cave renders; ordinary-player and clean timing validation pending",
+  "stage": "Accepted in controlled cave renders and ordinary-player discovery/lift traversal; clean capped timing passes; whole-map acceptance remains open",
   "generator": "built-in imagegen",
   "meshyCreditsSpent": 30,
   "reason": "Opened Hushwell views show an overly regular manufactured concentric disc; the discovery needs a readable living-route sweep that joins the cave grooves to the eggs.",
@@ -48,6 +48,8 @@
     "renders": "Builds/quality/C8/nursery-model-02",
     "sceneRenders": "Builds/quality/C8/nursery-floor-02",
     "review": "Continuous three-arm swirl and luminous grooves match the corrective reference. Original upright import was oriented horizontally. A small reduction preserves shape/UVs and brings the mesh under the unchanged 6000-triangle limit. The controlled cave view reads as a living route among the cradles; player review remains due.",
-    "placement": "11.2 m planar fit before rotation, 0.06 m relief starting 0.01 m above the floor. No collider or navigation change."
+    "placement": "11.2 m planar fit before rotation, 0.06 m relief starting 0.01 m above the floor. No collider or navigation change.",
+    "playerReview": "chapter-08-art: earned cave, discovery and lift pass in 446.782349 s / 26793 focused frames; opened dialogue capture 118 confirms visible grooves, clear heroes and floor contact.",
+    "performance": "378.055307 s clean first/warm route; p95 16.9762 ms, p99 17.0933 ms, worst 21.1709 ms, zero frames over 25 ms; capped timing only."
   }
 }
