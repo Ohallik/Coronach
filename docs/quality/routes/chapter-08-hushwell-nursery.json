@@ -125,7 +125,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "repair gel if hurt gallery A Scrapmites",
@@ -145,7 +146,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "gallery A Scrapmites cleared",
@@ -229,7 +231,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "repair gel if hurt gallery B Scrapmites",
@@ -249,7 +252,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "gallery B Scrapmites cleared",
@@ -369,7 +373,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "repair gel if hurt chamber 1 Ridgehounds",
@@ -389,7 +394,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "chamber 1 Ridgehounds cleared",
@@ -485,7 +491,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "repair gel if hurt chamber 3 Ridgehounds",
@@ -505,7 +512,8 @@
       "buttons": [
         "South"
       ],
-      "expectedScene": "Hushwell"
+      "expectedScene": "Hushwell",
+      "evadeTelegraphs": true
     },
     {
       "name": "chamber 3 Ridgehounds cleared",

@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Fresh chapter reaches Tallow through the nursery - October 4
+
+**Connected ordinary progression PASS; C8 remains OPEN.** Eleven accepted release segments carry a fresh profile through the real menus, defeat/Retry, Burrower, Hushwell's organs/Bellows, seven-line nursery discovery, return lift, calibrated Halo beacon, complete Gullet/Cantor and Tallow. Total **38:37 / 138,906 focused frames**. Final save: both heroes level seven, full 228 integrity/100 charge, six gels, discovery and slice completion, no legacy bypass. Nathan's original save hashes and file count are unchanged. [Report and evidence](validation/C8-nursery-integration.md).
+
+The first cave attempt remains rejected: two carried gels and stationary recovery inputs left Taren down. Ordinary resupply crafts twelve gels from earned scrap; defensive inputs during regular fights then pass with eight consumed. The first resupply exit waypoint also rejected its path through the anvil; the proven west lane passes. Both player builds succeed from `e989a3b`, and the expanded development smoke passes all 30 markers in 654.7 seconds after repairing its elevated lift-pivot approach. No gameplay or outcome assertion was weakened. The frozen C7 workshop remains separate. Nursery ring art and broader first-chapter composition/story work continue.
+
 ## Nursery story integration passes both full suites - October 4
 
 **C8 remains OPEN.** Fresh profiles now combine the nursery chart with the survey key before entering the Gullet. The objective leads through Hushwell; seven Taren/Sela lines connect its grooves and eggs to the moving route. Discovery/reward/save wait for conversation completion in the same state. Version-1 key owners retain explicit legacy access without fictional visits or duplicate rewards; loading writes nothing. The frozen workshop candidate remains unchanged.

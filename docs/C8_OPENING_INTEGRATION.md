@@ -1,8 +1,8 @@
 # Opening chapter integration
 
 October 4, 2026. Implementation underway; **not a completed chapter**. The
-[nursery increment](validation/C8-nursery-integration.md) has focused red/green
-checks; full integrated and ordinary-route validation are underway. The C7 workshop
+[nursery increment](validation/C8-nursery-integration.md) passes both full suites,
+the expanded smoke and the fresh eleven-segment ordinary route to Tallow. The C7 workshop
 player is frozen separately under `Builds/Workshop/Player`. This plan implements
 the nursery connection in [STORY_CAMPAIGN](STORY_CAMPAIGN.md), then makes room for
 the connected opening and Cantor release. It does not turn those later scenes

@@ -185,6 +185,297 @@
       "tolerance": 0.8
     },
     {
+      "name": "bench operator path",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 139
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "reach the anvil control",
+      "seconds": 3,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 139.5
+      },
+      "tolerance": 0.15
+    },
+    {
+      "name": "open drill fabrication bench",
+      "seconds": 0.5,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release open drill fabrication bench",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Repair Gel 1",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Repair Gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select Repair Gel 2",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select Repair Gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 3",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 4",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 4",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 5",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 5",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 6",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 6",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 7",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 7",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 8",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 8",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 9",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 9",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 10",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 10",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 11",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 11",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "fabricate cave gel 12",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave gel 12",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "close cave preparation bench",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release cave preparation bench",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges"
+    },
+    {
+      "name": "rejoin the excavation road",
+      "seconds": 8,
+      "expectedScene": "Sorrel_Ridges",
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 147
+      },
+      "tolerance": 0.65
+    },
+    {
       "name": "cleared excavation entry",
       "seconds": 7,
       "expectedScene": "Sorrel_Ridges",
