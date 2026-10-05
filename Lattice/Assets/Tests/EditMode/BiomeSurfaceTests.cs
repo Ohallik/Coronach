@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using Lattice.World;
 using NUnit.Framework;
@@ -9,6 +10,39 @@ namespace Lattice.Tests.EditMode
 {
     public sealed class BiomeSurfaceTests
     {
+        [Test]
+        public void NurseryWaterMeshEndsUnderTheBankInsteadOfCuttingThroughOpenWater()
+        {
+            var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hushwell.unity",OpenSceneMode.Additive);
+            try
+            {
+                var ground=scene.GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<MeshCollider>()).Single(c=>c.name=="Cave rock and floor");
+                var pools=scene.GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<BiomePatch>()).Where(p=>p.water).ToArray();
+                Assert.AreEqual(3,pools.Length);Physics.SyncTransforms();
+                foreach(var pool in pools)
+                {
+                    var mesh=pool.GetComponent<MeshFilter>().sharedMesh;
+                    var vertices=mesh.vertices;var triangles=mesh.triangles;
+                    var edges=new Dictionary<(int,int),int>();
+                    for(int t=0;t<triangles.Length;t+=3)for(int e=0;e<3;e++)
+                    {
+                        int a=triangles[t+e],b=triangles[t+(e+1)%3];
+                        var edge=a<b?(a,b):(b,a);edges.TryGetValue(edge,out int count);edges[edge]=count+1;
+                    }
+                    var boundary=edges.Where(e=>e.Value==1).Select(e=>e.Key).ToArray();
+                    Assert.IsNotEmpty(boundary,"the water surface has no boundary");
+                    foreach(var edge in boundary)foreach(float t in new[]{0f,.5f,1f})
+                    {
+                        var at=pool.transform.TransformPoint(Vector3.Lerp(vertices[edge.Item1],vertices[edge.Item2],t));
+                        Assert.IsTrue(ground.Raycast(new Ray(at+Vector3.up*2,Vector3.down),out var hit,4),"water extends beyond its basin ground");
+                        Assert.LessOrEqual(at.y,hit.point.y+.002f,
+                            pool.name+" ends above its submerged bed at "+at+"; the mesh edge creates a hard cut");
+                    }
+                }
+            }
+            finally{EditorSceneManager.CloseScene(scene,true);}
+        }
+
         [Test]
         public void PublicWaterHasADryRimAndADeepInteriorInsteadOfSolidFoam()
         {

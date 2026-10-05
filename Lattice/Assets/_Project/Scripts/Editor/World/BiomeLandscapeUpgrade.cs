@@ -26,6 +26,23 @@ namespace Lattice.EditorTools
         static readonly Vector2[] Service = {new(9,39),new(29,46),new(39,64),new(31,83),new(35,103),new(31,123),new(16,129)};
         public static readonly Vector4[] NurseryPools = {new(4,336,3.6f,2.8f),new(14,344,4.2f,2),new(24,334,3.2f,2.5f)};
 
+        /// <summary>Refresh only the three water mesh assets; no scene, terrain,
+        /// collision or navigation rebuild.</summary>
+        public static void RefreshNurseryWater()=>BatchTools.Run(()=>
+        {
+            var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hushwell.unity");
+            var patches=scene.GetRootGameObjects().SelectMany(r=>r.GetComponentsInChildren<BiomePatch>()).Where(p=>p.water).ToArray();
+            if(patches.Length!=NurseryPools.Length)throw new InvalidOperationException("Unexpected nursery pool layout");
+            for(int i=0;i<NurseryPools.Length;i++)
+            {
+                var patch=patches.Single(p=>p.resourceKey=="Hushwell-nursery-pool-"+i);
+                var pool=NurseryPools[i];
+                SaveMesh(patch,WaterMesh(new Vector2(pool.z,pool.w),"Nursery",patch.resourceKey));
+            }
+            Fallback("Nursery",true);
+            AssetDatabase.SaveAssets();Debug.Log("NURSERY_WATER_MESH_OK");
+        });
+
         public static void Apply() => BatchTools.Run(() =>
         {
             Directory.CreateDirectory(Art);
@@ -189,23 +206,31 @@ namespace Lattice.EditorTools
         static void Water(string id, Vector3 center, Vector2 radius, string palette)
         {
             var patch = Patch(id,palette,true,center);
+            SaveMesh(patch,WaterMesh(radius,palette,zone+"-"+id));
+        }
+
+        static Mesh WaterMesh(Vector2 radius,string palette,string name)
+        {
             const int segments=64, rings=5;
+            // The basin must occlude the mesh boundary. Ending inside the wet
+            // slope leaves a visible cut where the depth fade cannot reach zero.
+            float extent=palette=="Nursery"?1.3f:1;
             var vertices = new List<Vector3>{Vector3.zero}; var uv = new List<Vector2>{Vector2.one*.5f}; var triangles=new List<int>();
             float narrow=Mathf.Min(radius.x,radius.y);
             var shoreline=new List<Vector2>{new Vector2(0,narrow)};
             for(int r=1;r<=rings;r++)for(int i=0;i<segments;i++)
             {
-                float a=i*Mathf.PI*2/segments, t=(float)r/rings;
+                float a=i*Mathf.PI*2/segments, t=(float)r/rings*extent;
                 float edge=WaterRadius(a);
                 var q=palette=="Refuge"?new Vector2(Mathf.Sign(Mathf.Cos(a))*Mathf.Pow(Mathf.Abs(Mathf.Cos(a)),.16f),Mathf.Sign(Mathf.Sin(a))*Mathf.Pow(Mathf.Abs(Mathf.Sin(a)),.16f))*t:
                     new Vector2(Mathf.Cos(a),Mathf.Sin(a))*t*edge;
                 vertices.Add(new Vector3(q.x*radius.x,0,q.y*radius.y)); uv.Add(q*.48f+Vector2.one*.5f);
-                shoreline.Add(new Vector2(0,(1-t)*narrow));
+                shoreline.Add(new Vector2(0,Mathf.Max(0,1-t)*narrow));
                 int current=1+(r-1)*segments+i, next=1+(r-1)*segments+(i+1)%segments;
                 if(r==1)triangles.AddRange(new[]{0,next,current});
                 else {int inner=current-segments,innerNext=next-segments;triangles.AddRange(new[]{inner,innerNext,current,current,innerNext,next});}
             }
-            var mesh = new Mesh {name=zone+"-"+id};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetUVs(1,shoreline);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateTangents();mesh.RecalculateBounds();SaveMesh(patch,mesh);
+            var mesh = new Mesh {name=name};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetUVs(1,shoreline);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateTangents();mesh.RecalculateBounds();return mesh;
         }
 
         static BiomePatch Patch(string id,string palette,bool water,Vector3 position)
@@ -233,6 +258,22 @@ namespace Lattice.EditorTools
                 material.SetVector("_FoamParams",new Vector4(.1f,.6f,.06f,.18f));
                 material.SetColor("_FoamColor",new Color(.48f,.61f,.58f,1));
                 material.SetColor("_DeepColor",new Color(.07f,.22f,.26f,1));
+                if(palette=="Nursery")
+                {
+                    // The no-pack water also blends into its bank. The existing
+                    // toon shader uses our baked world-space shoreline distance.
+                    material.EnableKeyword("_EDGEFADE_ON");material.SetFloat("_EdgeFade",1);
+                    material.SetVector("_EdgeParams",new Vector4(1,.4f,.03f,.5f));
+                    material.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);
+                    material.SetFloat("_DstBlend",(float)BlendMode.OneMinusSrcAlpha);
+                    material.SetFloat("_ZWrite",0);material.renderQueue=(int)RenderQueue.Transparent;
+                    material.SetOverrideTag("RenderType","Transparent");
+                    material.SetFloat("_BaseMapStrength",.2f);
+                    material.SetColor("_BaseColor",new Color(.32f,.48f,.46f,.6f));
+                    material.SetColor("_DeepColor",new Color(.07f,.22f,.26f,.88f));
+                    material.SetColor("_FoamColor",new Color(.3f,.5f,.45f,.6f));
+                    material.SetVector("_FoamParams",new Vector4(.06f,.6f,.03f,.04f));
+                }
             }
             EditorUtility.SetDirty(material);return material;
         }

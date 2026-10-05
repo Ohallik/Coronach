@@ -96,12 +96,22 @@ namespace Lattice.EditorTools
             {
                 Float(material,"_LightingOn",1);material.DisableKeyword("_UNLIT");
                 Float(material,"_ReceiveShadows",1);material.DisableKeyword("_RECEIVE_SHADOWS_OFF");
-                Float(material,"_AnimationSpeed",.16f);Float(material,"_WaveHeight",.035f);Float(material,"_WavesOn",0);
-                Float(material,"_FoamOpacity",.07f);Float(material,"_FoamSpeed",.12f);Float(material,"_NormalStrength",.65f);
+                Float(material,"_WaveHeight",.035f);Float(material,"_WavesOn",0);
+                Float(material,"_FoamSpeed",.12f);Float(material,"_NormalStrength",palette=="Nursery"?.22f:.65f);
                 // These are absorption strengths, not metres of depth. The pools are shallow.
-                Float(material,"_DepthVertical",8);Float(material,"_DepthHorizontal",12);Float(material,"_EdgeFade",.18f);
+                Float(material,"_DepthVertical",8);Float(material,"_DepthHorizontal",12);
+                // Stylized Water 3 expresses this fade in centimetres. Cave water
+                // needs a visible shallow transition, not the old 1.8 mm cut edge.
+                Float(material,"_EdgeFade",palette=="Nursery"?20:.18f);
                 Float(material,"_FoamBaseAmount",.68f);Float(material,"_FoamStrength",.6f);Float(material,"_FoamClipping",.3f);
                 Float(material,"_FoamDistanceOn",0);material.DisableKeyword("_SURFACE_FOAM_DUAL");
+                if(palette=="Nursery")
+                {
+                    // Sheltered groundwater: retain bank intersection detail,
+                    // without the source material's ocean-like surface foam.
+                    Float(material,"_FoamOn",0);material.DisableKeyword("_SURFACE_FOAM_SINGLE");
+                    Float(material,"_Speed",.16f);
+                }
                 Float(material,"_RefractionOn",1);material.EnableKeyword("_REFRACTION");Float(material,"_RefractionStrength",.025f);
                 Float(material,"_FoamBubblesStrength",.08f);
                 material.SetVector("_FoamTiling",new Vector4(.35f,.35f,0,0));

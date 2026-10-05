@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## Nursery shorelines corrected in both art layers - October 4
+
+Opened views exposed hard pool borders and cracked-looking surface foam. A new check rejects the original mesh ending above its submerged bed; the three water meshes now extend beneath the bank. Licensed water gets a 20 cm depth fade and quiet foam-free ripples; the public fallback also blends its edges. Collision, navigation and the fixed camera remain unchanged. **85/85 EditMode checks pass**, and both final controlled versions have been opened. Standalone traversal/timing and the affected cave checks are next. The frozen chapter package remains available at runtime 56a013e. [Evidence](validation/C8-nursery-water.md).
+
 ## Nursery chapter package ready to try - October 4
 
 **New local candidate: `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`.** Runtime `56a013e` includes the connected nursery and its new living-route floor. The 243-file package is hash-verified and uses a fresh separate profile. Its full ordinary opening passes in **102.992 s / 6,164 focused frames**. The older C7 package remains available separately. [Launch and short report](WORKSHOP_CHAPTER.md).
