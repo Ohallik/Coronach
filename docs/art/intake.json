@@ -1654,5 +1654,18 @@
     "pitch": 0,
     "roll": 0,
     "clips": []
+  },
+  {
+    "id": "NurseryGroove",
+    "model": "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove_clean.fbx",
+    "albedo": "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove_base_color.png",
+    "emission": "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove_emission.png",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 8.0,
+    "fit": "length",
+    "emissionColor": "#22F5FF",
+    "yaw": 0,
+    "pitch": -90
   }
 ]

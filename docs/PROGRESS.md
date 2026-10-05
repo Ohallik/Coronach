@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Nursery floor gains a living-route sweep - October 4
+
+The manufactured concentric slab is replaced by a generated three-arm mineral inlay, with luminous grooves connecting the nursery's visual language to Sela's discovery. The first flower-like model was rejected; the second was oriented horizontally and reduced from 6,359 to **5,949 triangles** after a red budget check. It stays one to seven centimetres above the existing floor, preserving camera, collision, navigation and gameplay identities. Two conversions cost 30 credits; **2,778 remain**. [Art record](validation/C8-nursery-art.md).
+
+Controlled cave renders and **84/84 EditMode plus 15/15 focused PlayMode** pass; Nathan's original save hashes are unchanged. Rebuilt-player discovery/lift traversal and clean timing remain due. Repetitive cradles, sparse Sorrel areas and broader first-chapter story/composition remain open; this is not whole-map or C8 acceptance.
+
 ## Fresh chapter reaches Tallow through the nursery - October 4
 
 **Connected ordinary progression PASS; C8 remains OPEN.** Eleven accepted release segments carry a fresh profile through the real menus, defeat/Retry, Burrower, Hushwell's organs/Bellows, seven-line nursery discovery, return lift, calibrated Halo beacon, complete Gullet/Cantor and Tallow. Total **38:37 / 138,906 focused frames**. Final save: both heroes level seven, full 228 integrity/100 charge, six gels, discovery and slice completion, no legacy bypass. Nathan's original save hashes and file count are unchanged. [Report and evidence](validation/C8-nursery-integration.md).

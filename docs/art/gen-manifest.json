@@ -2881,5 +2881,73 @@
       "art-src/Generated/C7-CoilMooring/CoilMooring.fbx",
       "art-src/Generated/C7-CoilMooring/CoilMooring_base_color.png"
     ]
+  },
+  {
+    "task": "p46-img3d-01a1096f-fad6-7226-a4cd-a67120a59a40",
+    "task_id": "01a1096f-fad6-7226-a4cd-a67120a59a40",
+    "prompt_id": "P46",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Inspected P46 low organic mineral sweep for the Hushwell nursery; preserve the isolated reference",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=2546952 sha256(base64)=5405dcca67d335f2>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-NurseryGroove/NurseryGroove.fbx",
+    "batch": "C8-NurseryGroove",
+    "created_at": "2026-10-05T00:21:37+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-10-05T00:22:18+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-NurseryGroove/NurseryGroove.fbx",
+      "art-src/Generated/C8-NurseryGroove/NurseryGroove_base_color.png"
+    ]
+  },
+  {
+    "task": "p46-img3d-01a10973-fb7a-7420-8de5-33e803ef6deb",
+    "task_id": "01a10973-fb7a-7420-8de5-33e803ef6deb",
+    "prompt_id": "P46",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Inspected corrective P46 reference: three continuous mineral sweep arms; original flower-paving reconstruction rejected",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1832088 sha256(base64)=09d1c7b753e432b9>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove.fbx",
+    "batch": "C8-NurseryGroove-v2",
+    "created_at": "2026-10-05T00:25:59+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-10-05T00:26:41+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove.fbx",
+      "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove_base_color.png"
+    ]
   }
 ]

@@ -1,9 +1,9 @@
 {
   "asset": "NurseryGroove",
   "date": "2026-10-04",
-  "stage": "Reference board and isolated reference inspected; 3D model not commissioned or accepted",
+  "stage": "Second model accepted in controlled cave renders; ordinary-player and clean timing validation pending",
   "generator": "built-in imagegen",
-  "meshyCreditsSpent": 0,
+  "meshyCreditsSpent": 30,
   "reason": "Opened Hushwell views show an overly regular manufactured concentric disc; the discovery needs a readable living-route sweep that joins the cave grooves to the eggs.",
   "board": {
     "path": "art-src/Generated/C8-NurseryGroove/refs/NurseryGroove-board.png",
@@ -22,5 +22,32 @@
     "Floor contact must agree with hero foot placement; do not leave a raised visual surface without corresponding support",
     "No licensed source or textures in generated/public assets",
     "No 3D spend before the connected gameplay increment is proven"
-  ]
+  ],
+  "firstModel": {
+    "task": "01a1096f-fad6-7226-a4cd-a67120a59a40",
+    "credits": 15,
+    "batch": "C8-NurseryGroove",
+    "status": "REJECTED",
+    "renders": "Builds/quality/C8/nursery-model-01",
+    "reason": "Opened three-quarter and side renders turn continuous mineral sweeps into flower-like paving stones; luminous grooves are absent. The scene was not changed."
+  },
+  "correctiveReference": {
+    "path": "art-src/Generated/C8-NurseryGroove-v2/refs/NurseryGroove.png",
+    "sha256": "e917a869467bb81faafa1ff7c8eb52332d9432209bb7e93be192965cd7281e2e",
+    "review": "Three connected sweeping arms, open spiral centre, no pebble border; accepted for a second conversion, not as a game model.",
+    "prompt": "Use case: stylized-concept. Revise this isolated HD-2D toon game floor-prop reference specifically for image-to-3D clarity. Keep ONE very shallow natural warm brown mineral formation on plain opaque white. Simplify radically into exactly THREE broad, physically connected, asymmetrical sweeping mineral ribs that flow in one direction around a clearly OPEN dark central spiral groove. Each rib is a continuous long curved rock layer tapering outward into a long broken tail. Show their flow and spacing clearly from a high 60-degree oblique overhead angle. Thin luminous cyan-violet lines follow the bottoms of the three deep-looking grooves, continuing into the open centre and outward along the tails. Keep the overall silhouette irregular and strongly three-armed, not circular. No rings of surrounding pebbles; no loose stones; no rectangular base; no flower centre; no petals; no rosette; no concentric precision circles. Matte broad painted flat-colour surfaces with only a few large chips. Limit detailed cracks and texture noise, so the large continuous flow is unmistakable. The whole prop is 8 metres across and only 15 cm thick; side profile almost flush, no hill or pedestal. All three arms connected near the middle without closing the central groove. Single asset, generous white margin, no text, no labels, no characters, no eggs, no grass, no water, no vignette, no cast shadow. This is a corrective modelling reference: the previous conversion mistakenly made separate paving-stone petals; remove every cue that could cause that reading."
+  },
+  "creditBalanceAfter": 2778,
+  "secondModel": {
+    "task": "01a10973-fb7a-7420-8de5-33e803ef6deb",
+    "credits": 15,
+    "batch": "C8-NurseryGroove-v2",
+    "trianglesBefore": 6359,
+    "triangles": 5949,
+    "intakePitch": -90,
+    "renders": "Builds/quality/C8/nursery-model-02",
+    "sceneRenders": "Builds/quality/C8/nursery-floor-02",
+    "review": "Continuous three-arm swirl and luminous grooves match the corrective reference. Original upright import was oriented horizontally. A small reduction preserves shape/UVs and brings the mesh under the unchanged 6000-triangle limit. The controlled cave view reads as a living route among the cradles; player review remains due.",
+    "placement": "11.2 m planar fit before rotation, 0.06 m relief starting 0.01 m above the floor. No collider or navigation change."
+  }
 }

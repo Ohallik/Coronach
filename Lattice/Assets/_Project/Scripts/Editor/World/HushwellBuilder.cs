@@ -31,6 +31,18 @@ namespace Lattice.EditorTools
         public static void Blockout()=>BatchTools.Run(()=>{Build(true);AssetDatabase.SaveAssets();Debug.Log("HUSHWELL_BLOCKOUT_OK");});
         public static void Final()=>BatchTools.Run(()=>{Build(false);AssetDatabase.SaveAssets();Debug.Log("HUSHWELL_FINAL_OK");});
 
+        /// <summary>Replace only the nursery's decorative floor. All gameplay
+        /// objects, colliders, navigation and save identities stay authored.</summary>
+        public static void RefreshNurseryFloor()=>BatchTools.Run(()=>
+        {
+            var scene=UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Hushwell.unity");
+            var n=HushwellLayout.Nursery;
+            var previous=scene.GetRootGameObjects().Single(g=>g.name=="Nursery living route"||
+                g.name=="HushwellMarker"&&Vector2.Distance(new Vector2(g.transform.position.x,g.transform.position.z),n)<.1f);
+            blockout=false;NurseryFloor();UnityEngine.Object.DestroyImmediate(previous);
+            AssetDatabase.SaveAssets();WorldBuilder.Save(scene,"Hushwell");Debug.Log("HUSHWELL_NURSERY_FLOOR_OK");
+        });
+
         static void Build(bool grey)
         {
             blockout=grey;
@@ -167,7 +179,7 @@ namespace Lattice.EditorTools
         static void Nursery()
         {
             var n=HushwellLayout.Nursery;
-            Prop("HushwellMarker",n.x,n.y,.4f,0,false,8);
+            NurseryFloor();
             for(int i=0;i<5;i++){float a=(i*72+18)*Mathf.Deg2Rad;Prop("HushwellEggCradle",n.x+Mathf.Cos(a)*6.5f,n.y+Mathf.Sin(a)*5.5f,1.8f,-i*72+90,true,3.4f);}
             var look=new GameObject("The nursery",typeof(DiscoveryPoint)).GetComponent<DiscoveryPoint>();look.transform.position=HushwellLayout.OnFloor(n);
             look.dialogueNode="SelaNursery";look.dialogueSpeaker="Sela";
@@ -178,6 +190,24 @@ namespace Lattice.EditorTools
             Light("Lift lamp",HushwellLayout.OnFloor(new Vector2(n.x+13,n.y+6))+Vector3.up*3,new Color(1,.82f,.55f),1.6f,8);
             Safe("Nursery",new Vector3(n.x,HushwellLayout.Lower+1,n.y),new Vector3(34,5,26));
             WorldBuilder.Label("NURSERY",new Vector3(n.x,HushwellLayout.Lower+.1f,n.y-12));
+        }
+
+        static void NurseryFloor()
+        {
+            var n=HushwellLayout.Nursery;
+            if(blockout){Prop("HushwellMarker",n.x,n.y,.4f,0,false,8);return;}
+            if(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/NurseryGroove.prefab")==null)
+                throw new InvalidOperationException("The reviewed NurseryGroove must pass isolated intake first");
+            var go=WorldBuilder.Piece("NurseryGroove",Vector3.zero,Vector3.one,"Rock",false);
+            go.name="Nursery living route";
+            var bounds=ModelGeometry.BoundsOf(go);float across=11.2f/Mathf.Max(bounds.size.x,bounds.size.z);
+            // A mineral inlay, not an unsupported platform. Preserve the planar
+            // sweep while keeping all relief beneath the heroes' foot contact.
+            go.transform.localScale=new Vector3(across,.06f/bounds.size.y,across);
+            go.transform.rotation=Quaternion.Euler(0,-12,0);bounds=ModelGeometry.BoundsOf(go);
+            go.transform.position=new Vector3(n.x-bounds.center.x,HushwellLayout.Lower+.01f-bounds.min.y,n.y-bounds.center.z);
+            go.isStatic=true;
+            Debug.Log($"NURSERY_FLOOR_BOUNDS center={ModelGeometry.BoundsOf(go).center} size={ModelGeometry.BoundsOf(go).size}");
         }
 
         // ---- Dressing: what the miners left and what the nursery grows -----

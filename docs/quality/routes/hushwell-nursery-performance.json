@@ -1,0 +1,708 @@
+{
+  "name": "hushwell-nursery-performance",
+  "scene": "Hushwell",
+  "starterParty": true,
+  "loadout": "gullet",
+  "settleSeconds": 8,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "P46 generated nursery relief; completed-cave development fixture for clean timing, not earned progression",
+  "steps": [
+    {
+      "name": "cleared cave approach 1",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 8
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 2",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": 22
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 3",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0,
+        "z": 36
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 4",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -13,
+        "y": 0,
+        "z": 48
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 5",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -9,
+        "y": 0,
+        "z": 62
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 6",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 72
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 7",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0,
+        "z": 84
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 8",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0,
+        "z": 96
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 9",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 110
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 10",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 122
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 11",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 136
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 12",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 148
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 13",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 164
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 14",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 178
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 15",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0,
+        "z": 196
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 16",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": -2,
+        "y": 0,
+        "z": 210
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 17",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 220
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 18",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 1,
+        "y": 0,
+        "z": 226
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 19",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 240
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 20",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 262
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 21",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 284
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 22",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0,
+        "z": 296
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 23",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 9,
+        "y": 0,
+        "z": 308
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 24",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 13,
+        "y": 0,
+        "z": 320
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "cleared cave approach 25",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 1 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 1 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 1 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 1 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 2 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 2 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 2 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 2 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 3 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 3 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 3 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 3 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 4 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 4 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 4 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 4 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 5 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 5 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 5 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 5 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 6 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 6 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 6 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 6 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 7 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 7 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 7 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 7 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 8 point 1",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 10,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 8 point 2",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 337
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 8 point 3",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 18,
+        "y": 0,
+        "z": 334
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    },
+    {
+      "name": "nursery warm circuit 8 point 4",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 14,
+        "y": 0,
+        "z": 331
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Hushwell"
+    }
+  ],
+  "segments": [
+    {
+      "name": "first approach",
+      "firstStep": 0,
+      "stepCount": 25
+    },
+    {
+      "name": "warm nursery circuits",
+      "firstStep": 25,
+      "stepCount": 32
+    }
+  ]
+}
