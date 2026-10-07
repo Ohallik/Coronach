@@ -1,5 +1,30 @@
 {
   "originalRevision": "07eaf9f",
+  "committedSource": {
+    "committedRuntimeRevision": "e93bf138cddccc9fb6d992a819040a646ce9f7ea",
+    "candidate": 45,
+    "note": "Captured source was based on dirty 8685dca. Runtime contents match this commit after Git line-ending normalization. Capture manifests remain unchanged.",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "capturedWorkingSha256": "4f2f6cf78ca133bd00ac9b2354d151e82ab1f7cf3b4f88c7d41929cb5aadf897",
+        "normalizedCommittedSha256": "b317e50038b193438eaf013110069c0929ce86eb6a046e9bdb94bb26e50d3d9a",
+        "matches": true
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "capturedWorkingSha256": "6d88898189177967ba5f36f68ab286e603363f9aa7a69fd0d8368162c0a16f0e",
+        "normalizedCommittedSha256": "399352f6c0aebf05362a5e9aed64c5fc74e9376a94793d7491c0a70189b95c03",
+        "matches": true
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundStrideProfile.cs",
+        "capturedWorkingSha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af",
+        "normalizedCommittedSha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af",
+        "matches": true
+      }
+    ]
+  },
   "candidateProvenance": {
     "baseRevision": "8685dcae3d722d11cbc86503da299a3688fe655f",
     "workingCandidate": 45,

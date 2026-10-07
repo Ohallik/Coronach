@@ -1,6 +1,6 @@
 # Terrain contact and reversal follow-up — October 6
 
-Candidate 45 follows pushed `8685dca`; its three exact runtime source hashes accompany every current player recording. The committed follow-up contains those runtime files unchanged. [Machine-readable evidence](C2-terrain-results.json). `07eaf9f` remains the original defect control. **C1/C2 acceptance remains OPEN.** The frozen `a3aaad6` chapter has not been replaced. Continuous normal/slow-motion viewing, physical scan-out and controller feel remain UNVERIFIED; opened poses and numerical passes do not establish those results.
+Candidate 45 is committed and pushed as `e93bf13`, following `8685dca`; its three exact runtime source hashes accompany every current player recording. The three captured runtime files match `e93bf13` after Git line-ending normalization (`committed-source-binding.json`); historical build manifests remain unchanged. [Machine-readable evidence](C2-terrain-results.json). `07eaf9f` remains the original defect control. **C1/C2 acceptance remains OPEN.** The frozen `a3aaad6` chapter has not been replaced. Continuous normal/slow-motion viewing, physical scan-out and controller feel remain UNVERIFIED; opened poses and numerical passes do not establish those results.
 
 ## Reproduction and original-source controls
 
