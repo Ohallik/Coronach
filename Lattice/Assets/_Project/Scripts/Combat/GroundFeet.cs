@@ -31,6 +31,7 @@ namespace Lattice.Combat
         Quaternion previousRotation;
         string previousClip;
         bool previousReverse,previousTargetFacing;
+        float smoothedSupportDrop;
         GeneratedAnimator driver;
         CombatActor actor;
         FormController form;
@@ -70,7 +71,7 @@ namespace Lattice.Combat
                 animator.IsInTransition(0),GameTime.Paused,driver.ReverseLocomotion,actor.TargetLocked);
         }
         public void ResetContacts(){if(left!=null){left.contact=right.contact=-1;left.soundReady=right.soundReady=false;}previousClip=null;previousDirection=Vector3.forward;}
-        public void Correct(Vector3 velocity,string clip,float phase,float stride,bool transitioning,bool paused=false,bool reverse=false,bool targetFacing=true)
+        public void Correct(Vector3 velocity,string clip,float phase,float stride,bool transitioning,bool paused=false,bool reverse=false,bool targetFacing=true,float deltaTime=-1)
         {
             if(profile==null)return;
             bool reset=previousClip==null||previousReverse!=reverse||previousTargetFacing!=targetFacing||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
@@ -107,9 +108,12 @@ namespace Lattice.Combat
             // ankle targets inside their real chain length, including landing
             // and toe-off, rather than lifting an anchor or snapping a knee.
             RequestedSupportDrop=Mathf.Max(SupportDrop(left),SupportDrop(right));
-            float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.14f);
-            pelvis.position-=Vector3.up*supportDrop;
-            Complete(left,directional);Complete(right,directional);
+            float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.16f);
+            if(reset)smoothedSupportDrop=supportDrop;
+            else if(!paused)smoothedSupportDrop=Mathf.Lerp(smoothedSupportDrop,supportDrop,
+                1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/(clip=="Sprint"?.01f:.025f)));
+            pelvis.position-=Vector3.up*smoothedSupportDrop;
+            Complete(left);Complete(right);
             if(!paused)
             {
                 bool canSound=actor!=null&&actor.Health.Alive&&!actor.flight&&!actor.ChangingForm&&
@@ -133,9 +137,9 @@ namespace Lattice.Combat
             AudioManager.Family(AudioSurface.Family(leg.ground,SceneFlow.Current!=null?SceneFlow.Current.Zone:actor.gameObject.scene.name),
                 4,actor.transform,sole,gain,170,.08f);
         }
-        void Complete(Leg leg,float directional)
+        void Complete(Leg leg)
         {
-            MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,leg.target,leg.pole,directional));
+            MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,leg.target,leg.pole));
             leg.foot.rotation=leg.rotation;
         }
         void Apply(Leg leg,string clip,float phase,float stride,bool canPlant,Vector3 direction,Quaternion lowerRotation,float directional)
@@ -166,7 +170,12 @@ namespace Lattice.Combat
                 }
                 else if(clip=="Run"||clip=="Sprint")
                 {
-                    contact=1;weight=Window(phase,clip=="Run"?.035f:.055f,clip=="Run"?.22f:.2f,.025f);
+                    // Blend into landing and release over the authored swing,
+                    // retaining full support through the measured stance.
+                    // The old 0.025-cycle release yanked the ankle in ~10 ms.
+                    float start=clip=="Run"?.02f:.03f,attack=clip=="Run"?.055f:.065f;
+                    float end=clip=="Run"?.26f:.21f,release=clip=="Run"?.1f:.05f;
+                    contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-start)/attack,(end-phase)/release)));
                     if(weight<=0)contact=-1;
                 }
             }
@@ -209,27 +218,28 @@ namespace Lattice.Combat
         }
         static float SupportDrop(Leg leg)
         {
-            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-.002f;
+            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-.02f;
             Vector3 delta=leg.thigh.position-leg.target;
             float horizontal=delta.x*delta.x+delta.z*delta.z;
-            if(horizontal>=length*length)return 0;
-            float vertical=Mathf.Sqrt(length*length-horizontal);
+            // Keep the requested drop continuous across the reach boundary;
+            // an unreachable horizontal target still needs the bounded drop.
+            float vertical=Mathf.Sqrt(Mathf.Max(0,length*length-horizontal));
             return Mathf.Max(0,delta.y-vertical);
         }
         static float Window(float phase,float start,float end,float edge)=>
             Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-start)/edge,(end-phase)/edge)));
-        static float Solve(Leg leg,Vector3 target,Vector3 pole,float directional)
+        static float Solve(Leg leg,Vector3 target,Vector3 pole)
         {
             Vector3 origin=leg.thigh.position,knee=leg.knee.position,foot=leg.foot.position;
             float upper=Vector3.Distance(origin,knee),lower=Vector3.Distance(knee,foot);
             Vector3 delta=target-origin;float requested=delta.magnitude;
             if(requested<.001f||upper<.001f||lower<.001f)return 0;
             Vector3 axis=delta/requested;
-            float distance=Mathf.Clamp(requested,Mathf.Abs(upper-lower)+.001f,upper+lower-.001f);
-            Vector3 bend=Vector3.ProjectOnPlane(knee-origin,axis).normalized;
-            if(bend.sqrMagnitude<.1f)bend=Vector3.ProjectOnPlane(leg.thigh.forward,axis).normalized;
-            var deliberateBend=Vector3.ProjectOnPlane(pole,axis).normalized;
-            bend=Vector3.Slerp(bend,deliberateBend,directional*.75f).normalized;
+            float distance=Mathf.Clamp(requested,Mathf.Abs(upper-lower)+.001f,upper+lower-.02f);
+            // The ankle path retains the take's bend/extension and foot roll.
+            // A stable anatomical pole keeps the knee facing with the lower
+            // body even when Mecanim's almost-straight leg changes bend plane.
+            Vector3 bend=Vector3.ProjectOnPlane(pole,axis).normalized;
             float along=(upper*upper+distance*distance-lower*lower)/(2*distance);
             float outward=Mathf.Sqrt(Mathf.Max(0,upper*upper-along*along));
             Vector3 desiredKnee=origin+axis*along+bend*outward;

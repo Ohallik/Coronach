@@ -1,5 +1,7 @@
 # Ordinary startup pacing — October 4
 
+**Historical configuration.** Nathan's October 6 tearing report prompted a synchronized-presentation repair; see [current comparison and validation](C1-C2-presentation-motion.md). Retain the quarter-second failures below. The earlier VSync-off repair is no longer the production policy.
+
 **A real startup defect was reproduced and corrected. C7 remains open.** The
 ground arena smoke killed all three targets, then failed its unchanged Flash/
 damage assertions. Diagnosis found an accepted dodge followed by a 246–248 ms

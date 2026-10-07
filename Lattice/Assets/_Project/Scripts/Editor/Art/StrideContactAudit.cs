@@ -82,6 +82,7 @@ namespace Lattice.EditorTools
             // SendMessage refuses ordinary behaviours in edit mode. Invoke the
             // real driver directly; the manual playable below supplies its pose.
             var flags=System.Reflection.BindingFlags.Instance|System.Reflection.BindingFlags.NonPublic;
+            if(actor.Health==null)typeof(CombatActor).GetMethod("Awake",flags).Invoke(actor,null);
             typeof(GeneratedAnimator).GetMethod("Start",flags).Invoke(driver,null);
             typeof(GeneratedAnimator).GetMethod("Update",flags).Invoke(driver,null);
             string state=driver.CurrentAnimation;float rate=animator.speed;
@@ -112,7 +113,7 @@ namespace Lattice.EditorTools
                     actorObject.transform.position=travel*speed*seconds;
                     var position=actorObject.transform.position;position.y=Vector3.Dot(normal,surface-position)/normal.y+rootClearance;actorObject.transform.position=position;
                     playable.SetTime(phase*clip.length);graph.Evaluate(0);
-                    if(feet!=null)feet.Correct(travel*speed,state,poseNormalized,stride,false,reverse:reverse);
+                    if(feet!=null)feet.Correct(travel*speed,state,poseNormalized,stride,false,reverse:reverse,deltaTime:dt);
                     if(DevArgs.Has("-stride-shots")&&normalized>=1&&normalized<2)
                     {
                         float leftPhase=state=="Walk"?.28f:.12f,rightPhase=leftPhase+(state=="Sprint"?.55f:.5f);

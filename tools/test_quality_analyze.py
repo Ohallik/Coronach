@@ -4,7 +4,7 @@ from quality_analyze import analyze, analyze_segments, analyze_headroom, analyze
 
 class TraversalContract(unittest.TestCase):
     def setUp(self):
-        self.run=dict(valid=True,failures=[],width=1920,height=1080,captured=False,frameCap=60,vSync=0)
+        self.run=dict(valid=True,failures=[],width=1920,height=1080,captured=False,frameCap=-1,vSync=1,refreshHz=60)
         self.route=dict(scene='Hub_Decks',steps=[dict(name='outbound',seconds=60,navigate=True,point=dict(x=60,z=0)),dict(name='return',seconds=60,navigate=True,point=dict(x=0,z=0))])
         self.frames=[]
         for i in range(7200):
@@ -17,13 +17,19 @@ class TraversalContract(unittest.TestCase):
         self.assertIn('hitch budget exceeded',self.result()['failures'])
     def test_different_frame_cap_cannot_claim_ordinary_60fps_performance(self):
         self.run['frameCap']=120
-        self.assertIn('ordinary timing requires the player 60 fps / VSync-off policy',self.result()['failures'])
+        self.assertIn('ordinary timing requires synchronized presentation on the 60 Hz reference display',self.result()['failures'])
     def test_vsync_override_cannot_claim_the_player_pacing_policy(self):
-        self.run['vSync']=1
-        self.assertIn('ordinary timing requires the player 60 fps / VSync-off policy',self.result()['failures'])
+        self.run['vSync']=0
+        self.assertIn('ordinary timing requires synchronized presentation on the 60 Hz reference display',self.result()['failures'])
     def test_missing_pacing_metadata_cannot_claim_ordinary_performance(self):
         del self.run['vSync']
-        self.assertIn('ordinary timing requires the player 60 fps / VSync-off policy',self.result()['failures'])
+        self.assertIn('ordinary timing requires synchronized presentation on the 60 Hz reference display',self.result()['failures'])
+    def test_different_display_cannot_claim_reference_display_performance(self):
+        self.run['refreshHz']=144
+        self.assertIn('ordinary timing requires synchronized presentation on the 60 Hz reference display',self.result()['failures'])
+    def test_missing_refresh_cannot_claim_reference_display_performance(self):
+        del self.run['refreshHz']
+        self.assertIn('ordinary timing requires synchronized presentation on the 60 Hz reference display',self.result()['failures'])
     def test_stationary_avatar_fails(self):
         for f in self.frames: f['x']='0'
         self.assertIn('stationary or insufficient traversal',self.result()['failures'])

@@ -230,4 +230,4 @@ The September 26 balance was 405 credits; that is historical. Nathan's later ava
 
 Existing tools include `scripts/headless.ps1`, `quality-replay.ps1`, `smoketest.ps1`, `performance.ps1`, `review-step.ps1`, `look.ps1`, `ui-smoke.ps1`, `portrait-smoke.ps1` and `balance.ps1`. Moving ordinary-input routes, continuous capture, frame timing, GPU API cross-checks and dialogue-input regressions are implemented; their dated evidence and remaining observation limits live in `docs/validation/`. Inspect script parameters before calling them. Run the full PlayMode suite with `-TimeoutSec 3600`. Run each player-window session alone as one blocking call; preserve one Unity owner of the project and never stop unrelated processes. Verify Nathan's original save hashes after big runs.
 
-The immediate next work is C0, followed by C1 and C2. Do not start by generating the remaining planets.
+The current priority is the newest human quality report in PROGRESS, followed by the remaining C1–C6/C7 evidence and C8 polish. Do not restart the historical C0 assignment or begin by generating the remaining planets. See [the continuation prompt](NEXT_SESSION_PROMPT.md).

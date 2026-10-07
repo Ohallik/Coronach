@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Moving-screen synchronization and leg repair under validation — October 6
+
+Nathan reported screen lag/tearing during movement and wonky legs. Ordinary desktop startup now synchronizes to the display without a competing software cap. Both D3D11 and D3D12 synchronized Decks comparisons pass the unchanged timing/hitch budgets: p95 about 17.05 ms, no frame over 33.3 ms. The earlier quarter-second pacing failure remains retained; its driver/compositor cause is not established. Windows denied the physical scan-out tracer, so physical tearing remains unverified.
+
+The leg solver now keeps a stable knee bend, reserves extension room, releases running contacts gradually and damps pelvis support without advancing during pause. All eight whole-step checks reject the original runtime. Maximum walking knee-angle jumps drop from 12.29° to 3.63° per 240 Hz sample; the original directional and uphill contact limits still pass. **97/97 EditMode, 230/230 PlayMode and 119 offline checks pass**, zero skipped. Nathan's save hashes and file count are unchanged. Final built-player validation is next; the frozen chapter remains a3aaad6 until its replacement passes. [Repair evidence](validation/C1-C2-presentation-motion.md).
+
+[The continuation prompt](NEXT_SESSION_PROMPT.md) now describes the real completed slice, remaining quality acceptance, C8 polish and C9–C10 production, with save/process/licence/evidence rules. C7/C8 and continuous audiovisual/physical acceptance remain open.
+
 ## Refined nursery and persistent cave state packaged - October 4
 
 **Updated playable chapter: `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`, runtime a3aaad6.** The nursery has softer pool banks in both public and licensed art, quieter water, and pressure organs that stay broken across saves. Cleared Bellows chambers remain quiet, including older completed saves. A reproducible Windows save-replacement failure now has bounded recovery without losing the current or previous save. [Chapter report](WORKSHOP_CHAPTER.md), [repair and package evidence](validation/C8-organ-persistence.md).

@@ -1,0 +1,307 @@
+{
+  "scope": "Whole-step diagnostic, 240 Hz, three cycles, root clearance 0.08 m; not continuous visual acceptance",
+  "captures": [
+    {
+      "name": "baseline",
+      "path": "Builds/quality/2026-10-06-legs/baseline/joints.csv",
+      "sha256": "60f508151070a4d6add82d204ba70679ea23c36ed7b7e5ec4924f497360de8d6",
+      "cases": [
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "left",
+          "samples": 376,
+          "maximumAngleStepDegrees": 12.287200000000013,
+          "maximumKneeStepMetres": 0.39464508248931723
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "right",
+          "samples": 376,
+          "maximumAngleStepDegrees": 11.097700000000003,
+          "maximumKneeStepMetres": 0.15444614158340114
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "left",
+          "samples": 529,
+          "maximumAngleStepDegrees": 13.432299999999998,
+          "maximumKneeStepMetres": 0.06017132092616878
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "right",
+          "samples": 529,
+          "maximumAngleStepDegrees": 13.157100000000014,
+          "maximumKneeStepMetres": 0.05894504059715288
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "left",
+          "samples": 433,
+          "maximumAngleStepDegrees": 17.138199999999983,
+          "maximumKneeStepMetres": 0.07800620681074039
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "right",
+          "samples": 433,
+          "maximumAngleStepDegrees": 16.732499999999987,
+          "maximumKneeStepMetres": 0.07080178577550143
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "left",
+          "samples": 301,
+          "maximumAngleStepDegrees": 18.53389999999999,
+          "maximumKneeStepMetres": 0.09104030705681962
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "right",
+          "samples": 301,
+          "maximumAngleStepDegrees": 19.82419999999999,
+          "maximumKneeStepMetres": 0.09726399320406293
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "left",
+          "samples": 376,
+          "maximumAngleStepDegrees": 12.244100000000003,
+          "maximumKneeStepMetres": 0.3522910616904721
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "right",
+          "samples": 376,
+          "maximumAngleStepDegrees": 10.02879999999999,
+          "maximumKneeStepMetres": 0.18462159477699244
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "left",
+          "samples": 529,
+          "maximumAngleStepDegrees": 15.498400000000004,
+          "maximumKneeStepMetres": 0.07025555410072573
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "right",
+          "samples": 529,
+          "maximumAngleStepDegrees": 14.435300000000012,
+          "maximumKneeStepMetres": 0.06575538372635352
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "left",
+          "samples": 421,
+          "maximumAngleStepDegrees": 15.887899999999973,
+          "maximumKneeStepMetres": 0.06975717882770203
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "right",
+          "samples": 421,
+          "maximumAngleStepDegrees": 17.3613,
+          "maximumKneeStepMetres": 0.07583982585027473
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "left",
+          "samples": 291,
+          "maximumAngleStepDegrees": 17.9238,
+          "maximumKneeStepMetres": 0.08557543950223102
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "right",
+          "samples": 291,
+          "maximumAngleStepDegrees": 19.8519,
+          "maximumKneeStepMetres": 0.09336777253421012
+        }
+      ]
+    },
+    {
+      "name": "candidate-render",
+      "path": "Builds/quality/2026-10-06-legs/candidate-render/joints.csv",
+      "sha256": "109fd6ad3b9e18023eb58ffbaecf0de549df7708dee1f54a17ae82cb41360872",
+      "cases": [
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "left",
+          "samples": 376,
+          "maximumAngleStepDegrees": 3.2484000000000037,
+          "maximumKneeStepMetres": 0.01990062604542881
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "right",
+          "samples": 376,
+          "maximumAngleStepDegrees": 3.6327,
+          "maximumKneeStepMetres": 0.019632661969279663
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "left",
+          "samples": 529,
+          "maximumAngleStepDegrees": 7.966499999999996,
+          "maximumKneeStepMetres": 0.03935479947858967
+        },
+        {
+          "hero": "Taren",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "right",
+          "samples": 529,
+          "maximumAngleStepDegrees": 7.999799999999993,
+          "maximumKneeStepMetres": 0.03976764299025027
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "left",
+          "samples": 433,
+          "maximumAngleStepDegrees": 9.403399999999976,
+          "maximumKneeStepMetres": 0.04845980100041682
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "right",
+          "samples": 433,
+          "maximumAngleStepDegrees": 8.205600000000004,
+          "maximumKneeStepMetres": 0.044497717919012435
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "left",
+          "samples": 301,
+          "maximumAngleStepDegrees": 10.284199999999998,
+          "maximumKneeStepMetres": 0.05732442274458592
+        },
+        {
+          "hero": "Taren",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "right",
+          "samples": 301,
+          "maximumAngleStepDegrees": 10.280300000000011,
+          "maximumKneeStepMetres": 0.059451470797617784
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "left",
+          "samples": 376,
+          "maximumAngleStepDegrees": 3.137200000000007,
+          "maximumKneeStepMetres": 0.02002228863042385
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Walk",
+          "side": "right",
+          "samples": 376,
+          "maximumAngleStepDegrees": 3.427800000000005,
+          "maximumKneeStepMetres": 0.01993216684156542
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "left",
+          "samples": 529,
+          "maximumAngleStepDegrees": 7.717300000000023,
+          "maximumKneeStepMetres": 0.03973577063553695
+        },
+        {
+          "hero": "Sela",
+          "form": "Natural",
+          "clip": "Run",
+          "side": "right",
+          "samples": 529,
+          "maximumAngleStepDegrees": 7.568299999999994,
+          "maximumKneeStepMetres": 0.039605473094005576
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "left",
+          "samples": 421,
+          "maximumAngleStepDegrees": 10.445600000000013,
+          "maximumKneeStepMetres": 0.05032001020468894
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Run",
+          "side": "right",
+          "samples": 421,
+          "maximumAngleStepDegrees": 9.362900000000025,
+          "maximumKneeStepMetres": 0.04683168274790049
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "left",
+          "samples": 291,
+          "maximumAngleStepDegrees": 7.927199999999999,
+          "maximumKneeStepMetres": 0.04762931106997035
+        },
+        {
+          "hero": "Sela",
+          "form": "Shaped",
+          "clip": "Sprint",
+          "side": "right",
+          "samples": 291,
+          "maximumAngleStepDegrees": 9.69489999999999,
+          "maximumKneeStepMetres": 0.055254617734629204
+        }
+      ]
+    }
+  ]
+}

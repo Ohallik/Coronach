@@ -78,8 +78,8 @@ def analyze(run, frames, route, performance=False):
                 errors.append(step['name']+': checkpoint not reached')
     hitches={str(t):sum(x>t for x in times) for t in [25,33.3,50,100]}
     if performance:
-        if run.get('frameCap')!=60 or run.get('vSync')!=0:
-            errors.append('ordinary timing requires the player 60 fps / VSync-off policy')
+        if run.get('frameCap')!=-1 or run.get('vSync')!=1 or not 59<=run.get('refreshHz',0)<=61:
+            errors.append('ordinary timing requires synchronized presentation on the 60 Hz reference display')
         if run.get('captured'): errors.append('capture overhead disqualifies clean timing')
         if run.get('profiled'): errors.append('profiling overhead disqualifies clean timing')
         if duration<120: errors.append('timing route shorter than 120 seconds')

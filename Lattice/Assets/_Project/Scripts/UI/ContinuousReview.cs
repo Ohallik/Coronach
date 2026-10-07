@@ -154,7 +154,7 @@ namespace Lattice.UI
             double loadStart=Time.realtimeSinceStartupAsDouble;
             while (SceneFlow.Current.Loading || (route.scene == "Title" ? !SceneManager.GetSceneByName("Title").isLoaded : PartyController.Current == null)) yield return null;
             loadWaitSeconds=Time.realtimeSinceStartupAsDouble-loadStart;
-            // Ordinary 60 fps routes must measure the player's real startup
+            // Ordinary reference-display routes measure the player's startup
             // policy. Otherwise this harness can hide a broken VSync default.
             // Only explicit headroom / alternate-rate diagnostics override it.
             if(route.frameCap!=60)
