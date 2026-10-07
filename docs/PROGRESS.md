@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## Continuation authorization clarified — October 7
+
+Nathan explicitly requests best judgment on open decisions instead of waiting for his choices. The [continuation prompt](NEXT_SESSION_PROMPT.md) now makes this standing authorization explicit: choose and carry out the next useful diagnostic/implementation step, preserve genuine acceptance gaps, and continue dependency-safe work when a particular observation is unavailable. This does not waive visual acceptance, saves, paid-asset exclusions, exclusive replay focus, or the frozen chapter. The technical state remains the C1/C2 reconciliation immediately below; no new runtime or acceptance result is claimed.
+
 ## C1 reconciliation retains two Decks stability failures — October 7
 
 **C1/C2 remain OPEN; the presentation candidate is NOT validated.** Current Tallow release/development first/warm runs pass, and its ten-minute release loop passes at p95 **17.027 ms**, worst **19.577 ms**. Decks' two ten-minute release runs are **REJECTED**: warm lap 1 has **34.197 / 42.504 ms** frames on the service bridge, and an unchanged repeat has **62.284 ms** on a different warmed movement step. All frames retain focus, displays report on before/after, and no competing Unity work runs. Low aggregate percentiles do not override the per-lap failures. [Complete reconciliation, raw hashes and limitations](validation/C1-oct7-reconciliation.md).

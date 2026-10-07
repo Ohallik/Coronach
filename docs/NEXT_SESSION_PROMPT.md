@@ -4,7 +4,17 @@ Continue development in `C:\Users\natem\Projects\SpaceRPG`, Unity project `Latti
 
 Read `docs/PROGRESS.md` FIRST, newest entries first. Then read `docs/DECISIONS.md` (especially D119–D127 and the newest decisions), `docs/PRODUCTION_PLAN.md`, `docs/STORY_CAMPAIGN.md`, `docs/WORLD_ATLAS.md`, `docs/ANIMATION_DIRECTION.md`, and the current workshop reports. Check Git status, local instructions and process ownership. Source and packaged revisions can differ; inspect the manifests and preserve existing work.
 
+## Standing authorization: use your best judgment
+
+Nathan explicitly requests autonomous judgment on open decisions rather than waiting for him. Choose implementation, design, diagnostic and sequencing details within the established production/story/world plans and existing permissions. Record consequential assumptions and decisions, then implement and verify them. Do not pause for routine preferences or ask Nathan to select the next technical approach.
+
+Unavailable physical or continuous audiovisual observation remains an acceptance gap for the claim it would support; it is not a reason to stop all development. Attempt available review methods, preserve their failures, and continue the highest-priority actionable diagnosis, tooling repair or implementation in production order. When an earlier gate cannot presently be accepted, retain its OPEN status and continue dependency-safe work that does not rely on claiming it passed. Never invent observations, substitute numerical passes for visual quality, or publish an unvalidated presentation candidate.
+
+Do not end a work session merely because documentation is updated, a diagnostic failed, or a review request is unanswered while useful authorized work remains. Change a failed approach when the evidence warrants it. Ask only when indispensable information/access or an irreversible action outside existing authorization truly prevents further progress; complete independent work first. Preserve all save, paid-asset, process-ownership, exclusive-focus and evidence rules below.
+
 ## Immediate follow-up
+
+**Start with actionable C1/C2 work, not another request for Nathan to choose.** Choose a bounded diagnostic that can cover the failed warmed movement intervals without exhausting profiler-import memory, and improve the diagnostic tooling if needed. Test concrete hypotheses and use the resulting evidence to repair supported causes; do not weaken assertions or retry unchanged loops until one passes. Continue movement/balance review through available methods while retaining the explicit physical-observation gaps.
 
 **Latest C1 reconciliation:** read `docs/validation/C1-oct7-reconciliation.md` and its JSON before repeating tests. Tallow release/development first/warm timing and its ten-minute release loop pass. Both new Decks ten-minute release loops are **REJECTED**: 34.197 / 42.504 ms during warm lap 1's service-bridge crossing, then 62.284 ms during warm lap 3's office-to-promenade movement in one unchanged repeat. All frames retain focus, with displays on before/after. Neither collection-count changes nor simultaneous census sampling explain those frames. Retain both failures; no cause or repair is established. Tallow development headroom also remains invalid after two impossible GPU-counter results. Do not rerun until green or filter those samples.
 
