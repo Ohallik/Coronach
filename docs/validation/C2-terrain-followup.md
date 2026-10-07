@@ -1,5 +1,7 @@
 # Terrain contact and reversal follow-up — October 6
 
+**October 7 update:** the same packages now pass clean release/development first/warm comparisons with displays on before/after. The synchronized combat recapture passes motion; a further comparison isolates live-PNG recording stalls. [Latest evidence and remaining acceptance work](C1-C2-awake-comparison.md). The failures below remain the historical record; presentation and continuous movement are not accepted.
+
 Candidate 45 is committed and pushed as `e93bf13`, following `8685dca`; its three exact runtime source hashes accompany every current player recording. The three captured runtime files match `e93bf13` after Git line-ending normalization (`committed-source-binding.json`); historical build manifests remain unchanged. [Machine-readable evidence](C2-terrain-results.json). `07eaf9f` remains the original defect control. **C1/C2 acceptance remains OPEN.** The frozen `a3aaad6` chapter has not been replaced. Continuous normal/slow-motion viewing, physical scan-out and controller feel remain UNVERIFIED; opened poses and numerical passes do not establish those results.
 
 ## Reproduction and original-source controls
@@ -91,6 +93,6 @@ A bounded `ES_DISPLAY_REQUIRED | ES_CONTINUOUS` probe successfully set and resto
 
 ## Required next acceptance work
 
-1. Obtain a visibly awake-display state and repeat the same packaged release/development first/warm route, recording OS display state before and after. Resolve any synchronized pacing/input failures without a VSync-off acceptance shortcut. Retain the display-off failures and earlier unsuccessful probes.
-2. Recapture the rejected synchronized combat-form 60 fps route. Review ordinary movement continuously at normal/slow speed, including the steep walk's balance and terrain entry/exit, and inspect physical scan-out/controller feel when available. The local review page is ready; neither human observation request has been answered.
-3. Only then close the appropriate C1/C2 gates and resume the production-plan order. C1?C10 and the complete game have not been completed. No current presentation candidate has replaced the frozen chapter.
+1. The same-package awake timing comparisons and synchronized combat recapture are now complete; see the [October 7 report](C1-C2-awake-comparison.md). Retain the display-off failures, capture-overhead controls and earlier unsuccessful probes. Reconcile all C1 requirements with the final runtime, rather than treating one station's repeat as complete acceptance.
+2. Review ordinary movement continuously at normal/slow speed, including the steep walk's balance and terrain entry/exit, and inspect physical scan-out/controller feel when available. The local review page includes the new combat video with live PNGs deferred. Human observation remains pending.
+3. Only then close the appropriate C1/C2 gates and resume the production-plan order. C1–C10 and the complete game have not been completed. No current presentation candidate has replaced the frozen chapter.

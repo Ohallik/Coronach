@@ -1,5 +1,7 @@
 # Screen presentation and leg motion — October 6
 
+**Latest October 7 comparison:** unchanged candidate-45 packages pass clean synchronized Decks first/warm timing with Windows display-on snapshots before and after; the combat recapture also passes motion, with live-PNG capture overhead isolated separately. [Current evidence](C1-C2-awake-comparison.md). Physical tearing and continuous movement acceptance remain open. The rejection below is preserved historical evidence.
+
 The later [terrain follow-up](C2-terrain-followup.md) records the edge/shoulder repair candidate, original-source controls and additional verification. This report preserves the earlier failures; they are not erased by later passes. The frozen chapter remains unchanged.
 
 Nathan reported lag/tearing across the middle of the screen during movement and wonky legs. This is a renewed presentation rejection despite previous timing/contact passes. The knee-snap repair passes its regressions and flat-ground player diagnostics. This report preserves the original steep-ground and pad failures; the later terrain candidate passes their measured regressions. Synchronized presentation remains REJECTED, and C1/C2/C7/C8 acceptance stays open. The October 7 follow-up records fresh release/development failures with independently observed Windows display-off state; it does not establish a general driver cause or a tear-free result.

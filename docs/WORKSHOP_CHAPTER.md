@@ -2,6 +2,8 @@
 
 October 4, 2026 candidate. **October 6 follow-up: moving-screen lag/tearing and motion acceptance are open. This preserved a3aaad6 package does not contain the new knee repair. Its replacement failed synchronized presentation and has not been published.** See [presentation evidence](validation/C1-C2-presentation-motion.md) and the [terrain follow-up](validation/C2-terrain-followup.md). C7/C8 remain open.
 
+**October 7:** the unchanged replacement packages now pass clean Decks timing with displays awake, and the combat recapture passes motion. [Comparison and limitations](validation/C1-C2-awake-comparison.md). Continuous movement, physical tearing and controller feel remain unverified; this frozen chapter and profile are still preserved, and no replacement has been published as validated. All 243 frozen player files were reverified.
+
 Double-click `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`, or run:
 
 ```powershell

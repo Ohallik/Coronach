@@ -1,6 +1,14 @@
 # CORONACH slice progress
 
-## Terrain regressions repaired; synchronized presentation still rejected ? October 6?7
+## Same-build synchronized timing passes with displays awake — October 7
+
+**Presentation is still NOT validated.** Both unchanged candidate-45 packages pass clean Decks first/warm timing with Windows session/console displays on before and after: release p95 **17.061 ms**, development **17.096 ms**, no frame above 33.3 ms and all navigation/shop checkpoints pass. Their corresponding preserved display-off failures had p95 near 266 ms and 987 frames over 100 ms each. Package hashes match; runtime remains `e93bf13`. This narrows the failure condition without claiming every historical stall or physical tearing is explained. [Evidence and exact results](validation/C1-C2-awake-comparison.md).
+
+The synchronized combat-form recapture passes motion, but live PNG screenshots add **25 frames over 50 ms**. All occur immediately after screenshot steps. Identical uncaptured motion passes timing at worst **19.497 ms**; an otherwise identical video/audio capture with live PNGs deferred passes motion at worst **19.813 ms**, retaining every frame. The failed display-off capture and the new hitching recording remain preserved. The local review page now has 13 recordings, with the new combat clip first. **Continuous motion/audio, uphill balance, physical scan-out and controller feel remain UNVERIFIED.** C1/C2 acceptance is open.
+
+No runtime/assertion changes: prior **131 EditMode, 231 PlayMode, 119 offline and 384 matrix passes** remain the integrated verification. Nathan's current two save files match their fresh pre-run hashes. The frozen `a3aaad6` chapter again matches all **243 files / 616,521,326 bytes**, and its profile is untouched. No presentation candidate was repackaged as validated. [The full continuation prompt](NEXT_SESSION_PROMPT.md) now starts with the remaining direct review and C1 evidence, then carries all C1–C10 production work forward.
+
+## Terrain regressions repaired; synchronized presentation still rejected — October 6–7
 
 **The current presentation candidate is NOT validated.** Clean synchronized release and development first/warm checks both reproduce approximately 266 ms p95 frames and missed interactions. Windows now independently reports the session and console display **off** during this failure condition; monitor replies also changed to standby/unavailable. Bounded awake requests did not restore display-on notifications and were released. This narrows the condition but does not prove every historical stall's cause or fix physical tearing. A same-build comparison with visibly awake displays remains pending. [Complete evidence](validation/C2-terrain-followup.md).
 
@@ -8,7 +16,7 @@ Pushed runtime `e93bf13` (candidate 45) repairs the retained pad/shoulder contac
 
 Fresh synchronized shoulder, pad and civilian 60 fps captures pass measured bounds (worst drift 7.869 / 26.053 / 12.849 mm). Both forms pass explicit 30/120 fps diagnostics. The synchronized combat-form 60 fps capture is **REJECTED for missing samples** with quarter-second frames; it must be repeated after the presentation issue is resolved. Opened poses and extracted frame sequences are documented; **continuous movement/audio, physical scan-out and controller feel remain UNVERIFIED**, including the steep walk's perceived balance. A normal/slow playback page with timestamped notes is ready under the evidence folder.
 
-Both current players build and their packaged hashes match the captured manifests. Nathan's two save files remain byte-for-byte identical after the full suite and all runs. The frozen `a3aaad6` chapter still matches all **243 files / 616,521,326 bytes**, with its profile untouched. No replacement presentation candidate has been published as validated. C1/C2 acceptance remains OPEN; C8?C10 content and the complete game have not advanced during this defect repair.
+Both current players build and their packaged hashes match the captured manifests. Nathan's two save files remain byte-for-byte identical after the full suite and all runs. The frozen `a3aaad6` chapter still matches all **243 files / 616,521,326 bytes**, with its profile untouched. No replacement presentation candidate has been published as validated. C1/C2 acceptance remains OPEN; C8–C10 content and the complete game have not advanced during this defect repair.
 
 ## Knee snapping repaired; display and terrain acceptance still open — October 6
 

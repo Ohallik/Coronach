@@ -1,0 +1,1435 @@
+{
+  "date": "2026-10-07",
+  "runtimeRevision": "e93bf138cddccc9fb6d992a819040a646ce9f7ea",
+  "replayHead": "d6c69104875cdc442d0c8ba5d83998c9b1c98cba",
+  "runtimeChanged": false,
+  "acceptance": {
+    "C1": "OPEN",
+    "C2": "OPEN",
+    "physicalTearing": "UNVERIFIED",
+    "continuousMotionAudio": "UNVERIFIED",
+    "controllerFeel": "UNVERIFIED"
+  },
+  "samePackageVerification": {
+    "head": "d6c69104875cdc442d0c8ba5d83998c9b1c98cba",
+    "runtimeRevision": "e93bf138cddccc9fb6d992a819040a646ce9f7ea",
+    "files": [
+      {
+        "path": "Builds\\Windows\\Coronach.exe",
+        "sha256": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Combat.dll",
+        "sha256": "49CBDE694A3A54E9665D7796D7D8950227BABCF4F1F0F87522DD92C980494627",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Core.dll",
+        "sha256": "935830655FE618CF5A9CF02B97C7611F344D5DE81FA5C07CA7F0EF838CEC5CDD",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Data.dll",
+        "sha256": "D68706D18714C60F57ED4063F065C56A2A363372871A452A358261A647B2B792",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Dialogue.dll",
+        "sha256": "F859867B71C85E495FB5B05337A8D062AB46CDAF270F0AE3780E60BC6862A5FA",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Rpg.dll",
+        "sha256": "07F6714853C567C2BA23F432625E2FB0BC699E5FE863D172434D52A4358A15BA",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.UI.dll",
+        "sha256": "B0AF41F8811835629182C736CDA822B888F8249070C8E1761985D51E347FB332",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.World.dll",
+        "sha256": "2C2A7C1EA680E56A74609AFB15687E3E01911A2381074D94BEF33A9CA83F265D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\app.info",
+        "sha256": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\boot.config",
+        "sha256": "9C7B12A8765AAF48542A6DCA15D27949F3023E002585A5E5162C3A6FC47411A5",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\globalgamemanagers",
+        "sha256": "F68F21C1944DD0A51F7B7CFAEC1DD927AE0BCF6BE912426306F5EF8DAB111C11",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\globalgamemanagers.assets",
+        "sha256": "CDAF4EBD3B0DE335807E33B9D092CBC4766D7E239E6601EB6FEF04008808EE55",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\globalgamemanagers.assets.resS",
+        "sha256": "26B24BBD0BDB7017ECBAC3B829C0ED7C4848BC343AF5702E96EBDB75A7258B04",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level0",
+        "sha256": "DE0F834916A4A228323AE92675B89429E50AB05454154FBFB8FD755D101080EC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level1",
+        "sha256": "1D9A4F0CE72F7A3562AF942B6C73B7627FBA8A798D5C7E852D20C4920823EB06",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level10",
+        "sha256": "BDF3D5BF07975069A61132B9CE4FFBB5E7F36444FE933B6792625BA8742C9916",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level2",
+        "sha256": "BCA9BBB0660DFFC1719EB7E378A93A898579FE6C85F9EFFA07B88EEAD434C55B",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level2.resS",
+        "sha256": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level3",
+        "sha256": "30B4911AAFBC6DC6C8EC0368E583945B5C48FB118FEB166603B1282EDD24967A",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level4",
+        "sha256": "ABAE3DE84ADFB641523F1FF3B435113F78BCACEC59C046150C43A1D23CADA1CF",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level4.resS",
+        "sha256": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level5",
+        "sha256": "82777E3599EF349ECAA6DDF540F33F6618BDC4D17D042F66E76070DD9A537DF4",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level5.resS",
+        "sha256": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level6",
+        "sha256": "455DF17D23AA4AA112734E38A1276CC864633491B8843CEF319A0BE0FAE22965",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level6.resS",
+        "sha256": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level7",
+        "sha256": "8326041393B6D9922B1428E2A63B6A78F8CD1BE864A377B895B2B0BA76F40573",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level8",
+        "sha256": "A3D3DC60106D6B8E322BB7DCB3FA9C3E4E234D12618946F34D41CFF867D51C8E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level9",
+        "sha256": "024548119DBB76CE3CDAB65D387D6DBB21F20A000F86749E14486AFE736E1549",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level9.resS",
+        "sha256": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\resources.assets",
+        "sha256": "4FB7E7EC8308C401F2F714B042DECD80F1BE68D670A9C6BC8E2D2BD1EB23F264",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\resources.assets.resS",
+        "sha256": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\resources.resource",
+        "sha256": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\RuntimeInitializeOnLoads.json",
+        "sha256": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\ScriptingAssemblies.json",
+        "sha256": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets0.assets",
+        "sha256": "5F36DA98B7012B0D67EC65D23436A1081836D43243724040B234E00F8EDB5AC4",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets0.assets.resS",
+        "sha256": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets1.assets",
+        "sha256": "121D318C433A64AC83CD859539E8FEC3F5DD810D324F81A93C3D88D6D991F046",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets10.assets",
+        "sha256": "21D52D1680AAFD12532AADAA90427DD767ED25E21FB83B5B723EC84F5CA56F21",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets10.assets.resS",
+        "sha256": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets2.assets",
+        "sha256": "65D8A361D32E341452E95A515FCEAB6A9174E730C333F2033D310C87CDF0AFF1",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets2.assets.resS",
+        "sha256": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets3.assets",
+        "sha256": "717CD3927057883D54CEEFA4211C0608B26C774D347237DA452685F6F4098892",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets3.assets.resS",
+        "sha256": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets4.assets",
+        "sha256": "83BA279EF9098746B18EBD654AF415371D49CC83E301CC744E01FC1A1CCEC7E3",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets4.assets.resS",
+        "sha256": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets5.assets",
+        "sha256": "D427BB16C54A347E7EDE8D1A93786EAAA30B332C50DFB9DA7A2F95C3B739F643",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets5.assets.resS",
+        "sha256": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets6.assets",
+        "sha256": "F1186FE040541C1EAC6AEB61CB1E7A400CDB97519CC03C58888B240E27D8066D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets6.assets.resS",
+        "sha256": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets7.assets",
+        "sha256": "52A1246772673167493077F17510AE3FCE7B4968D6CCCF005D5270B1FCA4E4DC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets7.assets.resS",
+        "sha256": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets8.assets",
+        "sha256": "F74FB80D3709A3626D9BC32AEAFDBA6A7DD8AE8BF99AB3E8D3EA86CBAF1C897A",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets9.assets",
+        "sha256": "3FFD057BC64A1B4A8E7DDE98302A9659828294E3EDEF34F39F91950DD6783C8E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach.exe",
+        "sha256": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Combat.dll",
+        "sha256": "FB5F4BF74AB57980BD244F9643924AD5DA4003ECAF6917830869185440B94D66",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Core.dll",
+        "sha256": "BAE5E15C85C21958370B17BE681DEA5A0ABA8C848595F5FFED67979358C3AE3F",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Data.dll",
+        "sha256": "697B8FEA14157CB62AFBA7CAA88DA1EB3E74239C08AC902CD2FA6130F937D123",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Dialogue.dll",
+        "sha256": "F10054883249AC053C08F0D4614C1BAD9C66EF6A529CB4D25C4C70C19C276D74",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Rpg.dll",
+        "sha256": "2BC705A87C83E73F0E84E1B28E3F667F48C40A34BED6E6F326652C9986122D69",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.UI.dll",
+        "sha256": "1E5F0C816ACEF98275F612E9FA8D2607A58678E769FF9EC00ECBD4137E4669FD",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.World.dll",
+        "sha256": "2EC3F8C7ABD0770DA0C4EAE1AA52089E78D11CBE488EE764DBC9E06383732BB4",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\app.info",
+        "sha256": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\boot.config",
+        "sha256": "2438432EC96FFF853AFC088D1E4AB1A86ABE00715AF3812B9A5B19B4EABB0FD8",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\globalgamemanagers",
+        "sha256": "F34B2A9860122391DCC297ED72210A27EA19E831DA47002331BA2CCF1D3813E3",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\globalgamemanagers.assets",
+        "sha256": "AC4D13C6621C14D62BDA9843DD4EAE826E9FB9C616EE71CF14C05C699D9B5B2D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\globalgamemanagers.assets.resS",
+        "sha256": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level0",
+        "sha256": "774E9550535820873E21D135B6594FCD2439B23ACED28671E67CABABFD630437",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level1",
+        "sha256": "AD67125B7347CA04022246BF23545158D6D7662639ABEA3AFB6FEF807B2D0A54",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level10",
+        "sha256": "68E47386A0731D5BBF9B6B1EE90E6758CBF925D6F369CCFD5923EE090856ACE0",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level2",
+        "sha256": "A8120D9119E9175189497B957959B60493AEC644990FB540FC22FECAC9EF52DB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level2.resS",
+        "sha256": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level3",
+        "sha256": "27CA5568B7471FD88522EB9381C59FB375A2BFA2989B5548046471773403CCEB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level4",
+        "sha256": "BEE503A36ED6F1EB5915F42E0B785F1E3013EFBD1816C6FDC1774C2E988941C2",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level4.resS",
+        "sha256": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level5",
+        "sha256": "63841432149E63DFE4BB1C987D15F955F16603165EFF32959D29357F8109969F",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level5.resS",
+        "sha256": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level6",
+        "sha256": "7EACAC05AEDD3235933FDB402D7F4FC271D8D1B7F5C1C4CD8F2D23EC393E699C",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level6.resS",
+        "sha256": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level7",
+        "sha256": "1B41ED2674ADCE06498DBD4CB955C20C621D9DBF3E36A1AE62F6761D2A3CE718",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level8",
+        "sha256": "E2321F879705B1C7D9479573970403D712F1C9E329002580C80DA6E1F6D45C1E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level9",
+        "sha256": "A45774ACC2820F3B9A2E2276D6C75F124E3A2E3EA038E60A82FB0FD19A52A393",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level9.resS",
+        "sha256": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\resources.assets",
+        "sha256": "32C6C13223F169C29F64EE094355C71E8AA37EFB0C32B131E2433B941A1A1F4E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\resources.assets.resS",
+        "sha256": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\resources.resource",
+        "sha256": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\RuntimeInitializeOnLoads.json",
+        "sha256": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\ScriptingAssemblies.json",
+        "sha256": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets0.assets",
+        "sha256": "F6820ED74DB1E9C4A1A39009C07E069ECC7B610C13EAF951C9A8CC0FC21A7C47",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets0.assets.resS",
+        "sha256": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets1.assets",
+        "sha256": "727E934AE619FFA0DB759CBAD7D583A9D434E7E5466AB08D433F817AC791114E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets10.assets",
+        "sha256": "6716FE4AEF6AD20871059AB2016E7C40F798236B9B40F3FEA2F42221653A4F41",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets10.assets.resS",
+        "sha256": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets2.assets",
+        "sha256": "9B4D3D07CBADFFA90744ADFFC7F8BD2F2D9BC3393535F5E664C12B1A948B55EE",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets2.assets.resS",
+        "sha256": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets3.assets",
+        "sha256": "B6725D018B001CF6667DACAA4828E890472610C5F6727F7A4E1E0041854AC631",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets3.assets.resS",
+        "sha256": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets4.assets",
+        "sha256": "23F00F59B54BF5A9466F287FA646227AAFBD476B5CC903A3337120C229AB5E88",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets4.assets.resS",
+        "sha256": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets5.assets",
+        "sha256": "C885D77CE1312FD7C1D5142D24ACE752069AB07412642350C5D14A5AE7317012",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets5.assets.resS",
+        "sha256": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets6.assets",
+        "sha256": "801768E4378F3C89CB2F8DB6657729894C15CC8F3FEE8E98AAE781EFC85C3F62",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets6.assets.resS",
+        "sha256": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets7.assets",
+        "sha256": "A5D935351879889059ED91C14849229DBC11A7B66B67D3863C682121404FBA78",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets7.assets.resS",
+        "sha256": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets8.assets",
+        "sha256": "C9FDEB621F592FB0C91E4D4BA2234040B0BA2335C52715D33735A539CD7BD08D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets9.assets",
+        "sha256": "85615518F8423A9C88A37397B8F9F53C849C7FF68814069427B1352041746B7F",
+        "matchesPreviousCapture": true
+      }
+    ]
+  },
+  "records": [
+    {
+      "folder": "Builds/quality/2026-10-06-terrain-followup/release-first-warm-final",
+      "build": "Release",
+      "capture": false,
+      "profile": false,
+      "motion": false,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "timing",
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed",
+        "first visit: Sela full reversal to airlock: checkpoint not reached",
+        "first visit: Sela full reversal to airlock: navigation checkpoint missed",
+        "first visit: Sela port hull boundary: checkpoint not reached",
+        "first visit: Sela port hull boundary: navigation checkpoint missed",
+        "first visit: back to public promenade: checkpoint not reached",
+        "first visit: back to public promenade: navigation checkpoint missed",
+        "first visit: choose stock: UI dialogue expected shop",
+        "first visit: choose stock: UI feedback missing",
+        "first visit: close shop: UI dialogue expected world",
+        "first visit: dock vestibule return: checkpoint not reached",
+        "first visit: dock vestibule return: navigation checkpoint missed",
+        "first visit: galley to service gallery: checkpoint not reached",
+        "first visit: galley to service gallery: navigation checkpoint missed",
+        "first visit: hitch budget exceeded",
+        "first visit: housing back to office: checkpoint not reached",
+        "first visit: housing back to office: navigation checkpoint missed",
+        "first visit: missing samples",
+        "first visit: office airlock to promenade: navigation checkpoint missed",
+        "first visit: office slow approach: navigation checkpoint missed",
+        "first visit: office to promenade: checkpoint not reached",
+        "first visit: office to promenade: navigation checkpoint missed",
+        "first visit: office turn to public route: navigation checkpoint missed",
+        "first visit: p95 exceeds 18.5 ms",
+        "first visit: p99 exceeds 25 ms",
+        "first visit: parts store aisle: checkpoint not reached",
+        "first visit: parts store aisle: navigation checkpoint missed",
+        "first visit: public bridge to market: navigation checkpoint missed",
+        "first visit: quiet cabin corridor: checkpoint not reached",
+        "first visit: quiet cabin corridor: navigation checkpoint missed",
+        "first visit: rear receiving gallery: checkpoint not reached",
+        "first visit: rear receiving gallery: navigation checkpoint missed",
+        "first visit: repair public entrance: checkpoint not reached",
+        "first visit: repair public entrance: navigation checkpoint missed",
+        "first visit: runtime validation rejected",
+        "first visit: service bridge to housing: checkpoint not reached",
+        "first visit: service bridge to housing: navigation checkpoint missed",
+        "first visit: service bridge to provisions: checkpoint not reached",
+        "first visit: service bridge to provisions: navigation checkpoint missed",
+        "first visit: shared galley: checkpoint not reached",
+        "first visit: shared galley: navigation checkpoint missed",
+        "first visit: sprint public bridge to repair: checkpoint not reached",
+        "first visit: sprint public bridge to repair: navigation checkpoint missed",
+        "first visit: swap to Sela: character mismatch",
+        "first visit: swap to Sela: wrong hero",
+        "first visit: workshop center aisle: checkpoint not reached",
+        "first visit: workshop center aisle: navigation checkpoint missed",
+        "warm lap 1: Sela full reversal to airlock: navigation checkpoint missed",
+        "warm lap 1: Sela port hull boundary: navigation checkpoint missed",
+        "warm lap 1: advance to stock: UI feedback exceeds 100 ms",
+        "warm lap 1: back to public promenade: navigation checkpoint missed",
+        "warm lap 1: choose stock: UI dialogue expected shop",
+        "warm lap 1: close shop: UI dialogue expected world",
+        "warm lap 1: dock vestibule return: navigation checkpoint missed",
+        "warm lap 1: galley to service gallery: navigation checkpoint missed",
+        "warm lap 1: hitch budget exceeded",
+        "warm lap 1: housing back to office: navigation checkpoint missed",
+        "warm lap 1: missing samples",
+        "warm lap 1: office airlock to promenade: checkpoint not reached",
+        "warm lap 1: office airlock to promenade: navigation checkpoint missed",
+        "warm lap 1: office slow approach: checkpoint not reached",
+        "warm lap 1: office slow approach: navigation checkpoint missed",
+        "warm lap 1: office to promenade: navigation checkpoint missed",
+        "warm lap 1: office turn to public route: checkpoint not reached",
+        "warm lap 1: office turn to public route: navigation checkpoint missed",
+        "warm lap 1: p95 exceeds 18.5 ms",
+        "warm lap 1: p99 exceeds 25 ms",
+        "warm lap 1: parts store aisle: navigation checkpoint missed",
+        "warm lap 1: public bridge to market: checkpoint not reached",
+        "warm lap 1: public bridge to market: navigation checkpoint missed",
+        "warm lap 1: quiet cabin corridor: navigation checkpoint missed",
+        "warm lap 1: rear receiving gallery: navigation checkpoint missed",
+        "warm lap 1: repair public entrance: navigation checkpoint missed",
+        "warm lap 1: runtime validation rejected",
+        "warm lap 1: service bridge to housing: navigation checkpoint missed",
+        "warm lap 1: service bridge to provisions: navigation checkpoint missed",
+        "warm lap 1: shared galley: navigation checkpoint missed",
+        "warm lap 1: sprint public bridge to repair: navigation checkpoint missed",
+        "warm lap 1: swap to Sela: character mismatch",
+        "warm lap 1: swap to Sela: wrong hero",
+        "warm lap 1: workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 1644,
+      "seconds": 259.566582,
+      "p95Ms": 265.582,
+      "p99Ms": 267.4936,
+      "worstMs": 279.4446,
+      "hitches": {
+        "25": 987,
+        "33.3": 987,
+        "50": 987,
+        "100": 987
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "analysis.json": "ac6a8b7a03519e5e0edaeaa1cd2c2a24ca0c49bcbc6aeb823b17ace91b3adcc1",
+        "build.json": "6f20c55ebef3ce9b524f37fed5eb2b92958ebbd637a51c13375df2ffc194234b",
+        "frames.csv": "657836e5c9d523b4a11900fbf80f14c41bb99c7af934b65c47c7bcb69b14d4ba",
+        "route.json": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d",
+        "run.json": "3840d39ea828957b007b18dbb6d5790c86b4ad52e017e984779aedc346bdae67",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+      },
+      "maximumUiResponseMs": 274.2745000000184
+    },
+    {
+      "folder": "Builds/quality/2026-10-06-terrain-followup/development-first-warm-final",
+      "build": "Development",
+      "capture": false,
+      "profile": false,
+      "motion": false,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "timing",
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed",
+        "first visit: Sela full reversal to airlock: checkpoint not reached",
+        "first visit: Sela full reversal to airlock: navigation checkpoint missed",
+        "first visit: Sela port hull boundary: checkpoint not reached",
+        "first visit: Sela port hull boundary: navigation checkpoint missed",
+        "first visit: back to public promenade: checkpoint not reached",
+        "first visit: back to public promenade: navigation checkpoint missed",
+        "first visit: choose stock: UI dialogue expected shop",
+        "first visit: choose stock: UI feedback missing",
+        "first visit: close shop: UI dialogue expected world",
+        "first visit: dock vestibule return: checkpoint not reached",
+        "first visit: dock vestibule return: navigation checkpoint missed",
+        "first visit: galley to service gallery: checkpoint not reached",
+        "first visit: galley to service gallery: navigation checkpoint missed",
+        "first visit: hitch budget exceeded",
+        "first visit: housing back to office: checkpoint not reached",
+        "first visit: housing back to office: navigation checkpoint missed",
+        "first visit: missing samples",
+        "first visit: office airlock to promenade: navigation checkpoint missed",
+        "first visit: office slow approach: navigation checkpoint missed",
+        "first visit: office to promenade: checkpoint not reached",
+        "first visit: office to promenade: navigation checkpoint missed",
+        "first visit: office turn to public route: navigation checkpoint missed",
+        "first visit: p95 exceeds 18.5 ms",
+        "first visit: p99 exceeds 25 ms",
+        "first visit: parts store aisle: checkpoint not reached",
+        "first visit: parts store aisle: navigation checkpoint missed",
+        "first visit: public bridge to market: navigation checkpoint missed",
+        "first visit: quiet cabin corridor: checkpoint not reached",
+        "first visit: quiet cabin corridor: navigation checkpoint missed",
+        "first visit: rear receiving gallery: checkpoint not reached",
+        "first visit: rear receiving gallery: navigation checkpoint missed",
+        "first visit: repair public entrance: checkpoint not reached",
+        "first visit: repair public entrance: navigation checkpoint missed",
+        "first visit: runtime validation rejected",
+        "first visit: service bridge to housing: checkpoint not reached",
+        "first visit: service bridge to housing: navigation checkpoint missed",
+        "first visit: service bridge to provisions: checkpoint not reached",
+        "first visit: service bridge to provisions: navigation checkpoint missed",
+        "first visit: shared galley: checkpoint not reached",
+        "first visit: shared galley: navigation checkpoint missed",
+        "first visit: sprint public bridge to repair: checkpoint not reached",
+        "first visit: sprint public bridge to repair: navigation checkpoint missed",
+        "first visit: swap to Sela: character mismatch",
+        "first visit: swap to Sela: wrong hero",
+        "first visit: workshop center aisle: checkpoint not reached",
+        "first visit: workshop center aisle: navigation checkpoint missed",
+        "warm lap 1: Sela full reversal to airlock: navigation checkpoint missed",
+        "warm lap 1: Sela port hull boundary: navigation checkpoint missed",
+        "warm lap 1: advance to stock: UI feedback exceeds 100 ms",
+        "warm lap 1: back to public promenade: navigation checkpoint missed",
+        "warm lap 1: choose stock: UI dialogue expected shop",
+        "warm lap 1: close shop: UI dialogue expected world",
+        "warm lap 1: dock vestibule return: navigation checkpoint missed",
+        "warm lap 1: galley to service gallery: navigation checkpoint missed",
+        "warm lap 1: hitch budget exceeded",
+        "warm lap 1: housing back to office: navigation checkpoint missed",
+        "warm lap 1: missing samples",
+        "warm lap 1: office airlock to promenade: checkpoint not reached",
+        "warm lap 1: office airlock to promenade: navigation checkpoint missed",
+        "warm lap 1: office slow approach: checkpoint not reached",
+        "warm lap 1: office slow approach: navigation checkpoint missed",
+        "warm lap 1: office to promenade: navigation checkpoint missed",
+        "warm lap 1: office turn to public route: checkpoint not reached",
+        "warm lap 1: office turn to public route: navigation checkpoint missed",
+        "warm lap 1: p95 exceeds 18.5 ms",
+        "warm lap 1: p99 exceeds 25 ms",
+        "warm lap 1: parts store aisle: navigation checkpoint missed",
+        "warm lap 1: public bridge to market: checkpoint not reached",
+        "warm lap 1: public bridge to market: navigation checkpoint missed",
+        "warm lap 1: quiet cabin corridor: navigation checkpoint missed",
+        "warm lap 1: rear receiving gallery: navigation checkpoint missed",
+        "warm lap 1: repair public entrance: navigation checkpoint missed",
+        "warm lap 1: runtime validation rejected",
+        "warm lap 1: service bridge to housing: navigation checkpoint missed",
+        "warm lap 1: service bridge to provisions: navigation checkpoint missed",
+        "warm lap 1: shared galley: navigation checkpoint missed",
+        "warm lap 1: sprint public bridge to repair: navigation checkpoint missed",
+        "warm lap 1: swap to Sela: character mismatch",
+        "warm lap 1: swap to Sela: wrong hero",
+        "warm lap 1: workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 1666,
+      "seconds": 260.097315,
+      "p95Ms": 265.6266,
+      "p99Ms": 273.995,
+      "worstMs": 278.1914,
+      "hitches": {
+        "25": 987,
+        "33.3": 987,
+        "50": 987,
+        "100": 987
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "analysis.json": "849aea71ee886b8937a37d0c68497346b424ce68535cd6e8ec395ea2aa60b4ba",
+        "build.json": "4731cc1f5ad236f207cdf4e00bbee4ee8b3865bc9ebce48d45708202d718da10",
+        "frames.csv": "f01e920b60ef206a80e7a961a76639fb054b0bd3a2f789ee29f9ab14dc58b7cf",
+        "route.json": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d",
+        "run.json": "f8dab5bc0e7cd52f0a8c21bb89821cab4310d0e23e1a49b7cc5d85b85ebc7640",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+      },
+      "maximumUiResponseMs": 269.77840000000697
+    },
+    {
+      "folder": "Builds/quality/2026-10-07-awake-comparison/release-first-warm",
+      "build": "Release",
+      "capture": false,
+      "profile": false,
+      "motion": false,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "timing",
+      "valid": true,
+      "failures": [],
+      "samples": 15054,
+      "seconds": 250.886939,
+      "p95Ms": 17.0613,
+      "p99Ms": 17.2154,
+      "worstMs": 24.7317,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "analysis.json": "f0d6a7f9730d7f69bb5fca490f780607964a3bd9292233715da520ba25310fc0",
+        "build.json": "f6376f171f8f15f3c67f577b7acc410688eed92f157b7599f59d77f766bca643",
+        "frames.csv": "6697d5620ae24752244384fc6ff69249c9e1d0c8100a73e9768fd3b9f9c68a13",
+        "route.json": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d",
+        "run.json": "be635f4d93fefff62b054bc8acf4ed82ed13030ee9715d4b275fdea78d16c3c4",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+      },
+      "maximumUiResponseMs": 22.814300000000287
+    },
+    {
+      "folder": "Builds/quality/2026-10-07-awake-comparison/development-first-warm",
+      "build": "Development",
+      "capture": false,
+      "profile": false,
+      "motion": false,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "timing",
+      "valid": true,
+      "failures": [],
+      "samples": 15056,
+      "seconds": 250.917742,
+      "p95Ms": 17.0961,
+      "p99Ms": 17.2486,
+      "worstMs": 25.0532,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "analysis.json": "2a2e5fe41e8663b545b295bc7bfcfd6e0edcd93521004b1e305a514643d12266",
+        "build.json": "f22cdbd10a540fe75fcd3539b7837566a62f52acaad2c634285bf0ae892e5ccb",
+        "frames.csv": "390f30bb432e7117e6098649a6d62f7baada47842b61b88b4d96e92eab3d872f",
+        "route.json": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d",
+        "run.json": "5290c9a19e57e725e42dccc59fab169857de866ae6390419f201407958532694",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+      },
+      "maximumUiResponseMs": 23.800399999998945
+    },
+    {
+      "folder": "Builds/quality/2026-10-07-awake-comparison/shaped60",
+      "build": "Development",
+      "capture": true,
+      "profile": false,
+      "motion": true,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "motion",
+      "valid": true,
+      "failures": [],
+      "samples": 13849,
+      "seconds": 232.786533,
+      "p95Ms": 17.2216,
+      "p99Ms": 17.4239,
+      "worstMs": 113.4676,
+      "centralContacts": 176,
+      "worstContactDriftMetres": 0.015133502568802361,
+      "minimumCentralSoleClearance": 0.005381999999999998,
+      "hitches": {
+        "25": 25,
+        "33.3": 25,
+        "50": 25,
+        "100": 15
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "build.json": "53b1fcb3e266f3e4288dba5dccd9ec55921ae32cb841c65fa0c49fabf4a7aa22",
+        "capture-frames.csv": "66620da3392dc485fb9b8df7441c1c2ba4480b320aa292f786bd112922f02745",
+        "frames.csv": "ddd793634be7f3e90c6b62cfb12f18a64bee84ad1aeba7da1131522dceb737b8",
+        "mix.wav": "7900c8e985b9f9bc427f5a59e37cec0a7e9bce7a745513b400b9055909700eb5",
+        "motion-analysis.json": "c50ffe6f2566b75e6d68645db410845588bdc8bf1873110f913d601319438217",
+        "motion.csv": "decd8904ed024c28f4949678125b9462bacda25b92f5663ccadc6ab16fa445df",
+        "replay.mp4": "f9949cbdbbc9639f801cfbbf8518bd391decdbfb1d13355781180ddbce17a067",
+        "route.json": "81fc8ec80a2cafae09613230eea60abb4d441d5206364d496119b462a5672501",
+        "run.json": "2b0cb632ec1524b110b1c47382e390254ab4d8cc51b4c9f64e1e26fec6d3b306",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1",
+        "video.mp4": "89839829d2f4b0d1ce156d3e82bb75826055d648cbb2d15dd12d592b2f0675b7"
+      }
+    },
+    {
+      "folder": "Builds/quality/2026-10-07-awake-comparison/shaped60-uncaptured",
+      "build": "Development",
+      "capture": false,
+      "profile": false,
+      "motion": true,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "motion",
+      "valid": true,
+      "failures": [],
+      "samples": 13956,
+      "seconds": 232.582628,
+      "p95Ms": 17.0832,
+      "p99Ms": 17.2255,
+      "worstMs": 19.4972,
+      "centralContacts": 167,
+      "worstContactDriftMetres": 0.021653549362635735,
+      "minimumCentralSoleClearance": 0.005682999999999994,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "analysis.json": "dc6485fcaa6d68bab8ce37cbbe8962f7f4f9d0bb4af953dba219202d1a3fc373",
+        "build.json": "aa7835734e425692863044d73e927a45e9ab9134a6193044af35ec2c1009426f",
+        "frames.csv": "8bdc9dc44690e78805279ed6463c7d1877082e11c987805b347a1e2511f7da91",
+        "motion-analysis.json": "1fef374b1704f29b67ea74fdebfaa131b17a23f35ed2bdca9bdec047aed92178",
+        "motion.csv": "5562d61ab5b687273ecaeaa4d36d34b5ba93be2de8470a89d14ebe70b293b87e",
+        "route.json": "81fc8ec80a2cafae09613230eea60abb4d441d5206364d496119b462a5672501",
+        "run.json": "d1468cc983dddc73c7d62712ef091e33080ae1870da33d1fdd314aa2e9c3b33b",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+      }
+    },
+    {
+      "folder": "Builds/quality/2026-10-07-awake-comparison/shaped60-video-only",
+      "build": "Development",
+      "capture": true,
+      "profile": false,
+      "motion": true,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "motion",
+      "valid": true,
+      "failures": [],
+      "samples": 13965,
+      "seconds": 232.729856,
+      "p95Ms": 17.2382,
+      "p99Ms": 17.4181,
+      "worstMs": 19.8125,
+      "centralContacts": 166,
+      "worstContactDriftMetres": 0.023533741733945387,
+      "minimumCentralSoleClearance": 0.004751999999999999,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "build.json": "deaae3dfdb70395651ec2b18fc1d79b1dcea68a80534523b509581ddff80b30f",
+        "capture-frames.csv": "94bec97ef740501b956d051d41e7e23839d4aea8723472e7c7ad98e45473e8e3",
+        "frames.csv": "afcd38df47c5c13c504b9003d18a242b774b576fc57c6fc0714e427d66493256",
+        "mix.wav": "702041e3ebd1d0912b0863630d74a144698c249e05797d68b05229aa1b970282",
+        "motion-analysis.json": "ed8780822731ab62a70c32b4fa51a31888942fa0ebe9223760e3e4cea4394d22",
+        "motion.csv": "0795e25f9652df3aea4ca9a1038d0461e4bb3f4d9e936e4c2e523278323b4ba1",
+        "replay.mp4": "7514ef1a31d4176181f654638ea94d9923418f2cfdc0c8881fe20ec36168d7b5",
+        "route.json": "8e0da918fd757185bc1bec865f2a41e1c4e2de5b3c48174097c8f664e603b533",
+        "run.json": "a1e679cb1ca6c06879e61388c0b32108ac17a1097fa02265747d73116ece365f",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1",
+        "video.mp4": "5fcf0288d3e3f01e102c879cece4a2a9c539ca4a778ef0e46a0a26ffe04dd229"
+      }
+    },
+    {
+      "folder": "Builds/quality/2026-10-07-awake-comparison/shaped60-uncaptured",
+      "build": "Development",
+      "capture": false,
+      "profile": false,
+      "motion": true,
+      "vSync": 1,
+      "frameCap": -1,
+      "refreshHz": 60.0,
+      "resultType": "timing",
+      "valid": true,
+      "failures": [],
+      "samples": 13956,
+      "seconds": 232.582628,
+      "p95Ms": 17.0832,
+      "p99Ms": 17.2255,
+      "worstMs": 19.4972,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "focusLosses": 0,
+      "artifactHashes": {
+        "analysis.json": "dc6485fcaa6d68bab8ce37cbbe8962f7f4f9d0bb4af953dba219202d1a3fc373",
+        "build.json": "aa7835734e425692863044d73e927a45e9ab9134a6193044af35ec2c1009426f",
+        "frames.csv": "8bdc9dc44690e78805279ed6463c7d1877082e11c987805b347a1e2511f7da91",
+        "motion-analysis.json": "1fef374b1704f29b67ea74fdebfaa131b17a23f35ed2bdca9bdec047aed92178",
+        "motion.csv": "5562d61ab5b687273ecaeaa4d36d34b5ba93be2de8470a89d14ebe70b293b87e",
+        "route.json": "81fc8ec80a2cafae09613230eea60abb4d441d5206364d496119b462a5672501",
+        "run.json": "d1468cc983dddc73c7d62712ef091e33080ae1870da33d1fdd314aa2e9c3b33b",
+        "source-state.json": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+      },
+      "maximumUiResponseMs": 0
+    }
+  ],
+  "displaySnapshots": {
+    "display-after-development.json": {
+      "utc": "2026-10-07T14:57:53.9717266Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T14:57:53.9910438Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T14:57:53.9910438Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-after-release.json": {
+      "utc": "2026-10-07T14:53:09.0757670Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T14:53:09.0918151Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T14:53:09.0918151Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-after-shaped-clean.json": {
+      "utc": "2026-10-07T15:08:07.9632700Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T15:08:07.9835013Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T15:08:07.9835013Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-after-shaped.json": {
+      "utc": "2026-10-07T15:02:22.9240143Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T15:02:22.9396683Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T15:02:22.9396683Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-after-video-only.json": {
+      "utc": "2026-10-07T15:12:53.8738903Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T15:12:53.8900314Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T15:12:53.8900314Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-before-development.json": {
+      "utc": "2026-10-07T14:53:26.0759451Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T14:53:26.0929591Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T14:53:26.0929591Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-before-shaped-clean.json": {
+      "utc": "2026-10-07T15:03:58.9021399Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T15:03:58.9286482Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T15:03:58.9286482Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-before-shaped.json": {
+      "utc": "2026-10-07T14:58:08.9566214Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T14:58:08.9698093Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T14:58:08.9698093Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-before-video-only.json": {
+      "utc": "2026-10-07T15:08:39.8903929Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T15:08:39.9160351Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T15:08:39.9160351Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "display-initial.json": {
+      "utc": "2026-10-07T14:48:31.4200326Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T14:48:31.4350637Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T14:48:31.4350637Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    }
+  },
+  "displayObservationLimit": "Read-only snapshots before/after runs, not a continuous physical-display observation. No awake request or system setting change.",
+  "deferredStillsRoute": {
+    "changedFields": {
+      "screenshotInterval": {
+        "before": 8,
+        "after": 10000
+      }
+    },
+    "sha256": "040bb064e6976dbd6a3d29705f4dc7dc9e8ef1b0305f75b47eaac5713e6226c6",
+    "note": "Identical gameplay steps and assertions; continuous 30 fps video/audio and full-rate motion retained. Stalls remain in raw frames and recordings."
+  },
+  "livePngCaptureHitches": [
+    {
+      "seconds": 9.129083,
+      "ms": 113.4676,
+      "step": 1,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 17.65022,
+      "ms": 102.032,
+      "step": 11,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 26.198901,
+      "ms": 100.307,
+      "step": 21,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 34.764987,
+      "ms": 99.7865,
+      "step": 28,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 43.082666,
+      "ms": 100.8615,
+      "step": 37,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 51.433029,
+      "ms": 100.4195,
+      "step": 46,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 60.299028,
+      "ms": 99.4967,
+      "step": 54,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 68.520469,
+      "ms": 104.5943,
+      "step": 63,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 76.700638,
+      "ms": 101.0619,
+      "step": 72,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 89.434242,
+      "ms": 100.9283,
+      "step": 77,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 99.432323,
+      "ms": 98.8689,
+      "step": 79,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 108.46589,
+      "ms": 98.6419,
+      "step": 83,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 117.004144,
+      "ms": 103.6799,
+      "step": 88,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 126.004771,
+      "ms": 103.9279,
+      "step": 89,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 134.535941,
+      "ms": 101.4197,
+      "step": 99,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 143.103618,
+      "ms": 102.3418,
+      "step": 109,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 151.705771,
+      "ms": 104.3209,
+      "step": 116,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 160.051306,
+      "ms": 99.8048,
+      "step": 125,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 168.352253,
+      "ms": 100.3893,
+      "step": 134,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 177.202895,
+      "ms": 100.823,
+      "step": 142,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 185.400601,
+      "ms": 98.0196,
+      "step": 151,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 193.602306,
+      "ms": 99.8435,
+      "step": 160,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 206.365518,
+      "ms": 95.9861,
+      "step": 165,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 216.367622,
+      "ms": 97.7725,
+      "step": 167,
+      "previousStepHasPng": true
+    },
+    {
+      "seconds": 225.384169,
+      "ms": 97.2888,
+      "step": 171,
+      "previousStepHasPng": true
+    }
+  ],
+  "frozenChapter": {
+    "sourceRevision": "a3aaad6",
+    "manifestSha256": "1e182606f614deb389925a920ffe0a074ab42528d6d0d84ba0471a5467add63e",
+    "files": 243,
+    "bytes": 616521326,
+    "changed": [],
+    "missing": [],
+    "unexpected": []
+  },
+  "savesBefore": [
+    {
+      "name": "autosave.json",
+      "bytes": 914,
+      "sha256": "65B2CA12C171D0167A62B443988B7B66B0AC737A0CE11537A2197AB4278DE47A"
+    },
+    {
+      "name": "autosave.json.bak",
+      "bytes": 891,
+      "sha256": "A9B131C2C9BD9CA03F1D69ADFAF551A28F82BE812F96F4146F26499D64E20745"
+    }
+  ],
+  "savesAfter": [
+    {
+      "name": "autosave.json",
+      "bytes": 914,
+      "sha256": "65B2CA12C171D0167A62B443988B7B66B0AC737A0CE11537A2197AB4278DE47A"
+    },
+    {
+      "name": "autosave.json.bak",
+      "bytes": 891,
+      "sha256": "A9B131C2C9BD9CA03F1D69ADFAF551A28F82BE812F96F4146F26499D64E20745"
+    }
+  ],
+  "openedImages": [
+    "shaped60/078.png",
+    "shaped60/166.png"
+  ],
+  "limitations": [
+    "Preserved display-off failures are not erased by current passes.",
+    "Same-build association with display state does not establish every historical stall cause.",
+    "Capture overhead comparison does not accept physical scan-out or continuously observed movement.",
+    "Full EditMode 131/131, PlayMode 231/231, offline 119/119 and matrices 384/384 were completed earlier on unchanged source; not rerun for documentation."
+  ]
+}
