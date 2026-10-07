@@ -32,7 +32,15 @@ namespace Lattice.Tests.EditMode
             Measure(hero,shaped,speed,slope,.22f);
         }
 
-        static void Measure(string hero,bool shaped,float speed,float slope,float clearance=.08f)
+        [TestCase("Taren",false,5.4f)][TestCase("Sela",false,5.4f)]
+        [TestCase("Taren",true,6.7f)][TestCase("Sela",true,6.7f)]
+        public void SteepReverseDiagonalsKeepKneesContinuous(string hero,bool shaped,float speed)
+        {
+            foreach(float slope in new[]{39f,-39f})foreach(float direction in new[]{135f,225f})
+                Measure(hero,shaped,speed,slope,.22f,direction,true);
+        }
+
+        static void Measure(string hero,bool shaped,float speed,float slope,float clearance=.08f,float direction=0,bool reverse=false)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
             floor.transform.position=new Vector3(0,-.5f,0);floor.transform.localScale=new Vector3(500,1,500);
@@ -51,7 +59,8 @@ namespace Lattice.Tests.EditMode
             var graph=PlayableGraph.Create("whole step regression");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
             var play=AnimationClipPlayable.Create(graph,clip);play.SetApplyFootIK(true);
             AnimationPlayableOutput.Create(graph,"pose",rig).SetSourcePlayable(play);graph.Play();
-            float grade=Mathf.Abs(Mathf.Tan(slope*Mathf.Deg2Rad));
+            var travel=Quaternion.Euler(0,direction,0)*Vector3.forward;
+            float grade=Mathf.Abs(Vector3.Dot(normal,travel))/normal.y;
             float cadence=profile.Cadence(state,speed,grade),stride=profile.Stride(state,speed,cadence,grade);
             const float dt=1f/240;
             var previousAngles=new float[2];var previousKnees=new Vector3[2];
@@ -61,18 +70,18 @@ namespace Lattice.Tests.EditMode
             {
                 for(int frame=0;frame<Mathf.CeilToInt(clip.length/cadence*3/dt);frame++)
                 {
-                    float time=frame*dt,phase=time*cadence/clip.length;
-                    var position=new Vector3(0,0,time*speed);position.y=Vector3.Dot(normal,surface-position)/normal.y+clearance;
+                    float time=frame*dt,cycles=time*cadence/clip.length,phase=reverse?-cycles:cycles;
+                    var position=travel*time*speed;position.y=Vector3.Dot(normal,surface-position)/normal.y+clearance;
                     root.transform.position=position;
                     play.SetTime(Mathf.Repeat(phase,1)*clip.length);graph.Evaluate(0);
-                    feet.Correct(Vector3.forward*speed,state,phase,stride,false,targetFacing:false,deltaTime:dt);
+                    feet.Correct(travel*speed,state,phase,stride,false,targetFacing:reverse,reverse:reverse,deltaTime:dt);
                     for(int side=0;side<2;side++)
                     {
                         var hip=rig.GetBoneTransform(side==0?HumanBodyBones.LeftUpperLeg:HumanBodyBones.RightUpperLeg).position;
                         var knee=rig.GetBoneTransform(side==0?HumanBodyBones.LeftLowerLeg:HumanBodyBones.RightLowerLeg).position;
                         var foot=rig.GetBoneTransform(side==0?HumanBodyBones.LeftFoot:HumanBodyBones.RightFoot).position;
                         float angle=Vector3.Angle(hip-knee,foot-knee);knee-=root.transform.position;
-                        if(phase>=1)
+                        if(cycles>=1)
                         {
                             float angular=Mathf.Abs(angle-previousAngles[side])/dt,speedNow=Vector3.Distance(knee,previousKnees[side])/dt;
                             if(angular>angularSpeed){angularSpeed=angular;angleAt=phase;}
@@ -82,7 +91,7 @@ namespace Lattice.Tests.EditMode
                         previousAngles[side]=angle;previousKnees[side]=knee;
                     }
                 }
-                Debug.Log($"LEG_CONTINUITY {hero}/{shaped}/{state} slope={slope} clearance={clearance} angularDegPerSec={angularSpeed:F2} kneeMps={kneeSpeed:F3} angleAt={angleAt:F6} kneeAt={kneeAt:F6}");
+                Debug.Log($"LEG_CONTINUITY {hero}/{shaped}/{state} slope={slope} clearance={clearance} direction={direction} reverse={reverse} angularDegPerSec={angularSpeed:F2} kneeMps={kneeSpeed:F3} angleAt={angleAt:F6} kneeAt={kneeAt:F6}");
                 Assert.Greater(samples,100,"must cover complete repeated steps");
                 var failures=new System.Collections.Generic.List<string>();
                 if(!(angularSpeed<=(state=="Walk"?1200:3000)))failures.Add("knee extension snaps during landing/toe-off: "+angularSpeed+" deg/s");

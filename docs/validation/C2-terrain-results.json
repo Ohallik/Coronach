@@ -1,5 +1,24 @@
 {
-  "baseRevision": "07eaf9f",
+  "originalRevision": "07eaf9f",
+  "candidateProvenance": {
+    "baseRevision": "8685dcae3d722d11cbc86503da299a3688fe655f",
+    "workingCandidate": 45,
+    "sourceModified": true,
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "sha256": "4f2f6cf78ca133bd00ac9b2354d151e82ab1f7cf3b4f88c7d41929cb5aadf897"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "sha256": "6d88898189177967ba5f36f68ab286e603363f9aa7a69fd0d8368162c0a16f0e"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundStrideProfile.cs",
+        "sha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af"
+      }
+    ]
+  },
   "status": "Engineering evidence only. C1/C2 acceptance and continuous physical review remain open.",
   "fixtures": [
     {
@@ -14,7 +33,7 @@
   "runtimeSource": [
     {
       "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
-      "sha256": "9765070303c3da185d926f02226317c23f77e80d1698165be4682ebc647f7eb0"
+      "sha256": "4f2f6cf78ca133bd00ac9b2354d151e82ab1f7cf3b4f88c7d41929cb5aadf897"
     },
     {
       "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
@@ -36,7 +55,7 @@
     }
   ],
   "frozenChapter": {
-    "path": "Builds/quality/2026-10-06-terrain-followup/frozen-chapter-verified.json",
+    "path": "Builds/quality/2026-10-06-terrain-followup/frozen-chapter-verified-final.json",
     "sha256": "24867135b23d5e75d851a3ba0ed50b0425a91396c3912c9dacffe17284d7e1cc",
     "result": {
       "sourceRevision": "a3aaad6",
@@ -46,6 +65,54 @@
       "failures": [],
       "unexpected": [],
       "missing": []
+    }
+  },
+  "packagedProvenance": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/final-build-provenance.json",
+    "sha256": "290a8cbda8e252f8daa0bc76f874db63e58a6b19ee3f5c9c7846cf9b7d47466e",
+    "result": {
+      "candidate": 45,
+      "runtimeSource": {
+        "baseRevision": "8685dcae3d722d11cbc86503da299a3688fe655f",
+        "workingCandidate": 45,
+        "sourceModified": true,
+        "files": [
+          {
+            "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+            "sha256": "4f2f6cf78ca133bd00ac9b2354d151e82ab1f7cf3b4f88c7d41929cb5aadf897"
+          },
+          {
+            "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+            "sha256": "6d88898189177967ba5f36f68ab286e603363f9aa7a69fd0d8368162c0a16f0e"
+          },
+          {
+            "path": "Lattice/Assets/_Project/Scripts/Combat/GroundStrideProfile.cs",
+            "sha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af"
+          }
+        ]
+      },
+      "builds": [
+        {
+          "folder": "Windows",
+          "sourceManifest": "Builds\\quality\\2026-10-06-terrain-followup\\release-first-warm-final\\build.json",
+          "combatAssembly": {
+            "hash": "49CBDE694A3A54E9665D7796D7D8950227BABCF4F1F0F87522DD92C980494627",
+            "name": "Lattice.Combat.dll"
+          },
+          "assembliesVerified": 7,
+          "contentFilesVerified": 45
+        },
+        {
+          "folder": "WindowsDev",
+          "sourceManifest": "Builds\\quality\\2026-10-06-terrain-followup\\development-first-warm-final\\build.json",
+          "combatAssembly": {
+            "hash": "FB5F4BF74AB57980BD244F9643924AD5DA4003ECAF6917830869185440B94D66",
+            "name": "Lattice.Combat.dll"
+          },
+          "assembliesVerified": 7,
+          "contentFilesVerified": 45
+        }
+      ]
     }
   },
   "original": {
@@ -218,10 +285,10 @@
   },
   "candidate": {
     "path": "Builds/quality/2026-10-06-terrain-followup/editmode-final.xml",
-    "sha256": "261738fce34628ff66672a36d89add4237bf03968748e554bd1190744eb12072",
+    "sha256": "410a7b0455344e746b3dca22c8ae4a2de0aa00349db08b5dc702eaa64ba264a5",
     "counts": {
-      "total": "119",
-      "passed": "119",
+      "total": "131",
+      "passed": "131",
       "failed": "0",
       "skipped": "0"
     },
@@ -575,147 +642,171 @@
         "failure": null
       },
       {
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Taren\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1332.30 kneeMps=8.763 angleAt=-1.458641 kneeAt=-1.449933\nLEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1861.70 kneeMps=8.842 angleAt=-2.494930 kneeAt=-2.856325\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1894.00 kneeMps=13.694 angleAt=-2.451388 kneeAt=-2.425263\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2083.36 kneeMps=9.288 angleAt=-1.950661 kneeAt=-2.433972",
+        "failure": null
+      },
+      {
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Sela\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1506.13 kneeMps=8.885 angleAt=-1.484766 kneeAt=-1.449933\nLEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1898.82 kneeMps=9.028 angleAt=-1.497829 kneeAt=-1.854869\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1599.03 kneeMps=12.364 angleAt=-1.449933 kneeAt=-2.429617\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1722.52 kneeMps=9.029 angleAt=-1.497829 kneeAt=-1.854869",
+        "failure": null
+      },
+      {
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Taren\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=2334.83 kneeMps=10.707 angleAt=-2.494613 kneeAt=-1.446769\nLEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1536.44 kneeMps=10.829 angleAt=-2.925453 kneeAt=-1.856333\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=2072.69 kneeMps=14.718 angleAt=-2.452061 kneeAt=-2.430785\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2304.94 kneeMps=10.805 angleAt=-2.952048 kneeAt=-2.856306",
+        "failure": null
+      },
+      {
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Sela\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1747.30 kneeMps=10.869 angleAt=-1.488106 kneeAt=-1.449809\nLEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2297.11 kneeMps=10.728 angleAt=-2.494766 kneeAt=-2.855850\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1846.86 kneeMps=12.792 angleAt=-1.460751 kneeAt=-1.433396\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2212.39 kneeMps=10.698 angleAt=-2.965270 kneeAt=-2.855850",
+        "failure": null
+      },
+      {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.08 angularDegPerSec=989.89 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.22 angularDegPerSec=989.85 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=989.86 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=989.84 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.08 angularDegPerSec=960.38 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.22 angularDegPerSec=960.38 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=960.38 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=960.35 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.08 angularDegPerSec=1728.68 kneeMps=10.057 angleAt=2.659560 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 angularDegPerSec=1728.80 kneeMps=10.057 angleAt=2.659560 kneeAt=2.149041",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1485.58 kneeMps=10.181 angleAt=1.657971 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1485.57 kneeMps=10.181 angleAt=1.657971 kneeAt=2.149041",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.08 angularDegPerSec=1662.82 kneeMps=10.246 angleAt=1.662833 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 angularDegPerSec=1662.73 kneeMps=10.246 angleAt=1.662833 kneeAt=2.149041",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1495.86 kneeMps=10.379 angleAt=1.657971 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1495.88 kneeMps=10.378 angleAt=1.657971 kneeAt=2.149041",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.08 angularDegPerSec=2004.92 kneeMps=12.220 angleAt=2.666831 kneeAt=1.146322\nLEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 angularDegPerSec=2004.90 kneeMps=12.220 angleAt=2.666831 kneeAt=1.146322",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1851.00 kneeMps=12.540 angleAt=1.663057 kneeAt=1.140382\nLEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1851.04 kneeMps=12.540 angleAt=1.663057 kneeAt=1.140382",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.08 angularDegPerSec=2191.98 kneeMps=12.339 angleAt=2.663607 kneeAt=1.148528\nLEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 angularDegPerSec=2191.88 kneeMps=12.339 angleAt=2.663607 kneeAt=1.148528",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1882.11 kneeMps=12.660 angleAt=2.663607 kneeAt=1.142419\nLEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1882.07 kneeMps=12.660 angleAt=2.663607 kneeAt=1.142419",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.08 angularDegPerSec=1995.14 kneeMps=12.760 angleAt=1.805579 kneeAt=2.678419\nLEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.22 angularDegPerSec=1995.09 kneeMps=12.760 angleAt=1.805579 kneeAt=1.677221",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1995.16 kneeMps=12.760 angleAt=1.805579 kneeAt=2.678419\nLEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1995.09 kneeMps=12.760 angleAt=1.805579 kneeAt=1.677221",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.08 angularDegPerSec=2184.07 kneeMps=14.568 angleAt=2.801634 kneeAt=2.218328\nLEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.22 angularDegPerSec=2184.08 kneeMps=14.567 angleAt=2.801634 kneeAt=2.218328",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=2184.07 kneeMps=14.568 angleAt=2.801634 kneeAt=2.218328\nLEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=2184.11 kneeMps=14.567 angleAt=2.801634 kneeAt=2.218328",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.08 angularDegPerSec=974.17 kneeMps=5.792 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.22 angularDegPerSec=974.19 kneeMps=5.792 angleAt=2.700344 kneeAt=2.737000",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=974.17 kneeMps=5.793 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=974.19 kneeMps=5.792 angleAt=2.700344 kneeAt=2.737000",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.08 angularDegPerSec=945.94 kneeMps=5.815 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.22 angularDegPerSec=945.96 kneeMps=5.816 angleAt=1.704516 kneeAt=2.737000",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=945.92 kneeMps=5.815 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=945.96 kneeMps=5.816 angleAt=1.704516 kneeAt=2.737000",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.08 angularDegPerSec=1663.75 kneeMps=10.057 angleAt=1.677419 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 angularDegPerSec=1663.78 kneeMps=10.057 angleAt=1.677419 kneeAt=2.149041",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1466.03 kneeMps=10.181 angleAt=1.672557 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1466.05 kneeMps=10.181 angleAt=1.672557 kneeAt=2.149041",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.08 angularDegPerSec=1612.65 kneeMps=10.246 angleAt=2.679008 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 angularDegPerSec=1612.65 kneeMps=10.245 angleAt=2.679008 kneeAt=2.149041",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1463.51 kneeMps=10.379 angleAt=2.017765 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1463.40 kneeMps=10.379 angleAt=2.017765 kneeAt=2.149041",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.08 angularDegPerSec=1904.02 kneeMps=12.220 angleAt=2.678710 kneeAt=1.146322\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 angularDegPerSec=1903.98 kneeMps=12.220 angleAt=2.678710 kneeAt=1.146322",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1778.79 kneeMps=12.539 angleAt=2.678710 kneeAt=1.140382\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1778.97 kneeMps=12.539 angleAt=2.678710 kneeAt=1.140382",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.08 angularDegPerSec=1923.08 kneeMps=12.339 angleAt=2.681935 kneeAt=1.148528\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 angularDegPerSec=1923.13 kneeMps=12.339 angleAt=2.681935 kneeAt=1.148528",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1806.23 kneeMps=12.660 angleAt=2.016033 kneeAt=1.142419\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1806.24 kneeMps=12.660 angleAt=2.016033 kneeAt=1.142419",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.08 angularDegPerSec=1722.54 kneeMps=12.277 angleAt=1.369160 kneeAt=2.695533\nLEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.22 angularDegPerSec=1722.54 kneeMps=12.277 angleAt=1.369160 kneeAt=2.695533",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1722.53 kneeMps=12.278 angleAt=1.369160 kneeAt=2.695533\nLEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1722.60 kneeMps=12.277 angleAt=1.369160 kneeAt=2.695533",
         "failure": null
       },
       {
         "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,-39.0f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.08 angularDegPerSec=1643.61 kneeMps=12.177 angleAt=1.696889 kneeAt=1.696889\nLEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.22 angularDegPerSec=1643.59 kneeMps=12.177 angleAt=1.696889 kneeAt=1.696889",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1643.78 kneeMps=12.178 angleAt=1.696889 kneeAt=1.696889\nLEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1643.69 kneeMps=12.178 angleAt=1.696889 kneeAt=1.696889",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/False/Walk slope=0 clearance=0.08 angularDegPerSec=854.95 kneeMps=4.761 angleAt=2.688125 kneeAt=2.735938",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=854.95 kneeMps=4.761 angleAt=2.688125 kneeAt=2.735938",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/False/Walk slope=0 clearance=0.08 angularDegPerSec=861.80 kneeMps=4.803 angleAt=2.688125 kneeAt=2.735938",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=861.80 kneeMps=4.803 angleAt=2.688125 kneeAt=2.735938",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/False/Run slope=0 clearance=0.08 angularDegPerSec=1875.60 kneeMps=9.411 angleAt=2.675212 kneeAt=2.675212",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=1875.60 kneeMps=9.411 angleAt=2.675212 kneeAt=2.675212",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/False/Run slope=0 clearance=0.08 angularDegPerSec=1852.10 kneeMps=9.565 angleAt=2.176444 kneeAt=2.176444",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=1852.10 kneeMps=9.565 angleAt=2.176444 kneeAt=2.176444",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/True/Run slope=0 clearance=0.08 angularDegPerSec=2089.76 kneeMps=10.978 angleAt=1.177042 kneeAt=1.177042",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2089.76 kneeMps=10.978 angleAt=1.177042 kneeAt=1.177042",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/True/Run slope=0 clearance=0.08 angularDegPerSec=2112.79 kneeMps=10.642 angleAt=2.169714 kneeAt=2.677721",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2112.79 kneeMps=10.642 angleAt=2.169714 kneeAt=2.677721",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Taren/True/Sprint slope=0 clearance=0.08 angularDegPerSec=2297.01 kneeMps=13.594 angleAt=2.693343 kneeAt=2.693343",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2297.01 kneeMps=13.594 angleAt=2.693343 kneeAt=2.693343",
         "failure": null
       },
       {
         "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f)",
         "result": "Passed",
-        "output": "LEG_CONTINUITY Sela/True/Sprint slope=0 clearance=0.08 angularDegPerSec=2326.77 kneeMps=13.252 angleAt=1.696491 kneeAt=1.696491",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2326.77 kneeMps=13.252 angleAt=1.696491 kneeAt=1.696491",
         "failure": null
       },
       {
@@ -905,6 +996,54 @@
         "failure": null
       },
       {
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Taren\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Sela\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Taren\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Sela\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Taren\",False)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Taren/False samples=2720 maximum=3.941",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Sela\",False)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Sela/False samples=2720 maximum=4.402",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Taren\",True)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Taren/True samples=3040 maximum=9.249",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Sela\",True)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Sela/True samples=2960 maximum=9.371",
+        "failure": null
+      },
+      {
         "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Taren\",False)",
         "result": "Passed",
         "output": "",
@@ -931,55 +1070,277 @@
       {
         "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"pad\",\"Sela\")",
         "result": "Passed",
-        "output": "TERRAIN_STRIDE pad/Sela samples=13 contacts=3 drift=0.022840 penetration=0.000000 lift=0.036571 reach=0.083983 requestedDrop=0.248923 kneeAngleRatio=0.962551 kneeSpeedRatio=0.717175 jointSamples=204\nTERRAIN_JOINT_PEAK angle=153.754200/Run/2.156916/0 knee=153.704600/Run/2.099945/0 (-0.19, 0.43, 0.34) -> (-0.15, 0.31, 0.20) hip=(-0.12, 0.68, 0.05) foot=(-0.07, -0.08, -0.02)",
+        "output": "TERRAIN_STRIDE pad/Sela samples=13 contacts=3 drift=0.022838 penetration=0.000000 lift=0.036571 reach=0.083983 requestedDrop=0.248923 kneeAngleRatio=0.962551 kneeSpeedRatio=0.717208 jointSamples=204\nTERRAIN_JOINT_PEAK angle=153.754200/Run/2.156916/0 knee=153.704600/Run/2.099945/0 (-0.19, 0.43, 0.34) -> (-0.15, 0.31, 0.20) hip=(-0.12, 0.68, 0.05) foot=(-0.07, -0.08, -0.02)",
         "failure": null
       },
       {
         "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"slope\",\"Taren\")",
         "result": "Passed",
-        "output": "TERRAIN_STRIDE slope/Taren samples=127 contacts=11 drift=0.002923 penetration=0.000000 lift=0.021670 reach=0.046520 requestedDrop=0.233554 kneeAngleRatio=0.814368 kneeSpeedRatio=0.795538 jointSamples=660\nTERRAIN_JOINT_PEAK angle=93.897790/Walk/4.515419/0 knee=97.998540/Walk/8.519198/1 (0.27, 0.54, -0.09) -> (0.26, 0.46, -0.10) hip=(0.27, 0.59, -0.51) foot=(0.12, 0.07, 0.15)\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
+        "output": "TERRAIN_STRIDE slope/Taren samples=127 contacts=11 drift=0.002928 penetration=0.000000 lift=0.021683 reach=0.046523 requestedDrop=0.235958 kneeAngleRatio=0.814446 kneeSpeedRatio=0.803988 jointSamples=660\nTERRAIN_JOINT_PEAK angle=93.897790/Walk/4.515419/0 knee=97.998540/Walk/8.519198/1 (0.27, 0.54, -0.10) -> (0.27, 0.45, -0.10) hip=(0.27, 0.58, -0.51) foot=(0.10, 0.06, 0.15)\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
         "failure": null
       }
     ]
   },
-  "runtimeStride": {
-    "path": "Builds/quality/2026-10-06-terrain-followup/runtime-candidate39.xml",
-    "sha256": "0eebdeca37f011200c5f4b04918579a41c8f7560247a548a120ab8ec346f9cd5",
+  "focusedCandidate45": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/focused-candidate45.xml",
+    "sha256": "4cde8fb6ccfedc7220336ce945f8c370db540e901d3d167de175ceda61b47f8d",
     "counts": {
-      "total": "5",
-      "passed": "5",
+      "total": "42",
+      "passed": "42",
       "failed": "0",
       "skipped": "0"
     },
     "cases": [
       {
-        "name": "MovingEmitterFireKeepsVisibleLegStride",
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Taren\",False,5.4f)",
         "result": "Passed",
-        "output": "MOVING_FIRE speed=2.6 leftStride=1.174728 rightStride=1.201401 contacts=8 drift=0.003620\nMOVING_FIRE speed=6.7 leftStride=1.654816 rightStride=1.686081 contacts=8 drift=0.000933\nMOVING_FIRE speed=10.8 leftStride=1.537170 rightStride=1.566391 contacts=12 drift=0.011421",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1332.30 kneeMps=8.763 angleAt=-1.458641 kneeAt=-1.449933\nLEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1861.70 kneeMps=8.842 angleAt=-2.494930 kneeAt=-2.856325\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1894.00 kneeMps=13.694 angleAt=-2.451388 kneeAt=-2.425263\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2083.36 kneeMps=9.288 angleAt=-1.950661 kneeAt=-2.433972",
         "failure": null
       },
       {
-        "name": "UnlockedBodyFacesMeasuredTravelWhenAContactRedirectsIt",
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Sela\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1506.13 kneeMps=8.885 angleAt=-1.484766 kneeAt=-1.449933\nLEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1898.82 kneeMps=9.028 angleAt=-1.497829 kneeAt=-1.854869\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1599.03 kneeMps=12.364 angleAt=-1.449933 kneeAt=-2.429617\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1722.52 kneeMps=9.029 angleAt=-1.497829 kneeAt=-1.854869",
+        "failure": null
+      },
+      {
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Taren\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=2334.83 kneeMps=10.707 angleAt=-2.494613 kneeAt=-1.446769\nLEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=1536.44 kneeMps=10.829 angleAt=-2.925453 kneeAt=-1.856333\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=2072.69 kneeMps=14.718 angleAt=-2.452061 kneeAt=-2.430785\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2304.94 kneeMps=10.805 angleAt=-2.952048 kneeAt=-2.856306",
+        "failure": null
+      },
+      {
+        "name": "SteepReverseDiagonalsKeepKneesContinuous(\"Sela\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1747.30 kneeMps=10.869 angleAt=-1.488106 kneeAt=-1.449809\nLEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2297.11 kneeMps=10.728 angleAt=-2.494766 kneeAt=-2.855850\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 direction=135 reverse=True angularDegPerSec=1846.86 kneeMps=12.792 angleAt=-1.460751 kneeAt=-1.433396\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 direction=225 reverse=True angularDegPerSec=2212.39 kneeMps=10.698 angleAt=-2.965270 kneeAt=-2.855850",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=989.86 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=989.84 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=960.38 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=960.35 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1485.58 kneeMps=10.181 angleAt=1.657971 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1485.57 kneeMps=10.181 angleAt=1.657971 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1495.86 kneeMps=10.379 angleAt=1.657971 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1495.88 kneeMps=10.378 angleAt=1.657971 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1851.00 kneeMps=12.540 angleAt=1.663057 kneeAt=1.140382\nLEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1851.04 kneeMps=12.540 angleAt=1.663057 kneeAt=1.140382",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1882.11 kneeMps=12.660 angleAt=2.663607 kneeAt=1.142419\nLEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1882.07 kneeMps=12.660 angleAt=2.663607 kneeAt=1.142419",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1995.16 kneeMps=12.760 angleAt=1.805579 kneeAt=2.678419\nLEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1995.09 kneeMps=12.760 angleAt=1.805579 kneeAt=1.677221",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.08 direction=0 reverse=False angularDegPerSec=2184.07 kneeMps=14.568 angleAt=2.801634 kneeAt=2.218328\nLEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.22 direction=0 reverse=False angularDegPerSec=2184.11 kneeMps=14.567 angleAt=2.801634 kneeAt=2.218328",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=974.17 kneeMps=5.793 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=974.19 kneeMps=5.792 angleAt=2.700344 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=945.92 kneeMps=5.815 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=945.96 kneeMps=5.816 angleAt=1.704516 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1466.03 kneeMps=10.181 angleAt=1.672557 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1466.05 kneeMps=10.181 angleAt=1.672557 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1463.51 kneeMps=10.379 angleAt=2.017765 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1463.40 kneeMps=10.379 angleAt=2.017765 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1778.79 kneeMps=12.539 angleAt=2.678710 kneeAt=1.140382\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1778.97 kneeMps=12.539 angleAt=2.678710 kneeAt=1.140382",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1806.23 kneeMps=12.660 angleAt=2.016033 kneeAt=1.142419\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1806.24 kneeMps=12.660 angleAt=2.016033 kneeAt=1.142419",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1722.53 kneeMps=12.278 angleAt=1.369160 kneeAt=2.695533\nLEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1722.60 kneeMps=12.277 angleAt=1.369160 kneeAt=2.695533",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.08 direction=0 reverse=False angularDegPerSec=1643.78 kneeMps=12.178 angleAt=1.696889 kneeAt=1.696889\nLEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.22 direction=0 reverse=False angularDegPerSec=1643.69 kneeMps=12.178 angleAt=1.696889 kneeAt=1.696889",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=854.95 kneeMps=4.761 angleAt=2.688125 kneeAt=2.735938",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=861.80 kneeMps=4.803 angleAt=2.688125 kneeAt=2.735938",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=1875.60 kneeMps=9.411 angleAt=2.675212 kneeAt=2.675212",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=1852.10 kneeMps=9.565 angleAt=2.176444 kneeAt=2.176444",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2089.76 kneeMps=10.978 angleAt=1.177042 kneeAt=1.177042",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2112.79 kneeMps=10.642 angleAt=2.169714 kneeAt=2.677721",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2297.01 kneeMps=13.594 angleAt=2.693343 kneeAt=2.693343",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=0 clearance=0.08 direction=0 reverse=False angularDegPerSec=2326.77 kneeMps=13.252 angleAt=1.696491 kneeAt=1.696491",
+        "failure": null
+      },
+      {
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Taren\",False)",
         "result": "Passed",
         "output": "",
         "failure": null
       },
       {
-        "name": "VisibleSolesHoldDuringRuntimeLocomotionAndPause",
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Sela\",False)",
         "result": "Passed",
-        "output": "RUNTIME_STRIDE_CASE Taren Natural direction 0 contacts=8 drift=0.003295 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Natural direction 90 contacts=8 drift=0.005955 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Natural direction 180 contacts=8 drift=0.006301 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Shaped direction 0 contacts=6 drift=0.000710 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Shaped direction 90 contacts=6 drift=0.000778 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Shaped direction 180 contacts=6 drift=0.000740 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Natural direction 0 contacts=8 drift=0.000141 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Natural direction 90 contacts=8 drift=0.002143 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Natural direction 180 contacts=8 drift=0.000725 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Shaped direction 0 contacts=6 drift=0.000979 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Shaped direction 90 contacts=6 drift=0.000980 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Shaped direction 180 contacts=6 drift=0.001064 penetration=0.000000",
+        "output": "",
         "failure": null
       },
       {
-        "name": "VisibleSolesStayPlantedOnSteepUphillAndDownhillGround",
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Taren\",True)",
         "result": "Passed",
-        "output": "RUNTIME_SLOPE_CASE Taren Natural slope 39 contacts=8 drift=0.036377 penetration=0.000000 lift=0.034677\nRUNTIME_SLOPE_CASE Taren Natural slope -39 contacts=8 drift=0.030949 penetration=0.000000 lift=0.031438\nRUNTIME_SLOPE_CASE Taren Shaped slope 39 contacts=8 drift=0.001634 penetration=0.000000 lift=0.003835\nRUNTIME_SLOPE_CASE Taren Shaped slope -39 contacts=8 drift=0.001591 penetration=0.000000 lift=0.003833\nRUNTIME_SLOPE_CASE Sela Natural slope 39 contacts=8 drift=0.033588 penetration=0.000000 lift=0.033154\nRUNTIME_SLOPE_CASE Sela Natural slope -39 contacts=8 drift=0.027913 penetration=0.000000 lift=0.029388\nRUNTIME_SLOPE_CASE Sela Shaped slope 39 contacts=8 drift=0.029608 penetration=0.000448 lift=0.027281\nRUNTIME_SLOPE_CASE Sela Shaped slope -39 contacts=8 drift=0.002150 penetration=0.000451 lift=0.004667",
+        "output": "",
         "failure": null
       },
       {
-        "name": "VisibleSolesStayPlantedOnUphillAndDownhillGround",
+        "name": "MidStrideContactRedirectionKeepsTheBodyFacingActualTravel(\"Sela\",True)",
         "result": "Passed",
-        "output": "RUNTIME_SLOPE_CASE Taren Natural slope 10 contacts=7 drift=0.034182 penetration=0.000000 lift=0.032926\nRUNTIME_SLOPE_CASE Taren Natural slope -10 contacts=7 drift=0.010250 penetration=0.000000 lift=0.015759\nRUNTIME_SLOPE_CASE Taren Shaped slope 10 contacts=6 drift=0.001556 penetration=0.000000 lift=0.005080\nRUNTIME_SLOPE_CASE Taren Shaped slope -10 contacts=6 drift=0.001648 penetration=0.000000 lift=0.005079\nRUNTIME_SLOPE_CASE Sela Natural slope 10 contacts=7 drift=0.031160 penetration=0.000000 lift=0.031306\nRUNTIME_SLOPE_CASE Sela Natural slope -10 contacts=7 drift=0.007950 penetration=0.000000 lift=0.013628\nRUNTIME_SLOPE_CASE Sela Shaped slope 10 contacts=6 drift=0.018000 penetration=0.000000 lift=0.019388\nRUNTIME_SLOPE_CASE Sela Shaped slope -10 contacts=6 drift=0.002177 penetration=0.000000 lift=0.005874\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Taren\",False)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Taren/False samples=2720 maximum=3.941",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Sela\",False)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Sela/False samples=2720 maximum=4.402",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Taren\",True)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Taren/True samples=3040 maximum=9.249",
+        "failure": null
+      },
+      {
+        "name": "SteepBodyFacesPlanarTravelWithoutYawingDownhill(\"Sela\",True)",
+        "result": "Passed",
+        "output": "TERRAIN_FACING Sela/True samples=2960 maximum=9.371",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Taren\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Sela\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Taren\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Sela\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"pad\",\"Sela\")",
+        "result": "Passed",
+        "output": "TERRAIN_STRIDE pad/Sela samples=13 contacts=3 drift=0.022838 penetration=0.000000 lift=0.036571 reach=0.083983 requestedDrop=0.248923 kneeAngleRatio=0.962551 kneeSpeedRatio=0.717208 jointSamples=204\nTERRAIN_JOINT_PEAK angle=153.754200/Run/2.156916/0 knee=153.704600/Run/2.099945/0 (-0.19, 0.43, 0.34) -> (-0.15, 0.31, 0.20) hip=(-0.12, 0.68, 0.05) foot=(-0.07, -0.08, -0.02)",
+        "failure": null
+      },
+      {
+        "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"slope\",\"Taren\")",
+        "result": "Passed",
+        "output": "TERRAIN_STRIDE slope/Taren samples=127 contacts=11 drift=0.002928 penetration=0.000000 lift=0.021683 reach=0.046523 requestedDrop=0.235958 kneeAngleRatio=0.814446 kneeSpeedRatio=0.803988 jointSamples=660\nTERRAIN_JOINT_PEAK angle=93.897790/Walk/4.515419/0 knee=97.998540/Walk/8.519198/1 (0.27, 0.54, -0.10) -> (0.27, 0.45, -0.10) hip=(0.27, 0.58, -0.51) foot=(0.10, 0.06, 0.15)\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
         "failure": null
       }
     ]
@@ -993,11 +1354,74 @@
       "failed": "0"
     },
     {
+      "path": "Builds/quality/2026-10-06-terrain-followup/editmode-candidate39.xml",
+      "sha256": "261738fce34628ff66672a36d89add4237bf03968748e554bd1190744eb12072",
+      "result": "Passed",
+      "total": "119",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/editmode-candidate45-first.xml",
+      "sha256": "78dd7a6ecce89961cd9ad6d0f8d6de026d9cef16c69e91daf888d2557fef1f2b",
+      "result": "Passed",
+      "total": "131",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/facing-candidate39-red.xml",
+      "sha256": "1802e11558d1195523b8596d3022fe0e4480c24d45aebac5244f6ce026e75707",
+      "result": "Failed(Child)",
+      "total": "4",
+      "failed": "4"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/focused-candidate40.xml",
+      "sha256": "ceca23cf1a58c7e333a4d987178d3a5807e3c383c714e4f590cc975b543e7a8a",
+      "result": "Passed",
+      "total": "34",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/focused-candidate41.xml",
+      "sha256": "f3e28f9acc2534898544dee7aa8adb377420eda71812a0e471a578736c37c92e",
+      "result": "Passed",
+      "total": "38",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/focused-candidate43-red.xml",
+      "sha256": "1a2c99a8f3a5ee4aeed0c8e8d777a1e8871ed65d34684788f45c859caa23dfee",
+      "result": "Failed(Child)",
+      "total": "42",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/focused-candidate44-red.xml",
+      "sha256": "d88a3d881dfb98414cda79011c6bfae983ec9ee8a895b09369ba44027e12825b",
+      "result": "Failed(Child)",
+      "total": "42",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/focused-candidate45.xml",
+      "sha256": "4cde8fb6ccfedc7220336ce945f8c370db540e901d3d167de175ceda61b47f8d",
+      "result": "Passed",
+      "total": "42",
+      "failed": "0"
+    },
+    {
       "path": "Builds/quality/2026-10-06-terrain-followup/footprint-only.xml",
       "sha256": "ed827926ce04e27b5e56161ad96e135085e311e1ca11f9388fee2c4ea14acfa0",
       "result": "Failed(Child)",
       "total": "2",
       "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/original-reverse-checks.xml",
+      "sha256": "604f1f9160306a7c769c7ea40a3bedaec99e7e98e8e07c3f200f1d04b32e104c",
+      "result": "Failed(Child)",
+      "total": "4",
+      "failed": "3"
     },
     {
       "path": "Builds/quality/2026-10-06-terrain-followup/pause-mutant-red.xml",
@@ -1007,8 +1431,15 @@
       "failed": "4"
     },
     {
-      "path": "Builds/quality/2026-10-06-terrain-followup/playmode-final.xml",
+      "path": "Builds/quality/2026-10-06-terrain-followup/playmode-candidate39.xml",
       "sha256": "488cbe57fc3c185efffdc6b43d223508221d7d11967533e35a50118399919e47",
+      "result": "Passed",
+      "total": "231",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/playmode-final.xml",
+      "sha256": "6db186f954f4603557fd2d31d8aff60c4f0526d38d3430719cde02e463e01c96",
       "result": "Passed",
       "total": "231",
       "failed": "0"
@@ -1364,6 +1795,20 @@
       "failed": "2"
     },
     {
+      "path": "Builds/quality/2026-10-06-terrain-followup/terrain-facing-candidate40-red.xml",
+      "sha256": "f99f94e5d251ab536976449517145086e808b9aee00478ff60d371f41fc06727",
+      "result": "Failed(Child)",
+      "total": "4",
+      "failed": "4"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/terrain-facing-grade-control.xml",
+      "sha256": "6e957e5209c12d0e031958fc7139078536efff35af2cc6ee8c9d345bf62e5f94",
+      "result": "Failed(Child)",
+      "total": "4",
+      "failed": "4"
+    },
+    {
       "path": "Builds/quality/2026-10-06-terrain-followup/terrain-replay-red.xml",
       "sha256": "62953458d0e57476292e724af11531c46275bf4a78048d5ac89dd79c6473e508",
       "result": "Failed(Child)",
@@ -1373,7 +1818,7 @@
   ],
   "playmode": {
     "path": "Builds/quality/2026-10-06-terrain-followup/playmode-final.xml",
-    "sha256": "488cbe57fc3c185efffdc6b43d223508221d7d11967533e35a50118399919e47",
+    "sha256": "6db186f954f4603557fd2d31d8aff60c4f0526d38d3430719cde02e463e01c96",
     "counts": {
       "total": "231",
       "passed": "231",
@@ -1400,59 +1845,982 @@
       }
     }
   },
+  "releaseSync": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/release-first-warm-final/analysis.json",
+    "sha256": "ac6a8b7a03519e5e0edaeaa1cd2c2a24ca0c49bcbc6aeb823b17ace91b3adcc1",
+    "metrics": {
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed",
+        "first visit: Sela full reversal to airlock: checkpoint not reached",
+        "first visit: Sela full reversal to airlock: navigation checkpoint missed",
+        "first visit: Sela port hull boundary: checkpoint not reached",
+        "first visit: Sela port hull boundary: navigation checkpoint missed",
+        "first visit: back to public promenade: checkpoint not reached",
+        "first visit: back to public promenade: navigation checkpoint missed",
+        "first visit: choose stock: UI dialogue expected shop",
+        "first visit: choose stock: UI feedback missing",
+        "first visit: close shop: UI dialogue expected world",
+        "first visit: dock vestibule return: checkpoint not reached",
+        "first visit: dock vestibule return: navigation checkpoint missed",
+        "first visit: galley to service gallery: checkpoint not reached",
+        "first visit: galley to service gallery: navigation checkpoint missed",
+        "first visit: hitch budget exceeded",
+        "first visit: housing back to office: checkpoint not reached",
+        "first visit: housing back to office: navigation checkpoint missed",
+        "first visit: missing samples",
+        "first visit: office airlock to promenade: navigation checkpoint missed",
+        "first visit: office slow approach: navigation checkpoint missed",
+        "first visit: office to promenade: checkpoint not reached",
+        "first visit: office to promenade: navigation checkpoint missed",
+        "first visit: office turn to public route: navigation checkpoint missed",
+        "first visit: p95 exceeds 18.5 ms",
+        "first visit: p99 exceeds 25 ms",
+        "first visit: parts store aisle: checkpoint not reached",
+        "first visit: parts store aisle: navigation checkpoint missed",
+        "first visit: public bridge to market: navigation checkpoint missed",
+        "first visit: quiet cabin corridor: checkpoint not reached",
+        "first visit: quiet cabin corridor: navigation checkpoint missed",
+        "first visit: rear receiving gallery: checkpoint not reached",
+        "first visit: rear receiving gallery: navigation checkpoint missed",
+        "first visit: repair public entrance: checkpoint not reached",
+        "first visit: repair public entrance: navigation checkpoint missed",
+        "first visit: runtime validation rejected",
+        "first visit: service bridge to housing: checkpoint not reached",
+        "first visit: service bridge to housing: navigation checkpoint missed",
+        "first visit: service bridge to provisions: checkpoint not reached",
+        "first visit: service bridge to provisions: navigation checkpoint missed",
+        "first visit: shared galley: checkpoint not reached",
+        "first visit: shared galley: navigation checkpoint missed",
+        "first visit: sprint public bridge to repair: checkpoint not reached",
+        "first visit: sprint public bridge to repair: navigation checkpoint missed",
+        "first visit: swap to Sela: character mismatch",
+        "first visit: swap to Sela: wrong hero",
+        "first visit: workshop center aisle: checkpoint not reached",
+        "first visit: workshop center aisle: navigation checkpoint missed",
+        "warm lap 1: Sela full reversal to airlock: navigation checkpoint missed",
+        "warm lap 1: Sela port hull boundary: navigation checkpoint missed",
+        "warm lap 1: advance to stock: UI feedback exceeds 100 ms",
+        "warm lap 1: back to public promenade: navigation checkpoint missed",
+        "warm lap 1: choose stock: UI dialogue expected shop",
+        "warm lap 1: close shop: UI dialogue expected world",
+        "warm lap 1: dock vestibule return: navigation checkpoint missed",
+        "warm lap 1: galley to service gallery: navigation checkpoint missed",
+        "warm lap 1: hitch budget exceeded",
+        "warm lap 1: housing back to office: navigation checkpoint missed",
+        "warm lap 1: missing samples",
+        "warm lap 1: office airlock to promenade: checkpoint not reached",
+        "warm lap 1: office airlock to promenade: navigation checkpoint missed",
+        "warm lap 1: office slow approach: checkpoint not reached",
+        "warm lap 1: office slow approach: navigation checkpoint missed",
+        "warm lap 1: office to promenade: navigation checkpoint missed",
+        "warm lap 1: office turn to public route: checkpoint not reached",
+        "warm lap 1: office turn to public route: navigation checkpoint missed",
+        "warm lap 1: p95 exceeds 18.5 ms",
+        "warm lap 1: p99 exceeds 25 ms",
+        "warm lap 1: parts store aisle: navigation checkpoint missed",
+        "warm lap 1: public bridge to market: checkpoint not reached",
+        "warm lap 1: public bridge to market: navigation checkpoint missed",
+        "warm lap 1: quiet cabin corridor: navigation checkpoint missed",
+        "warm lap 1: rear receiving gallery: navigation checkpoint missed",
+        "warm lap 1: repair public entrance: navigation checkpoint missed",
+        "warm lap 1: runtime validation rejected",
+        "warm lap 1: service bridge to housing: navigation checkpoint missed",
+        "warm lap 1: service bridge to provisions: navigation checkpoint missed",
+        "warm lap 1: shared galley: navigation checkpoint missed",
+        "warm lap 1: sprint public bridge to repair: navigation checkpoint missed",
+        "warm lap 1: swap to Sela: character mismatch",
+        "warm lap 1: swap to Sela: wrong hero",
+        "warm lap 1: workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 1644,
+      "seconds": 259.566582,
+      "p95Ms": 265.582,
+      "p99Ms": 267.4936,
+      "worstMs": 279.4446,
+      "hitches": {
+        "25": 987,
+        "33.3": 987,
+        "50": 987,
+        "100": 987
+      }
+    }
+  },
+  "developmentSync": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/development-first-warm-final/analysis.json",
+    "sha256": "849aea71ee886b8937a37d0c68497346b424ce68535cd6e8ec395ea2aa60b4ba",
+    "metrics": {
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed",
+        "first visit: Sela full reversal to airlock: checkpoint not reached",
+        "first visit: Sela full reversal to airlock: navigation checkpoint missed",
+        "first visit: Sela port hull boundary: checkpoint not reached",
+        "first visit: Sela port hull boundary: navigation checkpoint missed",
+        "first visit: back to public promenade: checkpoint not reached",
+        "first visit: back to public promenade: navigation checkpoint missed",
+        "first visit: choose stock: UI dialogue expected shop",
+        "first visit: choose stock: UI feedback missing",
+        "first visit: close shop: UI dialogue expected world",
+        "first visit: dock vestibule return: checkpoint not reached",
+        "first visit: dock vestibule return: navigation checkpoint missed",
+        "first visit: galley to service gallery: checkpoint not reached",
+        "first visit: galley to service gallery: navigation checkpoint missed",
+        "first visit: hitch budget exceeded",
+        "first visit: housing back to office: checkpoint not reached",
+        "first visit: housing back to office: navigation checkpoint missed",
+        "first visit: missing samples",
+        "first visit: office airlock to promenade: navigation checkpoint missed",
+        "first visit: office slow approach: navigation checkpoint missed",
+        "first visit: office to promenade: checkpoint not reached",
+        "first visit: office to promenade: navigation checkpoint missed",
+        "first visit: office turn to public route: navigation checkpoint missed",
+        "first visit: p95 exceeds 18.5 ms",
+        "first visit: p99 exceeds 25 ms",
+        "first visit: parts store aisle: checkpoint not reached",
+        "first visit: parts store aisle: navigation checkpoint missed",
+        "first visit: public bridge to market: navigation checkpoint missed",
+        "first visit: quiet cabin corridor: checkpoint not reached",
+        "first visit: quiet cabin corridor: navigation checkpoint missed",
+        "first visit: rear receiving gallery: checkpoint not reached",
+        "first visit: rear receiving gallery: navigation checkpoint missed",
+        "first visit: repair public entrance: checkpoint not reached",
+        "first visit: repair public entrance: navigation checkpoint missed",
+        "first visit: runtime validation rejected",
+        "first visit: service bridge to housing: checkpoint not reached",
+        "first visit: service bridge to housing: navigation checkpoint missed",
+        "first visit: service bridge to provisions: checkpoint not reached",
+        "first visit: service bridge to provisions: navigation checkpoint missed",
+        "first visit: shared galley: checkpoint not reached",
+        "first visit: shared galley: navigation checkpoint missed",
+        "first visit: sprint public bridge to repair: checkpoint not reached",
+        "first visit: sprint public bridge to repair: navigation checkpoint missed",
+        "first visit: swap to Sela: character mismatch",
+        "first visit: swap to Sela: wrong hero",
+        "first visit: workshop center aisle: checkpoint not reached",
+        "first visit: workshop center aisle: navigation checkpoint missed",
+        "warm lap 1: Sela full reversal to airlock: navigation checkpoint missed",
+        "warm lap 1: Sela port hull boundary: navigation checkpoint missed",
+        "warm lap 1: advance to stock: UI feedback exceeds 100 ms",
+        "warm lap 1: back to public promenade: navigation checkpoint missed",
+        "warm lap 1: choose stock: UI dialogue expected shop",
+        "warm lap 1: close shop: UI dialogue expected world",
+        "warm lap 1: dock vestibule return: navigation checkpoint missed",
+        "warm lap 1: galley to service gallery: navigation checkpoint missed",
+        "warm lap 1: hitch budget exceeded",
+        "warm lap 1: housing back to office: navigation checkpoint missed",
+        "warm lap 1: missing samples",
+        "warm lap 1: office airlock to promenade: checkpoint not reached",
+        "warm lap 1: office airlock to promenade: navigation checkpoint missed",
+        "warm lap 1: office slow approach: checkpoint not reached",
+        "warm lap 1: office slow approach: navigation checkpoint missed",
+        "warm lap 1: office to promenade: navigation checkpoint missed",
+        "warm lap 1: office turn to public route: checkpoint not reached",
+        "warm lap 1: office turn to public route: navigation checkpoint missed",
+        "warm lap 1: p95 exceeds 18.5 ms",
+        "warm lap 1: p99 exceeds 25 ms",
+        "warm lap 1: parts store aisle: navigation checkpoint missed",
+        "warm lap 1: public bridge to market: checkpoint not reached",
+        "warm lap 1: public bridge to market: navigation checkpoint missed",
+        "warm lap 1: quiet cabin corridor: navigation checkpoint missed",
+        "warm lap 1: rear receiving gallery: navigation checkpoint missed",
+        "warm lap 1: repair public entrance: navigation checkpoint missed",
+        "warm lap 1: runtime validation rejected",
+        "warm lap 1: service bridge to housing: navigation checkpoint missed",
+        "warm lap 1: service bridge to provisions: navigation checkpoint missed",
+        "warm lap 1: shared galley: navigation checkpoint missed",
+        "warm lap 1: sprint public bridge to repair: navigation checkpoint missed",
+        "warm lap 1: swap to Sela: character mismatch",
+        "warm lap 1: swap to Sela: wrong hero",
+        "warm lap 1: workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 1666,
+      "seconds": 260.097315,
+      "p95Ms": 265.6266,
+      "p99Ms": 273.995,
+      "worstMs": 278.1914,
+      "hitches": {
+        "25": 987,
+        "33.3": 987,
+        "50": 987,
+        "100": 987
+      }
+    }
+  },
   "contactMatrices": [
     {
-      "path": "Builds/quality/C2/oct6-flat-final39/contacts.csv",
-      "sha256": "98948701c2326fae97300293940dce6fe2baaf2ce70a82b1f733c8ae60e86cbe",
+      "path": "Builds/quality/C2/oct6-flat-final45/contacts.csv",
+      "sha256": "ea994c304746c18b34e9a4e21944ca8c8fb268346ac342adcb6fa4ee64242831",
       "cases": 96,
       "failures": [],
       "maximum": {
-        "worstDrift": 0.02339461,
+        "worstDrift": 0.02339453,
         "worstPenetration": 0.0,
-        "contactLift": 0.02616071,
-        "reachCorrection": 0.05298752
+        "contactLift": 0.02616068,
+        "reachCorrection": 0.05298764
       },
       "minimumShinSeparation": 0.195398
     },
     {
-      "path": "Builds/quality/C2/oct6-mild-final39/contacts.csv",
-      "sha256": "2369740db6c8918ea6898f10138ee5d1bda645bf7ef0c4bd51bc1db57612664d",
+      "path": "Builds/quality/C2/oct6-mild-final45/contacts.csv",
+      "sha256": "92f1ea3d1a9f5ef878055e58244a3b21c421d880b50327aa368076bf53dab8d5",
       "cases": 96,
       "failures": [],
       "maximum": {
         "worstDrift": 0.03777722,
         "worstPenetration": 0.0,
         "contactLift": 0.03530838,
-        "reachCorrection": 0.06462765
+        "reachCorrection": 0.06462759
       },
       "minimumShinSeparation": 0.1865724
     },
     {
-      "path": "Builds/quality/C2/oct6-steep-up-final39/contacts.csv",
-      "sha256": "04230ae7bb38e02c68d379231433236f9853e0669fd44f8dd4916cb35269dfd8",
+      "path": "Builds/quality/C2/oct6-steep-up-final45/contacts.csv",
+      "sha256": "c02248b5fd8ff23566ee71874cf5a52d0e028ea3a89ce6545ee6ca3fb7728682",
       "cases": 96,
       "failures": [],
       "maximum": {
-        "worstDrift": 0.04196286,
+        "worstDrift": 0.04215848,
         "worstPenetration": 0.0,
-        "contactLift": 0.03707436,
-        "reachCorrection": 0.07938141
+        "contactLift": 0.03707288,
+        "reachCorrection": 0.0612393
       },
-      "minimumShinSeparation": 0.1558648
+      "minimumShinSeparation": 0.1480418
     },
     {
-      "path": "Builds/quality/C2/oct6-steep-down-final39/contacts.csv",
-      "sha256": "d38c72c57f14101aa158b79ece77ba7b0df291343c6eca104d535b70d168469a",
+      "path": "Builds/quality/C2/oct6-steep-down-final45/contacts.csv",
+      "sha256": "1544364edf68764b29695187a3aa2601323eea2da700a136a6095b4c9bbc5a4c",
       "cases": 96,
       "failures": [],
       "maximum": {
-        "worstDrift": 0.04522583,
+        "worstDrift": 0.04288291,
         "worstPenetration": 0.0,
-        "contactLift": 0.03567873,
-        "reachCorrection": 0.0650624
+        "contactLift": 0.03010218,
+        "reachCorrection": 0.05978298
       },
-      "minimumShinSeparation": 0.1583383
+      "minimumShinSeparation": 0.1584246
     }
   ],
-  "playerMotion": []
+  "playerMotion": [
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/natural120-candidate45-final/motion-analysis.json",
+      "sha256": "a4935d1d52bc9806382a69fddb5d01b4e689c98aa431a7fd33d944f37f3bbf38",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 26537,
+        "seconds": 221.187834,
+        "centralContacts": 148,
+        "worstContactDriftMetres": 0.01320442728784588,
+        "minimumCentralSoleClearance": 0.005998,
+        "p95Ms": 8.7759,
+        "p99Ms": 8.9405,
+        "worstMs": 11.8547
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural120-candidate45-final/build.json",
+          "sha256": "e2938d86477010295aef6c79d4589b5fd0f995e39824aca6207e36bd3b500436"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural120-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural120-candidate45-final/frames.csv",
+          "sha256": "3cde39436e47bdf24976a95f830b9c02f785a53b780540fc40fb34b92f5f08cd"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural120-candidate45-final/motion.csv",
+          "sha256": "9a66ca61d1d964bf06794c4980363003b34d208a72ea68eb3fcb60836a277b16"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural120-candidate45-final/replay.mp4",
+          "sha256": "d09c48f962ad6aa302121be613663ceb64cb4181a00fd498aa71636f3cc4efe2"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/natural30-candidate45-final/motion-analysis.json",
+      "sha256": "b2bd6a9cc1f85b5674ccc6ddfce5c3a95ea759c8b8e1257d95ca2388ad3dc093",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 6698,
+        "seconds": 223.227535,
+        "centralContacts": 134,
+        "worstContactDriftMetres": 0.014094764985625551,
+        "minimumCentralSoleClearance": 0.005998,
+        "p95Ms": 33.6708,
+        "p99Ms": 33.817,
+        "worstMs": 36.3118
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural30-candidate45-final/build.json",
+          "sha256": "fef9a6291473db15a19369dd797dcff62a531ad08affcba5a51f8daf785b347e"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural30-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural30-candidate45-final/frames.csv",
+          "sha256": "0745051899f2b2e17aed02f0e13272f2c98c934ed60a34c929b1d2901e9710a5"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural30-candidate45-final/motion.csv",
+          "sha256": "f8801251db85bfc478bef037067d8b3684f1ba28a5770db265ff373f2e37ced2"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural30-candidate45-final/replay.mp4",
+          "sha256": "c0f2507ddb1a203a59613ec4fc0264fad465e37e3d1ee5d97699da5b14df7f88"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/natural60-candidate45-final/motion-analysis.json",
+      "sha256": "df211554f05c6523515451de943f402be07c8edd5d53dd4380aa8f2f0cba8103",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 13343,
+        "seconds": 222.349138,
+        "centralContacts": 150,
+        "worstContactDriftMetres": 0.012848832631800623,
+        "minimumCentralSoleClearance": 0.005999,
+        "p95Ms": 17.2,
+        "p99Ms": 17.3911,
+        "worstMs": 20.3631
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural60-candidate45-final/build.json",
+          "sha256": "9bc58b5fb543c48a27c1b9c0377529a506f747a5972d2f8cef12fd176aae2f37"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural60-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural60-candidate45-final/frames.csv",
+          "sha256": "2a59604158dd5b0553f1e2bec3245f184218bf152b35602826d2d5e813c7a4bb"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural60-candidate45-final/motion.csv",
+          "sha256": "98e148331497c42295dd576a485a70efb7ec421348fe0e4fad1d5c5377b92343"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/natural60-candidate45-final/replay.mp4",
+          "sha256": "ce60822ff56ff454d799f9de83d28589cd9f51d2846fed559e17a6cbc886851f"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/motion-analysis.json",
+      "sha256": "312248a8929249283d44d4673152bacb60dfed0a8f7bdb459a7afcc43dcf9d59",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 13975,
+        "seconds": 232.882248,
+        "centralContacts": 173,
+        "worstContactDriftMetres": 0.026053307064554703,
+        "minimumCentralSoleClearance": 0.005999,
+        "p95Ms": 17.1644,
+        "p99Ms": 17.3471,
+        "worstMs": 20.2385
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/build.json",
+          "sha256": "a8662912ec2e98b9d6236a6f5d66450d6dba9ce5060b24c58e3c8aea76058155"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/frames.csv",
+          "sha256": "cd0c6e917e04e179ba338f2fca21ce49c0b307cb0bf227f85558fc09a75a5b07"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/motion.csv",
+          "sha256": "8fc107d7f3bd09c2a1846fff75ade1e7e59a78779410e3b1feef98f108105495"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/replay.mp4",
+          "sha256": "a9f317593e5d2255ab6a339c4962980f78fa01586fad07e669f1ee84364f941e"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/pad60-final/motion-analysis.json",
+      "sha256": "31bb62cf564f0503b1a2ddd09abea14ee778a44fed10e190f03fc40a052da65e",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "Sela Shaped Sela near-zero starts 0 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela near-zero starts 180 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela near-zero starts 270 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela near-zero starts 45 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela ordinary travel 270 reverse Run: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela ordinary travel 315 reverse Run: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela ordinary travel 45 reverse Run: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela slow cycle out Walk: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela sprint 225 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela sprint 270 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela sprint 315 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela sprint 90 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren near-zero starts 0 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren near-zero starts 225 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren near-zero starts 270 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren near-zero starts 315 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren near-zero starts 90 reverse Walk: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren ordinary travel 0 reverse Run: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren ordinary travel 45 out Run: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren slow cycle return Walk: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren sprint 0 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren sprint 135 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren sprint 180 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren sprint 225 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren sprint 45 out Sprint: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren sprint 90 reverse Sprint: steady pelvis exceeds 10 degrees"
+        ],
+        "samples": 13970,
+        "seconds": 232.798573,
+        "centralContacts": 168,
+        "worstContactDriftMetres": 0.02375507754144447,
+        "minimumCentralSoleClearance": 0.005999000000000004,
+        "p95Ms": 17.1578,
+        "p99Ms": 17.3403,
+        "worstMs": 20.0557
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-final/build.json",
+          "sha256": "2cd4b86c07a07997e0739c4c3da6eb6b2490eba8a8e5e9c4d93a45dded680bfc"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-final/frames.csv",
+          "sha256": "621ec6a3744194a2e8c05961156582ff3efe0cb1d1a1eb46a75c42c82bd36304"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-final/motion.csv",
+          "sha256": "6af4dc9416886e71129642f89e5e4dd9cbd1dc977dbbf8f3f55801ffd6f073c6"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-final/replay.mp4",
+          "sha256": "49e5cf61960d5d2ec2408cf664b761f29b1bbeb79bf0ff71fb5affc0e30b1168"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/pad60-turn40-final/motion-analysis.json",
+      "sha256": "0f47281b323d8e8b8e7cf0165a156402a18f20d4f65eadec42e2ffb571b52e2e",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 13964,
+        "seconds": 232.701033,
+        "centralContacts": 176,
+        "worstContactDriftMetres": 0.015789171637549834,
+        "minimumCentralSoleClearance": 0.005999,
+        "p95Ms": 17.1304,
+        "p99Ms": 17.3156,
+        "worstMs": 20.4151
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-turn40-final/build.json",
+          "sha256": "a16cb94e2739fc1b8affa729f2452c654e899982e5c78a055f572af68142c847"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-turn40-final/source-state.json",
+          "sha256": "9cf94dbc6582933055d4ef060d186129ea92d4df6bffb48e4ad6311ba490ed28"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-turn40-final/frames.csv",
+          "sha256": "77444f632d977ef82eeb4a75a98f5a63d4ec2d360a9362b1252d4ac1e613a8fe"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-turn40-final/motion.csv",
+          "sha256": "e6cd3e52959aa49ae2d5c7767d7d9ec1de12b056e049a2947d85b5c9ce27c374"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/pad60-turn40-final/replay.mp4",
+          "sha256": "3e8269dab2f99426cb4bdf327b4940ed68c3b22f089849ad9e65d642e9e50874"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/shaped120-candidate45-final/motion-analysis.json",
+      "sha256": "cbcf2e5cc90dffc957313e596bf1a1aaafe444fe186ce3651aa13779e3002914",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 27780,
+        "seconds": 231.547261,
+        "centralContacts": 185,
+        "worstContactDriftMetres": 0.02460626952628045,
+        "minimumCentralSoleClearance": 0.005995,
+        "p95Ms": 8.7564,
+        "p99Ms": 8.9173,
+        "worstMs": 11.8307
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped120-candidate45-final/build.json",
+          "sha256": "f06a48febdb8e024db4e1156f5add353bd02f814a1118d0b4062ff46b490632c"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped120-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped120-candidate45-final/frames.csv",
+          "sha256": "7d3a1ab4f98022367fc40ca3c2ed9640758716c0a482444446e4c502b74c4a11"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped120-candidate45-final/motion.csv",
+          "sha256": "38975405f877a3835f2678655bdcfd4e693a1c9b7e1af67a427d917d9d229026"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped120-candidate45-final/replay.mp4",
+          "sha256": "079ce4d826cc34d34bbc9e6a8b6dd010934104c475cdeb5300724e49466f7dd5"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/shaped30-candidate45-final/motion-analysis.json",
+      "sha256": "f0774b43368e9e53780c525186216cbdd1df1ac146e6ab43bb573877a448e2c3",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 7003,
+        "seconds": 233.390928,
+        "centralContacts": 132,
+        "worstContactDriftMetres": 0.005608395492474787,
+        "minimumCentralSoleClearance": 0.00394300000000003,
+        "p95Ms": 33.6642,
+        "p99Ms": 33.8001,
+        "worstMs": 36.7079
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped30-candidate45-final/build.json",
+          "sha256": "5da6ff2243397b7daf57f70516835ac7ff31791b51da41f1c513e7675b828141"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped30-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped30-candidate45-final/frames.csv",
+          "sha256": "890e736a84ff86196d3f51c392e121f560a6ae73ccaa6a31d125561f2a703c8e"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped30-candidate45-final/motion.csv",
+          "sha256": "7570a577e9394e2ddd14a151f6706869e2e4b54c45a4df311e0705406741f5b5"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped30-candidate45-final/replay.mp4",
+          "sha256": "b9783a188e28827a0d03cf0e8167c6a9b93d8507b568bc9cc7182d15586cf74f"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/shaped60-candidate45-final/motion-analysis.json",
+      "sha256": "487094284e90e57d9f952b32bcfb69624d03106e94199bb5a929570d7598c5f6",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "missing samples"
+        ],
+        "samples": 1596,
+        "seconds": 251.500429,
+        "centralContacts": 65,
+        "worstContactDriftMetres": 0.020923866755455434,
+        "minimumCentralSoleClearance": 0.0039380000000000005,
+        "p95Ms": 266.1824,
+        "p99Ms": 277.336,
+        "worstMs": 279.8254
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped60-candidate45-final/build.json",
+          "sha256": "91ea770b495ff394853bebfb39db144b937aba549914d378fd66ffa254fcbae8"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped60-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped60-candidate45-final/frames.csv",
+          "sha256": "13a973b7ab7d95899946783a36d1c82a16ca02adc708d999a9fe172ef184772e"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped60-candidate45-final/motion.csv",
+          "sha256": "6ac325cbd8473b91bf1071ff7796acb74af427ff2b7940072731758d1bce51a2"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/shaped60-candidate45-final/replay.mp4",
+          "sha256": "c1b76462660129855529622e1848184bd0daf9d8b508e37644a1314bb9a3e37f"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/motion-analysis.json",
+      "sha256": "ad79dc5cb9aaa7e022385527eaf287703f8839442e5482c401de096f87fd9be2",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 13963,
+        "seconds": 232.684218,
+        "centralContacts": 180,
+        "worstContactDriftMetres": 0.007869180389342336,
+        "minimumCentralSoleClearance": 0.002997999999999834,
+        "p95Ms": 17.2063,
+        "p99Ms": 17.3812,
+        "worstMs": 20.12
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/build.json",
+          "sha256": "ab0e2127c14d9ff076ae3509ebc3d91a60645abd8fa4e38d2dcf2432f2c680e5"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/source-state.json",
+          "sha256": "6503e132ed2cc0625a0e8e9152f67a62c86cbff5aadaa5c657310d5b6683a7d1"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/frames.csv",
+          "sha256": "feb1a3df7c19fcf1a4a2ba0290a1cd5145676c5a80cc0e548326b434380f7481"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/motion.csv",
+          "sha256": "9bf4199f448b6e14eaefc4bfa9bfa65442a171106a4b940262a7e69e424466a4"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/replay.mp4",
+          "sha256": "d087c6178b3aabd30789354a786e4c2e99c15f8ca5c09b104e4b103c32855272"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope60-turn40-final/motion-analysis.json",
+      "sha256": "aff98da75d8942a1638dae563e41025cd4729d3b81ffae1530dc2843bd186598",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "Sela Shaped Sela ordinary travel 45 out Run: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela ordinary travel 45 reverse Run: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela ordinary travel 90 reverse Run: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela sprint 180 reverse Sprint: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela sprint 45 out Sprint: steady pelvis exceeds 10 degrees",
+          "Sela Shaped Sela travel cycle return Run: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren ordinary travel 135 reverse Run: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren ordinary travel 45 reverse Run: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren ordinary travel 90 reverse Run: steady pelvis exceeds 10 degrees",
+          "Taren Shaped Taren travel cycle return Run: steady pelvis exceeds 10 degrees"
+        ],
+        "samples": 13969,
+        "seconds": 232.784108,
+        "centralContacts": 185,
+        "worstContactDriftMetres": 0.017040422529972742,
+        "minimumCentralSoleClearance": 0.002997999999999834,
+        "p95Ms": 17.1339,
+        "p99Ms": 17.3125,
+        "worstMs": 20.2598
+      },
+      "evidence": [
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-turn40-final/build.json",
+          "sha256": "f6534bb46ade7c845fd8c90888c5c49a9678cf6dbf4cac806ab34ce3cc13277d"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-turn40-final/source-state.json",
+          "sha256": "9cf94dbc6582933055d4ef060d186129ea92d4df6bffb48e4ad6311ba490ed28"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-turn40-final/frames.csv",
+          "sha256": "874ec049d3ac537382c9d62df963592af745d8aa4ccbfccba46b7ad842cbdd86"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-turn40-final/motion.csv",
+          "sha256": "bc9d8d384b34ec66d1aa75371e659ec053adcf8b2f554017a3f2def199702f36"
+        },
+        {
+          "path": "Builds/quality/2026-10-06-terrain-followup/slope60-turn40-final/replay.mp4",
+          "sha256": "7acf2c7878a96505a903207e1665a64b38cca343c0977c23787a9ef882952af4"
+        }
+      ]
+    }
+  ],
+  "observations": {
+    "continuousMotion": "UNVERIFIED; human review requested using local review page",
+    "audioListening": "UNVERIFIED",
+    "physicalScanOut": "UNVERIFIED; captured timing is not physical tear evidence",
+    "controllerFeel": "UNVERIFIED",
+    "openedCandidate45": [
+      "slope60-candidate45-final/078.png",
+      "slope60-candidate45-final/sequence-step78.png",
+      "slope60-candidate45-final/sequence-step166.png",
+      "pad60-candidate45-final/124.png",
+      "pad60-candidate45-final/sequence-step118.png",
+      "natural60-candidate45-final/078.png",
+      "shaped120-candidate45-final/078.png",
+      "shaped120-candidate45-final/166.png",
+      "natural30-candidate45-final/078.png"
+    ],
+    "balance": "Extracted uphill progression needs continuous review; not accepted from poses"
+  },
+  "runtimeStride": [
+    {
+      "name": "MovingEmitterFireKeepsVisibleLegStride",
+      "result": "Passed",
+      "measurements": []
+    },
+    {
+      "name": "UnlockedBodyFacesMeasuredTravelWhenAContactRedirectsIt",
+      "result": "Passed",
+      "measurements": []
+    },
+    {
+      "name": "VisibleSolesHoldDuringRuntimeLocomotionAndPause",
+      "result": "Passed",
+      "measurements": [
+        "RUNTIME_STRIDE_CASE Taren Natural direction 0 contacts=7 drift=0.001084 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Taren Natural direction 90 contacts=7 drift=0.003540 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Taren Natural direction 180 contacts=7 drift=0.004299 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Taren Shaped direction 0 contacts=6 drift=0.000674 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Taren Shaped direction 90 contacts=6 drift=0.000664 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Taren Shaped direction 180 contacts=7 drift=0.000717 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Sela Natural direction 0 contacts=7 drift=0.000104 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Sela Natural direction 90 contacts=7 drift=0.000240 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Sela Natural direction 180 contacts=7 drift=0.000100 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Sela Shaped direction 0 contacts=6 drift=0.000960 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Sela Shaped direction 90 contacts=6 drift=0.000996 penetration=0.000000",
+        "RUNTIME_STRIDE_CASE Sela Shaped direction 180 contacts=6 drift=0.000933 penetration=0.000000"
+      ]
+    },
+    {
+      "name": "VisibleSolesStayPlantedOnSteepUphillAndDownhillGround",
+      "result": "Passed",
+      "measurements": [
+        "RUNTIME_SLOPE_CASE Taren Natural slope 39 contacts=8 drift=0.023551 penetration=0.000000 lift=0.022167",
+        "RUNTIME_SLOPE_CASE Taren Natural slope -39 contacts=8 drift=0.024195 penetration=0.000000 lift=0.022516",
+        "RUNTIME_SLOPE_CASE Taren Shaped slope 39 contacts=8 drift=0.001031 penetration=0.000750 lift=0.003550",
+        "RUNTIME_SLOPE_CASE Taren Shaped slope -39 contacts=8 drift=0.001042 penetration=0.001533 lift=0.003543",
+        "RUNTIME_SLOPE_CASE Sela Natural slope 39 contacts=8 drift=0.021388 penetration=0.000000 lift=0.020894",
+        "RUNTIME_SLOPE_CASE Sela Natural slope -39 contacts=8 drift=0.021857 penetration=0.000000 lift=0.021168",
+        "RUNTIME_SLOPE_CASE Sela Shaped slope 39 contacts=8 drift=0.001484 penetration=0.002485 lift=0.002845",
+        "RUNTIME_SLOPE_CASE Sela Shaped slope -39 contacts=8 drift=0.001463 penetration=0.002453 lift=0.002525"
+      ]
+    },
+    {
+      "name": "VisibleSolesStayPlantedOnUphillAndDownhillGround",
+      "result": "Passed",
+      "measurements": [
+        "RUNTIME_SLOPE_CASE Taren Natural slope 10 contacts=7 drift=0.022438 penetration=0.000000 lift=0.024840",
+        "RUNTIME_SLOPE_CASE Taren Natural slope -10 contacts=7 drift=0.005873 penetration=0.000000 lift=0.010106",
+        "RUNTIME_SLOPE_CASE Taren Shaped slope 10 contacts=6 drift=0.001152 penetration=0.000000 lift=0.005328",
+        "RUNTIME_SLOPE_CASE Taren Shaped slope -10 contacts=6 drift=0.001208 penetration=0.000000 lift=0.004798",
+        "RUNTIME_SLOPE_CASE Sela Natural slope 10 contacts=7 drift=0.020558 penetration=0.000000 lift=0.023397",
+        "RUNTIME_SLOPE_CASE Sela Natural slope -10 contacts=7 drift=0.004047 penetration=0.000000 lift=0.008835",
+        "RUNTIME_SLOPE_CASE Sela Shaped slope 10 contacts=6 drift=0.009542 penetration=0.000000 lift=0.013044",
+        "RUNTIME_SLOPE_CASE Sela Shaped slope -10 contacts=6 drift=0.001746 penetration=0.000000 lift=0.005847"
+      ]
+    }
+  ],
+  "displayEvidence": [
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-before-final.json",
+      "sha256": "b54bacd9b2ba9f6dc01edea9018a40136d22a9da86bf533a06c6406721b169cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-before-clean45.json",
+      "sha256": "5aa95c8900b90beee8b27dbdfa343b979831537e57a130fce38c60f3b63e067a"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-after-clean-release45.json",
+      "sha256": "0b35cf4852d904d5d21265ac5de5c4f576da0fdd8b71f707ce6016b82ef16024"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-os-state45.json",
+      "sha256": "31141251d51aafe4b1634d344cc778b1b6a0769b1cf732b29f979ed5cd1c8e93"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-after-development45.json",
+      "sha256": "44da36034d98545d8703bf9cc83073d255c55a30c1a198dc69214b44e6b3046c"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-final-state.json",
+      "sha256": "f87f258b4f7369434ec4b06bd1d5510257b8fc3aeefbe29066ac1328b17db2f2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-idle-policy-readonly.txt",
+      "sha256": "fb50f901e4ba5a6f982a4272e06cbb98bac33d38f39b279ad1a1ee5d2e919c08"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-lease45/request.json",
+      "sha256": "a1eb0e2f1ecf202c73b0591a8c16097632c82ec75c48571896045f9b69661353"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-lease45/during-0.json",
+      "sha256": "7c0a6be102d68e3f93f155208218e86b4389a629d19b1ce8f6309cec8af8e45b"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-lease45/during-1.json",
+      "sha256": "8956d15a200eefcf9a52cff295407e06bd52a954cf705b0caf507728b651bc99"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-lease45/during-2.json",
+      "sha256": "dba9f1ce31e53904a4d0ef012a07b1dbea5d52a85306c9d822878068bd9772be"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/display-lease45/restore.json",
+      "sha256": "95a09d0496f37500c7521bda123693e0cdda682746486fe820a6a2ff882b528e"
+    }
+  ],
+  "saves": [
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/saves-before.json",
+      "sha256": "1fb1b5f7946f75de52ed898febc1756512445e708d042cfde6be27d64cf84550",
+      "files": [
+        {
+          "sha256": "65B2CA12C171D0167A62B443988B7B66B0AC737A0CE11537A2197AB4278DE47A",
+          "name": "autosave.json",
+          "bytes": 914
+        },
+        {
+          "sha256": "A9B131C2C9BD9CA03F1D69ADFAF551A28F82BE812F96F4146F26499D64E20745",
+          "name": "autosave.json.bak",
+          "bytes": 891
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/saves-after-suite-final45.json",
+      "sha256": "30a693cdcd9f368698fcacfbd3f931f2a6fbf52ebaafb4612154a082443821a4",
+      "files": [
+        {
+          "name": "autosave.json",
+          "bytes": 914,
+          "sha256": "65B2CA12C171D0167A62B443988B7B66B0AC737A0CE11537A2197AB4278DE47A"
+        },
+        {
+          "name": "autosave.json.bak",
+          "bytes": 891,
+          "sha256": "A9B131C2C9BD9CA03F1D69ADFAF551A28F82BE812F96F4146F26499D64E20745"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/saves-after-final.json",
+      "sha256": "30a693cdcd9f368698fcacfbd3f931f2a6fbf52ebaafb4612154a082443821a4",
+      "files": [
+        {
+          "name": "autosave.json",
+          "bytes": 914,
+          "sha256": "65B2CA12C171D0167A62B443988B7B66B0AC737A0CE11537A2197AB4278DE47A"
+        },
+        {
+          "name": "autosave.json.bak",
+          "bytes": 891,
+          "sha256": "A9B131C2C9BD9CA03F1D69ADFAF551A28F82BE812F96F4146F26499D64E20745"
+        }
+      ]
+    }
+  ]
 }

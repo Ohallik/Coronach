@@ -46,6 +46,7 @@ namespace Lattice.Combat
         float smoothedClearance;
         float smoothedStride=1;
         Vector3 freeDirection=Vector3.forward;
+        float turnRecovery;
         void OnEnable(){ResetContacts();}
 
         public void Initialize(Animator rig,Transform root,GroundStrideProfile calibration)
@@ -83,6 +84,9 @@ namespace Lattice.Combat
         {
             if(profile==null)return;
             bool reset=previousClip==null||previousReverse!=reverse||previousTargetFacing!=targetFacing||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
+            float correctionDelta=Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime);
+            if(reset)turnRecovery=0;
+            else if(!paused)turnRecovery=Quaternion.Angle(previousRotation,heading.rotation)>.5f?.2f:Mathf.Max(0,turnRecovery-correctionDelta);
             if(reset||previousClip!=clip||transitioning)left.contact=right.contact=-1;
             if(reset)left.soundReady=right.soundReady=false;
             if(reset)smoothedStride=stride;
@@ -100,11 +104,13 @@ namespace Lattice.Combat
             // aim twist across the spine. A reverse take steps backward with
             // normal left/right leg ordering; mirroring its foot path crossed
             // the shins despite apparently excellent contact measurements.
-            // Follow actual travel after collision while letting the motor's
-            // turn carry the body through a braking reversal. A sign change
-            // through zero must not rotate the pelvis 180 degrees in a frame.
+            // A motor-heading turn carries the body through braking; smoothing
+            // its residual reversal prevents an extra 180-degree pelvis flip.
+            // Once that turn settles, follow contact-redirected travel directly.
+            // Globally damping direction left a steady moving body sideways
+            // when a pad or wall deflected it partway through an existing step.
             if(reset)freeDirection=previousDirection;
-            else if(!paused)freeDirection=Vector3.RotateTowards(freeDirection,previousDirection,6*Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime),0);
+            else if(!paused)freeDirection=turnRecovery>0?Vector3.RotateTowards(freeDirection,previousDirection,6*correctionDelta,0):previousDirection;
             Vector3 gaitDirection=(targetFacing?previousDirection:freeDirection)*(reverse?-1:1);
             float yaw=Mathf.Atan2(gaitDirection.x,gaitDirection.z)*Mathf.Rad2Deg;
             if(targetFacing)yaw=Mathf.Clamp(yaw,-90,90);
@@ -131,6 +137,18 @@ namespace Lattice.Combat
             // Counter-rotate the spine so the torso remains upright.
             var terrainRotation=Quaternion.Slerp(Quaternion.identity,Quaternion.FromToRotation(Vector3.up,terrainNormal),terrainBlend);
             supportUp=terrainRotation*Vector3.up;
+            // Tilting a horizontal heading toward the normal also changed its
+            // visible yaw on diagonal slopes. Keep the hip-span's horizontal
+            // direction, then lift that right axis onto the support plane.
+            var terrainRight=lowerRotation*Vector3.right;
+            terrainRight.y=-Vector3.Dot(supportUp,terrainRight)/Mathf.Max(.2f,supportUp.y);
+            terrainRight.Normalize();
+            terrainRotation=Quaternion.LookRotation(Vector3.Cross(terrainRight,supportUp),supportUp)*Quaternion.Inverse(lowerRotation);
+            // The new terrain basis must still carry the foot path along the
+            // actual slope trajectory, including diagonal reverse steps.
+            var slopeTravel=heading.TransformDirection(gaitDirection);
+            slopeTravel.y=-Vector3.Dot(supportUp,slopeTravel)/Mathf.Max(.2f,supportUp.y);
+            legDirection=Quaternion.Inverse(terrainRotation*lowerRotation)*slopeTravel.normalized;
             // A capsule stands higher over a ramp than over a flat floor.
             // Remove that extra clearance from the rendered body, preserving
             // the calibration's eight-centimetre root clearance and collision.
@@ -152,7 +170,11 @@ namespace Lattice.Combat
             // Uphill motion raises the root over a rear foot. Keep both final
             // ankle targets inside their real chain length, including landing
             // and toe-off, rather than lifting an anchor or snapping a knee.
-            RequestedSupportDrop=Mathf.Max(SupportDrop(left),SupportDrop(right));
+            // Start the support descent before a steep running stance reaches
+            // its bound. This leaves time for the existing smooth pelvis
+            // response instead of speeding it up and snapping a reverse knee.
+            float supportMargin=clip=="Run"?.025f*terrainBlend:0;
+            RequestedSupportDrop=Mathf.Max(SupportDrop(left,supportMargin),SupportDrop(right,supportMargin));
             float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.16f+terrainBlend*.2f);
             if(reset)smoothedSupportDrop=supportDrop;
             else if(!paused)smoothedSupportDrop=Mathf.Lerp(smoothedSupportDrop,supportDrop,
@@ -230,6 +252,11 @@ namespace Lattice.Combat
                     // The old 0.025-cycle release yanked the ankle in ~10 ms.
                     float start=clip=="Run"?.02f:.03f,attack=clip=="Run"?.055f:.065f;
                     float end=clip=="Run"?.26f:.21f,release=clip=="Run"?.1f:.05f;
+                    // Reverse playback exits through the forward landing ramp.
+                    // Give a steep backstep its full release interval while
+                    // keeping the existing central stance fully planted.
+                    float reverseRelease=clip=="Run"&&previousReverse?.02f*terrainWeight:0;
+                    start-=reverseRelease;attack+=reverseRelease;
                     float extension=.06f*terrainWeight;end+=extension;release+=extension;
                     contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-start)/attack,(end-phase)/release)));
                     if(weight<=0)contact=-1;
@@ -267,9 +294,9 @@ namespace Lattice.Combat
             leg.target=target;leg.pole=lowerRotation*new Vector3(leg.side*.3f,0,1);
             leg.rotation=footRotation;
         }
-        float SupportDrop(Leg leg)
+        float SupportDrop(Leg leg,float margin)
         {
-            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-(.025f+.04f*terrainWeight);
+            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-(.025f+.04f*terrainWeight)-margin;
             Vector3 delta=leg.thigh.position-leg.target;
             float altitude=Vector3.Dot(delta,supportUp);
             float horizontal=Vector3.ProjectOnPlane(delta,supportUp).sqrMagnitude;
