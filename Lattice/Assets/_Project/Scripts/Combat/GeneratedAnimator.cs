@@ -11,6 +11,7 @@ namespace Lattice.Combat
         CombatActor actor;
         EnemyBrain enemy;
         FormController form;
+        GroundFeet feet;
         Vector3 previous;
         string state;
         string pendingGait;
@@ -44,7 +45,7 @@ namespace Lattice.Combat
             if(animator!=null)recoilLayer=animator.GetLayerIndex("Recoil");
             if(animator!=null&&actor!=null&&strideProfile!=null)
             {
-                var feet=GetComponent<GroundFeet>()??gameObject.AddComponent<GroundFeet>();
+                feet=GetComponent<GroundFeet>()??gameObject.AddComponent<GroundFeet>();
                 feet.Initialize(animator,actor.transform,strideProfile);
             }
         }
@@ -122,8 +123,8 @@ namespace Lattice.Combat
             {
                 if(travelling)
                 {
-                    rate=strideProfile.Cadence(wanted,speed);
-                    StrideScale=strideProfile.Stride(wanted,speed,rate);
+                    rate=strideProfile.Cadence(wanted,speed,feet!=null?feet.TerrainGrade:0);
+                    StrideScale=strideProfile.Stride(wanted,speed,rate,feet!=null?feet.TerrainGrade:0);
                     ReverseLocomotion=actor.TargetLocked&&Vector3.Dot(actor.transform.forward,actor.motor.Velocity.normalized)<-.15f;
                 }
                 // A state speed multiplier supports reverse locomotion while

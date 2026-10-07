@@ -202,7 +202,9 @@ October 4: the [nursery story connection and version-two save compatibility](val
 
 ## C9 — Build the connected campaign in playable regional milestones
 
-The target remains 32 main maps, four optional destinations, 18 main bosses and four optional bosses. This is a production target, not permission to commission all art at once. Each regional milestone must be completable, saved, replayable and verified before expanding the next. Keep a working end-to-end build throughout.
+Use the current [World Atlas Draft 3](WORLD_ATLAS.md) inventory: 52 main maps, five optional destination maps, 23 major campaign encounters and five optional bosses. This supersedes the earlier 32-map inventory; it is planned content, not permission to commission all art at once or a claim of implemented scope. Each regional milestone must be completable, saved, replayable and verified before expanding the next. Keep a working end-to-end build throughout.
+
+The milestones below organize the main story spine. Include Draft 3's connected regions in the atlas order: Lanternwick with Xylos/Many Hands, then Wendmire; Hoarfell with the Veyr/Merrow branch; Oriel and the Vaskar Reach before Pale Exchange; Duskline with the Nacre aftermath; Updraft among the optional destinations. Apply each milestone's existing exit conditions to those additions too.
 
 | Milestone | Content and systemic work | Story and quality exit |
 |---|---|---|
@@ -210,7 +212,7 @@ The target remains 32 main maps, four optional destinations, 18 main bosses and 
 | **C9B Veyr / Merrow** | Mountain orbit/town/furnace and noble/service city; four bosses; Idra/Oru recruitment, reserve-party selection and their complete motion/flight/down/revive/audio sets. | Both chapter orders work, including dialogue/world consequences. Every new hero must pass C2–C5 and party/save regressions before acceptance. |
 | **C9C Pale Exchange / Nacre** | Comet port/interior, wreck routes, Unfinished Welcome, Lenticular/Undertow Tug; distributed navigation mission and tested rendezvous. | The seeded disaster changes the journey and Sela's responsibility. A playable rescue, not a lore-only explanation, establishes the final navigation capability. |
 | **C9D Home launch / finale / epilogue** | Returning Cinder and Sorrel, separation and nursery rescues, anchor fleet, Continuance, Meret, final tug rescue and inhabited epilogue. | Familiar people and learned mechanics make the evacuation work. Full ground/flight boss finishes, phase checkpoints, final saves and postgame state pass; an authored ending is playable. |
-| **C9E Optional destinations and depth** | Glasswake, Chimera Reef, House Without Weight, Stormcrown; side stories, equipment sidegrades, expert rematches and backtracking. | Optional work has visible payoffs but cannot secretly be required for core survival. Cut or defer optional breadth before sacrificing combat quality or the ending. |
+| **C9E Optional destinations and depth** | Glasswake, Chimera Reef, House Without Weight, Stormcrown, Updraft; side stories, equipment sidegrades, expert rematches and backtracking. | Optional work has visible payoffs but cannot secretly be required for core survival. Cut or defer optional breadth before sacrificing combat quality or the ending. |
 
 At every milestone, extend the quest-state/save migration matrix, loadout/balance runs, enemy/boss pattern tests, asset/licence manifest, performance routes and dialogue branch coverage. Keep MAP_EYE_TEST for each map, technical performance, gamepad navigation, accessibility/readability, audio mix, narrative causality and observed motion as release conditions. Final boss duration and difficulty must be tuned from ordinary play with legal equipment; do not force the old fast smoke-route timings onto full-game encounters.
 

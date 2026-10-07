@@ -188,7 +188,9 @@ namespace Lattice.Tests.PlayMode
             }
             finally{GameTime.Reset();Object.Destroy(floor);}
         }
-        [UnityTest] public IEnumerator VisibleSolesStayPlantedOnUphillAndDownhillGround()
+        [UnityTest] public IEnumerator VisibleSolesStayPlantedOnUphillAndDownhillGround()=>SlopeContacts(new[]{10f,-10f});
+        [UnityTest] public IEnumerator VisibleSolesStayPlantedOnSteepUphillAndDownhillGround()=>SlopeContacts(new[]{39f,-39f});
+        static IEnumerator SlopeContacts(float[] slopes)
         {
             GameTime.Reset();
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -196,7 +198,7 @@ namespace Lattice.Tests.PlayMode
             var failures=new List<string>();
             try
             {
-                foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})foreach(float slope in new[]{10f,-10f})
+                foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})foreach(float slope in slopes)
                 {
                     floor.transform.rotation=Quaternion.Euler(-slope,0,0);
                     Vector3 normal=floor.transform.up,surface=floor.transform.position+normal*.5f;

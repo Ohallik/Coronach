@@ -38,6 +38,14 @@ namespace Lattice.Combat
         CharacterController controller;
         public float MaximumReachCorrection {get;private set;}
         public float RequestedSupportDrop {get;private set;}
+        public float TerrainGrade {get;private set;}
+        Vector3 supportUp=Vector3.up;
+        Vector3 bodyOrigin;
+        float terrainWeight;
+        Vector3 smoothedTerrainNormal=Vector3.up;
+        float smoothedClearance;
+        float smoothedStride=1;
+        Vector3 freeDirection=Vector3.forward;
         void OnEnable(){ResetContacts();}
 
         public void Initialize(Animator rig,Transform root,GroundStrideProfile calibration)
@@ -77,6 +85,9 @@ namespace Lattice.Combat
             bool reset=previousClip==null||previousReverse!=reverse||previousTargetFacing!=targetFacing||Vector3.Distance(previousPosition,heading.position)>.75f||Quaternion.Angle(previousRotation,heading.rotation)>40;
             if(reset||previousClip!=clip||transitioning)left.contact=right.contact=-1;
             if(reset)left.soundReady=right.soundReady=false;
+            if(reset)smoothedStride=stride;
+            else if(!paused)smoothedStride=Mathf.Lerp(smoothedStride,stride,1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/.04f));
+            stride=smoothedStride;
             previousClip=clip;previousReverse=reverse;previousTargetFacing=targetFacing;previousPosition=heading.position;previousRotation=heading.rotation;
             var local=heading.InverseTransformDirection(velocity);local.y=0;
             if(local.sqrMagnitude>.0025f)previousDirection=local.normalized;
@@ -89,30 +100,64 @@ namespace Lattice.Combat
             // aim twist across the spine. A reverse take steps backward with
             // normal left/right leg ordering; mirroring its foot path crossed
             // the shins despite apparently excellent contact measurements.
-            Vector3 gaitDirection=previousDirection*(reverse?-1:1);
+            // Follow actual travel after collision while letting the motor's
+            // turn carry the body through a braking reversal. A sign change
+            // through zero must not rotate the pelvis 180 degrees in a frame.
+            if(reset)freeDirection=previousDirection;
+            else if(!paused)freeDirection=Vector3.RotateTowards(freeDirection,previousDirection,6*Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime),0);
+            Vector3 gaitDirection=(targetFacing?previousDirection:freeDirection)*(reverse?-1:1);
             float yaw=Mathf.Atan2(gaitDirection.x,gaitDirection.z)*Mathf.Rad2Deg;
             if(targetFacing)yaw=Mathf.Clamp(yaw,-90,90);
             pelvis.rotation=Quaternion.AngleAxis(yaw,heading.up)*pelvis.rotation;
             if(targetFacing)foreach(var joint in spine)joint.rotation=Quaternion.AngleAxis(-yaw/spine.Length,heading.up)*joint.rotation;
             Quaternion lowerRotation=heading.rotation*Quaternion.Euler(0,yaw,0);
             Vector3 legDirection=Quaternion.Euler(0,-yaw,0)*gaitDirection;
+            var terrainNormal=TrySupport(heading.position,out var rootSupport)?rootSupport.normal:Vector3.up;
+            float extraClearance=Mathf.Clamp(heading.position.y-rootSupport.point.y-.08f,0,.25f);
+            if(reset){smoothedTerrainNormal=terrainNormal;smoothedClearance=extraClearance;}
+            else if(!paused)
+            {
+                float follow=1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/.08f);
+                smoothedTerrainNormal=Vector3.Slerp(smoothedTerrainNormal,terrainNormal,follow);
+                smoothedClearance=Mathf.Lerp(smoothedClearance,extraClearance,follow);
+            }
+            terrainNormal=smoothedTerrainNormal;
+            float slope=new Vector2(terrainNormal.x,terrainNormal.z).magnitude/Mathf.Max(.2f,terrainNormal.y);
+            TerrainGrade=Mathf.Abs(Vector3.Dot(terrainNormal,heading.TransformDirection(previousDirection)))/Mathf.Max(.2f,terrainNormal.y);
+            float terrainBlend=Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,slope));
+            terrainWeight=terrainBlend;
+            // Warp the whole leg chain into the support frame. Moving only
+            // the ankle uphill leaves the hips inside the other leg's swing.
+            // Counter-rotate the spine so the torso remains upright.
+            var terrainRotation=Quaternion.Slerp(Quaternion.identity,Quaternion.FromToRotation(Vector3.up,terrainNormal),terrainBlend);
+            supportUp=terrainRotation*Vector3.up;
+            // A capsule stands higher over a ramp than over a flat floor.
+            // Remove that extra clearance from the rendered body, preserving
+            // the calibration's eight-centimetre root clearance and collision.
+            bodyOrigin=heading.position-Vector3.up*smoothedClearance*terrainBlend;
+            pelvis.position=bodyOrigin+terrainRotation*(pelvis.position-heading.position);
+            pelvis.rotation=terrainRotation*pelvis.rotation;
+            // Put the full balance correction at the lower spine. Dividing
+            // this pitch among joints left most of the weighted torso leaning
+            // downhill even after the upper chest had returned upright.
+            if(spine.Length>0)spine[0].rotation=Quaternion.SlerpUnclamped(Quaternion.identity,Quaternion.Inverse(terrainRotation),clip=="Walk"?1.9f:1.35f)*spine[0].rotation;
             // A longer brisk-walk step needs knee room. Lower the animated
             // pelvis by at most eight centimetres instead of stretching a leg
             // past its chain length or accelerating the entire take further.
-            if(clip=="Walk")pelvis.position-=heading.up*Mathf.Clamp((stride-1)*.18f,0,.08f);
+            if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp((stride-1)*.18f,0,.08f);
             MaximumReachCorrection=0;
             float directional=targetFacing?Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0):0;
-            Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,lowerRotation,directional);
-            Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,lowerRotation,directional);
+            Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
+            Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
             // Uphill motion raises the root over a rear foot. Keep both final
             // ankle targets inside their real chain length, including landing
             // and toe-off, rather than lifting an anchor or snapping a knee.
             RequestedSupportDrop=Mathf.Max(SupportDrop(left),SupportDrop(right));
-            float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.16f);
+            float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.16f+terrainBlend*.2f);
             if(reset)smoothedSupportDrop=supportDrop;
             else if(!paused)smoothedSupportDrop=Mathf.Lerp(smoothedSupportDrop,supportDrop,
                 1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/(clip=="Sprint"?.01f:.025f)));
-            pelvis.position-=Vector3.up*smoothedSupportDrop;
+            pelvis.position-=supportUp*smoothedSupportDrop;
             Complete(left);Complete(right);
             if(!paused)
             {
@@ -141,12 +186,20 @@ namespace Lattice.Combat
         {
             MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,leg.target,leg.pole));
             leg.foot.rotation=leg.rotation;
+            // Reach clamping can move a toe across a raised platform edge.
+            // Check the final rotated footprint too, after the bounded solve.
+            float lift=Mathf.Max(FootprintLift(leg.foot.TransformPoint(leg.heelOffset)),FootprintLift(leg.toe.TransformPoint(leg.toeOffset)));
+            if(lift>0)
+            {
+                MaximumReachCorrection=Mathf.Max(MaximumReachCorrection,Solve(leg,leg.foot.position+Vector3.up*lift,leg.pole));
+                leg.foot.rotation=leg.rotation;
+            }
         }
         void Apply(Leg leg,string clip,float phase,float stride,bool canPlant,Vector3 direction,Quaternion lowerRotation,float directional)
         {
             Vector3 originalFoot=leg.foot.position;
             Quaternion footRotation=leg.foot.rotation;
-            Vector3 local=Quaternion.Inverse(lowerRotation)*(originalFoot-heading.position);
+            Vector3 local=Quaternion.Inverse(lowerRotation)*(originalFoot-bodyOrigin);
             Vector3 warped=local;
             warped.x=local.x+direction.x*local.z*stride;
             warped.z=direction.z*local.z*stride;
@@ -155,18 +208,20 @@ namespace Lattice.Combat
             // narrow forward swing cross a foot held in a lateral stance.
             float side=Mathf.Max(warped.x*leg.side,.14f);
             warped.x=Mathf.Lerp(warped.x,side*leg.side,directional);
-            Vector3 target=heading.position+lowerRotation*warped;
+            Vector3 target=bodyOrigin+lowerRotation*warped;
             Vector3 heel=leg.foot.TransformPoint(leg.heelOffset),toe=leg.toe.TransformPoint(leg.toeOffset);
             int contact=-1;float weight=0;leg.ground=null;
             if(canPlant)
             {
                 if(clip=="Walk")
                 {
-                    if(phase<.135f){contact=0;weight=Window(phase,0,.135f,.025f);}
+                    // A turning heel can be far from the next swing pose.
+                    // Release it gradually before handing support to the toe.
+                    if(phase<.135f){contact=0;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min(phase/.025f,(.135f-phase)/.06f)));}
                     // Release for the authored toe-off before the opposite
                     // heel lands. Holding through half a cycle overextends
                     // the trailing leg as the root climbs a slope.
-                    else if(phase<.45f){contact=1;weight=Window(phase,.135f,.45f,.04f);}
+                    else if(phase<.48f){contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-.135f)/.04f,(.48f-phase)/.07f)));}
                 }
                 else if(clip=="Run"||clip=="Sprint")
                 {
@@ -175,13 +230,14 @@ namespace Lattice.Combat
                     // The old 0.025-cycle release yanked the ankle in ~10 ms.
                     float start=clip=="Run"?.02f:.03f,attack=clip=="Run"?.055f:.065f;
                     float end=clip=="Run"?.26f:.21f,release=clip=="Run"?.1f:.05f;
+                    float extension=.06f*terrainWeight;end+=extension;release+=extension;
                     contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-start)/attack,(end-phase)/release)));
                     if(weight<=0)contact=-1;
                 }
             }
             Vector3 marker=contact==0?heel:toe;
             Vector3 proposed=marker+target-originalFoot;
-            if(Physics.Raycast(proposed+Vector3.up*.65f,Vector3.down,out var ground,1.4f,~0,QueryTriggerInteraction.Ignore)&&ground.point.y<=heading.position.y+.4f)
+            if(TrySupport(proposed,out var ground))
             {
                 leg.ground=ground.collider;leg.surfacePoint=ground.point;leg.surfaceNormal=ground.normal;
                 if(contact>=0)
@@ -201,45 +257,46 @@ namespace Lattice.Combat
                     if(leg.contact!=contact)leg.anchor=new Vector3(proposed.x,ground.point.y+.006f,proposed.z);
                     target=Vector3.Lerp(target,leg.anchor-(marker-originalFoot),weight);
                 }
-                // Do not push the visible heel/forefoot below a flat deck during
-                // swing or a transition. Ground normals retain authored foot roll.
-                // Compare both soles against the local support plane at their
-                // final positions. Reusing the ray's height at the animated
-                // swing point pushed a planted foot uphill on every frame.
+                // Each sole needs its own support query: a toe and heel may
+                // straddle the raised pad, where one extrapolated plane fails.
                 Vector3 offset=target-originalFoot;
-                float clearance=Mathf.Min(Vector3.Dot(ground.normal,heel+offset-ground.point),
-                    Vector3.Dot(ground.normal,toe+offset-ground.point));
-                target.y+=Mathf.Max(0,.003f-clearance)/Mathf.Max(.2f,ground.normal.y);
+                target.y+=Mathf.Max(FootprintLift(heel+offset),FootprintLift(toe+offset));
             }
             else contact=-1;
             leg.contact=contact;leg.weight=weight;
             leg.target=target;leg.pole=lowerRotation*new Vector3(leg.side*.3f,0,1);
             leg.rotation=footRotation;
         }
-        static float SupportDrop(Leg leg)
+        float SupportDrop(Leg leg)
         {
-            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-.02f;
+            float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-(.025f+.04f*terrainWeight);
             Vector3 delta=leg.thigh.position-leg.target;
-            float horizontal=delta.x*delta.x+delta.z*delta.z;
+            float altitude=Vector3.Dot(delta,supportUp);
+            float horizontal=Vector3.ProjectOnPlane(delta,supportUp).sqrMagnitude;
             // Keep the requested drop continuous across the reach boundary;
             // an unreachable horizontal target still needs the bounded drop.
             float vertical=Mathf.Sqrt(Mathf.Max(0,length*length-horizontal));
-            return Mathf.Max(0,delta.y-vertical);
+            return Mathf.Max(0,altitude-vertical);
         }
-        static float Window(float phase,float start,float end,float edge)=>
-            Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-start)/edge,(end-phase)/edge)));
-        static float Solve(Leg leg,Vector3 target,Vector3 pole)
+        float FootprintLift(Vector3 sole)=>TrySupport(sole,out var hit)?Mathf.Max(0,hit.point.y+.003f-sole.y):0;
+        bool TrySupport(Vector3 point,out RaycastHit support)
+        {
+            var origin=new Vector3(point.x,heading.position.y+1.2f,point.z);
+            return Physics.Raycast(origin,Vector3.down,out support,2.4f,~0,QueryTriggerInteraction.Ignore)&&support.point.y<=heading.position.y+.8f;
+        }
+        float Solve(Leg leg,Vector3 target,Vector3 pole)
         {
             Vector3 origin=leg.thigh.position,knee=leg.knee.position,foot=leg.foot.position;
             float upper=Vector3.Distance(origin,knee),lower=Vector3.Distance(knee,foot);
             Vector3 delta=target-origin;float requested=delta.magnitude;
             if(requested<.001f||upper<.001f||lower<.001f)return 0;
             Vector3 axis=delta/requested;
-            float distance=Mathf.Clamp(requested,Mathf.Abs(upper-lower)+.001f,upper+lower-.02f);
+            float distance=Mathf.Clamp(requested,Mathf.Abs(upper-lower)+.001f,upper+lower-(.025f+.04f*terrainWeight));
             // The ankle path retains the take's bend/extension and foot roll.
             // A stable anatomical pole keeps the knee facing with the lower
             // body even when Mecanim's almost-straight leg changes bend plane.
-            Vector3 bend=Vector3.ProjectOnPlane(pole,axis).normalized;
+            // Steep steps keep four additional centimetres of bend reserve.
+            Vector3 bend=Vector3.Cross(axis,Vector3.Cross(pole,-supportUp)).normalized;
             float along=(upper*upper+distance*distance-lower*lower)/(2*distance);
             float outward=Mathf.Sqrt(Mathf.Max(0,upper*upper-along*along));
             Vector3 desiredKnee=origin+axis*along+bend*outward;

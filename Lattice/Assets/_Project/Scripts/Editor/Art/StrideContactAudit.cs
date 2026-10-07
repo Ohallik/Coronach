@@ -41,6 +41,9 @@ namespace Lattice.EditorTools
                 RenderSettings.ambientMode=UnityEngine.Rendering.AmbientMode.Flat;RenderSettings.ambientLight=new Color(.55f,.6f,.65f);
                 var light=new GameObject("Contact audit light",typeof(Light)).GetComponent<Light>();light.type=LightType.Directional;light.transform.rotation=Quaternion.Euler(40,-30,0);
                 var material=new Material(Shader.Find("Universal Render Pipeline/Lit"));material.color=new Color(.16f,.19f,.23f);floor.GetComponent<Renderer>().sharedMaterial=material;
+                var grid=new Texture2D(2,2){filterMode=FilterMode.Point,wrapMode=TextureWrapMode.Repeat};
+                grid.SetPixels(new[]{Color.white,new Color(.65f,.65f,.65f),new Color(.65f,.65f,.65f),Color.white});grid.Apply();
+                material.mainTexture=grid;material.mainTextureScale=new Vector2(150,150);
             }
             Physics.SyncTransforms();GameTime.Reset();
             var failures=new List<string>();
@@ -93,7 +96,8 @@ namespace Lattice.EditorTools
             {
                 var calibration=Resources.Load<GroundStrideProfile>("Motion/"+hero+(shaped?"Shaped":"Natural"));
                 if(calibration==null)throw new InvalidOperationException("Create the visible-sole calibration before the correction experiment");
-                rate=calibration.Cadence(state,speed);stride=calibration.Stride(state,speed,rate);
+                float grade=Mathf.Abs(Vector3.Dot(normal,travel))/Mathf.Max(.2f,normal.y);
+                rate=calibration.Cadence(state,speed,grade);stride=calibration.Stride(state,speed,rate,grade);
                 feet=feet??body.AddComponent<GroundFeet>();feet.Initialize(animator,actorObject.transform,calibration);
             }
             var graph=PlayableGraph.Create("independent visible sole contact");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
@@ -152,7 +156,8 @@ namespace Lattice.EditorTools
         {
             var camera=new GameObject("Contact audit camera",typeof(Camera)).GetComponent<Camera>();
             camera.orthographic=true;camera.orthographicSize=1.25f;camera.clearFlags=CameraClearFlags.SolidColor;camera.backgroundColor=new Color(.08f,.11f,.16f);
-            camera.transform.position=position+new Vector3(2.8f,1.6f,4.5f);camera.transform.LookAt(position+Vector3.up*.92f);
+            float slope=float.Parse(DevArgs.Value("-stride-slope")??"0",System.Globalization.CultureInfo.InvariantCulture);
+            camera.transform.position=position+(DevArgs.Has("-stride-side")?new Vector3(4,1.4f,0):new Vector3(2.8f,1.6f+Mathf.Max(0,Mathf.Tan(slope*Mathf.Deg2Rad)*4.5f),4.5f));camera.transform.LookAt(position+Vector3.up*.92f);
             FacingAudit.Capture(camera,path);Object.DestroyImmediate(camera.gameObject);
         }
         static float Segments(Vector3 a,Vector3 b,Vector3 c,Vector3 d)

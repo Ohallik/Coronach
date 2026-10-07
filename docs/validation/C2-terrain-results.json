@@ -1,0 +1,1458 @@
+{
+  "baseRevision": "07eaf9f",
+  "status": "Engineering evidence only. C1/C2 acceptance and continuous physical review remain open.",
+  "fixtures": [
+    {
+      "path": "Lattice/Assets/Tests/EditMode/Fixtures/terrain-pad.csv",
+      "sha256": "fdc83f4e05c18a3d0187f4f8bb40770c62c18e973c8f4ca6615dbedacf8bb574"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/Fixtures/terrain-slope.csv",
+      "sha256": "17f1f7a054c656cee94599dbf3ab4a177ccfc38a30d2fead88f392e1bdbc7d72"
+    }
+  ],
+  "runtimeSource": [
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+      "sha256": "9765070303c3da185d926f02226317c23f77e80d1698165be4682ebc647f7eb0"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+      "sha256": "6d88898189177967ba5f36f68ab286e603363f9aa7a69fd0d8368162c0a16f0e"
+    },
+    {
+      "path": "Lattice/Assets/_Project/Scripts/Combat/GroundStrideProfile.cs",
+      "sha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af"
+    }
+  ],
+  "offline": [
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/offline-replay.log",
+      "sha256": "c83c49564985e97d73a15b9fe9697c0f6a82b737767182f35adebcb50ca92b02"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/offline-support.log",
+      "sha256": "cf976f0b263e4b871fe168f1af48d7058a02e6561125ebdc192ae8b4d05f5bf6"
+    }
+  ],
+  "frozenChapter": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/frozen-chapter-verified.json",
+    "sha256": "24867135b23d5e75d851a3ba0ed50b0425a91396c3912c9dacffe17284d7e1cc",
+    "result": {
+      "sourceRevision": "a3aaad6",
+      "manifestSha256": "1e182606f614deb389925a920ffe0a074ab42528d6d0d84ba0471a5467add63e",
+      "files": 243,
+      "bytes": 616521326,
+      "failures": [],
+      "unexpected": [],
+      "missing": []
+    }
+  },
+  "original": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/original-final-checks.xml",
+    "sha256": "5a548a4dff6c777c55966f23a84240d11495ae70fd6322984048c9ba8456345f",
+    "counts": {
+      "total": "26",
+      "passed": "8",
+      "failed": "18",
+      "skipped": "0"
+    },
+    "cases": [
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.08 angularDegPerSec=16608.00 kneeMps=97.801 angleAt=1.004063 kneeAt=2.002813",
+        "failure": "  knee extension snaps during landing/toe-off: 16608 deg/s; knee bend plane flips: 97.80073 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 16608 deg/s\", \"knee bend plane flips: 97.80073 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.08 angularDegPerSec=17163.98 kneeMps=103.029 angleAt=2.502188 kneeAt=2.002813",
+        "failure": "  knee extension snaps during landing/toe-off: 17163.98 deg/s; knee bend plane flips: 103.0285 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17163.98 deg/s\", \"knee bend plane flips: 103.0285 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.08 angularDegPerSec=17040.25 kneeMps=91.442 angleAt=2.531628 kneeAt=2.531628",
+        "failure": "  knee extension snaps during landing/toe-off: 17040.25 deg/s; knee bend plane flips: 91.44236 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17040.25 deg/s\", \"knee bend plane flips: 91.44236 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.08 angularDegPerSec=17226.72 kneeMps=93.944 angleAt=1.534091 kneeAt=1.534091",
+        "failure": "  knee extension snaps during landing/toe-off: 17226.72 deg/s; knee bend plane flips: 93.94434 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17226.72 deg/s\", \"knee bend plane flips: 93.94434 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.08 angularDegPerSec=17348.39 kneeMps=95.453 angleAt=1.532462 kneeAt=1.532462",
+        "failure": "  knee extension snaps during landing/toe-off: 17348.39 deg/s; knee bend plane flips: 95.45344 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17348.39 deg/s\", \"knee bend plane flips: 95.45344 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.08 angularDegPerSec=17342.14 kneeMps=90.525 angleAt=1.538265 kneeAt=1.538265",
+        "failure": "  knee extension snaps during landing/toe-off: 17342.14 deg/s; knee bend plane flips: 90.52527 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17342.14 deg/s\", \"knee bend plane flips: 90.52527 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.08 angularDegPerSec=17964.11 kneeMps=90.526 angleAt=1.044086 kneeAt=1.044086",
+        "failure": "  knee extension snaps during landing/toe-off: 17964.11 deg/s; knee bend plane flips: 90.52627 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17964.11 deg/s\", \"knee bend plane flips: 90.52627 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.08 angularDegPerSec=17272.43 kneeMps=84.465 angleAt=2.053648 kneeAt=1.600334",
+        "failure": "  knee extension snaps during landing/toe-off: 17272.43 deg/s; knee bend plane flips: 84.46542 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 17272.43 deg/s\", \"knee bend plane flips: 84.46542 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.08 angularDegPerSec=5718.67 kneeMps=20.820 angleAt=2.624375 kneeAt=2.624375",
+        "failure": "  knee extension snaps during landing/toe-off: 5718.666 deg/s; knee bend plane flips: 20.81989 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 5718.666 deg/s\", \"knee bend plane flips: 20.81989 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.08 angularDegPerSec=5495.90 kneeMps=20.757 angleAt=2.125000 kneeAt=2.125000",
+        "failure": "  knee extension snaps during landing/toe-off: 5495.896 deg/s; knee bend plane flips: 20.75684 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 5495.896 deg/s\", \"knee bend plane flips: 20.75684 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.08 angularDegPerSec=12772.87 kneeMps=87.029 angleAt=1.726797 kneeAt=1.092001",
+        "failure": "  knee extension snaps during landing/toe-off: 12772.87 deg/s; knee bend plane flips: 87.02931 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 12772.87 deg/s\", \"knee bend plane flips: 87.02931 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.08 angularDegPerSec=13142.21 kneeMps=96.738 angleAt=2.728112 kneeAt=1.092001",
+        "failure": "  knee extension snaps during landing/toe-off: 13142.21 deg/s; knee bend plane flips: 96.73846 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 13142.21 deg/s\", \"knee bend plane flips: 96.73846 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.08 angularDegPerSec=13994.76 kneeMps=81.144 angleAt=2.723352 kneeAt=1.093957",
+        "failure": "  knee extension snaps during landing/toe-off: 13994.76 deg/s; knee bend plane flips: 81.14356 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 13994.76 deg/s\", \"knee bend plane flips: 81.14356 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.08 angularDegPerSec=12805.56 kneeMps=102.771 angleAt=2.734694 kneeAt=1.091978",
+        "failure": "  knee extension snaps during landing/toe-off: 12805.56 deg/s; knee bend plane flips: 102.7711 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 12805.56 deg/s\", \"knee bend plane flips: 102.7711 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.08 angularDegPerSec=12872.94 kneeMps=38.733 angleAt=2.267729 kneeAt=2.068222",
+        "failure": "  knee extension snaps during landing/toe-off: 12872.94 deg/s; knee bend plane flips: 38.73291 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 12872.94 deg/s\", \"knee bend plane flips: 38.73291 m/s\" >\n"
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,-39.0f)",
+        "result": "Failed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.08 angularDegPerSec=11762.38 kneeMps=54.180 angleAt=1.277520 kneeAt=2.053648",
+        "failure": "  knee extension snaps during landing/toe-off: 11762.38 deg/s; knee bend plane flips: 54.17994 m/s\n  Expected: <empty>\n  But was:  < \"knee extension snaps during landing/toe-off: 11762.38 deg/s\", \"knee bend plane flips: 54.17994 m/s\" >\n"
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=0 clearance=0.08 angularDegPerSec=871.86 kneeMps=4.776 angleAt=1.684063 kneeAt=2.735938",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=0 clearance=0.08 angularDegPerSec=822.67 kneeMps=4.805 angleAt=2.688125 kneeAt=2.735938",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=0 clearance=0.08 angularDegPerSec=1919.93 kneeMps=9.544 angleAt=2.675212 kneeAt=2.675212",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=0 clearance=0.08 angularDegPerSec=1852.16 kneeMps=9.536 angleAt=2.176444 kneeAt=2.176444",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=0 clearance=0.08 angularDegPerSec=2256.81 kneeMps=11.630 angleAt=2.178682 kneeAt=2.178682",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=0 clearance=0.08 angularDegPerSec=2506.94 kneeMps=12.077 angleAt=1.172690 kneeAt=1.172690",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=0 clearance=0.08 angularDegPerSec=2468.21 kneeMps=14.268 angleAt=1.150490 kneeAt=1.695809",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=0 clearance=0.08 angularDegPerSec=2326.78 kneeMps=13.261 angleAt=1.696491 kneeAt=1.696491",
+        "failure": null
+      },
+      {
+        "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"pad\",\"Sela\")",
+        "result": "Failed",
+        "output": "TERRAIN_STRIDE pad/Sela samples=13 contacts=3 drift=0.022415 penetration=0.172761 lift=0.035440 reach=0.081020 requestedDrop=0.241761 kneeAngleRatio=1.344621 kneeSpeedRatio=3.009337 jointSamples=204\nTERRAIN_JOINT_PEAK angle=153.037800/Run/1.401550/0 knee=153.054000/Run/1.407800/1 (-0.31, 0.69, 0.21) -> (0.38, 0.68, -0.04) hip=(0.05, 0.90, -0.07) foot=(0.27, 0.25, 0.06)",
+        "failure": "  visible sole penetrates physical support 0.1727613 m; recorded terrain knee extension exceeds the whole-step limit by 1.344621; recorded terrain knee movement exceeds the whole-step limit by 3.009337\n  Expected: <empty>\n  But was:  < \"visible sole penetrates physical support 0.1727613 m\", \"recorded terrain knee extension exceeds the whole-step limit by 1.344621\", \"recorded terrain knee movement exceeds the whole-step limit by 3.009337\" >\n"
+      },
+      {
+        "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"slope\",\"Taren\")",
+        "result": "Failed",
+        "output": "TERRAIN_STRIDE slope/Taren samples=127 contacts=11 drift=0.066014 penetration=0.000000 lift=0.185504 reach=0.245726 requestedDrop=0.420850 kneeAngleRatio=1.270378 kneeSpeedRatio=7.318462 jointSamples=660\nTERRAIN_JOINT_PEAK angle=97.414790/Walk/7.946545/1 knee=94.314900/Walk/4.903855/0 (-0.08, 0.68, 0.37) -> (0.04, 0.67, -0.37) hip=(0.13, 0.94, -0.06) foot=(0.03, 0.21, -0.24)\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
+        "failure": "  visible planted sole slides 0.06601403 m; recorded terrain knee extension exceeds the whole-step limit by 1.270378; recorded terrain knee movement exceeds the whole-step limit by 7.318462\n  Expected: <empty>\n  But was:  < \"visible planted sole slides 0.06601403 m\", \"recorded terrain knee extension exceeds the whole-step limit by 1.270378\", \"recorded terrain knee movement exceeds the whole-step limit by 7.318462\" >\n"
+      }
+    ]
+  },
+  "candidate": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/editmode-final.xml",
+    "sha256": "261738fce34628ff66672a36d89add4237bf03968748e554bd1190744eb12072",
+    "counts": {
+      "total": "119",
+      "passed": "119",
+      "failed": "0",
+      "skipped": "0"
+    },
+    "cases": [
+      {
+        "name": "InvalidAndFutureSettingsFallBackWithoutOverwriting(\"{broken\",True)",
+        "result": "Passed",
+        "output": "Audio settings were invalid: JSON parse error: Missing a name for object member.",
+        "failure": null
+      },
+      {
+        "name": "InvalidAndFutureSettingsFallBackWithoutOverwriting(\"{\\\"version\\\":20,\\\"master\\\":0}\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "MissingIsolatedSettingsNeverReadOrWriteTheHumanProfile",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "NonFiniteRequestedGainsCannotContaminateTheMixer",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PartialSettingsKeepOtherDefaultsAndClampOutOfRangeValues",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SeparateLevelsIncludingExactMuteSurviveRepeatedAtomicSaves",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "MissingLocalArtLeavesTheWorkingFallbackIntact",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "NurseryWaterMeshEndsUnderTheBankInsteadOfCuttingThroughOpenWater",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "NurseryWaterSitsInRealBasinsWithDryAccessToTheDiscoveryAndLift",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PublicWaterHasADryRimAndADeepInteriorInsteadOfSolidFoam",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedLandscapeHasUsablePublicSurfaces(\"Sorrel_Ridges\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedLandscapeHasUsablePublicSurfaces(\"Arena_Ground\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedLandscapeHasUsablePublicSurfaces(\"Hushwell\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedLandscapeHasUsablePublicSurfaces(\"TallowDrift\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SorrelBoreCutsTheGroundWhileItsApproachStaysLevel",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "WaterHasAValidTangentFrameForAnimatedNormals",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "AnAbsentOrTextVersionCannotBeGuessedFromFieldDefaults(\"{\\\"party\\\":[{\\\"id\\\":\\\"Taren\\\"}]}\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "AnAbsentOrTextVersionCannotBeGuessedFromFieldDefaults(\"{\\\"version\\\":\\\"1\\\",\\\"party\\\":[{\\\"id\\\":\\\"Taren\\\"}]}\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ExistingDiscoveryAndItsRewardsSurviveMigrationExactlyOnce",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "FreshProfilesUseTheChapterFormatWithoutLegacyAccess",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "OldKeyOwnersKeepEarnedAccessWithoutInventingANurseryVisit(\"Hub_CinderHalo\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot2 zone=Hub_CinderHalo",
+        "failure": null
+      },
+      {
+        "name": "OldKeyOwnersKeepEarnedAccessWithoutInventingANurseryVisit(\"Sorrel_Ridges\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot2 zone=Sorrel_Ridges",
+        "failure": null
+      },
+      {
+        "name": "OldKeyOwnersKeepEarnedAccessWithoutInventingANurseryVisit(\"Hushwell\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot2 zone=Hushwell",
+        "failure": null
+      },
+      {
+        "name": "OldKeyOwnersKeepEarnedAccessWithoutInventingANurseryVisit(\"Gullet_Tunnel\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot2 zone=Gullet_Tunnel",
+        "failure": null
+      },
+      {
+        "name": "OldKeyOwnersKeepEarnedAccessWithoutInventingANurseryVisit(\"TallowApproach\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot2 zone=TallowApproach",
+        "failure": null
+      },
+      {
+        "name": "OldKeyOwnersKeepEarnedAccessWithoutInventingANurseryVisit(\"TallowDrift\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot2 zone=TallowDrift",
+        "failure": null
+      },
+      {
+        "name": "OldPreKeyProfilesDoNotAcquireLegacyAccess",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "UnsupportedVersionsAreRejectedWithoutWriting(0)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "UnsupportedVersionsAreRejectedWithoutWriting(-1)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "UnsupportedVersionsAreRejectedWithoutWriting(3)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "UnsupportedVersionsAreRejectedWithoutWriting(999)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "BrokenCriticalAndWeakPointMultiply",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DamageHonorsWeaknessAndResistance(Beam,150)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DamageHonorsWeaknessAndResistance(Pulse,50)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DamageHonorsWeaknessAndResistance(Kinetic,100)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "EquippedWeaponUpgradeAndAffixAffectOnlyItsAttack",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "FabricationRequiresBenchAndConsumesOnceThenAwardsDisciplineXp",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "FinishingFlashCannotUnpauseAMenu",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "FlightCoastsAndBrakeReducesVelocity",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "GatheringBeforeAcceptingQuestStillCountsAfterCrafting",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "InventoryPaymentIsAtomicAndAggregatesDuplicateIngredients",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "LevelsCapAtTenAndRetainRemainder",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "OnlyOneGameplayMapEnabled",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "QuestSequenceAndRewardsAreExactlyOnce",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SaveRoundTripAllSlotsAndCorruption",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot1 zone=Gullet_Tunnel\nSAVE_OK slot=slot2 zone=Gullet_Tunnel\nSAVE_OK slot=slot3 zone=Gullet_Tunnel\nSAVE_OK slot=autosave zone=Gullet_Tunnel",
+        "failure": null
+      },
+      {
+        "name": "SyncedPortraitTagPreservesSlotSeven",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "WeaknessDoublesBreakNotResistance",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedHullRetainsTheGeometryRequiredForFolding(\"Taren\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedHullRetainsTheGeometryRequiredForFolding(\"Sela\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "BrakingDistanceAgreesAtThirtySixtyAndOneTwentyFrames",
+        "result": "Passed",
+        "output": "brake fps=30 distance=1.333958 velocity=0.000000\nbrake fps=60 distance=1.333958 velocity=0.000000\nbrake fps=120 distance=1.333957 velocity=0.000000",
+        "failure": null
+      },
+      {
+        "name": "FreeThrustTravelAndReversalAgreeAcrossFrameRates",
+        "result": "Passed",
+        "output": "turn fps=120 position=(-5.621367, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252) travel=65.517090\nturn fps=60 position=(-5.621357, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252) travel=65.516080\nturn fps=30 position=(-5.621367, 0.000000, -15.298120) velocity=(-0.000657, 0.000000, -0.000252) travel=65.512020",
+        "failure": null
+      },
+      {
+        "name": "UnpoweredCoastAgreesWithItsContinuousDragCurve",
+        "result": "Passed",
+        "output": "coast fps=30 distance=12.429930 velocity=2.677547\ncoast fps=60 distance=12.429930 velocity=2.677547\ncoast fps=120 distance=12.429930 velocity=2.677547",
+        "failure": null
+      },
+      {
+        "name": "ZeroTimeDoesNotChangePositionOrMomentum(6.0f)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ZeroTimeDoesNotChangePositionOrMomentum(22.0f)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "AttachmentsRemainOnTheMeasuredGeneratedHull(\"TarenFlight\",4)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "AttachmentsRemainOnTheMeasuredGeneratedHull(\"SelaFlight\",3)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "FlightCollisionContainsTheActualMeshThroughEveryBankAndRoll(\"Taren\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "FlightCollisionContainsTheActualMeshThroughEveryBankAndRoll(\"Sela\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.08 angularDegPerSec=989.89 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=39 clearance=0.22 angularDegPerSec=989.85 kneeMps=5.790 angleAt=2.700344 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.08 angularDegPerSec=960.38 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=39 clearance=0.22 angularDegPerSec=960.38 kneeMps=5.808 angleAt=1.704516 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=39 clearance=0.08 angularDegPerSec=1728.68 kneeMps=10.057 angleAt=2.659560 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=39 clearance=0.22 angularDegPerSec=1728.80 kneeMps=10.057 angleAt=2.659560 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=39 clearance=0.08 angularDegPerSec=1662.82 kneeMps=10.246 angleAt=1.662833 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=39 clearance=0.22 angularDegPerSec=1662.73 kneeMps=10.246 angleAt=1.662833 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=39 clearance=0.08 angularDegPerSec=2004.92 kneeMps=12.220 angleAt=2.666831 kneeAt=1.146322\nLEG_CONTINUITY Taren/True/Run slope=39 clearance=0.22 angularDegPerSec=2004.90 kneeMps=12.220 angleAt=2.666831 kneeAt=1.146322",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=39 clearance=0.08 angularDegPerSec=2191.98 kneeMps=12.339 angleAt=2.663607 kneeAt=1.148528\nLEG_CONTINUITY Sela/True/Run slope=39 clearance=0.22 angularDegPerSec=2191.88 kneeMps=12.339 angleAt=2.663607 kneeAt=1.148528",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.08 angularDegPerSec=1995.14 kneeMps=12.760 angleAt=1.805579 kneeAt=2.678419\nLEG_CONTINUITY Taren/True/Sprint slope=39 clearance=0.22 angularDegPerSec=1995.09 kneeMps=12.760 angleAt=1.805579 kneeAt=1.677221",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.08 angularDegPerSec=2184.07 kneeMps=14.568 angleAt=2.801634 kneeAt=2.218328\nLEG_CONTINUITY Sela/True/Sprint slope=39 clearance=0.22 angularDegPerSec=2184.08 kneeMps=14.567 angleAt=2.801634 kneeAt=2.218328",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.08 angularDegPerSec=974.17 kneeMps=5.792 angleAt=2.700344 kneeAt=2.737000\nLEG_CONTINUITY Taren/False/Walk slope=-39 clearance=0.22 angularDegPerSec=974.19 kneeMps=5.792 angleAt=2.700344 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.08 angularDegPerSec=945.94 kneeMps=5.815 angleAt=1.704516 kneeAt=2.737000\nLEG_CONTINUITY Sela/False/Walk slope=-39 clearance=0.22 angularDegPerSec=945.96 kneeMps=5.816 angleAt=1.704516 kneeAt=2.737000",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.08 angularDegPerSec=1663.75 kneeMps=10.057 angleAt=1.677419 kneeAt=2.149041\nLEG_CONTINUITY Taren/False/Run slope=-39 clearance=0.22 angularDegPerSec=1663.78 kneeMps=10.057 angleAt=1.677419 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.08 angularDegPerSec=1612.65 kneeMps=10.246 angleAt=2.679008 kneeAt=2.149041\nLEG_CONTINUITY Sela/False/Run slope=-39 clearance=0.22 angularDegPerSec=1612.65 kneeMps=10.245 angleAt=2.679008 kneeAt=2.149041",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.08 angularDegPerSec=1904.02 kneeMps=12.220 angleAt=2.678710 kneeAt=1.146322\nLEG_CONTINUITY Taren/True/Run slope=-39 clearance=0.22 angularDegPerSec=1903.98 kneeMps=12.220 angleAt=2.678710 kneeAt=1.146322",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.08 angularDegPerSec=1923.08 kneeMps=12.339 angleAt=2.681935 kneeAt=1.148528\nLEG_CONTINUITY Sela/True/Run slope=-39 clearance=0.22 angularDegPerSec=1923.13 kneeMps=12.339 angleAt=2.681935 kneeAt=1.148528",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.08 angularDegPerSec=1722.54 kneeMps=12.277 angleAt=1.369160 kneeAt=2.695533\nLEG_CONTINUITY Taren/True/Sprint slope=-39 clearance=0.22 angularDegPerSec=1722.54 kneeMps=12.277 angleAt=1.369160 kneeAt=2.695533",
+        "failure": null
+      },
+      {
+        "name": "SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f,-39.0f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.08 angularDegPerSec=1643.61 kneeMps=12.177 angleAt=1.696889 kneeAt=1.696889\nLEG_CONTINUITY Sela/True/Sprint slope=-39 clearance=0.22 angularDegPerSec=1643.59 kneeMps=12.177 angleAt=1.696889 kneeAt=1.696889",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,2.6f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Walk slope=0 clearance=0.08 angularDegPerSec=854.95 kneeMps=4.761 angleAt=2.688125 kneeAt=2.735938",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,2.6f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Walk slope=0 clearance=0.08 angularDegPerSec=861.80 kneeMps=4.803 angleAt=2.688125 kneeAt=2.735938",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/False/Run slope=0 clearance=0.08 angularDegPerSec=1875.60 kneeMps=9.411 angleAt=2.675212 kneeAt=2.675212",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",False,5.4f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/False/Run slope=0 clearance=0.08 angularDegPerSec=1852.10 kneeMps=9.565 angleAt=2.176444 kneeAt=2.176444",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Run slope=0 clearance=0.08 angularDegPerSec=2089.76 kneeMps=10.978 angleAt=1.177042 kneeAt=1.177042",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,6.7f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Run slope=0 clearance=0.08 angularDegPerSec=2112.79 kneeMps=10.642 angleAt=2.169714 kneeAt=2.677721",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Taren\",True,10.385f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Taren/True/Sprint slope=0 clearance=0.08 angularDegPerSec=2297.01 kneeMps=13.594 angleAt=2.693343 kneeAt=2.693343",
+        "failure": null
+      },
+      {
+        "name": "WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(\"Sela\",True,10.385f)",
+        "result": "Passed",
+        "output": "LEG_CONTINUITY Sela/True/Sprint slope=0 clearance=0.08 angularDegPerSec=2326.77 kneeMps=13.252 angleAt=1.696491 kneeAt=1.696491",
+        "failure": null
+      },
+      {
+        "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Taren\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Taren\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Sela\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "VisibleHipAndShoulderSpansFaceFreeTravel(\"Sela\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(1,X)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(2,A)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(3,Circle)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(4,Y)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(5,LeftShoulder)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(6,RightShoulder)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(9,Select)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(10,Start)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(11,LeftStick)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_MapsNumberedButtonsInLogitechOrder(12,RightStick)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "DirectInputProfile_TriggersAreTheFloatFields",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "HatSwitch_DrivesTheDpad_AndStickPassesThrough",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "MenuPageActions_HaveGlyphsOnBothDevices",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "NoSceneBuilderMakesAnEventSystemWithoutTheInputSystemModule",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PrecisionProfile_TheStickIsTheDpad",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ResolveProfile_FallsBackToDirectInputOrder",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ResolveProfile_KnowsTheLogitechPrecisionByProductName",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "Snapshot_ButtonBitsAreOneBased",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "UiActions_SpeakOnlyKeyboardPointerAndGamepad",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "BriefReaderCannotLoseTheNextSaveOrItsPreviousVersion(\"\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_REPLACE_RECOVERED retries=4 error=0x80070020\nSAVE_OK slot=slot3 zone=Hub_CinderHalo",
+        "failure": null
+      },
+      {
+        "name": "BriefReaderCannotLoseTheNextSaveOrItsPreviousVersion(\".bak\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_REPLACE_RECOVERED retries=4 error=0x80070497\nSAVE_OK slot=slot3 zone=Hub_CinderHalo",
+        "failure": null
+      },
+      {
+        "name": "PersistentReaderReportsFailureAndPreservesAllThreeVersions(\"\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_OK slot=slot3 zone=Hub_CinderHalo",
+        "failure": null
+      },
+      {
+        "name": "PersistentReaderReportsFailureAndPreservesAllThreeVersions(\".bak\")",
+        "result": "Passed",
+        "output": "SAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_OK slot=slot3 zone=Hub_CinderHalo\nSAVE_OK slot=slot3 zone=Hub_CinderHalo",
+        "failure": null
+      },
+      {
+        "name": "ShippedSceneUsesTheSpeakersCurrentBody(\"Sorrel_Ridges\",\"Survivor\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "ShippedSceneUsesTheSpeakersCurrentBody(\"TallowDrift\",\"Keeper\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SpeakerHasAnIndependentGeneratedHumanoidBody(\"Survivor\",\"Orrin\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "SpeakerHasAnIndependentGeneratedHumanoidBody(\"Keeper\",\"Hal\")",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Taren\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Sela\",False)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Taren\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "PauseHoldsTheRenderedPoseDuringTerrainAdaptation(\"Sela\",True)",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"pad\",\"Sela\")",
+        "result": "Passed",
+        "output": "TERRAIN_STRIDE pad/Sela samples=13 contacts=3 drift=0.022840 penetration=0.000000 lift=0.036571 reach=0.083983 requestedDrop=0.248923 kneeAngleRatio=0.962551 kneeSpeedRatio=0.717175 jointSamples=204\nTERRAIN_JOINT_PEAK angle=153.754200/Run/2.156916/0 knee=153.704600/Run/2.099945/0 (-0.19, 0.43, 0.34) -> (-0.15, 0.31, 0.20) hip=(-0.12, 0.68, 0.05) foot=(-0.07, -0.08, -0.02)",
+        "failure": null
+      },
+      {
+        "name": "RecordedTerrainStrideKeepsItsVisibleSoleSupported(\"slope\",\"Taren\")",
+        "result": "Passed",
+        "output": "TERRAIN_STRIDE slope/Taren samples=127 contacts=11 drift=0.002923 penetration=0.000000 lift=0.021670 reach=0.046520 requestedDrop=0.233554 kneeAngleRatio=0.814368 kneeSpeedRatio=0.795538 jointSamples=660\nTERRAIN_JOINT_PEAK angle=93.897790/Walk/4.515419/0 knee=97.998540/Walk/8.519198/1 (0.27, 0.54, -0.09) -> (0.26, 0.46, -0.10) hip=(0.27, 0.59, -0.51) foot=(0.12, 0.07, 0.15)\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
+        "failure": null
+      }
+    ]
+  },
+  "runtimeStride": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/runtime-candidate39.xml",
+    "sha256": "0eebdeca37f011200c5f4b04918579a41c8f7560247a548a120ab8ec346f9cd5",
+    "counts": {
+      "total": "5",
+      "passed": "5",
+      "failed": "0",
+      "skipped": "0"
+    },
+    "cases": [
+      {
+        "name": "MovingEmitterFireKeepsVisibleLegStride",
+        "result": "Passed",
+        "output": "MOVING_FIRE speed=2.6 leftStride=1.174728 rightStride=1.201401 contacts=8 drift=0.003620\nMOVING_FIRE speed=6.7 leftStride=1.654816 rightStride=1.686081 contacts=8 drift=0.000933\nMOVING_FIRE speed=10.8 leftStride=1.537170 rightStride=1.566391 contacts=12 drift=0.011421",
+        "failure": null
+      },
+      {
+        "name": "UnlockedBodyFacesMeasuredTravelWhenAContactRedirectsIt",
+        "result": "Passed",
+        "output": "",
+        "failure": null
+      },
+      {
+        "name": "VisibleSolesHoldDuringRuntimeLocomotionAndPause",
+        "result": "Passed",
+        "output": "RUNTIME_STRIDE_CASE Taren Natural direction 0 contacts=8 drift=0.003295 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Natural direction 90 contacts=8 drift=0.005955 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Natural direction 180 contacts=8 drift=0.006301 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Shaped direction 0 contacts=6 drift=0.000710 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Shaped direction 90 contacts=6 drift=0.000778 penetration=0.000000\nRUNTIME_STRIDE_CASE Taren Shaped direction 180 contacts=6 drift=0.000740 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Natural direction 0 contacts=8 drift=0.000141 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Natural direction 90 contacts=8 drift=0.002143 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Natural direction 180 contacts=8 drift=0.000725 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Shaped direction 0 contacts=6 drift=0.000979 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Shaped direction 90 contacts=6 drift=0.000980 penetration=0.000000\nRUNTIME_STRIDE_CASE Sela Shaped direction 180 contacts=6 drift=0.001064 penetration=0.000000",
+        "failure": null
+      },
+      {
+        "name": "VisibleSolesStayPlantedOnSteepUphillAndDownhillGround",
+        "result": "Passed",
+        "output": "RUNTIME_SLOPE_CASE Taren Natural slope 39 contacts=8 drift=0.036377 penetration=0.000000 lift=0.034677\nRUNTIME_SLOPE_CASE Taren Natural slope -39 contacts=8 drift=0.030949 penetration=0.000000 lift=0.031438\nRUNTIME_SLOPE_CASE Taren Shaped slope 39 contacts=8 drift=0.001634 penetration=0.000000 lift=0.003835\nRUNTIME_SLOPE_CASE Taren Shaped slope -39 contacts=8 drift=0.001591 penetration=0.000000 lift=0.003833\nRUNTIME_SLOPE_CASE Sela Natural slope 39 contacts=8 drift=0.033588 penetration=0.000000 lift=0.033154\nRUNTIME_SLOPE_CASE Sela Natural slope -39 contacts=8 drift=0.027913 penetration=0.000000 lift=0.029388\nRUNTIME_SLOPE_CASE Sela Shaped slope 39 contacts=8 drift=0.029608 penetration=0.000448 lift=0.027281\nRUNTIME_SLOPE_CASE Sela Shaped slope -39 contacts=8 drift=0.002150 penetration=0.000451 lift=0.004667",
+        "failure": null
+      },
+      {
+        "name": "VisibleSolesStayPlantedOnUphillAndDownhillGround",
+        "result": "Passed",
+        "output": "RUNTIME_SLOPE_CASE Taren Natural slope 10 contacts=7 drift=0.034182 penetration=0.000000 lift=0.032926\nRUNTIME_SLOPE_CASE Taren Natural slope -10 contacts=7 drift=0.010250 penetration=0.000000 lift=0.015759\nRUNTIME_SLOPE_CASE Taren Shaped slope 10 contacts=6 drift=0.001556 penetration=0.000000 lift=0.005080\nRUNTIME_SLOPE_CASE Taren Shaped slope -10 contacts=6 drift=0.001648 penetration=0.000000 lift=0.005079\nRUNTIME_SLOPE_CASE Sela Natural slope 10 contacts=7 drift=0.031160 penetration=0.000000 lift=0.031306\nRUNTIME_SLOPE_CASE Sela Natural slope -10 contacts=7 drift=0.007950 penetration=0.000000 lift=0.013628\nRUNTIME_SLOPE_CASE Sela Shaped slope 10 contacts=6 drift=0.018000 penetration=0.000000 lift=0.019388\nRUNTIME_SLOPE_CASE Sela Shaped slope -10 contacts=6 drift=0.002177 penetration=0.000000 lift=0.005874\nSaving results to: C:/Users/natem/AppData/LocalLow/Nathan/Coronach\\TestResults.xml",
+        "failure": null
+      }
+    ]
+  },
+  "executionHistory": [
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/editmode-candidate38.xml",
+      "sha256": "543f219940e99f1450f64cb1cb380b857cc950420e3c2f34af3161756d800048",
+      "result": "Passed",
+      "total": "115",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/footprint-only.xml",
+      "sha256": "ed827926ce04e27b5e56161ad96e135085e311e1ca11f9388fee2c4ea14acfa0",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/pause-mutant-red.xml",
+      "sha256": "ee22838e544f2e8afc1baad7c15eb0a59785c0d13cee732dbe41e6b3bc947f25",
+      "result": "Failed(Child)",
+      "total": "4",
+      "failed": "4"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/playmode-final.xml",
+      "sha256": "488cbe57fc3c185efffdc6b43d223508221d7d11967533e35a50118399919e47",
+      "result": "Passed",
+      "total": "231",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/playmode-first.xml",
+      "sha256": "64ab62cdaf50889eb5a7e462b87947210fff3469cbbb94e2bb71f4010bb14d4c",
+      "result": "Failed(Child)",
+      "total": "231",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/pre-knee-terrain.xml",
+      "sha256": "eadda990fac1c5a27823900b532167cea19e0881eb5335639f7c422852450835",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/recorded-knees-local33.xml",
+      "sha256": "d0d377611474139c1660a75481b053db78f017dcc707356f16096b07d9153299",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/recorded-knees-peaks36.xml",
+      "sha256": "6cf4ad1dbec630a9afab41d51f940bd558d1c419d8533973da383e29341ae9ab",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/recorded-knees-red33.xml",
+      "sha256": "f3167bfe7819aa862f9fb78a9a23da4bb3f509d4f01f9f973f8508d45a30ad3c",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/recorded-knees-smoothed34.xml",
+      "sha256": "b4f31f40f199a1dc511e2ac78ffaed1f2f5a215b7736d8e38db9fff3103d143c",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/runtime-candidate01.xml",
+      "sha256": "a2f37e8cf94679357915a1fe8f905b6d88c4db8dcdcdd6c31a39184d4ecc74d6",
+      "result": "Failed(Child)",
+      "total": "5",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/runtime-candidate26.xml",
+      "sha256": "d3213145a0d8c4c3a6208c5738ead95eb423780c924a292d621fead5e0242512",
+      "result": "Failed(Child)",
+      "total": "5",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/runtime-candidate39.xml",
+      "sha256": "0eebdeca37f011200c5f4b04918579a41c8f7560247a548a120ab8ec346f9cd5",
+      "result": "Passed",
+      "total": "5",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/runtime-steep-candidate27.xml",
+      "sha256": "f3fc567c8e3597c7c283e88aa6885f2a6f241af992f31329f5af6c779a12ad79",
+      "result": "Passed",
+      "total": "1",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate05.xml",
+      "sha256": "72151df4871ebd8ba8dfee8b7752b49fe6e4e8945b662956fb1788bfa5d77a00",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate06.xml",
+      "sha256": "a3d1d2b99d92cea2abb5164847f2b0ec0be7a72af2c77bf3e4a516c0ada56a8d",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate07.xml",
+      "sha256": "f2beb59f8301d89498a27267d913957c311384c7a8a6f505b2938b5261009c70",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "13"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate08.xml",
+      "sha256": "f7c74ad449b5c5d6f4b97659d6310672ee33d56fa5fd3ba80cb8ec288851c7d0",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate09.xml",
+      "sha256": "c8988ef7261fa050b6b35d4246311ee795397df017eb265b965f6f579c9cbf85",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "14"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate10.xml",
+      "sha256": "ff4f1906759fc2ac6a611631b7284c748ddd76d14e7266ce129d38b63dbb4067",
+      "result": "Failed(Child)",
+      "total": "24",
+      "failed": "12"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate11.xml",
+      "sha256": "81a6fa5af1791f75baca47cff33902f17abb5de9c4d517d48f5912b235f2e648",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "11"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate12.xml",
+      "sha256": "92d37ec239799cdb344ac2e363f78620003239065b3820854f0d0c85f1e045b7",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "11"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate13.xml",
+      "sha256": "aa854286404593af1fd669d6389467f7f1c8e2b1b0390036e3ae124e8dee8afd",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "11"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate14.xml",
+      "sha256": "9272a5dfd750b5a159ff2c50767b3ec7abac0578164234390e881dd0f21c9a08",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "10"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate15.xml",
+      "sha256": "8c658ede3cc76e6aa73e1453648941519f0725c99d11c460bb5d0f623fb38ce9",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "6"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate16.xml",
+      "sha256": "5107642fb982df48068dbf1af4a65efb9ed22247ce034cab9783ddd71a9388f7",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate17.xml",
+      "sha256": "42fc67b2583243d71c03d8d26b383778ff080d4ca8a8d23af99eb54fe74a0be2",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "8"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate18.xml",
+      "sha256": "1e7728ffee5422f07a692ce9dc2b6e640ef09cc6af637548a6df3596998e4e5e",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "5"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate19.xml",
+      "sha256": "59ef559ac85dc0ac31236cca3cd9038166685d7e3e8834bef88cdd310fc90b55",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "6"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate20.xml",
+      "sha256": "ad8287ec382b6c6ea71705ee41eeccc42f1e3dc4fb07ff4144fd9bab91738dc7",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "10"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate21.xml",
+      "sha256": "2b5f27e6341b171d043629d767a84b2658fcd477a4ce4873f4597d510db30434",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "5"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate22.xml",
+      "sha256": "809aeccd9ca4ec7bf3e00bed07202bfbeb770203ac315219206d659de6de0549",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "12"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate23.xml",
+      "sha256": "5249e1f38b79ec615b72e79cbb1969d146eb53f913610f4af213a0c605a73bd1",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "11"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate24.xml",
+      "sha256": "e884bda0f835051f10f9b96a039eb4b771a0a49403c5733cef809fba58b111c2",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "6"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate25.xml",
+      "sha256": "cf4c71d57de7422d9d460e7b023a5e351f174aacdd5e264dc758213c3fa7d58d",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "4"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate26.xml",
+      "sha256": "40030bb65093193a9c1cf2943bcc75145551730172728bfa75b0cb463c00ee95",
+      "result": "Passed",
+      "total": "26",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate27.xml",
+      "sha256": "b1917f750b4eb9e259639d553b0c50e27769cc20b8ad19d8414e09a7db4f18cd",
+      "result": "Passed",
+      "total": "26",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate29.xml",
+      "sha256": "21504f1a2cfd1a01231397694ac5822a0fdae8835083cec518de269776cffa03",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate30.xml",
+      "sha256": "a341eaee70008a2d0212cad42c1dc86640f44f7777cc59fa95d62fe7669dfd06",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate32.xml",
+      "sha256": "3ec34bdf8ce4b4894e2aaf9da94d1c9651ebb627b6f4306f8985d063ad312c29",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "15"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate33.xml",
+      "sha256": "6fbe88b08d0605be4e4c44ccf9c7240e90030dce8e145d0fec14cafecae92964",
+      "result": "Passed",
+      "total": "26",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate35.xml",
+      "sha256": "35f032881158b03e7d91b17b26abb06c4bd3a6f571750f299c22ce14700b4d89",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate36.xml",
+      "sha256": "76aade1a0a53fcb5eb6549bc32f4aa02a9cbbebfc6f7d1f9614a9ab7a5a19863",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate37.xml",
+      "sha256": "cdf7a99c70481afe92347feda721d359841967bc02a6b4bce6e59a7b538beefd",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate38.xml",
+      "sha256": "151caeb2d4f4e57d75db778fa91b60be290a86ea6f37911b8456d8fd60bc960f",
+      "result": "Passed",
+      "total": "26",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-candidate39.xml",
+      "sha256": "16ae66e814f5c9b1c32919a00264fdff49d3c2c056311dd1c24c24cf52625539",
+      "result": "Passed",
+      "total": "30",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-clearance26.xml",
+      "sha256": "94e927d0c6cdf38107664ca462360c937668785d96ece9625f049675c87907c1",
+      "result": "Failed(Child)",
+      "total": "26",
+      "failed": "6"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-phases.xml",
+      "sha256": "9976b0a263e71abce2545159b41060a4f1a48f5f24005e2efbd2c93a6ca74d86",
+      "result": "Failed(Child)",
+      "total": "16",
+      "failed": "16"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-positions.xml",
+      "sha256": "65d9975a07d92181951bfe98c31ce0266dc2699773562bec29462ea7c65d4cdd",
+      "result": "Failed(Child)",
+      "total": "16",
+      "failed": "13"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/slope-knees-targets.xml",
+      "sha256": "336dc68bc9e808be3c826cdecdd62494667a951f35e8a31a3c68d6f9eb3618a6",
+      "result": "Failed(Child)",
+      "total": "16",
+      "failed": "11"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/steep-red.xml",
+      "sha256": "2a43bde47c8aa0883ef8123404b97ee25bcd0ab69fc3e276b7aa55fc93ef74b1",
+      "result": "Failed(Child)",
+      "total": "1",
+      "failed": "1"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/support-candidate01.xml",
+      "sha256": "b7ba837f45c7dabddea0d24dd0661d2926c4b02efb0b4d53a3a9ba63d83d55d9",
+      "result": "Passed",
+      "total": "10",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/support-candidate03.xml",
+      "sha256": "6fb06318f7573b703e9058c2132e2d5097e8769e89eeb57cbd61e934c49945b5",
+      "result": "Passed",
+      "total": "10",
+      "failed": "0"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/terrain-diagnostic.xml",
+      "sha256": "ba47b6f896c3eead292be2ee417b96e98f99460675dc52a760f031bbf17f6baa",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "2"
+    },
+    {
+      "path": "Builds/quality/2026-10-06-terrain-followup/terrain-replay-red.xml",
+      "sha256": "62953458d0e57476292e724af11531c46275bf4a78048d5ac89dd79c6473e508",
+      "result": "Failed(Child)",
+      "total": "2",
+      "failed": "2"
+    }
+  ],
+  "playmode": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/playmode-final.xml",
+    "sha256": "488cbe57fc3c185efffdc6b43d223508221d7d11967533e35a50118399919e47",
+    "counts": {
+      "total": "231",
+      "passed": "231",
+      "failed": "0",
+      "skipped": "0"
+    }
+  },
+  "beforeSync": {
+    "path": "Builds/quality/2026-10-06-terrain-followup/sync-release-before/analysis.json",
+    "sha256": "8f0e94bcae18a55325129734cfba3f6f5a9f4faede5a8801c72ea10c52e002a5",
+    "metrics": {
+      "valid": true,
+      "failures": [],
+      "samples": 7481,
+      "seconds": 124.667359,
+      "p95Ms": 17.0327,
+      "p99Ms": 17.1841,
+      "worstMs": 25.1349,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      }
+    }
+  },
+  "contactMatrices": [
+    {
+      "path": "Builds/quality/C2/oct6-flat-final39/contacts.csv",
+      "sha256": "98948701c2326fae97300293940dce6fe2baaf2ce70a82b1f733c8ae60e86cbe",
+      "cases": 96,
+      "failures": [],
+      "maximum": {
+        "worstDrift": 0.02339461,
+        "worstPenetration": 0.0,
+        "contactLift": 0.02616071,
+        "reachCorrection": 0.05298752
+      },
+      "minimumShinSeparation": 0.195398
+    },
+    {
+      "path": "Builds/quality/C2/oct6-mild-final39/contacts.csv",
+      "sha256": "2369740db6c8918ea6898f10138ee5d1bda645bf7ef0c4bd51bc1db57612664d",
+      "cases": 96,
+      "failures": [],
+      "maximum": {
+        "worstDrift": 0.03777722,
+        "worstPenetration": 0.0,
+        "contactLift": 0.03530838,
+        "reachCorrection": 0.06462765
+      },
+      "minimumShinSeparation": 0.1865724
+    },
+    {
+      "path": "Builds/quality/C2/oct6-steep-up-final39/contacts.csv",
+      "sha256": "04230ae7bb38e02c68d379231433236f9853e0669fd44f8dd4916cb35269dfd8",
+      "cases": 96,
+      "failures": [],
+      "maximum": {
+        "worstDrift": 0.04196286,
+        "worstPenetration": 0.0,
+        "contactLift": 0.03707436,
+        "reachCorrection": 0.07938141
+      },
+      "minimumShinSeparation": 0.1558648
+    },
+    {
+      "path": "Builds/quality/C2/oct6-steep-down-final39/contacts.csv",
+      "sha256": "d38c72c57f14101aa158b79ece77ba7b0df291343c6eca104d535b70d168469a",
+      "cases": 96,
+      "failures": [],
+      "maximum": {
+        "worstDrift": 0.04522583,
+        "worstPenetration": 0.0,
+        "contactLift": 0.03567873,
+        "reachCorrection": 0.0650624
+      },
+      "minimumShinSeparation": 0.1583383
+    }
+  ],
+  "playerMotion": []
+}
