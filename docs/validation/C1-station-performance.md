@@ -1,5 +1,7 @@
 # C1 station performance — implementation in progress
 
+**Latest status, October 7:** [current-runtime reconciliation](C1-oct7-reconciliation.md) records new Tallow first/warm/stability passes, two rejected Decks stability loops, invalid Tallow development GPU evidence, and the native-profiler false-acceptance repair. C1 remains OPEN; the historical measurements below are preserved, not substituted for current acceptance.
+
 2026-09-26. Implementation **OPEN**, automated gate **FAILED** at baseline, continuous observation **UNVERIFIED**, physical controller feel **UNVERIFIED**. Native 1920 × 1080, Ultra, 60 fps cap, VSync 0, reported display 60 Hz; Ryzen 7 9800X3D / RTX 5070. VRR and GPU work timing are unavailable/unverified. No capture, encoder, editor or build ran during the four clean baseline players.
 
 | Clean baseline under `Builds/quality/C1/` | p95 / p99 (ms) | Worst (ms) | >33.3 / >50 ms | Camera stopped during walking |

@@ -1,5 +1,7 @@
 # Terrain contact and reversal follow-up — October 6
 
+**Later October 7:** [C1 reconciliation](C1-oct7-reconciliation.md) records two Decks stability failures, remaining GPU evidence gaps, and reopened slope/pad sequences. Runtime `e93bf13`, all knee/contact assertions and failed terrain evidence remain unchanged. Continuous movement and uphill balance are still unverified.
+
 **October 7 update:** the same packages now pass clean release/development first/warm comparisons with displays on before/after. The synchronized combat recapture passes motion; a further comparison isolates live-PNG recording stalls. [Latest evidence and remaining acceptance work](C1-C2-awake-comparison.md). The failures below remain the historical record; presentation and continuous movement are not accepted.
 
 Candidate 45 is committed and pushed as `e93bf13`, following `8685dca`; its three exact runtime source hashes accompany every current player recording. The three captured runtime files match `e93bf13` after Git line-ending normalization (`committed-source-binding.json`); historical build manifests remain unchanged. [Machine-readable evidence](C2-terrain-results.json). `07eaf9f` remains the original defect control. **C1/C2 acceptance remains OPEN.** The frozen `a3aaad6` chapter has not been replaced. Continuous normal/slow-motion viewing, physical scan-out and controller feel remain UNVERIFIED; opened poses and numerical passes do not establish those results.

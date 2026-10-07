@@ -1,0 +1,5562 @@
+{
+  "date": "2026-10-07",
+  "replayHead": "f930af9152516ed97c0a52d38061a22b4e62db5d",
+  "runtimeRevision": "e93bf138cddccc9fb6d992a819040a646ce9f7ea",
+  "runtimeChanged": false,
+  "acceptance": {
+    "C1": "OPEN",
+    "C2": "OPEN",
+    "C7": "OPEN",
+    "C8": "OPEN",
+    "C9": "UNFINISHED",
+    "C10": "UNFINISHED",
+    "continuousMotionAudio": "UNVERIFIED",
+    "physicalTearing": "UNVERIFIED",
+    "controllerFeel": "UNVERIFIED",
+    "uphillBalance": "UNVERIFIED"
+  },
+  "priorAwakeDecksEvidence": "docs/validation/C1-C2-awake-results.json",
+  "sourcePackageVerification": {
+    "head": "f930af9152516ed97c0a52d38061a22b4e62db5d",
+    "runtimeRevision": "e93bf138cddccc9fb6d992a819040a646ce9f7ea",
+    "files": [
+      {
+        "path": "Builds\\Windows\\Coronach.exe",
+        "sha256": "16726F6BC281A100105AE80F982A21A9332C870340BCD2E1D89BD82B76DD33C7",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Combat.dll",
+        "sha256": "49CBDE694A3A54E9665D7796D7D8950227BABCF4F1F0F87522DD92C980494627",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Core.dll",
+        "sha256": "935830655FE618CF5A9CF02B97C7611F344D5DE81FA5C07CA7F0EF838CEC5CDD",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Data.dll",
+        "sha256": "D68706D18714C60F57ED4063F065C56A2A363372871A452A358261A647B2B792",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Dialogue.dll",
+        "sha256": "F859867B71C85E495FB5B05337A8D062AB46CDAF270F0AE3780E60BC6862A5FA",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.Rpg.dll",
+        "sha256": "07F6714853C567C2BA23F432625E2FB0BC699E5FE863D172434D52A4358A15BA",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.UI.dll",
+        "sha256": "B0AF41F8811835629182C736CDA822B888F8249070C8E1761985D51E347FB332",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\Managed\\Lattice.World.dll",
+        "sha256": "2C2A7C1EA680E56A74609AFB15687E3E01911A2381074D94BEF33A9CA83F265D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\app.info",
+        "sha256": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\boot.config",
+        "sha256": "9C7B12A8765AAF48542A6DCA15D27949F3023E002585A5E5162C3A6FC47411A5",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\globalgamemanagers",
+        "sha256": "F68F21C1944DD0A51F7B7CFAEC1DD927AE0BCF6BE912426306F5EF8DAB111C11",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\globalgamemanagers.assets",
+        "sha256": "CDAF4EBD3B0DE335807E33B9D092CBC4766D7E239E6601EB6FEF04008808EE55",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\globalgamemanagers.assets.resS",
+        "sha256": "26B24BBD0BDB7017ECBAC3B829C0ED7C4848BC343AF5702E96EBDB75A7258B04",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level0",
+        "sha256": "DE0F834916A4A228323AE92675B89429E50AB05454154FBFB8FD755D101080EC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level1",
+        "sha256": "1D9A4F0CE72F7A3562AF942B6C73B7627FBA8A798D5C7E852D20C4920823EB06",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level10",
+        "sha256": "BDF3D5BF07975069A61132B9CE4FFBB5E7F36444FE933B6792625BA8742C9916",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level2",
+        "sha256": "BCA9BBB0660DFFC1719EB7E378A93A898579FE6C85F9EFFA07B88EEAD434C55B",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level2.resS",
+        "sha256": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level3",
+        "sha256": "30B4911AAFBC6DC6C8EC0368E583945B5C48FB118FEB166603B1282EDD24967A",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level4",
+        "sha256": "ABAE3DE84ADFB641523F1FF3B435113F78BCACEC59C046150C43A1D23CADA1CF",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level4.resS",
+        "sha256": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level5",
+        "sha256": "82777E3599EF349ECAA6DDF540F33F6618BDC4D17D042F66E76070DD9A537DF4",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level5.resS",
+        "sha256": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level6",
+        "sha256": "455DF17D23AA4AA112734E38A1276CC864633491B8843CEF319A0BE0FAE22965",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level6.resS",
+        "sha256": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level7",
+        "sha256": "8326041393B6D9922B1428E2A63B6A78F8CD1BE864A377B895B2B0BA76F40573",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level8",
+        "sha256": "A3D3DC60106D6B8E322BB7DCB3FA9C3E4E234D12618946F34D41CFF867D51C8E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level9",
+        "sha256": "024548119DBB76CE3CDAB65D387D6DBB21F20A000F86749E14486AFE736E1549",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\level9.resS",
+        "sha256": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\resources.assets",
+        "sha256": "4FB7E7EC8308C401F2F714B042DECD80F1BE68D670A9C6BC8E2D2BD1EB23F264",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\resources.assets.resS",
+        "sha256": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\resources.resource",
+        "sha256": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\RuntimeInitializeOnLoads.json",
+        "sha256": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\ScriptingAssemblies.json",
+        "sha256": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets0.assets",
+        "sha256": "5F36DA98B7012B0D67EC65D23436A1081836D43243724040B234E00F8EDB5AC4",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets0.assets.resS",
+        "sha256": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets1.assets",
+        "sha256": "121D318C433A64AC83CD859539E8FEC3F5DD810D324F81A93C3D88D6D991F046",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets10.assets",
+        "sha256": "21D52D1680AAFD12532AADAA90427DD767ED25E21FB83B5B723EC84F5CA56F21",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets10.assets.resS",
+        "sha256": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets2.assets",
+        "sha256": "65D8A361D32E341452E95A515FCEAB6A9174E730C333F2033D310C87CDF0AFF1",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets2.assets.resS",
+        "sha256": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets3.assets",
+        "sha256": "717CD3927057883D54CEEFA4211C0608B26C774D347237DA452685F6F4098892",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets3.assets.resS",
+        "sha256": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets4.assets",
+        "sha256": "83BA279EF9098746B18EBD654AF415371D49CC83E301CC744E01FC1A1CCEC7E3",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets4.assets.resS",
+        "sha256": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets5.assets",
+        "sha256": "D427BB16C54A347E7EDE8D1A93786EAAA30B332C50DFB9DA7A2F95C3B739F643",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets5.assets.resS",
+        "sha256": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets6.assets",
+        "sha256": "F1186FE040541C1EAC6AEB61CB1E7A400CDB97519CC03C58888B240E27D8066D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets6.assets.resS",
+        "sha256": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets7.assets",
+        "sha256": "52A1246772673167493077F17510AE3FCE7B4968D6CCCF005D5270B1FCA4E4DC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets7.assets.resS",
+        "sha256": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets8.assets",
+        "sha256": "F74FB80D3709A3626D9BC32AEAFDBA6A7DD8AE8BF99AB3E8D3EA86CBAF1C897A",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\Windows\\Coronach_Data\\sharedassets9.assets",
+        "sha256": "3FFD057BC64A1B4A8E7DDE98302A9659828294E3EDEF34F39F91950DD6783C8E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach.exe",
+        "sha256": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Combat.dll",
+        "sha256": "FB5F4BF74AB57980BD244F9643924AD5DA4003ECAF6917830869185440B94D66",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Core.dll",
+        "sha256": "BAE5E15C85C21958370B17BE681DEA5A0ABA8C848595F5FFED67979358C3AE3F",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Data.dll",
+        "sha256": "697B8FEA14157CB62AFBA7CAA88DA1EB3E74239C08AC902CD2FA6130F937D123",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Dialogue.dll",
+        "sha256": "F10054883249AC053C08F0D4614C1BAD9C66EF6A529CB4D25C4C70C19C276D74",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.Rpg.dll",
+        "sha256": "2BC705A87C83E73F0E84E1B28E3F667F48C40A34BED6E6F326652C9986122D69",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.UI.dll",
+        "sha256": "1E5F0C816ACEF98275F612E9FA8D2607A58678E769FF9EC00ECBD4137E4669FD",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\Managed\\Lattice.World.dll",
+        "sha256": "2EC3F8C7ABD0770DA0C4EAE1AA52089E78D11CBE488EE764DBC9E06383732BB4",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\app.info",
+        "sha256": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\boot.config",
+        "sha256": "2438432EC96FFF853AFC088D1E4AB1A86ABE00715AF3812B9A5B19B4EABB0FD8",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\globalgamemanagers",
+        "sha256": "F34B2A9860122391DCC297ED72210A27EA19E831DA47002331BA2CCF1D3813E3",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\globalgamemanagers.assets",
+        "sha256": "AC4D13C6621C14D62BDA9843DD4EAE826E9FB9C616EE71CF14C05C699D9B5B2D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\globalgamemanagers.assets.resS",
+        "sha256": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level0",
+        "sha256": "774E9550535820873E21D135B6594FCD2439B23ACED28671E67CABABFD630437",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level1",
+        "sha256": "AD67125B7347CA04022246BF23545158D6D7662639ABEA3AFB6FEF807B2D0A54",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level10",
+        "sha256": "68E47386A0731D5BBF9B6B1EE90E6758CBF925D6F369CCFD5923EE090856ACE0",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level2",
+        "sha256": "A8120D9119E9175189497B957959B60493AEC644990FB540FC22FECAC9EF52DB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level2.resS",
+        "sha256": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level3",
+        "sha256": "27CA5568B7471FD88522EB9381C59FB375A2BFA2989B5548046471773403CCEB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level4",
+        "sha256": "BEE503A36ED6F1EB5915F42E0B785F1E3013EFBD1816C6FDC1774C2E988941C2",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level4.resS",
+        "sha256": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level5",
+        "sha256": "63841432149E63DFE4BB1C987D15F955F16603165EFF32959D29357F8109969F",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level5.resS",
+        "sha256": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level6",
+        "sha256": "7EACAC05AEDD3235933FDB402D7F4FC271D8D1B7F5C1C4CD8F2D23EC393E699C",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level6.resS",
+        "sha256": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level7",
+        "sha256": "1B41ED2674ADCE06498DBD4CB955C20C621D9DBF3E36A1AE62F6761D2A3CE718",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level8",
+        "sha256": "E2321F879705B1C7D9479573970403D712F1C9E329002580C80DA6E1F6D45C1E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level9",
+        "sha256": "A45774ACC2820F3B9A2E2276D6C75F124E3A2E3EA038E60A82FB0FD19A52A393",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\level9.resS",
+        "sha256": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\resources.assets",
+        "sha256": "32C6C13223F169C29F64EE094355C71E8AA37EFB0C32B131E2433B941A1A1F4E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\resources.assets.resS",
+        "sha256": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\resources.resource",
+        "sha256": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\RuntimeInitializeOnLoads.json",
+        "sha256": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\ScriptingAssemblies.json",
+        "sha256": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets0.assets",
+        "sha256": "F6820ED74DB1E9C4A1A39009C07E069ECC7B610C13EAF951C9A8CC0FC21A7C47",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets0.assets.resS",
+        "sha256": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets1.assets",
+        "sha256": "727E934AE619FFA0DB759CBAD7D583A9D434E7E5466AB08D433F817AC791114E",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets10.assets",
+        "sha256": "6716FE4AEF6AD20871059AB2016E7C40F798236B9B40F3FEA2F42221653A4F41",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets10.assets.resS",
+        "sha256": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets2.assets",
+        "sha256": "9B4D3D07CBADFFA90744ADFFC7F8BD2F2D9BC3393535F5E664C12B1A948B55EE",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets2.assets.resS",
+        "sha256": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets3.assets",
+        "sha256": "B6725D018B001CF6667DACAA4828E890472610C5F6727F7A4E1E0041854AC631",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets3.assets.resS",
+        "sha256": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets4.assets",
+        "sha256": "23F00F59B54BF5A9466F287FA646227AAFBD476B5CC903A3337120C229AB5E88",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets4.assets.resS",
+        "sha256": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets5.assets",
+        "sha256": "C885D77CE1312FD7C1D5142D24ACE752069AB07412642350C5D14A5AE7317012",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets5.assets.resS",
+        "sha256": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets6.assets",
+        "sha256": "801768E4378F3C89CB2F8DB6657729894C15CC8F3FEE8E98AAE781EFC85C3F62",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets6.assets.resS",
+        "sha256": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets7.assets",
+        "sha256": "A5D935351879889059ED91C14849229DBC11A7B66B67D3863C682121404FBA78",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets7.assets.resS",
+        "sha256": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets8.assets",
+        "sha256": "C9FDEB621F592FB0C91E4D4BA2234040B0BA2335C52715D33735A539CD7BD08D",
+        "matchesPreviousCapture": true
+      },
+      {
+        "path": "Builds\\WindowsDev\\Coronach_Data\\sharedassets9.assets",
+        "sha256": "85615518F8423A9C88A37397B8F9F53C849C7FF68814069427B1352041746B7F",
+        "matchesPreviousCapture": true
+      }
+    ],
+    "runtimeSource": {
+      "committedRuntimeRevision": "e93bf138cddccc9fb6d992a819040a646ce9f7ea",
+      "candidate": 45,
+      "note": "Captured source was based on dirty 8685dca. Runtime contents match this commit after Git line-ending normalization. Capture manifests remain unchanged.",
+      "files": [
+        {
+          "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+          "capturedWorkingSha256": "4f2f6cf78ca133bd00ac9b2354d151e82ab1f7cf3b4f88c7d41929cb5aadf897",
+          "normalizedCommittedSha256": "b317e50038b193438eaf013110069c0929ce86eb6a046e9bdb94bb26e50d3d9a",
+          "matches": true
+        },
+        {
+          "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+          "capturedWorkingSha256": "6d88898189177967ba5f36f68ab286e603363f9aa7a69fd0d8368162c0a16f0e",
+          "normalizedCommittedSha256": "399352f6c0aebf05362a5e9aed64c5fc74e9376a94793d7491c0a70189b95c03",
+          "matches": true
+        },
+        {
+          "path": "Lattice/Assets/_Project/Scripts/Combat/GroundStrideProfile.cs",
+          "capturedWorkingSha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af",
+          "normalizedCommittedSha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af",
+          "matches": true
+        }
+      ]
+    }
+  },
+  "runs": [
+    {
+      "name": "tallow-release-first-warm-02",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 14425,
+        "seconds": 240.403624,
+        "distance": 287.21881767521853,
+        "medianMs": 16.6632,
+        "p95Ms": 17.0326,
+        "p99Ms": 17.1623,
+        "worstMs": 19.5761,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 11,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 1,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.105943499999999,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 14425,
+      "inputResponseMaxMs": 3.248400000003926,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "failures": [],
+          "samples": 7211,
+          "seconds": 120.1671411,
+          "distance": 143.98053258638095,
+          "medianMs": 16.6652,
+          "p95Ms": 17.0315,
+          "p99Ms": 17.1645,
+          "worstMs": 19.5761,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "failures": [],
+          "samples": 7214,
+          "seconds": 120.2364821,
+          "distance": 143.23828508883756,
+          "medianMs": 16.6603,
+          "p95Ms": 17.0338,
+          "p99Ms": 17.1601,
+          "worstMs": 18.5528,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 5,
+          "gcBytesPerFrameMedian": -1
+        }
+      ],
+      "displayBefore": {
+        "utc": "2026-10-07T19:28:40.0495670Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:28:40.0709771Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:28:40.0709771Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:32:57.2810512Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:32:57.2976828Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:32:57.2976828Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/analysis-console.txt",
+          "bytes": 24416,
+          "sha256": "5ca198d5abbccee6788d66a17259617e03e0d26d06e0cc0c3961a39b9aeab316"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/analysis.json",
+          "bytes": 12207,
+          "sha256": "16c30036d44049f6e833ac106c9f5221e02060d9d5ef0fc6008b9c76de4f1f07"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/build.json",
+          "bytes": 14057,
+          "sha256": "d59df72e1904adafd625640aec3dc6b8f5c43a69d5876b2e2d318f13f848823d"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/environment.json",
+          "bytes": 122,
+          "sha256": "74aea157fa09a143a7635b476a4487312a85ed9691d41df026d3a4b8b87bbb44"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/final-state.json",
+          "bytes": 935,
+          "sha256": "9298a23bdaa44b836d58743088b0dd3ac3391c184cb913ef6223888c83642147"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/frame-times.svg",
+          "bytes": 185020,
+          "sha256": "8f7547695014da8689a183cd266b75f4fa1a593e5b2a55d4017cdf74627ade86"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/frames.csv",
+          "bytes": 4326076,
+          "sha256": "7432e8a1f32bb6bed629287154a4e27dceed5aca324ef24fa6683dfb69e0caac"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/player.log",
+          "bytes": 5480,
+          "sha256": "2726de589c72367f2390bd44dd8498df6b2a473fa7d4fd67c7c0f65a0d774d82"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/process.txt",
+          "bytes": 7,
+          "sha256": "b480264ba959fc273801f68f36aeff77509475cf002fe0923344abc95f2a21f6"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/route.json",
+          "bytes": 53286,
+          "sha256": "f0e7d274879152dc6999cb828fda4a807b8f833d5a296252432eba9cd686536c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02/run.json",
+          "bytes": 1245,
+          "sha256": "854076725d86ae62e9ef0e75bdbf8bf16ae28b3c6a1793ebde4bfdb8e310d0e1"
+        }
+      ]
+    },
+    {
+      "name": "tallow-development-first-warm",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 14423,
+        "seconds": 240.367693,
+        "distance": 287.1952258728084,
+        "medianMs": 16.6726,
+        "p95Ms": 17.0402,
+        "p99Ms": 17.1966,
+        "worstMs": 20.4529,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 15,
+        "gcBytesPerFrameMedian": 4598
+      },
+      "settings": {
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 1,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0833024,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 14423,
+      "inputResponseMaxMs": 3.4359999999935553,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "failures": [],
+          "samples": 7212,
+          "seconds": 120.1815505,
+          "distance": 143.9783529138385,
+          "medianMs": 16.6724,
+          "p95Ms": 17.0376,
+          "p99Ms": 17.169,
+          "worstMs": 19.4991,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 8,
+          "gcBytesPerFrameMedian": 4598
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "failures": [],
+          "samples": 7211,
+          "seconds": 120.18614120000001,
+          "distance": 143.2168729589699,
+          "medianMs": 16.6729,
+          "p95Ms": 17.0437,
+          "p99Ms": 17.2114,
+          "worstMs": 20.4529,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 7,
+          "gcBytesPerFrameMedian": 4598
+        }
+      ],
+      "displayBefore": {
+        "utc": "2026-10-07T19:33:11.7846289Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:33:11.8022413Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:33:11.8022413Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:37:28.5030067Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:37:28.5195286Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:37:28.5195286Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/analysis-console.txt",
+          "bytes": 29694,
+          "sha256": "7bd34a814085bc0733dff50d6c51fedb2a76cf5115805baa0180c95015279ae2"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/analysis.json",
+          "bytes": 14846,
+          "sha256": "d4d1b0484b5cf051a0fd0b92f305df3879a11017e01802bfd899e018bd9f4b91"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/available-counters.txt",
+          "bytes": 181702,
+          "sha256": "e073c88b87e0c41bec35bf4e26b6cbbefca25fef91757cb80f42b8a0ed2f8d86"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/build.json",
+          "bytes": 14064,
+          "sha256": "f51ef4f0d961f87cce563c8b166ce17a39e2d5f1d48308fb9f937cbf4ebce160"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/environment.json",
+          "bytes": 122,
+          "sha256": "76d6dcedc4ff1b0ba4e1d64c29a848cc74cbaf7f90fab11f6e578cc7239b14b1"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/final-state.json",
+          "bytes": 939,
+          "sha256": "c367ad023bc8951cf5eb6cfef5936dfb829ba56097405cfbaa450fb7653761a0"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/frame-times.svg",
+          "bytes": 184981,
+          "sha256": "7f411ec91f41e08058fe27ea992901e37dbca188f3020057ea824491093c9782"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/frames.csv",
+          "bytes": 4411885,
+          "sha256": "bd04fbcc7c816b424a8497a4f2ca6e94fead9ef9682d0400e90a28a72c012a6c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/player.log",
+          "bytes": 106862,
+          "sha256": "6b60c65940b3bdb3a96ac3cf9862388ac869fff06bc1cf8217a50b2c42a443f0"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/process.txt",
+          "bytes": 7,
+          "sha256": "4b291d45ba26432561f1a9eb19c337862b75b460dbd4acb6c89c0b336bd1aa98"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/route.json",
+          "bytes": 53286,
+          "sha256": "f0e7d274879152dc6999cb828fda4a807b8f833d5a296252432eba9cd686536c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm/run.json",
+          "bytes": 1249,
+          "sha256": "e36397b65ea0ec77b8f1252b32a4e73f20e4b6694b4a5eafb452f6e16d46ef06"
+        }
+      ]
+    },
+    {
+      "name": "decks-release-headroom",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "gpuWorkNs: impossible frame duration; counter evidence rejected",
+          "FrameTimingManager: impossible frame duration; API evidence rejected",
+          "GPU source agreement rejected; retain both raw sources"
+        ],
+        "samples": 73807,
+        "seconds": 124.531728,
+        "distance": 225.7917874902513,
+        "medianMs": 1.6992,
+        "p95Ms": 2.1001,
+        "p99Ms": 2.2888,
+        "worstMs": 9.9472,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 47,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 0,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": true,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1058338000000005,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 73807,
+      "inputResponseMaxMs": 7.7234000000032665,
+      "segments": [],
+      "displayBefore": {
+        "utc": "2026-10-07T19:37:36.1308801Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:37:36.1453579Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:37:36.1453579Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:39:57.6166440Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:39:57.6362870Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:39:57.6362870Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/analysis-console.txt",
+          "bytes": 10716,
+          "sha256": "c162bc1f56eecaa6c985f33b8e723e41c1b111da62031d04230a87010df10e04"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/analysis.json",
+          "bytes": 5357,
+          "sha256": "a4b7e4297595369a01b30df76cd01fbb58473b2f3502a873852a34ee80043ea5"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/build.json",
+          "bytes": 14080,
+          "sha256": "561908793ac8fa0aef7dc3e6c85e6961f5bc9e32cdd912677b6aac7afb611694"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/environment.json",
+          "bytes": 122,
+          "sha256": "29b90a618405edf50fb76b0d30f8d17150e06de2c1e245601345860df3b8fe2b"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/final-state.json",
+          "bytes": 1030,
+          "sha256": "1ab8c6b5f9204c299d5861f00f9c12d46d68caffd58634cf2d56e034ab8628c8"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/frame-times.svg",
+          "bytes": 913217,
+          "sha256": "ae9394b55543bcce29c8a268a4530a906df892735ed8f40eac77816c3d3cf03c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/frames.csv",
+          "bytes": 23519327,
+          "sha256": "b0abb415d3aefe939fc81cb7340c0292e018b53a7f4dd29cbbe780256087f440"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/player.log",
+          "bytes": 4435,
+          "sha256": "e0dacc8404738b84dba94e73de3e8e16cf6b475b30c7f2ba9c6b36eed50b7ddd"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/process.txt",
+          "bytes": 7,
+          "sha256": "d1d5bd4c9c95b7fb7e0a4f9cbe1cb0eea7f4983392cf7ee029988eaf4509c3d5"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/route.json",
+          "bytes": 29471,
+          "sha256": "a6c659b8605909191d5d07208ea3da6b349cba000a643a9f2dfc302da2f77ee7"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom/run.json",
+          "bytes": 1475,
+          "sha256": "8bf594edb9d2b3df9a1c6d25117ea5becde2bbe43660083ef2a67423e5707fa8"
+        }
+      ],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 73806,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 0.8814,
+          "p99Ms": 1.0234,
+          "worstMs": 9.2865,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 73806,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.9645,
+          "p99Ms": 2.064099,
+          "worstMs": 2.3701,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 71967,
+          "unavailableOrPendingSamples": 1840,
+          "p95Ms": 1.901056,
+          "p99Ms": 2.011648,
+          "worstMs": 1791401928741.8733,
+          "impossibleSamples": [
+            {
+              "elapsed": 56.7246,
+              "nanoseconds": 1791401928741873408
+            }
+          ]
+        }
+      },
+      "frameTimingApi": {
+        "samples": 71968,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1839,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 56.723196,
+            "milliseconds": 1791401928741.87,
+            "timestamp": 19317590726837
+          }
+        ],
+        "p95Ms": 1.901056,
+        "p99Ms": 2.011648,
+        "worstMs": 1791401928741.87
+      },
+      "gpuComparison": {
+        "status": "DISAGREEMENT_OR_INVALID",
+        "profilerP95Ms": 1.901056,
+        "apiP95Ms": 1.901056,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      }
+    },
+    {
+      "name": "decks-development-headroom",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 71443,
+        "seconds": 124.528938,
+        "distance": 225.82509435928134,
+        "medianMs": 1.7544,
+        "p95Ms": 2.1562,
+        "p99Ms": 2.3232,
+        "worstMs": 10.2213,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 59,
+        "gcBytesPerFrameMedian": 4600
+      },
+      "settings": {
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 0,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": true,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1022577000000005,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 71443,
+      "inputResponseMaxMs": 8.699800000002256,
+      "segments": [],
+      "displayBefore": {
+        "utc": "2026-10-07T19:40:15.0948145Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:40:15.1113999Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:40:15.1113999Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:42:36.2625539Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:42:36.2799903Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "2026-10-07T19:42:36.2799903Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/analysis-console.txt",
+          "bytes": 10924,
+          "sha256": "2679be6f8013c04576dcef8e878f4c1c4fca4d17c10cee559e413ac33d95c4e1"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/analysis.json",
+          "bytes": 5461,
+          "sha256": "6061e64e22c3fe42ce2892461e990bcc9ce447d617e0be2e26176292b45749a1"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/available-counters.txt",
+          "bytes": 181702,
+          "sha256": "d010239581bfd283ea90824264cea8ab8eea0b04b0a27e43facd919257688c3c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/build.json",
+          "bytes": 14096,
+          "sha256": "852dce75f4b47e255a9b831d7d258c17f0316cf22d5ca68d6012e0859ad423b2"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/environment.json",
+          "bytes": 122,
+          "sha256": "4d78d1aa11685749b7fd4bb57ec246537d6061d27dd7b3389b5781c0ee2f3115"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/final-state.json",
+          "bytes": 1034,
+          "sha256": "6c457489b66b286c3139f4edd61884ec6f7513f287daa046694807691382ed4b"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/frame-times.svg",
+          "bytes": 884061,
+          "sha256": "95b0271f0032da40936f6dc6c5f932d666dab44fc6d445ef4e31ae0209e23d99"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/frames.csv",
+          "bytes": 23281867,
+          "sha256": "42ed7ace19d44306dac689794ab486cb9b8308dcb34979ad255011e9ef9c65fc"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/player.log",
+          "bytes": 74714,
+          "sha256": "146462c7353922c5d13c0a3b71f667dba2bb2918984f12d54053c12913085a06"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/process.txt",
+          "bytes": 7,
+          "sha256": "347f9963e22da7a017c451e627f5a9332350a5e1ce5d6ffea73029bd2183d04c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/route.json",
+          "bytes": 29471,
+          "sha256": "a6c659b8605909191d5d07208ea3da6b349cba000a643a9f2dfc302da2f77ee7"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom/run.json",
+          "bytes": 1469,
+          "sha256": "2c1188435306a006d85a2d4caa1786021206323447aff39ebbb628a4966b46bb"
+        }
+      ],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 71442,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.1075,
+          "p99Ms": 1.2498,
+          "worstMs": 9.8722,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 71442,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 2.0133,
+          "p99Ms": 2.1054,
+          "worstMs": 2.5228,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 70173,
+          "unavailableOrPendingSamples": 1270,
+          "p95Ms": 1.969408,
+          "p99Ms": 2.082304,
+          "worstMs": 3.128064,
+          "impossibleSamples": []
+        }
+      },
+      "frameTimingApi": {
+        "samples": 70174,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1269,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 1.969408,
+        "p99Ms": 2.082304,
+        "worstMs": 3.128064
+      },
+      "gpuComparison": {
+        "status": "AGREE",
+        "profilerP95Ms": 1.969408,
+        "apiP95Ms": 1.969408,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      }
+    },
+    {
+      "name": "decks-release-headroom-repeat",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 73855,
+        "seconds": 124.527307,
+        "distance": 225.79699044990141,
+        "medianMs": 1.6975,
+        "p95Ms": 2.0933,
+        "p99Ms": 2.2729,
+        "worstMs": 10.5601,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 47,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 0,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": true,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0816010999999994,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 73855,
+      "inputResponseMaxMs": 7.9073999999934586,
+      "segments": [],
+      "displayBefore": {
+        "utc": "2026-10-07T19:42:46.6994709Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:42:46.7173562Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:42:46.7173562Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:45:08.2792767Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:45:08.2967435Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:45:08.2967435Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/analysis-console.txt",
+          "bytes": 9742,
+          "sha256": "4964e986e7a97330fdc19643ae0e2e5a1db54318e15913061f696c982da50d17"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/analysis.json",
+          "bytes": 4870,
+          "sha256": "59057c39a5055fec32b3e4d414858a681d5a39998f8efb9f675654880b340487"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/build.json",
+          "bytes": 14101,
+          "sha256": "ed43dec78f24e85b200b89c054ce1e90ddb6d01d33a7ae36a7dc8b1ded9e3bbe"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/environment.json",
+          "bytes": 122,
+          "sha256": "96e72fb39d6e32a4eedc0f14af819904810606169eeab3c3f1c1e014e85da1e5"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/final-state.json",
+          "bytes": 1032,
+          "sha256": "a9d02ba3cc19a37e366bb3049d9f31ca46cf7d582b66d768aa27ac8c0a44862c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/frame-times.svg",
+          "bytes": 913772,
+          "sha256": "c491f92cf602bd005c7e29e34d3233e6e00e11ffe178a9b1b872e846c0c70942"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/frames.csv",
+          "bytes": 23535292,
+          "sha256": "77a6e19b40fa5dcfb6105df4a7b084793b5eb74bea0507ad5003ec86cb6cd0d0"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/player.log",
+          "bytes": 4435,
+          "sha256": "78a367b5f56d2a32b69f9351c7f18d6ccfaf83ef31e961ff2b6a8faa40620aed"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/process.txt",
+          "bytes": 7,
+          "sha256": "68b3bead0c69c5cee4f9e8f339eac9a4a364895b3863f4ef1f377fe9dab9deba"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/route.json",
+          "bytes": 29471,
+          "sha256": "a6c659b8605909191d5d07208ea3da6b349cba000a643a9f2dfc302da2f77ee7"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat/run.json",
+          "bytes": 1459,
+          "sha256": "b82d8a9342f4092b2dd3408f22a0b9ac50969e2df1b6a33d1c29ee72b1132709"
+        }
+      ],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 73854,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 0.8744,
+          "p99Ms": 1.0179,
+          "worstMs": 10.5455,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 73854,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.9602,
+          "p99Ms": 2.055699,
+          "worstMs": 3.7752,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 72043,
+          "unavailableOrPendingSamples": 1812,
+          "p95Ms": 1.894912,
+          "p99Ms": 2.006527,
+          "worstMs": 4.639744,
+          "impossibleSamples": []
+        }
+      },
+      "frameTimingApi": {
+        "samples": 72044,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1811,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 1.894912,
+        "p99Ms": 2.006784,
+        "worstMs": 4.639744
+      },
+      "gpuComparison": {
+        "status": "AGREE",
+        "profilerP95Ms": 1.894912,
+        "apiP95Ms": 1.894912,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      }
+    },
+    {
+      "name": "tallow-release-headroom",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 97104,
+        "seconds": 120.018469,
+        "distance": 143.80229048658572,
+        "medianMs": 1.2175,
+        "p95Ms": 1.4805,
+        "p99Ms": 1.6196,
+        "worstMs": 10.8174,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 56,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 0,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": true,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1208156000000002,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 97104,
+      "inputResponseMaxMs": 2.860399999988772,
+      "segments": [],
+      "displayBefore": {
+        "utc": "2026-10-07T19:45:16.6468781Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:45:16.6639977Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:45:16.6639977Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:47:33.9862820Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:47:34.0059962Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:47:34.0059962Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/analysis-console.txt",
+          "bytes": 9084,
+          "sha256": "47e1341091407cf9a6cf2584bace84fe80f7129a0f6258c2e0dbcfe94709afdb"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/analysis.json",
+          "bytes": 4541,
+          "sha256": "bc6c0420f46b87ec6d53dae1e6f4baf7af0469061be5061781de55ff1f614fa9"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/build.json",
+          "bytes": 14084,
+          "sha256": "ccce4d1bffd741373270f3f8ab20367a5db28d03f22584a148bbfaeb261caba7"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/environment.json",
+          "bytes": 122,
+          "sha256": "c3f1aa69d3c849785cfd90448a48c5f34f02933713bbea99e0543019c048aa0d"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/final-state.json",
+          "bytes": 931,
+          "sha256": "87974a77ff35fffd9c3442254b50a2edc30ac9e41dcd7b4d2ab0083a58b1a2cb"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/frame-times.svg",
+          "bytes": 1199226,
+          "sha256": "8430c786488757e49855cb027feea4570679e620daa084ad1eaaebd44600cfd3"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/frames.csv",
+          "bytes": 31081669,
+          "sha256": "04871356eae38392d69ce478edbaa5686f1cd2674d69013c184e9eae6b7f5757"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/player.log",
+          "bytes": 4112,
+          "sha256": "a76bfa03117560dd1bddd7968f4a6bf037e4cd60713a5379a32c0dbd21ff63ac"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/process.txt",
+          "bytes": 7,
+          "sha256": "4afc4cb057c4005174787499ef8e94354db5078b716b9e28f34f4e10b4ba6f62"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/route.json",
+          "bytes": 26685,
+          "sha256": "6ea873ecba7ddc81891cd793047dc5f59023d92fa7ce347c1a27797f2733752c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom/run.json",
+          "bytes": 1125,
+          "sha256": "8fb171dfe71fbc72348dfb0db85975248d1cf7acf1c54940dadac93d4ba352c4"
+        }
+      ],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 97103,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 0.7725,
+          "p99Ms": 0.8809,
+          "worstMs": 10.4704,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 97103,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.3284,
+          "p99Ms": 1.4007,
+          "worstMs": 2.0013,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 94632,
+          "unavailableOrPendingSamples": 2472,
+          "p95Ms": 1.272832,
+          "p99Ms": 1.381632,
+          "worstMs": 3.090688,
+          "impossibleSamples": []
+        }
+      },
+      "frameTimingApi": {
+        "samples": 94633,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 2471,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "p95Ms": 1.272832,
+        "p99Ms": 1.381632,
+        "worstMs": 3.090688
+      },
+      "gpuComparison": {
+        "status": "AGREE",
+        "profilerP95Ms": 1.272832,
+        "apiP95Ms": 1.272832,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      }
+    },
+    {
+      "name": "tallow-development-headroom",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "gpuWorkNs: impossible frame duration; counter evidence rejected",
+          "FrameTimingManager: impossible frame duration; API evidence rejected",
+          "GPU source agreement rejected; retain both raw sources"
+        ],
+        "samples": 92740,
+        "seconds": 120.015076,
+        "distance": 143.81457393279032,
+        "medianMs": 1.2741,
+        "p95Ms": 1.5395,
+        "p99Ms": 1.6779,
+        "worstMs": 11.9883,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 69,
+        "gcBytesPerFrameMedian": 4584
+      },
+      "settings": {
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 0,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": true,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.0864181999999998,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 92740,
+      "inputResponseMaxMs": 2.8207999999949607,
+      "segments": [],
+      "displayBefore": {
+        "utc": "2026-10-07T19:47:47.4791753Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:47:47.4949318Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:47:47.4949318Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:50:04.5191644Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:50:04.5327080Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "2026-10-07T19:50:04.5327080Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/analysis-console.txt",
+          "bytes": 11288,
+          "sha256": "3a99dbc96c75e6bbbded6b741f24bf263dbb3ed8bdf6b87ff56eeaf774a98777"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/analysis.json",
+          "bytes": 5643,
+          "sha256": "70f4dee262ba65e34841cdea04d7f3db601ac659b0221e8b119d9611f137d3f6"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/available-counters.txt",
+          "bytes": 181702,
+          "sha256": "cac428503de6fa2b468d2a7c11a6ca8084021b7481dd7435e2ad4623bb3f984c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/build.json",
+          "bytes": 14100,
+          "sha256": "a4cd1235df01e016c7eb2f46ee606ccc39c51658e021b8aba504878cd0751165"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/environment.json",
+          "bytes": 122,
+          "sha256": "580111c772b6be4c99f6a4c2050884f4c5a76b144c4f757476dc022d98ff8ae3"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/final-state.json",
+          "bytes": 935,
+          "sha256": "636439215b4efcba95bce7be6d614ecfe0d66e023fea5f74f99c30c5af649b33"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/frame-times.svg",
+          "bytes": 1145617,
+          "sha256": "f534787d9666732fa11c4a2c1b3a6f379109e15037bd6da96ff6ed03ccdc5015"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/frames.csv",
+          "bytes": 30260210,
+          "sha256": "ffe4015fa451511b6c3cdf3d9846f8d0ae17e5c4ced078e474c885607e5d13d5"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/player.log",
+          "bytes": 65000,
+          "sha256": "56950b39678ac22beeea72d4525f1ac41fa77f3f1ba142741f39053f43236559"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/process.txt",
+          "bytes": 7,
+          "sha256": "1edc56b7bacdfc6d447c308decd97cdc2c029ddfec7be3748a776174b2ee43d5"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/route.json",
+          "bytes": 26685,
+          "sha256": "6ea873ecba7ddc81891cd793047dc5f59023d92fa7ce347c1a27797f2733752c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom/run.json",
+          "bytes": 1122,
+          "sha256": "7d7c93e6ad394af94603394122dd485605bdf73ef77b797be8767a9a0787c5c1"
+        }
+      ],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 92739,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.0275,
+          "p99Ms": 1.1529,
+          "worstMs": 11.7477,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 92739,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.3728,
+          "p99Ms": 1.4433,
+          "worstMs": 1.8264,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 90918,
+          "unavailableOrPendingSamples": 1822,
+          "p95Ms": 1.327104,
+          "p99Ms": 1.436416,
+          "worstMs": 1791402511957.9968,
+          "impossibleSamples": [
+            {
+              "elapsed": 28.48564,
+              "nanoseconds": 1791402511957996800
+            }
+          ]
+        }
+      },
+      "frameTimingApi": {
+        "samples": 90919,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1821,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 28.484444,
+            "milliseconds": 1791402511958.0,
+            "timestamp": 19323423057898
+          }
+        ],
+        "p95Ms": 1.32736,
+        "p99Ms": 1.436416,
+        "worstMs": 1791402511958.0
+      },
+      "gpuComparison": {
+        "status": "DISAGREEMENT_OR_INVALID",
+        "profilerP95Ms": 1.327104,
+        "apiP95Ms": 1.32736,
+        "differenceMs": 0.000256000000000034,
+        "toleranceMs": 0.25
+      }
+    },
+    {
+      "name": "tallow-development-headroom-repeat",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "gpuWorkNs: impossible frame duration; counter evidence rejected",
+          "FrameTimingManager: impossible frame duration; API evidence rejected",
+          "GPU source agreement rejected; retain both raw sources"
+        ],
+        "samples": 92595,
+        "seconds": 120.017681,
+        "distance": 143.80145507925909,
+        "medianMs": 1.2762,
+        "p95Ms": 1.5391,
+        "p99Ms": 1.6763,
+        "worstMs": 11.6795,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 69,
+        "gcBytesPerFrameMedian": 4548
+      },
+      "settings": {
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 0,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": true,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1355348999999997,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 92595,
+      "inputResponseMaxMs": 2.887799999996332,
+      "segments": [],
+      "displayBefore": {
+        "utc": "2026-10-07T19:50:35.6456236Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:50:35.6636292Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "2026-10-07T19:50:35.6636292Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T19:52:52.8632440Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:52:52.8802433Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:52:52.8802433Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/analysis-console.txt",
+          "bytes": 11286,
+          "sha256": "eedba73d42b4d4bfb25a40926380551925e8d46be27b4b9223be190ec8e6c52d"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/analysis.json",
+          "bytes": 5642,
+          "sha256": "c93ef03c25275b923be6e0c77c05bd5293a094b6cc4870abfc428681e3ec5128"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/available-counters.txt",
+          "bytes": 181702,
+          "sha256": "12ab90101d05acf0df0a61ebbe3027dbf2ad896d56e396c0606fd2ad02cda872"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/build.json",
+          "bytes": 14121,
+          "sha256": "0a3936cafa2daced0634494e4ecbf443d4ce5f67299f3dc5a20a0cbb1a04d8ad"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/environment.json",
+          "bytes": 122,
+          "sha256": "5a5b357dc9f892518c1e3f40454603dc058b19d8cb7ad35e6b4902ab69309d07"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/final-state.json",
+          "bytes": 933,
+          "sha256": "58454d0df4fa9d48688d37191cf400a10312630612428f215d1f05dc7aff61fa"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/frame-times.svg",
+          "bytes": 1143676,
+          "sha256": "01bed95e33663323c38897e28d8fe851b75a7fb4b59fb747cd03e4f6eafcc3ff"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/frames.csv",
+          "bytes": 30211271,
+          "sha256": "c0cf8301126840d61d920c487c758dc24c243e0ff2583968097fbe7fb8b00df3"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/player.log",
+          "bytes": 65000,
+          "sha256": "3c9ea6c4d35316a50d4f14ce9e082500160b3cadeb105fae4b4a0877b6dbb59c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/process.txt",
+          "bytes": 7,
+          "sha256": "d5fe136b30e80dd7a61d4d0284a5be1b2e0261d038da72923479ba47edd0ed46"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/route.json",
+          "bytes": 26685,
+          "sha256": "6ea873ecba7ddc81891cd793047dc5f59023d92fa7ce347c1a27797f2733752c"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat/run.json",
+          "bytes": 1122,
+          "sha256": "3238c19b0e8f4058ed84653daad67e9ecc04e448eead5c4a89f3912319c1e2fe"
+        }
+      ],
+      "headroomCounters": {
+        "activeCpuNs": {
+          "samples": 92594,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.025099,
+          "p99Ms": 1.1529,
+          "worstMs": 11.5494,
+          "impossibleSamples": []
+        },
+        "activeRenderNs": {
+          "samples": 92594,
+          "unavailableOrPendingSamples": 1,
+          "p95Ms": 1.3738,
+          "p99Ms": 1.4473,
+          "worstMs": 3.9956,
+          "impossibleSamples": []
+        },
+        "gpuWorkNs": {
+          "samples": 90735,
+          "unavailableOrPendingSamples": 1860,
+          "p95Ms": 1.330688,
+          "p99Ms": 1.436672,
+          "worstMs": 1791402763112.806,
+          "impossibleSamples": [
+            {
+              "elapsed": 111.443873,
+              "nanoseconds": 1791402763112805888
+            }
+          ]
+        }
+      },
+      "frameTimingApi": {
+        "samples": 90736,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1859,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 111.442621,
+            "milliseconds": 1791402763112.81,
+            "timestamp": 19325934672121
+          }
+        ],
+        "p95Ms": 1.330688,
+        "p99Ms": 1.436672,
+        "worstMs": 1791402763112.81
+      },
+      "gpuComparison": {
+        "status": "DISAGREEMENT_OR_INVALID",
+        "profilerP95Ms": 1.330688,
+        "apiP95Ms": 1.330688,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      }
+    },
+    {
+      "name": "decks-release-stability",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "warm lap 1: hitch budget exceeded"
+        ],
+        "samples": 37764,
+        "seconds": 629.430615,
+        "distance": 1190.0232358396868,
+        "medianMs": 16.6696,
+        "p95Ms": 17.0446,
+        "p99Ms": 17.1854,
+        "worstMs": 42.5038,
+        "hitches": {
+          "25": 3,
+          "33.3": 2,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 31,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 1,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": true,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1217807000000009,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 37764,
+      "inputResponseMaxMs": 23.312799999999356,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "failures": [],
+          "samples": 7483,
+          "seconds": 124.7008716,
+          "distance": 226.12297470259105,
+          "medianMs": 16.6702,
+          "p95Ms": 17.0424,
+          "p99Ms": 17.1741,
+          "worstMs": 25.4165,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 1",
+          "valid": false,
+          "failures": [
+            "hitch budget exceeded"
+          ],
+          "samples": 7567,
+          "seconds": 126.1533944,
+          "distance": 241.03558531147192,
+          "medianMs": 16.6647,
+          "p95Ms": 17.0586,
+          "p99Ms": 17.1917,
+          "worstMs": 42.5038,
+          "hitches": {
+            "25": 2,
+            "33.3": 2,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 2",
+          "valid": true,
+          "failures": [],
+          "samples": 7569,
+          "seconds": 126.15323719999998,
+          "distance": 240.86941346272087,
+          "medianMs": 16.6685,
+          "p95Ms": 17.0477,
+          "p99Ms": 17.1925,
+          "worstMs": 19.135,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 7,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 3",
+          "valid": true,
+          "failures": [],
+          "samples": 7572,
+          "seconds": 126.20326900000003,
+          "distance": 241.02863839922605,
+          "medianMs": 16.6709,
+          "p95Ms": 17.0308,
+          "p99Ms": 17.1771,
+          "worstMs": 19.0374,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 4",
+          "valid": true,
+          "failures": [],
+          "samples": 7573,
+          "seconds": 126.21984229999998,
+          "distance": 240.96662396367697,
+          "medianMs": 16.6735,
+          "p95Ms": 17.0362,
+          "p99Ms": 17.1782,
+          "worstMs": 18.3359,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        }
+      ],
+      "displayBefore": {
+        "utc": "2026-10-07T19:53:08.7898743Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T19:53:08.8070430Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T19:53:08.8070430Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T20:03:55.2059048Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T20:03:55.2195705Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "2026-10-07T20:03:55.2195705Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/analysis-console.txt",
+          "bytes": 72720,
+          "sha256": "c13a307e22504952e85c0e71a18dd95e8a12abf91adabb032666cc11615d3322"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/analysis.json",
+          "bytes": 36359,
+          "sha256": "eeac5e9c66b78b5e3a0de5046d7ee5ee58673a4b9c0e009478aa2907ed6d6e40"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/build.json",
+          "bytes": 14083,
+          "sha256": "6147652aeaa1f4e5ffa517841cfa92745261e0a88fc2269b9e695f0e8131051e"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/census.csv",
+          "bytes": 5356,
+          "sha256": "2d137ad688edbc41875efd3a13aba620bf83cca8bf608aec51f23035c6545528"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/environment.json",
+          "bytes": 122,
+          "sha256": "1129e64f83e65948e738c91c1fb6e6c93a498071459fcaf7e883f936b38e631a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/final-state.json",
+          "bytes": 1018,
+          "sha256": "5a10397a98f796463a471f7338d39555221f128a03689e88dd611d5a26ae4daa"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/frame-times.svg",
+          "bytes": 483132,
+          "sha256": "e67c884de2128cf180a30d9c3fc14456339145331e426e9ad7cc9b77bcda3c20"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/frames.csv",
+          "bytes": 11261883,
+          "sha256": "ce8a234c3ef68fc7fedabf7a1550eccfb1bf3840d38a6a562bff1f7f83c32b72"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/player.log",
+          "bytes": 11140,
+          "sha256": "877bcb5c71aa960515773b77b67da9e1aadf0a25258b0d644fcea6ad83204fa0"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/process.txt",
+          "bytes": 7,
+          "sha256": "e50fe41262557f314f45e5b96dfd4de24071cec824ee11967bd1c30f9a6cf488"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/route.json",
+          "bytes": 139693,
+          "sha256": "d1ab221ee0255ff6ee69dfad930504b927ba057c5ed8872bc83b19130abc0405"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability/run.json",
+          "bytes": 3523,
+          "sha256": "d266362b488e6b53dbaf769dad2da9be05b79cebcb5348f6bc7b661c7697dfda"
+        }
+      ],
+      "stabilityWindows": [
+        {
+          "startSeconds": 0,
+          "endSeconds": 60,
+          "samples": 3601,
+          "memoryBytes": {
+            "median": 155709787,
+            "maximum": 158652255,
+            "minimum": 153378330,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 1
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 60,
+          "endSeconds": 120,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 155925134,
+            "maximum": 158859181,
+            "minimum": 154111403,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 120,
+          "endSeconds": 180,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156187494,
+            "maximum": 159155929,
+            "minimum": 154523818,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 180,
+          "endSeconds": 240,
+          "samples": 3598,
+          "memoryBytes": {
+            "median": 156060766,
+            "maximum": 158811747,
+            "minimum": 154594641,
+            "validSamples": 3598,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 240,
+          "endSeconds": 300,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156255997,
+            "maximum": 159260891,
+            "minimum": 154705260,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 300,
+          "endSeconds": 360,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156108257,
+            "maximum": 159079305,
+            "minimum": 154789316,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 360,
+          "endSeconds": 420,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156121230,
+            "maximum": 159090125,
+            "minimum": 154164012,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 420,
+          "endSeconds": 480,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 155985899,
+            "maximum": 159132448,
+            "minimum": 154262959,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 480,
+          "endSeconds": 540,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156053377,
+            "maximum": 159218953,
+            "minimum": 154382036,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 540,
+          "endSeconds": 600,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156232715,
+            "maximum": 159223201,
+            "minimum": 154666026,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        }
+      ],
+      "objectSourceCensus": {
+        "valid": true,
+        "failures": [],
+        "windows": [
+          {
+            "startSeconds": 0,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2956,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 4,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 60,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 3,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 120,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 4,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 180,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 3,
+              "median": 4,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 240,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 300,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 3,
+              "median": 4,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 360,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 4,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 420,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 480,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 540,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 3
+            }
+          }
+        ],
+        "worstSamplingMs": 3.1463,
+        "note": "Includes inactive scene objects/sources. Playing sources may each contain multiple one-shot voices. Review growth at comparable warmed route phases; these inventories do not measure the audible mix."
+      },
+      "framesOver25Ms": [
+        {
+          "elapsed": "35.124193",
+          "ms": "25.4165",
+          "step": "9",
+          "scene": "Hub_Decks",
+          "hero": "Taren",
+          "form": "Natural",
+          "state": "Idle",
+          "clip": "Idle",
+          "animationTime": "4.5068",
+          "x": "-0.06122",
+          "y": "0.08000",
+          "z": "1.43725",
+          "cameraX": "-5.21408",
+          "cameraY": "12.61436",
+          "cameraZ": "-12.99734",
+          "forwardX": "0.10815",
+          "forwardZ": "0.99413",
+          "pelvisYaw": "4.060",
+          "chestYaw": "8.742",
+          "reportedSpeed": "0.0000",
+          "integrity": "120.0",
+          "focus": "True",
+          "paused": "False",
+          "blocked": "True",
+          "gameDelta": "0.016667",
+          "gcCollections": "27",
+          "gcBytes": "-1",
+          "mainThreadNs": "16681800",
+          "renderThreadNs": "-1",
+          "batches": "-1",
+          "memoryBytes": "154037037",
+          "dialogueLines": "2",
+          "prompt": "Talk to Mira",
+          "speaker": "Mira",
+          "partnerHealth": "120.0",
+          "partnerState": "Idle",
+          "hudNs": "-1",
+          "hudBytes": "-1",
+          "audioVoices": "-1",
+          "sceneObjects": "-1",
+          "objects": "-1",
+          "activeCpuNs": "-1",
+          "activeRenderNs": "-1",
+          "gpuWorkNs": "-1",
+          "capWaitNs": "-1",
+          "ftmTimestamp": "0",
+          "ftmGpuMs": "-1.000000",
+          "ftmCpuMs": "-1.000000",
+          "ui": "options"
+        },
+        {
+          "elapsed": "192.220123",
+          "ms": "34.1971",
+          "step": "49",
+          "scene": "Hub_Decks",
+          "hero": "Sela",
+          "form": "Natural",
+          "state": "Idle",
+          "clip": "Idle",
+          "animationTime": "4.8957",
+          "x": "0.24551",
+          "y": "0.08000",
+          "z": "21.49529",
+          "cameraX": "-4.39008",
+          "cameraY": "12.61436",
+          "cameraZ": "7.44920",
+          "forwardX": "-0.99982",
+          "forwardZ": "0.01918",
+          "pelvisYaw": "-90.676",
+          "chestYaw": "-94.605",
+          "reportedSpeed": "0.0000",
+          "integrity": "120.0",
+          "focus": "True",
+          "paused": "False",
+          "blocked": "False",
+          "gameDelta": "0.016667",
+          "gcCollections": "34",
+          "gcBytes": "-1",
+          "mainThreadNs": "34430100",
+          "renderThreadNs": "-1",
+          "batches": "-1",
+          "memoryBytes": "157897486",
+          "dialogueLines": "3",
+          "prompt": "",
+          "speaker": "Mira",
+          "partnerHealth": "120.0",
+          "partnerState": "Move",
+          "hudNs": "-1",
+          "hudBytes": "-1",
+          "audioVoices": "-1",
+          "sceneObjects": "-1",
+          "objects": "-1",
+          "activeCpuNs": "-1",
+          "activeRenderNs": "-1",
+          "gpuWorkNs": "-1",
+          "capWaitNs": "-1",
+          "ftmTimestamp": "0",
+          "ftmGpuMs": "-1.000000",
+          "ftmCpuMs": "-1.000000",
+          "ui": "world"
+        },
+        {
+          "elapsed": "192.278790",
+          "ms": "42.5038",
+          "step": "49",
+          "scene": "Hub_Decks",
+          "hero": "Sela",
+          "form": "Natural",
+          "state": "Idle",
+          "clip": "Idle",
+          "animationTime": "0.0600",
+          "x": "0.24551",
+          "y": "0.08000",
+          "z": "21.49529",
+          "cameraX": "-4.41902",
+          "cameraY": "12.61436",
+          "cameraZ": "7.44975",
+          "forwardX": "-0.99982",
+          "forwardZ": "0.01918",
+          "pelvisYaw": "-90.778",
+          "chestYaw": "-86.679",
+          "reportedSpeed": "0.0000",
+          "integrity": "120.0",
+          "focus": "True",
+          "paused": "False",
+          "blocked": "False",
+          "gameDelta": "0.016667",
+          "gcCollections": "34",
+          "gcBytes": "-1",
+          "mainThreadNs": "42816600",
+          "renderThreadNs": "-1",
+          "batches": "-1",
+          "memoryBytes": "157872599",
+          "dialogueLines": "3",
+          "prompt": "",
+          "speaker": "Mira",
+          "partnerHealth": "120.0",
+          "partnerState": "Move",
+          "hudNs": "-1",
+          "hudBytes": "-1",
+          "audioVoices": "-1",
+          "sceneObjects": "-1",
+          "objects": "-1",
+          "activeCpuNs": "-1",
+          "activeRenderNs": "-1",
+          "gpuWorkNs": "-1",
+          "capWaitNs": "-1",
+          "ftmTimestamp": "0",
+          "ftmGpuMs": "-1.000000",
+          "ftmCpuMs": "-1.000000",
+          "ui": "world"
+        }
+      ]
+    },
+    {
+      "name": "tallow-release-stability",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability",
+      "metrics": {
+        "valid": true,
+        "failures": [],
+        "samples": 36058,
+        "seconds": 600.962533,
+        "distance": 717.3613616882855,
+        "medianMs": 16.6676,
+        "p95Ms": 17.0266,
+        "p99Ms": 17.1531,
+        "worstMs": 19.5773,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        },
+        "gcCollections": 29,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 1,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": true,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.1200871999999995,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 36058,
+      "inputResponseMaxMs": 3.3237000000099215,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "failures": [],
+          "samples": 7218,
+          "seconds": 120.2835857,
+          "distance": 144.25023290958435,
+          "medianMs": 16.6698,
+          "p95Ms": 17.02,
+          "p99Ms": 17.1496,
+          "worstMs": 19.5773,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "failures": [],
+          "samples": 7209,
+          "seconds": 120.15308920000001,
+          "distance": 143.29876039152373,
+          "medianMs": 16.666,
+          "p95Ms": 17.0288,
+          "p99Ms": 17.162,
+          "worstMs": 19.0718,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 5,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 2",
+          "valid": true,
+          "failures": [],
+          "samples": 7210,
+          "seconds": 120.16998049999998,
+          "distance": 143.29983493845316,
+          "medianMs": 16.6654,
+          "p95Ms": 17.0265,
+          "p99Ms": 17.1546,
+          "worstMs": 18.91,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 3",
+          "valid": true,
+          "failures": [],
+          "samples": 7210,
+          "seconds": 120.16935099999995,
+          "distance": 143.24729145484957,
+          "medianMs": 16.667,
+          "p95Ms": 17.0297,
+          "p99Ms": 17.1426,
+          "worstMs": 18.8189,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 4",
+          "valid": true,
+          "failures": [],
+          "samples": 7211,
+          "seconds": 120.18652730000002,
+          "distance": 143.26524199387458,
+          "medianMs": 16.6695,
+          "p95Ms": 17.0309,
+          "p99Ms": 17.1538,
+          "worstMs": 19.085,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        }
+      ],
+      "displayBefore": {
+        "utc": "2026-10-07T20:04:27.5533239Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T20:04:27.5695921Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T20:04:27.5695921Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T20:14:45.2379284Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T20:14:45.2591403Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T20:14:45.2591403Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/analysis-console.txt",
+          "bytes": 65606,
+          "sha256": "893167f0053eba587be6580cf4df7f9dabd7d6edef3dd3b4323bea04308b9f20"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/analysis.json",
+          "bytes": 32802,
+          "sha256": "6d452212abf7c6a7e83491e1dd2847b4407fc9ef38baad54775400c620d327bd"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/build.json",
+          "bytes": 14087,
+          "sha256": "71081982768f4dac74474801b1ff8804fe08366938059118af6a7ed1aa127111"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/census.csv",
+          "bytes": 5267,
+          "sha256": "690097d31e63c674fb6b1e79d37765e5c7d7bf5803230b6fb7369b024fc70929"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/environment.json",
+          "bytes": 122,
+          "sha256": "29294e2ac894c88eb7b7318ae1e340369fa34596938008a0faebb1315e3ed0d3"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/final-state.json",
+          "bytes": 923,
+          "sha256": "db3e0699fbe9a47f4fa4983ec93b3a39bd49f8b841ea396a1525d1d4cf5df346"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/frame-times.svg",
+          "bytes": 461347,
+          "sha256": "11f7d305e7712e2048d93be80695065cfaedcd43b8f2b030c2d10fe3d4c79cfb"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/frames.csv",
+          "bytes": 10872185,
+          "sha256": "079f550546ac5dcd161c3cbb74655171ed4c0808a606b6a2079437b985cfae7d"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/player.log",
+          "bytes": 9622,
+          "sha256": "aef7850f6c228b398dabbbd6a29c8d67fc8b01524f476766dc0d1736626e158a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/process.txt",
+          "bytes": 7,
+          "sha256": "af5e05c8641c0cec099f6174b7723c1426052d817c705d2268142cbfca0d5de8"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/route.json",
+          "bytes": 132757,
+          "sha256": "323e32f766907e426b4dcfdee37614a3f417506f192a6a9a612614661aa744bd"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability/run.json",
+          "bytes": 1782,
+          "sha256": "275af20c77e067e03129665c40eca5eae61b4dcbeb59d0945694f56a9a924e0b"
+        }
+      ],
+      "stabilityWindows": [
+        {
+          "startSeconds": 0,
+          "endSeconds": 60,
+          "samples": 3601,
+          "memoryBytes": {
+            "median": 148309988,
+            "maximum": 150878136,
+            "minimum": 146253238,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 1
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 60,
+          "endSeconds": 120,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 148499147,
+            "maximum": 151324958,
+            "minimum": 146611084,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 120,
+          "endSeconds": 180,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148626927,
+            "maximum": 151283332,
+            "minimum": 146785448,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 180,
+          "endSeconds": 240,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148511129,
+            "maximum": 151296531,
+            "minimum": 146919041,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 240,
+          "endSeconds": 300,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148523065,
+            "maximum": 151312584,
+            "minimum": 147025394,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 300,
+          "endSeconds": 360,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148550063,
+            "maximum": 151321725,
+            "minimum": 147113568,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 360,
+          "endSeconds": 420,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148495669,
+            "maximum": 151187761,
+            "minimum": 146560241,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 420,
+          "endSeconds": 480,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148541877,
+            "maximum": 151232714,
+            "minimum": 146575827,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 480,
+          "endSeconds": 540,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148596560,
+            "maximum": 151248637,
+            "minimum": 146645494,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 540,
+          "endSeconds": 600,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 148624597,
+            "maximum": 151235813,
+            "minimum": 146779084,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        }
+      ],
+      "objectSourceCensus": {
+        "valid": true,
+        "failures": [],
+        "windows": [
+          {
+            "startSeconds": 0,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 579,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 4,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 60,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 120,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 180,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 240,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 300,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 360,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 420,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 480,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 540,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 582,
+              "median": 582,
+              "maximum": 582
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          }
+        ],
+        "worstSamplingMs": 0.2042,
+        "note": "Includes inactive scene objects/sources. Playing sources may each contain multiple one-shot voices. Review growth at comparable warmed route phases; these inventories do not measure the audible mix."
+      },
+      "framesOver25Ms": []
+    },
+    {
+      "name": "decks-release-stability-repeat",
+      "folder": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat",
+      "metrics": {
+        "valid": false,
+        "failures": [
+          "warm lap 3: hitch budget exceeded"
+        ],
+        "samples": 37770,
+        "seconds": 629.530738,
+        "distance": 1190.1178599195441,
+        "medianMs": 16.6697,
+        "p95Ms": 17.0374,
+        "p99Ms": 17.1825,
+        "worstMs": 62.2836,
+        "hitches": {
+          "25": 2,
+          "33.3": 1,
+          "50": 1,
+          "100": 0
+        },
+        "gcCollections": 31,
+        "gcBytesPerFrameMedian": -1
+      },
+      "settings": {
+        "build": "Release",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": -1,
+        "vSync": 1,
+        "refreshHz": 60.0,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": true,
+        "motion": false,
+        "valid": true,
+        "failures": [],
+        "loadWaitSeconds": 1.095241699999999,
+        "settleSeconds": 8.0
+      },
+      "focusedSamples": 37770,
+      "inputResponseMaxMs": 23.323300000001268,
+      "segments": [
+        {
+          "name": "first visit",
+          "valid": true,
+          "failures": [],
+          "samples": 7485,
+          "seconds": 124.7338824,
+          "distance": 226.0721544959008,
+          "medianMs": 16.6707,
+          "p95Ms": 17.0405,
+          "p99Ms": 17.1933,
+          "worstMs": 25.8,
+          "hitches": {
+            "25": 1,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 1",
+          "valid": true,
+          "failures": [],
+          "samples": 7574,
+          "seconds": 126.23695409999999,
+          "distance": 240.81998402581723,
+          "medianMs": 16.6722,
+          "p95Ms": 17.0398,
+          "p99Ms": 17.1811,
+          "worstMs": 18.4814,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 2",
+          "valid": true,
+          "failures": [],
+          "samples": 7568,
+          "seconds": 126.13651889999997,
+          "distance": 240.91948827387554,
+          "medianMs": 16.6715,
+          "p95Ms": 17.0278,
+          "p99Ms": 17.1695,
+          "worstMs": 18.9283,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 7,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 3",
+          "valid": false,
+          "failures": [
+            "hitch budget exceeded"
+          ],
+          "samples": 7569,
+          "seconds": 126.18663180000004,
+          "distance": 241.00109893302988,
+          "medianMs": 16.6719,
+          "p95Ms": 17.0375,
+          "p99Ms": 17.185,
+          "worstMs": 62.2836,
+          "hitches": {
+            "25": 1,
+            "33.3": 1,
+            "50": 1,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        },
+        {
+          "name": "warm lap 4",
+          "valid": true,
+          "failures": [],
+          "samples": 7574,
+          "seconds": 126.23675260000005,
+          "distance": 241.30513419092057,
+          "medianMs": 16.6642,
+          "p95Ms": 17.0391,
+          "p99Ms": 17.1817,
+          "worstMs": 19.499,
+          "hitches": {
+            "25": 0,
+            "33.3": 0,
+            "50": 0,
+            "100": 0
+          },
+          "gcCollections": 6,
+          "gcBytesPerFrameMedian": -1
+        }
+      ],
+      "displayBefore": {
+        "utc": "2026-10-07T20:34:21.1149612Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T20:34:21.1333128Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "2026-10-07T20:34:21.1333128Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "displayAfter": {
+        "utc": "2026-10-07T20:45:07.9244139Z",
+        "session": 1,
+        "awakeRequested": false,
+        "observations": [
+          "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+          "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+          "2026-10-07T20:45:07.9343678Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+          "2026-10-07T20:45:07.9343678Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+          "unregister result=0",
+          "unregister result=0"
+        ]
+      },
+      "launchDiagnostics": {
+        "valid": true,
+        "failures": [],
+        "profilingArguments": [],
+        "nativeProfilerDiagnostic": false
+      },
+      "artifacts": [
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/analysis-console.txt",
+          "bytes": 72870,
+          "sha256": "c17a01fb58632f380259aa0514d4c783814b7e0943fc022e287fc1d086df42c2"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/analysis.json",
+          "bytes": 36434,
+          "sha256": "a31d5e9cdea82f45a3cd2c0d373228aa30fef07a4101b33db8c34789c721d7ca"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/available-counters.txt",
+          "bytes": 14940,
+          "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/build.json",
+          "bytes": 14104,
+          "sha256": "2d4ac5a4b1427a16ab5d66f387cd9fb15df00df17c9912a2bc4894f960c74efd"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/census.csv",
+          "bytes": 5356,
+          "sha256": "66ff33669b9b64af2ecd78b6d1aa935ec69956d7dd7d31d47c12144d75d1ce2f"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/environment.json",
+          "bytes": 122,
+          "sha256": "058bc9ee2a1be871951db9e016f14e76dd0dfed1dd2f3377491a6ff11c5035c7"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/final-state.json",
+          "bytes": 1018,
+          "sha256": "b19251bb0cfb765a60f423a50cc3c08e8dc87bc519fd0cf4043051827fbb7b23"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/frame-times.svg",
+          "bytes": 483218,
+          "sha256": "f7cd3f029124ac701d694a3bfca7d2d721a055b3a13dbbdc513626ced0b2da2b"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/frames.csv",
+          "bytes": 11263925,
+          "sha256": "b106c2449142dd41031b536ae0d0406c73bf946057d5ec0f55b2a84fbecd7a87"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/player.log",
+          "bytes": 11140,
+          "sha256": "f38873c95280ded6dad68ea7feb6196a64e9e9c23af84cb5901ffadd482e7680"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/process.txt",
+          "bytes": 7,
+          "sha256": "4ff7300dfc9f918685390049766375318b022cedc992ae1538bb13edf877825f"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/route.json",
+          "bytes": 139693,
+          "sha256": "d1ab221ee0255ff6ee69dfad930504b927ba057c5ed8872bc83b19130abc0405"
+        },
+        {
+          "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat/run.json",
+          "bytes": 3516,
+          "sha256": "ada5724145a5bbc46e334737edbbd4e9ff9db9d8e933150fc933cb513f795935"
+        }
+      ],
+      "stabilityWindows": [
+        {
+          "startSeconds": 0,
+          "endSeconds": 60,
+          "samples": 3601,
+          "memoryBytes": {
+            "median": 155637269,
+            "maximum": 158567072,
+            "minimum": 153493286,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 1
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 60,
+          "endSeconds": 120,
+          "samples": 3599,
+          "memoryBytes": {
+            "median": 155886620,
+            "maximum": 158858238,
+            "minimum": 154040182,
+            "validSamples": 3599,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 120,
+          "endSeconds": 180,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156183254,
+            "maximum": 158886094,
+            "minimum": 154283004,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 180,
+          "endSeconds": 240,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156007328,
+            "maximum": 158799215,
+            "minimum": 154444478,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 240,
+          "endSeconds": 300,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156227630,
+            "maximum": 158925847,
+            "minimum": 154609158,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 300,
+          "endSeconds": 360,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156130626,
+            "maximum": 159037969,
+            "minimum": 154693093,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 360,
+          "endSeconds": 420,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156114501,
+            "maximum": 159164513,
+            "minimum": 154105498,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 420,
+          "endSeconds": 480,
+          "samples": 3598,
+          "memoryBytes": {
+            "median": 155932719,
+            "maximum": 159417885,
+            "minimum": 154272295,
+            "validSamples": 3598,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 480,
+          "endSeconds": 540,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156621428,
+            "maximum": 159528693,
+            "minimum": 154993810,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        },
+        {
+          "startSeconds": 540,
+          "endSeconds": 600,
+          "samples": 3600,
+          "memoryBytes": {
+            "median": 156796129,
+            "maximum": 159479257,
+            "minimum": 155230644,
+            "validSamples": 3600,
+            "unavailableOrPendingSamples": 0
+          },
+          "sceneObjects": "UNSUPPORTED",
+          "objects": "UNSUPPORTED",
+          "audioVoices": "UNSUPPORTED"
+        }
+      ],
+      "objectSourceCensus": {
+        "valid": true,
+        "failures": [],
+        "windows": [
+          {
+            "startSeconds": 0,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2956,
+              "median": 2958,
+              "maximum": 2975
+            },
+            "audioSources": {
+              "minimum": 4,
+              "median": 6,
+              "maximum": 6
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 60,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 4,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 120,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 4,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 180,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 3,
+              "median": 4,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 240,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 300,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 3,
+              "median": 4,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 360,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 4,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 420,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 4,
+              "maximum": 5
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 480,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2976
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 2,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 2
+            }
+          },
+          {
+            "startSeconds": 540,
+            "samples": 12,
+            "sceneGameObjects": {
+              "minimum": 2959,
+              "median": 2959,
+              "maximum": 2959
+            },
+            "audioSources": {
+              "minimum": 7,
+              "median": 7,
+              "maximum": 7
+            },
+            "playingSources": {
+              "minimum": 3,
+              "median": 3,
+              "maximum": 4
+            },
+            "loopingSources": {
+              "minimum": 2,
+              "median": 2,
+              "maximum": 3
+            }
+          }
+        ],
+        "worstSamplingMs": 0.6823,
+        "note": "Includes inactive scene objects/sources. Playing sources may each contain multiple one-shot voices. Review growth at comparable warmed route phases; these inventories do not measure the audible mix."
+      },
+      "framesOver25Ms": [
+        {
+          "elapsed": "35.124086",
+          "ms": "25.8000",
+          "step": "9",
+          "scene": "Hub_Decks",
+          "hero": "Taren",
+          "form": "Natural",
+          "state": "Idle",
+          "clip": "Idle",
+          "animationTime": "4.5068",
+          "x": "-0.06123",
+          "y": "0.08000",
+          "z": "1.43725",
+          "cameraX": "-5.21410",
+          "cameraY": "12.61436",
+          "cameraZ": "-12.99735",
+          "forwardX": "0.10816",
+          "forwardZ": "0.99413",
+          "pelvisYaw": "4.060",
+          "chestYaw": "8.743",
+          "reportedSpeed": "0.0000",
+          "integrity": "120.0",
+          "focus": "True",
+          "paused": "False",
+          "blocked": "True",
+          "gameDelta": "0.016667",
+          "gcCollections": "27",
+          "gcBytes": "-1",
+          "mainThreadNs": "16676500",
+          "renderThreadNs": "-1",
+          "batches": "-1",
+          "memoryBytes": "153977973",
+          "dialogueLines": "2",
+          "prompt": "Talk to Mira",
+          "speaker": "Mira",
+          "partnerHealth": "120.0",
+          "partnerState": "Idle",
+          "hudNs": "-1",
+          "hudBytes": "-1",
+          "audioVoices": "-1",
+          "sceneObjects": "-1",
+          "objects": "-1",
+          "activeCpuNs": "-1",
+          "activeRenderNs": "-1",
+          "gpuWorkNs": "-1",
+          "capWaitNs": "-1",
+          "ftmTimestamp": "0",
+          "ftmGpuMs": "-1.000000",
+          "ftmCpuMs": "-1.000000",
+          "ui": "options"
+        },
+        {
+          "elapsed": "474.005613",
+          "ms": "62.2836",
+          "step": "117",
+          "scene": "Hub_Decks",
+          "hero": "Sela",
+          "form": "Natural",
+          "state": "Move",
+          "clip": "Walk",
+          "animationTime": "0.8591",
+          "x": "-27.99954",
+          "y": "0.08000",
+          "z": "0.76157",
+          "cameraX": "-33.10847",
+          "cameraY": "12.61436",
+          "cameraZ": "-12.64240",
+          "forwardX": "-0.00012",
+          "forwardZ": "-1.00000",
+          "pelvisYaw": "179.180",
+          "chestYaw": "177.491",
+          "reportedSpeed": "2.6000",
+          "integrity": "120.0",
+          "focus": "True",
+          "paused": "False",
+          "blocked": "False",
+          "gameDelta": "0.033334",
+          "gcCollections": "48",
+          "gcBytes": "-1",
+          "mainThreadNs": "61649500",
+          "renderThreadNs": "-1",
+          "batches": "-1",
+          "memoryBytes": "158102842",
+          "dialogueLines": "5",
+          "prompt": "",
+          "speaker": "Mira",
+          "partnerHealth": "120.0",
+          "partnerState": "Move",
+          "hudNs": "-1",
+          "hudBytes": "-1",
+          "audioVoices": "-1",
+          "sceneObjects": "-1",
+          "objects": "-1",
+          "activeCpuNs": "-1",
+          "activeRenderNs": "-1",
+          "gpuWorkNs": "-1",
+          "capWaitNs": "-1",
+          "ftmTimestamp": "0",
+          "ftmGpuMs": "-1.000000",
+          "ftmCpuMs": "-1.000000",
+          "ui": "world"
+        }
+      ]
+    }
+  ],
+  "nativeProfilerDiagnostic": {
+    "folder": "Builds/quality/C1/oct7-decks-native-profile",
+    "run": {
+      "route": "station-decks-first-warm",
+      "sourceRevision": "station redesign; build hashes in evidence",
+      "input": "continuous agent-directed virtual gamepad replay",
+      "build": "Development",
+      "unity": "6000.4.7f1",
+      "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+      "gpu": "NVIDIA GeForce RTX 5070",
+      "quality": "Ultra",
+      "gpuTiming": "UNAVAILABLE",
+      "vrr": "UNVERIFIED",
+      "width": 1920,
+      "height": 1080,
+      "frameCap": -1,
+      "vSync": 1,
+      "samples": 15055,
+      "refreshHz": 60.0,
+      "seconds": 250.89856569999998,
+      "captured": false,
+      "profiled": false,
+      "headroom": false,
+      "census": true,
+      "motion": false,
+      "valid": true,
+      "frameTimingRequested": false,
+      "frameTimingEnabled": false,
+      "frameTimingCpuFrequency": 0,
+      "failures": [],
+      "loadWaitSeconds": 1.0994555,
+      "settleSeconds": 8.0,
+      "interactions": [
+        {
+          "step": 5,
+          "expectedUi": "dialogue",
+          "inputSeconds": 25.059208599999998,
+          "visibleResponseMs": 4.340500000001413
+        },
+        {
+          "step": 11,
+          "expectedUi": "shop",
+          "inputSeconds": 37.609061499999996,
+          "visibleResponseMs": 23.766999999999427
+        },
+        {
+          "step": 13,
+          "expectedUi": "world",
+          "inputSeconds": 43.6090561,
+          "visibleResponseMs": 1.2789000000026363
+        },
+        {
+          "step": 38,
+          "expectedUi": "dialogue",
+          "inputSeconds": 149.795314,
+          "visibleResponseMs": 1.0833000000047832
+        },
+        {
+          "step": 40,
+          "expectedUi": "shop",
+          "inputSeconds": 155.79549509999998,
+          "visibleResponseMs": 19.43769999999745
+        },
+        {
+          "step": 42,
+          "expectedUi": "world",
+          "inputSeconds": 161.7954461,
+          "visibleResponseMs": 0.8124000000009346
+        }
+      ]
+    },
+    "build": {
+      "cleanTimingEligible": false,
+      "exeHash": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+      "nativeProfilerDiagnostic": true,
+      "assemblies": [
+        {
+          "hash": "FB5F4BF74AB57980BD244F9643924AD5DA4003ECAF6917830869185440B94D66",
+          "name": "Lattice.Combat.dll"
+        },
+        {
+          "hash": "BAE5E15C85C21958370B17BE681DEA5A0ABA8C848595F5FFED67979358C3AE3F",
+          "name": "Lattice.Core.dll"
+        },
+        {
+          "hash": "697B8FEA14157CB62AFBA7CAA88DA1EB3E74239C08AC902CD2FA6130F937D123",
+          "name": "Lattice.Data.dll"
+        },
+        {
+          "hash": "F10054883249AC053C08F0D4614C1BAD9C66EF6A529CB4D25C4C70C19C276D74",
+          "name": "Lattice.Dialogue.dll"
+        },
+        {
+          "hash": "2BC705A87C83E73F0E84E1B28E3F667F48C40A34BED6E6F326652C9986122D69",
+          "name": "Lattice.Rpg.dll"
+        },
+        {
+          "hash": "1E5F0C816ACEF98275F612E9FA8D2607A58678E769FF9EC00ECBD4137E4669FD",
+          "name": "Lattice.UI.dll"
+        },
+        {
+          "hash": "2EC3F8C7ABD0770DA0C4EAE1AA52089E78D11CBE488EE764DBC9E06383732BB4",
+          "name": "Lattice.World.dll"
+        }
+      ],
+      "d3d11BitBlt": false,
+      "arguments": [
+        "-screen-fullscreen",
+        "0",
+        "-screen-width",
+        "1920",
+        "-screen-height",
+        "1080",
+        "-quality-route",
+        "C:\\Users\\natem\\Projects\\SpaceRPG\\docs\\quality\\routes\\station-decks-first-warm.json",
+        "-quality-output",
+        "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C1\\oct7-decks-native-profile",
+        "-savepath",
+        "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C1\\oct7-decks-native-profile\\saves",
+        "-logFile",
+        "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C1\\oct7-decks-native-profile\\player.log",
+        "-profiler-enable",
+        "-profiler-log-file",
+        "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C1\\oct7-decks-native-profile\\cpu-ui-render.raw",
+        "-profiler-capture-frame-count",
+        "60000",
+        "-quality-census"
+      ],
+      "build": "Development",
+      "capture": false,
+      "graphicsApi": "Auto",
+      "routeHash": "22EFF340A0136EF6F2D8299E611B544C0E736247573D670659C3DFE4DD96CBBA",
+      "content": [
+        {
+          "name": "app.info",
+          "bytes": 15,
+          "hash": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44"
+        },
+        {
+          "name": "boot.config",
+          "bytes": 355,
+          "hash": "2438432EC96FFF853AFC088D1E4AB1A86ABE00715AF3812B9A5B19B4EABB0FD8"
+        },
+        {
+          "name": "globalgamemanagers",
+          "bytes": 299892,
+          "hash": "F34B2A9860122391DCC297ED72210A27EA19E831DA47002331BA2CCF1D3813E3"
+        },
+        {
+          "name": "globalgamemanagers.assets",
+          "bytes": 1015148,
+          "hash": "AC4D13C6621C14D62BDA9843DD4EAE826E9FB9C616EE71CF14C05C699D9B5B2D"
+        },
+        {
+          "name": "globalgamemanagers.assets.resS",
+          "bytes": 6176992,
+          "hash": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A"
+        },
+        {
+          "name": "level0",
+          "bytes": 3820,
+          "hash": "774E9550535820873E21D135B6594FCD2439B23ACED28671E67CABABFD630437"
+        },
+        {
+          "name": "level1",
+          "bytes": 1136,
+          "hash": "AD67125B7347CA04022246BF23545158D6D7662639ABEA3AFB6FEF807B2D0A54"
+        },
+        {
+          "name": "level10",
+          "bytes": 246636,
+          "hash": "68E47386A0731D5BBF9B6B1EE90E6758CBF925D6F369CCFD5923EE090856ACE0"
+        },
+        {
+          "name": "level2",
+          "bytes": 1388012,
+          "hash": "A8120D9119E9175189497B957959B60493AEC644990FB540FC22FECAC9EF52DB"
+        },
+        {
+          "name": "level2.resS",
+          "bytes": 41200,
+          "hash": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B"
+        },
+        {
+          "name": "level3",
+          "bytes": 923200,
+          "hash": "27CA5568B7471FD88522EB9381C59FB375A2BFA2989B5548046471773403CCEB"
+        },
+        {
+          "name": "level4",
+          "bytes": 265148,
+          "hash": "BEE503A36ED6F1EB5915F42E0B785F1E3013EFBD1816C6FDC1774C2E988941C2"
+        },
+        {
+          "name": "level4.resS",
+          "bytes": 21568,
+          "hash": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6"
+        },
+        {
+          "name": "level5",
+          "bytes": 181676,
+          "hash": "63841432149E63DFE4BB1C987D15F955F16603165EFF32959D29357F8109969F"
+        },
+        {
+          "name": "level5.resS",
+          "bytes": 1920,
+          "hash": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D"
+        },
+        {
+          "name": "level6",
+          "bytes": 487792,
+          "hash": "7EACAC05AEDD3235933FDB402D7F4FC271D8D1B7F5C1C4CD8F2D23EC393E699C"
+        },
+        {
+          "name": "level6.resS",
+          "bytes": 592848,
+          "hash": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2"
+        },
+        {
+          "name": "level7",
+          "bytes": 20172,
+          "hash": "1B41ED2674ADCE06498DBD4CB955C20C621D9DBF3E36A1AE62F6761D2A3CE718"
+        },
+        {
+          "name": "level8",
+          "bytes": 130220,
+          "hash": "E2321F879705B1C7D9479573970403D712F1C9E329002580C80DA6E1F6D45C1E"
+        },
+        {
+          "name": "level9",
+          "bytes": 81276,
+          "hash": "A45774ACC2820F3B9A2E2276D6C75F124E3A2E3EA038E60A82FB0FD19A52A393"
+        },
+        {
+          "name": "level9.resS",
+          "bytes": 22528,
+          "hash": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172"
+        },
+        {
+          "name": "resources.assets",
+          "bytes": 47549688,
+          "hash": "32C6C13223F169C29F64EE094355C71E8AA37EFB0C32B131E2433B941A1A1F4E"
+        },
+        {
+          "name": "resources.assets.resS",
+          "bytes": 355367744,
+          "hash": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263"
+        },
+        {
+          "name": "resources.resource",
+          "bytes": 16363712,
+          "hash": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB"
+        },
+        {
+          "name": "RuntimeInitializeOnLoads.json",
+          "bytes": 5019,
+          "hash": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB"
+        },
+        {
+          "name": "ScriptingAssemblies.json",
+          "bytes": 5369,
+          "hash": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E"
+        },
+        {
+          "name": "sharedassets0.assets",
+          "bytes": 159568,
+          "hash": "F6820ED74DB1E9C4A1A39009C07E069ECC7B610C13EAF951C9A8CC0FC21A7C47"
+        },
+        {
+          "name": "sharedassets0.assets.resS",
+          "bytes": 524288,
+          "hash": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36"
+        },
+        {
+          "name": "sharedassets1.assets",
+          "bytes": 361,
+          "hash": "727E934AE619FFA0DB759CBAD7D583A9D434E7E5466AB08D433F817AC791114E"
+        },
+        {
+          "name": "sharedassets10.assets",
+          "bytes": 58116,
+          "hash": "6716FE4AEF6AD20871059AB2016E7C40F798236B9B40F3FEA2F42221653A4F41"
+        },
+        {
+          "name": "sharedassets10.assets.resS",
+          "bytes": 1677792,
+          "hash": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1"
+        },
+        {
+          "name": "sharedassets2.assets",
+          "bytes": 603360,
+          "hash": "9B4D3D07CBADFFA90744ADFFC7F8BD2F2D9BC3393535F5E664C12B1A948B55EE"
+        },
+        {
+          "name": "sharedassets2.assets.resS",
+          "bytes": 11042016,
+          "hash": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184"
+        },
+        {
+          "name": "sharedassets3.assets",
+          "bytes": 345044,
+          "hash": "B6725D018B001CF6667DACAA4828E890472610C5F6727F7A4E1E0041854AC631"
+        },
+        {
+          "name": "sharedassets3.assets.resS",
+          "bytes": 7071712,
+          "hash": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5"
+        },
+        {
+          "name": "sharedassets4.assets",
+          "bytes": 6583812,
+          "hash": "23F00F59B54BF5A9466F287FA646227AAFBD476B5CC903A3337120C229AB5E88"
+        },
+        {
+          "name": "sharedassets4.assets.resS",
+          "bytes": 22834928,
+          "hash": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08"
+        },
+        {
+          "name": "sharedassets5.assets",
+          "bytes": 5784076,
+          "hash": "C885D77CE1312FD7C1D5142D24ACE752069AB07412642350C5D14A5AE7317012"
+        },
+        {
+          "name": "sharedassets5.assets.resS",
+          "bytes": 21360704,
+          "hash": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592"
+        },
+        {
+          "name": "sharedassets6.assets",
+          "bytes": 1075508,
+          "hash": "801768E4378F3C89CB2F8DB6657729894C15CC8F3FEE8E98AAE781EFC85C3F62"
+        },
+        {
+          "name": "sharedassets6.assets.resS",
+          "bytes": 4994208,
+          "hash": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759"
+        },
+        {
+          "name": "sharedassets7.assets",
+          "bytes": 72932,
+          "hash": "A5D935351879889059ED91C14849229DBC11A7B66B67D3863C682121404FBA78"
+        },
+        {
+          "name": "sharedassets7.assets.resS",
+          "bytes": 1693152,
+          "hash": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC"
+        },
+        {
+          "name": "sharedassets8.assets",
+          "bytes": 16100,
+          "hash": "C9FDEB621F592FB0C91E4D4BA2234040B0BA2335C52715D33735A539CD7BD08D"
+        },
+        {
+          "name": "sharedassets9.assets",
+          "bytes": 24308,
+          "hash": "85615518F8423A9C88A37397B8F9F53C849C7FF68814069427B1352041746B7F"
+        }
+      ],
+      "diagnosticVSync": -1,
+      "started": "2026-10-07T20:17:52.6799007Z",
+      "multithreadedRendering": false,
+      "source": "f930af9152516ed97c0a52d38061a22b4e62db5d"
+    },
+    "oldAnalyzerFalsePass": true,
+    "fixedAnalyzerValid": false,
+    "failures": [
+      "launch manifest declares profiling; clean timing/headroom rejected"
+    ],
+    "warmServiceBridgeSamples": 480,
+    "warmServiceBridgeWorstMs": 17.3436,
+    "framesOver25Ms": [
+      {
+        "elapsed": "35.119126",
+        "ms": "26.5055",
+        "step": "9",
+        "scene": "Hub_Decks",
+        "hero": "Taren",
+        "form": "Natural",
+        "state": "Idle",
+        "clip": "Idle",
+        "animationTime": "4.5068",
+        "x": "-0.06123",
+        "y": "0.08000",
+        "z": "1.43724",
+        "cameraX": "-5.21409",
+        "cameraY": "12.61436",
+        "cameraZ": "-12.99735",
+        "forwardX": "0.10816",
+        "forwardZ": "0.99413",
+        "pelvisYaw": "4.060",
+        "chestYaw": "8.743",
+        "reportedSpeed": "0.0000",
+        "integrity": "120.0",
+        "focus": "True",
+        "paused": "False",
+        "blocked": "True",
+        "gameDelta": "0.016667",
+        "gcCollections": "28",
+        "gcBytes": "6882",
+        "mainThreadNs": "16649500",
+        "renderThreadNs": "-1",
+        "batches": "-1",
+        "memoryBytes": "897839263",
+        "dialogueLines": "2",
+        "prompt": "Talk to Mira",
+        "speaker": "Mira",
+        "partnerHealth": "120.0",
+        "partnerState": "Idle",
+        "hudNs": "-1",
+        "hudBytes": "-1",
+        "audioVoices": "-1",
+        "sceneObjects": "9778",
+        "objects": "13442",
+        "activeCpuNs": "-1",
+        "activeRenderNs": "-1",
+        "gpuWorkNs": "-1",
+        "capWaitNs": "-1",
+        "ftmTimestamp": "0",
+        "ftmGpuMs": "-1.000000",
+        "ftmCpuMs": "-1.000000",
+        "ui": "options"
+      }
+    ],
+    "displayBefore": {
+      "utc": "2026-10-07T20:17:29.7333373Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T20:17:29.7491787Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T20:17:29.7491787Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "displayAfter": {
+      "utc": "2026-10-07T20:22:18.0444788Z",
+      "session": 1,
+      "awakeRequested": false,
+      "observations": [
+        "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+        "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+        "2026-10-07T20:22:18.0622345Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=1",
+        "2026-10-07T20:22:18.0622345Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=1",
+        "unregister result=0",
+        "unregister result=0"
+      ]
+    },
+    "firstImport": {
+      "firstFrame": 13572,
+      "lastFrame": 15571,
+      "status": "TAIL_ONLY; DOES NOT COVER WARM SERVICE BRIDGE"
+    },
+    "fullImport": {
+      "status": "REJECTED",
+      "reason": "Unity memory pressure discarded early frames; bounded reader assertion rejected incomplete history. Temporary editor source restored."
+    },
+    "boundedImport": {
+      "firstFrame": 10572,
+      "lastFrame": 15571,
+      "loadedFrames": 5000,
+      "firstStartMs": 1934284674.6985,
+      "lastStartMs": 1934367993.584199,
+      "hitches": [
+        {
+          "frame": 15571,
+          "thread": "Main Thread",
+          "ms": 416.6921,
+          "markers": [
+            {
+              "name": "Main Thread",
+              "ms": 416.6921081542969
+            },
+            {
+              "name": "PlayerLoop",
+              "ms": 416.6850891113281
+            },
+            {
+              "name": "Update.ScriptRunDelayedDynamicFrameRate",
+              "ms": 204.97230529785156
+            },
+            {
+              "name": "CoroutinesDelayedCalls",
+              "ms": 204.9713897705078
+            },
+            {
+              "name": "Lattice.UI.dll!Lattice.UI::ContinuousReview.Start() [Coroutine: MoveNext] [Invoke]",
+              "ms": 204.96630859375
+            },
+            {
+              "name": "Semaphore.WaitForSignal",
+              "ms": 14.9483003616333
+            },
+            {
+              "name": "PreloadManager.Stop",
+              "ms": 9.972399711608887
+            },
+            {
+              "name": "Unity.RenderPipelines.Universal.Runtime.dll!UnityEngine.Rendering.Universal::UniversalRenderPipelineAsset.OnDisable() [Invoke]",
+              "ms": 7.331500053405762
+            },
+            {
+              "name": "D3D12UploadBuffer.Deallocate",
+              "ms": 5.259099960327148
+            },
+            {
+              "name": "D3D12UploadBuffer.Deallocate",
+              "ms": 3.5601999759674072
+            },
+            {
+              "name": "shutdownBeforeCleanupAllObjects.Invoke",
+              "ms": 2.9123001098632812
+            },
+            {
+              "name": "UnityEngine.CoreModule.dll!UnityEngine::Application.Internal_ApplicationQuit() [Invoke]",
+              "ms": 2.885499954223633
+            },
+            {
+              "name": "Mono.JIT",
+              "ms": 2.1152000427246094
+            },
+            {
+              "name": "GC.Collect",
+              "ms": 2.02020001411438
+            },
+            {
+              "name": "GC.Collect",
+              "ms": 1.7753000259399414
+            },
+            {
+              "name": "LargeAllocation.Free",
+              "ms": 1.6262999773025513
+            },
+            {
+              "name": "D3D12ScratchAllocator.DestroyScratch",
+              "ms": 1.413599967956543
+            },
+            {
+              "name": "GC.Collect",
+              "ms": 1.253100037574768
+            },
+            {
+              "name": "D3D12ScratchAllocator.DestroyScratch",
+              "ms": 1.162600040435791
+            },
+            {
+              "name": "D3D12ScratchAllocator.DestroyScratch",
+              "ms": 1.1303000450134277
+            },
+            {
+              "name": "Destroy",
+              "ms": 1.1267000436782837
+            },
+            {
+              "name": "Destroy",
+              "ms": 1.1246000528335571
+            },
+            {
+              "name": "D3D12ScratchAllocator.DestroyScratch",
+              "ms": 1.0707999467849731
+            },
+            {
+              "name": "D3D12ScratchAllocator.DestroyScratch",
+              "ms": 1.0253000259399414
+            },
+            {
+              "name": "Destroy",
+              "ms": 1.0095000267028809
+            },
+            {
+              "name": "D3D12ScratchAllocator.DestroyScratch",
+              "ms": 1.0095000267028809
+            },
+            {
+              "name": "GC.Collect",
+              "ms": 0.996999979019165
+            },
+            {
+              "name": "GameObject.Deactivate",
+              "ms": 0.9739000201225281
+            },
+            {
+              "name": "GameObject.ActivateAwakeRecursively",
+              "ms": 0.9739000201225281
+            },
+            {
+              "name": "PostLateUpdate.FinishFrameRendering",
+              "ms": 0.9724000096321106
+            }
+          ]
+        }
+      ],
+      "markers": [
+        {
+          "name": "GC.Collect",
+          "count": 20,
+          "total": 20.735399842262268,
+          "max": 2.0934998989105225
+        },
+        {
+          "name": "PostLateUpdate.PlayerUpdateCanvases",
+          "count": 5000,
+          "total": 317.12269877735525,
+          "max": 0.6294000148773193
+        },
+        {
+          "name": "UIEvents.WillRenderCanvases",
+          "count": 5000,
+          "total": 299.22449882142246,
+          "max": 0.6259999871253967
+        },
+        {
+          "name": "UnityEngine.UIModule.dll!UnityEngine::Canvas.SendWillRenderCanvases() [Invoke]",
+          "count": 5000,
+          "total": 231.8057992849499,
+          "max": 0.6087999939918518
+        },
+        {
+          "name": "CanvasUpdate.PreRender",
+          "count": 5000,
+          "total": 199.83799961189652,
+          "max": 0.6007999777793884
+        },
+        {
+          "name": "Canvas.BuildBatch",
+          "count": 4545,
+          "total": 26.027799961491837,
+          "max": 0.20180000364780426
+        }
+      ],
+      "note": "Only the final 5000 trace frames are loaded. The one large interval includes evidence flush and application teardown.",
+      "counterAlignment": "REJECTED: exact CSV mainThreadNs/profiler frameTimeMs correspondence did not hold. Do not use the attempted offset to attribute frame-specific costs."
+    },
+    "conclusion": "The diagnostic route did not reproduce the two movement hitches. Their cause remains unresolved; no native-profiled run is clean timing.",
+    "artifacts": [
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/cpu-ui-render.raw",
+        "bytes": 2020953468,
+        "sha256": "de36ba0885aaa945c2a6636150bcd81f98633db3bdd62bba11f3fea0b90a47e8"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/frames.csv",
+        "bytes": 4577723,
+        "sha256": "2fe588a2c9096ee66000d9528817719f97e2939212de056e8adf9f9b9c7ab8a3"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/run.json",
+        "bytes": 1954,
+        "sha256": "e8907ce1d247077799bfbcd3e26860859f93f09f663d877a08cbf92df002d704"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/build.json",
+        "bytes": 14397,
+        "sha256": "537a7088fa915b0ac8219ded8864cdcba1ed549112649ab5ed2ef125e5adc082"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/route.json",
+        "bytes": 57110,
+        "sha256": "a64416c8e2f433dc5208a610a55177ea5b502cc6485a9357353c39862f2f0b2d"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/analysis.json",
+        "bytes": 19124,
+        "sha256": "4dc84cacdfc05e07f34fd011f45275934f6a5c801804b66e7a9a1826f5b6665d"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/analysis-original-false-pass.json",
+        "bytes": 18759,
+        "sha256": "ab22e2e574efc4bf3647795162a6deffe5f720b7b12f431c653c2f7361f38f20"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/profiler-summary-tail-only.json",
+        "bytes": 8570,
+        "sha256": "9ace2778a351b080e19b753ebe55e4924c63702c3bc4b8e589e2c5c704f97e85"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/profiler-summary-window.json",
+        "bytes": 485144,
+        "sha256": "911da93ec137b9b0d34c8fe39fd57fc2d9068650f99f9b95a893220092c3d1c5"
+      },
+      {
+        "path": "Builds/quality/C1/oct7-decks-native-profile/profile-window-alignment.json",
+        "bytes": 72804,
+        "sha256": "9c6916313f5ae1c1a4c240b4fd869d1de1445d5b730aa8449158d032e7e25e57"
+      }
+    ]
+  },
+  "regressionChecks": {
+    "offlinePassed": 129,
+    "offlineSkipped": 0,
+    "newManifestControls": 10,
+    "originalNegativeControlsFailed": 8,
+    "originalPositiveControlsPassed": 2,
+    "originalActualTraceExit": 0,
+    "fixedActualTraceExit": 1,
+    "priorUnchangedRuntime": {
+      "EditMode": 131,
+      "PlayMode": 231,
+      "contactMatrix": 384
+    },
+    "runtimeSuitesRepeated": false
+  },
+  "observations": {
+    "continuousReview": "UNAVAILABLE; native pipe failed before and after helper reset; user review request pending.",
+    "actuallyOpened": [
+      "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/078.png",
+      "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/sequence-step78.png",
+      "Builds/quality/2026-10-06-terrain-followup/slope60-candidate45-final/sequence-step166.png",
+      "Builds/quality/2026-10-06-terrain-followup/pad60-candidate45-final/sequence-step118.png"
+    ],
+    "staticFinding": "The uphill pose still warrants balance review; a timestamped frame sequence cannot establish natural continuous motion.",
+    "systemSettingsChanged": false
+  },
+  "preservation": {
+    "snapshot": {
+      "saves": {
+        "exists": true,
+        "files": [
+          {
+            "path": "autosave.json",
+            "bytes": 914,
+            "sha256": "65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a"
+          },
+          {
+            "path": "autosave.json.bak",
+            "bytes": 891,
+            "sha256": "a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745"
+          }
+        ]
+      },
+      "chapterProfile": {
+        "exists": false,
+        "files": []
+      }
+    },
+    "postRunSnapshotsVerified": 14,
+    "frozen": {
+      "sourceRevision": "a3aaad6",
+      "manifestSha256": "1e182606f614deb389925a920ffe0a074ab42528d6d0d84ba0471a5467add63e",
+      "files": 243,
+      "bytes": 616521326,
+      "changed": [],
+      "missing": [],
+      "extra": []
+    },
+    "chapterReplaced": false
+  },
+  "artifacts": [
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/current-package-verification.json",
+      "bytes": 23486,
+      "sha256": "0d1a4095579601d238b0db301c48d29377ad8f308f34dc004455b45a712c6475"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom-console.log",
+      "bytes": 3416,
+      "sha256": "5a832211dd0c8f38f7b321c3b9d174f2ae220a48f5deb6d58f40c6d748803e44"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom-display-after.json",
+      "bytes": 677,
+      "sha256": "748e05e6413016d2c21c8b58ddca228b19364cbf1f06fb6f8586124d567dd853"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom-display-before.json",
+      "bytes": 677,
+      "sha256": "8335c6af3b970704c362353e169d7debac539156fbd6d18eb827654d3b94e104"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-development-headroom-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-native-profile-console.log",
+      "bytes": 4372,
+      "sha256": "e62b08eae8c29b96a54745f0581fb6ec909a1656b6be7bde414ff08f9c120252"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-native-profile-display-after.json",
+      "bytes": 677,
+      "sha256": "fcb68371246cee11a6da61f10a5c615f81062c437b950b6896d5716c2ab25297"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-native-profile-display-before.json",
+      "bytes": 677,
+      "sha256": "ede6a4104c0047b8cfccb34ec41b48e8dda3c3ebc7ad9927e08b9b5e34855d58"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-console.log",
+      "bytes": 3420,
+      "sha256": "ce6b9b1fc7d8ae0f8a4e7fd8d3fdb0cc3498ae1e062902ae2b7112918d49d436"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-display-after.json",
+      "bytes": 677,
+      "sha256": "97c04a3dd3af31dc5564da8331931894f92c6b3b462088b43898091d39084687"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-display-before.json",
+      "bytes": 677,
+      "sha256": "b7a3ace6f2948d27096fb8bc2e68e9651559b4252fb496aa2d5b1a55b5a99cae"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat-console.log",
+      "bytes": 3402,
+      "sha256": "50c6f271ca29c5bcf42e718a439ff9ba2e5055afe0e6cba3d087d43fe307714d"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat-display-after.json",
+      "bytes": 677,
+      "sha256": "17e1a57bc16ac6b7b5b6ce5d014ccb00071f06cdd0db75763aea97427dfa4e94"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat-display-before.json",
+      "bytes": 677,
+      "sha256": "c5afafbe5c52d43ecb99b724d96dc8ae5c91bc1ac5122a924d3a7b99654f24cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-headroom-repeat-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-console.log",
+      "bytes": 7666,
+      "sha256": "4aa66ca35403bc8753a3fa70ecfe806625c803d08b3a4ee2fe77aefe5b2021f0"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-display-after.json",
+      "bytes": 677,
+      "sha256": "6dd64e8eb61300e5d870304e0f08a14b3ca662dca29b2022d35d1cdeda9b0bbd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-display-before.json",
+      "bytes": 677,
+      "sha256": "8d227f4a23c15e8b88d1ae5cf506f40e7f50eae700a2371e61451c08e975e5f0"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat-console.log",
+      "bytes": 7666,
+      "sha256": "5233df15155d8f4929446a87203caf4911764233ab1f89a54785bb63cbd398b8"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat-display-after.json",
+      "bytes": 677,
+      "sha256": "3314ea6adff921fcbb15a4a63e0bcc737aa09f57e8e1377e12f4604b8997c29e"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat-display-before.json",
+      "bytes": 677,
+      "sha256": "5e236e03fc346b6f04a94149dd3765d065981b518f1e472901a28da0e13fbc64"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/decks-release-stability-repeat-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/editor-import-side-effects-full-read.patch",
+      "bytes": 8830,
+      "sha256": "dbe559d9aac4ce9eab03f84cd83a2c628f084ecdd334ec9a1acd3ff5865531ff"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/editor-import-side-effects-window.patch",
+      "bytes": 8830,
+      "sha256": "dbe559d9aac4ce9eab03f84cd83a2c628f084ecdd334ec9a1acd3ff5865531ff"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/editor-import-side-effects.patch",
+      "bytes": 8830,
+      "sha256": "dbe559d9aac4ce9eab03f84cd83a2c628f084ecdd334ec9a1acd3ff5865531ff"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/final-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/final-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-all-green.log",
+      "bytes": 4134,
+      "sha256": "02e8ba2c7500148f69fcbbf4816dde46979bb84e74b44d2e1b28717f38eee7ec"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-all-red.log",
+      "bytes": 13436,
+      "sha256": "6c28f132abb2df9710de8a876011f0fd15e45675ca98fa61ea3edfb6d2b751d8"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-clean-rejected.log",
+      "bytes": 38250,
+      "sha256": "83b195ee0e838ce800bac710b7236db667293170bcd4c0d10eef4b79cf92c43a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-contract-green.log",
+      "bytes": 3204,
+      "sha256": "fe69c2081a32e071eaf1d2e630f278c004e8bd2d10386a9c4a2b2d5051a001be"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-contract-red.log",
+      "bytes": 9114,
+      "sha256": "9260614a427d591b3ef21cd2e354f52c853307aa7d2dc2a693c9ac9ac6b31ff5"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-current-rejected.log",
+      "bytes": 38250,
+      "sha256": "83b195ee0e838ce800bac710b7236db667293170bcd4c0d10eef4b79cf92c43a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-full-read-console.log",
+      "bytes": 726,
+      "sha256": "f4804b79b70ae64324dc72990e0d314975864c896bfde1e9a3b544752db478e3"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-full-read-memory-rejected.log",
+      "bytes": 1144351,
+      "sha256": "012d2e4546dca0b256a59294d12bf1ce8666c21d600a2d2778972015f5bc3ce9"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-original-false-pass.log",
+      "bytes": 37520,
+      "sha256": "0c2fbe82651b300ac7bfbf857df743913f0b7408ae7cfae44a52019c2c312674"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-replay.ps1",
+      "bytes": 7980,
+      "sha256": "7eb91d338d55fe6652cd2b1a15de11f412a2dbbc05be174570574b5f904e2e64"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-report.log",
+      "bytes": 1385442,
+      "sha256": "668846d80245c4f904f81c9a8ac3e92bb9256e34a4402b7174e87e7f773c87d4"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-window-console.log",
+      "bytes": 238,
+      "sha256": "5f8977eec2a62ed92d845d8a7ee5baed0ef9ccb03962f700ab824f7823f6a165"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/native-profile-window.log",
+      "bytes": 1119016,
+      "sha256": "43f38392ad5af50e1d657b4beaac35c5bdc932597b6f840bc5d5e174900115aa"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/node-launch-rejected.txt",
+      "bytes": 385,
+      "sha256": "a86fc27bb73be1ce4fea016c64ce14ad06ef3617debdbf5e049d73d2488ae002"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/offline-regressions.log",
+      "bytes": 36590,
+      "sha256": "da474f48f0574cc2db2c57ee4a81d10caadf33bb544bec75b013671650ba8d4d"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/post-analysis-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/post-analysis-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/preflight-corrected-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/preflight-corrected.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/preflight-order-rejected.txt",
+      "bytes": 311,
+      "sha256": "5bcf4cd36235ee4bbaf6913f188d91c25ce629397f9aa66ccdd5b4ecb0e12713"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/preservation-before.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/preserve.py",
+      "bytes": 2728,
+      "sha256": "7d04548ef00c943346dafca18e83d48e95d152d8cf589bbad30e6063761d10d6"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/prior-profiler-report.log",
+      "bytes": 32307,
+      "sha256": "863a2b9db7532b91dd3bec2e41c3149ac663422a12cf866561e919fb83ae12a6"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/profile-window-alignment-rejected.txt",
+      "bytes": 596,
+      "sha256": "226c28e2b2a1a2b3858b44bdc0a4c2f3731c692037be4fa8aa8bb998805feb87"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/quality_analyze_original.py",
+      "bytes": 18632,
+      "sha256": "477d2c18b24de400d6b0f8ee01ffe693760fde6de68185384da09e5252b277e6"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/QualityProfileReport-full-read.cs.txt",
+      "bytes": 3215,
+      "sha256": "e5d2a747afe5b6efaa8b8862b69b1df670b9fdada7e239498dcf11d7166abaf6"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/QualityProfileReport-window.cs.txt",
+      "bytes": 3419,
+      "sha256": "4ab4faef87de5b0171e53fd871da8d86a45c6ef8e275ad7ce8af48f6142ac007"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/read_full_profile.py",
+      "bytes": 1490,
+      "sha256": "784b50aace911a42bdf9ab66e8f8088ed5bd05c35c22405a405d6a0a55b31184"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/read_profile_window.py",
+      "bytes": 1951,
+      "sha256": "38258d70994c6b26eec66d018a633b46b23dcd1d56fb3b20ef5c15a415a52989"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/run.ps1",
+      "bytes": 2059,
+      "sha256": "4d6fc761f010cd6045b78048478710853c5dba4083af3767c6d0a5e1c425e829"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/summarize.py",
+      "bytes": 8421,
+      "sha256": "5188cf005ec02c6c480270ec8cf46dd1cbb966b2b9c8aae182338867fa363c9f"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm-console.log",
+      "bytes": 2976,
+      "sha256": "21c80b66547fc9cc196daded2c65456e54544a280fe76ee2a79b4e43d67bc527"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm-display-after.json",
+      "bytes": 677,
+      "sha256": "46efc545042c5dc5ebd0c8627460f09b307daa7b1c037fdb40d871b1444d9550"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm-display-before.json",
+      "bytes": 677,
+      "sha256": "8cb4eeec506fb92b7bf8819fee524bb7d0d178ad4a56def5a331b9c79374283f"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-first-warm-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-console.log",
+      "bytes": 2702,
+      "sha256": "d1d8ca205a8c151d1eaa96c714d183f3392441b0e55aa4275aaf9fd9e67d3b32"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-display-after.json",
+      "bytes": 677,
+      "sha256": "4245b22add36d538e8b48f56ac7b300d97c336b8c23630e1c50ac461057cf97c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-display-before.json",
+      "bytes": 677,
+      "sha256": "07fb26226308d68ea5cec00747be4aa639558583944b96b6ad65981c91bd0c67"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat-console.log",
+      "bytes": 2716,
+      "sha256": "bb52946f57aef5893b4a91ee469c17c3a551eb9b9bae16c0c6d99608c950b659"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat-display-after.json",
+      "bytes": 677,
+      "sha256": "38a8ededee8738dfe526f48e4416a99ee23291a601de91136ac927d71cdad0fd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat-display-before.json",
+      "bytes": 677,
+      "sha256": "e65baa76ca33b971db2360b2609796e9c291cf9296e9c541a65b8e27ea70e4e1"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-development-headroom-repeat-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02-console.log",
+      "bytes": 2966,
+      "sha256": "080a8c6d3a837f2a43fd8795815965057137742bfc062cb047da79eca9169f03"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02-display-after.json",
+      "bytes": 677,
+      "sha256": "70a2a4b2ef33625c39c884f8a2272183fc64ba2b94ab887b9fc52d54b357d50c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02-display-before.json",
+      "bytes": 677,
+      "sha256": "d4df97eb3472a6740485d0f68e52554c3e11d45b932e303084be13309270860a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-first-warm-02-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom-console.log",
+      "bytes": 2700,
+      "sha256": "cf0ea3c681a7337765f315016b8008d0fb0fd4b006be2f5cb15987eb0e6b6e82"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom-display-after.json",
+      "bytes": 677,
+      "sha256": "521612d0a8049cd89839b0d0ff153722ba1f6b65945f9246d8b7e2fb6c3e2999"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom-display-before.json",
+      "bytes": 677,
+      "sha256": "f3821fcd60e5c8a71a050b4e34042c1f059d281b1dc385561a5a930c89220ed3"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-headroom-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability-console.log",
+      "bytes": 4068,
+      "sha256": "1c07243ea3adcc0b7b39564afbff9cc00028c86406942006544614d3dd5aa6dc"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability-display-after.json",
+      "bytes": 677,
+      "sha256": "5e8d9fdb0d2d66052b330da29937f83f8690940c99a73bbf70ae24657d53c21e"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability-display-before.json",
+      "bytes": 677,
+      "sha256": "ace72ba7a6d055d1bf487d75c1d11d73ff769bcaf745f609409c9e79d8da709a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-c1-reconciliation/tallow-release-stability-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    }
+  ]
+}

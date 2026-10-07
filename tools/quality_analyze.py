@@ -273,6 +273,25 @@ def plot(frames, destination):
     content+=f'<text x="8" y="{h+42}" fill="white">Seconds 0–{seconds:.2f}; checkpoint indexes along bottom. Plot clips at 120 ms; raw CSV and summary retain all values.</text></svg>'
     destination.write_text(content)
 
+def launch_diagnostics(build):
+    """Unity's native profiler can run without the replay's -quality-profile flag.
+
+    Keep the recorded runtime flag intact; launch evidence is an additional
+    source, not a reason to rewrite raw run.json or remove expensive frames.
+    """
+    arguments=build.get('arguments',[])
+    if not isinstance(arguments,list) or any(not isinstance(value,str) for value in arguments):
+        return dict(valid=False,failures=['launch manifest arguments malformed; clean timing/headroom rejected'])
+    switches={'-profiler-enable','-profiler-log-file','-deepprofiling','-quality-profile'}
+    found=sorted({value.lower() for value in arguments if value.lower() in switches})
+    errors=[]
+    if found or build.get('nativeProfilerDiagnostic') is True:
+        errors.append('launch manifest declares profiling; clean timing/headroom rejected')
+    elif build.get('cleanTimingEligible') is False:
+        errors.append('launch manifest excludes clean timing/headroom')
+    return dict(valid=not errors,failures=errors,profilingArguments=found,
+                nativeProfilerDiagnostic=build.get('nativeProfilerDiagnostic',False))
+
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('folder',type=Path);modes=p.add_mutually_exclusive_group();modes.add_argument('--performance',action='store_true');modes.add_argument('--headroom',action='store_true');args=p.parse_args()
     run=json.loads((args.folder/'run.json').read_text());route=json.loads((args.folder/'route.json').read_text())
@@ -282,6 +301,12 @@ if __name__=='__main__':
         path=args.folder/'census.csv'
         census=analyze_census(list(csv.DictReader(path.open())) if path.exists() else [],result['seconds'])
         result['objectSourceCensus']=census;result['failures']+=census['failures'];result['valid']=not result['failures']
+    manifest=args.folder/'build.json'
+    if manifest.exists():
+        diagnostics=launch_diagnostics(json.loads(manifest.read_text(encoding='utf-8-sig')))
+        result['launchDiagnostics']=diagnostics
+        if args.performance or args.headroom:
+            result['failures']+=diagnostics['failures'];result['valid']=not result['failures']
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

@@ -4,6 +4,8 @@ October 4, 2026 candidate. **October 6 follow-up: moving-screen lag/tearing and 
 
 **October 7:** the unchanged replacement packages now pass clean Decks timing with displays awake, and the combat recapture passes motion. [Comparison and limitations](validation/C1-C2-awake-comparison.md). Continuous movement, physical tearing and controller feel remain unverified; this frozen chapter and profile are still preserved, and no replacement has been published as validated. All 243 frozen player files were reverified.
 
+**Later October 7 reconciliation:** both current Decks ten-minute stability loops fail, with a worst interval of 62.284 ms. Tallow's first/warm and stability timing pass, but its development GPU evidence remains invalid. [Full current acceptance inventory](validation/C1-oct7-reconciliation.md). C1/C2 and continuous audiovisual review remain open. The frozen player/profile was reverified again and remains unchanged.
+
 Double-click `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`, or run:
 
 ```powershell

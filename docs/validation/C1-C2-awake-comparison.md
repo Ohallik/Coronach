@@ -1,5 +1,7 @@
 # Presentation with displays awake — October 7
 
+**Subsequent requirement reconciliation:** [the later October 7 report](C1-oct7-reconciliation.md) preserves these short-run passes and adds two rejected Decks stability loops plus invalid Tallow development GPU evidence. C1/C2 remain OPEN.
+
 **The same candidate-45 packages pass the clean timing comparisons while Windows reports both displays on. Presentation remains unvalidated.** No runtime, startup policy, assertion, system setting or frozen chapter changed. Continuous movement/audio, physical tearing and controller feel remain UNVERIFIED. The prior display-off failures are retained in [the terrain report](C2-terrain-followup.md).
 
 Evidence: `Builds/quality/2026-10-07-awake-comparison/`. [Machine-readable results](C1-C2-awake-results.json) retain package verification, raw artifact hashes, display snapshots, all measured outcomes and save/package checks. Current runtime is `e93bf13`; the replay HEAD is documentation-only `d6c6910`. Both current packages match the earlier candidate-45 executable, assembly and content hashes. The earlier working-source manifests remain unchanged; their binding to committed runtime source is preserved.
