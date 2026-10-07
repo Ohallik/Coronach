@@ -10,6 +10,11 @@ param(
     [switch]$Motion,
     [ValidateSet('Auto','D3D11','D3D12')][string]$GraphicsApi='Auto',
     [ValidateSet(-1,0,1)][int]$DiagnosticVSync=-1,
+    [switch]$MultithreadedRendering,
+    [switch]$DirectRendering,
+    [switch]$D3D11BitBlt,
+    [ValidateSet(-1,0,1,2,3)][int]$DiagnosticQueue=-1,
+    [ValidateSet('Windowed','Borderless','Exclusive')][string]$WindowMode='Windowed',
     [string]$ResumeFrom,
     [int]$TimeoutSec=780
 )
@@ -49,18 +54,24 @@ if($ResumeFrom){
 }
 $exe=Join-Path $repo $(if($Build -eq 'Release'){'Builds/Windows/Coronach.exe'}else{'Builds/WindowsDev/Coronach.exe'})
 $log=Join-Path $folder 'player.log'
-$launch=@('-screen-fullscreen','0','-screen-width','1920','-screen-height','1080','-quality-route',$routePath,'-quality-output',$folder,'-savepath',(Join-Path $folder 'saves'),'-logFile',$log)
+$launch=@('-screen-fullscreen',[string]([int]($WindowMode -ne 'Windowed')),'-screen-width','1920','-screen-height','1080','-quality-route',$routePath,'-quality-output',$folder,'-savepath',(Join-Path $folder 'saves'),'-logFile',$log)
+if($WindowMode -ne 'Windowed'){$launch+=@('-window-mode',$WindowMode.ToLowerInvariant())}
 if($GraphicsApi -ne 'Auto'){$launch+=('-force-'+$GraphicsApi.ToLowerInvariant())}
 if($DiagnosticVSync -ge 0){$launch+=@('-quality-vsync',[string]$DiagnosticVSync)}
+if($MultithreadedRendering){$launch+='-force-gfx-mt'}
+if($DirectRendering){$launch+='-force-gfx-direct'}
+if($D3D11BitBlt){$launch+=@('-force-d3d11','-force-d3d11-bitblt-model')}
+if($DiagnosticQueue -ge 0){$launch+=@('-quality-queue',[string]$DiagnosticQueue)}
 if ($Capture) { $ffmpeg=(& python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())').Trim(); $launch+=@('-quality-ffmpeg',$ffmpeg) }
 if ($Arrows) { $launch+='-quality-arrows' }
 if ($Profile) { $launch+='-quality-profile' }
 if ($Headroom) { $launch+='-quality-headroom' }
 if ($Census) { $launch+='-quality-census' }
 if ($Motion) { $launch+='-quality-motion' }
-$manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;started=[DateTime]::UtcNow.ToString('o')}
+$manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}
 $assemblyDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data/Managed'
 $manifest.assemblies=@(Get-ChildItem -LiteralPath $assemblyDir -Filter 'Lattice.*.dll' | ForEach-Object { @{name=$_.Name;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })
+$manifest.arguments=$launch
 # Include packaged scene/asset content, not just the Unity launcher EXE and code.
 $dataDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data'
 $manifest.content=@(Get-ChildItem -LiteralPath $dataDir -File | ForEach-Object { @{name=$_.Name;bytes=$_.Length;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })

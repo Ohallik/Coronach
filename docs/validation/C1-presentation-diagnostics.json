@@ -1,0 +1,673 @@
+{
+  "status": "REJECTED: final synchronized presentation remains unresolved; short probes are diagnostic only",
+  "runs": [
+    {
+      "path": "Builds/quality/2026-10-06-presentation/d3d11-sync1",
+      "valid": true,
+      "failures": [],
+      "samples": 7484,
+      "seconds": 124.717247,
+      "p95Ms": 17.0677,
+      "p99Ms": 17.2069,
+      "worstMs": 26.9589,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "hashes": {
+        "run.json": "cf40d9c6025d8ea7ba1b5508de530c65e758bce8611e2de7aaaa44e89e8ae537",
+        "frames.csv": "74dab80774e028691ed57760b9497f472f49e4383c782bb8264aa4a52fa3dc6b",
+        "build.json": "27362543e5884b127d82939f52ee1fceba474ba116b5cb58018c51cd50ad7ac3",
+        "performance-analysis.json": "1995130e24d4dd3fbcb5da2c1cc04d76ccbbba75734b97316d46d59ce14ff2ff"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/d3d12-sync1",
+      "valid": true,
+      "failures": [],
+      "samples": 7484,
+      "seconds": 124.717351,
+      "p95Ms": 17.0435,
+      "p99Ms": 17.1881,
+      "worstMs": 25.637,
+      "hitches": {
+        "25": 1,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "hashes": {
+        "run.json": "3757f9888fac17680fe4e9d38c7d70cbfe04ef3f38e09bc24028ca40c11e8172",
+        "frames.csv": "c6a1484442ac4f58a1675a2153fd1e47bc97d225344d797cfef79fff703fb82e",
+        "build.json": "cb9f8cdb4c707e7875ed78b2b426c1500a287497875bd24b7ace005db57f7e9c",
+        "performance-analysis.json": "b1a75788ef1e2b9d2aa42c0e8b34c2a274ebb01fb4b559108414571b0cf5cef7"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/development-bitblt-probe",
+      "valid": false,
+      "failures": [
+        "hitch budget exceeded",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 793,
+      "seconds": 25.059131,
+      "p95Ms": 32.5917,
+      "p99Ms": 33.1387,
+      "worstMs": 33.5655,
+      "hitches": {
+        "25": 792,
+        "33.3": 3,
+        "50": 0,
+        "100": 0
+      },
+      "hashes": {
+        "run.json": "207fe814c1fd3cebda38e7eed1f6ae5378b5c9795bfc885ab5c5bf4298d4cf72",
+        "frames.csv": "b07362c98a2b04e51604b809b425be5c6dc2185f16291740da40728f74d35868",
+        "build.json": "4aaaccb5d1d3a00469194769e7205296f1c3ccde47196127eb6cfe220b94d016",
+        "performance-analysis.json": "313914297e0d43a01b32dff3835cb743f027bd299379b718284a4668ceecb252"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/development-render-thread",
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "choose stock: UI feedback missing",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 830,
+      "seconds": 129.012334,
+      "p95Ms": 265.3421,
+      "p99Ms": 266.5443,
+      "worstMs": 277.3047,
+      "hitches": {
+        "25": 490,
+        "33.3": 490,
+        "50": 490,
+        "100": 490
+      },
+      "hashes": {
+        "run.json": "8ba4062c856b9e078c4ae45adb945f2e2bcb37db22293f93108f0ca6144a5a5e",
+        "frames.csv": "f4c7d70e7abdb352cba9d9501e46d9b5a3a6401f3c81445f365bdcac0ca9f5d0",
+        "build.json": "8cf08f1aa2798b8af99dbb872f4c61af4923190cc961b1d7ed43f718714df8f2",
+        "performance-analysis.json": "7cdd744f3e3da7dd04fae16c896ac35975c95715a37553b9324a277b71fbda32"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/final-development",
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "choose stock: UI feedback missing",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 798,
+      "seconds": 128.581459,
+      "p95Ms": 265.4064,
+      "p99Ms": 276.4709,
+      "worstMs": 278.5207,
+      "hitches": {
+        "25": 489,
+        "33.3": 489,
+        "50": 489,
+        "100": 489
+      },
+      "hashes": {
+        "run.json": "d41f9d9b32a07361c1968021d7ed0016571f2134f98406b3318c06c14d8e4d0b",
+        "frames.csv": "5be989cda8be09d242a198b242c11bf27f5fb974124e48830b6ea3a77ab147f3",
+        "build.json": "6c57600a3307eeab523b45df9345d60f426a66792ea465125f6175b265f63e42",
+        "performance-analysis.json": "b8e1242d8efb3594f8ebd4a85a85dead2ee8f26261781be0b9e8567743b3d4d6"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/final-development-d3d11",
+      "valid": false,
+      "failures": [
+        "approach Mira: checkpoint not reached",
+        "approach Mira: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI feedback missing",
+        "choose stock: UI world expected shop",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: wrong hero",
+        "talk to Mira: UI feedback missing",
+        "talk to Mira: UI world expected dialogue",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 494,
+      "seconds": 128.105867,
+      "p95Ms": 265.6787,
+      "p99Ms": 266.577,
+      "worstMs": 268.4255,
+      "hitches": {
+        "25": 493,
+        "33.3": 493,
+        "50": 493,
+        "100": 493
+      },
+      "hashes": {
+        "run.json": "9299338812021156c3dd77a974fb42b64b1b210ee9cdbde1135e52b053a52940",
+        "frames.csv": "4fc044eaef2cd5f819e2cea0c22cd455431da412bb82b20d678952d7534bbeda",
+        "build.json": "227ffc19be4b5e56f98a5516bced802753993a150141df019e0b8842a6c285e0",
+        "performance-analysis.json": "f7c89474eff1f5fa127e63fc2ccc9edd7dfc7d8a9550a092a18fb5f1d4149172"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/final-release",
+      "valid": false,
+      "failures": [
+        "Sela full reversal to airlock: checkpoint not reached",
+        "Sela full reversal to airlock: navigation checkpoint missed",
+        "Sela port hull boundary: checkpoint not reached",
+        "Sela port hull boundary: navigation checkpoint missed",
+        "back to public promenade: checkpoint not reached",
+        "back to public promenade: navigation checkpoint missed",
+        "choose stock: UI dialogue expected shop",
+        "choose stock: UI feedback missing",
+        "close shop: UI dialogue expected world",
+        "dock vestibule return: checkpoint not reached",
+        "dock vestibule return: navigation checkpoint missed",
+        "galley to service gallery: checkpoint not reached",
+        "galley to service gallery: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "housing back to office: checkpoint not reached",
+        "housing back to office: navigation checkpoint missed",
+        "missing samples",
+        "office to promenade: checkpoint not reached",
+        "office to promenade: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "parts store aisle: checkpoint not reached",
+        "parts store aisle: navigation checkpoint missed",
+        "quiet cabin corridor: checkpoint not reached",
+        "quiet cabin corridor: navigation checkpoint missed",
+        "rear receiving gallery: checkpoint not reached",
+        "rear receiving gallery: navigation checkpoint missed",
+        "repair public entrance: checkpoint not reached",
+        "repair public entrance: navigation checkpoint missed",
+        "runtime validation rejected",
+        "service bridge to housing: checkpoint not reached",
+        "service bridge to housing: navigation checkpoint missed",
+        "service bridge to provisions: checkpoint not reached",
+        "service bridge to provisions: navigation checkpoint missed",
+        "shared galley: checkpoint not reached",
+        "shared galley: navigation checkpoint missed",
+        "sprint public bridge to repair: checkpoint not reached",
+        "sprint public bridge to repair: navigation checkpoint missed",
+        "swap to Sela: character mismatch",
+        "swap to Sela: wrong hero",
+        "workshop center aisle: checkpoint not reached",
+        "workshop center aisle: navigation checkpoint missed"
+      ],
+      "samples": 807,
+      "seconds": 128.84588,
+      "p95Ms": 265.7345,
+      "p99Ms": 267.2441,
+      "worstMs": 279.4724,
+      "hitches": {
+        "25": 490,
+        "33.3": 490,
+        "50": 490,
+        "100": 490
+      },
+      "hashes": {
+        "run.json": "dec2911b2ee63e40136ee55a3f60bea55de74e27dee9f304c3ea362c4bbe4ab3",
+        "frames.csv": "c9769aacb9d7056de586d41fce0d9b1c253d94636335d2d947546f65d5e53ecf",
+        "build.json": "b2cfbd1620d34b1600b5b4f18fd9ad85b96fedf0eaf972efa0b7ad9f57ac75a4",
+        "performance-analysis.json": "7b0a956066e4d86c77ac81bb77c6fc1f41b5f6748a2c20ae2de7130e3497e5c2"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/rearmed-release-probe",
+      "valid": false,
+      "failures": [
+        "hitch budget exceeded",
+        "missing samples",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 164,
+      "seconds": 25.47405,
+      "p95Ms": 265.3576,
+      "p99Ms": 267.5083,
+      "worstMs": 273.8978,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "55e5327ce689014c21cc7fe0f1f09fd29274d794cf48bcef842c52e3a999f5be",
+        "frames.csv": "47fc44c741d9087aabb43f7c0f1f215896f0fc839ff1827848862e7ae106b2a5",
+        "build.json": "99ef94957f80b5afca29dc83f81924a51c8656ea46520cd48b7f6f22ba876829",
+        "performance-analysis.json": "a05e8853819663b8db91f8a1d737a083b9d3ecbc82af75859f335ac02465791e"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-awake-display-probe",
+      "valid": false,
+      "failures": [
+        "hitch budget exceeded",
+        "missing samples",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 158,
+      "seconds": 25.472412,
+      "p95Ms": 265.1857,
+      "p99Ms": 267.847,
+      "worstMs": 268.6241,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "31d62ba9e3dc6ab9d92b401d9ce8e2ac51916e62346546c82bc27c7dee914c2b",
+        "frames.csv": "98b5b2474684143ad1b741010b0508f32752e827679436a420ebf3c528b98fa0",
+        "build.json": "48dd0e7c46eb925137f03202090f7fb077eea604a918fad34e8ee4001907a8cb",
+        "performance-analysis.json": "dca59c4a6dd42ae1526db668a119247a07053fe7990c074889da3c6b3542e91d"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-bitblt-unsync-probe",
+      "valid": false,
+      "failures": [
+        "ordinary timing requires synchronized presentation on the 60 Hz reference display",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 1502,
+      "seconds": 25.016897,
+      "p95Ms": 16.9752,
+      "p99Ms": 17.0772,
+      "worstMs": 18.6545,
+      "hitches": {
+        "25": 0,
+        "33.3": 0,
+        "50": 0,
+        "100": 0
+      },
+      "hashes": {
+        "run.json": "11956a86ee06bb4dfaff97c6c3636da387e3b9544e66a9fd1c61af308c60e847",
+        "frames.csv": "4d553efb725e0e30b6fb04034f7c5a5c1af46e1056e42675a366b074eb93a514",
+        "build.json": "91af779655b2396e5b12614f791bcaab7807f157c8e368ca1f3b1be3f4f1045d",
+        "performance-analysis.json": "7a67e8b90ad8a27ca601fa8c73c796a182e83a79cc1fb54500de5cb272fd8a96"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-borderless-probe",
+      "valid": false,
+      "failures": [
+        "approach Mira: checkpoint not reached",
+        "approach Mira: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "runtime validation rejected",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 163,
+      "seconds": 25.456261,
+      "p95Ms": 265.3667,
+      "p99Ms": 266.7781,
+      "worstMs": 267.0405,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "fbe281ec65aae04ceddd433023877e628850e0e5e7b645dd476236eae56f6e13",
+        "frames.csv": "4878c904dc7097285f23efb306e9a1959fbe5416ca47bf2e45b31548ad447cd1",
+        "build.json": "d9b48d45b9564c5c81485df81a95948009aa50a518b599073c2d1f12e2de7c8b",
+        "performance-analysis.json": "c5d5fb192895d8520b4f2ccc7920e6b6672a91408b6581e5d3932abc8c7b3c3c"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-direct-probe",
+      "valid": false,
+      "failures": [
+        "approach Mira: checkpoint not reached",
+        "approach Mira: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "runtime validation rejected",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 168,
+      "seconds": 25.598719,
+      "p95Ms": 265.4513,
+      "p99Ms": 266.1351,
+      "worstMs": 274.4438,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "fd95ebdd52b35bd0446e88884890779179e481564e25941f83ac28aa9dffd62c",
+        "frames.csv": "39c9961a0a52d801b5fd24f99270fdd8ebc00200a0336041c40738d7edbfd16c",
+        "build.json": "18f81faf16d7aeed15d77f4f3b5d70baa9fbff7e8f26c61e3d58b14a322a503a",
+        "performance-analysis.json": "3ef772043405b42e0609c2972983f8116ce913c3a5e38e7ae9191839220f7b6c"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-dwm-bitblt-probe",
+      "valid": false,
+      "failures": [
+        "approach Mira: checkpoint not reached",
+        "approach Mira: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "ordinary timing requires synchronized presentation on the 60 Hz reference display",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "runtime validation rejected",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 99,
+      "seconds": 25.407765,
+      "p95Ms": 265.4012,
+      "p99Ms": 265.7534,
+      "worstMs": 265.7534,
+      "hitches": {
+        "25": 98,
+        "33.3": 98,
+        "50": 98,
+        "100": 98
+      },
+      "hashes": {
+        "run.json": "b58267ab16aa5c76464a5bad0776890ab55219d82d0d7f31c5c4db23a29cf474",
+        "frames.csv": "fcc91537b0a63c3c0db4e91b99972789817c1216359122b9b5a70d75c5aa03f8",
+        "build.json": "bf6621408379c2bf18953fd436f0c9f56e71a269b01adb0489f0746c0de75994",
+        "performance-analysis.json": "bc9e153d93e73e71a56eadec90d2993ad3ec31f652596d4b73d3f32c294a485e"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-exclusive-d3d11-probe",
+      "valid": false,
+      "failures": [
+        "approach Mira: checkpoint not reached",
+        "approach Mira: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "runtime validation rejected",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 99,
+      "seconds": 25.408611,
+      "p95Ms": 266.2034,
+      "p99Ms": 267.5413,
+      "worstMs": 267.5413,
+      "hitches": {
+        "25": 98,
+        "33.3": 98,
+        "50": 98,
+        "100": 98
+      },
+      "hashes": {
+        "run.json": "cb2357cd4c61949af6a4ebba66cf951e2026404710064e26f544300322164159",
+        "frames.csv": "0b4c3d5671c7625ea573fae76f4dc99b36fc2869dbc22f7fedea16caf36fb5fc",
+        "build.json": "d6b7e8e11e0ed64d675894d4ef514871eb48fcd819044f76a50ca3733f1f519b",
+        "performance-analysis.json": "aab7ce447b19acfa977ab89794e4ae3b7394424a89e55aabf4d4ed62089f5578"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-explicit-sync-probe",
+      "valid": false,
+      "failures": [
+        "hitch budget exceeded",
+        "missing samples",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 159,
+      "seconds": 25.494875,
+      "p95Ms": 266.1139,
+      "p99Ms": 267.2659,
+      "worstMs": 277.9394,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "46989ddafb1ce8c8fc839565cae944466db15ecbc23bd894b7d3b6428b12e80e",
+        "frames.csv": "805b75d9174fb24b26e10901db56a2b9b73578ffd7058be286c77401047ba1c9",
+        "build.json": "9b3adee461c078b08562604dbcd0ef27719072d533a4ec7bdfc858bc0f7e7f7e",
+        "performance-analysis.json": "d0854dac32327ce5ef969f4991937012f5361a3e6aa532a4f96e1bd8619a86c0"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-queue0-probe",
+      "valid": false,
+      "failures": [
+        "hitch budget exceeded",
+        "missing samples",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 161,
+      "seconds": 25.445172,
+      "p95Ms": 265.9073,
+      "p99Ms": 267.1173,
+      "worstMs": 267.9087,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "cd767c7e2cfd22794b4e00f7c08e5f0616ebcf3ce55206dd99141f8c2efa464d",
+        "frames.csv": "3958ae63e0cd7cd1608a93e76c1cec7a7258082f3198fece6433ab76b2725870",
+        "build.json": "b14a28f2941c1001dc62fa459a23d2463a641e53ef4949c74e2181f676644915",
+        "performance-analysis.json": "0fc3dc3a7e7a0eebe8006c5c58af83cea4831372f18ad8a60dd508c937b71ed6"
+      }
+    },
+    {
+      "path": "Builds/quality/2026-10-06-presentation/release-queue1-probe",
+      "valid": false,
+      "failures": [
+        "approach Mira: checkpoint not reached",
+        "approach Mira: navigation checkpoint missed",
+        "hitch budget exceeded",
+        "missing samples",
+        "office airlock to promenade: checkpoint not reached",
+        "office airlock to promenade: navigation checkpoint missed",
+        "office slow approach: checkpoint not reached",
+        "office slow approach: navigation checkpoint missed",
+        "office turn to public route: checkpoint not reached",
+        "office turn to public route: navigation checkpoint missed",
+        "p95 exceeds 18.5 ms",
+        "p99 exceeds 25 ms",
+        "public bridge to market: checkpoint not reached",
+        "public bridge to market: navigation checkpoint missed",
+        "runtime validation rejected",
+        "timing route shorter than 120 seconds"
+      ],
+      "samples": 98,
+      "seconds": 25.673613,
+      "p95Ms": 267.8286,
+      "p99Ms": 277.8495,
+      "worstMs": 277.8495,
+      "hitches": {
+        "25": 97,
+        "33.3": 97,
+        "50": 97,
+        "100": 97
+      },
+      "hashes": {
+        "run.json": "e884089fc32eddae8617ee6a0f98e0ea4d5d39171cfd6ad028aa63f3c1ebec78",
+        "frames.csv": "8355861f779fc3f72ff0f009f97921b0f5e81caf60a47bd8c62bc35b022d8710",
+        "build.json": "54d92567833871d239293deca71fe55e1b9e027121703cf709087de6d26f0684",
+        "performance-analysis.json": "11cf1287ca0f1a5759da57472b4f000d7c4ce780e25491f931aa640193fedaba"
+      }
+    }
+  ]
+}

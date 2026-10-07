@@ -28,6 +28,8 @@ namespace Lattice.Core
             // Explicit diagnostic only; ordinary routes retain startup policy.
             if(DevArgs.Has("-quality-route")&&int.TryParse(DevArgs.Value("-quality-vsync"),out int sync)&&sync>=0&&sync<=1)
             {QualitySettings.vSyncCount=sync;Application.targetFrameRate=sync==0?60:-1;}
+            if(DevArgs.Has("-quality-route")&&int.TryParse(DevArgs.Value("-quality-queue"),out int queue)&&queue>=0&&queue<=3)
+                QualitySettings.maxQueuedFrames=queue;
         }
         void Update(){PromptService.Poll();State.playtime+=Time.unscaledDeltaTime;}
         void OnDestroy(){if(Current==this){Input?.Dispose();Current=null;}}

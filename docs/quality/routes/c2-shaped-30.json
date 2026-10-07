@@ -12,9 +12,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Taren",
       "expectedForm": "Shaped"
@@ -216,9 +216,9 @@
       "seconds": 3,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Taren",
       "expectedForm": "Shaped"
@@ -420,9 +420,9 @@
       "seconds": 3,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Taren",
       "expectedForm": "Shaped"
@@ -624,9 +624,9 @@
       "seconds": 3,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Taren",
       "expectedForm": "Shaped"
@@ -636,9 +636,9 @@
       "seconds": 7,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": -16,
         "y": 0,
-        "z": -6
+        "z": -24
       },
       "expectedCharacter": "Taren",
       "expectedForm": "Shaped"
@@ -734,9 +734,9 @@
       "seconds": 9,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Sela",
       "expectedForm": "Shaped"
@@ -938,9 +938,9 @@
       "seconds": 3,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Sela",
       "expectedForm": "Shaped"
@@ -1142,9 +1142,9 @@
       "seconds": 3,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Sela",
       "expectedForm": "Shaped"
@@ -1346,9 +1346,9 @@
       "seconds": 3,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 14,
         "y": 0,
-        "z": -6
+        "z": -20
       },
       "expectedCharacter": "Sela",
       "expectedForm": "Shaped"
@@ -1358,9 +1358,9 @@
       "seconds": 7,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": -16,
         "y": 0,
-        "z": -6
+        "z": -24
       },
       "expectedCharacter": "Sela",
       "expectedForm": "Shaped"

@@ -1,6 +1,6 @@
 # Nursery chapter candidate
 
-October 4, 2026. **Ready to try; C7 acceptance and C8 completion remain open.**
+October 4, 2026 candidate. **October 6 follow-up: moving-screen lag/tearing and motion acceptance are open. This preserved a3aaad6 package does not contain the new knee repair. Its replacement failed synchronized presentation and has not been published.** See [current repair evidence](validation/C1-C2-presentation-motion.md). C7/C8 remain open.
 
 Double-click `Builds/Workshop-Chapter/Play Coronach Chapter.cmd`, or run:
 

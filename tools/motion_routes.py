@@ -9,7 +9,7 @@ def centre(hero,x,z,seconds=9):
     return dict(name=hero+' return to clear circulation',seconds=seconds,navigate=True,
                 point=dict(x=x,y=0,z=z),expectedCharacter=hero)
 
-for form,scene,point in [('natural','Hub_Decks',(-28,-11)),('shaped','Sorrel_Ridges',(0,-6))]:
+for form,scene,point in [('natural','Hub_Decks',(-28,-11)),('shaped','Sorrel_Ridges',(14,-20))]:
     steps=[]
     for hero in ['Taren','Sela']:
         if hero=='Sela':
@@ -22,7 +22,9 @@ for form,scene,point in [('natural','Hub_Decks',(-28,-11)),('shaped','Sorrel_Rid
         start=len(steps)
         steps.append(centre(hero,*point))
         # Natural uses its actual arrival vestibule. Shaped uses the existing
-        # clear landing ground south of the outpost, before encounter triggers.
+        # graded southeast landing ground, clear of the raised launch pad,
+        # outside the expanded outpost pocket
+        # (whose southern edge is now z=-7.5) and before encounter triggers.
         # No enemy/player stats, damage rules, physics or form are overridden.
         for gait,magnitude,seconds,rest,boost in [
             ('near-zero starts',.3,.95,.6,False),('ordinary travel',1,1.2,.35,False),
@@ -40,7 +42,7 @@ for form,scene,point in [('natural','Hub_Decks',(-28,-11)),('shaped','Sorrel_Rid
         # Public promenade is a clear, straight walking connection across all
         # three occupied hulls. Longer strides here cover complete torso cycles;
         # the vestibule's eight-direction sprint reversals are necessarily short.
-        long_point=(-28,-3) if form=='natural' else (0,-6)
+        long_point=(-28,-3) if form=='natural' else (-16,-24)
         steps.append(centre(hero,*long_point,7))
         for gait,magnitude,seconds,boost in [('slow cycle',.3,5,False),('travel cycle',1,3,False),('sprint cycle',1,3,True)]:
             radians=math.radians(90-20)

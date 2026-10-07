@@ -1,6 +1,6 @@
 # Screen presentation and leg motion — October 6
 
-Nathan reported lag/tearing across the middle of the screen during movement and wonky legs. This is a renewed presentation rejection despite previous timing/contact passes. The repair is being validated; C2/C7/C8 acceptance remains open.
+Nathan reported lag/tearing across the middle of the screen during movement and wonky legs. This is a renewed presentation rejection despite previous timing/contact passes. The knee-snap repair passes its regressions and flat-ground player diagnostics. Synchronized presentation, steep-ground and pad contact remain REJECTED; C1/C2/C7/C8 acceptance stays open.
 
 ## Presentation
 
@@ -15,11 +15,23 @@ Two isolated release comparisons on this machine's 60 Hz display completed the o
 | D3D12, VSync 1, cap -1 | 124.717 / 7,484 | 17.044 / 17.188 | 25.637 | 0 |
 | D3D11, VSync 1, cap -1 | 124.717 / 7,484 | 17.068 / 17.207 | 26.959 | 0 |
 
-Raw runs: `Builds/quality/2026-10-06-presentation/d3d12-sync1` and `d3d11-sync1`. These were diagnostic builds from dirty source based on 49df94f; packaged DLL/content hashes are retained. Neither run captured/profiled frames or lost focus. No graphics-backend change is necessary from this comparison. The production player retains its existing automatic API selection.
+Raw runs: `Builds/quality/2026-10-06-presentation/d3d12-sync1` and `d3d11-sync1`. These were diagnostic builds from dirty source based on 49df94f; packaged DLL/content hashes are retained. Neither run captured/profiled frames or lost focus. These early passes did not reproduce in final players. The candidate retains automatic API selection; no tested alternate backend resolved the later failure.
 
 The boot regression rejects the actual old startup (`boot-red.xml`). The offline performance contract now requires synchronization, no competing software cap and the 60 Hz reference display, while preserving all frame-time/hitch/input-response limits. Changed tests reject the old analyzer (8 failures); all 38 analyzer tests pass after implementation, including unsynchronized, wrong-cap, wrong/missing-refresh and missing-policy controls. Higher-refresh displays use their refresh rate in ordinary play; these are not silently called measurements of the 60 Hz reference configuration.
 
 A signed Intel PresentMon 2.6.0 portable tracer was obtained from the official release. Windows denied its ETW trace session; no scan-out CSV was produced, and no permission/group/driver change was made. Its probe stdout/stderr and executable hash remain under the presentation evidence folder. Physical tearing is consequently **UNVERIFIED**, including VRR/driver overrides. Do not describe this as a measured tear-free result.
+
+## Final presentation rejection
+
+The ordinary-startup final development run records p95 **265.406 ms**, p99 **276.471 ms**, worst **278.521 ms**; the release records **265.735 / 267.244 / 279.472 ms**. Both miss interactions/checkpoints. Per-frame Unity focus stays true and the runner finds no concurrent editor/player workload. Do not mistake the short probes' runtime `valid=true` (goals reached) for performance acceptance; the unchanged offline validator rejects their timing/sample count and short duration.
+
+The development CPU profile at `Builds/quality/C1/oct6-development-sync-profile` localizes approximately 240–259 ms to `TimeUpdate.WaitForLastPresentationAndUpdateTime → WaitForTargetFPS → DXGI.WaitOnSwapChain`. Main-thread gameplay and submission work is a few milliseconds. This identifies the wait site, not its driver/display root cause. [Full comparison metrics and raw hashes](C1-presentation-diagnostics.json).
+
+Tested and rejected: final D3D11 and D3D12; explicit same-value synchronization override; multithreaded rendering (log confirms threaded mode); direct rendering; queued-frame values 0/1; borderless and D3D11 exclusive modes; a one-Awake off/on re-arm. D3D11 BitBlt plus VSync 1 avoids quarter-second waits but runs around 32 ms/frame, outside the 60 fps budget. BitBlt with VSync off runs smoothly but remains unsynchronized. A diagnostic DwmFlush compositor clock also stalls and was removed from source (archived under the ignored evidence folder). No custom compositor workaround was accepted.
+
+A read-only desktop check found conflicting monitor telemetry: generic WMI Availability=8 (offline), two physical monitor records Active=true, and WTS session 1 active/unlocked. A temporary thread-scoped display-awake request did not fix the wait and was restored in `finally`. The actual physical monitor state is unanswered. Computer-use failed with `Computer Use native pipe is unavailable` after its documented retries; no window input was attempted. None of these observations proves a monitor/driver cause. Do not repeat broad backend probes without a new hypothesis; establish physical display/desktop state and compare the same ordinary route first.
+
+Microsoft documents [display idle behavior](https://learn.microsoft.com/en-us/windows/win32/power/system-sleep-criteria) and [WTS session flags](https://learn.microsoft.com/en-us/windows/win32/api/wtsapi32/ns-wtsapi32-wtsinfoex_level1_w); the state readings above are machine observations, not conclusions from those documents. Power plans, device drivers and security permissions were not changed. The frozen a3aaad6 chapter remains intact.
 
 ## Legs
 
@@ -48,6 +60,23 @@ Codex opened both heroes' candidate baked-pose contact sheets, a full-resolution
 
 Full EditMode: **97/97 pass**; full PlayMode: **230/230 pass**; offline controls: **119/119 pass**, zero skipped. The final EditMode repeat follows diagnostic assertion aggregation and removal of an unused solver parameter; no runtime behavior changed after the full PlayMode pass. `all-bounds-red.xml` rejects both excessive angle speed and knee displacement in all eight original cases. The live animation slope probe covers both heroes/forms uphill and downhill; worst uphill rendered-sole drift is 24.64 mm, within the unchanged 50 mm limit. The existing pause and moving-fire stride tests also pass.
 
-Raw suite artifacts are in `Builds/quality/2026-10-06-legs/`. Nathan's two current LocalLow saves match the pre-run hashes and count (`2026-10-06-presentation/save-hashes-after-suite.json`). Final built-player checks and package replacement are next; the frozen chapter remains a3aaad6.
+Raw suite artifacts are in `Builds/quality/2026-10-06-legs/`. Nathan's two current LocalLow saves match the pre-run hashes and count (`2026-10-06-presentation/save-hashes-after-suite.json`). Both players build; final synchronized presentation is rejected as above, and the frozen chapter remains a3aaad6. Final save hashes are retained in `2026-10-06-presentation/save-hashes-final.json`.
 
 Continuation instructions: [NEXT_SESSION_PROMPT.md](../NEXT_SESSION_PROMPT.md). C1–C6 observation gaps, C7 acceptance, C8 map/story polish and C9–C10 production remain explicit there and in the production plan.
+
+## Ordinary movement and remaining terrain failures
+
+These release captures use the actual virtual gamepad with `-DiagnosticVSync 0`, 60 fps, capture and motion telemetry. They are motion-only diagnostics, not synchronized C1 evidence. The first synchronized Natural run remains rejected for missing samples and a missed hero swap.
+
+| Route | Seconds / samples | Worst central foot drift | Result |
+| --- | ---: | ---: | --- |
+| Civilian, both heroes | 222.180 / 13,331 | 15.62 mm | Motion diagnostic PASS |
+| Combat, both heroes, clear graded ground | 232.283 / 13,937 | 13.90 mm | Motion diagnostic PASS |
+| Combat, southwest basin shoulder | 232.545 / 13,953 | 65.86 mm | REJECTED: exceeds unchanged 50 mm limit |
+| Combat, landing-pad crossing | 232.420 / 13,945 | 22.19 mm | REJECTED: 173.18 mm sole penetration |
+
+[Exact summaries, failures and hashes](C2-oct6-player-motion.json). The original Sorrel fixture also rejects form coverage because the redesigned civilian pocket now begins at z=-7.5. Updated `motion_routes.py` regenerates the 30/60/120 flat-ground fixtures without altering any motion or form assertion. Only 60 fps was recaptured after this repair; 30/120 remain due for this runtime.
+
+Keep `docs/quality/routes/c2-shaped-sorrel-slope-60.json` and `c2-shaped-sorrel-pad-60.json` as ordinary-input reproduction cases. The shoulder trace shows roughly 39° local ascent in a failing walking contact; the existing ±10° suite does not cover it. The pad case needs support sampling/foot placement investigation. Their failure on the previous pre-repair solver has not yet been measured, so do not label either a new regression or pre-existing defect without a comparison.
+
+Opened final player stills: `player-natural60-diagnostic/087.png` and `player-shaped60-clear/124.png`, plus the rejected pad run's `071.png`. The 60 fps capture directories retain `replay.mp4`, raw motion and actual AudioListener mix. Continuous normal/slow video observation remains UNVERIFIED; opened stills do not establish convincing motion through all transitions. No replacement workshop was published.
