@@ -122,10 +122,19 @@ namespace Lattice.UI
         ProfilerRecorder activeCpu,activeRender,gpuWork,capWait;
         readonly FrameTiming[] frameTimings = new FrameTiming[1];
         bool frameTimingEnabled;
+        bool gpuClocks;
+        struct GpuClockSample
+        {
+            public int sample;
+            public long utcTicks, qpc;
+            public ulong present, complete;
+        }
+        readonly List<GpuClockSample> gpuClockSamples = new();
         QualityCapture capture;
         double lastScreenshot=-1000;
         Vector3 measuredMotion;
         bool arrows, profiled, tracing, headroom;
+        QualityTrace segmentedTrace;
 
         public static QualityRoute ReadRoute()
         {
@@ -145,7 +154,15 @@ namespace Lattice.UI
             folder = Path.GetFullPath(DevArgs.Value("-quality-output"));
             arrows = DevArgs.Has("-quality-arrows");
             profiled = DevArgs.Has("-quality-profile");
+            string segmentFrames = DevArgs.Value("-quality-profile-segments");
+            if (!string.IsNullOrEmpty(segmentFrames))
+            {
+                profiled = true;
+                segmentedTrace = new QualityTrace(folder, int.Parse(segmentFrames, CultureInfo.InvariantCulture));
+            }
             headroom = DevArgs.Has("-quality-headroom");
+            gpuClocks = DevArgs.Has("-quality-gpu-clocks");
+            if (gpuClocks && !headroom) throw new InvalidOperationException("GPU clock diagnostics require headroom mode");
             census = DevArgs.Has("-quality-census");
             motion = DevArgs.Has("-quality-motion");
             Directory.CreateDirectory(folder);
@@ -191,7 +208,7 @@ namespace Lattice.UI
                 capWait=ProfilerRecorder.StartNew(new ProfilerCategory("VSync"),"WaitForTargetFPS");
             }
             GameHud.MeasureCosts = profiled;
-            if(profiled)
+            if(profiled && segmentedTrace == null)
             {
                 UnityEngine.Profiling.Profiler.logFile=Path.Combine(folder,"cpu-ui-render.raw");
                 UnityEngine.Profiling.Profiler.enableBinaryLog=true;
@@ -225,6 +242,7 @@ namespace Lattice.UI
             }
             recording = false; held = default;
             StopProfile();
+            segmentedTrace?.Finish();
             GameHud.MeasureCosts=false;
             yield return null;
             if (capture != null) yield return capture.Finish();
@@ -308,6 +326,7 @@ namespace Lattice.UI
             var actor = PartyController.Current != null ? PartyController.Current.Active : null;
             string observedUi = ObserveUi();
             double now = clock.Elapsed.TotalSeconds;
+            segmentedTrace?.Sample(samples.Count, Time.frameCount, stepIndex, now);
             if(census&&now>=nextCensus)
             {
                 long started=System.Diagnostics.Stopwatch.GetTimestamp();
@@ -367,6 +386,9 @@ namespace Lattice.UI
                 hasTiming = FrameTimingManager.GetLatestTimings(1, frameTimings) > 0;
                 if (hasTiming) timing = frameTimings[0];
             }
+            if (gpuClocks) gpuClockSamples.Add(new GpuClockSample {
+                sample = samples.Count, utcTicks = DateTime.UtcNow.Ticks, qpc = System.Diagnostics.Stopwatch.GetTimestamp(),
+                present = timing.cpuTimePresentCalled, complete = timing.cpuTimeFrameComplete });
             samples.Add(new Sample {
                 elapsed = now, ms = (float)((now - previous) * 1000), gameDelta = Time.deltaTime,
                 player = actor != null ? actor.transform.position : Vector3.zero, camera = Camera.main.transform.position, forward = actor != null ? actor.transform.forward : Vector3.zero,
@@ -479,6 +501,18 @@ namespace Lattice.UI
             if(headroom)report.gpuTiming=samples.Exists(s=>s.gpuWork>0)?"GPU Frame Time counter (nanoseconds; asynchronous)":"UNAVAILABLE (counter produced no positive samples)";
             File.WriteAllText(Path.Combine(folder, "run.json"), JsonUtility.ToJson(report, true));
             File.WriteAllText(Path.Combine(folder, "route.json"), JsonUtility.ToJson(route, true));
+            if (gpuClocks)
+            {
+                using var clocks = new StreamWriter(Path.Combine(folder, "gpu-clocks.csv"));
+                clocks.WriteLine("sample,utcTicks,qpc,cpuTimePresentCalled,cpuTimeFrameComplete");
+                foreach (var s in gpuClockSamples) clocks.WriteLine(FormattableString.Invariant($"{s.sample},{s.utcTicks},{s.qpc},{s.present},{s.complete}"));
+                File.WriteAllText(Path.Combine(folder, "gpu-clocks.json"), Newtonsoft.Json.JsonConvert.SerializeObject(new {
+                    cleanTimingEligible = false, utcTickEpoch = "0001-01-01T00:00:00Z", ticksPerSecond = TimeSpan.TicksPerSecond,
+                    qpcFrequency = System.Diagnostics.Stopwatch.Frequency, cpuFrequency = FrameTimingManager.GetCpuTimerFrequency(),
+                    gpuFrequency = FrameTimingManager.GetGpuTimerFrequency(), graphicsApi = SystemInfo.graphicsDeviceType.ToString(),
+                    note = "Raw clocks for diagnosing invalid durations. Never substitute a clock-derived value for raw GPU duration."
+                }, Newtonsoft.Json.Formatting.Indented));
+            }
             // Read-only snapshot: Save() would mutate savedAtUtc and create an
             // autosave the player did not request.
             File.WriteAllText(Path.Combine(folder, "final-state.json"), Newtonsoft.Json.JsonConvert.SerializeObject(GameServices.Current.State, Newtonsoft.Json.Formatting.Indented));
@@ -498,6 +532,7 @@ namespace Lattice.UI
         void OnDestroy()
         {
             StopProfile();
+            segmentedTrace?.Stop();
             InputSystem.onBeforeUpdate -= InputUpdate;
             if (pad != null && pad.added) InputSystem.RemoveDevice(pad);
             allocations.Dispose(); mainThread.Dispose(); renderThread.Dispose(); batches.Dispose(); memory.Dispose(); audioVoices.Dispose(); sceneObjects.Dispose(); objects.Dispose();

@@ -66,6 +66,16 @@ class NativeProfileManifestContract(unittest.TestCase):
         self.assertEqual(1, code)
         self.assertFalse(result['valid'])
 
+    def test_segmented_profile_argument_rejected(self):
+        code, result = self.result(['-quality-profile-segments', '1800'])
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
+    def test_gpu_clock_diagnostic_cannot_accept_headroom(self):
+        code, result = self.result(['-quality-gpu-clocks'], headroom=True)
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
     def test_explicit_diagnostic_exclusion_rejected(self):
         code, result = self.result([], cleanTimingEligible=False)
         self.assertEqual(1, code)

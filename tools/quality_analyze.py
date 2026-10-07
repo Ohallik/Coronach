@@ -282,11 +282,13 @@ def launch_diagnostics(build):
     arguments=build.get('arguments',[])
     if not isinstance(arguments,list) or any(not isinstance(value,str) for value in arguments):
         return dict(valid=False,failures=['launch manifest arguments malformed; clean timing/headroom rejected'])
-    switches={'-profiler-enable','-profiler-log-file','-deepprofiling','-quality-profile'}
+    switches={'-profiler-enable','-profiler-log-file','-deepprofiling','-quality-profile','-quality-profile-segments'}
     found=sorted({value.lower() for value in arguments if value.lower() in switches})
     errors=[]
     if found or build.get('nativeProfilerDiagnostic') is True:
         errors.append('launch manifest declares profiling; clean timing/headroom rejected')
+    elif '-quality-gpu-clocks' in {value.lower() for value in arguments}:
+        errors.append('GPU clock diagnostic overhead disqualifies clean timing/headroom')
     elif build.get('cleanTimingEligible') is False:
         errors.append('launch manifest excludes clean timing/headroom')
     return dict(valid=not errors,failures=errors,profilingArguments=found,

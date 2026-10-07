@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Complete bounded C1 trace; GPU timestamp hypothesis — October 7
+
+**C1 remains OPEN; presentation is NOT validated.** A segmented native profiler now imports the entire unchanged Decks ten-minute diagnostic: **37,763/37,763 replay samples**, 21 raw files, no memory-truncated tail or inferred counter offset. Explicit replay metadata and sample markers establish correspondence. Neither rejected warmed movement interval recurs; the sole 25.154 ms interval is first options opening. The original two failed release loops remain unexplained and rejected. [Findings, tooling workflow and artifact hashes](validation/C1-bounded-trace.md).
+
+All three original impossible GPU durations decode as Unix timestamps during their runs. This supports a timestamp/duration hypothesis in the shared Unity timing path, not a proven backend cause or a correction formula. New opt-in UTC/QPC/present/completion telemetry records 92,331 Tallow rows without reproducing corruption; the diagnostic is explicitly excluded from headroom acceptance. Tallow development GPU evidence remains invalid. **143 offline checks pass**; new launch-exclusion controls fail on the original analyzer, and broken trace-coverage/nonfinite controls remain recorded. Native desktop review is still unavailable after reset.
+
+The diagnostic players are isolated under `Builds/quality/`; Nathan's current saves and the frozen `a3aaad6` chapter/profile retain their hashes. C2's remaining uphill posture is being repaired separately; this C1 result accepts no motion, audio, physical presentation or later milestone.
+
 ## Continuation authorization clarified — October 7
 
 Nathan explicitly requests best judgment on open decisions instead of waiting for his choices. The [continuation prompt](NEXT_SESSION_PROMPT.md) now makes this standing authorization explicit: choose and carry out the next useful diagnostic/implementation step, preserve genuine acceptance gaps, and continue dependency-safe work when a particular observation is unavailable. This does not waive visual acceptance, saves, paid-asset exclusions, exclusive replay focus, or the frozen chapter. The technical state remains the C1/C2 reconciliation immediately below; no new runtime or acceptance result is claimed.

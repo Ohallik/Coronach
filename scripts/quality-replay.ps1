@@ -5,7 +5,10 @@ param(
     [switch]$Capture,
     [switch]$Arrows,
     [switch]$Profile,
+    [ValidateRange(0,1800)][int]$ProfileSegmentFrames=0,
+    [string]$DiagnosticPlayer,
     [switch]$Headroom,
+    [switch]$GpuClocks,
     [switch]$Census,
     [switch]$Motion,
     [ValidateSet('Auto','D3D11','D3D12')][string]$GraphicsApi='Auto',
@@ -19,6 +22,11 @@ param(
     [int]$TimeoutSec=780
 )
 $ErrorActionPreference='Stop'
+if($GpuClocks){$Headroom=$true}
+if($ProfileSegmentFrames -gt 0){
+    if($ProfileSegmentFrames -lt 120 -or $Build -ne 'Development'){throw 'Segmented profiling requires Development and 120-1800 frames per segment'}
+    $Profile=$true
+}
 . (Join-Path $PSScriptRoot 'unity-process.ps1')
 $repo=Split-Path $PSScriptRoot -Parent
 $folder=[IO.Path]::GetFullPath((Join-Path $repo $Output))
@@ -53,6 +61,10 @@ if($ResumeFrom){
     if($LASTEXITCODE -ne 0){throw 'Prior replay saves were rejected; player was not started'}
 }
 $exe=Join-Path $repo $(if($Build -eq 'Release'){'Builds/Windows/Coronach.exe'}else{'Builds/WindowsDev/Coronach.exe'})
+if($DiagnosticPlayer){
+    $exe=[IO.Path]::GetFullPath((Join-Path $repo $DiagnosticPlayer))
+    if(-not $exe.StartsWith($qualityRoot,[StringComparison]::OrdinalIgnoreCase) -or [IO.Path]::GetFileName($exe) -ne 'Coronach.exe'){throw 'Diagnostic player must be Coronach.exe inside Builds/quality/'}
+}
 $log=Join-Path $folder 'player.log'
 $launch=@('-screen-fullscreen',[string]([int]($WindowMode -ne 'Windowed')),'-screen-width','1920','-screen-height','1080','-quality-route',$routePath,'-quality-output',$folder,'-savepath',(Join-Path $folder 'saves'),'-logFile',$log)
 if($WindowMode -ne 'Windowed'){$launch+=@('-window-mode',$WindowMode.ToLowerInvariant())}
@@ -65,7 +77,9 @@ if($DiagnosticQueue -ge 0){$launch+=@('-quality-queue',[string]$DiagnosticQueue)
 if ($Capture) { $ffmpeg=(& python -c 'import imageio_ffmpeg; print(imageio_ffmpeg.get_ffmpeg_exe())').Trim(); $launch+=@('-quality-ffmpeg',$ffmpeg) }
 if ($Arrows) { $launch+='-quality-arrows' }
 if ($Profile) { $launch+='-quality-profile' }
+if ($ProfileSegmentFrames) { $launch+=@('-quality-profile-segments',[string]$ProfileSegmentFrames) }
 if ($Headroom) { $launch+='-quality-headroom' }
+if ($GpuClocks) { $launch+='-quality-gpu-clocks' }
 if ($Census) { $launch+='-quality-census' }
 if ($Motion) { $launch+='-quality-motion' }
 $manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}
