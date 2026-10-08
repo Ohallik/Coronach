@@ -94,6 +94,9 @@ $manifest.content=@(Get-ChildItem -LiteralPath $dataDir -File | ForEach-Object {
 $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $folder 'build.json')
 # This is the visible game being reviewed. Focus is verified per frame; no focus override.
 $process=Start-Process -FilePath $exe -ArgumentList ($launch | ForEach-Object { '"'+$_+'"' }) -PassThru
+# Retain the native handle before polling. Windows PowerShell may otherwise
+# lose ExitCode when a Start-Process child has already been disposed.
+$ownedProcessHandle=$process.Handle
 Set-Content -LiteralPath (Join-Path $folder 'process.txt') -Value $process.Id
 Write-Output "QUALITY_PLAYER pid=$($process.Id) output=$folder"
 try {
@@ -107,6 +110,9 @@ try {
         }
         Start-Sleep -Milliseconds 500
     }
+    $process.WaitForExit()
+    $processExit=$process.ExitCode
+    @{processId=$process.Id;exitCode=$processExit;recordedUtc=[DateTime]::UtcNow.ToString('o')} | ConvertTo-Json | Set-Content -LiteralPath (Join-Path $folder 'process-exit.json') -Encoding UTF8
     $result=Join-Path $folder 'run.json'
     if (-not (Test-Path -LiteralPath $result)) { throw "Quality report missing; inspect $log" }
     Get-Content -LiteralPath $result
@@ -121,5 +127,5 @@ try {
         & $ffmpeg -hide_banner -loglevel error -i (Join-Path $folder 'video.mp4') -i (Join-Path $folder 'mix.wav') -c:v copy -c:a aac -b:a 192k -shortest (Join-Path $folder 'replay.mp4')
         if ($LASTEXITCODE -ne 0) { throw 'Video/audio mux failed; raw artifacts preserved' }
     }
-    if ($process.ExitCode -ne 0 -or (Get-Content -LiteralPath $log -Raw) -match 'Exception:|QUALITY_REPLAY_REJECTED') { throw "Quality replay rejected; inspect $folder" }
+    if ($null -eq $processExit -or $processExit -ne 0 -or (Get-Content -LiteralPath $log -Raw) -match 'Exception:|QUALITY_REPLAY_REJECTED') { throw "Quality replay rejected; inspect $folder" }
 } finally { if (-not $process.HasExited) { Stop-LatticeProcessTree $process.Id } }

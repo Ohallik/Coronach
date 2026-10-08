@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Listener recording uses bounded memory; fresh synchronized capture passes — October 7
+
+**C5/C10 remain OPEN. Both players stream the recorded mix through a 4.33 MB sample buffer instead of retaining the whole session.** The original recorder retains all 16.4 MB in a failing probe; deliberate retention, sample-loss and swallowed-error controls also fail. **10 affected EditMode / 174 offline checks pass**, zero skipped; both builds succeed. [Evidence and inventories](validation/C5-bounded-capture.md).
+
+A changed-recorder Decks replay passes all 33 original navigation/UI steps in **124.681 s / 7,483 focused samples**, with recorded process exit 0. All 11,972,608 float samples reach the WAV; peak queue use is 2/32. Both displays report on, so VSync 1 is retained. The 25.292 ms step-9 sample remains. This capture accepts no clean C1 timing, sound quality or physical presentation; audition and continuous review stay UNVERIFIED. It does not explain the old awake hitches or invalid GPU durations.
+
+Nathan's saves and all frozen `a3aaad6` files/profile match. Prior `0f9b751` players are archived under `Builds/quality/C5/bounded-audio/prior-Windows*`. Cantor's earlier launcher rejection and rapid camera-return concern remain; its framing/turn repair and all knee/terrain assertions are preserved. Continue unresolved C1/C2 diagnosis and dependency-safe C3–C10 production; no presentation candidate is validated.
+
+
 ## Cantor's release introduction stays visible; continuous quality remains open — October 7
 
 **C3/C4 remain OPEN. Both standard players contain the framing/arc repair; 37 affected PlayMode checks pass, zero skipped.** The original camera regression and 10,803 degrees/s reversal reproduce before repair; an unlimited-framing mutation also rejects correctly. All older assertions/failures remain. [Evidence and exact inventories](validation/C3-release-framing.md).

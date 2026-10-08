@@ -16,7 +16,7 @@ namespace Lattice.UI
     {
         readonly ConcurrentQueue<(int index, byte[] bytes)> video = new();
         readonly ConcurrentQueue<byte[]> buffers = new();
-        readonly List<float[]> audio = new();
+        CaptureAudioWriter audio;
         readonly List<string> times = new();
         readonly object audioLock = new();
         Process encoder;
@@ -24,13 +24,14 @@ namespace Lattice.UI
         RenderTexture target;
         volatile bool running;
         volatile string failure;
-        int pending, audioChannels, sampleRate, lastRequest = -1;
+        int pending, lastRequest = -1;
         double start, firstAudioDsp = -1, beginDsp;
         string folder;
-        public string Failure => failure;
+        public string Failure => failure ?? audio?.Failure;
         public void Begin(string output, string ffmpeg)
         {
-            folder = output; sampleRate = AudioSettings.outputSampleRate;
+            folder = output;
+            audio = new CaptureAudioWriter(File.Create(Path.Combine(folder, "mix.wav")), AudioSettings.outputSampleRate);
             target = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
             target.Create();
             // Reuse bounded exact-size readback storage. Allocating an 8 MB
@@ -91,34 +92,24 @@ namespace Lattice.UI
             if (!running) return;
             lock (audioLock)
             {
+                if (!running) return;
                 if (firstAudioDsp < 0) firstAudioDsp = AudioSettings.dspTime;
-                audioChannels = channels;
-                audio.Add((float[])data.Clone());
+                audio.Append(data, channels);
             }
         }
         public IEnumerator Finish()
         {
-            running = false;
+            lock (audioLock) { running = false; audio.Complete(); }
             float deadline = Time.realtimeSinceStartup + 30;
-            while ((pending > 0 || worker.IsAlive || !encoder.HasExited) && Time.realtimeSinceStartup < deadline) yield return null;
+            while ((pending > 0 || worker.IsAlive || !encoder.HasExited || !audio.Completed) && Time.realtimeSinceStartup < deadline) yield return null;
             if (!encoder.HasExited) { failure = "Encoder finalization timeout"; encoder.Kill(); }
             else if (encoder.ExitCode != 0) failure = "Encoder exit " + encoder.ExitCode;
-            lock (audioLock)
-            {
-                int count = 0; foreach (var block in audio) count += block.Length;
-                if (count == 0) failure = "Listener mix capture empty";
-                using var writer = new BinaryWriter(File.Create(Path.Combine(folder, "mix.wav")));
-                writer.Write(System.Text.Encoding.ASCII.GetBytes("RIFF")); writer.Write(36 + count * 4);
-                writer.Write(System.Text.Encoding.ASCII.GetBytes("WAVEfmt ")); writer.Write(16); writer.Write((short)3);
-                writer.Write((short)audioChannels); writer.Write(sampleRate); writer.Write(sampleRate * audioChannels * 4);
-                writer.Write((short)(audioChannels * 4)); writer.Write((short)32);
-                writer.Write(System.Text.Encoding.ASCII.GetBytes("data")); writer.Write(count * 4);
-                foreach (var block in audio) foreach (float sample in block) writer.Write(sample);
-            }
+            if (!audio.Completed) failure = "Listener writer finalization timeout";
+            File.WriteAllText(Path.Combine(folder, "capture-audio.json"), JsonUtility.ToJson(audio.Snapshot(), true));
             File.WriteAllLines(Path.Combine(folder, "capture-frames.csv"), times);
-            File.WriteAllText(Path.Combine(folder, "capture.txt"), "30 fps native framebuffer; repeated frames retain wall-clock stalls.\nAudio is the actual AudioListener float mix.\nFirst audio offset seconds: " + (firstAudioDsp - beginDsp).ToString("F6", System.Globalization.CultureInfo.InvariantCulture) + "\nFailure: " + failure);
+            File.WriteAllText(Path.Combine(folder, "capture.txt"), "30 fps native framebuffer; repeated frames retain wall-clock stalls.\nAudio is the actual AudioListener float mix.\nAudio storage: bounded-writer-v1\nFirst audio offset seconds: " + (firstAudioDsp - beginDsp).ToString("F6", System.Globalization.CultureInfo.InvariantCulture) + "\nFailure: " + Failure);
             target.Release(); Destroy(target); encoder.Dispose();
         }
-        void OnDestroy() { running = false; }
+        void OnDestroy() { lock (audioLock) { running = false; audio?.Complete(); } }
     }
 }

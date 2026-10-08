@@ -311,6 +311,8 @@ def launch_diagnostics(build):
     return dict(valid=not errors,failures=errors,profilingArguments=found,
                 nativeProfilerDiagnostic=build.get('nativeProfilerDiagnostic',False))
 
+from capture_audio_analyze import include as include_bounded_audio
+
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('folder',type=Path);modes=p.add_mutually_exclusive_group();modes.add_argument('--performance',action='store_true');modes.add_argument('--headroom',action='store_true');args=p.parse_args()
     run=json.loads((args.folder/'run.json').read_text());route=json.loads((args.folder/'route.json').read_text())
@@ -329,6 +331,7 @@ if __name__=='__main__':
     elif args.performance or args.headroom:
         result['failures'].append('launch manifest missing; clean timing/headroom rejected')
         result['valid']=False
+    include_bounded_audio(result,args.folder)
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

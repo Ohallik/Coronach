@@ -1,0 +1,961 @@
+{
+  "status": "C5/C10 OPEN; bounded recording tooling verified, audio audition/continuous and physical presentation UNVERIFIED",
+  "source": {
+    "baseRevision": "0f9b7512c71a76ac757cf4662dfb6b3a21c9f5d2",
+    "scope": "Bounded listener recording; capture-only diagnostics, no gameplay sound or acceptance change",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorRelease.cs",
+        "normalizedSha256": "8c17243fba72d79d3445441c25a6603ba6ca35a09ce893ab75b6078de306a274"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+        "normalizedSha256": "9a5a15f62b553b21879fce8fc99e4ae055316d05b2a0ea82e03ebab26a826c20"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/SerpentSegments.cs",
+        "normalizedSha256": "bb844c84ab96939ed6608f197cc8e1ebd1c13cd60fdc7cb41cdbe2dcab260967"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs",
+        "normalizedSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "normalizedSha256": "3055efaa7650cac3dd34da7b34ff682b48941251d13a7621f4ae0291d18ef3fe"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "normalizedSha256": "e2ce8d4e7104e612335af66e6937fe015db5326eddcceee648ae6c84fde3c8dd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "normalizedSha256": "08ffa64ec1875925360d5afbd0b882bd1d515dc4f851235cfc0aa9d2b9611078"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "ee45cef596a7e156b35ee263b01244f19dd0fbaa7599a8897ea4e09623d4575e"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/CameraRig.cs",
+        "normalizedSha256": "86c239b97974baa3afe3b7e8dbedec95b039840c0abdc77fff719f42d5beb569"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "normalizedSha256": "874faf867eb46cd49f6422104ed6337955a22760d0d33292a90fc3519ddf1c63"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/SliceSmoke.cs",
+        "normalizedSha256": "8411a016f97b50f39b9cafa29dee33bd78939db3728e844fecbf1d65d985db6a"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+        "normalizedSha256": "f4995d76138275bb6eef1e347a3e9c7abe5ec016bcd345ab5ba0c2aaf16407c9"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+        "normalizedSha256": "c2a58243043604e90852f59dbb5472c0b92ad47ef5e5578d480cc49e0e859754"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityCapture.cs",
+        "normalizedSha256": "f6c85976908672b84ab1171647d4e15735f03bee438a872e44163ca6a3c4241f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CaptureAudioWriter.cs",
+        "normalizedSha256": "b1057ef0274ee27e7e0a78bae119e208dcc503ede79ba087bfaf409834afbe09"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C5/bounded-audio/packages.json",
+    "bytes": 137622,
+    "sha256": "23fa62ea8180ec62f06ddec7bff6c35e68674cf2a71badbcb52ba41806aa21f6"
+  },
+  "tests": [
+    {
+      "source": {
+        "path": "Builds/quality/C5/bounded-audio/affected-final.xml",
+        "bytes": 10939,
+        "sha256": "dcbe2f00bc02f73d3f21af75049138b55aa8905d3eedd94725496441bd63dc0a"
+      },
+      "result": {
+        "result": "Passed",
+        "total": "10",
+        "passed": "10",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "20.6016711"
+      },
+      "failures": []
+    },
+    {
+      "source": {
+        "path": "Builds/quality/C5/bounded-audio/candidate01.xml",
+        "bytes": 10941,
+        "sha256": "8106206140d2655c1456dbcf56c6ccf0b847557137b4d33e8f3384e1910cf66c"
+      },
+      "result": {
+        "result": "Passed",
+        "total": "10",
+        "passed": "10",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "20.4942467"
+      },
+      "failures": []
+    },
+    {
+      "source": {
+        "path": "Builds/quality/C5/bounded-audio/original-retention-red.xml",
+        "bytes": 5169,
+        "sha256": "8be17b022a3635ab97fc88fc995a744c8f9417d0381f4a96dfd81a4bfbf579d9"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "0.0428579"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.EditMode.LegacyAudioRetentionProbe.ThirteenMinuteArchitectureMustNotRetainEveryWrittenSample",
+          "message": "  original recorder retains the full session instead of bounded pending audio\n  Expected: less than or equal to 4325376\n  But was:  16384000\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "Builds/quality/C5/bounded-audio/retention-red.xml",
+        "bytes": 5123,
+        "sha256": "4e385b87b4509f714cebfa1821b6ca85c7f86df1e8c660222a99cf5ee3e7845e"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "20.2093997"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.LongRecordingDoesNotRetainAllPreviouslyWrittenSamples",
+          "message": "  capture retains previously written audio\n  Expected: less than 2097152\n  But was:  18526208\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "Builds/quality/C5/bounded-audio/samples-red.xml",
+        "bytes": 4975,
+        "sha256": "49c1f340c38c3cc91112115a8a39b6432c3790aef30799e6f414e3d12e74ccbe"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "0.0369511"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.CopiesEveryFloatInOrderAndDrainsAfterCompletion",
+          "message": "  sample 0\n  Expected: -0.75f\n  But was:  0.0f\n"
+        }
+      ]
+    },
+    {
+      "source": {
+        "path": "Builds/quality/C5/bounded-audio/validation-red.xml",
+        "bytes": 22818,
+        "sha256": "40d15b441993cc79315944325cac2e624b70fa7f8085736237f8dc431b31ec17"
+      },
+      "result": {
+        "result": "Failed(Child)",
+        "total": "8",
+        "passed": "0",
+        "failed": "8",
+        "skipped": "0",
+        "duration": "0.2297473"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.DiskFailureIsRetainedAndWorkerStillCloses",
+          "message": "System.ArgumentException : The actual value must be an IEnumerable\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.EmptyCaptureIsRejected",
+          "message": "System.ArgumentException : The actual value must be an IEnumerable\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.FullQueueRejectsWithoutDiscardingPreviouslyAcceptedAudio",
+          "message": "System.ArgumentException : The actual value must be an IEnumerable\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.MalformedOrUnrepresentableAudioCannotProduceASuccess(\"channel\")",
+          "message": "System.ArgumentException : The actual value must be a string or a non-null IEnumerable or DirectoryInfo\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.MalformedOrUnrepresentableAudioCannotProduceASuccess(\"oversize\")",
+          "message": "System.ArgumentException : The actual value must be a string or a non-null IEnumerable or DirectoryInfo\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.MalformedOrUnrepresentableAudioCannotProduceASuccess(\"nan\")",
+          "message": "System.ArgumentException : The actual value must be a string or a non-null IEnumerable or DirectoryInfo\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.MalformedOrUnrepresentableAudioCannotProduceASuccess(\"alignment\")",
+          "message": "System.ArgumentException : The actual value must be a string or a non-null IEnumerable or DirectoryInfo\nParameter name: actual"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.CaptureAudioWriterTests.MalformedOrUnrepresentableAudioCannotProduceASuccess(\"limit\")",
+          "message": "System.ArgumentException : The actual value must be a string or a non-null IEnumerable or DirectoryInfo\nParameter name: actual"
+        }
+      ]
+    }
+  ],
+  "offlinePassed": 174,
+  "ordinaryRun": {
+    "route": "station-decks",
+    "sourceRevision": "paired station redesign; build hashes in evidence",
+    "input": "continuous agent-directed virtual gamepad replay",
+    "build": "Release",
+    "unity": "6000.4.7f1",
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "quality": "Ultra",
+    "gpuTiming": "UNAVAILABLE",
+    "vrr": "UNVERIFIED",
+    "width": 1920,
+    "height": 1080,
+    "frameCap": -1,
+    "vSync": 1,
+    "samples": 7483,
+    "refreshHz": 60.0,
+    "seconds": 124.68149199999999,
+    "captured": true,
+    "profiled": false,
+    "headroom": false,
+    "census": false,
+    "motion": false,
+    "valid": true,
+    "frameTimingRequested": false,
+    "frameTimingEnabled": false,
+    "frameTimingCpuFrequency": 0,
+    "failures": [],
+    "loadWaitSeconds": 1.0990761999999998,
+    "settleSeconds": 8.0,
+    "interactions": [
+      {
+        "step": 5,
+        "expectedUi": "dialogue",
+        "inputSeconds": 25.0626085,
+        "visibleResponseMs": 4.205400000000026
+      },
+      {
+        "step": 11,
+        "expectedUi": "shop",
+        "inputSeconds": 37.6287963,
+        "visibleResponseMs": 23.74550000000397
+      },
+      {
+        "step": 13,
+        "expectedUi": "world",
+        "inputSeconds": 43.645857199999995,
+        "visibleResponseMs": 1.242100000006019
+      }
+    ]
+  },
+  "independentAnalysis": {
+    "valid": true,
+    "failures": [],
+    "samples": 7483,
+    "seconds": 124.681492,
+    "distance": 226.10138374170026,
+    "medianMs": 16.6697,
+    "p95Ms": 17.1773,
+    "p99Ms": 17.3859,
+    "worstMs": 25.2924,
+    "hitches": {
+      "25": 1,
+      "33.3": 0,
+      "50": 0,
+      "100": 0
+    },
+    "pausedSamples": 0,
+    "gcCollections": 4,
+    "gcBytesPerFrameMedian": -1,
+    "movingSamples": 4162,
+    "stoppedCameraWhileWalking": 75,
+    "interactions": [
+      {
+        "step": 5,
+        "expectedUi": "dialogue",
+        "inputSeconds": 25.0626085,
+        "visibleResponseMs": 4.205400000000026
+      },
+      {
+        "step": 11,
+        "expectedUi": "shop",
+        "inputSeconds": 37.6287963,
+        "visibleResponseMs": 23.74550000000397
+      },
+      {
+        "step": 13,
+        "expectedUi": "world",
+        "inputSeconds": 43.645857199999995,
+        "visibleResponseMs": 1.242100000006019
+      }
+    ],
+    "stabilityWindows": [
+      {
+        "startSeconds": 0,
+        "endSeconds": 60,
+        "samples": 3602,
+        "memoryBytes": {
+          "median": 274766816,
+          "maximum": 283474780,
+          "minimum": 265986561,
+          "validSamples": 3601,
+          "unavailableOrPendingSamples": 1
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 60,
+        "endSeconds": 120,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 276451988,
+          "maximum": 284845344,
+          "minimum": 270585036,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      }
+    ],
+    "worstFrames": [
+      {
+        "elapsed": 35.104908,
+        "ms": 25.2924,
+        "checkpoint": "show choices",
+        "gcBytes": -1,
+        "gcCollections": 37,
+        "mainThreadNs": 16660100,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 37.652542,
+        "ms": 22.3084,
+        "checkpoint": "choose stock",
+        "gcBytes": -1,
+        "gcCollections": 37,
+        "mainThreadNs": 16637800,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 25.066814,
+        "ms": 20.6476,
+        "checkpoint": "talk to Mira",
+        "gcBytes": -1,
+        "gcCollections": 37,
+        "mainThreadNs": 16614100,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 2.898044,
+        "ms": 19.4171,
+        "checkpoint": "office airlock to promenade",
+        "gcBytes": -1,
+        "gcCollections": 36,
+        "mainThreadNs": 16649400,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 74.282569,
+        "ms": 19.3335,
+        "checkpoint": "service bridge to provisions",
+        "gcBytes": -1,
+        "gcCollections": 39,
+        "mainThreadNs": 16692100,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 30.580496,
+        "ms": 18.3549,
+        "checkpoint": "next line",
+        "gcBytes": -1,
+        "gcCollections": 37,
+        "mainThreadNs": 16664700,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 4.013217,
+        "ms": 18.0321,
+        "checkpoint": "office slow approach",
+        "gcBytes": -1,
+        "gcCollections": 37,
+        "mainThreadNs": 16649500,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 62.314352,
+        "ms": 17.9548,
+        "checkpoint": "parts store aisle",
+        "gcBytes": -1,
+        "gcCollections": 38,
+        "mainThreadNs": 17699700,
+        "renderThreadNs": -1
+      }
+    ],
+    "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration.",
+    "launchDiagnostics": {
+      "valid": true,
+      "failures": [],
+      "profilingArguments": [],
+      "nativeProfilerDiagnostic": false
+    },
+    "boundedAudio": {
+      "valid": true,
+      "failures": [],
+      "audition": "UNVERIFIED",
+      "writer": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferCount": 32,
+        "maximumBlockSamples": 32768,
+        "peakQueuedBlocks": 2,
+        "sampleBufferBytes": 4325376,
+        "acceptedSamples": 11972608,
+        "writtenSamples": 11972608,
+        "writtenBytes": 47890432,
+        "completed": true,
+        "failure": ""
+      },
+      "seconds": 124.71466666666667,
+      "replaySeconds": 124.68149199999999,
+      "durationDifferenceSeconds": 0.033174666666681674
+    }
+  },
+  "audioWriter": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "bufferCount": 32,
+    "maximumBlockSamples": 32768,
+    "peakQueuedBlocks": 2,
+    "sampleBufferBytes": 4325376,
+    "acceptedSamples": 11972608,
+    "writtenSamples": 11972608,
+    "writtenBytes": 47890432,
+    "completed": true,
+    "failure": ""
+  },
+  "processExit": {
+    "processId": 28176,
+    "exitCode": 0,
+    "recordedUtc": "2026-10-08T05:07:40.6121779Z"
+  },
+  "signalAudit": {
+    "method": "FFmpeg ebur128 with oversampled true peak",
+    "seconds": null,
+    "peakLimitDbtp": -1.0,
+    "peakResolutionDb": 0.1,
+    "peakBoundary": "A rounded value at the ceiling cannot prove compliance; it is rejected.",
+    "audition": "UNVERIFIED; signal measurements do not establish sound quality",
+    "tool": {
+      "path": "C:/Users/natem/Projects/SpaceRPG/tools/audio_audit.py",
+      "bytes": 4805,
+      "sha256": "9d81ba0e2adfd88f2101f2e0d07c6649b80bd601b5d05c0e644641b792d90658"
+    },
+    "runs": [
+      {
+        "input": "Builds/quality/C5/bounded-audio/player01/mix.wav",
+        "failures": [],
+        "source": {
+          "path": "Builds/quality/C5/bounded-audio/player01/mix.wav",
+          "bytes": 47890476,
+          "sha256": "48aaf75cf0fb2c930f17923d3fa28c73d966e19d61073c189cabc685f3252637"
+        },
+        "log": {
+          "path": "Builds/quality/C5/bounded-audio/audio-audit/000.log",
+          "bytes": 219293,
+          "sha256": "c2e1ff8d06766aa854b0421154245f22fb86813e86cd7a1a72a0f75f165b4ae3"
+        },
+        "truePeakDbtp": -7.4,
+        "integratedLufs": -21.5,
+        "silent": false,
+        "valid": true
+      }
+    ],
+    "valid": true
+  },
+  "routeScope": "Original station-decks: all 33 steps/assertions unchanged, only live PNGs deferred to 10000s interval; changed recorder integration, not a stability retry",
+  "hitches": [
+    {
+      "elapsed": "35.104908",
+      "ms": "25.2924",
+      "step": "9",
+      "scene": "Hub_Decks"
+    }
+  ],
+  "observations": {
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalScanout": "UNVERIFIED",
+    "physicalController": "UNVERIFIED",
+    "imagesOpened": [],
+    "display": "Both Windows session/console callbacks report on before and after; VSync 1 remains enabled. Capture excludes clean timing."
+  },
+  "artifacts": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/bounded-audio-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/bounded-audio-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/bounded-audio-player-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/bounded-audio-player-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/affected-final.log",
+      "bytes": 80211,
+      "sha256": "c7423078362596673a23b9a8b34713bfa2fe377c101d9ed51f0d34b9719e3306"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/affected-final.xml",
+      "bytes": 10939,
+      "sha256": "dcbe2f00bc02f73d3f21af75049138b55aa8905d3eedd94725496441bd63dc0a"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/analysis-final.log",
+      "bytes": 8774,
+      "sha256": "5271a1ba25477874f77c78b92b2cfe3ac25365e4c81dd65faff4478203d2ef8c"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/audio-audit/000.log",
+      "bytes": 219293,
+      "sha256": "c2e1ff8d06766aa854b0421154245f22fb86813e86cd7a1a72a0f75f165b4ae3"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/audio-audit/report.json",
+      "bytes": 1173,
+      "sha256": "32e736af00932351c67ccdefe3c8da76e3901c8b9c643cd5b2df2854174e5857"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/build.log",
+      "bytes": 654778,
+      "sha256": "9bcd8f9da82a399985cdbe22566164531c3199f9b2d640d602406048db2ee0e7"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/build.ps1",
+      "bytes": 1709,
+      "sha256": "fadddf12bcfd00c97a88ba1c73c81c9732e3b3faeaceb2d79fe766b6a4c4a3f6"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/builddev.log",
+      "bytes": 663902,
+      "sha256": "5986126506ed956bebec635cbe63e675ca09d80f77dbbebb47590877015bb504"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/candidate01.log",
+      "bytes": 281091,
+      "sha256": "1a7110922378615b81e2fb9b0122060779c8df0f2ad2ba6206abdeb717d227cd"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/candidate01.xml",
+      "bytes": 10941,
+      "sha256": "8106206140d2655c1456dbcf56c6ccf0b847557137b4d33e8f3384e1910cf66c"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/capture_audio_analyze-broken.py",
+      "bytes": 3823,
+      "sha256": "63500afbbc9d7683038735209e0aeacba5eb9db343543b3226d746ffc046673b"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/capture_audio_analyze-coverage-broken.py",
+      "bytes": 4562,
+      "sha256": "57dd180f11c465e9038fd136319b274589f0e4cc29fde453344d07b3d63b7d61"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/CaptureAudioWriter-retention-broken.cs",
+      "bytes": 6227,
+      "sha256": "f86d4d545f1ca68b36ebe5dea512b6f0ff01c9e5861e3a1bb07f5f43e21431f5"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/CaptureAudioWriter-samples-broken.cs",
+      "bytes": 6116,
+      "sha256": "94d5f246429b3b89861f9cc79b9d76a98fa131ecf4283f305aec8045fbeb85ec"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/CaptureAudioWriter-validation-broken.cs",
+      "bytes": 6068,
+      "sha256": "b72c53f836c698caf0e50cb24ca17007eec55df75b5755a11db0e160f84e98ef"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/clean-side-effects.ps1",
+      "bytes": 1486,
+      "sha256": "0f1f7b47ea1cf69f73896cb6cebfd784524268cf3494a36df18e14ec86815ae8"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/control-original.ps1",
+      "bytes": 1115,
+      "sha256": "a319f104587a47b9eeb87e79627df536dd9f63ea47d75f47fc70b80fdbcf7031"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/control.ps1",
+      "bytes": 2253,
+      "sha256": "fe7977b048dbda16d51ad3721d7e2ce26afb798fe8284983ccc973986d9aa749"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/display-after.json",
+      "bytes": 680,
+      "sha256": "caa98dede8e8248503534b1aa732161c743a96c50d801e4bdc58d8e83b6bd4f5"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/display-before.json",
+      "bytes": 680,
+      "sha256": "a08abfc4f25d4b9343fd1c6e5cf3c3d736e3ee6e5bd9c7fe14244b5c95b9a869"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/finalize.py",
+      "bytes": 2812,
+      "sha256": "45e1cb2ab3b2aa4698ac0b1ce7a2b1e73d7b675ba1b39081a1b500fbab1c00c3"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/install.py",
+      "bytes": 2139,
+      "sha256": "209a6490d57e37a320851778b3cca856b14136f57cf047bc5d916af378d1d4ec"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/LegacyAudioRetentionProbe.cs",
+      "bytes": 1141,
+      "sha256": "a8c4692121b210d7663d49d2f603389c23d92657d8eede3cfc0967eefd9f69a1"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/LegacyAudioRetentionProbe.cs.meta",
+      "bytes": 59,
+      "sha256": "dd90f18ee7d5cb408247f9df9bba9821336f77a1b003831f32b0874caf0d4f6a"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/offline-controls.py",
+      "bytes": 1628,
+      "sha256": "d68a92fab9d44c7e2589ab04df38e4f5f285d172e14e99417a8f683583af7673"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/offline-coverage-red.log",
+      "bytes": 2051,
+      "sha256": "d24b0a27aa5dd1a4d64f884cf79ce4df2dfa602d7c4aa1cce05c1338d6623e43"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/offline-final.log",
+      "bytes": 1242,
+      "sha256": "01a6a341f2d54aec5a8a688da72aec3fe9f1d035bf49dc0b7b8c1194c2c15d54"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/offline-green.log",
+      "bytes": 1240,
+      "sha256": "1c0011884382142955b42d842d0c0f5d1feaa3d62dda360d1c090182aac7a368"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/offline-reject-control.log",
+      "bytes": 12673,
+      "sha256": "fcc468002b9a4bf5299617636fda9128f576394448f94ec51ed850ccd2d6faf8"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/original-retention-red.log",
+      "bytes": 251681,
+      "sha256": "b3af9fbd3296e3f950d938924c7262843aed7be30a0ad373c1f0c24675356dd7"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/original-retention-red.xml",
+      "bytes": 5169,
+      "sha256": "8be17b022a3635ab97fc88fc995a744c8f9417d0381f4a96dfd81a4bfbf579d9"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/package.py",
+      "bytes": 1927,
+      "sha256": "338bafe38a609f5e596f4c8b4fe9c2e02163742328dd05cf1ed248a7b0bc1409"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/packages.json",
+      "bytes": 137622,
+      "sha256": "23fa62ea8180ec62f06ddec7bff6c35e68674cf2a71badbcb52ba41806aa21f6"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player-analysis.log",
+      "bytes": 8578,
+      "sha256": "ef13a527bafaca3dc57af49bec37f0c971fd43921c05698b711e77891a3e2b01"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/analysis-before-coverage.json",
+      "bytes": 4288,
+      "sha256": "e91531154426bb7627e0302a81da1e49610a5b94a3d53aeac85e275393e9765f"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/analysis.json",
+      "bytes": 4386,
+      "sha256": "2460938a05e845a39ab49ab7bea586556e665fe8c991a1c6f926b6991c6838a4"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/available-counters.txt",
+      "bytes": 14940,
+      "sha256": "103bc2c3675543daa78b23ed8986f0e6d300d289d84d1ed4cf7c8d345c95675a"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/build.json",
+      "bytes": 14174,
+      "sha256": "f3bd214bdeb5562863e80757188caa8af049db146861f2b77aca025a08cf20fb"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/capture-audio.json",
+      "bytes": 301,
+      "sha256": "7529f4f44e3d9814c2e374cd36ca8e7f33919b13b9c0b1e2f273b27e160b3441"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/capture-frames.csv",
+      "bytes": 59204,
+      "sha256": "fc4847fa5016c38b232811b27f943a9b1e74412b350872adab0baea8150f575c"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/capture.txt",
+      "bytes": 193,
+      "sha256": "608815017d61b628f5e828962e76a837fc317570a697a046466ddcec42c2284c"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/environment.json",
+      "bytes": 123,
+      "sha256": "c02f843cc2c24f04717bf254b80f33cbdd857f7fc0c8f98a43f84942e8a76281"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/final-state.json",
+      "bytes": 1025,
+      "sha256": "6729b0ff393f24fc03cc128713d2a749adc91ff6fe7d7b51e2e8939ef8c3946e"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/frame-times.svg",
+      "bytes": 96558,
+      "sha256": "453ac2b1ddfa12399f93b7d93b92654b4cf1a4f3fccecee90793db07501c1d0d"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/frames.csv",
+      "bytes": 2216829,
+      "sha256": "8a0c67e45bcef04cab5dc2a55594368bd0cc02dffe95c3b9983329a84e6a0f22"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/mix.wav",
+      "bytes": 47890476,
+      "sha256": "48aaf75cf0fb2c930f17923d3fa28c73d966e19d61073c189cabc685f3252637"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/player.log",
+      "bytes": 4417,
+      "sha256": "13689367dff9f91b9f5eda63f4bd9d785bf6aec0d2e747f59bc8044b062f723e"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/process-exit.json",
+      "bytes": 108,
+      "sha256": "7eb9fc2e167326c9a954e04919e4aecf42b8c42c6222736b8f56a1261aeeaabe"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/process.txt",
+      "bytes": 7,
+      "sha256": "9240b6683ff1390d125d4d1f538c979b3c8eca9b35ac19f74b5682a667663181"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/replay.mp4",
+      "bytes": 311412601,
+      "sha256": "d4dd4c4675f4ccf3d6957f7b762a37d7a19d2568e911537fa5094481d59eafc5"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/route.json",
+      "bytes": 29466,
+      "sha256": "d154636414ebde5e1c9c774dfba514965827f4768e31c1e16b6a1d0db9cdd94d"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/run.json",
+      "bytes": 1418,
+      "sha256": "66e206d910c7e73b0dc6f50db80eb763c8b9b06894ec28495b143cd54e1e538b"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/saves/autosave.json",
+      "bytes": 897,
+      "sha256": "1cd5bdba8def69cc1d2083ffb2655bf007684cd0c53229b16fa422cfaf501f8e"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/player01/video.mp4",
+      "bytes": 308274583,
+      "sha256": "54a0d5a8693924459ecb0dd6946adf3ca6529b54e649c4f14f3e42e292a9771a"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/quality-replay-original.ps1",
+      "bytes": 8618,
+      "sha256": "a28e6104ffe70824c8b72b1478d2eb90283cf24b23b990ddee19d0f6b59464f6"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/QualityCapture-candidate.cs",
+      "bytes": 6404,
+      "sha256": "df3e1040284e76285de365b9b8d24481b4ebaba20627af9e65dc1ab0b8c632cc"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/QualityCapture-original.cs",
+      "bytes": 6882,
+      "sha256": "ca59c73c2016202145fd47dec3687c46cf94bda9e9b9706cee677d02a44e36b4"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/replay.ps1",
+      "bytes": 1457,
+      "sha256": "f4a3ad59d511bf5931a2eae292a9048d99e9405f35081ec6f195e82bc93d6c2f"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/retention-red.log",
+      "bytes": 270205,
+      "sha256": "ff9d75b9c5ad6c053be72e8e1c2031975d3664eafd1717dfc718a6ec7ac11fbb"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/retention-red.xml",
+      "bytes": 5123,
+      "sha256": "4e385b87b4509f714cebfa1821b6ca85c7f86df1e8c660222a99cf5ee3e7845e"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/samples-red.log",
+      "bytes": 80320,
+      "sha256": "f260d35b13506aea29fc0ae270aba9bfd7e124830b946425843bf5aae793ced0"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/samples-red.xml",
+      "bytes": 4975,
+      "sha256": "49c1f340c38c3cc91112115a8a39b6432c3790aef30799e6f414e3d12e74ccbe"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/source.json",
+      "bytes": 3853,
+      "sha256": "9b3d0265653694f8d69f2c7aa9cae4630627aaeb32e0565429c9348d34509441"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/station-decks-audio.json",
+      "bytes": 6018,
+      "sha256": "a0654c1aaf236bb2d3ed7d9a078028da199c0e2b5ce172486d1dbea529b50780"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/test.ps1",
+      "bytes": 848,
+      "sha256": "30753e47c3de83f45dea9c0886656e1093b05f572578abaa0e075ac07ba8dda5"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Biomes/CalmWater.png.meta",
+      "bytes": 3007,
+      "sha256": "6843c37ca684ae56c0cfb25d678948dbc8ae6a9bcded0ac0fb4fb1a868476c6b"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Biomes/GrassClump.png.meta",
+      "bytes": 3007,
+      "sha256": "b3678e251d024d4450131e045bf3c0d64f2baaac5d139060d0e3180c30f19589"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/KeeperNatural/KeeperNatural_base_color.png.meta",
+      "bytes": 3007,
+      "sha256": "fafa83c738579fcbfc736f1206306d01cf0da20bac2fabea033a1c66f5fd3b3f"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/KeeperNatural/KeeperNatural_emission.png.meta",
+      "bytes": 3007,
+      "sha256": "403bb51661fb12f452d204f110bdd6b13347e4783e2fc4882d00b797148f608d"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/NurseryGroove/NurseryGroove_base_color.png.meta",
+      "bytes": 3007,
+      "sha256": "7098e32fac8ad768fa1aca083422d1684505f0f4f95da9cf9ac13833ff01dd5e"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/NurseryGroove/NurseryGroove_emission.png.meta",
+      "bytes": 3007,
+      "sha256": "c87a356a3032c4dd53783d8057fad38b33f07948a2077ce92a71f8cfe0c6b251"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/SurvivorNatural/SurvivorNatural_base_color.png.meta",
+      "bytes": 3007,
+      "sha256": "0ef822720f8b8f6af440c2114dc203ff56718a3282255c806a37ef8c981e2ecb"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/SurvivorNatural/SurvivorNatural_emission.png.meta",
+      "bytes": 3007,
+      "sha256": "fe5b5149d99461fb5e8fa8e287d6cfc3f03fc5d53fe0cab9a7fea51ed11b952b"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/unity-side-effects/Lattice/Packages/packages-lock.json",
+      "bytes": 9786,
+      "sha256": "cd597ff40ed9284eb0ae2242844ef004971b273b213a842bcd71a09b0ad77c55"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/validation-red.log",
+      "bytes": 80794,
+      "sha256": "26fbb2703f3f4c895a6410b11168e75db5ba14246e5c19ca1cf91b5c71b94ec7"
+    },
+    {
+      "path": "Builds/quality/C5/bounded-audio/validation-red.xml",
+      "bytes": 22818,
+      "sha256": "40d15b441993cc79315944325cac2e624b70fa7f8085736237f8dc431b31ec17"
+    }
+  ],
+  "verificationSource": [
+    {
+      "path": "tools/capture_audio_analyze.py",
+      "normalizedSha256": "30154f547d8d2b4249f124b70a2e8c1b50526242385af1f9cb28ee6423bb42d8"
+    },
+    {
+      "path": "tools/quality_analyze.py",
+      "normalizedSha256": "318a26f19b12a8a1ece5f020d610830376c9f2e301a2b50ca2ac4f995b26b963"
+    },
+    {
+      "path": "tools/test_capture_audio_analyze.py",
+      "normalizedSha256": "82367c4e6435b1555637e5cec08a248a0f114122fdd82e4a9d9c279b22f81608"
+    },
+    {
+      "path": "scripts/quality-replay.ps1",
+      "normalizedSha256": "4fe85b785709f0c4cf6c718c9f0c4dbb0eeef2fda565eb99d54520e7a39d29cb"
+    },
+    {
+      "path": "Lattice/Assets/Tests/EditMode/CaptureAudioWriterTests.cs",
+      "normalizedSha256": "13d679726dc000fede824b9d4931c6fb9b9fe7847312ca5da8414b906e102e6e"
+    }
+  ]
+}
