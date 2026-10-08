@@ -11,9 +11,11 @@ namespace Lattice.World
         public static event Action<DiscoveryPoint> DialogueRequested;
         public string flag="hushwell.nursery",situation="discovery",report="HushwellNursery";
         public string dialogueNode="SelaNursery",dialogueSpeaker="Sela";
+        public EncounterVolume previewEncounter;
         bool pending;
         GameState requestedState;
-        public override bool Available=>!pending&&!GameServices.Current.Flags.GetBool(flag);
+        public override bool Available=>!pending&&!GameServices.Current.Flags.GetBool(flag)&&
+            (previewEncounter==null||!previewEncounter.Started);
         public override void Interact()
         {
             if(!Available)return;
@@ -31,7 +33,7 @@ namespace Lattice.World
             if(!pending)return;
             bool sameState=GameServices.Current!=null&&ReferenceEquals(requestedState,GameServices.Current.State);
             pending=false;requestedState=null;
-            if(completed&&sameState&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag))Discover();
+            if(completed&&sameState&&isActiveAndEnabled&&Available)Discover();
         }
         void Discover()
         {

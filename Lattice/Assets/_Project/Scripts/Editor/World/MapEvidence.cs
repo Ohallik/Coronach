@@ -1,4 +1,5 @@
 using System.IO;
+using System.Linq;
 using TMPro;
 using UnityEditor.SceneManagement;
 using UnityEngine;
@@ -174,6 +175,49 @@ namespace Lattice.EditorTools
                 Render(camera,folder,"Gullet-coil-"+name);
             }
             Debug.Log("MAP_EVIDENCE_OK "+folder);
+        });
+        public static void GulletPreviewViews()=>BatchTools.Run(()=>
+        {
+            string folder=Folder("C8/cantor-preview/map02");
+            EditorSceneManager.OpenScene("Assets/_Project/Scenes/Gullet_Tunnel.unity");
+            foreach(var text in Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None))text.gameObject.SetActive(false);
+            var encounter=Object.FindObjectsByType<Lattice.World.EncounterVolume>(FindObjectsSortMode.None).Single(e=>e.encounterId=="Gullet_Cantor");
+            // Editor geometry review only: the same factory anatomy/equipment,
+            // before play-mode Start. These views are not gameplay evidence.
+            var spawn=encounter.spawners[0];
+            var animal=Lattice.Combat.ActorFactory.Enemy(spawn.definition,spawn.transform.position+Vector3.right*spawn.radius);
+            var point=encounter.previewPoint.position;
+            var ships=new GameObject[2];int index=0;
+            foreach(var id in new[]{"Taren","Sela"})
+            {
+                var ship=Object.Instantiate(UnityEditor.AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Characters/"+id+"Flight.prefab"));
+                ship.transform.position=point+(id=="Sela"?new Vector3(-4,0,-3):Vector3.zero);
+                ships[index++]=ship;
+            }
+            var camera=new GameObject("Evidence camera",typeof(Camera),typeof(UniversalAdditionalCameraData)).GetComponent<Camera>();
+            camera.backgroundColor=new Color(.025f,.035f,.06f);camera.clearFlags=CameraClearFlags.SolidColor;
+            camera.nearClipPlane=.1f;camera.farClipPlane=2000;camera.fieldOfView=30;camera.aspect=16f/9;
+            camera.GetUniversalAdditionalCameraData().renderPostProcessing=true;
+            camera.orthographic=true;
+            Shot(camera,folder,"preview-overhead",new Vector3(4,0,785),Quaternion.Euler(90,0,0),43);
+            Shot(camera,folder,"preview-fold-section",new Vector3(31,0,767),Quaternion.Euler(12,90,0),18);
+            camera.orthographic=false;var rotation=Quaternion.Euler(48,0,0);
+            // Fit the review geometry rather than assuming the runtime camera's
+            // framing distance. The ordinary replay independently checks that rig.
+            var bounds=ModelGeometry.BoundsOf(animal.gameObject);
+            foreach(var ship in ships)bounds.Encapsulate(ModelGeometry.BoundsOf(ship));
+            var inverse=Quaternion.Inverse(rotation);float distance=26,tan=Mathf.Tan(camera.fieldOfView*Mathf.Deg2Rad*.5f)*.9f;
+            for(int corner=0;corner<8;corner++)
+            {
+                var p=bounds.center+Vector3.Scale(bounds.extents,new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1));
+                var local=inverse*(p-bounds.center);
+                distance=Mathf.Max(distance,Mathf.Abs(local.x)/(tan*camera.aspect)-local.z,Mathf.Abs(local.y)/tan-local.z);
+            }
+            camera.transform.SetPositionAndRotation(bounds.center-rotation*Vector3.forward*distance,rotation);Render(camera,folder,"preview-shoulder");
+            var entry=new Vector3(0,1,744);
+            ships[0].transform.position=entry;ships[1].transform.position=entry+new Vector3(-4,0,-3);
+            camera.transform.SetPositionAndRotation(entry-rotation*Vector3.forward*26,rotation);Render(camera,folder,"preview-entry");
+            Debug.Log("GULLET_PREVIEW_VIEWS_OK "+folder);
         });
         public static void HushwellReview()=>BatchTools.Run(()=>
         {

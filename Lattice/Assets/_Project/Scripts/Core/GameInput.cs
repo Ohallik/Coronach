@@ -22,13 +22,16 @@ namespace Lattice.Core
         }
         // The button dismissing a menu/dialogue belongs to that UI interaction.
         // Require release before gameplay can interpret it as dodge, fire or interact.
+        // Continuous movement controls can remain held across UI; they must neither
+        // trap the release guard nor lose braking/thrust when gameplay resumes.
+        static bool ContinuousMovement(string name) => name=="Brake"||name=="Boost"||name=="Sprint";
         bool ButtonsSuppressed
         {
             get
             {
                 if(resumeButtons)
                 {
-                    foreach(var action in Active)if(action.type==InputActionType.Button&&action.IsPressed())return true;
+                    foreach(var action in Active)if(action.type==InputActionType.Button&&!ContinuousMovement(action.name)&&action.IsPressed())return true;
                     resumeButtons=false;releaseFrame=Time.frameCount;
                 }
                 return Time.frameCount<=releaseFrame;
@@ -124,7 +127,7 @@ namespace Lattice.Core
         }
         public InputAction Find(string name) => Active.FindAction(name) ?? Common.FindAction(name);
         public bool Pressed(string name) => !Blocked && !ButtonsSuppressed && Find(name)?.WasPressedThisFrame()==true;
-        public bool Held(string name) => !Blocked && !ButtonsSuppressed && Find(name)?.IsPressed()==true;
+        public bool Held(string name) => !Blocked && (ContinuousMovement(name)||!ButtonsSuppressed) && Find(name)?.IsPressed()==true;
         public void Dispose()
         {
             Asset.Disable();

@@ -36,7 +36,7 @@ After (`gullet-blockout-01..03`, the last being current): opened the full-length
 Still open or weak:
 - The mouth's floor still ends in a clean arc against space.
 - The coil's clamp plates are small against the chamber.
-- The atlas's side pocket that previews the Cantor before combat is not built.
+- The atlas's side pocket now has a playable dormant preview; its quiet composition remains rejected below.
 - The collar-release story change is not implemented.
 
 **Blockout PASS; final pass pending** the ordinary flight review.
@@ -102,6 +102,24 @@ World-space chain following and bounded physical steering replace the earlier re
 ### Companion wall guidance follow-up - October 8
 
 Actual shell and far-side fold fixtures reproduce 12-integrity companion impacts. Bounded scene-collision guidance repairs those cases without changing this map or player controls: 91 affected passes, eight rejecting faults, and an earned 782.625-second route with no wall-contact logs or Sela damage. Fifteen opened Gullet images show selected clear traversal and broad animal curves; full motion and final MAP_EYE_TEST remain unaccepted. Early Taren damage increases on a changed path and stays an open balance/provenance concern. Release framing still ends after the bounded hold, and the generic bark crosses the body. Dormant preview, side pocket and contextual release/Tallow story remain unfinished. [Evidence](../validation/C4-companion-walls.md).
+
+### Dormant preview shoulder - October 8, functional checkpoint; composition open
+
+The actual Cantor and its equipment now wait inside the existing coil. A viewing point at (23,1,768) sits before the original encounter boundary, with a 3.5 m interaction/camera-interest radius. Two short generated tissue lips at z=756 and z=777 run from x=29 into the existing right shell. Their roots meet the bed and their tops retain the existing four-metre cutaway convention. The central flight route, original 66 by 58 m encounter, spawn identities, shell profile and exit remain unchanged.
+
+```text
+NORTH / existing coil: actual animal, links and four existing moorings
+       original activation boundary; neither hero enters it from the pocket
+central lane         open shoulder             existing right shell
+     |          point (23,768), radius 3.5      lip x=29..shell at z=777
+     |              ships face the coil        open shell-side recess
+     |                                         lip x=29..shell at z=756
+SOUTH / existing approach at (0,744) and old pre-combat stop near (0,755)
+```
+
+The optional six-line exchange identifies the rings, head lock and wall grooves, without granting rewards or inventing a nursery visit for legacy saves. Combat remains possible without talking. A completed observation directs the player back toward the collar; activation consumes the same animal and links, restores each original collision/damage state and starts AI/music. Completed encounter saves do not prepare an absent animal. Preview camera interest stays in this pocket and yields to actual targets or the bounded release introduction.
+
+Codex opened all four unlabelled `cantor-preview/map01` construction images and all four corrected `map02` images. The first fixed shoulder fixture cropped a ship, and the entry fixture left both ships behind; those rejected images and source remain. Geometry-fitted review framing corrects the former, and moving the entry fixtures corrects the latter. The revised overhead/section show a clear central lane, open approach, separated ships and lips rooted into the shell slope. The pocket remains visually subtle and the pre-Start animal is straight. The first player failed after two links and remains preserved. The repaired held-input player passes the identical route in 842.516 seconds, three cuts and both living heroes at TallowApproach. Seventeen new stills were opened: the quiet preview still fails final composition because the animal/links are small beside four dominant moorings; selected +1.50 release imagery retains a possible Sela/body silhouette overlap. The optional conversation is readable in sampled lines, but continuous quality remains UNVERIFIED. These editor views are not a runtime camera or final MAP_EYE_TEST pass. [Current implementation evidence](../validation/C8-cantor-preview.md).
 
 ### Earlier map history
 

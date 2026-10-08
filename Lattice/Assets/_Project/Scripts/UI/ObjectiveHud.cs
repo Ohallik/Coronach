@@ -51,7 +51,17 @@ namespace Lattice.UI
                     {
                         label="Find the collared Cantor";goal=new Vector3(Lattice.Data.GulletProfile.Center(Lattice.Data.GulletProfile.CantorZ),1,Lattice.Data.GulletProfile.CantorZ);
                         foreach(var collar in CantorCollar.All)if(!collar.Resolved)
-                        {label=collar.Remaining>0?$"Cut the collar links ({3-collar.Remaining}/3)":"Release the exposed collar lock";goal=collar.transform.position;break;}
+                        {
+                            label=collar.Remaining>0?$"Cut the collar links ({3-collar.Remaining}/3)":"Release the exposed collar lock";goal=collar.transform.position;
+                            var dormant=collar.GetComponent<DormantEnemy>();
+                            if(dormant!=null&&dormant.Held)
+                            {
+                                var look=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag=="gullet.collarObserved");
+                                if(look!=null&&look.Available){label="Study the strained collar";goal=look.transform.position;}
+                                else label="Approach the collar links";
+                            }
+                            break;
+                        }
                     }
                     else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
                     break;

@@ -82,7 +82,8 @@ namespace Lattice.EditorTools
             var cacheTrigger=cache.gameObject.GetComponent<BoxCollider>();cacheTrigger.isTrigger=true;cacheTrigger.size=Vector3.one*2;
             WorldBuilder.Label("SALVAGE EDDY",new(eddyX,-1,GulletProfile.CacheZ-16));
             // The coil is wide enough for both ships and the serpent to turn.
-            WorldBuilder.Encounter("Gullet_Cantor",new(GulletProfile.Center(GulletProfile.CantorZ),1,GulletProfile.CantorZ),new(66,6,58),"Cantor",1);
+            var cantor=WorldBuilder.Encounter("Gullet_Cantor",new(GulletProfile.Center(GulletProfile.CantorZ),1,GulletProfile.CantorZ),new(66,6,58),"Cantor",1);
+            GulletPreviewStaging.Configure(cantor);
             WorldBuilder.Label("THE CANTOR'S COIL",new(0,-1,GulletProfile.CantorZ-50));
             WorldBuilder.Warp("Exit warp — Tallow Drift",new(GulletProfile.Center(GulletProfile.ExitZ),1,GulletProfile.ExitZ),"TallowApproach","bossdown.Cantor");
             VerifyWalls();

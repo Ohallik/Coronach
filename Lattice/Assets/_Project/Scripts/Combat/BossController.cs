@@ -20,7 +20,8 @@ namespace Lattice.Combat
         {
             health=GetComponent<Health>();brain=GetComponent<EnemyBrain>();
             collar=GetComponent<CantorCollar>();
-            // A boss exists only once its encounter begins; its cue lasts until defeat or removal.
+            // Dormant previews delay Start until activation. The combat cue
+            // then lasts until resolution or removal.
             MusicDirector.Encounter(this,"Alien Boss Battle",true);
             nextSpecial=Time.time+5;health.Damaged+=OnDamaged;
             // The Bellows has no rig: its breathing is its animation.
@@ -36,7 +37,7 @@ namespace Lattice.Combat
                 StopAllCoroutines();Deflate();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);
                 GameServices.Current.Flags.SetBool("bossdown."+health.id,true);
                 if(health.id=="BellowsBelow")PressureOrgan.SettleAll();
-                BarkService.Play(PartyController.Current.Active.character,"boss",true);
+                BarkService.Play(PartyController.Current.Active.character,health.id=="Cantor"?"release":"boss",true);
                 Debug.Log("BOSS_DOWN "+health.id);Debug.Log($"BOSS_DURATION {health.id} seconds={Time.realtimeSinceStartup-engaged:0.0}");
             };
         }

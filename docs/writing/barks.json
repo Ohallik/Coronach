@@ -5,6 +5,7 @@
     "kill": "That answers that.",
     "flash": "Just a little early.",
     "boss": "We can stop shouting now.",
+    "release": "Lock's open. Give it room.",
     "zone": "Same body. Different problem."
   },
   "Sela": {
@@ -13,6 +14,7 @@
     "kill": "Beautifully uncooperative.",
     "flash": "You missed. I noticed.",
     "boss": "I liked it better quiet.",
+    "release": "It's turning. Follow the opening.",
     "zone": "I vote we touch nothing. Yet."
   }
 }

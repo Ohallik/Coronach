@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Cantor preview and held-input checkpoint - October 8
+
+Both standard players contain the actual dormant Cantor preview, optional six-line story and held-movement input repair. **173 EditMode / 339 PlayMode checks pass**, zero skips, with **692 bound inputs**. The identical 171-step earned replay passes in **842.516 s / 50,532 fully focused samples**, process exit 0, three cuts and both living heroes at TallowApproach. Its post-dialogue return ends **0.50 m** from the waypoint versus **16.08 m** in the retained failed run. The first two-link failure, all failed fixtures and all 24 rejecting preview/story/input control cases remain. [Evidence and inventories](validation/C8-cantor-preview.md).
+
+Seventeen new stills were opened. **Quiet-preview composition remains rejected**: the small animal/links are dominated by four moorings. Selected +1.50 release imagery retains a possible Sela/body silhouette overlap; continuous motion/audio and physical quality remain UNVERIFIED. The 61.1-second fight is not accepted balance. All four >25 ms intervals remain, including an unexplained 25.885 ms Tallow arrival outlier. This display-off/VSync-0 recording is excluded from clean C1 acceptance. Earlier Decks hitches, invalid Tallow GPU evidence and Sela stepping remain open. Saves, e93bf13 and frozen a3aaad6 are preserved; no presentation candidate is validated. Continue bounded shot provenance for earlier unresolved damage, preview composition and Tallow story.
+
 ## Companion wall guidance checkpoint - October 8
 
 Both standard players now contain bounded companion guidance around actual scene collision. **91 affected PlayMode checks pass**, zero skips, and all **eight frozen-companion controls reject**. Both builds succeed with **101 bound inputs**; exact `138f857` players remain archived. Original shell/fold failures, originally passing fixtures and all assertions remain. [Evidence and inventories](validation/C4-companion-walls.md).

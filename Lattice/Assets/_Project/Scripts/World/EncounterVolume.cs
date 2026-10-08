@@ -10,7 +10,32 @@ namespace Lattice.World
         public int Remaining{get;private set;}
         public bool Started{get;private set;}
         public string encounterId;
+        public Transform previewPoint;
+        public float previewRadius=6;
+        bool ready;
         public bool Cleared=>Started&&Remaining==0;
+        bool SavedClear
+        {
+            get
+            {
+                var flags=GameServices.Current.Flags;
+                if(!string.IsNullOrEmpty(encounterId)&&flags.GetBool("clear."+encounterId))return true;
+                // Earlier completed Cantor saves may have only the exit flag.
+                return encounterId=="Gullet_Cantor"&&flags.GetBool("bossdown.Cantor");
+            }
+        }
+        void Start(){ready=true;PreparePreview();}
+        void OnEnable(){if(ready)PreparePreview();}
+        void OnDisable()=>CancelPreview();
+        void PreparePreview()
+        {
+            if(Started||previewPoint==null)return;
+            if(SavedClear){FinishSaved();return;}
+            foreach(var spawner in spawners)spawner.Prepare(previewPoint.position,previewRadius);
+        }
+        void CancelPreview(){if(spawners!=null)foreach(var spawner in spawners)if(spawner!=null)spawner.CancelPreview();}
+        void FinishSaved(){Started=true;CancelPreview();foreach(var membrane in membranes)membrane.SetOpen(true);}
+        void Update(){if(!Started&&previewPoint!=null&&SavedClear)FinishSaved();}
         void OnTriggerEnter(Collider other)=>TryEnter(other);
         void OnTriggerStay(Collider other)=>TryEnter(other);
         void TryEnter(Collider other)
@@ -37,7 +62,7 @@ namespace Lattice.World
         public void Begin()
         {
             if(Started)return;Started=true;
-            if(!string.IsNullOrEmpty(encounterId)&&GameServices.Current.Flags.GetBool("clear."+encounterId)){foreach(var membrane in membranes)membrane.SetOpen(true);return;}
+            if(SavedClear){FinishSaved();return;}
             foreach(var membrane in membranes)membrane.SetOpen(false);
             foreach(var spawner in spawners)foreach(var enemy in spawner.Spawn()){Remaining++;enemy.Health.Died+=OnDeath;}
         }

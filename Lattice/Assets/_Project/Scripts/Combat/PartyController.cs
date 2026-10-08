@@ -82,15 +82,19 @@ namespace Lattice.Combat
             var hero=Active;var target=hero.target;
             // A collar link remains part of the whole moving animal's envelope.
             if(target!=null&&target.reactionOwner!=null)target=target.reactionOwner;
-            bool departure=false;
+            bool departure=false,preview=false;
             // Targeting correctly drops resolved health immediately. Preserve
             // only the already-framed Cantor's short release introduction; a
             // newly selected live opponent still takes priority.
             if((target==null||!target.Alive)&&framedTarget!=null&&
                 framedTarget.TryGetComponent<CantorRelease>(out var release)&&release.KeepInEncounterFrame)
             {target=framedTarget;departure=true;}
+            // A local viewing pocket can frame the real dormant animal without
+            // targeting it or extending ordinary combat's 30 m interest range.
+            if((target==null||!target.Alive)&&!departure)
+            {target=DormantEnemy.Interest(hero.transform.position);preview=target!=null;}
             if(!hero.flight||!ZoneController.Current.Combat||target==null||
-                !departure&&(!target.Alive||(hero.transform.position-target.transform.position).sqrMagnitude>900))
+                !departure&&!preview&&(!target.Alive||(hero.transform.position-target.transform.position).sqrMagnitude>900))
             {cameraRig.FrameEncounter(null);return;}
             if(framedHero!=hero)
             {
