@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Cantor's release introduction stays visible; continuous quality remains open — October 7
+
+**C3/C4 remain OPEN. Both standard players contain the framing/arc repair; 37 affected PlayMode checks pass, zero skipped.** The original camera regression and 10,803 degrees/s reversal reproduce before repair; an unlimited-framing mutation also rejects correctly. All older assertions/failures remain. [Evidence and exact inventories](validation/C3-release-framing.md).
+
+The changed earned Gullet route records **792.484 s / 47,530 focused samples**, resolves Cantor and saves both heroes at Tallow. Runtime and independent offline analysis pass, but **the outer launcher remains REJECTED** because its child exit code was unavailable. Exit-0/exit-7 controls reproduce the PowerShell handle defect and verify the wrapper repair; the old code remains UNVERIFIED. No unchanged replay was repeated to obtain a green launcher result.
+
+Ten actual opened frames show the whole animal through +1.50 seconds, improving the old +0.20 crop. The camera then returns rapidly. Continuous motion/audio and physical review remain UNVERIFIED; full collar/preview story staging and all unmet gates stay open. Four >25 ms frames are retained, including 63.378 ms on step 103; display-off VSync-0 capture cannot accept C1. Nathan's saves and all frozen `a3aaad6` files/profile remain unchanged. Prior `5cfe4bc` players are archived in `Builds/quality/C3/framing-prior-Windows*`. The capture tool's unbounded audio retention is confirmed and is the next useful diagnostic repair for longer review runs.
+
+
 ## Cantor departs through the exit; camera readability remains rejected — October 7
 
 **C3 remains OPEN. Both standard players contain the bounded Cantor release, but its gameplay-camera finish is not accepted.** The animal now keeps its full size and connected body, uses the owned opening cue and clears the actual Gullet exit. The first path passed arena checks yet crossed the Gullet wall by 11.699 m; routing through the shared exit profile fixes it without changing map geometry. All original, pause, recovery, camera, fixture and compile failures remain. **35 affected PlayMode / 164 offline checks pass**, zero skipped; both players build. [Evidence and exact inventories](validation/C3-cantor-release.md).

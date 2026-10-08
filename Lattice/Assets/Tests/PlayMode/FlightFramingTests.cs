@@ -60,7 +60,7 @@ namespace Lattice.Tests.PlayMode
             Assert.That(Vector3.Distance(Camera.main.transform.position, actor.transform.position),
                 Is.EqualTo(rig.profile.distance).Within(1), "ordinary travel framing should return after the encounter");
         }
-        static void CheckMeshes(GameObject root, string label)
+        internal static void CheckMeshes(GameObject root, string label)
         {
             int count = 0;
             foreach (var renderer in root.GetComponentsInChildren<Renderer>())

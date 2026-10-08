@@ -79,8 +79,15 @@ namespace Lattice.Combat
         {
             if(cameraRig==null)return;
             var hero=Active;var target=hero.target;
-            if(!hero.flight||!ZoneController.Current.Combat||target==null||!target.Alive||
-                (hero.transform.position-target.transform.position).sqrMagnitude>900)
+            bool departure=false;
+            // Targeting correctly drops resolved health immediately. Preserve
+            // only the already-framed Cantor's short release introduction; a
+            // newly selected live opponent still takes priority.
+            if((target==null||!target.Alive)&&framedTarget!=null&&
+                framedTarget.TryGetComponent<CantorRelease>(out var release)&&release.KeepInEncounterFrame)
+            {target=framedTarget;departure=true;}
+            if(!hero.flight||!ZoneController.Current.Combat||target==null||
+                !departure&&(!target.Alive||(hero.transform.position-target.transform.position).sqrMagnitude>900))
             {cameraRig.FrameEncounter(null);return;}
             if(framedHero!=hero)
             {

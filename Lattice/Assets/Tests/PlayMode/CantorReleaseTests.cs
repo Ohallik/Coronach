@@ -11,6 +11,12 @@ using UnityEngine.TestTools;
 
 namespace Lattice.Tests.PlayMode
 {
+    [DefaultExecutionOrder(1500)]
+    public sealed class CantorPoseClock:MonoBehaviour
+    {
+        public int frame;public float time;public Quaternion rotation;
+        void LateUpdate(){frame=Time.frameCount;time=GameTime.Now;rotation=transform.rotation;}
+    }
     public sealed class CantorReleaseTests
     {
         GameObject fixture;
@@ -149,6 +155,73 @@ namespace Lattice.Tests.PlayMode
                 Assert.Greater(frames,50);
                 Assert.GreaterOrEqual(minimum,.15f,"released body crosses the authored Gullet wall");
                 Assert.Greater(tail,GulletProfile.End,"cleanup occurs before the whole animal clears the exit");
+                yield return new WaitForSecondsRealtime(.4f);Assert.IsTrue(enemy==null);
+            }
+        }
+        [UnityTest] public IEnumerator TheDepartureBeginsInViewInsteadOfBeingCroppedAtResolution()
+        {
+            SceneFlow.Current.LoadZone("Gullet_Tunnel");float deadline=Time.unscaledTime+10;
+            while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading);yield return new WaitForSecondsRealtime(.3f);
+            fixture=new GameObject("Cantor departure framing fixture");
+            foreach(var other in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))other.Passive=true;
+            foreach(float bearing in new[]{0f,90f,180f,270f})
+            {
+                var party=PartyController.Current;
+                for(int i=0;i<party.members.Length;i++)
+                {
+                    var actor=party.members[i];var controller=actor.GetComponent<CharacterController>();controller.enabled=false;
+                    actor.transform.position=new Vector3(i*3,1,803);controller.enabled=true;actor.GetComponent<FlightMotor>().Halt();
+                    actor.GetComponent<PlayerBrain>().AutoPilot=true;actor.GetComponent<PartnerBrain>().enabled=false;
+                }
+                var enemy=Spawn();enemy.transform.SetPositionAndRotation(new Vector3(0,1,820),Quaternion.Euler(0,bearing,0));
+                party.Active.target=enemy.Health;party.Active.TargetLocked=true;
+                yield return new WaitForSecondsRealtime(1.5f);
+                FlightFramingTests.CheckMeshes(enemy.gameObject,"live Cantor "+bearing);
+                var origin=enemy.transform.position;
+                Resolve(enemy);float started=GameTime.Now;int frames=0;bool swapped=false;
+                while(GameTime.Now-started<1.35f)
+                {
+                    yield return null;frames++;
+                    FlightFramingTests.CheckMeshes(enemy.gameObject,$"released Cantor {bearing} at {GameTime.Now-started:0.000}s");
+                    FlightFramingTests.CheckMeshes(party.Active.GetComponent<FormController>().flight,"hero during departure");
+                    if(!swapped&&GameTime.Now-started>.55f)
+                    {
+                        Assert.IsTrue(party.Swap());swapped=true;
+                        foreach(var actor in party.members)
+                        {actor.GetComponent<PlayerBrain>().AutoPilot=true;actor.GetComponent<PartnerBrain>().enabled=false;actor.GetComponent<FlightMotor>().Halt();}
+                    }
+                }
+                Assert.Greater(frames,60);Assert.Greater(Vector3.Distance(origin,enemy.transform.position),3,"visible hold must include actual departure");
+                yield return new WaitForSecondsRealtime(2.5f);Assert.IsTrue(enemy==null);
+            }
+        }
+        [UnityTest] public IEnumerator TheGulletTurnDoesNotReverseItsHeadingInOneFrame()
+        {
+            SceneFlow.Current.LoadZone("Gullet_Tunnel");float deadline=Time.unscaledTime+10;
+            while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading);yield return new WaitForSecondsRealtime(.3f);
+            fixture=new GameObject("Cantor turn fixture");
+            foreach(var other in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))other.Passive=true;
+            foreach(float bearing in new[]{0f,90f,180f,270f})
+            {
+                var enemy=Spawn();enemy.transform.SetPositionAndRotation(new Vector3(0,1,820),Quaternion.Euler(0,bearing,0));
+                var clock=enemy.gameObject.AddComponent<CantorPoseClock>();yield return new WaitForSecondsRealtime(.4f);
+                Resolve(enemy);float started=GameTime.Now,previousTime=clock.time,worst=0;
+                var previous=clock.rotation;int frame=clock.frame,samples=0;
+                while(GameTime.Now-started<3.35f)
+                {
+                    yield return null;Assert.IsNotNull(enemy);
+                    if(clock.frame==frame)continue;
+                    // Measure the evaluated pose with its own clock, not the
+                    // next coroutine frame's delta (the C2 clock defect).
+                    float dt=clock.time-previousTime;
+                    if(dt>0)worst=Mathf.Max(worst,Quaternion.Angle(previous,clock.rotation)/dt);
+                    previous=clock.rotation;previousTime=clock.time;frame=clock.frame;samples++;
+                }
+                Debug.Log($"CANTOR_TURN bearing={bearing} samples={samples} worstDegreesPerSecond={worst:R}");
+                Assert.Greater(samples,50);
+                Assert.LessOrEqual(worst,720,"release pivots abruptly instead of making a continuous turn");
                 yield return new WaitForSecondsRealtime(.4f);Assert.IsTrue(enemy==null);
             }
         }

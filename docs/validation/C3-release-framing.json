@@ -1,0 +1,2209 @@
+{
+  "status": "C3/C4 OPEN; camera introduction improved in opened stills; continuous presentation UNVERIFIED",
+  "source": {
+    "baseRevision": "5cfe4bce5b7381efde72cccf1b7684f0ba5f7d6a",
+    "scope": "Cantor framing and turn candidate; no milestone or continuous presentation acceptance",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorRelease.cs",
+        "normalizedSha256": "8c17243fba72d79d3445441c25a6603ba6ca35a09ce893ab75b6078de306a274"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+        "normalizedSha256": "9a5a15f62b553b21879fce8fc99e4ae055316d05b2a0ea82e03ebab26a826c20"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/SerpentSegments.cs",
+        "normalizedSha256": "bb844c84ab96939ed6608f197cc8e1ebd1c13cd60fdc7cb41cdbe2dcab260967"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs",
+        "normalizedSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "normalizedSha256": "3055efaa7650cac3dd34da7b34ff682b48941251d13a7621f4ae0291d18ef3fe"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "normalizedSha256": "e2ce8d4e7104e612335af66e6937fe015db5326eddcceee648ae6c84fde3c8dd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "normalizedSha256": "08ffa64ec1875925360d5afbd0b882bd1d515dc4f851235cfc0aa9d2b9611078"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "ee45cef596a7e156b35ee263b01244f19dd0fbaa7599a8897ea4e09623d4575e"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/CameraRig.cs",
+        "normalizedSha256": "86c239b97974baa3afe3b7e8dbedec95b039840c0abdc77fff719f42d5beb569"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "normalizedSha256": "874faf867eb46cd49f6422104ed6337955a22760d0d33292a90fc3519ddf1c63"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/SliceSmoke.cs",
+        "normalizedSha256": "8411a016f97b50f39b9cafa29dee33bd78939db3728e844fecbf1d65d985db6a"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+        "normalizedSha256": "f4995d76138275bb6eef1e347a3e9c7abe5ec016bcd345ab5ba0c2aaf16407c9"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+        "normalizedSha256": "c2a58243043604e90852f59dbb5472c0b92ad47ef5e5578d480cc49e0e859754"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C3/cantor-framing-packages.json",
+    "bytes": 137255,
+    "sha256": "f6fb62691d0b156fd58f9451145579f0da847750672fe6982d8965ab56696715"
+  },
+  "tests": [
+    {
+      "path": "Builds/quality/C3/cantor-framing-affected-final.xml",
+      "sha256": "96caf60f45fc63ad005530a53447aea1bcb7e1e827871a1da9d511549d3e841b",
+      "result": {
+        "result": "Passed",
+        "total": "37",
+        "passed": "37",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "314.8024369"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-candidate01.xml",
+      "sha256": "c476a92d0b27d7686c9e72f0f11e3f91f60a3e1e921b0975abe0d7edc498ff0d",
+      "result": {
+        "result": "Passed",
+        "total": "8",
+        "passed": "8",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "103.6462951"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-forever-red.xml",
+      "sha256": "77efb19237a670a4865f68e9cbec4640960896925f3ab8fdf85552e860d458f5",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "7.1537773"
+      },
+      "failures": [
+        {
+          "name": "TheWholeReleasedBodyLeavesTheOrdinaryCameraBeforeRemoval",
+          "message": "  cleanup would remove a visible body at bearing 0: Body\n  Expected: False\n  But was:  True\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-original-red.xml",
+      "sha256": "0f87992a621e4247b77317fccdee7465a5cd68779b9f7c73a5abb52aeb803c46",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "4.9501756"
+      },
+      "failures": [
+        {
+          "name": "TheDepartureBeginsInViewInsteadOfBeingCroppedAtResolution",
+          "message": "  released Cantor 0 at 0.050s clips vertically\n  Expected: in range (0.1,0.9)\n  But was:  0.906057954f\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/cantor-turn-candidate01.xml",
+      "sha256": "1be4317bb10c684c1e6654cd37f78ada8bb05ce27e49cddb4076989c9d362003",
+      "result": {
+        "result": "Passed",
+        "total": "9",
+        "passed": "9",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "123.4426558"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/cantor-turn-original-red.xml",
+      "sha256": "8c50df8028f9c7d03221ea46d34dfb5ebb4f84d2a1fac97bdb0f49c4fb415072",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "15.5324758"
+      },
+      "failures": [
+        {
+          "name": "TheGulletTurnDoesNotReverseItsHeadingInOneFrame",
+          "message": "  release pivots abruptly instead of making a continuous turn\n  Expected: less than or equal to 720.0f\n  But was:  10803.2412f\n"
+        }
+      ]
+    }
+  ],
+  "offlinePriorCurrent": 164,
+  "priorFullSuite": "C2 155 EditMode / 240 PlayMode, not a fresh full C3 suite",
+  "ordinaryRun": {
+    "route": "chapter-10-gullet",
+    "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+    "input": "continuous agent-directed virtual gamepad replay",
+    "build": "Release",
+    "unity": "6000.4.7f1",
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "quality": "Ultra",
+    "gpuTiming": "UNAVAILABLE",
+    "vrr": "UNVERIFIED",
+    "width": 1920,
+    "height": 1080,
+    "frameCap": 60,
+    "vSync": 0,
+    "samples": 47530,
+    "refreshHz": 60.0,
+    "seconds": 792.4844863999999,
+    "captured": true,
+    "profiled": false,
+    "headroom": false,
+    "census": false,
+    "motion": false,
+    "valid": true,
+    "frameTimingRequested": false,
+    "frameTimingEnabled": false,
+    "frameTimingCpuFrequency": 0,
+    "failures": [],
+    "loadWaitSeconds": 0.2784365000000002,
+    "settleSeconds": 5.0,
+    "interactions": [
+      {
+        "step": 1,
+        "expectedUi": "title",
+        "inputSeconds": 1.0208666,
+        "visibleResponseMs": 3.184099999999912
+      },
+      {
+        "step": 3,
+        "expectedUi": "saves",
+        "inputSeconds": 1.5534175,
+        "visibleResponseMs": 4.189299999999951
+      },
+      {
+        "step": 5,
+        "expectedUi": "world",
+        "inputSeconds": 2.3703833999999997,
+        "visibleResponseMs": 1026.6472
+      }
+    ]
+  },
+  "independentOfflineAnalysis": {
+    "valid": true,
+    "failures": [],
+    "samples": 47530,
+    "seconds": 792.484486,
+    "distance": 1237.8537244665786,
+    "medianMs": 16.6679,
+    "p95Ms": 17.1516,
+    "p99Ms": 17.3133,
+    "worstMs": 223.7977,
+    "hitches": {
+      "25": 4,
+      "33.3": 3,
+      "50": 2,
+      "100": 1
+    },
+    "pausedSamples": 0,
+    "gcCollections": 40,
+    "gcBytesPerFrameMedian": -1,
+    "movingSamples": 24193,
+    "stoppedCameraWhileWalking": 1,
+    "interactions": [
+      {
+        "step": 1,
+        "expectedUi": "title",
+        "inputSeconds": 1.0208666,
+        "visibleResponseMs": 3.184099999999912
+      },
+      {
+        "step": 3,
+        "expectedUi": "saves",
+        "inputSeconds": 1.5534175,
+        "visibleResponseMs": 4.189299999999951
+      },
+      {
+        "step": 5,
+        "expectedUi": "world",
+        "inputSeconds": 2.3703833999999997,
+        "visibleResponseMs": 1026.6472
+      }
+    ],
+    "stabilityWindows": [
+      {
+        "startSeconds": 0,
+        "endSeconds": 60,
+        "samples": 3587,
+        "memoryBytes": {
+          "median": 283173966,
+          "maximum": 307144282,
+          "minimum": 225846365,
+          "validSamples": 3586,
+          "unavailableOrPendingSamples": 1
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 60,
+        "endSeconds": 120,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 318352190,
+          "maximum": 343691111,
+          "minimum": 296901056,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 120,
+        "endSeconds": 180,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 352694500,
+          "maximum": 383514370,
+          "minimum": 331201621,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 180,
+        "endSeconds": 240,
+        "samples": 3599,
+        "memoryBytes": {
+          "median": 389212457,
+          "maximum": 419470482,
+          "minimum": 367051321,
+          "validSamples": 3599,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 240,
+        "endSeconds": 300,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 422923009,
+          "maximum": 451062067,
+          "minimum": 400816358,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 300,
+        "endSeconds": 360,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 457865702,
+          "maximum": 481504256,
+          "minimum": 435523041,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 360,
+        "endSeconds": 420,
+        "samples": 3599,
+        "memoryBytes": {
+          "median": 493507641,
+          "maximum": 525632551,
+          "minimum": 469966678,
+          "validSamples": 3599,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 420,
+        "endSeconds": 480,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 528573053,
+          "maximum": 554308991,
+          "minimum": 505435721,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 480,
+        "endSeconds": 540,
+        "samples": 3597,
+        "memoryBytes": {
+          "median": 562847065,
+          "maximum": 587204312,
+          "minimum": 541675957,
+          "validSamples": 3597,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 540,
+        "endSeconds": 600,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 598182213,
+          "maximum": 625694853,
+          "minimum": 574272764,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 600,
+        "endSeconds": 660,
+        "samples": 3599,
+        "memoryBytes": {
+          "median": 634865717,
+          "maximum": 660591834,
+          "minimum": 610104584,
+          "validSamples": 3599,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 660,
+        "endSeconds": 720,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 670911936,
+          "maximum": 698543498,
+          "minimum": 646802474,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 720,
+        "endSeconds": 780,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 707586840,
+          "maximum": 758756483,
+          "minimum": 679804172,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      }
+    ],
+    "worstFrames": [
+      {
+        "elapsed": 2.961296,
+        "ms": 223.7977,
+        "checkpoint": "load actual Gullet arrival",
+        "gcBytes": -1,
+        "gcCollections": 36,
+        "mainThreadNs": 16665400,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 534.048576,
+        "ms": 63.3784,
+        "checkpoint": "cross the nursery gate",
+        "gcBytes": -1,
+        "gcCollections": 65,
+        "mainThreadNs": 27928100,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 3.000308,
+        "ms": 39.0123,
+        "checkpoint": "load actual Gullet arrival",
+        "gcBytes": -1,
+        "gcCollections": 36,
+        "mainThreadNs": 242369300,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 3.397031,
+        "ms": 28.8847,
+        "checkpoint": "load actual Gullet arrival",
+        "gcBytes": -1,
+        "gcCollections": 36,
+        "mainThreadNs": 16661600,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 3.055684,
+        "ms": 23.3221,
+        "checkpoint": "load actual Gullet arrival",
+        "gcBytes": -1,
+        "gcCollections": 36,
+        "mainThreadNs": 16671600,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 26.539435,
+        "ms": 22.972,
+        "checkpoint": "advance lunge 5",
+        "gcBytes": -1,
+        "gcCollections": 38,
+        "mainThreadNs": 16665100,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 784.973457,
+        "ms": 22.7716,
+        "checkpoint": "arrive at Tallow approach",
+        "gcBytes": -1,
+        "gcCollections": 75,
+        "mainThreadNs": 16660200,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 600.816447,
+        "ms": 21.6561,
+        "checkpoint": "engage the Cantor inside its coil",
+        "gcBytes": -1,
+        "gcCollections": 68,
+        "mainThreadNs": 16670100,
+        "renderThreadNs": -1
+      }
+    ],
+    "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration.",
+    "launchDiagnostics": {
+      "valid": true,
+      "failures": [],
+      "profilingArguments": [],
+      "nativeProfilerDiagnostic": false
+    }
+  },
+  "launcher": {
+    "verdict": "REJECTED",
+    "childExit": "UNVERIFIED: null, not recoverable after process disposal",
+    "reason": "Start-Process redirected child loses ExitCode after HasExited polling without retained handle",
+    "controls": [
+      {
+        "expected": 0,
+        "exitCode": null,
+        "wouldOriginalAccept": false,
+        "exited": true,
+        "keepHandle": false
+      },
+      {
+        "expected": 7,
+        "exitCode": null,
+        "wouldOriginalAccept": false,
+        "exited": true,
+        "keepHandle": false
+      },
+      {
+        "expected": 0,
+        "exitCode": 0,
+        "wouldOriginalAccept": true,
+        "exited": true,
+        "keepHandle": true
+      },
+      {
+        "expected": 7,
+        "exitCode": 7,
+        "wouldOriginalAccept": false,
+        "exited": true,
+        "keepHandle": true
+      }
+    ],
+    "scope": "Independent raw-data analysis does not change the rejected outer verdict. No unchanged 13-minute rerun was performed to obtain a green launcher result."
+  },
+  "finalState": {
+    "version": 2,
+    "savedAtUtc": "2026-10-08T04:47:49.5634016Z",
+    "zone": "TallowApproach",
+    "spawn": "Arrival",
+    "activeMember": 0,
+    "quickItem": "RepairGel",
+    "party": [
+      {
+        "id": "Taren",
+        "level": 7,
+        "xp": 562,
+        "integrity": 121.481331,
+        "charge": 16.0189152,
+        "gear": [],
+        "equipped": {
+          "Edge": "d9d44c28f06c4c9a8dd429017aab3e50",
+          "Frame": "2bfe275e75b545c8803ad5afa43df604"
+        },
+        "module2": null
+      },
+      {
+        "id": "Sela",
+        "level": 7,
+        "xp": 562,
+        "integrity": 188.86499,
+        "charge": 55.8401833,
+        "gear": [],
+        "equipped": {
+          "Frame": "c344d9840bcd41d69d1b33dec351662d",
+          "Emitter": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe"
+        },
+        "module2": null
+      }
+    ],
+    "flags": {
+      "met.Orrin": true,
+      "met.Mira": true,
+      "met.Hal": true,
+      "hal.lesson": true,
+      "met.Survivor": true,
+      "clear.Sorrel_4": true,
+      "clear.Sorrel_5": true,
+      "clear.Sorrel_6": true,
+      "clear.Sorrel_7": true,
+      "mined.ridge_1_1": true,
+      "mined.ridge_1_0": true,
+      "clear.Sorrel_Burrower": true,
+      "bossdown.Burrower": true,
+      "quest.Sorrel.complete": true,
+      "warpkey": true,
+      "clear.Hushwell_0": true,
+      "clear.Hushwell_1": true,
+      "clear.Hushwell_2": true,
+      "clear.Hushwell_3": true,
+      "clear.Hushwell_Bellows": true,
+      "bossdown.BellowsBelow": true,
+      "hushwell.nursery": true,
+      "quest.Hushwell.complete": true,
+      "clear.Gullet_Chamber_0": true,
+      "clear.Gullet_Chamber_1": true,
+      "clear.Gullet_Chamber_2": true,
+      "clear.Gullet_Cantor": true,
+      "bossdown.Cantor": true
+    },
+    "materials": {
+      "ScrapAlloy": 143,
+      "LatticeFilament": 20,
+      "RidgeCrystal": 3,
+      "HuskCore": 4,
+      "WarpKey": 1,
+      "ChoirResin": 16,
+      "CantorPearl": 1
+    },
+    "collectedMaterials": {
+      "ScrapAlloy": 194,
+      "LatticeFilament": 20,
+      "RidgeCrystal": 5,
+      "HuskCore": 4,
+      "WarpKey": 1,
+      "ChoirResin": 16,
+      "CantorPearl": 1
+    },
+    "consumables": {
+      "RepairGel": 6
+    },
+    "craftingXp": {
+      "Edges": 50,
+      "Emitters": 150,
+      "Frames": 20
+    },
+    "questSteps": {
+      "Sorrel": 4,
+      "MiraCrystals": 0,
+      "Hushwell": 2
+    },
+    "questCounts": {
+      "Sorrel/0": 1,
+      "Sorrel/1": 1,
+      "MiraCrystals/0": 2,
+      "Sorrel/2": 1,
+      "Sorrel/3": 1,
+      "Hushwell/0": 1,
+      "Hushwell/1": 1
+    },
+    "parts": [
+      {
+        "instanceId": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe",
+        "definitionId": "EmittersT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "72f1a314a3234d6aa4102cf6bb86fd7b",
+        "definitionId": "EdgesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "c693c9b2db0645d1b3635d9ddbc21ebc",
+        "definitionId": "EdgesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "816e7f8d257c4b78b85b020aa81a2569",
+        "definitionId": "EdgesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "d9d44c28f06c4c9a8dd429017aab3e50",
+        "definitionId": "EdgesT2",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "2bfe275e75b545c8803ad5afa43df604",
+        "definitionId": "FramesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "c344d9840bcd41d69d1b33dec351662d",
+        "definitionId": "FramesT1",
+        "upgrade": 0,
+        "affixes": []
+      }
+    ],
+    "scrip": 1444,
+    "playtime": 2166.32739
+  },
+  "audio": {
+    "method": "FFmpeg ebur128 with oversampled true peak",
+    "seconds": null,
+    "peakLimitDbtp": -1.0,
+    "peakResolutionDb": 0.1,
+    "peakBoundary": "A rounded value at the ceiling cannot prove compliance; it is rejected.",
+    "audition": "UNVERIFIED; signal measurements do not establish sound quality",
+    "tool": {
+      "path": "C:/Users/natem/Projects/SpaceRPG/tools/audio_audit.py",
+      "bytes": 4805,
+      "sha256": "9d81ba0e2adfd88f2101f2e0d07c6649b80bd601b5d05c0e644641b792d90658"
+    },
+    "runs": [
+      {
+        "input": "Builds/quality/C3/cantor-framing-player-01/mix.wav",
+        "failures": [],
+        "source": {
+          "path": "Builds/quality/C3/cantor-framing-player-01/mix.wav",
+          "bytes": 304316460,
+          "sha256": "282b0b25ad957f021551a9863cd5482bc7e55862c2c5297f2114c911a61c7ed6"
+        },
+        "log": {
+          "path": "Builds/quality/C3/framing-audio-audit/000.log",
+          "bytes": 1387936,
+          "sha256": "25378bd5b534dbc7c0b2c954b18a42988633d7c0c935199c30b2804b7963da80"
+        },
+        "truePeakDbtp": -7.7,
+        "integratedLufs": -22.0,
+        "silent": false,
+        "valid": true
+      }
+    ],
+    "valid": true
+  },
+  "observations": {
+    "imagesOpened": [
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.20.png",
+        "bytes": 2266130,
+        "sha256": "65c0b9c0b88ba50bfedfd342cd22abb4517031a8af50783ffc1696cc9e3bacc2"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.50.png",
+        "bytes": 2266514,
+        "sha256": "f9d93f570fdd8ab369a929494f0912da52563735688c3696a6268f769afe8f7d"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.85.png",
+        "bytes": 2429943,
+        "sha256": "5ceeb2d21dc3905d373eca628a3a7f962e52d0dbe85a2ee8d4b1ab71bf012a26"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.20.png",
+        "bytes": 2047840,
+        "sha256": "58bb52cafaf71118854adbec83bc339f6d650f0b84ded14117796ebad80aabff"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.50.png",
+        "bytes": 2242695,
+        "sha256": "7cd4417bb7c6cb3781e5a6c6ed733d1d0984518c24e68164f565705a3ac4c4d3"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.80.png",
+        "bytes": 1685085,
+        "sha256": "478d165f066a8c7c3135e57e93a24ac6087161bf0bf10747615e4353b10eb73a"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+2.25.png",
+        "bytes": 1630610,
+        "sha256": "26d09ac2b40271a693d313029975e98d57a725c9b0f91b2f655a88dcee85b724"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+3.20.png",
+        "bytes": 1776770,
+        "sha256": "267e76f98e2be7e74dbee6aa96913d5733ccdcba68513a131dd6281bdacd561f"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish+4.20.png",
+        "bytes": 1677143,
+        "sha256": "fc4910cdec4629c2d5d89e8dc1172fe27b25e26d03109d2e57c7ffeeb5bc7eb3"
+      },
+      {
+        "path": "Builds/quality/C3/cantor-framing-player-01/finish-0.30.png",
+        "bytes": 2268524,
+        "sha256": "65e6e77d8aeca95dfe6a8afdc53f7ea5336cb66790e392988fc592fece01e3e8"
+      }
+    ],
+    "extraction": {
+      "anchor": 682.221933,
+      "anchorScope": "Last step 123 stopWhen bossdown sample; not the exact lethal event",
+      "frames": [
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish-0.30.png",
+          "requestedOffset": -0.3,
+          "index": 20457,
+          "elapsed": 681.907566
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.20.png",
+          "requestedOffset": 0.2,
+          "index": 20472,
+          "elapsed": 682.40737
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.50.png",
+          "requestedOffset": 0.5,
+          "index": 20481,
+          "elapsed": 682.70745
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.85.png",
+          "requestedOffset": 0.85,
+          "index": 20492,
+          "elapsed": 683.074056
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.20.png",
+          "requestedOffset": 1.2,
+          "index": 20502,
+          "elapsed": 683.407809
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.50.png",
+          "requestedOffset": 1.5,
+          "index": 20511,
+          "elapsed": 683.707445
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.80.png",
+          "requestedOffset": 1.8,
+          "index": 20520,
+          "elapsed": 684.007516
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+2.25.png",
+          "requestedOffset": 2.25,
+          "index": 20534,
+          "elapsed": 684.474383
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+3.20.png",
+          "requestedOffset": 3.2,
+          "index": 20562,
+          "elapsed": 685.407559
+        },
+        {
+          "path": "Builds/quality/C3/cantor-framing-player-01/finish+4.20.png",
+          "requestedOffset": 4.2,
+          "index": 20592,
+          "elapsed": 686.407562
+        }
+      ]
+    },
+    "notes": "Full connected animal and both heroes remain visible through +1.50. The arc is apparent at +0.85/+1.20. The camera returns rapidly toward the party between +1.50 and +1.80; Cantor is outside the opened view by +1.80. This improves the prior +0.20 crop/+0.75 loss. No continuous watch or audition; transition feel and full release staging are unaccepted.",
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalScanout": "UNVERIFIED",
+    "physicalController": "UNVERIFIED"
+  },
+  "hitches": [
+    {
+      "elapsed": "2.961296",
+      "ms": "223.7977",
+      "step": "5",
+      "scene": "Gullet_Tunnel"
+    },
+    {
+      "elapsed": "3.000308",
+      "ms": "39.0123",
+      "step": "5",
+      "scene": "Gullet_Tunnel"
+    },
+    {
+      "elapsed": "3.397031",
+      "ms": "28.8847",
+      "step": "5",
+      "scene": "Gullet_Tunnel"
+    },
+    {
+      "elapsed": "534.048576",
+      "ms": "63.3784",
+      "step": "103",
+      "scene": "Gullet_Tunnel"
+    }
+  ],
+  "artifacts": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/cantor-framing-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/cantor-framing-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/cantor-framing-player-01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/cantor-framing-player-01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/build-framing.ps1",
+      "bytes": 1780,
+      "sha256": "3a9565f1dddec9f5402a9b990d7c28366f6abb2a5107fee064dffe720fed3ffd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/CantorRelease-framing01.cs",
+      "bytes": 4598,
+      "sha256": "df151b1f4650ea45f51de5fc81a5a5ac1c42ca664b2b7b58a8de7e6d5dd07555"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/clean-framing-side-effects.ps1",
+      "bytes": 1477,
+      "sha256": "c3c9ff24bba6a0e4cbb9a0f33e37f12946f8e3c748b48d092dbcb92b43e7ca28"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/control-framing.ps1",
+      "bytes": 1780,
+      "sha256": "4718b3f7bfdd70045ffbd5acef54aecf35fee406241e0ef7d6f9490366d68825"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/control-launcher-exit.ps1",
+      "bytes": 1115,
+      "sha256": "faee50c5ac7313fbdf0182056771ef261a93ee676c9183805a722ab68a910b0e"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/extract-framing.py",
+      "bytes": 1066,
+      "sha256": "c56580bd3e5097e1f068aecf68a30a318614c360b55dbb85c42a3650e71c1d90"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/finalize-framing.py",
+      "bytes": 5076,
+      "sha256": "b14c7a9b3df68558db8a70de86cdf58b676c59d866aa1a9f43103a9520beadba"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/install-framing.ps1",
+      "bytes": 531,
+      "sha256": "3f9ce40bfa8b4cea1dd40ecf67ed61b925ed8e270daaa004c372cc4fa32c4bcf"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/package-framing.py",
+      "bytes": 2646,
+      "sha256": "66907cdc447df9574ca303f9cb993080365f051c963f9543ceb87136f50a0a4d"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/PartyController-framing01.cs",
+      "bytes": 8030,
+      "sha256": "a6756058d1d2480e2957353fbd35ecc2728537cd02ebbf9d7a9a1be4f138aa06"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/repair-wrapper.py",
+      "bytes": 861,
+      "sha256": "34b76d4e3b89e2ffe41eaf969f3b7132ddd7cba4d39b60b40c40d8a0dd45283c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/run-framing-ordinary-no-progress.ps1",
+      "bytes": 1978,
+      "sha256": "26bcae275c07e5b2b2cac5dc108f1b61571cc9ccff37306e7e1c9ad010aa9f06"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/run-framing-ordinary-rejected-exit.ps1",
+      "bytes": 3049,
+      "sha256": "deef2c86bd1f83e66e8e5bf017e7319afbc030978c3873e3c5d7c92dc57929c9"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/run-framing-ordinary.ps1",
+      "bytes": 3407,
+      "sha256": "15627b3d541d43fb439fdfa3747dcd6ef100b1e5e8aab33807930514385c59ed"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-affected-final.log",
+      "bytes": 1440218,
+      "sha256": "5a7f1ce6258b350373e7637bebaf8e31f369679a13a56289bdec41af9666a327"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-affected-final.xml",
+      "bytes": 60824,
+      "sha256": "96caf60f45fc63ad005530a53447aea1bcb7e1e827871a1da9d511549d3e841b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-build.log",
+      "bytes": 655479,
+      "sha256": "beac488cf20b2fd8059944602883e36f24f9b672b5186674ce956194a05a42a5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-builddev.log",
+      "bytes": 664458,
+      "sha256": "49f8ad9277334acaa4fd7809c78d518a6e221bb9e27a3ec7b617aadb2fa19c45"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-candidate01.log",
+      "bytes": 729189,
+      "sha256": "e5e769e6da006a44d7e675a44b17d5a80496c6d6e9b00ac07064d7ba4cc8f2c8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-candidate01.xml",
+      "bytes": 15849,
+      "sha256": "c476a92d0b27d7686c9e72f0f11e3f91f60a3e1e921b0975abe0d7edc498ff0d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-forever-red.log",
+      "bytes": 98857,
+      "sha256": "72693733c682a99c616e2b32ac54cbdbe4f80d89d207e67bf6f8fecea8409259"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-forever-red.xml",
+      "bytes": 5881,
+      "sha256": "77efb19237a670a4865f68e9cbec4640960896925f3ab8fdf85552e860d458f5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-original-red.log",
+      "bytes": 263272,
+      "sha256": "b7cea18a24fa0c2eda7a57c5fbb58ae460f2ad9617da8195ba73a57037ff774c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-original-red.xml",
+      "bytes": 6252,
+      "sha256": "0f87992a621e4247b77317fccdee7465a5cd68779b9f7c73a5abb52aeb803c46"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-packages.json",
+      "bytes": 137255,
+      "sha256": "f6fb62691d0b156fd58f9451145579f0da847750672fe6982d8965ab56696715"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/000.png",
+      "bytes": 2271779,
+      "sha256": "2dd35fa3aa0052d422a37001c0615fbf0fb0fd848c6237207c1bb51aa7bcf9cf"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/001.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/002.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/003.png",
+      "bytes": 1330516,
+      "sha256": "b3455966416b50054053a808a3f1bc10c2301056353ea162870176f5a81f6fc9"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/004.png",
+      "bytes": 1330516,
+      "sha256": "b3455966416b50054053a808a3f1bc10c2301056353ea162870176f5a81f6fc9"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/005.png",
+      "bytes": 1804316,
+      "sha256": "caa00f5c7b22e639188f5533246f8c34f541dcb7cfd65175b78e45ce91f2a613"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/006.png",
+      "bytes": 1831045,
+      "sha256": "f943598ca5b0f2ccaf78d19909fdb9068bd51d35f9997ab46226f42d337c9eb4"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/007.png",
+      "bytes": 1866026,
+      "sha256": "1955f7940c88309c3020e2e55419eec0b5801269afd5b91b7e08e0a43ace82c3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/008.png",
+      "bytes": 1836311,
+      "sha256": "6dc9757a6704d5b0824f1be056aaf888507ad5fbbb22754fdaae5f98ff654f8f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/009.png",
+      "bytes": 1907954,
+      "sha256": "a9ecce3139eafa9c49691e67f58f88060b06fc494d26049ce722270e2f065140"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/010.png",
+      "bytes": 1881130,
+      "sha256": "a76c5dceae0ee8b3702807ccf39057fbc54cbb6091b3b206e752dfbe1d14965d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/011.png",
+      "bytes": 1883587,
+      "sha256": "b48b20c8b77102d8638072e8791c742e4493a8be36214ef46c55900019ef2aba"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/012.png",
+      "bytes": 1818720,
+      "sha256": "38d22c63991fe0faef98d1b160caa9a9c8b3efd3453333508a090a91c640c332"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/013.png",
+      "bytes": 1858934,
+      "sha256": "c52f2704d10c98ba683efbc8c15f37d61d1cc81b757dd05346e070a2e4918302"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/014.png",
+      "bytes": 1740003,
+      "sha256": "b462016f21eeb49660d63471a72be808eaa69b84f68295fa5bc501e3e0817ec6"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/015.png",
+      "bytes": 1725658,
+      "sha256": "21585cb6b25f4efc217a7fad43394675fb41022752c03740d26245ea8f63cc36"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/016.png",
+      "bytes": 1640654,
+      "sha256": "8166b3e3b87f66434259a44ad8a08713bf1ca7d2728e2f50a700134a2707cfed"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/017.png",
+      "bytes": 1652319,
+      "sha256": "aedfb5d1c4b261bed6d24a20ad4aac598ad87f24f631518d8d4e94d194f443ab"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/018.png",
+      "bytes": 1718568,
+      "sha256": "829983cac8dceb699dc105ce490688f771726697763d03f26cbdedb759fd9426"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/019.png",
+      "bytes": 1954523,
+      "sha256": "93175395db7d911b334627bdd70729e87402ddc01456c75b393c368f04b85a9d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/020.png",
+      "bytes": 1729197,
+      "sha256": "c23b6ed060868e8edc6694615372a033e7898b7ae756e5d72b98b583cc635dd0"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/021.png",
+      "bytes": 1696818,
+      "sha256": "5cb18e12775152d15bd293986aa037ab98ab46f5ca5fdda703260b2525549f58"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/022.png",
+      "bytes": 1619913,
+      "sha256": "255f371d980b22656407f022f88d7170ce6ea8503be13448a0716415b7981532"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/023.png",
+      "bytes": 1629906,
+      "sha256": "46411ee17a4934e7b9672d9066a21c298c788bb29a51007f72b76a24add386ae"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/024.png",
+      "bytes": 1753348,
+      "sha256": "1ec56dc479be2526c70455cd2e79b41f7102f789a1d6e23b4d3c603a9a6a134d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/025.png",
+      "bytes": 1727825,
+      "sha256": "e2af55872489fec13e0761acf71b082d04c5455bc41f4c4fd247f97c47635add"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/026.png",
+      "bytes": 1644930,
+      "sha256": "bc5cc645a2471133c0468b9ea4f144b3a385510c780ba40127eb184f51c7bae5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/027.png",
+      "bytes": 1667274,
+      "sha256": "4a3ab8806befa20d1874caa05d4ad2decc1c26627e2757951871006f7dc16e3f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/028.png",
+      "bytes": 1943356,
+      "sha256": "dcce1381a2484f096cd94dd6d5f9a258322a3cebab502e42365ca745723cb88a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/029.png",
+      "bytes": 1542539,
+      "sha256": "68b6b3a052d5674e465d3fef66b3a2362dd7e2d73d156c816f58522eb03f02a5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/030.png",
+      "bytes": 1563097,
+      "sha256": "9664c305c69319d8dce1e31cdae673848920b3da676d985fedf33c41780b2e3c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/031.png",
+      "bytes": 1643935,
+      "sha256": "c54eefa9831496a4025fea11011048940da89cfbb89b1c1749ce0c2a4e07ff8a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/032.png",
+      "bytes": 1664458,
+      "sha256": "dca8ccb51f4e6daab68ee18e9d9998c882740e1f3014c603b8a9b94cba5fa65e"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/033.png",
+      "bytes": 1618814,
+      "sha256": "bbefe143323a74a8500ea1e3891a05d3c8399d945aaa64c94049da75d210bcef"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/034.png",
+      "bytes": 1676377,
+      "sha256": "4afd55b2f384e1db182ed0c2f44270e049c3d3a72150ac1f6f5aae91a47fe896"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/035.png",
+      "bytes": 1624594,
+      "sha256": "c90113ed3a49be0e4410b22f3eb218248ee7841ea1d6a9c1d7ef17287ee64d0b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/036.png",
+      "bytes": 1685744,
+      "sha256": "87a89fda652e675160b3b0f6c0309791924d9678b35b8cf36928fd7313a4dcc0"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/037.png",
+      "bytes": 1568634,
+      "sha256": "a18faef5187cd9711ee7dfd8316a45dfa3c60fdc16b3dfdb404c1192514bf48b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/039.png",
+      "bytes": 1582062,
+      "sha256": "7c69517a0c0524cee77c7ef5f062aa915ce2501e30cd48d646cde036225f4011"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/040.png",
+      "bytes": 2011827,
+      "sha256": "cb0d6ecbfa9d63369db8c4a1e980aca63e566bf68ae81c61a2aab432087927c8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/041.png",
+      "bytes": 1712552,
+      "sha256": "ea3cf7e46f4148c2707dd553fff61454d5be8bd02ccef7e1d523c6ff732fe583"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/042.png",
+      "bytes": 1761747,
+      "sha256": "78894fd714b32e1064366c97335360d656496184ee0921d26600381034e09d34"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/043.png",
+      "bytes": 1880275,
+      "sha256": "3c8efdd2c918a2cb20d4ccef099a533472ac6667c1bcb7fd165b385d6ee032d8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/044.png",
+      "bytes": 1902224,
+      "sha256": "8e829acdb7028671a4e0e9c6d2d022a9511e899cab711055ff4c906704781013"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/045.png",
+      "bytes": 1763062,
+      "sha256": "1979e8ff8c10bee6409074421f80f50d82c6a7fd21b06397048f971235444f63"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/046.png",
+      "bytes": 1779268,
+      "sha256": "1fd32ce7f060f54f49616b72e8ee35d5a1b252ba09544f5d7a11bdb51e10f3e1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/047.png",
+      "bytes": 1901158,
+      "sha256": "cafc38685827e0bfbfa1ecec20801c5c8392d7c047cd063580ca177e6af23b26"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/048.png",
+      "bytes": 1903341,
+      "sha256": "df9bf7a8ae6590773da09d9dea3bbe9cc5b87ea8caab334a9429589384442349"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/049.png",
+      "bytes": 1796035,
+      "sha256": "eb9a856fb0195a8bcfc5f1d39f66d7e2d396fe0101f46de01cd67245765142ea"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/050.png",
+      "bytes": 1797776,
+      "sha256": "8b4fb7645ceb41db21c8aa24e0471ccbaa1e85a832ad6d422c2894357bfcbbd4"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/051.png",
+      "bytes": 1688784,
+      "sha256": "e2c9a3637b459612ff816ad25f718f5ae1eaf890ddd1bca32743268a416038f8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/052.png",
+      "bytes": 1684296,
+      "sha256": "2ebe19095bc8f32f6279ca5163e03b3fac1ac4f65f1ecf4327d87dfb88936f0f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/053.png",
+      "bytes": 1676253,
+      "sha256": "d57e037609b4cdf9180e2c36528e8779a9e8cc6ebae90c521c8092d446cd3487"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/054.png",
+      "bytes": 1572009,
+      "sha256": "52fc7f4cc5c38a78dfe7cc5358c21fa43dde928ee9a337ff95657f7b59f0e879"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/055.png",
+      "bytes": 1583403,
+      "sha256": "ae888a8bd253cd5658c90ad97ed835bf2c72b6496d0fb5e32c0cacf407434230"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/056.png",
+      "bytes": 1569287,
+      "sha256": "14b0afa79578dc8ddaa190eea57a3e3a8e14db0e35c60f031236faf79fb4985b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/057.png",
+      "bytes": 1546292,
+      "sha256": "5eb703b3478b9a19d66619d7b114dab66bfccf67c389878711537ffb2798d14f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/058.png",
+      "bytes": 1848797,
+      "sha256": "4d2d43f12416beb0729fc97da1d58694c5f841f6c9e785b193aad857a5982358"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/059.png",
+      "bytes": 1813270,
+      "sha256": "fbab07466096e1a14b6dfa4d5703d7f178ba464908b8572905bf7cbb8700f0fa"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/060.png",
+      "bytes": 1683856,
+      "sha256": "80e1845902601e8d2984ebb3a36512a9b379587f691f6ee0f5dbd8d67405cd4e"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/061.png",
+      "bytes": 1543713,
+      "sha256": "a08137f9cf080801b7a1271c826a9c59d1ed89e7ba99b230b8b81b8d87becd52"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/062.png",
+      "bytes": 1624121,
+      "sha256": "258fe5ab1280b780d029e41f726b04c3a51566eb48f3e05f8f175484cde2f4ff"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/063.png",
+      "bytes": 1538216,
+      "sha256": "a6af929e16e1cdffa9b472e05f9444f61e77fceed0a4c8b5ed123b58370eb1ba"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/064.png",
+      "bytes": 1542077,
+      "sha256": "264f78b403a40fc2165a737d2f4b6fe631769a69b1dad54a4b1e1e7be66f5601"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/065.png",
+      "bytes": 1847272,
+      "sha256": "68759cf0784d40a08e37f30ce82f79e7a044d9ddd6088e6bb2f34a9d5a70afa1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/067.png",
+      "bytes": 1777503,
+      "sha256": "53942e1c042c5bf3a61a10a8b0ed0060e7d46c127a77f47759b13409c891efa2"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/068.png",
+      "bytes": 1758612,
+      "sha256": "47a377cd3516d786c22772870657be3f3c930e258513f62581f5b79fe1762456"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/069.png",
+      "bytes": 1853373,
+      "sha256": "bf7fcb14dc2e510a36becfecb4524adc62da3b5156a453233264f6eabd5916e4"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/070.png",
+      "bytes": 1816637,
+      "sha256": "6e135973c66cafba4269e04a1186e811addb97f89efc7b8a98b4fe2165f58ceb"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/071.png",
+      "bytes": 2054945,
+      "sha256": "33056014b11e0f260e0126cf24c4ce0e962620395b530b07e4f757718fe1208a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/072.png",
+      "bytes": 1720458,
+      "sha256": "666a92c0ea496b9d8b608fac3230ece20673abf93468762a0db4c481633b8b24"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/073.png",
+      "bytes": 1640283,
+      "sha256": "f12263b140e51e4e0db34e3615e83f14a6b8ba0caebc3a35c5562bc624d33040"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/074.png",
+      "bytes": 1639237,
+      "sha256": "daf4af005a0e62f0f9ec3aeed0ece5c62ff02a8f20e13de5e30dcae3f5abdd05"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/075.png",
+      "bytes": 1575369,
+      "sha256": "d293c09940ab78cf3c84ea7014fe40f04bc14cefb4f7a2aa13de53ecbda96dde"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/076.png",
+      "bytes": 1601101,
+      "sha256": "8d70d7f8c974934e8019757625380f447eeb488e58ad12cc7f2ff69f2f3d936f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/077.png",
+      "bytes": 1941232,
+      "sha256": "741030c763510980de4e2042cded4ab1d123e355a7c9268a695b1853c4c6de1a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/078.png",
+      "bytes": 1909211,
+      "sha256": "c44177427d865261060f70f9f8de93330672ecee56319b6b46b2f3005c140a81"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/079.png",
+      "bytes": 1654343,
+      "sha256": "4c190d261f3377aa188193a10b800b68691e10b176e587da1cc811b73babd237"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/080.png",
+      "bytes": 1665103,
+      "sha256": "cddb2371f1656e9dc5e678ec12f2da171460932d245cf6395d90ec9d2fc29628"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/081.png",
+      "bytes": 1680549,
+      "sha256": "534bc23456e3fd5ac566b9cf0c8a4c4d05e8e508c0ea8bce1772dfc0a02c8885"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/082.png",
+      "bytes": 1693332,
+      "sha256": "4bf77b6494de2d2d5de8ff3f615e55c47ada4913935501717af23a09d0a2b5d3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/083.png",
+      "bytes": 1962605,
+      "sha256": "58b8d22b0c8568f8a9490807a12862d0a2b832871457ab13f69dda537d6c81d1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/084.png",
+      "bytes": 1961464,
+      "sha256": "923b7cdda801cf398826b26a9d7beede9003265c96aab975da0b9fa475e92e9b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/085.png",
+      "bytes": 1736009,
+      "sha256": "3abe27212ca0081ed7565caa1dea895fb8c687fc9615e30df87e04245525f275"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/086.png",
+      "bytes": 1740709,
+      "sha256": "d8a7c92ee7dd77a8f79e5835e494b75e81618f6e03f6a92df35517531982a899"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/087.png",
+      "bytes": 1757069,
+      "sha256": "2732fdc51a70da6b67b3eec667d0640164fff67838002a5c9cff207e1e65566a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/088.png",
+      "bytes": 1832295,
+      "sha256": "d400e1559bbc0c38ffc09db39247aafd13b5ae5b35f9b54952890589e22fbc3d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/089.png",
+      "bytes": 1719651,
+      "sha256": "4c0ae8e8724221ff0b4fa906ccb5b43d49f206c9d616fefe7f086943a00cad68"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/090.png",
+      "bytes": 1671332,
+      "sha256": "91ddcf58f75ba2b4fc62bb2a0f0f4094e5525867e0f4f8549a209ab3cdb3e7ad"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/091.png",
+      "bytes": 1680759,
+      "sha256": "d1be5db5edcfc6ed62c91ae3d5093e4cd7781396d1abf7188ec371ce28ec0cf7"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/092.png",
+      "bytes": 1599660,
+      "sha256": "1463d5fdafe9bf6da0d592f2a472c0b2ac8c7681fb79c66e5af529dd497b14fb"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/093.png",
+      "bytes": 1673478,
+      "sha256": "c0d762eaaf2d0e2dc1766a5eb2f1843ceadc730491128613ba823fcf62741ab6"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/094.png",
+      "bytes": 1682062,
+      "sha256": "6aaec11be9c801cf03e9e5cf6626151a3fbc6e728fa76cab00f6bc4eab8d5475"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/095.png",
+      "bytes": 1717413,
+      "sha256": "7f2b9f28f3df91afd45fc62e3d0a6a06f3ef6dcc9838938ccc5694d817b5ab0c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/096.png",
+      "bytes": 1666112,
+      "sha256": "988ded96a65348f336d494202c6628981d588eef500095701d2aded62dd5c920"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/097.png",
+      "bytes": 1716736,
+      "sha256": "942d5486837fb5074c79a508e1a86b090c11fecd27caadcb8e0730762f3679e9"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/098.png",
+      "bytes": 1743601,
+      "sha256": "f74e12d527a1e6d61bb75fe269ef91f759bf9c34b6c7e0ade74eb5b4762199fd"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/099.png",
+      "bytes": 1851034,
+      "sha256": "c8fa6ea6b269252c8c39ae618400e21c1aeba639c1edeaf49a11e9bdcc2ef787"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/100.png",
+      "bytes": 1640941,
+      "sha256": "78e21a918b2e8cc308e7af38700d63f2e9ca673421525c437cf58be8f7c22b44"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/101.png",
+      "bytes": 1674942,
+      "sha256": "149fca071939066dbfa61e38fd1fa9c90ab5b2634627fe2eff342ce14b283f59"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/102.png",
+      "bytes": 1673610,
+      "sha256": "a4e8b4b815713de94747e18e8353812293546f19a8f247f39de7f68957f7b8c7"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/103.png",
+      "bytes": 2025940,
+      "sha256": "5f2172bd3fdffffaad6a5d91d7450e3d9c5f2cf8ef96fe09d61655e97d0baf7a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/104.png",
+      "bytes": 1923282,
+      "sha256": "37374a6107b79a6254e16b3399097cc0970e4aad2dfeb133759d1986916b3706"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/105.png",
+      "bytes": 2557583,
+      "sha256": "50a5625f900518aad55aba5aa3d5dc2a9a035e3058f9fa8634705fb821bb38b2"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/106.png",
+      "bytes": 2553104,
+      "sha256": "7f33b8f2cdc6ff29a631e6c50dadaddaa7cc120a4124c17fa4077b5f4bd20543"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/107.png",
+      "bytes": 2553860,
+      "sha256": "dea31aeee671d02ed41ae03b3aea40163bf22e14c5e16ded86231bfbefe6fb0b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/108.png",
+      "bytes": 2557458,
+      "sha256": "313d6bec19cf3f0cf41b796e4957858aa3bf86a0a94b20b0de6bd4a710bed6ff"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/109.png",
+      "bytes": 2556387,
+      "sha256": "88f6cab58349a4edea75667368c40b89bee490cc7551743e5500e8c993357452"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/110.png",
+      "bytes": 2554970,
+      "sha256": "0cbd3fbaf2d029d2b9eb5769dc6606902ab2dfcad082cdc012fa04e717bfcb45"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/111.png",
+      "bytes": 2554935,
+      "sha256": "b1cceffc7d0b15e00a83567d231578afa55e6c502effe2a0c74f3ec328e0cc19"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/112.png",
+      "bytes": 2538534,
+      "sha256": "a33ca84d89421f7e8056a138833a2eb33da8482781aad4a19747a196afe39b93"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/113.png",
+      "bytes": 2548796,
+      "sha256": "481f7cc0266ca7cf875076a0f843ae870c8d714d5852678aefe271655ad818b2"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/114.png",
+      "bytes": 2548581,
+      "sha256": "38fc752e08447ee8041449c3087344fc94558010752e40c7521c92c758c1de0d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/115.png",
+      "bytes": 2547687,
+      "sha256": "cb2cf6bfe10e92e8f0203632b259a89f56cefb6f2d5e61ded5d5a0acb6a7fc91"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/116.png",
+      "bytes": 2541453,
+      "sha256": "1f956f746f221483f341ca459ecef7b37d6a60cf9eac56f44bca31e9fbf55482"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/117.png",
+      "bytes": 2538571,
+      "sha256": "9222abe0f3b8dc555f872578ceca81bb5921b39c8a0884351c9fd409f6ae7b4b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/118.png",
+      "bytes": 2543396,
+      "sha256": "ff97de406a6f014a766fd220f26166218479a92b18e434c3f00a9718b0bdfe1f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/119.png",
+      "bytes": 2541305,
+      "sha256": "41f39cb24c7952446c5071132f96fa41082a3ab17f3ad8db2ffc03b31fe40f57"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/120.png",
+      "bytes": 2539209,
+      "sha256": "27f618e6f51bb7911db380a26ac2bab10c8f79f319a8f0a3319be5d0687771a3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/121.png",
+      "bytes": 2532819,
+      "sha256": "90da96f6fb6807d0320381e4eb582fcc861936252f810f9ec010d5f7ac86b61f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/122.png",
+      "bytes": 2521628,
+      "sha256": "563ac63df42e3bdba6aa3e5bd706431704c3a5fe6e4684d84e288b4d612bc7c9"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/123.png",
+      "bytes": 2544599,
+      "sha256": "8e159de6ef94982c8a4c92ce20eb65b3394e587c330771bf4ca1ac223b4ce80c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/124.png",
+      "bytes": 2534623,
+      "sha256": "405c780955067fbf52d97de683ff2a7cec574cdb0b8ce76ef8d8f5bd012dbb60"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/125.png",
+      "bytes": 2533821,
+      "sha256": "15c182e7e4c358564644c62ef52e1ba42748c6f5325652004f09415c63a17361"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/126.png",
+      "bytes": 2515968,
+      "sha256": "d2aee38a86c12fd2a43bc90fa372fe35f42df1a200c0aa63a2732734760afa1c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/128.png",
+      "bytes": 2438807,
+      "sha256": "cc1d6b3be22177724fddd7cb9738744cb2769af8900a28c8d5fb6da2d690028b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/129.png",
+      "bytes": 2318362,
+      "sha256": "eb7e896a07099dcc9e37008fd81b4d5f34703a5143c24582711a0c1d586d65a2"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/130.png",
+      "bytes": 2029213,
+      "sha256": "74ab78bb91319366c6df780493d4bcbef51d93e3cec8e6a457767c1bb3d7656f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/131.png",
+      "bytes": 2081247,
+      "sha256": "a916f5c55d012f9f0792fd9bf799c476119866f47925b2f244658e013d77ee70"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/133.png",
+      "bytes": 2101088,
+      "sha256": "ab175a075907f59789100ebe1343bebf1841f5e9c8ec0acdb24653c24f0456e3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/134.png",
+      "bytes": 2100048,
+      "sha256": "58eff0f9554801d12c5c816b52d1da440e03f367bd97e08ad7cef2b85e6813a5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/135.png",
+      "bytes": 2092602,
+      "sha256": "f7bb02208ce29e9d4e7be885d8ff312fbf4dbc9c83043a5cb84a26a978c81a09"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/136.png",
+      "bytes": 2064372,
+      "sha256": "536871591f3c45d6b0de6c467da485977dc9f7e0e6b87b6a9792366afc7a1c2a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/138.png",
+      "bytes": 2022902,
+      "sha256": "e7905f4d063641e8b93221de4982e76d7e624c6a8855e3526c8643f76a7c7803"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/139.png",
+      "bytes": 2015484,
+      "sha256": "ebd433ee08be662abb0744bf188394df6ae6ea17da8eaad47ff206cbccd0cf25"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/140.png",
+      "bytes": 2021454,
+      "sha256": "928b70dac5008bf64b3b21b1b3bc04bac41585f57283317385902fae93d83ae0"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/141.png",
+      "bytes": 2034137,
+      "sha256": "d29396c24f72028d777eee39ad7b91b504697d6f3758489db96735e45ce6670e"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/143.png",
+      "bytes": 2066554,
+      "sha256": "e0aa5f078305b2cc01a8dc82e94bae0761993134745e414131357e87573664f8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/144.png",
+      "bytes": 2061452,
+      "sha256": "3b540e7d307b07fd8aee4aca5b06875b4602b90bbcb6f4fb799f4bdba70a7ce1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/145.png",
+      "bytes": 2061944,
+      "sha256": "07ee45d44135fe9d2137762b4456f90531a41eb79096a4ac0290fca4b3e8954c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/146.png",
+      "bytes": 2060269,
+      "sha256": "92b878d3fd29e8535d714e276cf934039b1467cb6b90cbe77daaeb7af60233d1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/148.png",
+      "bytes": 2054474,
+      "sha256": "b9cab171279abca2488c6648986bd1c48ea71f0100461e2794854ce58dd2530a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/149.png",
+      "bytes": 2056988,
+      "sha256": "3fde2bdb9835cc3183891029aff3d147f6a872844a0e2aa90e993e6339d6985e"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/150.png",
+      "bytes": 2063739,
+      "sha256": "fe00b29fb417617a1a5f59305b752b6a2f9a1d42a6d859f538c6eea91d9abf19"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/151.png",
+      "bytes": 2120943,
+      "sha256": "fa3497bddb7c3cb7b116b42662437baf399c458667d19f6a9025418569b974f1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/153.png",
+      "bytes": 2128451,
+      "sha256": "a405249dd443122ddd1e150d125814fef7b9d60cb472ab2841e02d5fe242fef9"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/154.png",
+      "bytes": 2125204,
+      "sha256": "6c5512bed2034aa44cb0a86dce39f8a9161077b1b64de68639664594e9c440b6"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/155.png",
+      "bytes": 2121821,
+      "sha256": "1bbb9c618148e0de85712494938b5213e7803c055664ece6da2677cbed8a3358"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/156.png",
+      "bytes": 2087735,
+      "sha256": "149e49ecee7976c0014978a8b0ed75f4f7ae024c99d32543d0baed54cf1b940b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/157.png",
+      "bytes": 2037096,
+      "sha256": "b7955fe52743344123e9286a1fa0919b0230acd75a26191104edafdfa29008f1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/158.png",
+      "bytes": 2042142,
+      "sha256": "80fdd5304a138882c827d3ef9909f62ef43d503898ddf8e77fa96ed4c2236e66"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/160.png",
+      "bytes": 2042641,
+      "sha256": "7fafff195f360db9af62a8393abf0ea5f1c08eec597c8415af0dbb2973ff29ad"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/161.png",
+      "bytes": 1887492,
+      "sha256": "1e4c5bad4801438952f5370ddebc814f7f29f9fef0dcdfc07cfaf7509d79c1d2"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/162.png",
+      "bytes": 1933031,
+      "sha256": "e122044cbfae5cd56ff58f0b18b0e0286e97236c27ec70240662103c8b4958ac"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/163.png",
+      "bytes": 1961963,
+      "sha256": "893ba59b7d0549036b66840efc36ecbfebb49d4c69220125da0846007806a6b1"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/164.png",
+      "bytes": 1629056,
+      "sha256": "df022a9ee42cdba2258a8fa599e10f07afcf7716e812168a4aef3ee33eef89e0"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/165.png",
+      "bytes": 1218692,
+      "sha256": "328307a52a1ed2a815da6d57da2212f938bf43a2393c8eb3bde73d6484841bd0"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/analysis.json",
+      "bytes": 8240,
+      "sha256": "da76d36c5f2c313b981d76af90a28a5dc3c84cfb587869b0b33e72654c8bf994"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/available-counters.txt",
+      "bytes": 14766,
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/build.json",
+      "bytes": 14230,
+      "sha256": "c705ac3c5737aa793bee1f3b9c13b249af4f9dd1a468ab8a5fad65a7d54dbbb8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/capture-frames.csv",
+      "bytes": 413462,
+      "sha256": "89beb40fd0a8878e1e34cf0279aaec5fd3bbbfc06818e43b88ec229309409d1e"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/environment.json",
+      "bytes": 123,
+      "sha256": "22c73e0fa192f8cd7b7a140ee1455c179554b942d44cec08e83d5fbbaee90b78"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/final-state.json",
+      "bytes": 3575,
+      "sha256": "ef651745b9215172bb84e5a5041ae9656a162161ea9f379b945025a516d4ff9b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.20.png",
+      "bytes": 2266130,
+      "sha256": "65c0b9c0b88ba50bfedfd342cd22abb4517031a8af50783ffc1696cc9e3bacc2"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.50.png",
+      "bytes": 2266514,
+      "sha256": "f9d93f570fdd8ab369a929494f0912da52563735688c3696a6268f769afe8f7d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+0.85.png",
+      "bytes": 2429943,
+      "sha256": "5ceeb2d21dc3905d373eca628a3a7f962e52d0dbe85a2ee8d4b1ab71bf012a26"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.20.png",
+      "bytes": 2047840,
+      "sha256": "58bb52cafaf71118854adbec83bc339f6d650f0b84ded14117796ebad80aabff"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.50.png",
+      "bytes": 2242695,
+      "sha256": "7cd4417bb7c6cb3781e5a6c6ed733d1d0984518c24e68164f565705a3ac4c4d3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+1.80.png",
+      "bytes": 1685085,
+      "sha256": "478d165f066a8c7c3135e57e93a24ac6087161bf0bf10747615e4353b10eb73a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+2.25.png",
+      "bytes": 1630610,
+      "sha256": "26d09ac2b40271a693d313029975e98d57a725c9b0f91b2f655a88dcee85b724"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+3.20.png",
+      "bytes": 1776770,
+      "sha256": "267e76f98e2be7e74dbee6aa96913d5733ccdcba68513a131dd6281bdacd561f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish+4.20.png",
+      "bytes": 1677143,
+      "sha256": "fc4910cdec4629c2d5d89e8dc1172fe27b25e26d03109d2e57c7ffeeb5bc7eb3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish-0.30.png",
+      "bytes": 2268524,
+      "sha256": "65e6e77d8aeca95dfe6a8afdc53f7ea5336cb66790e392988fc592fece01e3e8"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/finish-extraction.json",
+      "bytes": 1889,
+      "sha256": "03dc29c3453c4290cbcaff02daf21e3bb8abf1e755b3acc357d402aabef6778a"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/frame-times.svg",
+      "bytes": 603327,
+      "sha256": "20cee91456eea5740f17783fa376fcfa5542582e213fb20ba37d7e262621621b"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/frames.csv",
+      "bytes": 13706909,
+      "sha256": "01a6086a0fb301f896f6f8358549049cd07d8825c28525dcb24d2667b26d119c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/mix.wav",
+      "bytes": 304316460,
+      "sha256": "282b0b25ad957f021551a9863cd5482bc7e55862c2c5297f2114c911a61c7ed6"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/player.log",
+      "bytes": 14339,
+      "sha256": "605d3cea529e53cb6145210b88c744cbec54308db4a12cd821f0965abec89bac"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/process.txt",
+      "bytes": 7,
+      "sha256": "98722a8fc1be6e2b571b3f9b4046890e7208f04ff7bb6b9510155a4517fa4be5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/replay.mp4",
+      "bytes": 915264278,
+      "sha256": "f805332f39296be8c6280d33e5303d684b6122d52f304bda4e458ef0e8161cb4"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/resume.json",
+      "bytes": 604,
+      "sha256": "1ad5348b84bc27bd5a071d4d84eef6f7e6367a3610631ef7a76bdd3cfc5024a3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/route.json",
+      "bytes": 155286,
+      "sha256": "d833756aef4c5fc888c1ea037b80ceab94df700466074ff58a901369aaafb810"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/run.json",
+      "bytes": 1432,
+      "sha256": "7a18b776a7482351e7123024cff8d6f094ab190c8f4c2ab4f03513b7ddf59abf"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/saves/autosave.json",
+      "bytes": 3569,
+      "sha256": "38f123090189e92dbda65889705b59f28e44d24f6743ba97ae9282664d9c12e7"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/saves/autosave.json.bak",
+      "bytes": 3300,
+      "sha256": "d411deb05ca4013b369535f76aef07b3e2728423504e1f41a51812145f5ab11f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/saves/slot1.json",
+      "bytes": 2714,
+      "sha256": "ae007cb145c6367bfbadc1048191ecb6b1c0b6cb05d04fac51c260727ed1a946"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01/video.mp4",
+      "bytes": 895550673,
+      "sha256": "315dc3dc9f40c44d6b21b669dbfd5d9cff4992503af7b7b1862c0950ab91af1c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01-console.log",
+      "bytes": 1692,
+      "sha256": "c3022919584ef50b5c4b38380359042ab8db8cd984c20cc617ff19ca8990b270"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01-diagnostic-scope.txt",
+      "bytes": 104,
+      "sha256": "da4c41509f29381d3892b1f41b296ca8de477c18672db987fec4bbe026a656ea"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01-display-after.json",
+      "bytes": 677,
+      "sha256": "5167c440be8c9a4a13b10ac49b89df59c3db6882e011ad06f98fc21012e7e190"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01-display-before.json",
+      "bytes": 677,
+      "sha256": "34b0a6bfaf4c876a78f11ba7c1ff3f5350196c31d3aa22d05d88e04b57128f0d"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-player-01-stderr.log",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-framing-source.json",
+      "bytes": 3482,
+      "sha256": "3b6baafa830e774a3b7eca4f69d3763f801c7f951b275fbe7079836221287d3c"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/0-0.ps1",
+      "bytes": 27,
+      "sha256": "27f88856a3857e8896d3b43bd892fa108c43e2b3fdc7a05c9b3d80f92e2791ef"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/0-0.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/0-0.stdout",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/0-7.ps1",
+      "bytes": 27,
+      "sha256": "802de55893cefe873a82023b134042b1a10d94963d56a168e27743125de81be5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/0-7.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/0-7.stdout",
+      "bytes": 3,
+      "sha256": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/1-0.ps1",
+      "bytes": 27,
+      "sha256": "27f88856a3857e8896d3b43bd892fa108c43e2b3fdc7a05c9b3d80f92e2791ef"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/1-0.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/1-0.stdout",
+      "bytes": 3,
+      "sha256": "13bf7b3039c63bf5a50491fa3cfd8eb4e699d1ba1436315aef9cbe5711530354"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/1-7.ps1",
+      "bytes": 27,
+      "sha256": "802de55893cefe873a82023b134042b1a10d94963d56a168e27743125de81be5"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/1-7.stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/1-7.stdout",
+      "bytes": 3,
+      "sha256": "9b6dd0f55d1cea37555db317f53a0631f694bd46df8018cc2aeed3d9e2f32f5f"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-launcher-exit-control/results.json",
+      "bytes": 655,
+      "sha256": "ef3d0b773fda69c8b6c6fffc43b6ace09b8966fa93b2da00f6c4850b8ddd4650"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-turn-candidate01.log",
+      "bytes": 617313,
+      "sha256": "ca205176cb1926fb85cd4d7bc2ffd17a01d2b3755781cdc53ce758f972060ca3"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-turn-candidate01.xml",
+      "bytes": 18000,
+      "sha256": "1be4317bb10c684c1e6654cd37f78ada8bb05ce27e49cddb4076989c9d362003"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-turn-original-red.log",
+      "bytes": 308623,
+      "sha256": "28e5585aec265e4e0ef9275f75741b9b02c3c950eeae29f5d50289ee064f3e19"
+    },
+    {
+      "path": "Builds/quality/C3/cantor-turn-original-red.xml",
+      "bytes": 6496,
+      "sha256": "8c50df8028f9c7d03221ea46d34dfb5ebb4f84d2a1fac97bdb0f49c4fb415072"
+    },
+    {
+      "path": "Builds/quality/C3/CantorRelease-before-framing.cs",
+      "bytes": 4169,
+      "sha256": "15c441ddc95e20c9c886554e09de60bf87c502ce773729a360eb3e9afcb63a7a"
+    },
+    {
+      "path": "Builds/quality/C3/CantorRelease-before-turn.cs",
+      "bytes": 4598,
+      "sha256": "df151b1f4650ea45f51de5fc81a5a5ac1c42ca664b2b7b58a8de7e6d5dd07555"
+    },
+    {
+      "path": "Builds/quality/C3/CantorRelease-framing-forever.cs",
+      "bytes": 5572,
+      "sha256": "926513f60e8a7827de72c5936a7c981febaeb61a5d801f7586f7d26884c03f6c"
+    },
+    {
+      "path": "Builds/quality/C3/framing-audio-audit/000.log",
+      "bytes": 1387936,
+      "sha256": "25378bd5b534dbc7c0b2c954b18a42988633d7c0c935199c30b2804b7963da80"
+    },
+    {
+      "path": "Builds/quality/C3/framing-audio-audit/report.json",
+      "bytes": 1173,
+      "sha256": "138127092ddeaf671f00497fe851c70c9e09c4e56df8877c0aad74a384f17f9a"
+    },
+    {
+      "path": "Builds/quality/C3/framing-test-summary.json",
+      "bytes": 2829,
+      "sha256": "08b0c2fb8d050e1331b717d50169a994ddb93e06f3dd6e950a1f68f1e90b1f2e"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Biomes/CalmWater.png.meta",
+      "bytes": 3007,
+      "sha256": "6843c37ca684ae56c0cfb25d678948dbc8ae6a9bcded0ac0fb4fb1a868476c6b"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Biomes/GrassClump.png.meta",
+      "bytes": 3007,
+      "sha256": "b3678e251d024d4450131e045bf3c0d64f2baaac5d139060d0e3180c30f19589"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/KeeperNatural/KeeperNatural_base_color.png.meta",
+      "bytes": 3007,
+      "sha256": "fafa83c738579fcbfc736f1206306d01cf0da20bac2fabea033a1c66f5fd3b3f"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/KeeperNatural/KeeperNatural_emission.png.meta",
+      "bytes": 3007,
+      "sha256": "403bb51661fb12f452d204f110bdd6b13347e4783e2fc4882d00b797148f608d"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/NurseryGroove/NurseryGroove_base_color.png.meta",
+      "bytes": 3007,
+      "sha256": "7098e32fac8ad768fa1aca083422d1684505f0f4f95da9cf9ac13833ff01dd5e"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/NurseryGroove/NurseryGroove_emission.png.meta",
+      "bytes": 3007,
+      "sha256": "c87a356a3032c4dd53783d8057fad38b33f07948a2077ce92a71f8cfe0c6b251"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/SurvivorNatural/SurvivorNatural_base_color.png.meta",
+      "bytes": 3007,
+      "sha256": "0ef822720f8b8f6af440c2114dc203ff56718a3282255c806a37ef8c981e2ecb"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Assets/_Project/Art/Generated/Models/SurvivorNatural/SurvivorNatural_emission.png.meta",
+      "bytes": 3007,
+      "sha256": "fe5b5149d99461fb5e8fa8e287d6cfc3f03fc5d53fe0cab9a7fea51ed11b952b"
+    },
+    {
+      "path": "Builds/quality/C3/framing-unity-side-effects/Lattice/Packages/packages-lock.json",
+      "bytes": 9786,
+      "sha256": "cd597ff40ed9284eb0ae2242844ef004971b273b213a842bcd71a09b0ad77c55"
+    },
+    {
+      "path": "Builds/quality/C3/PartyController-before-framing.cs",
+      "bytes": 7527,
+      "sha256": "18358f319b6c6a8a8f08feccf98d3659b73ca43f97adcea0966ffb17bbbafc0a"
+    }
+  ]
+}
