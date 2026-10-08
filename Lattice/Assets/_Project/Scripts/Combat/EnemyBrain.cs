@@ -134,7 +134,8 @@ namespace Lattice.Combat
             if(distance<range&&Time.time>=nextAttack)
             {
                 Telegraphing=true;strikeAt=Time.time+(attack!=null?attack.telegraph:.65f);
-                aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;transform.rotation=Quaternion.LookRotation(aim);
+                aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
+                if(definition.archetype!=EnemyArchetype.Serpent)transform.rotation=Quaternion.LookRotation(aim);
                 warning.SetActive(true);AudioManager.Play("computerNoise_000",.08f);return;
             }
             if(definition.archetype==EnemyArchetype.Mine)return;
@@ -147,7 +148,7 @@ namespace Lattice.Combat
                 if(definition.archetype==EnemyArchetype.PackHunter)approach+=Vector3.Cross(Vector3.up,approach)*Mathf.Sin(Time.time+GetInstanceID())*.35f;
                 Move(approach,definition.speed);
             }
-            if(d.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(d);
+            if(d.sqrMagnitude>.01f&&definition.archetype!=EnemyArchetype.Serpent)transform.rotation=Quaternion.LookRotation(d);
         }
         IEnumerator LungeAttack(DamagePacket packet)
         {
@@ -162,6 +163,20 @@ namespace Lattice.Combat
             }
             lunging=false;
         }
-        void Move(Vector3 direction,float speed){direction.y=0;if(controller.enabled)controller.Move(direction.normalized*speed*(Time.time<Health.SlowUntil?.4f:1)*Time.deltaTime);}
+        void Move(Vector3 direction,float speed)
+        {
+            direction.y=0;if(!controller.enabled||direction.sqrMagnitude<.0001f)return;
+            float travel=speed*(Time.time<Health.SlowUntil?.4f:1)*Time.deltaTime;
+            if(definition.archetype!=EnemyArchetype.Serpent){controller.Move(direction.normalized*travel);return;}
+            // A long animal swims forward through a broad turn. Ranged retreat
+            // must not back the head through its body, and firing aim must not
+            // reverse the neck independently of that travelled curve.
+            const float radius=6;
+            var rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(direction),travel/radius*Mathf.Rad2Deg);
+            var before=transform.position;controller.Move(rotation*Vector3.forward*travel);
+            var moved=transform.position-before;moved.y=0;
+            // A wall cannot make the carrier spin in place into its own tail.
+            transform.rotation=Quaternion.RotateTowards(transform.rotation,rotation,moved.magnitude/radius*Mathf.Rad2Deg);
+        }
     }
 }

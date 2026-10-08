@@ -12,15 +12,20 @@ namespace Lattice.Combat
         float nextPath;
         Health flankTarget;
         float flankSide;
-        void OnEnable(){corners=null;nextPath=0;flankTarget=null;}
+        FlightSeparation flightSeparation;
+        void OnEnable(){corners=null;nextPath=0;flankTarget=null;flightSeparation=null;}
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
             var party=PartyController.Current;if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.Recovering||actor.motor==null||GameServices.Current.Input.Blocked)return;
             var active=party.Active;actor.target=active.target;
+            var selectedCarrier=actor.target!=null?(actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target):null;
+            var serpent=actor.flight&&selectedCarrier!=null&&selectedCarrier.Alive?selectedCarrier.GetComponent<SerpentSegments>():null;
+            if(serpent==null)flightSeparation=null;
+            else if(flightSeparation==null||flightSeparation.Body!=serpent)flightSeparation=new FlightSeparation(serpent,HeroCollision.HullRadius(actor.character));
             if(actor.State==Lattice.Data.ActorState.Stagger){actor.motor.Move(Vector2.zero,false,true);return;}
             // Read incoming fire as a player does: roll across a shot about to hit.
-            var shot=IncomingShot();if(shot.HasValue&&actor.Dodge(shot.Value))return;
+            var shot=IncomingShot();if(shot.HasValue&&Dodge(shot.Value))return;
             var followingRight=Vector3.Cross(Vector3.up,active.motor.Facing).normalized;
             Vector3 goal=active.transform.position-active.motor.Facing*3+followingRight*2;
             bool fighting=ZoneController.Current!=null&&ZoneController.Current.Combat&&actor.target!=null&&actor.target.Alive;
@@ -40,11 +45,14 @@ namespace Lattice.Combat
                     goal+=across*(6*flankSide);goal.y=transform.position.y;flanking=true;
                 }
             }
+            bool avoiding=false,avoidanceBrake=false;
+            if(flightSeparation!=null)goal=flightSeparation.Guide(transform.position,goal,flanking?actor.target:null,out avoiding,out avoidanceBrake);
             var d=goal-transform.position;
             // Ground melee closes to the actual wrist edge. The old 2.2 m
             // stand-off relied on the removed oversized invisible hit sphere.
             float distance=d.magnitude,stop=fighting?(actor.flight?2.2f:actor.character=="Sela"?7.5f:1.35f):1.5f;
             if(flanking)stop=.6f;
+            if(avoiding)stop=.45f;
             if(!actor.flight&&GroundNavigation.Current!=null&&!fighting)
             {
                 if(Time.unscaledTime>=nextPath)
@@ -64,8 +72,8 @@ namespace Lattice.Combat
             }
             // Permanent flight braking capped the partner near 2 m/s, leaving her
             // a whole encounter behind and making swap pull the camera backwards.
-            actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,separation>10,actor.flight&&distance<stop+2);
-            if(flanking&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
+            actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,separation>10&&!avoidanceBrake,actor.flight&&(distance<stop+2||avoidanceBrake));
+            if(flanking&&!avoiding&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
                 GetComponent<FlightMotor>().FaceTarget(actor.target.transform.position-transform.position);
             if(fighting)
             {
@@ -80,11 +88,41 @@ namespace Lattice.Combat
                     // another attack wind-up. The same defensive rules apply to AI.
                     var evade=Vector3.Cross(Vector3.up,fromThreat.normalized);
                     if(evade.sqrMagnitude<.01f)evade=Vector3.right;
-                    actor.Dodge(evade);return;
+                    if(Dodge(evade))return;
                 }
                 var fromTarget=Planar(actor.target.transform.position-transform.position);
                 if(fromTarget.magnitude<(actor.flight||actor.character=="Sela"?14:3))actor.Attack();
             }
+        }
+        bool Dodge(Vector3 direction)
+        {
+            if(direction.sqrMagnitude<.01f)return false;
+            if(!actor.flight)return actor.Dodge(direction);
+            for(int i=0;i<8;i++)
+            {
+                // Prefer the other perpendicular before rolling along an
+                // incoming shot. A nearby ally must not block that travel.
+                float angle=i==0?0:i==1?180:i==2?45:i==3?-45:i==4?90:i==5?-90:i==6?135:-135;
+                var choice=(Quaternion.Euler(0,angle,0)*direction).normalized;
+                if(flightSeparation!=null)choice=flightSeparation.Dodge(transform.position,choice);
+                if(choice.sqrMagnitude>.01f&&RollClearsParty(choice))return actor.Dodge(choice);
+            }
+            return false;
+        }
+        bool RollClearsParty(Vector3 direction)
+        {
+            var travel=direction*4;var origin=transform.position;
+            foreach(var member in PartyController.Current.members)
+            {
+                if(member==actor||!member.flight||!member.gameObject.activeInHierarchy)continue;
+                var away=Planar(origin-member.transform.position);
+                float radius=HeroCollision.HullRadius(actor.character)+HeroCollision.HullRadius(member.character)+.1f;
+                if(away.sqrMagnitude<radius*radius)
+                {if(Vector3.Dot(travel,away)<0)return false;continue;}
+                float t=Mathf.Clamp01(-Vector3.Dot(away,travel)/travel.sqrMagnitude);
+                if((away+travel*t).sqrMagnitude<radius*radius)return false;
+            }
+            return true;
         }
         Vector3? IncomingShot()
         {

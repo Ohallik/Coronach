@@ -5,6 +5,8 @@ namespace Lattice.Combat
     public sealed class SerpentSegments:MonoBehaviour
     {
         readonly Transform[] segments=new Transform[7];
+        readonly Vector3[] followedPositions=new Vector3[7];
+        bool followingInitialized;
         bool holdingRestoredPose;
         Vector3 restoredPosition;
         Quaternion restoredRotation;
@@ -39,13 +41,17 @@ namespace Lattice.Combat
         public void ResumeFromRestoredPose()
         {
             restoredPosition=transform.position;restoredRotation=transform.rotation;
+            RememberWorldPositions();
             holdingRestoredPose=true;enabled=true;
         }
+        void RememberWorldPositions()
+        {for(int i=0;i<segments.Length;i++)if(segments[i]!=null)followedPositions[i]=segments[i].position;followingInitialized=true;}
         void LateUpdate()
         {
             // Even with zero delta, recomputing the preceding frame's tangent
             // rotates attachments. Pause must hold the evaluated chain too.
             if(Lattice.Core.GameTime.Paused)return;
+            if(!followingInitialized)RememberWorldPositions();
             // A stationary recovered carrier keeps its restored anatomy. The
             // next actual carrier movement/turn releases the chain, rather
             // than immediately replacing that pose with a later wave phase.
@@ -58,9 +64,13 @@ namespace Lattice.Combat
             for(int i=0;i<segments.Length;i++)
             {
                 var segment=segments[i];if(segment==null)continue;
-                var delta=previous-segment.position;var direction=delta.sqrMagnitude>.01f?delta.normalized:transform.forward;
+                // The hierarchy owns lifetime and recovery, not locomotion.
+                // Follow the last evaluated world pose; inherited carrier yaw
+                // otherwise swings the whole tail through nearby ships.
+                var delta=previous-followedPositions[i];var direction=delta.sqrMagnitude>.01f?delta.normalized:transform.forward;
                 var goal=previous-direction*2.2f;goal.y=transform.position.y+CenterHeight+Mathf.Sin(Time.time*2-i*.5f)*.25f;
-                segment.position=Vector3.Lerp(segment.position,goal,1-Mathf.Exp(-8*Time.deltaTime));segment.rotation=Quaternion.LookRotation(direction);previous=segment.position;
+                segment.position=Vector3.Lerp(followedPositions[i],goal,1-Mathf.Exp(-8*Time.deltaTime));followedPositions[i]=segment.position;
+                segment.rotation=Quaternion.LookRotation(direction);previous=segment.position;
             }
         }
     }

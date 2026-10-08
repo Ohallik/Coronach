@@ -150,6 +150,7 @@ namespace Lattice.UI
         QualityCapture capture;
         NativeGpuClock nativeGpu;
         GroundPoseCapture groundPose;
+        QualityDamageCapture damageCapture;
         double lastScreenshot=-1000;
         Vector3 measuredMotion;
         bool arrows, profiled, tracing, headroom;
@@ -242,6 +243,7 @@ namespace Lattice.UI
             {
                 capture = Camera.main.gameObject.AddComponent<QualityCapture>();
                 capture.Begin(folder, DevArgs.Value("-quality-ffmpeg"));
+                damageCapture=new QualityDamageCapture(folder,()=>clock.Elapsed.TotalSeconds,()=>stepIndex);
             }
             nativeGpu?.Begin();
             if(DevArgs.Has("-quality-ground-pose"))groundPose=new GroundPoseCapture(folder);
@@ -266,6 +268,7 @@ namespace Lattice.UI
                 }
             }
             recording = false; held = default;
+            damageCapture?.Finish();
             StopProfile();
             segmentedTrace?.Finish();
             GameHud.MeasureCosts=false;
@@ -439,6 +442,7 @@ namespace Lattice.UI
             }
             var party = PartyController.Current;
             var partner = party != null && party.members.Length > 1 ? party.members[1-party.index] : null;
+            damageCapture?.Watch(actor!=null?actor.Health:null);damageCapture?.Watch(partner!=null?partner.Health:null);
             groundPose?.Record(samples.Count,Time.frameCount,now,stepIndex,actor,partner);
             FrameTiming timing = default;
             bool hasTiming = false;
@@ -601,6 +605,7 @@ namespace Lattice.UI
         }
         void OnDestroy()
         {
+            damageCapture?.Dispose();
             groundPose?.Dispose();
             StopProfile();
             segmentedTrace?.Stop();

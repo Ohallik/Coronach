@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Companion travel and articulated body checkpoint - October 8
+
+Both standard players contain candidate09: **66 affected PlayMode passes**, zero skips, nine deliberately rejected faults, both successful builds and **91 bound inputs**. World-space body history, measured companion travel/roll clearance, clear firing positions and a six-metre minimum serpent steering radius repair the reproduced defects. Every earlier failure remains. [Evidence and inventories](validation/C4-companion-travel.md).
+
+The earned `player02` route passes in **784.573 seconds / 47,060 fully focused samples**, exit 0, three cuts and both living heroes saved at TallowApproach. Eleven opened stills show broader connected body curves and clear, framed ships; they do not accept continuous appearance or the 73.4-second fight's balance. Whole-animal visibility lasts through sampled +1.50, with top cropping by +1.80. Continuous motion, audio and physical presentation remain **UNVERIFIED**; all unmet gates remain **OPEN**.
+
+The complete seven-event damage trace records no post-resolution hit; the earlier `player01` hit remains unexplained. Two Sela damage events match actual Gullet wall-contact locations and need diagnosis next. Preserve all six >25 ms intervals, including 25.543 ms at engagement; this recorded On/On, VSync-1 run is not clean C1 acceptance. Older Decks hitches and invalid Tallow GPU evidence remain unresolved. Saves, e93bf13 and frozen a3aaad6 match. Exact candidate03 and pushed 51c3404 players remain archived; no presentation candidate is validated.
+
 ## Generated collar candidate reaches Tallow; quality remains open — October 8
 
 Both standard players contain the generated collar candidate; exact `968dae2` players are archived under `Builds/quality/C8/collar-art/prior-Windows*`. One built-in imagegen reference and one Meshy T2 task cost **15 credits**, live balance **2,398**. Four first intake views reject a loose tab; bounded cleanup preserves all remaining vertices/UVs, and four revised views show it removed. The 950-triangle module retains the old collision and debris lifetime. Both original checks fail, 38 affected checks pass with zero skips, both deliberate faults reject and both builds bind to 83 inputs. Every earlier failed attempt remains. [Evidence and limitations](validation/C8-collar-art.md).
