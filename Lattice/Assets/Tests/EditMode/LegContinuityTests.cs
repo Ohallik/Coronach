@@ -40,7 +40,22 @@ namespace Lattice.Tests.EditMode
                 Measure(hero,shaped,speed,slope,.22f,direction,true);
         }
 
-        static void Measure(string hero,bool shaped,float speed,float slope,float clearance=.08f,float direction=0,bool reverse=false)
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void SlowAndExtendedUphillWalksKeepTheWholeStepContinuous(string hero,bool shaped)
+        {
+            foreach(float speed in new[]{1.2f,1.7f,2f,2.3f})
+                foreach(float direction in new[]{0f,45f})Measure(hero,shaped,speed,39f,.22f,direction);
+        }
+
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void UphillWalkSpeedChangesKeepKneesContinuous(string hero,bool shaped)
+        {
+            foreach(float direction in new[]{0f,45f})Measure(hero,shaped,1.2f,39f,.22f,direction,changingSpeed:true);
+        }
+
+        static void Measure(string hero,bool shaped,float speed,float slope,float clearance=.08f,float direction=0,bool reverse=false,bool changingSpeed=false)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
             floor.transform.position=new Vector3(0,-.5f,0);floor.transform.localScale=new Vector3(500,1,500);
@@ -65,13 +80,23 @@ namespace Lattice.Tests.EditMode
             const float dt=1f/240;
             var previousAngles=new float[2];var previousKnees=new Vector3[2];
             var minimum=new[]{float.PositiveInfinity,float.PositiveInfinity};var maximum=new[]{float.NegativeInfinity,float.NegativeInfinity};
-            float angularSpeed=0,kneeSpeed=0,angleAt=0,kneeAt=0;int samples=0;
+            float angularSpeed=0,kneeSpeed=0,angleAt=0,kneeAt=0;int samples=0;string peak="";
             try
             {
-                for(int frame=0;frame<Mathf.CeilToInt(clip.length/cadence*3/dt);frame++)
+                float accumulatedPhase=0,distance=0;
+                for(int frame=0;frame<Mathf.CeilToInt((changingSpeed?10:clip.length/cadence*3)/dt);frame++)
                 {
                     float time=frame*dt,cycles=time*cadence/clip.length,phase=reverse?-cycles:cycles;
                     var position=travel*time*speed;position.y=Vector3.Dot(normal,surface-position)/normal.y+clearance;
+                    if(changingSpeed)
+                    {
+                        // Repeated acceleration/deceleration traverses the
+                        // short and extended walk, without resetting phase.
+                        speed=1.2f+1.4f*(.5f-.5f*Mathf.Cos(time*Mathf.PI*.5f));
+                        cadence=profile.Cadence(state,speed,grade);stride=profile.Stride(state,speed,cadence,grade);
+                        accumulatedPhase+=dt*cadence/clip.length;distance+=speed*dt;cycles=phase=accumulatedPhase;
+                        position=travel*distance;position.y=Vector3.Dot(normal,surface-position)/normal.y+clearance;
+                    }
                     root.transform.position=position;
                     play.SetTime(Mathf.Repeat(phase,1)*clip.length);graph.Evaluate(0);
                     feet.Correct(travel*speed,state,phase,stride,false,targetFacing:reverse,reverse:reverse,deltaTime:dt);
@@ -85,13 +110,14 @@ namespace Lattice.Tests.EditMode
                         {
                             float angular=Mathf.Abs(angle-previousAngles[side])/dt,speedNow=Vector3.Distance(knee,previousKnees[side])/dt;
                             if(angular>angularSpeed){angularSpeed=angular;angleAt=phase;}
-                            if(speedNow>kneeSpeed){kneeSpeed=speedNow;kneeAt=phase;}
+                            if(speedNow>kneeSpeed){kneeSpeed=speedNow;kneeAt=phase;peak=$"speed={speed:F3} stride={stride:F3} knee={previousKnees[side]} -> {knee} hip={hip-root.transform.position} foot={foot-root.transform.position} reach={feet.MaximumReachCorrection:F4} supportDrop={feet.RequestedSupportDrop:F4}";}
                             minimum[side]=Mathf.Min(minimum[side],angle);maximum[side]=Mathf.Max(maximum[side],angle);samples++;
                         }
                         previousAngles[side]=angle;previousKnees[side]=knee;
                     }
                 }
-                Debug.Log($"LEG_CONTINUITY {hero}/{shaped}/{state} slope={slope} clearance={clearance} direction={direction} reverse={reverse} angularDegPerSec={angularSpeed:F2} kneeMps={kneeSpeed:F3} angleAt={angleAt:F6} kneeAt={kneeAt:F6}");
+                Debug.Log($"LEG_CONTINUITY {hero}/{shaped}/{state} speed={speed} slope={slope} clearance={clearance} direction={direction} reverse={reverse} angularDegPerSec={angularSpeed:F2} kneeMps={kneeSpeed:F3} angleAt={angleAt:F6} kneeAt={kneeAt:F6}");
+                if(kneeSpeed>6&&state=="Walk")Debug.Log("LEG_PEAK "+peak);
                 Assert.Greater(samples,100,"must cover complete repeated steps");
                 var failures=new System.Collections.Generic.List<string>();
                 if(!(angularSpeed<=(state=="Walk"?1200:3000)))failures.Add("knee extension snaps during landing/toe-off: "+angularSpeed+" deg/s");

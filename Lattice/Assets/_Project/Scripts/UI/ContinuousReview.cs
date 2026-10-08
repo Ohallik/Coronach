@@ -123,13 +123,30 @@ namespace Lattice.UI
         readonly FrameTiming[] frameTimings = new FrameTiming[1];
         bool frameTimingEnabled;
         bool gpuClocks;
+        long windowsQpcFrequency;
         struct GpuClockSample
         {
             public int sample;
-            public long utcTicks, qpc;
-            public ulong present, complete;
+            public long utcTicks, qpc, windowsQpc;
+            public ulong frameStart, present, complete;
+            public double mainMs, renderMs, presentWaitMs;
         }
         readonly List<GpuClockSample> gpuClockSamples = new();
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        static extern bool QueryPerformanceCounter(out long value);
+        [System.Runtime.InteropServices.DllImport("kernel32.dll")]
+        static extern bool QueryPerformanceFrequency(out long value);
+#endif
+        static long WindowsClock(bool frequency)
+        {
+#if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
+            long value;
+            return (frequency?QueryPerformanceFrequency(out value):QueryPerformanceCounter(out value))?value:-1;
+#else
+            return -1;
+#endif
+        }
         QualityCapture capture;
         double lastScreenshot=-1000;
         Vector3 measuredMotion;
@@ -161,8 +178,10 @@ namespace Lattice.UI
                 segmentedTrace = new QualityTrace(folder, int.Parse(segmentFrames, CultureInfo.InvariantCulture));
             }
             headroom = DevArgs.Has("-quality-headroom");
-            gpuClocks = DevArgs.Has("-quality-gpu-clocks");
-            if (gpuClocks && !headroom) throw new InvalidOperationException("GPU clock diagnostics require headroom mode");
+            bool headroomClocks = DevArgs.Has("-quality-gpu-clocks");
+            gpuClocks = headroomClocks || DevArgs.Has("-quality-frame-clocks");
+            if (headroomClocks && !headroom) throw new InvalidOperationException("GPU clock diagnostics require headroom mode");
+            if (gpuClocks) windowsQpcFrequency = WindowsClock(true);
             census = DevArgs.Has("-quality-census");
             motion = DevArgs.Has("-quality-motion");
             Directory.CreateDirectory(folder);
@@ -196,7 +215,7 @@ namespace Lattice.UI
             audioVoices = ProfilerRecorder.StartNew(ProfilerCategory.Audio, "Audio Voices");
             sceneObjects = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Scene Object Count");
             objects = ProfilerRecorder.StartNew(ProfilerCategory.Memory, "Object Count");
-            if(headroom)
+            if(headroom || gpuClocks)
             {
                 frameTimingEnabled = FrameTimingManager.IsFeatureEnabled();
                 // Categories come from this player's available-counter catalog.
@@ -377,7 +396,7 @@ namespace Lattice.UI
             var partner = party != null && party.members.Length > 1 ? party.members[1-party.index] : null;
             FrameTiming timing = default;
             bool hasTiming = false;
-            if (headroom)
+            if (headroom || gpuClocks)
             {
                 // Direct API access alongside ProfilerRecorder, not a second
                 // hardware clock. The latest completed frame is asynchronous;
@@ -388,7 +407,10 @@ namespace Lattice.UI
             }
             if (gpuClocks) gpuClockSamples.Add(new GpuClockSample {
                 sample = samples.Count, utcTicks = DateTime.UtcNow.Ticks, qpc = System.Diagnostics.Stopwatch.GetTimestamp(),
-                present = timing.cpuTimePresentCalled, complete = timing.cpuTimeFrameComplete });
+                windowsQpc = WindowsClock(false), frameStart = timing.frameStartTimestamp,
+                present = timing.cpuTimePresentCalled, complete = timing.cpuTimeFrameComplete,
+                mainMs = timing.cpuMainThreadFrameTime, renderMs = timing.cpuRenderThreadFrameTime,
+                presentWaitMs = timing.cpuMainThreadPresentWaitTime });
             samples.Add(new Sample {
                 elapsed = now, ms = (float)((now - previous) * 1000), gameDelta = Time.deltaTime,
                 player = actor != null ? actor.transform.position : Vector3.zero, camera = Camera.main.transform.position, forward = actor != null ? actor.transform.forward : Vector3.zero,
@@ -495,22 +517,22 @@ namespace Lattice.UI
                 width = Screen.width, height = Screen.height, frameCap = Application.targetFrameRate, vSync = QualitySettings.vSyncCount,
                 refreshHz = Screen.currentResolution.refreshRateRatio.value, samples = samples.Count, seconds = samples.Count > 0 ? samples[^1].elapsed : 0,
                 captured = capture != null, profiled=profiled, headroom=headroom, census=census, motion=motion, failures = failures.ToArray(), valid = failures.Count == 0,
-                frameTimingRequested=headroom,frameTimingEnabled=frameTimingEnabled,
-                frameTimingCpuFrequency=headroom?FrameTimingManager.GetCpuTimerFrequency():0,
+                frameTimingRequested=headroom||gpuClocks,frameTimingEnabled=frameTimingEnabled,
+                frameTimingCpuFrequency=headroom||gpuClocks?FrameTimingManager.GetCpuTimerFrequency():0,
                 loadWaitSeconds=loadWaitSeconds,settleSeconds=route.settleSeconds,interactions=interactions.ToArray() };
-            if(headroom)report.gpuTiming=samples.Exists(s=>s.gpuWork>0)?"GPU Frame Time counter (nanoseconds; asynchronous)":"UNAVAILABLE (counter produced no positive samples)";
+            if(headroom||gpuClocks)report.gpuTiming=samples.Exists(s=>s.gpuWork>0)?"GPU Frame Time counter (nanoseconds; asynchronous)":"UNAVAILABLE (counter produced no positive samples)";
             File.WriteAllText(Path.Combine(folder, "run.json"), JsonUtility.ToJson(report, true));
             File.WriteAllText(Path.Combine(folder, "route.json"), JsonUtility.ToJson(route, true));
             if (gpuClocks)
             {
                 using var clocks = new StreamWriter(Path.Combine(folder, "gpu-clocks.csv"));
-                clocks.WriteLine("sample,utcTicks,qpc,cpuTimePresentCalled,cpuTimeFrameComplete");
-                foreach (var s in gpuClockSamples) clocks.WriteLine(FormattableString.Invariant($"{s.sample},{s.utcTicks},{s.qpc},{s.present},{s.complete}"));
+                clocks.WriteLine("sample,utcTicks,qpc,cpuTimePresentCalled,cpuTimeFrameComplete,windowsQpc,frameStartTimestamp,cpuMainThreadFrameMs,cpuRenderThreadFrameMs,cpuMainThreadPresentWaitMs");
+                foreach (var s in gpuClockSamples) clocks.WriteLine(FormattableString.Invariant($"{s.sample},{s.utcTicks},{s.qpc},{s.present},{s.complete},{s.windowsQpc},{s.frameStart},{s.mainMs:F6},{s.renderMs:F6},{s.presentWaitMs:F6}"));
                 File.WriteAllText(Path.Combine(folder, "gpu-clocks.json"), Newtonsoft.Json.JsonConvert.SerializeObject(new {
                     cleanTimingEligible = false, utcTickEpoch = "0001-01-01T00:00:00Z", ticksPerSecond = TimeSpan.TicksPerSecond,
-                    qpcFrequency = System.Diagnostics.Stopwatch.Frequency, cpuFrequency = FrameTimingManager.GetCpuTimerFrequency(),
+                    qpcFrequency = System.Diagnostics.Stopwatch.Frequency, windowsQpcFrequency, cpuFrequency = FrameTimingManager.GetCpuTimerFrequency(),
                     gpuFrequency = FrameTimingManager.GetGpuTimerFrequency(), graphicsApi = SystemInfo.graphicsDeviceType.ToString(),
-                    note = "Raw clocks for diagnosing invalid durations. Never substitute a clock-derived value for raw GPU duration."
+                    note = "The legacy qpc column is Stopwatch.GetTimestamp (process-relative in this Mono player), not raw Windows QPC. windowsQpc comes from QueryPerformanceCounter; -1 means unavailable. Check clock epochs before alignment. Raw diagnostic clocks never replace invalid GPU durations."
                 }, Newtonsoft.Json.Formatting.Indented));
             }
             // Read-only snapshot: Save() would mutate savedAtUtc and create an

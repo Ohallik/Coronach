@@ -14,6 +14,14 @@ namespace Lattice.Tests.EditMode
         [TestCase("Taren",false)][TestCase("Sela",false)]
         [TestCase("Taren",true)][TestCase("Sela",true)]
         public void PauseHoldsTheRenderedPoseDuringTerrainAdaptation(string hero,bool shaped)
+            =>Measure(hero,shaped,"Run",1);
+
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void PauseHoldsAnActivelyBalancingUphillWalk(string hero,bool shaped)
+            =>Measure(hero,shaped,"Walk",3);
+
+        static void Measure(string hero,bool shaped,string state,int slopeFrames)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
             floor.transform.position=new Vector3(0,-.5f,0);floor.transform.localScale=new Vector3(50,1,50);
@@ -22,7 +30,7 @@ namespace Lattice.Tests.EditMode
             var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
             var rig=body.GetComponentInChildren<Animator>();var driver=body.GetComponent<GeneratedAnimator>();
             var profile=driver.strideProfile;Object.DestroyImmediate(driver);
-            var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name=="Run");
+            var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name==state);
             rig.runtimeAnimatorController=null;
             var feet=body.AddComponent<GroundFeet>();feet.Initialize(rig,root.transform,profile);
             var graph=PlayableGraph.Create("terrain pause");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
@@ -33,16 +41,17 @@ namespace Lattice.Tests.EditMode
             void Evaluate(float phase,bool paused)
             {
                 pose.SetTime(Mathf.Repeat(phase,1)*clip.length);graph.Evaluate(0);
-                feet.Correct(paused?Vector3.zero:Vector3.forward*(shaped?6.7f:5.4f),"Run",phase,1,false,paused:paused,targetFacing:false,deltaTime:dt);
+                feet.Correct(paused?Vector3.zero:Vector3.forward*(state=="Walk"?1.2f:shaped?6.7f:5.4f),state,phase,1,false,paused:paused,targetFacing:false,deltaTime:dt);
             }
             try
             {
                 Physics.SyncTransforms();Evaluate(1.12f,false);
-                floor.transform.rotation=Quaternion.Euler(-39,0,0);Physics.SyncTransforms();Evaluate(1.13f,false);
+                floor.transform.rotation=Quaternion.Euler(-39,0,0);Physics.SyncTransforms();
+                for(int frame=1;frame<=slopeFrames;frame++)Evaluate(1.12f+frame*.01f,false);
                 var positions=bones.Select(b=>b.position).ToArray();var rotations=bones.Select(b=>b.rotation).ToArray();
                 for(int frame=0;frame<30;frame++)
                 {
-                    Evaluate(1.13f,true);
+                    Evaluate(1.12f+slopeFrames*.01f,true);
                     for(int i=0;i<bones.Length;i++)
                     {
                         Assert.Less(Vector3.Distance(positions[i],bones[i].position),.001f,bones[i].name+" moves while paused");

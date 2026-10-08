@@ -9,6 +9,7 @@ param(
     [string]$DiagnosticPlayer,
     [switch]$Headroom,
     [switch]$GpuClocks,
+    [switch]$FrameClocks,
     [switch]$Census,
     [switch]$Motion,
     [ValidateSet('Auto','D3D11','D3D12')][string]$GraphicsApi='Auto',
@@ -80,6 +81,7 @@ if ($Profile) { $launch+='-quality-profile' }
 if ($ProfileSegmentFrames) { $launch+=@('-quality-profile-segments',[string]$ProfileSegmentFrames) }
 if ($Headroom) { $launch+='-quality-headroom' }
 if ($GpuClocks) { $launch+='-quality-gpu-clocks' }
+if ($FrameClocks) { $launch+='-quality-frame-clocks' }
 if ($Census) { $launch+='-quality-census' }
 if ($Motion) { $launch+='-quality-motion' }
 $manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}

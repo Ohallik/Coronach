@@ -3771,5 +3771,12 @@
       "bytes": 4612,
       "sha256": "71bd0dcfc6d4d16ef406c9d59bcc68c42c4ab993dca523070487f242dd176431"
     }
-  ]
+  ],
+  "legacyClockEpochFinding": {
+    "firstStopwatchTicks": 125566534,
+    "firstUnityFrameStartTimestamp": 19445735117900,
+    "frequencyBothHz": 10000000,
+    "sameEpoch": false,
+    "note": "The legacy qpc column is Stopwatch.GetTimestamp, not a native QueryPerformanceCounter reading. Equal frequency does not establish equal epoch; no offset is inferred."
+  }
 }

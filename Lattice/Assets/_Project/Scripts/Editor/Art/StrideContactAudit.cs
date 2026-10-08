@@ -49,7 +49,7 @@ namespace Lattice.EditorTools
             var failures=new List<string>();
             using(var summary=new StreamWriter(Path.Combine(folder,"contacts.csv")))
             {
-                summary.WriteLine("hero,form,speed,direction,clip,cadence,stride,leftContacts,rightContacts,worstDrift,worstPenetration,contactLift,reachCorrection,shinSeparation,slope,rootClearance");
+                summary.WriteLine("hero,form,speed,direction,clip,cadence,stride,leftContacts,rightContacts,worstDrift,worstPenetration,contactLift,reachCorrection,shinSeparation,slope,rootClearance,torsoBehindRearSole");
                 foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})
                 foreach(float speed in shaped?new[]{1.2f,6.7f,10.385f}:new[]{1.2f,2.6f,5.4f})
                 {
@@ -59,7 +59,7 @@ namespace Lattice.EditorTools
                         string filter=DevArgs.Value("-stride-case");
                         if(filter!=null&&!filter.Split(',').Contains(key))continue;
                         var result=Measure(hero,shaped,speed,direction,Path.Combine(folder,key+".csv"),normal,surface,rootClearance);
-                        summary.WriteLine(FormattableString.Invariant($"{hero},{(shaped?"Shaped":"Natural")},{speed},{direction},{result.clip},{result.cadence},{result.stride},{result.left},{result.right},{result.drift},{result.penetration},{result.lift},{result.reach},{result.shin},{slope},{rootClearance}"));
+                        summary.WriteLine(FormattableString.Invariant($"{hero},{(shaped?"Shaped":"Natural")},{speed},{direction},{result.clip},{result.cadence},{result.stride},{result.left},{result.right},{result.drift},{result.penetration},{result.lift},{result.reach},{result.shin},{slope},{rootClearance},{result.torsoBehind}"));
                         if(result.left<2||result.right<2||result.drift>.05f||result.penetration>.03f||result.lift>.04f||result.reach>.08f||result.shin<.07f)
                             failures.Add($"{key}: contacts={result.left}/{result.right} drift={result.drift:F4} penetration={result.penetration:F4} lift={result.lift:F4} reach={result.reach:F4} shin={result.shin:F4}");
                     }
@@ -70,7 +70,7 @@ namespace Lattice.EditorTools
             if(failures.Count>0)throw new InvalidOperationException("Stride contact rejected: "+string.Join("; ",failures));
             Debug.Log("STRIDE_CONTACT_OK "+folder);
         });
-        struct Result { public string clip;public float cadence,stride,drift,penetration,lift,reach,shin;public int left,right; }
+        struct Result { public string clip;public float cadence,stride,drift,penetration,lift,reach,shin,torsoBehind;public int left,right; }
         static Result Measure(string hero,bool shaped,float speed,float direction,string path,Vector3 normal,Vector3 surface,float rootClearance)
         {
             var actorObject=new GameObject("independent contact travel",typeof(Health),typeof(CombatActor));
@@ -108,7 +108,7 @@ namespace Lattice.EditorTools
             bool leftShot=false,rightShot=false;
             const float dt=1f/120;
             float duration=clip.length/rate*4;
-            using var writer=new StreamWriter(path);writer.WriteLine("seconds,phase,leftX,leftY,leftZ,rightX,rightY,rightZ,leftContact,rightContact,shinSeparation,reachCorrection,supportDrop");
+            using var writer=new StreamWriter(path);writer.WriteLine("seconds,phase,leftX,leftY,leftZ,rightX,rightY,rightZ,leftContact,rightContact,shinSeparation,reachCorrection,supportDrop,hipAlong,chestAlong,rearSoleAlong,torsoBehindRearSole");
             try
             {
                 for(int frame=0;frame<Mathf.CeilToInt(duration/dt);frame++)
@@ -126,10 +126,19 @@ namespace Lattice.EditorTools
                     }
                     Vector3 l=left.Toe,r=right.Toe;
                     bool lc=Contact(state,phase),rc=Contact(state,Mathf.Repeat(phase-(state=="Sprint"?.55f:.5f),1));
+                    // Posture proxy only, not physical COM or visual acceptance.
+                    // Project vertically along planar travel, not the slope normal.
+                    float hipAlong=Vector3.Dot(animator.GetBoneTransform(HumanBodyBones.Hips).position,travel);
+                    float chestAlong=Vector3.Dot(animator.GetBoneTransform(HumanBodyBones.Chest).position,travel);
+                    float rearSole=Mathf.Min(Vector3.Dot(l,travel),Vector3.Dot(r,travel),
+                        Vector3.Dot(left.Heel,travel),
+                        Vector3.Dot(right.Heel,travel));
+                    float behind=rearSole-(hipAlong+chestAlong)*.5f;
+                    if(normalized>=1&&(lc||rc))result.torsoBehind=Mathf.Max(result.torsoBehind,behind);
                     float shin=Segments(
                         animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg).position,animator.GetBoneTransform(HumanBodyBones.LeftFoot).position,
                         animator.GetBoneTransform(HumanBodyBones.RightLowerLeg).position,animator.GetBoneTransform(HumanBodyBones.RightFoot).position);
-                    writer.WriteLine(FormattableString.Invariant($"{seconds:F6},{phase:F6},{l.x:F6},{l.y:F6},{l.z:F6},{r.x:F6},{r.y:F6},{r.z:F6},{lc},{rc},{shin:F6},{feet?.MaximumReachCorrection??0:F6},{feet?.RequestedSupportDrop??0:F6}"));
+                    writer.WriteLine(FormattableString.Invariant($"{seconds:F6},{phase:F6},{l.x:F6},{l.y:F6},{l.z:F6},{r.x:F6},{r.y:F6},{r.z:F6},{lc},{rc},{shin:F6},{feet?.MaximumReachCorrection??0:F6},{feet?.RequestedSupportDrop??0:F6},{hipAlong:F6},{chestAlong:F6},{rearSole:F6},{behind:F6}"));
                     for(int side=0;side<2;side++)
                     {
                         bool planted=side==0?lc:rc;var point=side==0?l:r;var points=contacts[side];

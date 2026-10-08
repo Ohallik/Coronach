@@ -289,6 +289,8 @@ def launch_diagnostics(build):
         errors.append('launch manifest declares profiling; clean timing/headroom rejected')
     elif '-quality-gpu-clocks' in {value.lower() for value in arguments}:
         errors.append('GPU clock diagnostic overhead disqualifies clean timing/headroom')
+    elif '-quality-frame-clocks' in {value.lower() for value in arguments}:
+        errors.append('frame clock diagnostic overhead disqualifies clean timing/headroom')
     elif build.get('cleanTimingEligible') is False:
         errors.append('launch manifest excludes clean timing/headroom')
     return dict(valid=not errors,failures=errors,profilingArguments=found,
@@ -309,6 +311,9 @@ if __name__=='__main__':
         result['launchDiagnostics']=diagnostics
         if args.performance or args.headroom:
             result['failures']+=diagnostics['failures'];result['valid']=not result['failures']
+    elif args.performance or args.headroom:
+        result['failures'].append('launch manifest missing; clean timing/headroom rejected')
+        result['valid']=False
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

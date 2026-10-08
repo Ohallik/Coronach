@@ -1,5 +1,15 @@
 # CORONACH slice progress
 
+## Uphill support improves; fresh player stills retain a balance rejection — October 7
+
+**C1/C2 remain OPEN; neither standard player is presentation-validated.** Candidate 59 preserves `e93bf13`'s knee/terrain repairs and adds bounded horizontal pelvis support for short uphill walking. Controlled torso-behind-foot maxima improve from 443–501 mm to 47–87 mm. **147 EditMode, 231 full PlayMode, 7 affected replay PlayMode, 146 offline and 384 contact-matrix checks pass**, with original assertions and all rejected candidates retained. Both players build; fresh development shoulder/pad 60 fps captures and shoulder 30/120 fps diagnostics pass motion. [Repair, failures and exact evidence](validation/C2-uphill-balance.md).
+
+Windows reports displays off, so synchronized preflight rejects before launch. The four successful motion runs are explicit unsynchronized diagnostics. Fresh gameplay stills still show Sela deeply crouched uphill and companion Taren rearward; this is a remaining visual rejection despite the controlled improvement. Continuous video/audio, physical scan-out and controller feel remain **UNVERIFIED**. Continue the actual player posture case before expanding production.
+
+A [short synchronized clock diagnostic](validation/C1-synchronized-clocks.md) preserves startup VSync and finds median main/render work 2.22/2.82 ms versus 259.18 ms present wait during the current display-off stall. Native QPC corrects the earlier sidecar's misleading Stopwatch-clock label; the API still returns asynchronous frames. No cause is established for the awake Decks hitches or invalid Tallow development GPU durations. All remain rejected. The checker now also rejects missing launch manifests and synchronized clock instrumentation for clean timing/headroom.
+
+Candidate-45 packages are archived and match all 106 recorded hashes. Current candidate-59 packages/source are inventoried under `Builds/quality/2026-10-07-bounded-trace/`; the local normal/quarter-speed review page is there. Nathan's two saves and all 243 frozen `a3aaad6` chapter files/profile remain unchanged. C3–C10 production and every unmet acceptance gate remain open.
+
 ## Complete bounded C1 trace; GPU timestamp hypothesis — October 7
 
 **C1 remains OPEN; presentation is NOT validated.** A segmented native profiler now imports the entire unchanged Decks ten-minute diagnostic: **37,763/37,763 replay samples**, 21 raw files, no memory-truncated tail or inferred counter offset. Explicit replay metadata and sample markers establish correspondence. Neither rejected warmed movement interval recurs; the sole 25.154 ms interval is first options opening. The original two failed release loops remain unexplained and rejected. [Findings, tooling workflow and artifact hashes](validation/C1-bounded-trace.md).

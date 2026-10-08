@@ -1,0 +1,261 @@
+{
+  "status": "C1 OPEN; display-off diagnostic only",
+  "source": {
+    "baseRevision": "d7536a201a42a747bfafb86b645ced487bd2b92b",
+    "candidate": 59,
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "75e686725323ea3e1e86cfc7fa3bf838245eb858b8aa32559c844f0022b6fe40"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "399352f6c0aebf05362a5e9aed64c5fc74e9376a94793d7491c0a70189b95c03"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundStrideProfile.cs",
+        "normalizedSha256": "c9071344c78086e6c4a1b32f06da081e88e2694853feb3f7098856c2105375af"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/ContinuousReview.cs",
+        "normalizedSha256": "20294159c31829c1ec54801d6285ecbdebc6e51f9e6f876ff52454ff64ec27e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityTrace.cs",
+        "normalizedSha256": "79806df42ed90091278fd82418c7b74e43ccb2e3972c578443d23184c45f9627"
+      }
+    ]
+  },
+  "clockMetadata": {
+    "cleanTimingEligible": false,
+    "utcTickEpoch": "0001-01-01T00:00:00Z",
+    "ticksPerSecond": 10000000,
+    "qpcFrequency": 10000000,
+    "windowsQpcFrequency": 10000000,
+    "cpuFrequency": 10000000,
+    "gpuFrequency": 1000000000,
+    "graphicsApi": "Direct3D12",
+    "note": "The legacy qpc column is Stopwatch.GetTimestamp (process-relative in this Mono player), not raw Windows QPC. windowsQpc comes from QueryPerformanceCounter; -1 means unavailable. Check clock epochs before alignment. Raw diagnostic clocks never replace invalid GPU durations."
+  },
+  "rows": 144,
+  "firstRow": {
+    "sample": "0",
+    "utcTicks": "639270143046260843",
+    "qpc": "147039365",
+    "cpuTimePresentCalled": "19473353967834",
+    "cpuTimeFrameComplete": "19473353972894",
+    "windowsQpc": "19473359315740",
+    "frameStartTimestamp": "19473351278806",
+    "cpuMainThreadFrameMs": "1.280900",
+    "cpuRenderThreadFrameMs": "1.693100",
+    "cpuMainThreadPresentWaitMs": "264.314000"
+  },
+  "run": {
+    "route": "trace-rotation-pilot",
+    "sourceRevision": "station redesign; build hashes in evidence",
+    "input": "continuous agent-directed virtual gamepad replay",
+    "build": "Development",
+    "unity": "6000.4.7f1",
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "quality": "Ultra",
+    "gpuTiming": "GPU Frame Time counter (nanoseconds; asynchronous)",
+    "vrr": "UNVERIFIED",
+    "width": 1920,
+    "height": 1080,
+    "frameCap": -1,
+    "vSync": 1,
+    "samples": 144,
+    "refreshHz": 60.0,
+    "seconds": 22.388743599999998,
+    "captured": false,
+    "profiled": false,
+    "headroom": false,
+    "census": false,
+    "motion": false,
+    "valid": true,
+    "frameTimingRequested": true,
+    "frameTimingEnabled": true,
+    "frameTimingCpuFrequency": 10000000,
+    "failures": [],
+    "loadWaitSeconds": 2.919604100000001,
+    "settleSeconds": 8.0,
+    "interactions": []
+  },
+  "timing": {
+    "valid": false,
+    "failures": [
+      "hitch budget exceeded",
+      "missing samples",
+      "p95 exceeds 18.5 ms",
+      "p99 exceeds 25 ms",
+      "timing route shorter than 120 seconds",
+      "frame clock diagnostic overhead disqualifies clean timing/headroom"
+    ],
+    "samples": 144,
+    "seconds": 22.388744,
+    "medianMs": 261.0589,
+    "p95Ms": 265.1867,
+    "p99Ms": 265.8487,
+    "worstMs": 266.6006,
+    "hitches": {
+      "25": 85,
+      "33.3": 85,
+      "50": 85,
+      "100": 85
+    }
+  },
+  "clockWorkMs": {
+    "cpuMainThreadFrameMs": {
+      "median": 2.22135,
+      "maximum": 9.5984
+    },
+    "cpuRenderThreadFrameMs": {
+      "median": 2.8235,
+      "maximum": 10.4242
+    },
+    "cpuMainThreadPresentWaitMs": {
+      "median": 259.18370000000004,
+      "maximum": 264.334
+    }
+  },
+  "medianApiFrameAgeMs": 532.9315,
+  "limitations": [
+    "Shared Unity timing backend; no independent GPU duration verification.",
+    "API returns asynchronous completed frames; same-index replay association is invalid.",
+    "Present wait dominates this current display-off stall, without explaining awake stability failures or underlying driver cause.",
+    "No correction/filtering of the original invalid GPU values."
+  ],
+  "artifacts": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/candidate59-source.json",
+      "bytes": 1023,
+      "sha256": "73cf6b1530522b59ee85f8b3294185135cb26ae35adcd47c84c7a9b944942d74"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/analysis.json",
+      "bytes": 2959,
+      "sha256": "9126542ff7346b4d681b2f51e5e694c91bf1b39c973e625bbb00492cf4c43314"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/available-counters.txt",
+      "bytes": 181702,
+      "sha256": "be118e63f4cb1e946bcde38188e728a2d181e8794407499584de2968bfb4d215"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/build.json",
+      "bytes": 14097,
+      "sha256": "7a95024ccd5b70c9ad6baa8cb6503096a28ddf8644f697e49bfb67bda9d3dbd7"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/environment.json",
+      "bytes": 122,
+      "sha256": "4e8d9f238cbfcb4b8e95a1f10ea3092290031c0e7d159d6d46b219e7e67e9e3d"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/final-state.json",
+      "bytes": 903,
+      "sha256": "39f04debb40ad8e5ac6fe038f1a91b6786411a3442ede742e14e09a126aa7527"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/frame-times.svg",
+      "bytes": 2841,
+      "sha256": "8dc2dccecb54aad8de855ec4e4755618c8393214361ffc8b33d5fc0f04747bba"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/frames.csv",
+      "bytes": 47722,
+      "sha256": "8fb6088713a3c5c324283a4806af5bddb248bfb4910e1595f869781f0e90b83e"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/gpu-clocks.csv",
+      "bytes": 17653,
+      "sha256": "99e7e83b23cc507cdf4f82c63c68cb43095b35805ce57f8007cfdf35984fac30"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/gpu-clocks.json",
+      "bytes": 555,
+      "sha256": "2d1faed00f7911a4462067509b5016bf9fd1df4171387d5c5a5e4881af7f8920"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/player.log",
+      "bytes": 27777,
+      "sha256": "7946231a1c4703ddc02b48b9b95b160007bc1889bb5db42922839f19cccd0031"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/process.txt",
+      "bytes": 7,
+      "sha256": "eeebd1b4ee5c08d508dc18f027b1ed3fa37a32750badeac36f2ed0d5a1b9abfe"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/route.json",
+      "bytes": 3818,
+      "sha256": "0c1a0a4651fcba7b727582d73f73db64ed83f1b3fe64862c3940f5ab1e2d0d4a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59/run.json",
+      "bytes": 939,
+      "sha256": "d789175bc9f646a5b115614db0104ada82b51b3383b62cc1cbee121f3f4c90b0"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-console.log",
+      "bytes": 2288,
+      "sha256": "3874f622435c4a68a5a8897bad93f9bc9e376a962a2bb49ea48d18727eda0b08"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-diagnostic-scope.txt",
+      "bytes": 77,
+      "sha256": "14a1fbc48faedc0b058396e8edc76d913adc9fe2e10be70230267b5ae129a236"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-display-after.json",
+      "bytes": 677,
+      "sha256": "1b1ad82545241b4f33c77f433347a0c2a6dd9ccc9f95ec4cccb2a8a3e48e61fd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-display-before.json",
+      "bytes": 677,
+      "sha256": "99d53666a2e18a6b670f7675829c51001f3160e8f622a862eb30a341bfecb67a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/decks-display-off-clocks59-rejected.log",
+      "bytes": 5920,
+      "sha256": "4b13439e0a6c4ecc6a883d86ebb7b9c4d5bca7d2eeeadc700f94277dfd4c8f2e"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/frame-clock-replay-tests.log",
+      "bytes": 177039,
+      "sha256": "5a7664f7424997c56b18f1ec508c82be5b1d87341436fb91ed19291d6300474d"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/frame-clock-replay-tests.xml",
+      "bytes": 12063,
+      "sha256": "7f7cea6eababfbb2a3f5286b7c5e56c592048d96086c25d3b6829dd2b0cc6f12"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/frame-clocks-exclusion-red.log",
+      "bytes": 6416,
+      "sha256": "9d0971b212dd5dfe310ae35d8c19fe16c4b6a61106f5d85bb110c3186e7a06d3"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/missing-manifest-red.log",
+      "bytes": 8320,
+      "sha256": "e217ec5240f8d1f8ccd9c537a4c19736196dd341b6facfcbdda734c4cc299b48"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/offline-final-146.log",
+      "bytes": 40950,
+      "sha256": "3ccf9ea8c59aedac9409067fd9f0f36885e5d753a7e0a9c22b498e349b059039"
+    }
+  ]
+}

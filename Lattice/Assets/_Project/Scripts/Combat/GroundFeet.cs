@@ -47,6 +47,8 @@ namespace Lattice.Combat
         float smoothedStride=1;
         Vector3 freeDirection=Vector3.forward;
         float turnRecovery;
+        float balanceWeight;
+        Vector3 balanceUp=Vector3.up;
         void OnEnable(){ResetContacts();}
 
         public void Initialize(Animator rig,Transform root,GroundStrideProfile calibration)
@@ -153,7 +155,9 @@ namespace Lattice.Combat
             // Remove that extra clearance from the rendered body, preserving
             // the calibration's eight-centimetre root clearance and collision.
             bodyOrigin=heading.position-Vector3.up*smoothedClearance*terrainBlend;
-            pelvis.position=bodyOrigin+terrainRotation*(pelvis.position-heading.position);
+            var gravityPelvis=pelvis.position-heading.position;
+            var terrainPelvis=terrainRotation*gravityPelvis;
+            pelvis.position=bodyOrigin+terrainPelvis;
             pelvis.rotation=terrainRotation*pelvis.rotation;
             // Put the full balance correction at the lower spine. Dividing
             // this pitch among joints left most of the weighted torso leaning
@@ -165,8 +169,19 @@ namespace Lattice.Combat
             if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp((stride-1)*.18f,0,.08f);
             MaximumReachCorrection=0;
             float directional=targetFacing?Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0):0;
+            // A slow uphill step has room to support the hips vertically.
+            // Full terrain rotation otherwise leaves the torso behind both
+            // feet. Preserve the established foot targets, and fade this
+            // correction as an extended walk exhausts the donor's reach.
+            float climb=-Vector3.Dot(terrainNormal,heading.TransformDirection(previousDirection))/Mathf.Max(.2f,terrainNormal.y);
+            float balance=clip=="Walk"?.65f*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,climb))*
+                (1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(1.12f,1.3f,stride))):0;
+            if(reset)balanceWeight=balance;
+            else if(!paused)balanceWeight=Mathf.Lerp(balanceWeight,balance,1-Mathf.Exp(-correctionDelta/.2f));
             Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
             Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
+            pelvis.position+=Vector3.ProjectOnPlane(gravityPelvis-terrainPelvis,Vector3.up)*balanceWeight;
+            balanceUp=Vector3.Slerp(supportUp,Vector3.up,balanceWeight);
             // Uphill motion raises the root over a rear foot. Keep both final
             // ankle targets inside their real chain length, including landing
             // and toe-off, rather than lifting an anchor or snapping a knee.
@@ -178,8 +193,8 @@ namespace Lattice.Combat
             float supportDrop=Mathf.Clamp(RequestedSupportDrop,0,.16f+terrainBlend*.2f);
             if(reset)smoothedSupportDrop=supportDrop;
             else if(!paused)smoothedSupportDrop=Mathf.Lerp(smoothedSupportDrop,supportDrop,
-                1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/(clip=="Sprint"?.01f:.025f)));
-            pelvis.position-=supportUp*smoothedSupportDrop;
+                1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/(clip=="Sprint"?.01f:.025f-.005f*balanceWeight)));
+            pelvis.position-=balanceUp*smoothedSupportDrop;
             Complete(left);Complete(right);
             if(!paused)
             {
@@ -239,11 +254,13 @@ namespace Lattice.Combat
                 {
                     // A turning heel can be far from the next swing pose.
                     // Release it gradually before handing support to the toe.
-                    if(phase<.135f){contact=0;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min(phase/.025f,(.135f-phase)/.06f)));}
+                    // The gravity-balanced hip needs a longer heel landing;
+                    // retain the existing release and fully planted toe phase.
+                    if(phase<.135f){contact=0;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min(phase/(.025f+.065f*balanceWeight),(.135f-phase)/.06f)));}
                     // Release for the authored toe-off before the opposite
                     // heel lands. Holding through half a cycle overextends
                     // the trailing leg as the root climbs a slope.
-                    else if(phase<.48f){contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-.135f)/.04f,(.48f-phase)/.07f)));}
+                    else if(phase<.48f){contact=1;weight=Mathf.SmoothStep(0,1,Mathf.Clamp01(Mathf.Min((phase-.135f)/(.04f+.025f*balanceWeight),(.48f-phase)/.07f)));}
                 }
                 else if(clip=="Run"||clip=="Sprint")
                 {
@@ -298,8 +315,8 @@ namespace Lattice.Combat
         {
             float length=Vector3.Distance(leg.thigh.position,leg.knee.position)+Vector3.Distance(leg.knee.position,leg.foot.position)-(.025f+.04f*terrainWeight)-margin;
             Vector3 delta=leg.thigh.position-leg.target;
-            float altitude=Vector3.Dot(delta,supportUp);
-            float horizontal=Vector3.ProjectOnPlane(delta,supportUp).sqrMagnitude;
+            float altitude=Vector3.Dot(delta,balanceUp);
+            float horizontal=Vector3.ProjectOnPlane(delta,balanceUp).sqrMagnitude;
             // Keep the requested drop continuous across the reach boundary;
             // an unreachable horizontal target still needs the bounded drop.
             float vertical=Mathf.Sqrt(Mathf.Max(0,length*length-horizontal));

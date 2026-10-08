@@ -13,7 +13,7 @@ import test_quality_analyze as traversal_fixture
 class NativeProfileManifestContract(unittest.TestCase):
     analyzer = Path(__file__).with_name('quality_analyze.py')
 
-    def result(self, arguments, headroom=False, segmented=False, **metadata):
+    def result(self, arguments, headroom=False, segmented=False, omit_manifest=False, **metadata):
         fixture = traversal_fixture.TraversalContract()
         fixture.setUp()
         fixture.run['profiled'] = False  # The native CLI profiler bypasses the harness switch.
@@ -25,6 +25,8 @@ class NativeProfileManifestContract(unittest.TestCase):
             root = Path(folder)
             for name, value in [('run', fixture.run), ('route', fixture.route),
                                 ('build', dict(arguments=arguments, **metadata))]:
+                if name == 'build' and omit_manifest:
+                    continue
                 (root / (name + '.json')).write_text(json.dumps(value), encoding='utf-8-sig' if name == 'build' else 'utf-8')
             with (root / 'frames.csv').open('w', newline='') as stream:
                 writer = csv.DictWriter(stream, fixture.frames[0].keys())
@@ -73,6 +75,21 @@ class NativeProfileManifestContract(unittest.TestCase):
 
     def test_gpu_clock_diagnostic_cannot_accept_headroom(self):
         code, result = self.result(['-quality-gpu-clocks'], headroom=True)
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
+    def test_synchronized_frame_clocks_cannot_accept_clean_timing(self):
+        code, result = self.result(['-quality-frame-clocks'])
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
+    def test_missing_launch_manifest_cannot_accept_clean_timing(self):
+        code, result = self.result([], omit_manifest=True)
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
+    def test_missing_launch_manifest_cannot_accept_headroom(self):
+        code, result = self.result([], headroom=True, omit_manifest=True)
         self.assertEqual(1, code)
         self.assertFalse(result['valid'])
 
