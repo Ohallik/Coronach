@@ -83,6 +83,10 @@ Partial encounter damage is not a new persistent save state; an unfinished fight
 
 The new earned route passes with all three links cut and the lock released: 801.840 seconds, full recorded focus, awake display endpoints and VSync 1. Both living heroes reach TallowApproach. Thirteen opened frames make the blockout bands/objectives legible, but **Sela is partly clipped during the release at +1.50/+1.80**. Keep that framing rejection open and fix it before accepting presentation. Selected companion/body overlap and repeated miss text also need diagnosis. Final map quality, continuous motion/audio and physical feel remain unaccepted. [Exact evidence](../validation/C3-cantor-collar.md).
 
+### Companion framing follow-up — October 8
+
+The changed earned route passes in 797.269 seconds with all 47,815 samples focused. Ten opened frames show both ships inside the sampled release/return frame, including +1.50/+1.80; the nearby companion now contributes to camera bounds. Cantor is whole through selected +1.50 and starts cropping by +1.80 after the bounded hold. **Sela still overlaps the animal in earlier combat stills**, so final presentation remains unaccepted. The repeated line observed previously is a successful Flash-dodge bark, not proof of missed shots. Displays off/VSync 0 and the retained 71.915 ms step-44 hitch exclude timing acceptance. All source/package bindings, failures, preserved saves and observation limits are in [the companion report](../validation/C4-companion-framing.md). Final map/art/preview/story and continuous quality remain OPEN.
+
 ### History
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.

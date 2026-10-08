@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Nearby companions share the flight frame — October 8
+
+**C3/C4/C8 remain OPEN.** Both standard players now include nearby living and disabled companion craft in encounter/release bounds, limited to 30 m. The original clipping and both deliberately broken distance/downed controls reject; **32 affected PlayMode checks pass**, zero skipped. [Evidence and exact inventories](validation/C4-companion-framing.md).
+
+The changed earned Gullet route passes in **797.269 s / 47,815 fully focused samples**, process exit 0, and saves both living heroes at TallowApproach without docking or chapter completion. Ten opened frames show both ships inside the screen at the sampled release/return times, resolving Sela's bottom clipping. Cantor is fully visible through selected +1.50 and begins cropping at +1.80 after the bounded hold. **Companion/body overlap remains rejected**, and the return bark crosses ships in some stills. Continuous motion/audio and physical quality stay UNVERIFIED. The repeated Sela text is her successful Flash-dodge bark, not a missed-shot diagnostic; probe its priority/cooldown behavior next alongside the overlap.
+
+Displays are off before/after and VSync is explicitly 0: no clean C1 acceptance. Retain all four >25 ms intervals, especially the unexplained 71.915 ms step-44 hitch. Nathan's saves and frozen a3aaad6 files/profile match; exact `8f9b6fd` players are archived under `Builds/quality/C4/companion-framing/prior-Windows*`. Final collar art, preview/story and every unmet gate remain OPEN. Preserve all older failures and continue supported production.
+
 ## Cantor collar has separate links — October 8
 
 **C3/C4/C8 remain OPEN.** Three moving collar links now change the actual sweep, song and volley, then expose the final lock. The first integration passes **173 EditMode / 269 PlayMode**, zero skipped; later recovery and ownership repairs pass **37 and 24 affected checks**, with every original failure, pose assertion and deliberate control preserved. [Evidence and inventories](validation/C3-cantor-collar.md).

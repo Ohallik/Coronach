@@ -16,6 +16,7 @@ namespace Lattice.Combat
         CombatActor framedHero;
         Health framedTarget;
         Renderer[] heroMeshes, targetMeshes;
+        readonly System.Collections.Generic.Dictionary<CombatActor,Renderer[]> companionMeshes=new();
         int targetChildCount;
         public float ReviveProgress=>reviveTarget!=null?Mathf.Clamp01(revive/2):0;
         public CombatActor ReviveTarget=>reviveTarget;
@@ -105,6 +106,18 @@ namespace Lattice.Combat
             }
             var bounds=new Bounds(hero.transform.position+Vector3.up*.8f,Vector3.one*HeroCollision.HullRadius(hero.character)*2);
             IncludeMeshes(ref bounds,heroMeshes);IncludeMeshes(ref bounds,targetMeshes);
+            // Nearby disabled craft still need to be seen and recovered. Use
+            // the encounter's existing 30 m range so a distant follower cannot
+            // pull the camera across the map. Cache each ship for this party.
+            foreach(var companion in members)
+            {
+                if(companion==null||companion==hero||!companion.flight||!companion.gameObject.activeInHierarchy||
+                    (companion.transform.position-hero.transform.position).sqrMagnitude>900)continue;
+                if(!companionMeshes.TryGetValue(companion,out var meshes))
+                {meshes=companion.GetComponent<FormController>().flight.GetComponentsInChildren<Renderer>(true);companionMeshes.Add(companion,meshes);}
+                bounds.Encapsulate(new Bounds(companion.transform.position+Vector3.up*.8f,Vector3.one*HeroCollision.HullRadius(companion.character)*2));
+                IncludeMeshes(ref bounds,meshes);
+            }
             cameraRig.FrameEncounter(bounds);
         }
         static void IncludeMeshes(ref Bounds bounds,Renderer[] meshes)
