@@ -173,8 +173,10 @@ namespace Lattice.Combat
             // Full terrain rotation otherwise leaves the torso behind both
             // feet. Preserve the established foot targets, and fade this
             // correction as an extended walk exhausts the donor's reach.
+            // Idle has no travelling anchor to exhaust; retain gravity-based
+            // support there so a stopped companion does not sit downhill.
             float climb=-Vector3.Dot(terrainNormal,heading.TransformDirection(previousDirection))/Mathf.Max(.2f,terrainNormal.y);
-            float balance=clip=="Walk"?.65f*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,climb))*
+            float balance=clip=="Idle"?.85f*terrainBlend:clip=="Walk"?.65f*Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,climb))*
                 (1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(1.12f,1.3f,stride))):0;
             if(reset)balanceWeight=balance;
             else if(!paused)balanceWeight=Mathf.Lerp(balanceWeight,balance,1-Mathf.Exp(-correctionDelta/.2f));

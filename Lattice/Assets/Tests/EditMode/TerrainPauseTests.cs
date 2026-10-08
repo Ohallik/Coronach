@@ -21,6 +21,11 @@ namespace Lattice.Tests.EditMode
         public void PauseHoldsAnActivelyBalancingUphillWalk(string hero,bool shaped)
             =>Measure(hero,shaped,"Walk",3);
 
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void PauseHoldsAnActivelyBalancingUphillIdle(string hero,bool shaped)
+            =>Measure(hero,shaped,"Idle",3);
+
         static void Measure(string hero,bool shaped,string state,int slopeFrames)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
@@ -30,7 +35,8 @@ namespace Lattice.Tests.EditMode
             var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
             var rig=body.GetComponentInChildren<Animator>();var driver=body.GetComponent<GeneratedAnimator>();
             var profile=driver.strideProfile;Object.DestroyImmediate(driver);
-            var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name==state);
+            string take=state=="Idle"&&shaped?(hero=="Taren"?"CombatIdle":"RangedIdle"):state;
+            var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name==take);
             rig.runtimeAnimatorController=null;
             var feet=body.AddComponent<GroundFeet>();feet.Initialize(rig,root.transform,profile);
             var graph=PlayableGraph.Create("terrain pause");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
@@ -41,7 +47,7 @@ namespace Lattice.Tests.EditMode
             void Evaluate(float phase,bool paused)
             {
                 pose.SetTime(Mathf.Repeat(phase,1)*clip.length);graph.Evaluate(0);
-                feet.Correct(paused?Vector3.zero:Vector3.forward*(state=="Walk"?1.2f:shaped?6.7f:5.4f),state,phase,1,false,paused:paused,targetFacing:false,deltaTime:dt);
+                feet.Correct(paused||state=="Idle"?Vector3.zero:Vector3.forward*(state=="Walk"?1.2f:shaped?6.7f:5.4f),state,phase,1,false,paused:paused,targetFacing:false,deltaTime:dt);
             }
             try
             {

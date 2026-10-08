@@ -110,10 +110,12 @@ namespace Lattice.Combat
                 if(wanted!=state)
                 {
                     if(pendingGait!=wanted){pendingGait=wanted;pendingGaitSince=Time.unscaledTime;}
-                    // A brief recovery-speed pulse must not interrupt the legs
-                    // twice per shot. Cadence/stride still track real travel;
-                    // starts, stops and authored actions remain immediate.
-                    if(Time.unscaledTime-pendingGaitSince<.12f)wanted=state;
+                    // Hold brief slowdowns so every shot does not interrupt
+                    // the legs twice. Restored speed needs the faster gait
+                    // immediately: a stretched walk cannot hold its planted
+                    // sole through a collision rebound at running speed.
+                    bool accelerating=strideProfile.NativeSpeed(wanted)>strideProfile.NativeSpeed(state);
+                    if(!accelerating&&Time.unscaledTime-pendingGaitSince<.12f)wanted=state;
                 }
                 else pendingGait=null;
             }
@@ -144,11 +146,18 @@ namespace Lattice.Combat
                     var prior=animator.IsInTransition(0)?animator.GetNextAnimatorStateInfo(0):animator.GetCurrentAnimatorStateInfo(0);
                     phase=Mathf.Repeat(prior.normalizedTime,1);priorDuration=Mathf.Max(.01f,prior.length);
                 }
+                bool slopedStartStop=state=="Idle"&&wanted=="Walk"||state=="Walk"&&wanted=="Idle";
                 state = wanted;
                 if (actor != null) sequence = actor.AttackSequence;
                 var ground=actor?.motor as GroundMotor;
                 float blend=ground!=null&&ground.Phase==GroundMotor.TravelPhase.Starting?.075f:
                     wanted=="Idle"?.14f:.1f;
+                // A steep support stance needs time to transfer weight into
+                // or out of the donor walk. Root response stays immediate;
+                // lengthen only this pose blend, leaving other gaits/actions.
+                if(slopedStartStop&&feet!=null)
+                    blend=Mathf.Lerp(blend,wanted=="Idle"?.3f:.2f,
+                        Mathf.SmoothStep(0,1,Mathf.InverseLerp(.18f,.45f,feet.TerrainGrade)));
                 // The cycle offset stays normalized while cadence changes.
                 // Converting it to fixed seconds produced phase jumps when a
                 // crossfade was interrupted by the next shot's speed change.

@@ -15,6 +15,14 @@ namespace Lattice.Tests.EditMode
         [TestCase("Taren",false)][TestCase("Sela",false)]
         [TestCase("Taren",true)][TestCase("Sela",true)]
         public void SlowUphillWalkDoesNotLeaveTorsoBehindBothVisibleFeet(string hero,bool shaped)
+            =>Measure(hero,shaped,"Walk",1.2f);
+
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void StationaryUphillPoseDoesNotSitBehindBothVisibleFeet(string hero,bool shaped)
+            =>Measure(hero,shaped,"Idle",0);
+
+        static void Measure(string hero,bool shaped,string state,float speed)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
             floor.transform.position=new Vector3(0,-.5f,0);floor.transform.localScale=new Vector3(100,1,100);
@@ -24,33 +32,34 @@ namespace Lattice.Tests.EditMode
             var rig=body.GetComponentInChildren<Animator>();var driver=body.GetComponent<GeneratedAnimator>();
             var profile=driver.strideProfile;Object.DestroyImmediate(driver);
             var soles=new[]{new Sole(rig,true),new Sole(rig,false)};
-            var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name=="Walk");rig.runtimeAnimatorController=null;
+            string take=state=="Idle"&&shaped?(hero=="Taren"?"CombatIdle":"RangedIdle"):state;
+            var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name==take);rig.runtimeAnimatorController=null;
             var feet=body.AddComponent<GroundFeet>();feet.Initialize(rig,root.transform,profile);
             var graph=PlayableGraph.Create("slow slope balance");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
             var pose=AnimationClipPlayable.Create(graph,clip);pose.SetApplyFootIK(true);
             AnimationPlayableOutput.Create(graph,"pose",rig).SetSourcePlayable(pose);graph.Play();
-            const float speed=1.2f,dt=1f/120;
+            const float dt=1f/120;
             try
             {
-                foreach(float slope in new[]{0f,39f})
+                foreach(float slope in state=="Idle"?new[]{0f,39f,-39f}:new[]{0f,39f})
                 {
                     floor.transform.rotation=Quaternion.Euler(-slope,0,0);Physics.SyncTransforms();feet.ResetContacts();
                     var normal=floor.transform.up;var surface=floor.transform.position+normal*.5f;
-                    float grade=Mathf.Abs(normal.z)/normal.y,rate=profile.Cadence("Walk",speed,grade),stride=profile.Stride("Walk",speed,rate,grade);
+                    float grade=Mathf.Abs(normal.z)/normal.y,rate=state=="Idle"?1:profile.Cadence(state,speed,grade),stride=state=="Idle"?1:profile.Stride(state,speed,rate,grade);
                     float worst=0;int samples=0;
                     for(int frame=0;frame<Mathf.CeilToInt(clip.length/rate*3/dt);frame++)
                     {
                         float time=frame*dt,phase=time*rate/clip.length;
                         var position=Vector3.forward*speed*time;position.y=Vector3.Dot(normal,surface-position)/normal.y+.22f;root.transform.position=position;
                         pose.SetTime(Mathf.Repeat(phase,1)*clip.length);graph.Evaluate(0);
-                        feet.Correct(Vector3.forward*speed,"Walk",phase,stride,false,targetFacing:false,deltaTime:dt);
+                        feet.Correct(Vector3.forward*speed,state,phase,stride,false,targetFacing:false,deltaTime:dt);
                         float halfStep=Mathf.Repeat(phase,.5f);
                         if(phase<1||halfStep<.2f||halfStep>.4f)continue;
                         float rear=Mathf.Min(soles[0].Rear(),soles[1].Rear());
                         float torso=(rig.GetBoneTransform(HumanBodyBones.Hips).position.z+rig.GetBoneTransform(HumanBodyBones.Chest).position.z)*.5f;
                         worst=Mathf.Max(worst,rear-torso);samples++;
                     }
-                    Debug.Log($"TERRAIN_BALANCE {hero}/{shaped} slope={slope} samples={samples} torsoBehindRearSole={worst:F6}");
+                    Debug.Log($"TERRAIN_BALANCE {hero}/{shaped}/{state} slope={slope} samples={samples} torsoBehindRearSole={worst:F6}");
                     Assert.Greater(samples,80,"must cover both repeated stance intervals");
                     // This generous posture bound rejects the measured seated
                     // pose. It is not a COM simulation or visual acceptance.

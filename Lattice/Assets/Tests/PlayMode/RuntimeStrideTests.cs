@@ -10,6 +10,28 @@ using UnityEngine.TestTools;
 
 namespace Lattice.Tests.PlayMode
 {
+    [DefaultExecutionOrder(1500)]
+    public sealed class StridePoseClock : MonoBehaviour
+    {
+        public Animator rig;
+        public int frame;
+        public float delta,leftAngle,rightAngle;
+        void LateUpdate()
+        {
+            frame=Time.frameCount;delta=Time.unscaledDeltaTime;
+            if(rig==null)return;
+            float Angle(HumanBodyBones hip,HumanBodyBones knee,HumanBodyBones foot)
+            {var k=rig.GetBoneTransform(knee).position;return Vector3.Angle(rig.GetBoneTransform(hip).position-k,rig.GetBoneTransform(foot).position-k);}
+            leftAngle=Angle(HumanBodyBones.LeftUpperLeg,HumanBodyBones.LeftLowerLeg,HumanBodyBones.LeftFoot);
+            rightAngle=Angle(HumanBodyBones.RightUpperLeg,HumanBodyBones.RightLowerLeg,HumanBodyBones.RightFoot);
+        }
+    }
+    [DefaultExecutionOrder(1000)]
+    public sealed class StrideClockMotion : MonoBehaviour
+    {
+        void Update(){if(Time.frameCount%2==0)System.Threading.Thread.Sleep(20);}
+        void LateUpdate(){transform.position+=Vector3.right*(30*Time.unscaledDeltaTime);}
+    }
     public sealed class RuntimeStrideTests
     {
         sealed class Travel : IMotor
@@ -19,6 +41,72 @@ namespace Lattice.Tests.PlayMode
             public Vector3 Velocity=>velocity;
             public void Move(Vector2 input,bool boost,bool brake){}
             public void Dash(Vector3 direction,float distance){}
+        }
+        [UnityTest] public IEnumerator PoseSpeedUsesItsEvaluatedFrameInsteadOfTheNextCoroutineFrame()
+        {
+            int previousCap=Application.targetFrameRate;Application.targetFrameRate=-1;
+            var root=new GameObject("uneven pose-clock control",typeof(StrideClockMotion),typeof(StridePoseClock));
+            var clock=root.GetComponent<StridePoseClock>();
+            try
+            {
+                yield return null;yield return null;var previous=root.transform.position;
+                float worst=0,wrongClock=0;
+                for(int sample=0;sample<30;sample++)
+                {
+                    yield return null;var current=root.transform.position;
+                    Assert.AreEqual(Time.frameCount-1,clock.frame,"pose stamp must identify the completed frame");
+                    // Displacement remains measurable on very short frames;
+                    // Quaternion.Angle rounds tiny rotations to zero.
+                    float angle=Vector3.Distance(previous,current);
+                    worst=Mathf.Max(worst,Mathf.Abs(angle/clock.delta-30));
+                    wrongClock=Mathf.Max(wrongClock,Mathf.Abs(angle/Time.unscaledDeltaTime-30));
+                    previous=current;
+                }
+                Debug.Log($"POSE_CLOCK_CONTROL evaluatedSpeedError={worst:F6} nextFrameSpeedError={wrongClock:F6}");
+                Assert.Less(worst,3,"known 30-metre/s rendered travel has the wrong sampling clock");
+                Assert.Greater(wrongClock,10,"control must expose the old mismatched-frame denominator");
+            }
+            finally{Object.Destroy(root);Application.targetFrameRate=previousCap;}
+        }
+        [UnityTest] public IEnumerator TarenCollisionRecoveryTransfersOutOfWalkBeforeItsFootSlides()=>CollisionRecovery("Taren");
+        [UnityTest] public IEnumerator SelaCollisionRecoveryTransfersOutOfWalkBeforeItsFootSlides()=>CollisionRecovery("Sela");
+        static IEnumerator CollisionRecovery(string hero)
+        {
+            GameTime.Reset();int previousCap=Application.targetFrameRate;Application.targetFrameRate=60;
+            var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(100,1,100);
+            var root=new GameObject("collision recovery stride",typeof(Health),typeof(CombatActor));root.transform.position=new Vector3(100,.08f,100);
+            var actor=root.GetComponent<CombatActor>();actor.character=hero;var travel=new Travel{velocity=Vector3.forward*1.46f};actor.motor=travel;
+            var body=Object.Instantiate(GameCatalog.Find<CharacterDef>(hero).shaped,root.transform);
+            var rig=body.GetComponentInChildren<Animator>();var sole=new SoleProbe(rig,true);Physics.SyncTransforms();
+            try
+            {
+                float started=Time.unscaledTime;
+                while(Time.unscaledTime-started<.65f){root.transform.position+=travel.velocity*Time.unscaledDeltaTime;yield return null;}
+                // Begin just before the recorded failure's central walking
+                // stance, then restore the ordinary 6.7 m/s Shaped run speed.
+                rig.Play("Walk",0,.17f);body.GetComponent<GroundFeet>().ResetContacts();yield return null;
+                travel.velocity=Vector3.forward*6.7f;started=Time.unscaledTime;
+                var planted=new List<Vector3>();float drift=0,transfer=float.PositiveInfinity;int observed=0;
+                while(Time.unscaledTime-started<.3f)
+                {
+                    var info=rig.GetCurrentAnimatorStateInfo(0);
+                    if(info.IsName("Run")||rig.IsInTransition(0)&&rig.GetNextAnimatorStateInfo(0).IsName("Run"))transfer=Mathf.Min(transfer,Time.unscaledTime-started);
+                    float phase=Mathf.Repeat(info.normalizedTime,1);
+                    if(info.IsName("Walk")&&!rig.IsInTransition(0)&&phase>=.2f&&phase<=.4f)
+                    {
+                        var point=sole.Point();foreach(var prior in planted)drift=Mathf.Max(drift,new Vector2(point.x-prior.x,point.z-prior.z).magnitude);planted.Add(point);
+                    }
+                    root.transform.position+=travel.velocity*Time.unscaledDeltaTime;observed++;yield return null;
+                }
+                Debug.Log($"COLLISION_GAIT_RECOVERY {hero} transferSeconds={transfer:F6} drift={drift:F6} plantedSamples={planted.Count} observed={observed}");
+                Assert.GreaterOrEqual(observed,12);
+                var failures=new List<string>();
+                if(transfer>.1f)failures.Add("restored run motion has no gait transfer within 100 ms: "+transfer);
+                if(drift>.05f)failures.Add("restored speed drags the planted walking sole "+drift+" m");
+                Assert.IsEmpty(failures,string.Join("; ",failures));
+            }
+            finally{sole.Dispose();Object.Destroy(root);Object.Destroy(floor);Application.targetFrameRate=previousCap;GameTime.Reset();}
         }
         [UnityTest] public IEnumerator UnlockedBodyFacesMeasuredTravelWhenAContactRedirectsIt()
         {
@@ -190,6 +278,169 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest] public IEnumerator VisibleSolesStayPlantedOnUphillAndDownhillGround()=>SlopeContacts(new[]{10f,-10f});
         [UnityTest] public IEnumerator VisibleSolesStayPlantedOnSteepUphillAndDownhillGround()=>SlopeContacts(new[]{39f,-39f});
+        [UnityTest] public IEnumerator TarenUphillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Taren");
+        [UnityTest] public IEnumerator SelaUphillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Sela");
+        [UnityTest] public IEnumerator TarenDownhillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Taren",-39);
+        [UnityTest] public IEnumerator SelaDownhillStartsAndStopsKeepSupportedContinuousLegs()=>UphillStartsAndStops("Sela",-39);
+        [UnityTest] public IEnumerator TarenDownhillBrakingKeepsContinuousLegsAcrossWalkPhases()=>DownhillBrakePhases("Taren");
+        [UnityTest] public IEnumerator SelaDownhillBrakingKeepsContinuousLegsAcrossWalkPhases()=>DownhillBrakePhases("Sela");
+        static IEnumerator DownhillBrakePhases(string hero)
+        {
+            GameTime.Reset();int previousCap=Application.targetFrameRate;Application.targetFrameRate=60;
+            var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(100,1,100);
+            floor.transform.rotation=Quaternion.Euler(39,0,0);Physics.SyncTransforms();
+            var normal=floor.transform.up;var surface=floor.transform.position+normal*.5f;
+            var failures=new List<string>();
+            try
+            {
+                for(int sample=0;sample<24;sample++)
+                {
+                    var root=new GameObject("downhill brake phase",typeof(Health),typeof(CombatActor));
+                    var actor=root.GetComponent<CombatActor>();actor.character=hero;actor.TargetLocked=false;
+                    var travel=new Travel();actor.motor=travel;
+                    var position=new Vector3(100,0,100);position.y=Vector3.Dot(normal,surface-position)/normal.y+.22f;root.transform.position=position;
+                    var body=Object.Instantiate(GameCatalog.Find<CharacterDef>(hero).shaped,root.transform);
+                    var rig=body.GetComponentInChildren<Animator>();var driver=body.GetComponent<GeneratedAnimator>();
+                    var clock=root.AddComponent<StridePoseClock>();clock.rig=rig;
+                    var knees=new Transform[]{rig.GetBoneTransform(HumanBodyBones.LeftLowerLeg),rig.GetBoneTransform(HumanBodyBones.RightLowerLeg)};
+                    var hips=new Transform[]{rig.GetBoneTransform(HumanBodyBones.LeftUpperLeg),rig.GetBoneTransform(HumanBodyBones.RightUpperLeg)};
+                    var feet=new Transform[]{rig.GetBoneTransform(HumanBodyBones.LeftFoot),rig.GetBoneTransform(HumanBodyBones.RightFoot)};
+                    var soles=new[]{new SoleProbe(rig,true),new SoleProbe(rig,false)};
+                    float Angle(int side)=>Vector3.Angle(hips[side].position-knees[side].position,feet[side].position-knees[side].position);
+                    try
+                    {
+                        yield return null;yield return new WaitForSecondsRealtime(.3f);
+                        travel.velocity=Vector3.forward*1.46f;
+                        float started=Time.unscaledTime,target=sample/24f,phase=0;
+                        while(true)
+                        {
+                            var info=rig.GetCurrentAnimatorStateInfo(0);phase=Mathf.Repeat(info.normalizedTime,1);
+                            if(Time.unscaledTime-started>1&&info.IsName("Walk")&&!rig.IsInTransition(0)&&Mathf.Repeat(phase-target,1)<.025f)break;
+                            Assert.Less(Time.unscaledTime-started,4,"fixture never reached its requested walking phase");
+                            position=root.transform.position+travel.velocity*Time.unscaledDeltaTime;
+                            position.y+=Vector3.Dot(normal,surface-position)/normal.y+.22f;root.transform.position=position;
+                            yield return null;
+                        }
+                        var angles=new[]{Angle(0),Angle(1)};var prior=new[]{root.transform.InverseTransformPoint(knees[0].position),root.transform.InverseTransformPoint(knees[1].position)};
+                        float angular=0,linear=0,penetration=0;string peak="";int frames=0;
+                        travel.velocity=Vector3.zero;started=Time.unscaledTime;
+                        while(Time.unscaledTime-started<.65f)
+                        {
+                            yield return null;float dt=clock.delta;
+                            Assert.AreEqual(Time.frameCount-1,clock.frame,"braking pose must retain its evaluated frame");
+                            for(int side=0;side<2;side++)
+                            {
+                                float angle=Angle(side),speed=Mathf.Abs(angle-angles[side])/dt;
+                                if(speed>angular){angular=speed;peak=$"side={side} time={Time.unscaledTime-started:F6} angle={angles[side]:F6}->{angle:F6} transition={rig.IsInTransition(0)} poseFrame={clock.frame} readFrame={Time.frameCount} poseDelta={dt:F9} readDelta={Time.unscaledDeltaTime:F9} stampedAngle={(side==0?clock.leftAngle:clock.rightAngle):F6}";}
+                                var point=root.transform.InverseTransformPoint(knees[side].position);
+                                linear=Mathf.Max(linear,Vector3.Distance(point,prior[side])/dt);angles[side]=angle;prior[side]=point;
+                                penetration=Mathf.Max(penetration,-Vector3.Dot(normal,soles[side].Point()-surface));
+                            }
+                            frames++;
+                        }
+                        Debug.Log($"DOWNHILL_BRAKE_PHASE {hero} requested={target:F6} actual={phase:F6} angularDps={angular:F6} kneeMps={linear:F6} penetration={penetration:F6} frames={frames} peak={peak}");
+                        Assert.GreaterOrEqual(frames,30);Assert.AreEqual("Idle",driver.CurrentAnimation);
+                        if(angular>1200||linear>6||penetration>.03f)failures.Add($"{hero} phase={phase:F6} angular={angular} linear={linear} penetration={penetration}");
+                    }
+                    finally{foreach(var sole in soles)sole.Dispose();Object.Destroy(root);}
+                    yield return null;
+                }
+                Assert.IsEmpty(failures,string.Join("\n",failures));
+            }
+            finally{Object.Destroy(floor);Application.targetFrameRate=previousCap;GameTime.Reset();}
+        }
+        static IEnumerator UphillStartsAndStops(string hero,float slope=39)
+        {
+            int previousCap=Application.targetFrameRate;Application.targetFrameRate=60;
+            GameTime.Reset();var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
+            floor.transform.position=new Vector3(100,-.5f,100);floor.transform.localScale=new Vector3(100,1,100);
+            floor.transform.rotation=Quaternion.Euler(-slope,0,0);Physics.SyncTransforms();
+            var normal=floor.transform.up;var surface=floor.transform.position+normal*.5f;
+            var failures=new List<string>();
+            try
+            {
+                foreach(bool shaped in new[]{false,true})
+                {
+                    var root=new GameObject("uphill starts and stops",typeof(Health),typeof(CombatActor));
+                    var actor=root.GetComponent<CombatActor>();actor.character=hero;actor.TargetLocked=false;
+                    var motor=new Travel();actor.motor=motor;
+                    var position=new Vector3(100,0,100);position.y=Vector3.Dot(normal,surface-position)/normal.y+.22f;root.transform.position=position;
+                    var definition=GameCatalog.Find<CharacterDef>(hero);
+                    var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
+                    var rig=body.GetComponentInChildren<Animator>();var driver=body.GetComponent<GeneratedAnimator>();
+                    var clock=root.AddComponent<StridePoseClock>();clock.rig=rig;
+                    var soles=new[]{new SoleProbe(rig,true),new SoleProbe(rig,false)};
+                    var knees=new Vector3[2];var angles=new float[2];float kneeSpeed=0,angularSpeed=0,rear=0,penetration=0;
+                    int jointSamples=0,heldSamples=0;float elapsed=0;bool prior=false;string peak="",angularPeak="";
+                    try
+                    {
+                        yield return null;yield return null;
+                        while(elapsed<6.5f)
+                        {
+                            float dt=Time.unscaledDeltaTime;
+                            if(elapsed>.5f)
+                            {
+                                Assert.AreEqual(Time.frameCount-1,clock.frame,"start/stop pose must retain its evaluated frame");
+                                for(int side=0;side<2;side++)
+                                {
+                                    var hip=rig.GetBoneTransform(side==0?HumanBodyBones.LeftUpperLeg:HumanBodyBones.RightUpperLeg).position;
+                                    var knee=rig.GetBoneTransform(side==0?HumanBodyBones.LeftLowerLeg:HumanBodyBones.RightLowerLeg).position;
+                                    var foot=rig.GetBoneTransform(side==0?HumanBodyBones.LeftFoot:HumanBodyBones.RightFoot).position;
+                                    float angle=Vector3.Angle(hip-knee,foot-knee);var local=root.transform.InverseTransformPoint(knee);
+                                    if(prior)
+                                    {
+                                        float moving=Vector3.Distance(local,knees[side])/clock.delta;
+                                        if(moving>kneeSpeed){kneeSpeed=moving;peak=$"elapsed={elapsed:F6} dt={dt:F6} state={driver.CurrentAnimation} transition={rig.IsInTransition(0)} knee={knees[side]}->{local} root={root.transform.position}";}
+                                        float turning=Mathf.Abs(angle-angles[side])/clock.delta;
+                                        if(turning>angularSpeed)
+                                        {
+                                            angularSpeed=turning;
+                                            var info=rig.GetCurrentAnimatorStateInfo(0);var next=rig.GetNextAnimatorStateInfo(0);
+                                            angularPeak=$"elapsed={elapsed:F6} dt={dt:F6} side={side} angle={angles[side]:F6}->{angle:F6} state={driver.CurrentAnimation} phase={info.normalizedTime:F6} nextPhase={next.normalizedTime:F6} transition={rig.IsInTransition(0)} root={root.transform.position}";
+                                        }
+                                        jointSamples++;
+                                    }
+                                    knees[side]=local;angles[side]=angle;
+                                    penetration=Mathf.Max(penetration,-Vector3.Dot(normal,soles[side].Point()-surface));
+                                }
+                                prior=true;
+                                if((elapsed>.65f&&elapsed<1)||(elapsed>3.2f&&elapsed<3.5f)||elapsed>5.7f)
+                                {
+                                    Assert.AreEqual("Idle",driver.CurrentAnimation,"fixture must reach actual idle after braking");
+                                    float torso=(rig.GetBoneTransform(HumanBodyBones.Hips).position.z+rig.GetBoneTransform(HumanBodyBones.Chest).position.z)*.5f;
+                                    rear=Mathf.Max(rear,Mathf.Min(soles[0].Point().z,soles[1].Point().z)-torso);heldSamples++;
+                                }
+                            }
+                            float speed=elapsed>=1&&elapsed<2.5f||elapsed>=3.5f&&elapsed<5?1.46f:0;
+                            motor.velocity=Vector3.forward*speed;
+                            position=root.transform.position+motor.velocity*dt;position.y+=Vector3.Dot(normal,surface-position)/normal.y+.22f;root.transform.position=position;
+                            elapsed+=dt;yield return null;
+                        }
+                        string context=hero+"/"+shaped+"/slope="+slope;
+                        Debug.Log($"UPHILL_START_STOP {context} kneeMps={kneeSpeed:F6} angularDps={angularSpeed:F6} torsoBehindRearToe={rear:F6} penetration={penetration:F6} joints={jointSamples} idleSamples={heldSamples}");
+                        Debug.Log("UPHILL_TRANSITION_PEAK "+peak);
+                        Debug.Log("UPHILL_ANGULAR_PEAK "+angularPeak);
+                        if(jointSamples<100||heldSamples<20)failures.Add(context+" lacks transition/idle coverage");
+                        if(kneeSpeed>6)failures.Add(context+" knee speed "+kneeSpeed);
+                        if(angularSpeed>1200)failures.Add(context+" knee angular speed "+angularSpeed);
+                        // This forefoot-centroid reference is farther forward
+                        // than the rear visible edge used by the EditMode check.
+                        if(rear>.35f)failures.Add(context+" idle torso stays behind both forefeet "+rear);
+                        if(penetration>.03f)failures.Add(context+" rendered sole penetration "+penetration);
+                        GameTime.Paused=true;yield return null;
+                        var held=rig.GetBoneTransform(HumanBodyBones.Hips).position;var left=soles[0].Point();var right=soles[1].Point();
+                        yield return new WaitForSecondsRealtime(.2f);
+                        Assert.Less(Vector3.Distance(held,rig.GetBoneTransform(HumanBodyBones.Hips).position),.001f);
+                        Assert.Less(Vector3.Distance(left,soles[0].Point()),.003f);Assert.Less(Vector3.Distance(right,soles[1].Point()),.003f);
+                    }
+                    finally{GameTime.Reset();foreach(var sole in soles)sole.Dispose();Object.Destroy(root);}
+                    yield return null;
+                }
+                Assert.IsEmpty(failures,string.Join("\n",failures));
+            }
+            finally{GameTime.Reset();Object.Destroy(floor);Application.targetFrameRate=previousCap;}
+        }
         static IEnumerator SlopeContacts(float[] slopes)
         {
             GameTime.Reset();
