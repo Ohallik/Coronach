@@ -100,6 +100,10 @@ namespace Lattice.Tests.PlayMode
                 Place(actor,new Vector3(0,1,-14));actor.Health.integrity=10000;actor.Health.InvulnerableUntil=0;
                 var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),new Vector3(0,1,-12));
                 var boss=enemy.GetComponent<BossController>();
+                // Preserve the existing lock-phase break/tell assertions; the
+                // new collar suite covers shared break before the lock opens.
+                if(enemy.TryGetComponent<CantorCollar>(out var collar))foreach(var link in collar.Links)
+                    link.GetComponent<Hurtbox>().Hit(new DamagePacket{source=actor.Health,amount=link.maximum*100,type=DamageType.Kinetic});
                 float deadline=Time.unscaledTime+9;
                 while(!boss.Telegraphing&&Time.unscaledTime<deadline)yield return null;
                 Assert.IsTrue(boss.Telegraphing,id+" never began a real special");

@@ -162,7 +162,7 @@ namespace Lattice.UI
         }
         Health Nearest(float range)
         {
-            var actor=PartyController.Current.Active;return Health.All.Where(h=>h!=null&&!h.friendly&&h.Alive&&(h.transform.position-actor.transform.position).sqrMagnitude<range*range).OrderBy(h=>(h.transform.position-actor.transform.position).sqrMagnitude).FirstOrDefault();
+            var actor=PartyController.Current.Active;return Health.All.Where(h=>h!=null&&!h.friendly&&h.Targetable&&(h.transform.position-actor.transform.position).sqrMagnitude<range*range).OrderBy(h=>(h.transform.position-actor.transform.position).sqrMagnitude).FirstOrDefault();
         }
         IEnumerator FightNearby(float range)
         {
@@ -170,9 +170,10 @@ namespace Lattice.UI
             while(!failed&&Time.realtimeSinceStartup<until)
             {
                 if(preferredTarget!=null&&!preferredTarget.Alive)yield break;
-                var party=PartyController.Current;var actor=party.Active;var target=preferredTarget!=null&&preferredTarget.Alive?preferredTarget:Nearest(range);if(target==null)yield break;
+                var party=PartyController.Current;var actor=party.Active;var target=preferredTarget!=null&&preferredTarget.Targetable?preferredTarget:Nearest(range);if(target==null)yield break;
                 if(party.members.All(m=>!m.Health.Alive)){Fail("party defeated");yield break;}
-                actor.target=target;var brain=target.GetComponent<EnemyBrain>();var d=target.transform.position-actor.transform.position;d.y=0;
+                actor.target=target;var opponent=target.reactionOwner!=null?target.reactionOwner:target;
+                var brain=opponent.GetComponent<EnemyBrain>();var d=target.transform.position-actor.transform.position;d.y=0;
                 // Like the skills below, the partner would finish every Dart before a
                 // lunge could reach one, so in flight it holds until a lunge has killed.
                 if(flashSeen)party.members[1-party.index].GetComponent<PartnerBrain>().enabled=!actor.flight||lungeKilled;
@@ -186,7 +187,7 @@ namespace Lattice.UI
                 {
                     // Stay above the motors' 0.1-facing threshold after a boss crosses us.
                     actor.motor.Move(new Vector2(d.x,d.z).normalized*.15f,false,true);
-                    var boss=target.GetComponent<BossController>();
+                    var boss=opponent.GetComponent<BossController>();
                     if(boss!=null&&boss.Telegraphing&&boss.TelegraphRemaining<.065f)actor.Dodge(d);
                     else if(brain!=null&&brain.Telegraphing&&brain.TelegraphRemaining<.065f&&d.magnitude<4)actor.Dodge(d);
                     else if(actor.flight&&!mine&&d.magnitude<7&&target.integrity<=actor.damage){if(actor.Lunge())lungeSeen=true;}

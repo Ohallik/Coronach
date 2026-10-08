@@ -98,7 +98,7 @@ namespace Lattice.UI
             if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
             zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
             if(a.target!=null&&a.target.Alive)
-                target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
+                target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
                     (a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"))+
                     "    "+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
             else target.text="";

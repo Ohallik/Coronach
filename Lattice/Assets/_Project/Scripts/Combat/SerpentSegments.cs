@@ -5,6 +5,9 @@ namespace Lattice.Combat
     public sealed class SerpentSegments:MonoBehaviour
     {
         readonly Transform[] segments=new Transform[7];
+        bool holdingRestoredPose;
+        Vector3 restoredPosition;
+        Quaternion restoredRotation;
         public System.Collections.Generic.IReadOnlyList<Transform> Parts=>segments;
         public const float CenterHeight=1.5f;
         void Start()
@@ -33,8 +36,24 @@ namespace Lattice.Combat
                 segments[i]=go.transform;
             }
         }
+        public void ResumeFromRestoredPose()
+        {
+            restoredPosition=transform.position;restoredRotation=transform.rotation;
+            holdingRestoredPose=true;enabled=true;
+        }
         void LateUpdate()
         {
+            // Even with zero delta, recomputing the preceding frame's tangent
+            // rotates attachments. Pause must hold the evaluated chain too.
+            if(Lattice.Core.GameTime.Paused)return;
+            // A stationary recovered carrier keeps its restored anatomy. The
+            // next actual carrier movement/turn releases the chain, rather
+            // than immediately replacing that pose with a later wave phase.
+            if(holdingRestoredPose)
+            {
+                if(transform.position==restoredPosition&&transform.rotation==restoredRotation)return;
+                holdingRestoredPose=false;
+            }
             var previous=transform.position+Vector3.up*CenterHeight;
             for(int i=0;i<segments.Length;i++)
             {

@@ -90,6 +90,8 @@ namespace Lattice.UI
                     enemy.transform.rotation=Quaternion.Euler(0,slope==0?0:135,0);
                     yield return new WaitForSecondsRealtime(.25f);enemy.enabled=false;
                     foreach(var renderer in enemy.GetComponentsInChildren<Renderer>(true))renderer.gameObject.layer=31;
+                    if(enemy.TryGetComponent<CantorCollar>(out var specimenCollar))for(int i=0;i<4;i++)
+                        foreach(var renderer in specimenCollar.Presentation(i).GetComponentsInChildren<Renderer>(true))renderer.gameObject.layer=31;
                     var points=Points(enemy.transform);var bounds=new Bounds(points[0],Vector3.zero);foreach(var p in points)bounds.Encapsulate(p);
                     camera.orthographicSize=Mathf.Max(1.8f,bounds.size.magnitude*.55f);
                     var centre=bounds.center;camera.transform.position=centre+new Vector3(3,2.3f,4).normalized*30;camera.transform.LookAt(centre);
@@ -97,7 +99,9 @@ namespace Lattice.UI
                     string label=id+"-"+slope.ToString("F0",System.Globalization.CultureInfo.InvariantCulture);
                     yield return new WaitForSecondsRealtime(.2f);Capture(enemy,label+"-standing",slope,-1,plane,normal);
                     yield return new WaitForEndOfFrame();yield return null;
-                    enemy.Health.Receive(new DamagePacket{amount=enemy.Health.maximum*100,type=DamageType.Pulse});float started=GameTime.Now;
+                    var diagnosticLethal=new DamagePacket{amount=enemy.Health.maximum*100,type=DamageType.Pulse};
+                    if(enemy.TryGetComponent<CantorCollar>(out var collar))foreach(var link in collar.Links)link.GetComponent<Hurtbox>().Hit(diagnosticLethal);
+                    enemy.Health.Receive(diagnosticLethal);float started=GameTime.Now;
                     bool flier=id.StartsWith("Chorister");
                     float duration=enemy.definition.boss?1.5f:id=="Ridgehound"?.9f:flier?1.1f:.75f;
                     float hold=enemy.definition.boss?1.65f:flier?.6f:1.15f;

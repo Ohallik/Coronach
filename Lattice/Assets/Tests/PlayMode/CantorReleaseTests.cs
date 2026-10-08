@@ -40,7 +40,14 @@ namespace Lattice.Tests.PlayMode
             var enemy=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("Cantor"),new Vector3(30,1,0));
             enemy.Passive=true;enemy.transform.SetParent(fixture.transform);return enemy;
         }
-        static void Resolve(EnemyBrain enemy)=>enemy.Health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=enemy.Health.maximum*100,type=DamageType.Pulse});
+        static void Resolve(EnemyBrain enemy)
+        {
+            var packet=new DamagePacket{source=PartyController.Current.Active.Health,amount=enemy.Health.maximum*100,type=DamageType.Pulse};
+            // This is a release-lifecycle fixture, not an ordinary combat route.
+            // Reach the new exposed-lock state before the unchanged assertions.
+            if(enemy.TryGetComponent<CantorCollar>(out var collar))foreach(var link in collar.Links)link.GetComponent<Hurtbox>().Hit(packet);
+            enemy.Health.Receive(packet);
+        }
         [UnityTest] public IEnumerator FreedCantorUsesAReleaseCueInsteadOfAnExplosionOrDeath()
         {
             var enemy=Spawn();yield return null;

@@ -85,6 +85,7 @@ namespace Lattice.Tests.PlayMode
                 yield return null;
                 int rewards=GameServices.Current.State.scrip,kills=actor.Kills;
                 var packet=new DamagePacket{source=actor.Health,amount=enemy.Health.maximum*100,type=DamageType.Pulse};
+                if(enemy.TryGetComponent<CantorCollar>(out var collar))foreach(var link in collar.Links)link.GetComponent<Hurtbox>().Hit(packet);
                 enemy.Health.Receive(packet);enemy.Health.Receive(packet);
                 int reward=enemy.definition.boss?150:8;
                 Assert.AreEqual(rewards+reward,GameServices.Current.State.scrip,id+" rewards must resolve once, independently of visual cleanup");

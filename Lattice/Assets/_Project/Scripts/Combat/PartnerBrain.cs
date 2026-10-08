@@ -50,8 +50,9 @@ namespace Lattice.Combat
             actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,separation>10,actor.flight&&distance<stop+2);
             if(fighting)
             {
-                var threat=actor.target.GetComponent<EnemyBrain>();var boss=actor.target.GetComponent<BossController>();
-                var fromThreat=transform.position-actor.target.transform.position;fromThreat.y=0;
+                var opponent=actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target;
+                var threat=opponent.GetComponent<EnemyBrain>();var boss=opponent.GetComponent<BossController>();
+                var fromThreat=transform.position-opponent.transform.position;fromThreat.y=0;
                 bool incoming=boss!=null&&boss.Telegraphing&&boss.TelegraphRemaining<.12f&&fromThreat.magnitude<18||
                     threat!=null&&threat.Telegraphing&&threat.TelegraphRemaining<.12f&&fromThreat.magnitude<5;
                 if(incoming)

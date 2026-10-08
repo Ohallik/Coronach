@@ -37,7 +37,12 @@ namespace Lattice.Tests.PlayMode
             var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>(id),PartyController.Current.Active.transform.position+offset);
             boss.transform.SetParent(fixture.transform);boss.Passive=true;return boss;
         }
-        static void Defeat(EnemyBrain boss)=>boss.Health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=boss.Health.maximum*50,type=DamageType.Pulse});
+        static void Defeat(EnemyBrain boss)
+        {
+            var packet=new DamagePacket{source=PartyController.Current.Active.Health,amount=boss.Health.maximum*50,type=DamageType.Pulse};
+            if(boss.TryGetComponent<CantorCollar>(out var collar))foreach(var link in collar.Links)link.GetComponent<Hurtbox>().Hit(packet);
+            boss.Health.Receive(packet);
+        }
 
         [UnityTest] public IEnumerator FlightCombatAndBossEncountersHaveTheirOwnCues()
         {

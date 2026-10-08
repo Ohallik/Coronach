@@ -79,6 +79,8 @@ namespace Lattice.Combat
         {
             if(cameraRig==null)return;
             var hero=Active;var target=hero.target;
+            // A collar link remains part of the whole moving animal's envelope.
+            if(target!=null&&target.reactionOwner!=null)target=target.reactionOwner;
             bool departure=false;
             // Targeting correctly drops resolved health immediately. Preserve
             // only the already-framed Cantor's short release introduction; a

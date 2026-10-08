@@ -9,6 +9,7 @@ namespace Lattice.Combat
     public sealed class DefeatPresentation : MonoBehaviour
     {
         public Transform visual;
+        public event System.Action Recovered;
         Health health;CombatActor actor;EnemyBrain enemy;
         Collider[] colliders;bool[] collisionEnabled;
         bool down,recovering,rigid;
@@ -176,7 +177,7 @@ namespace Lattice.Combat
                     if(elapsed>=CombatActor.ReviveDuration)
                     {
                         for(int i=0;i<colliders.Length;i++)if(colliders[i]!=null)colliders[i].enabled=collisionEnabled[i];
-                        down=recovering=false;cantorRelease=null;
+                        down=recovering=false;cantorRelease=null;Recovered?.Invoke();
                     }
                 }
                 else
@@ -203,7 +204,7 @@ namespace Lattice.Combat
                 {
                     if(flightFailure!=null)flightFailure.Finish();
                     for(int i=0;i<colliders.Length;i++)if(colliders[i]!=null)colliders[i].enabled=collisionEnabled[i];
-                    down=recovering=false;
+                    down=recovering=false;Recovered?.Invoke();
                 }
                 return;
             }

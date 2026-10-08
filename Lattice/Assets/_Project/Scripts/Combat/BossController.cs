@@ -10,6 +10,7 @@ namespace Lattice.Combat
         public int Phase{get;private set;}=1;
         Health health;
         EnemyBrain brain;
+        CantorCollar collar;int cantorSpecials;
         float nextSpecial,strikeAt,engaged=-1;bool busy;
         Transform inflated,body;Vector3 inflatedRest,bodyRest;int breaths;
         public bool Busy=>busy;
@@ -18,12 +19,13 @@ namespace Lattice.Combat
         void Start()
         {
             health=GetComponent<Health>();brain=GetComponent<EnemyBrain>();
+            collar=GetComponent<CantorCollar>();
             // A boss exists only once its encounter begins; its cue lasts until defeat or removal.
             MusicDirector.Encounter(this,"Alien Boss Battle",true);
             nextSpecial=Time.time+5;health.Damaged+=OnDamaged;
             // The Bellows has no rig: its breathing is its animation.
             if(health.id=="BellowsBelow"){var presentation=GetComponent<DefeatPresentation>();body=presentation!=null?presentation.visual:null;if(body!=null)bodyRest=body.localScale;}
-            for(int i=0;i<3;i++)
+            for(int i=0;i<(collar!=null?0:3);i++)
             {
                 var weak=new GameObject("WeakPoint_"+i,typeof(SphereCollider),typeof(Hurtbox));weak.transform.SetParent(transform,false);
                 weak.transform.localPosition=new Vector3((i-1)*1.2f,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f;weak.GetComponent<SphereCollider>().isTrigger=true;
@@ -46,10 +48,17 @@ namespace Lattice.Combat
             nextSpecial=Mathf.Max(nextSpecial,health.BrokenUntil+.5f);
         }
         void OnDestroy(){if(health!=null)health.Damaged-=OnDamaged;MusicDirector.Encounter(this,null,false);}
+        public void RestoreAfterRecovery()
+        {
+            StopAllCoroutines();Deflate();busy=false;strikeAt=0;engaged=-1;
+            Phase=1;cantorSpecials=0;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
+            MusicDirector.Encounter(this,"Alien Boss Battle",true);
+        }
         void Update()
         {
             if(GameTime.Paused||health==null||!health.Alive)return;
             float ratio=health.integrity/health.maximum;int phase=health.id=="Cantor"?(ratio<.33f?3:ratio<.66f?2:1):health.id=="BellowsBelow"?(ratio<.3f?3:ratio<.5f?2:1):(ratio<.5f?2:1);
+            if(collar!=null)phase=Mathf.Max(phase,Mathf.Min(3,4-collar.Remaining));
             if(phase!=Phase){Phase=phase;Debug.Log($"BOSS_PHASE {health.id} {Phase}");}
             brain.DamageScale=1+(Phase-1)*.18f;
             // The Bellows braces against the cave while any pressure organ pumps.
@@ -144,15 +153,18 @@ namespace Lattice.Combat
         }
         IEnumerator ChoirAttack()
         {
-            busy=true;bool song=Phase>=2;float radius=song?14:8;strikeAt=Time.time+(song?1.1f:.85f);
+            busy=true;bool song=Phase>=2&&(cantorSpecials++%2)==1;
+            bool sweep=collar==null||collar.SweepAttached,chorus=collar==null||collar.ChorusAttached;
+            float radius=song?(chorus?14:10):(sweep?8:5);strikeAt=Time.time+(song?1.1f:.85f);
+            Debug.Log($"CANTOR_TELL song={song} radius={radius} stagger={song&&chorus}");
             for(int i=0;i<16;i++){float a=i*Mathf.PI/8;CombatVfx.Burst(transform.position+new Vector3(Mathf.Cos(a)*radius,.4f,Mathf.Sin(a)*radius),song?new Color(.8f,.2f,1):new Color(1,.3f,.1f),"shape");}
             yield return new WaitForSeconds(song?1.1f:.85f);
             if(health.Alive&&!health.Broken)
                 foreach(var actor in PartyController.Current.members)
                     if((actor.transform.position-transform.position).sqrMagnitude<radius*radius)
                     {
-                        float damage=actor.Health.Receive(new DamagePacket{source=health,amount=(song?12:24)*brain.DamageScale,type=song?DamageType.Pulse:DamageType.Kinetic});
-                        if(song&&damage>0)actor.Stagger(.65f);
+                        float damage=actor.Health.Receive(new DamagePacket{source=health,amount=(song?(chorus?12:8):24)*brain.DamageScale,type=song?DamageType.Pulse:DamageType.Kinetic});
+                        if(song&&chorus&&damage>0)actor.Stagger(.65f);
                     }
             busy=false;nextSpecial=Time.time+(Phase==3?4:6);
         }

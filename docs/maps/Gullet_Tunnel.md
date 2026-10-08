@@ -62,6 +62,27 @@ The off-screen combat defect is resolved. The broad uniform coil floor and small
 clamp plates remain weak; this is **not** full final MAP_EYE_TEST acceptance.
 [Tests, capture and limitations](../validation/C4-flight-framing.md).
 
+### Collar gameplay blockout — October 8
+
+The route profile, walls, moorings, encounter volume and exit identity remain fixed during this actor/mechanics pass. The original shared animal-health fight does not implement the atlas's independent collar links. Three targetable restraints now occupy separate moving body joints; the head lock opens only after all three are severed. The four damage pools share the original definition's total integrity budget. This preserves the budget, not an assumed fight duration: ordinary earned equipment and input still have to prove balance.
+
+| Restraint | Moving attachment | Consequence of cutting it |
+|---|---|---|
+| Sweep link | First body segment | The marked sweep's damaging radius contracts from 8 m to 5 m. |
+| Chorus link | Third body segment | Song radius contracts from 14 m to 10 m; its hit loses the stagger and is weaker. |
+| Volley link | Fifth body segment | The emitted three-shot fan becomes one shot. |
+| Final lock | Head collar | The existing bounded animal release, once-only rewards and saved exit flag resolve. |
+
+After a cut, later phases alternate the marked sweep and song. Target cycling names each link, and the objective reports link progress before directing the final lock release. Shared break reactions must still interrupt the carrier's actual tell. The camera must fit the whole animal while a link is selected. Severed equipment separates into its own visual lifetime; it must not be mistaken for anatomy that must travel through the exit. Recovery and scene removal must reset or dispose of every owned part.
+
+The completed recovery handoff restores fresh link collision after the presentation's death-time snapshot. A stationary carrier retains its restored chain pose until it moves or turns; then the body and fresh attack timers resume. Inactive owners hide all equipment roots without resetting cut state or debris age. Delayed collision shutdown, frozen AI, the first repair's changed pose, a deliberately frozen chain and inactive-owner visibility all have retained rejecting checks; the old release geometry/pose assertions stay intact.
+
+The visible segmented bands are **blockout geometry, not accepted final art**. Final intake should match the inspected Compact mooring's pale alloy, ochre edging and restrained status light, with an unmistakable separation between restraint and living resonator. Prove the blockout and ordinary combat first, then generate the reusable split collar module. No new paid art has been submitted in this pass. Live Meshy balance observed October 8: **2,413 credits**; the difference from the earlier 2,778 is unattributed, not an invented project expense.
+
+Partial encounter damage is not a new persistent save state; an unfinished fight resets under the existing encounter-checkpoint rules. Completed `bossdown.Cantor` / `clear.Gullet_Cantor` saves retain access without a second fight or fictional new link history. The pre-combat side pocket, collar art, approach/release dialogue and final ordinary MAP_EYE_TEST remain **OPEN**. The earlier map blockout pass does not accept this new combat presentation.
+
+The new earned route passes with all three links cut and the lock released: 801.840 seconds, full recorded focus, awake display endpoints and VSync 1. Both living heroes reach TallowApproach. Thirteen opened frames make the blockout bands/objectives legible, but **Sela is partly clipped during the release at +1.50/+1.80**. Keep that framing rejection open and fix it before accepting presentation. Selected companion/body overlap and repeated miss text also need diagnosis. Final map quality, continuous motion/audio and physical feel remain unaccepted. [Exact evidence](../validation/C3-cantor-collar.md).
+
 ### History
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.

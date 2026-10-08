@@ -25,11 +25,13 @@ namespace Lattice.Combat
         bool lunging;
         public float DamageScale=1;
         BossController boss;
+        CantorCollar collar;
         void Awake(){Health=GetComponent<Health>();controller=GetComponent<CharacterController>();home=transform.position;}
         void Start()
         {
             Health.Damaged+=OnDamaged;
             boss=GetComponent<BossController>();
+            collar=GetComponent<CantorCollar>();
             Health.Died+=OnDeath;
             warning=ActorFactory.Visual("Telegraph",PrimitiveType.Quad,transform,new Vector3(3,3,1),Vector3.up*.04f,"Threat");
             warning.transform.localRotation=Quaternion.Euler(90,0,0);
@@ -64,6 +66,11 @@ namespace Lattice.Combat
         {
             StopAllCoroutines();lunging=false;Telegraphing=false;strikeAt=attackAnimationUntil=0;
             if(warning!=null)warning.SetActive(false);
+        }
+        public void RestoreAfterRecovery()
+        {
+            CancelAttack();ImpactStarted=float.NegativeInfinity;ImpactSequence=0;
+            nextAttack=Time.time+.6f;enabled=true;
         }
         void OnDestroy()
         {
@@ -111,7 +118,13 @@ namespace Lattice.Combat
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
                     {CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
-                    else if(ranged){CombatAudio.HostileShot(transform,transform.position+Vector3.up);Projectile.Fire(transform.position+Vector3.up,aim,packet,11);}
+                    else if(ranged)
+                    {
+                        CombatAudio.HostileShot(transform,transform.position+Vector3.up);
+                        int fan=collar!=null&&collar.VolleyAttached?1:0;
+                        if(collar!=null)packet.amount*=.55f;
+                        for(int i=-fan;i<=fan;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*12,0)*aim,packet,11);
+                    }
                     else CombatActor.Strike(transform.position+aim*1.1f+Vector3.up*.7f,definition.archetype==EnemyArchetype.Mine?3:range*.7f,packet);
                     if(definition.archetype==EnemyArchetype.Mine)Health.Receive(new DamagePacket{amount=Health.maximum*3,type=DamageType.Pulse,source=victim.Health});
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);

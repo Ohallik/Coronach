@@ -17,7 +17,7 @@ namespace Lattice.Combat
             if(GameTime.Paused)return;
             if(actor.State==Lattice.Data.ActorState.Stagger){lungeRequestedUntil=attackRequestedUntil=-1;actor.motor.Move(Vector2.zero,false,true);return;}
             var zone=ZoneController.Current;bool combat=zone!=null&&zone.Combat;
-            if(!combat||actor.target==null||!actor.target.Alive||(actor.target.transform.position-transform.position).sqrMagnitude>900)
+            if(!combat||actor.target==null||!actor.target.Targetable||(actor.target.transform.position-transform.position).sqrMagnitude>900)
                 actor.TargetLocked=false;
             PromptService.FindInteraction(transform.position);
             if(input.Pressed("Interact")&&PromptService.TryInteract()){attackRequestedUntil=-1;return;}
@@ -55,7 +55,7 @@ namespace Lattice.Combat
             if(!actor.flight&&input.Held("Guard"))attackRequestedUntil=-1;
             if(!actor.flight)actor.Guard(input.Held("Guard"));
             if(!actor.flight&&input.Pressed("QuickItem"))UseItem();
-            if(actor.target==null||!actor.target.Alive)actor.target=FindTarget();
+            if(actor.target==null||!actor.target.Targetable)actor.target=FindTarget();
         }
         void OnDisable(){lungeRequestedUntil=attackRequestedUntil=-1;if(actor!=null)actor.TargetLocked=false;}
         public Health FindTarget()
@@ -63,7 +63,7 @@ namespace Lattice.Combat
             Health nearest=null;float best=30*30;
             foreach(var h in Health.All)
             {
-                if(h==null||h.friendly||!h.Alive)continue;var offset=h.transform.position-transform.position;
+                if(h==null||h.friendly||!h.Targetable)continue;var offset=h.transform.position-transform.position;
                 float score=offset.sqrMagnitude;if(Vector3.Angle(actor.motor.Facing,offset)>120)score*=2;
                 if(score<best){nearest=h;best=score;}
             }
@@ -72,7 +72,7 @@ namespace Lattice.Combat
         public void CycleTarget(int direction)
         {
             var targets=new System.Collections.Generic.List<Health>();
-            foreach(var h in Health.All)if(h!=null&&h.Alive&&!h.friendly&&(h.transform.position-transform.position).sqrMagnitude<900)targets.Add(h);
+            foreach(var h in Health.All)if(h!=null&&h.Targetable&&!h.friendly&&(h.transform.position-transform.position).sqrMagnitude<900)targets.Add(h);
             targets.Sort((a,b)=>Vector3.SignedAngle(transform.forward,a.transform.position-transform.position,Vector3.up).CompareTo(Vector3.SignedAngle(transform.forward,b.transform.position-transform.position,Vector3.up)));
             if(targets.Count>0){actor.target=targets[(targets.IndexOf(actor.target)+direction+targets.Count)%targets.Count];actor.TargetLocked=true;}
         }

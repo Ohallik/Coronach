@@ -47,7 +47,12 @@ namespace Lattice.UI
                     else{label="Ride the drill-shaft lift back to Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.requiredFlag=="hushwell.nursery");}
                     break;
                 case "Gullet_Tunnel":
-                    if(!flags.GetBool("bossdown.Cantor")){label="Break through the Gullet";goal=new Vector3(Mathf.Sin(805f/900*Mathf.PI*4)*12,1,805);}
+                    if(!flags.GetBool("bossdown.Cantor"))
+                    {
+                        label="Find the collared Cantor";goal=new Vector3(Lattice.Data.GulletProfile.Center(Lattice.Data.GulletProfile.CantorZ),1,Lattice.Data.GulletProfile.CantorZ);
+                        foreach(var collar in CantorCollar.All)if(!collar.Resolved)
+                        {label=collar.Remaining>0?$"Cut the collar links ({3-collar.Remaining}/3)":"Release the exposed collar lock";goal=collar.transform.position;break;}
+                    }
                     else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
                     break;
                 case "TallowApproach":label="Dock at Tallow Drift";target=prompts.OfType<DockingPad>().FirstOrDefault();break;

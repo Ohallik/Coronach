@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Cantor collar has separate links — October 8
+
+**C3/C4/C8 remain OPEN.** Three moving collar links now change the actual sweep, song and volley, then expose the final lock. The first integration passes **173 EditMode / 269 PlayMode**, zero skipped; later recovery and ownership repairs pass **37 and 24 affected checks**, with every original failure, pose assertion and deliberate control preserved. [Evidence and inventories](validation/C3-cantor-collar.md).
+
+Both standard players contain the collar blockout. The earned Gullet capture passes in **801.840 s / 48,097 focused samples**, process exit 0, with awake displays/VSync 1, three real cuts and a 92.2-second fight. Both living heroes autosave at **TallowApproach**, without docking or chapter completion. Every interval remains, including the 27.339 ms step-47 outlier and four loading intervals above 25 ms.
+
+**Opened frames REJECT complete-party release framing:** Sela is partly clipped at +1.50/+1.80. Repair that next; also investigate the selected companion/body overlap and repeated miss text. Thirteen opened stills prove neither continuous motion nor audio/physical feel. The bands remain explicit blockout geometry, with final art and preview/story unfinished. Nathan's saves and frozen `a3aaad6` files/profile match; exact `08f4936` players are archived under `Builds/quality/C8/cantor-collar/prior-Windows*`. Continue supported C3/C4 repairs and dependency-safe C3–C10 production. Preserve every C1/C2 failure and unmet gate; no presentation candidate is validated.
+
 ## Camera return eases back to the heroes — October 8
 
 **C3/C4 remain OPEN. Both standard players contain the gradual flight-camera return, with 21 affected PlayMode checks passing, zero skipped.** Original fast-return, paused-drift and hero-swap failures reproduce; deliberately broken moving-target and encounter-priority controls also reject. The previous C2 full 173/252 suite remains prior evidence. [Evidence and exact inventories](validation/C3-camera-return.md).
