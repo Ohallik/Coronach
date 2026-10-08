@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Independent GPU queries survive full routes; C1 failures remain open — October 7
+
+**C1 remains OPEN. Both players now include an opt-in D3D12 camera-envelope diagnostic with GPU frame tags and private queue fences.** The first prototype's uncapped run reproduces a stale-slot read despite a completed Unity frame fence; that rejected source, binary and full capture remain. The repaired producer and final wrong-tag control behave correctly. **188 offline / 3 affected PlayMode checks pass**, zero skipped, and both final builds succeed. [Evidence, failures and exact inventories](validation/C1-native-gpu.md).
+
+Tallow development records **91,093/91,093** matching focused samples over **120.021 s**. One changed synchronized release Decks diagnostic records **37,762/37,762** over **629.363 s**, retaining 29.343 ms port-wall movement and 25.276 ms first-options intervals. QPC enclosure associates the smaller movement event with 24.743 ms reported present wait and adjacent 1.7–2.1 ms camera envelopes. It does not explain the original awake 34–62 ms failures. No impossible Unity GPU duration recurs; all original invalid values remain. Extra submissions/synchronization exclude these diagnostics from clean headroom/timing and presentation acceptance.
+
+Both display endpoints are on in the final runs; Tallow is explicitly uncapped and Decks retains VSync 1. Nathan's saves, all frozen `a3aaad6` files/profile and prior failures remain unchanged. C5 `df7edfa` players are archived under `Builds/quality/C1/native-gpu/prior-Windows*`. Continuous audiovisual/physical observations and all unmet C1–C10 gates remain UNVERIFIED/OPEN. Continue movement and later dependency-safe work; do not repeat the unchanged probes until green.
+
+
 ## Listener recording uses bounded memory; fresh synchronized capture passes — October 7
 
 **C5/C10 remain OPEN. Both players stream the recorded mix through a 4.33 MB sample buffer instead of retaining the whole session.** The original recorder retains all 16.4 MB in a failing probe; deliberate retention, sample-loss and swallowed-error controls also fail. **10 affected EditMode / 174 offline checks pass**, zero skipped; both builds succeed. [Evidence and inventories](validation/C5-bounded-capture.md).

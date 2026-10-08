@@ -83,6 +83,16 @@ class NativeProfileManifestContract(unittest.TestCase):
         self.assertEqual(1, code)
         self.assertFalse(result['valid'])
 
+    def test_native_gpu_argument_cannot_accept_clean_timing(self):
+        code, result = self.result(['-quality-native-gpu'])
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
+    def test_native_gpu_metadata_cannot_accept_headroom(self):
+        code, result = self.result([], headroom=True, nativeGpuDiagnostic=True)
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
     def test_missing_launch_manifest_cannot_accept_clean_timing(self):
         code, result = self.result([], omit_manifest=True)
         self.assertEqual(1, code)

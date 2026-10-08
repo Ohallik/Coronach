@@ -148,6 +148,7 @@ namespace Lattice.UI
 #endif
         }
         QualityCapture capture;
+        NativeGpuClock nativeGpu;
         double lastScreenshot=-1000;
         Vector3 measuredMotion;
         bool arrows, profiled, tracing, headroom;
@@ -185,6 +186,8 @@ namespace Lattice.UI
             census = DevArgs.Has("-quality-census");
             motion = DevArgs.Has("-quality-motion");
             Directory.CreateDirectory(folder);
+            if(DevArgs.Has("-quality-native-gpu"))
+            {nativeGpu=gameObject.AddComponent<NativeGpuClock>();nativeGpu.Initialize(folder);}
             pad = InputSystem.AddDevice<Gamepad>("CoronachContinuousReview");
             InputSystem.onBeforeUpdate += InputUpdate;
             double loadStart=Time.realtimeSinceStartupAsDouble;
@@ -239,6 +242,7 @@ namespace Lattice.UI
                 capture = Camera.main.gameObject.AddComponent<QualityCapture>();
                 capture.Begin(folder, DevArgs.Value("-quality-ffmpeg"));
             }
+            nativeGpu?.Begin();
             clock.Start(); recording = true;
             Debug.Log("QUALITY_REPLAY_BEGIN " + route.name);
             for (stepIndex = 0; stepIndex < route.steps.Length; stepIndex++)
@@ -265,6 +269,7 @@ namespace Lattice.UI
             GameHud.MeasureCosts=false;
             yield return null;
             if (capture != null) yield return capture.Finish();
+            if (nativeGpu != null) yield return nativeGpu.Finish();
             WriteEvidence();
             Debug.Log(failures.Count == 0 ? "QUALITY_REPLAY_OK " + route.name : "QUALITY_REPLAY_REJECTED " + string.Join("; ", failures));
             Application.Quit(failures.Count == 0 ? 0 : 1);
@@ -346,6 +351,7 @@ namespace Lattice.UI
             string observedUi = ObserveUi();
             double now = clock.Elapsed.TotalSeconds;
             segmentedTrace?.Sample(samples.Count, Time.frameCount, stepIndex, now);
+            nativeGpu?.Mark(samples.Count,Time.frameCount,stepIndex,now);
             if(census&&now>=nextCensus)
             {
                 long started=System.Diagnostics.Stopwatch.GetTimestamp();
@@ -507,6 +513,7 @@ namespace Lattice.UI
             foreach (var s in samples) if (s.paused && !AllowedPause(s)) { failures.Add("simulation paused"); break; }
             if (Screen.width != 1920 || Screen.height != 1080) failures.Add("wrong resolution");
             if (capture != null && !string.IsNullOrEmpty(capture.Failure)) failures.Add(capture.Failure);
+            if (nativeGpu != null && !string.IsNullOrEmpty(nativeGpu.Failure)) failures.Add(nativeGpu.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
                 writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs,ui");

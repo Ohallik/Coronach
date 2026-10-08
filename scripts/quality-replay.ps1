@@ -10,6 +10,7 @@ param(
     [switch]$Headroom,
     [switch]$GpuClocks,
     [switch]$FrameClocks,
+    [switch]$NativeGpu,
     [switch]$Census,
     [switch]$Motion,
     [ValidateSet('Auto','D3D11','D3D12')][string]$GraphicsApi='Auto',
@@ -24,6 +25,10 @@ param(
 )
 $ErrorActionPreference='Stop'
 if($GpuClocks){$Headroom=$true}
+if($NativeGpu){
+    if($GraphicsApi -eq 'D3D11'){throw 'Native GPU diagnostic requires Direct3D12'}
+    $GraphicsApi='D3D12'
+}
 if($ProfileSegmentFrames -gt 0){
     if($ProfileSegmentFrames -lt 120 -or $Build -ne 'Development'){throw 'Segmented profiling requires Development and 120-1800 frames per segment'}
     $Profile=$true
@@ -82,15 +87,19 @@ if ($ProfileSegmentFrames) { $launch+=@('-quality-profile-segments',[string]$Pro
 if ($Headroom) { $launch+='-quality-headroom' }
 if ($GpuClocks) { $launch+='-quality-gpu-clocks' }
 if ($FrameClocks) { $launch+='-quality-frame-clocks' }
+if ($NativeGpu) { $launch+='-quality-native-gpu' }
 if ($Census) { $launch+='-quality-census' }
 if ($Motion) { $launch+='-quality-motion' }
 $manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}
 $assemblyDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data/Managed'
 $manifest.assemblies=@(Get-ChildItem -LiteralPath $assemblyDir -Filter 'Lattice.*.dll' | ForEach-Object { @{name=$_.Name;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })
 $manifest.arguments=$launch
+$manifest.nativeGpuDiagnostic=[bool]$NativeGpu
 # Include packaged scene/asset content, not just the Unity launcher EXE and code.
 $dataDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data'
 $manifest.content=@(Get-ChildItem -LiteralPath $dataDir -File | ForEach-Object { @{name=$_.Name;bytes=$_.Length;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })
+$plugins=Join-Path $dataDir 'Plugins'
+$manifest.nativePlugins=@(if(Test-Path -LiteralPath $plugins){Get-ChildItem -LiteralPath $plugins -File -Recurse -Filter '*.dll' | ForEach-Object { @{path=$_.FullName.Substring($dataDir.Length+1);bytes=$_.Length;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} }})
 $manifest | ConvertTo-Json -Depth 5 | Set-Content -LiteralPath (Join-Path $folder 'build.json')
 # This is the visible game being reviewed. Focus is verified per frame; no focus override.
 $process=Start-Process -FilePath $exe -ArgumentList ($launch | ForEach-Object { '"'+$_+'"' }) -PassThru

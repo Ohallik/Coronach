@@ -19,3 +19,5 @@ Reusable code and tooling adapted from Nathan's FrostboundUnity project. No Fros
 - Quaternius Ultimate Animated Animals, CC0: Fox skeleton and Idle, Walk and Attack clips only, grafted onto the generated Ridgehound. Zero donor meshes are staged. Licence: `Lattice/Assets/_Project/Art/Animation/Fox-License.txt`.
 
 No downloaded model, portrait, environment image, panel or inventory icon is final LATTICE art. All 50 generated production models and the paid task costs are indexed in `docs/art/gen-manifest.json`; image sources and processing are indexed in `docs/art/image-manifest.json`, `docs/art/portrait-catalog.json` and `docs/art/world-upscale.json`.
+
+- CoronachGpuClock: owned, opt-in D3D12 diagnostic. Compiled with Zig 0.17.0 and its MinGW Windows runtime; notices are in `tools/native_gpu/THIRD-PARTY-NOTICES.txt` and copied beside each rebuilt player as `CoronachGpuClock-NOTICES.txt`. Installed Unity plugin headers are consumed in place under their Unity Companion License.

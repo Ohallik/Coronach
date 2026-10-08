@@ -72,6 +72,7 @@ namespace Lattice.EditorTools
         public static void BuildWindowsPlayer()=>Build(false);
         public static void BuildWindowsDevPlayer()=>Build(true);
         public static void BuildTracePlayer()=>Build(true, "Builds/quality/TracePlayer/Coronach.exe");
+        public static void BuildNativeGpuPlayer()=>Build(true, "Builds/quality/NativeGpuPlayer/Coronach.exe");
         public static void RefreshDialogue()=>Run(()=>{ImportDialogue();Debug.Log("DIALOGUE_IMPORT_OK");});
         static void ImportDialogue()
         {
@@ -93,6 +94,8 @@ namespace Lattice.EditorTools
                 options=dev?BuildOptions.Development:BuildOptions.None,
                 extraScriptingDefines=dev?new[]{"LATTICE_DEV"}:Array.Empty<string>()});
             if(result.summary.result!=BuildResult.Succeeded)throw new Exception("Build failed: "+result.summary.result);
+            File.Copy(Path.Combine(root,"tools/native_gpu/THIRD-PARTY-NOTICES.txt"),
+                Path.Combine(Path.GetDirectoryName(output),"CoronachGpuClock-NOTICES.txt"),true);
             Debug.Log("BUILD_OK "+output);
         });
         public static void Run(Action action)
