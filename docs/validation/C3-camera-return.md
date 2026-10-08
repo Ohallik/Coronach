@@ -1,0 +1,26 @@
+# C3/C4 camera return — October 8
+
+**C3/C4 remain OPEN. Both standard players contain a gradual return from flight encounter framing; continuous presentation remains UNVERIFIED.** [Exact source, package, test and capture evidence](C3-camera-return.json). The frozen chapter remains `a3aaad6`.
+
+The prior framing repair keeps Cantor visible for its 1.5-second release introduction, then drops the requested camera centre and zoom immediately. The original camera retains only 22.01% of its expanded displacement after 0.267 seconds and continues drifting 10.544 m during a paused return. An original-source hero-swap check also reproduces a 13.401 m one-frame jump.
+
+The camera now releases the encounter offset and distance over one second, retaining its existing position/zoom filters. The offset follows the moving hero rather than a fixed world point. An active return survives a hero swap, pauses through the filter's settling tail, and yields immediately to new encounter bounds. Ground-camera behavior, fixed yaw/pitch, Cantor's introduction/path/cleanup, C2 locomotion and e93bf13's knee/terrain repairs are unchanged.
+
+All **21 affected PlayMode checks pass**, zero skipped, in 174.622 seconds: five new camera checks plus existing Cantor release, flight framing, boss occlusion and station motion coverage. The final quarter-second sample retains 92.72% of the expanded displacement and settles within 0.391 m; the swap moves 0.823 m in one frame. These are regression bounds, not comfort acceptance. Deliberately freezing the return target and ignoring a new encounter both reject at the existing viewport bounds. Original failures, the first three-case candidate run, all control source variants and raw XML/logs remain. The latest full suite is the preceding C2 checkpoint's **173 EditMode / 252 PlayMode**, not a fresh full C3 suite. No offline code changed; the prior 202 offline result is not rerun or relabelled.
+
+Both players build successfully. The evidence binds 31 normalized source hashes and both complete package inventories; exact `19f7863` players are archived under `Builds/quality/C3/camera-return/prior-Windows*`.
+
+Two changed-camera captures use the same earned C8/chapter-09 saves and full chapter-10 Gullet route. Both pass runtime and independent analysis, remain focused throughout and record process exit 0. They resolve Cantor and autosave **both living level-seven heroes at TallowApproach/Arrival**. This route does not dock, meet the Keeper or complete the chapter; earlier reports' shorthand “at Tallow” must not be read as those checks.
+
+| Capture | Seconds / samples | p95 / worst | Intervals above 33.3 ms |
+|---|---:|---:|---:|
+| Live PNG after each completed step | 790.397 / 46,792 | 17.144 / 220.841 ms | 159 |
+| Live PNG deferred; video/audio retained | 791.639 / 47,479 | 17.161 / 245.178 ms | 2 |
+
+The first recording is unsuitable as smooth-motion evidence. Of its 159 long intervals, 156 occur one frame after step transitions requesting PNGs; the remaining three are during loading. The second capture changes only the ignored route copy's `screenshotInterval` from 0 to 10,000. Every gameplay step/assertion and all other route fields match. Its complete >25 ms set is **245.178, 39.597 and 30.647 ms during loading**, plus **25.035 ms on step 165 near Tallow Approach**. Preserve every interval and the original recording. This supports the already documented cost of live PNG recording; it does not explain the older awake Decks failures or repair gameplay timing. Both captures use D3D12, have displays off before/after and explicitly use VSync 0, excluding clean C1 and physical-presentation acceptance.
+
+Seven first-capture frames, one prior-camera comparison and six deferred-PNG frames were actually opened. In both new sequences, the full connected animal remains visible through +1.80 seconds; by +2.25 it has left the selected view, and the camera settles around both heroes through +3.20. The selected sequence improves the prior +1.80 crop. Offsets are relative to the last step-123 `stopWhen` sample, **not an exact lethal-event timestamp**. Retained camera-minus-hero displacement series are diagnostics with different fight trajectories and no quality threshold. Use `Builds/quality/C3/camera-return/Review camera return video only.html` for normal/quarter-speed playback; continuous video has not been watched and audio has not been auditioned.
+
+The bounded recorder writes every accepted float: 75,886,592 in the first run and 75,999,232 in the second. Both peak at 2/32 queued blocks within the existing 4,325,376-byte sample buffer and report completed writes without errors. This establishes recording integrity, not sound quality.
+
+Nathan's saves, all 243 frozen chapter files and the frozen profile state match. The nine known Unity import/package side effects are archived and restored. All older assertions and failures remain. Runnable candidates are `Builds/Windows/Coronach.exe` and `Builds/WindowsDev/Coronach.exe`; neither is published as presentation-validated. Continuous motion/audio, physical scan-out and controller feel remain **UNVERIFIED**. C1's original stability/GPU failures, C2's remaining movement concerns, full collar/preview/story staging and every unmet C1–C10 gate stay OPEN while independent production continues.

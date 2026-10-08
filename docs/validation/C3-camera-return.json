@@ -1,0 +1,1635 @@
+{
+  "date": "2026-10-08",
+  "status": "C3/C4 OPEN; camera return verified numerically, selected images improve; continuous quality UNVERIFIED",
+  "source": {
+    "baseRevision": "19f7863f03331ebdd89843fbbb3d204b8984caf0",
+    "scope": "One-second release of flight encounter offset and zoom toward the moving hero; pause through settling, swap continuity and incoming encounter priority; C2 idle-height source unchanged",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorRelease.cs",
+        "normalizedSha256": "8c17243fba72d79d3445441c25a6603ba6ca35a09ce893ab75b6078de306a274"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+        "normalizedSha256": "9a5a15f62b553b21879fce8fc99e4ae055316d05b2a0ea82e03ebab26a826c20"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/SerpentSegments.cs",
+        "normalizedSha256": "bb844c84ab96939ed6608f197cc8e1ebd1c13cd60fdc7cb41cdbe2dcab260967"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs",
+        "normalizedSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "normalizedSha256": "3055efaa7650cac3dd34da7b34ff682b48941251d13a7621f4ae0291d18ef3fe"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "normalizedSha256": "e2ce8d4e7104e612335af66e6937fe015db5326eddcceee648ae6c84fde3c8dd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "normalizedSha256": "08ffa64ec1875925360d5afbd0b882bd1d515dc4f851235cfc0aa9d2b9611078"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "de8f34c05dc6b252028cd0274d5a8a07b8c8f3f48e6a71d8e57b2d99569298e1"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/CameraRig.cs",
+        "normalizedSha256": "21a377d3ddffdfb453f1262778f9e6adb80ef7e5c9bf35c5e89091c3ac836ac0"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "normalizedSha256": "874faf867eb46cd49f6422104ed6337955a22760d0d33292a90fc3519ddf1c63"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/SliceSmoke.cs",
+        "normalizedSha256": "8411a016f97b50f39b9cafa29dee33bd78939db3728e844fecbf1d65d985db6a"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+        "normalizedSha256": "f4995d76138275bb6eef1e347a3e9c7abe5ec016bcd345ab5ba0c2aaf16407c9"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+        "normalizedSha256": "c2a58243043604e90852f59dbb5472c0b92ad47ef5e5578d480cc49e0e859754"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityCapture.cs",
+        "normalizedSha256": "f6c85976908672b84ab1171647d4e15735f03bee438a872e44163ca6a3c4241f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CaptureAudioWriter.cs",
+        "normalizedSha256": "b1057ef0274ee27e7e0a78bae119e208dcc503ede79ba087bfaf409834afbe09"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/NativeGpuClock.cs",
+        "normalizedSha256": "e02b2f51cea6d55594d27bd65504c11b31b2cc04ed2f1e4ad3b962923867b0e8"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/BatchTools.cs",
+        "normalizedSha256": "41d6e064b17fad39df70eb351cdd51e0954398f03ec8c2fc704eef408f968022"
+      },
+      {
+        "path": "tools/native_gpu/CoronachGpuClock.cpp",
+        "normalizedSha256": "6ac85ca318a2173459d132bf87e4bae28563fabdfdefbf8dc8e8901253d1af76"
+      },
+      {
+        "path": "Lattice/Assets/Plugins/x86_64/CoronachGpuClock.dll",
+        "normalizedSha256": "76696c832c15078e2324a1e7834bfd4b3afc1d6090ec4886b466e053d2238a35"
+      },
+      {
+        "path": "tools/native_gpu/THIRD-PARTY-NOTICES.txt",
+        "normalizedSha256": "a695d79444b4a8e58e07aeda1573d52fb848e02cbaa118cd482b5661a4be3265"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/GroundPoseCapture.cs",
+        "normalizedSha256": "2ecc4f5613572cfa373c7968dfcd4243aec29e19cb8eac287f3fdbfa8f27b85f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/Art/TerrainPoseAudit.cs",
+        "normalizedSha256": "aafd0f2662a8c9f5dd559385a492f16c312a9763d30177e0b0f234edf8860adc"
+      },
+      {
+        "path": "Lattice/Assets/Tests/EditMode/TerrainBalanceTests.cs",
+        "normalizedSha256": "80eb46bf5fed499af0cd5161d9a8330a00f2a82d86adcf06eaeb3c1061f81b80"
+      },
+      {
+        "path": "Lattice/Assets/Tests/EditMode/TerrainPauseTests.cs",
+        "normalizedSha256": "4d2137272a30f2cff16bb6fb96620c9d845888c6c920500e923238b5e1208137"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CameraReturnTests.cs",
+        "normalizedSha256": "8deb6ad2705d5ea6805f8a074b0cad9c515d04971d8a4283db180f4310bf7e39"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CameraReturnTests.cs.meta",
+        "normalizedSha256": "8af45a08853dcbd87aa0d552f1bf0296a6cb28c2a249071a2445e7825e43ada0"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C3/camera-return/packages.json",
+    "bytes": 140585,
+    "sha256": "a1c218596aeea2b285fbc013cd7d699b94ea53ddc75b0a45a3b5c861885b5d79"
+  },
+  "tests": {
+    "affected01": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "21",
+        "result": "Passed",
+        "total": "21",
+        "passed": "21",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 07:51:28Z",
+        "end-time": "2026-10-08 07:54:23Z",
+        "duration": "174.6222159"
+      },
+      "failed": []
+    },
+    "frozen-return-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 07:50:23Z",
+        "end-time": "2026-10-08 07:50:29Z",
+        "duration": "6.1713442"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CameraReturnTests.TheReturningViewContinuesFollowingTheMovingHero",
+          "message": "  hero moving during encounter return clips horizontally\n  Expected: in range (0.06,0.94)\n  But was:  0.945946693f\n"
+        }
+      ]
+    },
+    "ignored-new-encounter-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 07:50:40Z",
+        "end-time": "2026-10-08 07:50:47Z",
+        "duration": "6.6581238"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CameraReturnTests.ANewEncounterTakesPriorityOverTheReturn",
+          "message": "  new encounter loses horizontal priority to return\n  Expected: in range (0.06,0.94)\n  But was:  1.14604998f\n"
+        }
+      ]
+    },
+    "original-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "1",
+        "failed": "2",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 07:44:48Z",
+        "end-time": "2026-10-08 07:45:08Z",
+        "duration": "19.7400156"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CameraReturnTests.AnActiveReturnHoldsItsRenderedPositionWhilePaused",
+          "message": "  paused release return continues to move the view\n  Expected: less than 0.00100000005f\n  But was:  10.543869f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.CameraReturnTests.TheReturnDoesNotCollapseMostOfTheViewInAQuarterSecond",
+          "message": "  most of the expanded view collapses within a quarter second\n  Expected: greater than or equal to 0.5f\n  But was:  0.220115274f\n"
+        }
+      ]
+    },
+    "original-swap-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 07:50:06Z",
+        "end-time": "2026-10-08 07:50:12Z",
+        "duration": "5.6498114"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CameraReturnTests.SwappingHeroesDoesNotSnapAnActiveReturn",
+          "message": "  hero swap resets the returning camera in one frame\n  Expected: less than 2.0f\n  But was:  13.4009333f\n"
+        }
+      ]
+    },
+    "return01": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Passed",
+        "total": "3",
+        "passed": "3",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 07:46:24Z",
+        "end-time": "2026-10-08 07:46:45Z",
+        "duration": "21.4083992"
+      },
+      "failed": []
+    }
+  },
+  "controls": {
+    "results": [
+      {
+        "name": "original-swap",
+        "exitCode": 2,
+        "message": "  hero swap resets the returning camera in one frame\n  Expected: less than 2.0f\n  But was:  13.4009333f\n",
+        "sourceSha256": "05ae971cad3fd788a04cb44a6e6a9ba2a82f565d0bc9df403e4d4f5702819aa1"
+      },
+      {
+        "name": "frozen-return",
+        "exitCode": 2,
+        "message": "  hero moving during encounter return clips horizontally\n  Expected: in range (0.06,0.94)\n  But was:  0.945946693f\n",
+        "sourceSha256": "4def029b7f4e1ab774449e80daea8307bf6a0b6093317c7109527d5dca7cb92d"
+      },
+      {
+        "name": "ignored-new-encounter",
+        "exitCode": 2,
+        "message": "  new encounter loses horizontal priority to return\n  Expected: in range (0.06,0.94)\n  But was:  1.14604998f\n",
+        "sourceSha256": "1a7db42d7e527964d85841d094568c23d5d7fde1ea6deec4492f99b76eb47a41"
+      }
+    ],
+    "restoredSha256": "21a377d3ddffdfb453f1262778f9e6adb80ef7e5c9bf35c5e89091c3ac836ac0"
+  },
+  "replays": {
+    "player01": {
+      "run": {
+        "route": "chapter-10-gullet",
+        "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 46792,
+        "refreshHz": 60.0,
+        "seconds": 790.3972990999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "frameTimingRequested": false,
+        "frameTimingEnabled": false,
+        "frameTimingCpuFrequency": 0,
+        "failures": [],
+        "loadWaitSeconds": 0.3370666,
+        "settleSeconds": 5.0,
+        "interactions": [
+          {
+            "step": 1,
+            "expectedUi": "title",
+            "inputSeconds": 1.1031426,
+            "visibleResponseMs": 4.26520000000008
+          },
+          {
+            "step": 3,
+            "expectedUi": "saves",
+            "inputSeconds": 1.60639,
+            "visibleResponseMs": 4.510699999999979
+          },
+          {
+            "step": 5,
+            "expectedUi": "world",
+            "inputSeconds": 2.4082577,
+            "visibleResponseMs": 1032.6901
+          }
+        ]
+      },
+      "process": {
+        "processId": 19624,
+        "exitCode": 0,
+        "recordedUtc": "2026-10-08T08:10:46.2183693Z"
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 46792,
+        "seconds": 790.397299,
+        "distance": 1227.5732854972885,
+        "medianMs": 16.6677,
+        "p95Ms": 17.1442,
+        "p99Ms": 17.3521,
+        "worstMs": 220.8406,
+        "hitches": {
+          "25": 159,
+          "33.3": 159,
+          "50": 157,
+          "100": 5
+        },
+        "pausedSamples": 0,
+        "gcCollections": 34,
+        "gcBytesPerFrameMedian": 5550,
+        "movingSamples": 24292,
+        "stoppedCameraWhileWalking": 0,
+        "interactions": [
+          {
+            "step": 1,
+            "expectedUi": "title",
+            "inputSeconds": 1.1031426,
+            "visibleResponseMs": 4.26520000000008
+          },
+          {
+            "step": 3,
+            "expectedUi": "saves",
+            "inputSeconds": 1.60639,
+            "visibleResponseMs": 4.510699999999979
+          },
+          {
+            "step": 5,
+            "expectedUi": "world",
+            "inputSeconds": 2.4082577,
+            "visibleResponseMs": 1032.6901
+          }
+        ],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3476,
+            "memoryBytes": {
+              "median": 963357135,
+              "maximum": 976996582,
+              "minimum": 551259631,
+              "validSamples": 3475,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": {
+              "median": 4160,
+              "maximum": 4393,
+              "minimum": 227,
+              "validSamples": 3475,
+              "unavailableOrPendingSamples": 1
+            },
+            "objects": {
+              "median": 7834,
+              "maximum": 8067,
+              "minimum": 2461,
+              "validSamples": 3475,
+              "unavailableOrPendingSamples": 1
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 60,
+            "endSeconds": 120,
+            "samples": 3574,
+            "memoryBytes": {
+              "median": 967452203,
+              "maximum": 977913609,
+              "minimum": 959143478,
+              "validSamples": 3574,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4160,
+              "maximum": 4160,
+              "minimum": 4160,
+              "validSamples": 3574,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7834,
+              "maximum": 7834,
+              "minimum": 7834,
+              "validSamples": 3574,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 120,
+            "endSeconds": 180,
+            "samples": 3584,
+            "memoryBytes": {
+              "median": 967889028,
+              "maximum": 974562737,
+              "minimum": 959593703,
+              "validSamples": 3584,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4160,
+              "maximum": 4408,
+              "minimum": 4160,
+              "validSamples": 3584,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7834,
+              "maximum": 8082,
+              "minimum": 7834,
+              "validSamples": 3584,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 180,
+            "endSeconds": 240,
+            "samples": 3551,
+            "memoryBytes": {
+              "median": 968411463,
+              "maximum": 982096088,
+              "minimum": 960095088,
+              "validSamples": 3551,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4302,
+              "maximum": 4433,
+              "minimum": 4240,
+              "validSamples": 3551,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7976,
+              "maximum": 8107,
+              "minimum": 7914,
+              "validSamples": 3551,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 240,
+            "endSeconds": 300,
+            "samples": 3563,
+            "memoryBytes": {
+              "median": 968669207,
+              "maximum": 980815145,
+              "minimum": 960344520,
+              "validSamples": 3563,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4165,
+              "maximum": 4283,
+              "minimum": 4165,
+              "validSamples": 3563,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7839,
+              "maximum": 7957,
+              "minimum": 7839,
+              "validSamples": 3563,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 300,
+            "endSeconds": 360,
+            "samples": 3583,
+            "memoryBytes": {
+              "median": 969018367,
+              "maximum": 982431877,
+              "minimum": 960687288,
+              "validSamples": 3583,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4165,
+              "maximum": 4170,
+              "minimum": 4165,
+              "validSamples": 3583,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7839,
+              "maximum": 7844,
+              "minimum": 7839,
+              "validSamples": 3583,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 360,
+            "endSeconds": 420,
+            "samples": 3533,
+            "memoryBytes": {
+              "median": 969208994,
+              "maximum": 979604690,
+              "minimum": 960896792,
+              "validSamples": 3533,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4165,
+              "maximum": 4453,
+              "minimum": 4165,
+              "validSamples": 3533,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7839,
+              "maximum": 8127,
+              "minimum": 7839,
+              "validSamples": 3533,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 420,
+            "endSeconds": 480,
+            "samples": 3570,
+            "memoryBytes": {
+              "median": 968277469,
+              "maximum": 980362754,
+              "minimum": 959966250,
+              "validSamples": 3570,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4190,
+              "maximum": 4296,
+              "minimum": 4190,
+              "validSamples": 3570,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7864,
+              "maximum": 7970,
+              "minimum": 7864,
+              "validSamples": 3570,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 480,
+            "endSeconds": 540,
+            "samples": 3573,
+            "memoryBytes": {
+              "median": 968316519,
+              "maximum": 980819225,
+              "minimum": 959989135,
+              "validSamples": 3573,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4190,
+              "maximum": 4190,
+              "minimum": 4190,
+              "validSamples": 3573,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7864,
+              "maximum": 7864,
+              "minimum": 7864,
+              "validSamples": 3573,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 540,
+            "endSeconds": 600,
+            "samples": 3591,
+            "memoryBytes": {
+              "median": 968767560,
+              "maximum": 977704770,
+              "minimum": 960473737,
+              "validSamples": 3591,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4190,
+              "maximum": 4190,
+              "minimum": 4190,
+              "validSamples": 3591,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7864,
+              "maximum": 7864,
+              "minimum": 7864,
+              "validSamples": 3591,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 600,
+            "endSeconds": 660,
+            "samples": 3539,
+            "memoryBytes": {
+              "median": 969496897,
+              "maximum": 981843364,
+              "minimum": 961120598,
+              "validSamples": 3539,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4336,
+              "maximum": 4381,
+              "minimum": 4190,
+              "validSamples": 3539,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 8011,
+              "maximum": 8056,
+              "minimum": 7864,
+              "validSamples": 3539,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 660,
+            "endSeconds": 720,
+            "samples": 3448,
+            "memoryBytes": {
+              "median": 972365240,
+              "maximum": 982789648,
+              "minimum": 963864992,
+              "validSamples": 3448,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4190,
+              "maximum": 4371,
+              "minimum": 4190,
+              "validSamples": 3448,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7865,
+              "maximum": 8046,
+              "minimum": 7865,
+              "validSamples": 3448,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 720,
+            "endSeconds": 780,
+            "samples": 3591,
+            "memoryBytes": {
+              "median": 974075216,
+              "maximum": 1008805816,
+              "minimum": 964227662,
+              "validSamples": 3591,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4190,
+              "maximum": 4190,
+              "minimum": 4190,
+              "validSamples": 3591,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7865,
+              "maximum": 7865,
+              "minimum": 7865,
+              "validSamples": 3591,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 2.996417,
+            "ms": 220.8406,
+            "checkpoint": "load actual Gullet arrival",
+            "gcBytes": 3174,
+            "gcCollections": 38,
+            "mainThreadNs": 16663600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 628.982066,
+            "ms": 103.6271,
+            "checkpoint": "Cantor Pulse 1",
+            "gcBytes": 9058,
+            "gcCollections": 64,
+            "mainThreadNs": 103206000,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 1.107408,
+            "ms": 101.5831,
+            "checkpoint": "select Continue",
+            "gcBytes": 4258,
+            "gcCollections": 37,
+            "mainThreadNs": 99011800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 680.237396,
+            "ms": 100.9483,
+            "checkpoint": "Cantor Pulse 4",
+            "gcBytes": 38768,
+            "gcCollections": 67,
+            "mainThreadNs": 104574100,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 667.893591,
+            "ms": 100.3494,
+            "checkpoint": "Cantor Pulse 3",
+            "gcBytes": 8826,
+            "gcCollections": 66,
+            "mainThreadNs": 99537200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 610.322027,
+            "ms": 99.9727,
+            "checkpoint": "lock Cantor",
+            "gcBytes": 8870,
+            "gcCollections": 63,
+            "mainThreadNs": 99244900,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 648.436732,
+            "ms": 98.5949,
+            "checkpoint": "Cantor Pulse 2",
+            "gcBytes": 20784,
+            "gcCollections": 65,
+            "mainThreadNs": 98612600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 377.910418,
+            "ms": 96.5229,
+            "checkpoint": "through the second valve toward the nursery 515",
+            "gcBytes": 8552,
+            "gcCollections": 53,
+            "mainThreadNs": 96092300,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration.",
+        "launchDiagnostics": {
+          "valid": true,
+          "failures": [],
+          "profilingArguments": [],
+          "nativeProfilerDiagnostic": false
+        },
+        "boundedAudio": {
+          "valid": true,
+          "failures": [],
+          "audition": "UNVERIFIED",
+          "writer": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "bufferCount": 32,
+            "maximumBlockSamples": 32768,
+            "peakQueuedBlocks": 2,
+            "sampleBufferBytes": 4325376,
+            "acceptedSamples": 75886592,
+            "writtenSamples": 75886592,
+            "writtenBytes": 303546368,
+            "completed": true,
+            "failure": ""
+          },
+          "seconds": 790.4853333333333,
+          "replaySeconds": 790.3972990999999,
+          "durationDifferenceSeconds": 0.08803423333336013
+        }
+      },
+      "audio": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferCount": 32,
+        "maximumBlockSamples": 32768,
+        "peakQueuedBlocks": 2,
+        "sampleBufferBytes": 4325376,
+        "acceptedSamples": 75886592,
+        "writtenSamples": 75886592,
+        "writtenBytes": 303546368,
+        "completed": true,
+        "failure": ""
+      },
+      "launch": {
+        "path": "Builds/quality/C3/camera-return/player01/build.json",
+        "bytes": 14949,
+        "sha256": "02828b9c7823f30bfc48eb2086163617b29be74e9523613e8fc9fd9655fedc32"
+      },
+      "finalState": {
+        "path": "Builds/quality/C3/camera-return/player01/final-state.json",
+        "bytes": 3562,
+        "sha256": "de909dcb41101323afdd359114af9baf6819525b802a2ad41f5c6787223c51f1"
+      },
+      "observations": {
+        "openedCurrentImages": [
+          "player01/finish+1.20.png",
+          "player01/finish+1.50.png",
+          "player01/finish+1.80.png",
+          "player01/finish+2.25.png",
+          "player01/finish+2.75.png",
+          "player01/finish+3.20.png",
+          "player01/finish+4.20.png"
+        ],
+        "openedPriorImages": [
+          "Builds/quality/C3/cantor-framing-player-01/finish+1.80.png"
+        ],
+        "notes": [
+          "Full Cantor remains visible through +1.80 s; at +2.25 it has left the selected view, and the camera returns around both heroes through +3.20. The sequence looks less abrupt than the prior +1.80 crop, without accepting continuous comfort.",
+          "159 >33.3 ms intervals remain. 156 are one frame after step transitions that request PNGs; the other three are during loading. This recording remains unsuitable as smooth continuous-motion evidence.",
+          "The full route ends at TallowApproach with an ordinary autosave and living level-seven heroes. It does not dock, visit Keeper or establish chapter completion."
+        ],
+        "continuousVideo": "UNVERIFIED",
+        "audioAudition": "UNVERIFIED",
+        "physicalPresentation": "UNVERIFIED"
+      }
+    },
+    "player02-video-only": {
+      "run": {
+        "route": "chapter-10-gullet",
+        "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 47479,
+        "refreshHz": 60.0,
+        "seconds": 791.6387321999999,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": false,
+        "valid": true,
+        "frameTimingRequested": false,
+        "frameTimingEnabled": false,
+        "frameTimingCpuFrequency": 0,
+        "failures": [],
+        "loadWaitSeconds": 0.33709619999999996,
+        "settleSeconds": 5.0,
+        "interactions": [
+          {
+            "step": 1,
+            "expectedUi": "title",
+            "inputSeconds": 1.0205859,
+            "visibleResponseMs": 4.597100000000021
+          },
+          {
+            "step": 3,
+            "expectedUi": "saves",
+            "inputSeconds": 1.5372948,
+            "visibleResponseMs": 5.116799999999921
+          },
+          {
+            "step": 5,
+            "expectedUi": "world",
+            "inputSeconds": 2.3539187,
+            "visibleResponseMs": 1067.2802
+          }
+        ]
+      },
+      "process": {
+        "processId": 45136,
+        "exitCode": 0,
+        "recordedUtc": "2026-10-08T08:32:39.2469271Z"
+      },
+      "analysis": {
+        "valid": true,
+        "failures": [],
+        "samples": 47479,
+        "seconds": 791.638732,
+        "distance": 1247.8741311941162,
+        "medianMs": 16.6686,
+        "p95Ms": 17.1609,
+        "p99Ms": 17.3443,
+        "worstMs": 245.1779,
+        "hitches": {
+          "25": 4,
+          "33.3": 2,
+          "50": 1,
+          "100": 1
+        },
+        "pausedSamples": 0,
+        "gcCollections": 34,
+        "gcBytesPerFrameMedian": 5554,
+        "movingSamples": 24516,
+        "stoppedCameraWhileWalking": 5,
+        "interactions": [
+          {
+            "step": 1,
+            "expectedUi": "title",
+            "inputSeconds": 1.0205859,
+            "visibleResponseMs": 4.597100000000021
+          },
+          {
+            "step": 3,
+            "expectedUi": "saves",
+            "inputSeconds": 1.5372948,
+            "visibleResponseMs": 5.116799999999921
+          },
+          {
+            "step": 5,
+            "expectedUi": "world",
+            "inputSeconds": 2.3539187,
+            "visibleResponseMs": 1067.2802
+          }
+        ],
+        "stabilityWindows": [
+          {
+            "startSeconds": 0,
+            "endSeconds": 60,
+            "samples": 3586,
+            "memoryBytes": {
+              "median": 963510749,
+              "maximum": 973667624,
+              "minimum": 551276522,
+              "validSamples": 3585,
+              "unavailableOrPendingSamples": 1
+            },
+            "sceneObjects": {
+              "median": 4163,
+              "maximum": 4391,
+              "minimum": 227,
+              "validSamples": 3585,
+              "unavailableOrPendingSamples": 1
+            },
+            "objects": {
+              "median": 7837,
+              "maximum": 8065,
+              "minimum": 2461,
+              "validSamples": 3585,
+              "unavailableOrPendingSamples": 1
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 60,
+            "endSeconds": 120,
+            "samples": 3599,
+            "memoryBytes": {
+              "median": 967280062,
+              "maximum": 974186406,
+              "minimum": 958986161,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4163,
+              "maximum": 4163,
+              "minimum": 4163,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7837,
+              "maximum": 7837,
+              "minimum": 7837,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 120,
+            "endSeconds": 180,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 966126870,
+              "maximum": 974415338,
+              "minimum": 959394878,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4163,
+              "maximum": 4411,
+              "minimum": 4163,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7837,
+              "maximum": 8085,
+              "minimum": 7837,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 180,
+            "endSeconds": 240,
+            "samples": 3599,
+            "memoryBytes": {
+              "median": 968286726,
+              "maximum": 974868024,
+              "minimum": 959982537,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4305,
+              "maximum": 4431,
+              "minimum": 4253,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7979,
+              "maximum": 8105,
+              "minimum": 7927,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 240,
+            "endSeconds": 300,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 966641015,
+              "maximum": 974938509,
+              "minimum": 960372871,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4271,
+              "minimum": 4178,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7852,
+              "maximum": 7945,
+              "minimum": 7852,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 300,
+            "endSeconds": 360,
+            "samples": 3599,
+            "memoryBytes": {
+              "median": 969031126,
+              "maximum": 975343290,
+              "minimum": 960740841,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4183,
+              "minimum": 4178,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7852,
+              "maximum": 7857,
+              "minimum": 7852,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 360,
+            "endSeconds": 420,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 967366583,
+              "maximum": 976019911,
+              "minimum": 961025281,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4494,
+              "minimum": 4178,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7852,
+              "maximum": 8168,
+              "minimum": 7852,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 420,
+            "endSeconds": 480,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 967429219,
+              "maximum": 975751606,
+              "minimum": 959991147,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4333,
+              "minimum": 4178,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7852,
+              "maximum": 8007,
+              "minimum": 7852,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 480,
+            "endSeconds": 540,
+            "samples": 3599,
+            "memoryBytes": {
+              "median": 968380378,
+              "maximum": 975095458,
+              "minimum": 960076375,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4178,
+              "minimum": 4178,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7852,
+              "maximum": 7852,
+              "minimum": 7852,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 540,
+            "endSeconds": 600,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 968811436,
+              "maximum": 975691689,
+              "minimum": 960520370,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4178,
+              "minimum": 4178,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7852,
+              "maximum": 7852,
+              "minimum": 7852,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 600,
+            "endSeconds": 660,
+            "samples": 3599,
+            "memoryBytes": {
+              "median": 969026943,
+              "maximum": 976814682,
+              "minimum": 960724250,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4324,
+              "maximum": 4364,
+              "minimum": 4178,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7999,
+              "maximum": 8039,
+              "minimum": 7852,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 660,
+            "endSeconds": 720,
+            "samples": 3600,
+            "memoryBytes": {
+              "median": 969126298,
+              "maximum": 977416605,
+              "minimum": 963917443,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4364,
+              "minimum": 4178,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7853,
+              "maximum": 8039,
+              "minimum": 7853,
+              "validSamples": 3600,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          },
+          {
+            "startSeconds": 720,
+            "endSeconds": 780,
+            "samples": 3599,
+            "memoryBytes": {
+              "median": 977211452,
+              "maximum": 1005119595,
+              "minimum": 964148826,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "sceneObjects": {
+              "median": 4178,
+              "maximum": 4178,
+              "minimum": 4178,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "objects": {
+              "median": 7853,
+              "maximum": 7853,
+              "minimum": 7853,
+              "validSamples": 3599,
+              "unavailableOrPendingSamples": 0
+            },
+            "audioVoices": "UNSUPPORTED"
+          }
+        ],
+        "worstFrames": [
+          {
+            "elapsed": 2.966241,
+            "ms": 245.1779,
+            "checkpoint": "load actual Gullet arrival",
+            "gcBytes": 2938,
+            "gcCollections": 38,
+            "mainThreadNs": 16670400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 3.005837,
+            "ms": 39.5966,
+            "checkpoint": "load actual Gullet arrival",
+            "gcBytes": 711921,
+            "gcCollections": 38,
+            "mainThreadNs": 265016300,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 3.421199,
+            "ms": 30.647,
+            "checkpoint": "load actual Gullet arrival",
+            "gcBytes": 4776,
+            "gcCollections": 38,
+            "mainThreadNs": 16663600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 783.811981,
+            "ms": 25.0354,
+            "checkpoint": "arrive at Tallow approach",
+            "gcBytes": 4748,
+            "gcCollections": 71,
+            "mainThreadNs": 16647800,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 3.062321,
+            "ms": 24.0251,
+            "checkpoint": "load actual Gullet arrival",
+            "gcBytes": 13574,
+            "gcCollections": 38,
+            "mainThreadNs": 16863600,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 26.530113,
+            "ms": 22.7211,
+            "checkpoint": "normal thrust and lunge recovery 5",
+            "gcBytes": 5322,
+            "gcCollections": 39,
+            "mainThreadNs": 16667400,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 784.126079,
+            "ms": 22.5217,
+            "checkpoint": "arrive at Tallow approach",
+            "gcBytes": 5346,
+            "gcCollections": 71,
+            "mainThreadNs": 16671200,
+            "renderThreadNs": -1
+          },
+          {
+            "elapsed": 784.208838,
+            "ms": 22.154,
+            "checkpoint": "arrive at Tallow approach",
+            "gcBytes": 4768,
+            "gcCollections": 71,
+            "mainThreadNs": 16653700,
+            "renderThreadNs": -1
+          }
+        ],
+        "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration.",
+        "launchDiagnostics": {
+          "valid": true,
+          "failures": [],
+          "profilingArguments": [],
+          "nativeProfilerDiagnostic": false
+        },
+        "boundedAudio": {
+          "valid": true,
+          "failures": [],
+          "audition": "UNVERIFIED",
+          "writer": {
+            "sampleRate": 48000,
+            "channels": 2,
+            "bufferCount": 32,
+            "maximumBlockSamples": 32768,
+            "peakQueuedBlocks": 2,
+            "sampleBufferBytes": 4325376,
+            "acceptedSamples": 75999232,
+            "writtenSamples": 75999232,
+            "writtenBytes": 303996928,
+            "completed": true,
+            "failure": ""
+          },
+          "seconds": 791.6586666666667,
+          "replaySeconds": 791.6387321999999,
+          "durationDifferenceSeconds": 0.019934466666768458
+        }
+      },
+      "audio": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferCount": 32,
+        "maximumBlockSamples": 32768,
+        "peakQueuedBlocks": 2,
+        "sampleBufferBytes": 4325376,
+        "acceptedSamples": 75999232,
+        "writtenSamples": 75999232,
+        "writtenBytes": 303996928,
+        "completed": true,
+        "failure": ""
+      },
+      "launch": {
+        "path": "Builds/quality/C3/camera-return/player02-video-only/build.json",
+        "bytes": 14994,
+        "sha256": "9cf6e20a97f9f13feb89ab61a40202bdd9d1665080a682b7a479dd80b4ae289c"
+      },
+      "finalState": {
+        "path": "Builds/quality/C3/camera-return/player02-video-only/final-state.json",
+        "bytes": 3571,
+        "sha256": "30720760b0538307f2acd53d6bcef9b8ec177d0c5112247504f9c4ca0b86c983"
+      },
+      "observations": {
+        "openedCurrentImages": [
+          "player02-video-only/finish+1.20.png",
+          "player02-video-only/finish+1.50.png",
+          "player02-video-only/finish+1.80.png",
+          "player02-video-only/finish+2.25.png",
+          "player02-video-only/finish+2.75.png",
+          "player02-video-only/finish+3.20.png"
+        ],
+        "notes": [
+          "Full connected Cantor visible through +1.80; at +2.25 it has left the selected view, and the camera returns around both heroes through +3.20.",
+          "Offsets use the last step-123 stopWhen sample, not exact lethal time. Different fight trajectories prevent exact old/new pose alignment.",
+          "TallowApproach/Arrival autosave, both heroes living at level seven. No docking, Keeper visit or chapter completion."
+        ],
+        "continuousVideo": "UNVERIFIED",
+        "audioAudition": "UNVERIFIED",
+        "physicalPresentation": "UNVERIFIED"
+      }
+    }
+  },
+  "cameraSeries": [
+    {
+      "path": "Builds/quality/C3/camera-return/camera-comparison.json",
+      "bytes": 162520,
+      "sha256": "3a823236e531b4fdb364219712f4092540ff7e4ad22cff2bfc49cf1359cf165a"
+    },
+    {
+      "path": "Builds/quality/C3/camera-return/camera-comparison02.json",
+      "bytes": 179404,
+      "sha256": "0a7100dc998918c84c4292763b89dffad670e7c0d93b3f910378f9fc384cf6fb"
+    }
+  ],
+  "screenshotOverhead": [
+    {
+      "path": "Builds/quality/C3/camera-return/png-boundary-intervals.json",
+      "bytes": 25717,
+      "sha256": "eba40fd32a4ccfe98f48bd96f57fff836cd490788c3b8cc9ad1439c594a178ae"
+    },
+    {
+      "path": "Builds/quality/C3/camera-return/timing-player02.json",
+      "bytes": 698,
+      "sha256": "00e74fe715e7fb948c3698b3fc19f5ff6c7ccc7f104cc2d3a482d31a009d24ea"
+    },
+    {
+      "path": "Builds/quality/C3/camera-return/check-video-input.py",
+      "bytes": 599,
+      "sha256": "20df88e1351bb05a2e603c2cfaaf648085fd44b6cc28dd2e08f3059bce4db98d"
+    },
+    {
+      "path": "Builds/quality/C3/camera-return/video-only-route.json",
+      "bytes": 35782,
+      "sha256": "3b30cf9ef80d18f179b77d69410e4321cacce6dac767c4fc78c1816bea067d68"
+    }
+  ],
+  "priorFullSuite": {
+    "revision": "19f7863",
+    "editmode": 173,
+    "playmode": 252,
+    "scope": "Preceding C2 full suite, not rerun as full C3"
+  },
+  "priorOffline": {
+    "passed": 202,
+    "scope": "No offline code changed; prior result, not a fresh run"
+  },
+  "preservation": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-affected-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-affected-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-controls-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-controls-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-player01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-player01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-player02-video-only-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return-player02-video-only-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/camera-return01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    }
+  ],
+  "evidenceInventory": {
+    "path": "Builds/quality/C3/camera-return/evidence-inventory.json",
+    "bytes": 50473,
+    "sha256": "131faec88e96fb9079214c7c08b5c45fac8c4f841f9b3fd4a5c712d2895d0a40"
+  },
+  "preservedFailures": [
+    "Original fast-return and paused-drift failures",
+    "Original hero-swap jump",
+    "Frozen-target and ignored-new-encounter mutations",
+    "First capture retains 159 intervals above 33.3 ms",
+    "Prior unavailable child exit remains rejected",
+    "Every prior C1/C2 and later runtime/fixture/presentation failure"
+  ],
+  "limitations": [
+    "No continuous video/audio observation or physical presentation acceptance",
+    "Both display endpoints off before/after; explicit VSync 0; capture excluded from clean C1 evidence",
+    "Full collar/preview/story staging unfinished",
+    "Frozen a3aaad6 chapter/profile unchanged; all unmet C1-C10 gates OPEN"
+  ]
+}

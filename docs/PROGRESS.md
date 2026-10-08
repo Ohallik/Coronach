@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Camera return eases back to the heroes — October 8
+
+**C3/C4 remain OPEN. Both standard players contain the gradual flight-camera return, with 21 affected PlayMode checks passing, zero skipped.** Original fast-return, paused-drift and hero-swap failures reproduce; deliberately broken moving-target and encounter-priority controls also reject. The previous C2 full 173/252 suite remains prior evidence. [Evidence and exact inventories](validation/C3-camera-return.md).
+
+Two earned Gullet captures pass progression/focus/process checks and save both heroes at **TallowApproach**, without docking or chapter completion. The first retains 159 intervals above 33.3 ms; 156 follow live PNG requests. Deferring only those requests preserves every step/assertion and reduces this to two loading intervals, while retaining video/audio and a 25.035 ms arrival outlier. This recording comparison does not explain C1's older awake hitches. Opened frames show the release through +1.80 seconds and a more gradual camera return; continuous audiovisual/physical quality stays UNVERIFIED.
+
+Both captures are display-off/VSync-0 diagnostics. Nathan's saves and frozen `a3aaad6` files/profile match; exact `19f7863` players are archived under `Builds/quality/C3/camera-return/prior-Windows*`. Preserve all C1/C2 failures and assertions. Continue full collar/preview staging and remaining dependency-safe C3–C10 production; no presentation candidate is validated.
+
 ## Idle height restores stationary slope support — 2026-10-08
 
 **C2 remains OPEN. Both standard players contain the bounded idle-height repair, with 173 EditMode / 252 PlayMode tests passing, zero skipped.** Original height failures and deliberate lowered-hip/pause faults remain. Four fresh motion routes pass, with focused shoulder/pad captures and explicit 30/120 fps diagnostics. [Evidence and exact inventories](validation/C2-idle-height.md).
