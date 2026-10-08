@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Companion wall guidance checkpoint - October 8
+
+Both standard players now contain bounded companion guidance around actual scene collision. **91 affected PlayMode checks pass**, zero skips, and all **eight frozen-companion controls reject**. Both builds succeed with **101 bound inputs**; exact `138f857` players remain archived. Original shell/fold failures, originally passing fixtures and all assertions remain. [Evidence and inventories](validation/C4-companion-walls.md).
+
+The earned Gullet route passes in **782.625 seconds / 46,944 fully focused samples**, exit 0, with no wall-contact logs or Sela damage events. Both heroes reach TallowApproach alive. Taren and Sela civil circuits also pass, **310.310 / 310.900 seconds**, all samples focused, no damage, ordinary docking and exit 0. Fifteen Gullet and six civil images were separately opened; they show selected clear separation, not continuous quality or balance acceptance.
+
+Taren takes more early damage than in the prior route; the complete ten-event trace retains three near-simultaneous Drifter beam hits and a released shot whose source is already dead. Source inspection shows plausible fan/projectile mechanisms but does not identify the exact volley. Preserve this balance concern and the earlier unisolated Cantor post-resolution loss. Every >25 ms interval remains, including **25.230 ms** at Gullet engagement. Captures are excluded from clean C1 acceptance. Original Decks hitches, invalid Tallow GPU evidence, continuous audiovisual/physical observations and all unmet gates remain OPEN/UNVERIFIED. Saves, e93bf13 and frozen a3aaad6 remain preserved; no presentation candidate is validated. Continue actual dormant preview and release/story staging.
+
 ## Companion travel and articulated body checkpoint - October 8
 
 Both standard players contain candidate09: **66 affected PlayMode passes**, zero skips, nine deliberately rejected faults, both successful builds and **91 bound inputs**. World-space body history, measured companion travel/roll clearance, clear firing positions and a six-metre minimum serpent steering radius repair the reproduced defects. Every earlier failure remains. [Evidence and inventories](validation/C4-companion-travel.md).

@@ -13,7 +13,8 @@ namespace Lattice.Combat
         Health flankTarget;
         float flankSide;
         FlightSeparation flightSeparation;
-        void OnEnable(){corners=null;nextPath=0;flankTarget=null;flightSeparation=null;}
+        FlightObstacles flightObstacles;
+        void OnEnable(){corners=null;nextPath=0;flankTarget=null;flightSeparation=null;flightObstacles=null;}
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
@@ -47,11 +48,19 @@ namespace Lattice.Combat
             }
             bool avoiding=false,avoidanceBrake=false;
             if(flightSeparation!=null)goal=flightSeparation.Guide(transform.position,goal,flanking?actor.target:null,out avoiding,out avoidanceBrake);
+            bool wallAdjusted=false;
+            if(actor.flight)
+            {
+                flightObstacles??=new FlightObstacles(GetComponent<CharacterController>());
+                goal=flightObstacles.Guide(transform.position,goal,actor.motor.Velocity,out wallAdjusted,out var wallCorner,out var wallBrake);
+                avoiding|=wallCorner;avoidanceBrake|=wallBrake;
+            }
+            else flightObstacles=null;
             var d=goal-transform.position;
             // Ground melee closes to the actual wrist edge. The old 2.2 m
             // stand-off relied on the removed oversized invisible hit sphere.
             float distance=d.magnitude,stop=fighting?(actor.flight?2.2f:actor.character=="Sela"?7.5f:1.35f):1.5f;
-            if(flanking)stop=.6f;
+            if(flanking||wallAdjusted)stop=.6f;
             if(avoiding)stop=.45f;
             if(!actor.flight&&GroundNavigation.Current!=null&&!fighting)
             {
@@ -73,7 +82,7 @@ namespace Lattice.Combat
             // Permanent flight braking capped the partner near 2 m/s, leaving her
             // a whole encounter behind and making swap pull the camera backwards.
             actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,separation>10&&!avoidanceBrake,actor.flight&&(distance<stop+2||avoidanceBrake));
-            if(flanking&&!avoiding&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
+            if((flanking||wallAdjusted&&fighting)&&!avoiding&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
                 GetComponent<FlightMotor>().FaceTarget(actor.target.transform.position-transform.position);
             if(fighting)
             {

@@ -99,6 +99,10 @@ The blockout plates are replaced by one 950-triangle Compact module with outward
 
 World-space chain following and bounded physical steering replace the earlier reversed neck; companion paths and rolls clear the measured animal/party hulls and choose a firing line to the selected restraint. The final 66 affected checks and nine deliberate faults are in [the travel report](../validation/C4-companion-travel.md). The 784.573-second earned capture reaches TallowApproach; eleven opened stills show broader curves and clear, framed ships. This does not accept continuous quality, the 73.4-second fight or final MAP_EYE_TEST. A complete damage trace confirms Sela's two earlier wall contacts near z363 and z391; diagnose that actual traversal next. Dormant preview, side pocket, contextual release/Tallow story, continuous audiovisual/physical observation and final map acceptance remain OPEN/UNVERIFIED. No profile, geometry or player-input change is part of this checkpoint.
 
+### Companion wall guidance follow-up - October 8
+
+Actual shell and far-side fold fixtures reproduce 12-integrity companion impacts. Bounded scene-collision guidance repairs those cases without changing this map or player controls: 91 affected passes, eight rejecting faults, and an earned 782.625-second route with no wall-contact logs or Sela damage. Fifteen opened Gullet images show selected clear traversal and broad animal curves; full motion and final MAP_EYE_TEST remain unaccepted. Early Taren damage increases on a changed path and stays an open balance/provenance concern. Release framing still ends after the bounded hold, and the generic bark crosses the body. Dormant preview, side pocket and contextual release/Tallow story remain unfinished. [Evidence](../validation/C4-companion-walls.md).
+
 ### Earlier map history
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.
