@@ -92,7 +92,10 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(victim.Health.integrity, 950, $"the replay fires across the target instead of re-aiming after the roll; facing={actor.motor.Facing}, actor={actor.transform.position}, victim={victim.transform.position}, input={GameInput.Current.Move}, blocked={GameInput.Current.Blocked}, fire={GameInput.Current.Held("Fire")}");
         }
 
-        [UnityTest] public IEnumerator TelegraphReactionDodgesThroughInputAndReleasesForTheNextTell()
+        [UnityTest] public IEnumerator TelegraphReactionDodgesThroughInputAndReleasesForTheNextTell()=>ReactToTell(false);
+        [UnityTest] public IEnumerator SelectingACollarLinkStillReadsItsCarriersTell()=>ReactToTell(true);
+        [UnityTest] public IEnumerator ASlowedTellStillReceivesTheDodgeAtItsActualImpact()=>ReactToTell(false,true);
+        IEnumerator ReactToTell(bool throughLink,bool duringFlash=false)
         {
             DevLoadout.Apply("starter"); SceneFlow.Current.LoadZone("Arena_Ground");
             float deadline = Time.unscaledTime + 10;
@@ -105,11 +108,17 @@ namespace Lattice.Tests.PlayMode
             target.transform.position = actor.transform.position + Vector3.forward * 8;
             var boss = target.AddComponent<BossController>(); boss.enabled = false;
             actor.target = target.GetComponent<Health>(); actor.TargetLocked = true;
+            if(throughLink)
+            {
+                var link=new GameObject("Selected equipment",typeof(Health));link.transform.SetParent(target.transform,false);
+                link.GetComponent<Health>().reactionOwner=actor.target;actor.target=link.GetComponent<Health>();
+            }
             Set(replay, "pad", InputSystem.AddDevice<Gamepad>("ReplayTelegraphRegression"));
             Call(replay, "InputUpdate"); yield return null; yield return null;
             Set(replay, "recording", true);
             var chase = new QualityStep { navigate = true, approachTarget = true, tolerance = 18, evadeTelegraphs = true };
             Set(replay, "step", chase);
+            if(duringFlash)GameTime.BeginFlash();
             try
             {
                 for (int tell = 0; tell < 2; tell++)
@@ -137,6 +146,53 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsFalse(GameInput.Current.Held("Dodge"), "ordinary routes must not gain implicit evasive input");
             }
             finally { Object.Destroy(target); }
+        }
+
+        [UnityTest] public IEnumerator IncomingFlightShotsRequireExplicitEvasionAndUseRealInput()=>ReactToShot(false);
+        [UnityTest] public IEnumerator ASlowedFlightShotStillReactsBeforeHullContact()=>ReactToShot(true);
+        IEnumerator ReactToShot(bool duringFlash)
+        {
+            DevLoadout.Apply("starter");SceneFlow.Current.LoadZone("Arena_Flight");
+            float deadline=Time.unscaledTime+10;
+            while(SceneFlow.Current.Loading&&Time.unscaledTime<deadline)yield return null;
+            Assert.IsFalse(SceneFlow.Current.Loading);
+            foreach(var enemy in Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None))enemy.Passive=true;
+            foreach(var hero in PartyController.Current.members)
+            {
+                hero.GetComponent<PlayerBrain>().AutoPilot=true;hero.GetComponent<PartnerBrain>().enabled=false;
+                var cc=hero.GetComponent<CharacterController>();cc.enabled=false;
+                hero.transform.position=new Vector3(hero.character=="Taren"?200:230,1,0);cc.enabled=true;hero.GetComponent<FlightMotor>().Halt();
+            }
+            yield return new WaitForSecondsRealtime(.8f);
+            var actor=PartyController.Current.Active;actor.GetComponent<PlayerBrain>().AutoPilot=false;
+            var shooter=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("ChoristerDrifter"),new Vector3(250,1,0));shooter.Passive=true;
+            Set(replay,"pad",InputSystem.AddDevice<Gamepad>("ReplayShotRegression"));
+            Call(replay,"InputUpdate");yield return null;yield return null;
+            Set(replay,"recording",true);
+            var input=new QualityStep{leftTrigger=1};Set(replay,"step",input);
+            if(duringFlash)GameTime.BeginFlash();
+            for(int attempt=0;attempt<2;attempt++)
+            {
+                input.evadeProjectiles=attempt==1;
+                float before=actor.Health.integrity;bool rolled=false;float moved=0;
+                var start=actor.transform.position;var aim=start+Vector3.up*.8f;
+                Projectile.Fire(aim+Vector3.right*9,Vector3.left,new DamagePacket{source=shooter.Health,amount=14,type=DamageType.Beam},11);
+                deadline=Time.unscaledTime+(duringFlash?4.5f:1.8f);
+                while(Time.unscaledTime<deadline)
+                {
+                    Call(replay,"InputUpdate");yield return null;
+                    rolled|=actor.State==ActorState.Dodge;moved=Mathf.Max(moved,Vector3.Distance(start,actor.transform.position));
+                }
+                if(attempt==0)
+                {Assert.IsFalse(rolled,"default route gained implicit evasion");Assert.Less(actor.Health.integrity,before,"fixture shot did not threaten the real hull");}
+                else
+                {
+                    Assert.IsTrue(rolled,"explicit incoming-shot policy never sent a roll");
+                    Assert.AreEqual(before,actor.Health.integrity,"ordinary input failed to clear the real incoming shot");
+                    Assert.Greater(moved,2,"no lateral flight displacement occurred");
+                    Assert.IsFalse(GameInput.Current.Held("Roll"),"roll did not release after the threat passed");
+                }
+            }
         }
     }
 }

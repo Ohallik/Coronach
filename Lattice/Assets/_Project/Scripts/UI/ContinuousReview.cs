@@ -315,11 +315,12 @@ namespace Lattice.UI
                 var lead = party != null ? party.Active : null;
                 if (step.evadeTelegraphs && lead != null && lead.target != null && lead.target.Alive)
                 {
-                    var boss = lead.target.GetComponent<BossController>();
-                    var threat = lead.target.GetComponent<EnemyBrain>();
-                    var offset = lead.transform.position - lead.target.transform.position; offset.y = 0;
-                    evading = boss != null && boss.Telegraphing && boss.TelegraphRemaining < .16f && offset.sqrMagnitude < 18 * 18 ||
-                        threat != null && threat.Telegraphing && threat.TelegraphRemaining < .16f && offset.sqrMagnitude < 5 * 5;
+                    var carrier = lead.target.reactionOwner != null ? lead.target.reactionOwner : lead.target;
+                    var boss = carrier.GetComponent<BossController>();
+                    var threat = carrier.GetComponent<EnemyBrain>();
+                    var offset = lead.transform.position - carrier.transform.position; offset.y = 0;
+                    evading = boss != null && boss.Telegraphing && boss.TelegraphRemaining < .16f * Time.timeScale && offset.sqrMagnitude < 18 * 18 ||
+                        threat != null && threat.Telegraphing && threat.TelegraphRemaining < .16f * Time.timeScale && offset.sqrMagnitude < 5 * 5;
                     if (evading)
                     {
                         // Read the visible tell and send an ordinary lateral dodge.
@@ -328,6 +329,17 @@ namespace Lattice.UI
                         var lateral = Vector3.Cross(Vector3.up, offset.normalized);
                         var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * lateral;
                         direction = new Vector2(local.x, local.z);
+                    }
+                }
+                if(step.evadeProjectiles&&lead!=null&&lead.flight&&lead.Health.Alive&&!lead.Recovering&&
+                    !GameTime.Paused&&!GameInput.Current.Blocked)
+                {
+                    var escape=IncomingShotDirection(lead);
+                    if(escape.HasValue)
+                    {
+                        evading=true;
+                        var local=Quaternion.Euler(0,-ZoneController.Current.definition.cameraProfile.yaw,0)*escape.Value;
+                        direction=new Vector2(local.x,local.z);
                     }
                 }
                 held = new GamepadState { leftStick = Vector2.ClampMagnitude(direction, 1), leftTrigger = step.leftTrigger, rightTrigger = step.rightTrigger };
@@ -346,6 +358,30 @@ namespace Lattice.UI
                 pad.MakeCurrent();
             }
             if (pad != null) InputSystem.QueueStateEvent(pad, held);
+        }
+        static Vector3? IncomingShotDirection(CombatActor actor)
+        {
+            var camera=Camera.main;if(camera==null)return null;
+            float radius=actor.GetComponent<CharacterController>().radius+.3f,nearest=float.PositiveInfinity;
+            float motionScale=actor.MotorDelta/Mathf.Max(.000001f,Time.unscaledDeltaTime);
+            Vector3? escape=null;
+            foreach(var shot in Projectile.Live)
+            {
+                if(!shot.Threatens(actor.Health.friendly))continue;
+                var visible=camera.WorldToViewportPoint(shot.transform.position);
+                if(visible.z<=0||visible.x<0||visible.x>1||visible.y<0||visible.y>1)continue;
+                var velocity=shot.Velocity*Time.timeScale-actor.motor.Velocity*motionScale;velocity.y=0;
+                if(velocity.sqrMagnitude<.01f)continue;
+                var offset=actor.transform.position-shot.transform.position;offset.y=0;
+                float time=Vector3.Dot(offset,velocity)/velocity.sqrMagnitude;
+                if(time<0)continue;
+                var miss=offset-velocity*time;if(miss.sqrMagnitude>radius*radius)continue;
+                time=Mathf.Max(0,time-Mathf.Sqrt(Mathf.Max(0,radius*radius-miss.sqrMagnitude)/velocity.sqrMagnitude));
+                if(time>.35f||time>=nearest)continue;
+                nearest=time;var across=Vector3.Cross(Vector3.up,velocity.normalized);
+                escape=miss.sqrMagnitude>.01f&&Vector3.Dot(miss,across)<0?-across:across;
+            }
+            return escape;
         }
         void LateUpdate()
         {

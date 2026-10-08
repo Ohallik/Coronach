@@ -1,0 +1,2346 @@
+{
+  "date": "2026-10-08",
+  "status": "C3/C4/C5/C6/C8 OPEN; sampled separation improved; old unchanged route rejected; explicit reactive input reaches Tallow; balance and continuous quality unaccepted",
+  "source": {
+    "baseRevision": "b8d8e5e711a784940b3e9d890ec2e4dbf130bfeb",
+    "files": [
+      {
+        "path": "Lattice/Assets/Plugins/x86_64/CoronachGpuClock.dll",
+        "rawWorkingSha256": "4cfd22aed94f0e83adbb11def68003cf6568187a8cd69ec4099de4cda6693038",
+        "normalizedSha256": "76696c832c15078e2324a1e7834bfd4b3afc1d6090ec4886b466e053d2238a35"
+      },
+      {
+        "path": "Lattice/Assets/Tests/EditMode/TerrainBalanceTests.cs",
+        "rawWorkingSha256": "80eb46bf5fed499af0cd5161d9a8330a00f2a82d86adcf06eaeb3c1061f81b80",
+        "normalizedSha256": "80eb46bf5fed499af0cd5161d9a8330a00f2a82d86adcf06eaeb3c1061f81b80"
+      },
+      {
+        "path": "Lattice/Assets/Tests/EditMode/TerrainPauseTests.cs",
+        "rawWorkingSha256": "4d2137272a30f2cff16bb6fb96620c9d845888c6c920500e923238b5e1208137",
+        "normalizedSha256": "4d2137272a30f2cff16bb6fb96620c9d845888c6c920500e923238b5e1208137"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CameraReturnTests.cs",
+        "rawWorkingSha256": "8deb6ad2705d5ea6805f8a074b0cad9c515d04971d8a4283db180f4310bf7e39",
+        "normalizedSha256": "8deb6ad2705d5ea6805f8a074b0cad9c515d04971d8a4283db180f4310bf7e39"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CameraReturnTests.cs.meta",
+        "rawWorkingSha256": "8af45a08853dcbd87aa0d552f1bf0296a6cb28c2a249071a2445e7825e43ada0",
+        "normalizedSha256": "8af45a08853dcbd87aa0d552f1bf0296a6cb28c2a249071a2445e7825e43ada0"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CantorCollarTests.cs",
+        "rawWorkingSha256": "47d5553445817376b189802314031552d617cf1e46afce6ff55c4f00fac5057a",
+        "normalizedSha256": "47d5553445817376b189802314031552d617cf1e46afce6ff55c4f00fac5057a"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CantorCollarTests.cs.meta",
+        "rawWorkingSha256": "625baf280e46f4ebe15201e4a1b15606dccab1a767395b80b49a13d136712198",
+        "normalizedSha256": "625baf280e46f4ebe15201e4a1b15606dccab1a767395b80b49a13d136712198"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CantorReleaseTests.cs",
+        "rawWorkingSha256": "9d7bc168085bf3f3b0fba4864d1216400a55697f4505d8ed90675e01890cc4cb",
+        "normalizedSha256": "9d7bc168085bf3f3b0fba4864d1216400a55697f4505d8ed90675e01890cc4cb"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CompanionFramingTests.cs",
+        "rawWorkingSha256": "45ffc2ead99ac97b8ef9c49341231007a72863d93786c52c7bfbe92b5ede6863",
+        "normalizedSha256": "45ffc2ead99ac97b8ef9c49341231007a72863d93786c52c7bfbe92b5ede6863"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CompanionFramingTests.cs.meta",
+        "rawWorkingSha256": "cc03c063f0b0c08a8a1ca737a86f0ca99861f5950bf895d198746ab25a168b2e",
+        "normalizedSha256": "cc03c063f0b0c08a8a1ca737a86f0ca99861f5950bf895d198746ab25a168b2e"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CompanionSpacingTests.cs",
+        "rawWorkingSha256": "77763a0a0f8a6210f1ee302baefdd6bc6e42a9eb51171c3ba85720817676c6a2",
+        "normalizedSha256": "77763a0a0f8a6210f1ee302baefdd6bc6e42a9eb51171c3ba85720817676c6a2"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/CompanionSpacingTests.cs.meta",
+        "rawWorkingSha256": "956b5ff6468b53465ae00e379dac2ff2c1dbcdb24a1009b1f92349a52f16601b",
+        "normalizedSha256": "956b5ff6468b53465ae00e379dac2ff2c1dbcdb24a1009b1f92349a52f16601b"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/ContinuousReviewTests.cs",
+        "rawWorkingSha256": "7b3e181d5da81eaec332a9332e8716db3f59823e92f1c8b8021f1a10980f626a",
+        "normalizedSha256": "7b3e181d5da81eaec332a9332e8716db3f59823e92f1c8b8021f1a10980f626a"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/DeathLifecycleTests.cs",
+        "rawWorkingSha256": "9edcfaa1e8f9a15b853bcb2436d3be85396e31d6ba0986824b77e14f7c4bfe28",
+        "normalizedSha256": "9edcfaa1e8f9a15b853bcb2436d3be85396e31d6ba0986824b77e14f7c4bfe28"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/EnemyBreakTests.cs",
+        "rawWorkingSha256": "126686aae22851fb0e796418750451aa11f3d479b87b1d405a6747ae1243380f",
+        "normalizedSha256": "7b20bec73b53dc5ab2ac5708dcfc1725d20871ccc8e74f6aec8ce607d2af8169"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/FlashBarkTests.cs",
+        "rawWorkingSha256": "aaeee4b2c0d4529a8068ddf700f9b4a9f80183f0c08f98b564847ca745867a25",
+        "normalizedSha256": "aaeee4b2c0d4529a8068ddf700f9b4a9f80183f0c08f98b564847ca745867a25"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/FlashBarkTests.cs.meta",
+        "rawWorkingSha256": "c9ab600461725bca2cab527d500ceab4f3fe08c8f6536383092d8c92cc7a4a90",
+        "normalizedSha256": "c9ab600461725bca2cab527d500ceab4f3fe08c8f6536383092d8c92cc7a4a90"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/MusicCueTests.cs",
+        "rawWorkingSha256": "198e6b27af01781d369b079d58df803ce4b15bf6203a95005b33d29f2f378e05",
+        "normalizedSha256": "198e6b27af01781d369b079d58df803ce4b15bf6203a95005b33d29f2f378e05"
+      },
+      {
+        "path": "Lattice/Assets/Tests/PlayMode/PartnerEvasionTests.cs",
+        "rawWorkingSha256": "220535b4016631beddbdc2bfcd411b7ee679c482b4d6797f99f56cf51b0b3a3f",
+        "normalizedSha256": "220535b4016631beddbdc2bfcd411b7ee679c482b4d6797f99f56cf51b0b3a3f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "rawWorkingSha256": "142bf170b5cd4bdd0769c369d00e0be577418e9ea22332516fc7af0caea3edde",
+        "normalizedSha256": "ba42ae6fd498a3cd6a0d09309a7de72359e3f00ca2748ddd863ee4a205d1ccd3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossController.cs",
+        "rawWorkingSha256": "605d7e7a6ec45f73ce192498824ad34cc72692d43e30029c68ce7a38614ecb4b",
+        "normalizedSha256": "605d7e7a6ec45f73ce192498824ad34cc72692d43e30029c68ce7a38614ecb4b"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "rawWorkingSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "rawWorkingSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorCollar.cs",
+        "rawWorkingSha256": "a694ae09f66ff8dbf88f5137f5f42f4ba09288686a8818fd9675fb01d2caddde",
+        "normalizedSha256": "a694ae09f66ff8dbf88f5137f5f42f4ba09288686a8818fd9675fb01d2caddde"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorCollar.cs.meta",
+        "rawWorkingSha256": "7c5c13e972f24f5d9ff8c862e15ac35732c64a9ede4e4005205cab515bd65a80",
+        "normalizedSha256": "7c5c13e972f24f5d9ff8c862e15ac35732c64a9ede4e4005205cab515bd65a80"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorRelease.cs",
+        "rawWorkingSha256": "5211f806c9a236cfc7af10c8d2999135e7ae5826bcad04fab818302b35de454a",
+        "normalizedSha256": "8c17243fba72d79d3445441c25a6603ba6ca35a09ce893ab75b6078de306a274"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatActor.cs",
+        "rawWorkingSha256": "be72da3d9b741279d308a046b6f88762cb79c4208edf31099a0b56747d1696e6",
+        "normalizedSha256": "e71a2dcf3e9448c8826098bea70de5a71908f9a24d50df3783821d45510d02e1"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "rawWorkingSha256": "864fa8efe0fb409798739884d5f770785d7f8b3b256cc833207ad9eebb8f1e6e",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "rawWorkingSha256": "6eba4a586b07c1b82e49d6eb322e007e883a7dda8c5d9d4fbb3cdc75379fded5",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "rawWorkingSha256": "147a43feab02ae95d52372446ecee1591427e8988de380c63723fad1acea034f",
+        "normalizedSha256": "be9d995244b01f35f61c8b1ee9890d0946e2433472c950fb8e9628a5dc545443"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "rawWorkingSha256": "c56420ff27d01d518ddc1768a6708aace81fd14eb8e55565dfc923fc3797ef3b",
+        "normalizedSha256": "80d3b19b44620b339ae54e72aabc79b1dfd5cba12d3d14d6ddb080a26566580d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/FlightMotor.cs",
+        "rawWorkingSha256": "ded961ad3949800cd3ce6d68b68f7abf18233f8e72650fee768467efb7135549",
+        "normalizedSha256": "ded961ad3949800cd3ce6d68b68f7abf18233f8e72650fee768467efb7135549"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "rawWorkingSha256": "01fb719e42d3ca6464e6cc80424525e204a151f2869aba5e9ad9645d1f0ce11d",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "rawWorkingSha256": "54af74cf01264e0bf6a8a5fbf2174d4c04f28cdfa733111c421ec8b4541cf895",
+        "normalizedSha256": "de8f34c05dc6b252028cd0274d5a8a07b8c8f3f48e6a71d8e57b2d99569298e1"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/Health.cs",
+        "rawWorkingSha256": "e308867f3aad91e96e4633d02e3f60f60a2a17611f854ec4ed148d3c6875b884",
+        "normalizedSha256": "fc46ce80f15b6a126383de575b4c41b7d32d9d560f8bf6a0641d359e513be3dd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartnerBrain.cs",
+        "rawWorkingSha256": "0ef3c7abf0432d07bf3904096b6653712fcdb74426ae48738bea782400877820",
+        "normalizedSha256": "0ef3c7abf0432d07bf3904096b6653712fcdb74426ae48738bea782400877820"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+        "rawWorkingSha256": "d1b2f5affacf4f361d5046d29aad27aefce5ff94f10c34a189b08d4655e155cf",
+        "normalizedSha256": "98b266f9d2181a3a216a1ce165bbc7bba6ecaeda985189d78068d76d3941767b"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PlayerBrain.cs",
+        "rawWorkingSha256": "ba96f8010a4203a8118551419e9d868abe3eed8d2def32cb582192da172a1003",
+        "normalizedSha256": "ba96f8010a4203a8118551419e9d868abe3eed8d2def32cb582192da172a1003"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/SerpentSegments.cs",
+        "rawWorkingSha256": "8bcd88a621c08462ce4fa86b79cf730fc33c1a7a49318ee6d5cc635f8beea52b",
+        "normalizedSha256": "8bcd88a621c08462ce4fa86b79cf730fc33c1a7a49318ee6d5cc635f8beea52b"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/BarkService.cs",
+        "rawWorkingSha256": "f6091df1edd1c90ea5dc7ec9deaa88fc7ebfc24809a0fb338dace46d06b769e4",
+        "normalizedSha256": "aad4aff4b6b7fb14d6a18089bb787f867447c0b461389a07af8a05ab6884cf9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/CameraRig.cs",
+        "rawWorkingSha256": "21a377d3ddffdfb453f1262778f9e6adb80ef7e5c9bf35c5e89091c3ac836ac0",
+        "normalizedSha256": "21a377d3ddffdfb453f1262778f9e6adb80ef7e5c9bf35c5e89091c3ac836ac0"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs",
+        "rawWorkingSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d",
+        "normalizedSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/Art/TerrainPoseAudit.cs",
+        "rawWorkingSha256": "aafd0f2662a8c9f5dd559385a492f16c312a9763d30177e0b0f234edf8860adc",
+        "normalizedSha256": "aafd0f2662a8c9f5dd559385a492f16c312a9763d30177e0b0f234edf8860adc"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/BatchTools.cs",
+        "rawWorkingSha256": "41d6e064b17fad39df70eb351cdd51e0954398f03ec8c2fc704eef408f968022",
+        "normalizedSha256": "41d6e064b17fad39df70eb351cdd51e0954398f03ec8c2fc704eef408f968022"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+        "rawWorkingSha256": "0510cd668bff126a7b034fa634e3e97f6b6dc9de1c161538e374aba90c79cde1",
+        "normalizedSha256": "f4995d76138275bb6eef1e347a3e9c7abe5ec016bcd345ab5ba0c2aaf16407c9"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+        "rawWorkingSha256": "b3e42554e2b65222275e94424873cd28b099e19c08d603e255ea1d9698085b21",
+        "normalizedSha256": "c2a58243043604e90852f59dbb5472c0b92ad47ef5e5578d480cc49e0e859754"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CaptureAudioWriter.cs",
+        "rawWorkingSha256": "d40d71cedec09de2853cbba3d7700f02024666d0e263a7bd53c43fb9d756e1d9",
+        "normalizedSha256": "b1057ef0274ee27e7e0a78bae119e208dcc503ede79ba087bfaf409834afbe09"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/ContinuousReview.cs",
+        "rawWorkingSha256": "1369d9fdc2c6f091b513d41c8a5159b97e634acb600d8dc7687828dfa798f4b1",
+        "normalizedSha256": "1369d9fdc2c6f091b513d41c8a5159b97e634acb600d8dc7687828dfa798f4b1"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "rawWorkingSha256": "dc0b3162c62cd94b94ba1f7b727fab76418361a7c4c614506415c23b3969407a",
+        "normalizedSha256": "6ce4e68b170320f0ea903367594b525dffcde91beb51d636181cf3c99743651a"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/GameHud.cs",
+        "rawWorkingSha256": "f686cd0a2bccc5ac571754e403c61969e7788a8dba6b4b5fc6986c2d13e9ebbd",
+        "normalizedSha256": "f686cd0a2bccc5ac571754e403c61969e7788a8dba6b4b5fc6986c2d13e9ebbd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/GroundPoseCapture.cs",
+        "rawWorkingSha256": "2ecc4f5613572cfa373c7968dfcd4243aec29e19cb8eac287f3fdbfa8f27b85f",
+        "normalizedSha256": "2ecc4f5613572cfa373c7968dfcd4243aec29e19cb8eac287f3fdbfa8f27b85f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/NativeGpuClock.cs",
+        "rawWorkingSha256": "e02b2f51cea6d55594d27bd65504c11b31b2cc04ed2f1e4ad3b962923867b0e8",
+        "normalizedSha256": "e02b2f51cea6d55594d27bd65504c11b31b2cc04ed2f1e4ad3b962923867b0e8"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/ObjectiveHud.cs",
+        "rawWorkingSha256": "a3d9916fa3bce0eb832a6c52353d535bb8b4a008b891abebbcd3009435132266",
+        "normalizedSha256": "a64436e1203dd647a8f3162c0459b089a69172b49f29a59458c386c528de8a30"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityCapture.cs",
+        "rawWorkingSha256": "f1e9e55cc124699301e4fb276bffddb808edf04bbfee66bd5c40a0b3db0c5443",
+        "normalizedSha256": "f6c85976908672b84ab1171647d4e15735f03bee438a872e44163ca6a3c4241f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityRoute.cs",
+        "rawWorkingSha256": "c92e3fc7f0e0792086f33ed95e6b9ba903d52a50d3d5f3be40027a9bedd02f51",
+        "normalizedSha256": "4625e3e2c1e33d8169e44df3b14639f88b97d179214b66f52084c60b6cf49376"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/SliceSmoke.cs",
+        "rawWorkingSha256": "58d978ca5bc1396e5df1a35eb9c70a6be2d0ec69b9dd5f783df0e2cabecb9949",
+        "normalizedSha256": "852c050b2fea01192c464be2f8ab8aea7e7c7c74d771f9da5d6bfac9774fa65b"
+      },
+      {
+        "path": "docs/quality/routes/chapter-10-gullet-evasive.json",
+        "rawWorkingSha256": "f0d87b1fa70007012531b35688a81f941204a166c808acc1a124d9d04d5a3fac",
+        "normalizedSha256": "f0d87b1fa70007012531b35688a81f941204a166c808acc1a124d9d04d5a3fac"
+      },
+      {
+        "path": "tools/native_gpu/CoronachGpuClock.cpp",
+        "rawWorkingSha256": "6ac85ca318a2173459d132bf87e4bae28563fabdfdefbf8dc8e8901253d1af76",
+        "normalizedSha256": "6ac85ca318a2173459d132bf87e4bae28563fabdfdefbf8dc8e8901253d1af76"
+      },
+      {
+        "path": "tools/native_gpu/THIRD-PARTY-NOTICES.txt",
+        "rawWorkingSha256": "a695d79444b4a8e58e07aeda1573d52fb848e02cbaa118cd482b5661a4be3265",
+        "normalizedSha256": "a695d79444b4a8e58e07aeda1573d52fb848e02cbaa118cd482b5661a4be3265"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C4/flight-evasion/clock-packages.json",
+    "bytes": 147967,
+    "sha256": "d008bd9b9dd56288a0d27850715bdc08a9355e819e28ab71bfc180c33888e5a7"
+  },
+  "priorDiagnosticPackages": {
+    "path": "Builds/quality/C4/flight-evasion/packages.json",
+    "bytes": 147907,
+    "sha256": "973206ecf78265ed782516fa884c8776bcb45fb2c20be5db49388645e2f38977"
+  },
+  "priorSpacingPackages": {
+    "path": "Builds/quality/C4/companion-spacing/packages.json",
+    "bytes": 146763,
+    "sha256": "53af8b1d572ffb2d42014209b5d2d15bc37e44b7dac10bf56865c6636f6e4933"
+  },
+  "tests": {
+    "Builds/quality/C4/companion-spacing/affected02.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "57",
+        "result": "Passed",
+        "total": "57",
+        "passed": "57",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:07:40Z",
+        "end-time": "2026-10-08 16:15:27Z",
+        "duration": "467.1042637"
+      },
+      "failed": []
+    },
+    "Builds/quality/C4/companion-spacing/candidate01.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "22",
+        "result": "Passed",
+        "total": "22",
+        "passed": "22",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 15:59:49Z",
+        "end-time": "2026-10-08 16:02:14Z",
+        "duration": "145.5114859"
+      },
+      "failed": []
+    },
+    "Builds/quality/C4/companion-spacing/no-aim.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:04:54Z",
+        "end-time": "2026-10-08 16:05:05Z",
+        "duration": "10.7928146"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheChorusLink",
+          "message": "  Sela cannot damage the actual selected link from its firing position\n  Expected: greater than or equal to 4\n  But was:  0\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/companion-spacing/original.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "6",
+        "result": "Failed(Child)",
+        "total": "6",
+        "passed": "0",
+        "failed": "6",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 15:57:00Z",
+        "end-time": "2026-10-08 15:58:04Z",
+        "duration": "63.5888968"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheChorusLink",
+          "message": "  Sela flight hull enters the visible animal envelope at link 1\n  Expected: greater than or equal to 0.25f\n  But was:  -1.69000006f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheSweepLink",
+          "message": "  Sela flight hull enters the visible animal envelope at link 0\n  Expected: greater than or equal to 0.25f\n  But was:  -1.69000006f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheVolleyLink",
+          "message": "  Sela flight hull enters the visible animal envelope at link 2\n  Expected: greater than or equal to 0.25f\n  But was:  -1.69000006f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.TarenClearsTheChorusLink",
+          "message": "  Taren flight hull enters the visible animal envelope at link 1\n  Expected: greater than or equal to 0.25f\n  But was:  -1.77999997f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.TarenClearsTheSweepLink",
+          "message": "  Taren flight hull enters the visible animal envelope at link 0\n  Expected: greater than or equal to 0.25f\n  But was:  -1.77999997f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.TarenClearsTheVolleyLink",
+          "message": "  Taren flight hull enters the visible animal envelope at link 2\n  Expected: greater than or equal to 0.25f\n  But was:  -1.77999997f\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/companion-spacing/wrong-plane.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:06:37Z",
+        "end-time": "2026-10-08 16:06:47Z",
+        "duration": "10.7856705"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheSweepLink",
+          "message": "  Sela is pushed off the flight plane beside the link\n  Expected: less than 0.100000001f\n  But was:  1.0f\n"
+        }
+      ]
+    },
+    "Builds/quality/C5/flash-barks/lost-cover.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:16:40Z",
+        "end-time": "2026-10-08 16:16:54Z",
+        "duration": "14.4652793"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.FlashBarkTests.AForcedCoverCanInterruptFlashBanter",
+          "message": "  repeat suppression swallowed urgent cover dialogue\n  Expected string length 41 but was 28. Strings differ at index 6.\n  Expected: \"Sela: Hold still, Vosk. I'm covering you.\"\n  But was:  \"Sela: You missed. I noticed.\"\n  -----------------^\n"
+        }
+      ]
+    },
+    "Builds/quality/C5/flash-barks/original.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "3",
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "1",
+        "failed": "2",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:03:07Z",
+        "end-time": "2026-10-08 16:03:55Z",
+        "duration": "48.0992571"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.FlashBarkTests.AFlashCannotInterruptTheForcedCoverLine",
+          "message": "  routine dodge banter interrupts the urgent cover line\n  Expected string length 41 but was 28. Strings differ at index 6.\n  Expected: \"Sela: Hold still, Vosk. I'm covering you.\"\n  But was:  \"Sela: You missed. I noticed.\"\n  -----------------^\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.FlashBarkTests.RepeatedSuccessfulDodgesDoNotRestartTheSameLine",
+          "message": "  another successful dodge repeats the same short bark after only five seconds\n  Expected: 1\n  But was:  2\n"
+        }
+      ]
+    },
+    "Builds/quality/C5/flash-barks/permanent-quiet.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:16:01Z",
+        "end-time": "2026-10-08 16:16:27Z",
+        "duration": "26.8064431"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.FlashBarkTests.RepeatedSuccessfulDodgesDoNotRestartTheSameLine",
+          "message": "  the same line never becomes eligible again after the quiet interval\n  Expected: 2\n  But was:  1\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/flight-evasion/candidate01.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "5",
+        "result": "Passed",
+        "total": "5",
+        "passed": "5",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:45:24Z",
+        "end-time": "2026-10-08 16:45:49Z",
+        "duration": "24.7823415"
+      },
+      "failed": []
+    },
+    "Builds/quality/C4/flight-evasion/clock-repair.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "19",
+        "result": "Passed",
+        "total": "19",
+        "passed": "19",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 17:00:02Z",
+        "end-time": "2026-10-08 17:02:53Z",
+        "duration": "171.4702651"
+      },
+      "failed": []
+    },
+    "Builds/quality/C4/flight-evasion/hull-entry.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 17:08:14Z",
+        "end-time": "2026-10-08 17:08:26Z",
+        "duration": "12.2344327"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.ASlowedFlightShotStillReactsBeforeHullContact",
+          "message": "  explicit incoming-shot policy never sent a roll\n  Expected: True\n  But was:  False\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/flight-evasion/implicit.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:48:05Z",
+        "end-time": "2026-10-08 16:48:10Z",
+        "duration": "5.0062091"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.IncomingFlightShotsRequireExplicitEvasionAndUseRealInput",
+          "message": "  default route gained implicit evasion\n  Expected: False\n  But was:  True\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/flight-evasion/original.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "5",
+        "result": "Failed(Child)",
+        "total": "5",
+        "passed": "3",
+        "failed": "2",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:43:28Z",
+        "end-time": "2026-10-08 16:43:50Z",
+        "duration": "22.530375"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.IncomingFlightShotsRequireExplicitEvasionAndUseRealInput",
+          "message": "  explicit incoming-shot policy never sent a roll\n  Expected: True\n  But was:  False\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.SelectingACollarLinkStillReadsItsCarriersTell",
+          "message": "  visible tell 0 received no ordinary dodge input\n  Expected: True\n  But was:  False\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/flight-evasion/slow-original.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "2",
+        "result": "Failed(Child)",
+        "total": "2",
+        "passed": "0",
+        "failed": "2",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:53:56Z",
+        "end-time": "2026-10-08 16:54:04Z",
+        "duration": "7.76421"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.ASlowedTellStillReceivesTheDodgeAtItsActualImpact",
+          "message": "  the input arrived outside the dodge window\n  Expected: 120.0f\n  But was:  100.0f\n"
+        },
+        {
+          "name": "Lattice.Tests.PlayMode.PartnerEvasionTests.TheFlightPartnerUsesOneLateRollForASlowedTell",
+          "message": "  one slowed tell makes the partner roll repeatedly\n  Expected: 1\n  But was:  2\n"
+        }
+      ]
+    },
+    "Builds/quality/C4/flight-evasion/slow-shot-input.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Passed",
+        "total": "1",
+        "passed": "1",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 17:09:07Z",
+        "end-time": "2026-10-08 17:09:19Z",
+        "duration": "12.2269751"
+      },
+      "failed": []
+    },
+    "Builds/quality/C4/flight-evasion/slow-shot-original.xml": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:56:53Z",
+        "end-time": "2026-10-08 16:57:01Z",
+        "duration": "8.0155826"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.PlayMode.PartnerEvasionTests.OneSlowedProjectileNeedsOneFlightRoll",
+          "message": "  one slowed projectile makes the flight partner roll repeatedly\n  Expected: 1\n  But was:  2\n"
+        }
+      ]
+    }
+  },
+  "controls": {
+    "spacing": {
+      "results": [
+        {
+          "label": "no-aim",
+          "exitCode": 2,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Failed(Child)",
+            "total": "1",
+            "passed": "0",
+            "failed": "1",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-08 16:04:54Z",
+            "end-time": "2026-10-08 16:05:05Z",
+            "duration": "10.7928146"
+          },
+          "failures": [
+            {
+              "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheChorusLink",
+              "message": "  Sela cannot damage the actual selected link from its firing position\n  Expected: greater than or equal to 4\n  But was:  0\n"
+            }
+          ],
+          "brokenSha256": "752d17d42a13db4710d5b4fa81b564eae17392bcb3e7ce4a67e97f03b087eb20"
+        },
+        {
+          "label": "wrong-plane",
+          "exitCode": 2,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Failed(Child)",
+            "total": "1",
+            "passed": "0",
+            "failed": "1",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-08 16:06:37Z",
+            "end-time": "2026-10-08 16:06:47Z",
+            "duration": "10.7856705"
+          },
+          "failures": [
+            {
+              "name": "Lattice.Tests.PlayMode.CompanionSpacingTests.SelaClearsTheSweepLink",
+              "message": "  Sela is pushed off the flight plane beside the link\n  Expected: less than 0.100000001f\n  But was:  1.0f\n"
+            }
+          ],
+          "brokenSha256": "cfdb5b252e0939f6bc9078b0f31139d41841a414800214366d75768062f1dd18"
+        }
+      ],
+      "restoredSha256": "5d097be9a14e3a5a293753860cb073d3af46132f8631826b2b87f5556abf35eb"
+    },
+    "barks": {
+      "results": [
+        {
+          "label": "permanent-quiet",
+          "path": "Lattice\\Assets\\_Project\\Scripts\\Core\\BarkService.cs",
+          "exitCode": 2,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Failed(Child)",
+            "total": "1",
+            "passed": "0",
+            "failed": "1",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-08 16:16:01Z",
+            "end-time": "2026-10-08 16:16:27Z",
+            "duration": "26.8064431"
+          },
+          "failures": [
+            {
+              "name": "Lattice.Tests.PlayMode.FlashBarkTests.RepeatedSuccessfulDodgesDoNotRestartTheSameLine",
+              "message": "  the same line never becomes eligible again after the quiet interval\n  Expected: 2\n  But was:  1\n"
+            }
+          ],
+          "brokenSha256": "e576735b709c79f5e59e3184acc7f819bba7a958793afb6eacbbb474fc3ab73e",
+          "restoredSha256": "f6091df1edd1c90ea5dc7ec9deaa88fc7ebfc24809a0fb338dace46d06b769e4"
+        },
+        {
+          "label": "lost-cover",
+          "path": "Lattice\\Assets\\_Project\\Scripts\\Combat\\PartyController.cs",
+          "exitCode": 2,
+          "summary": {
+            "id": "2",
+            "testcasecount": "1",
+            "result": "Failed(Child)",
+            "total": "1",
+            "passed": "0",
+            "failed": "1",
+            "inconclusive": "0",
+            "skipped": "0",
+            "asserts": "0",
+            "engine-version": "3.5.0.0",
+            "clr-version": "4.0.30319.42000",
+            "start-time": "2026-10-08 16:16:40Z",
+            "end-time": "2026-10-08 16:16:54Z",
+            "duration": "14.4652793"
+          },
+          "failures": [
+            {
+              "name": "Lattice.Tests.PlayMode.FlashBarkTests.AForcedCoverCanInterruptFlashBanter",
+              "message": "  repeat suppression swallowed urgent cover dialogue\n  Expected string length 41 but was 28. Strings differ at index 6.\n  Expected: \"Sela: Hold still, Vosk. I'm covering you.\"\n  But was:  \"Sela: You missed. I noticed.\"\n  -----------------^\n"
+            }
+          ],
+          "brokenSha256": "5931a054745c80ba65afa898f4dcaf04cd491b1db17952154e11f0be353c7974",
+          "restoredSha256": "d1b2f5affacf4f361d5046d29aad27aefce5ff94f10c34a189b08d4655e155cf"
+        }
+      ]
+    },
+    "implicitInput": {
+      "exitCode": 2,
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 16:48:05Z",
+        "end-time": "2026-10-08 16:48:10Z",
+        "duration": "5.0062091"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.IncomingFlightShotsRequireExplicitEvasionAndUseRealInput",
+          "message": "  default route gained implicit evasion\n  Expected: False\n  But was:  True\n"
+        }
+      ],
+      "brokenSha256": "f78e8a11a98bae705a6ffdc6e21b0716aaffd9b073b0c72232af8c113088d60e",
+      "restoredSha256": "9c01462707332cca5992a472dbcd1f3e207cf981240b42736fccb350ab7ae59e"
+    },
+    "hullEntry": {
+      "exitCode": 2,
+      "summary": {
+        "id": "2",
+        "testcasecount": "1",
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 17:08:14Z",
+        "end-time": "2026-10-08 17:08:26Z",
+        "duration": "12.2344327"
+      },
+      "failures": [
+        {
+          "name": "Lattice.Tests.PlayMode.ContinuousReviewTests.ASlowedFlightShotStillReactsBeforeHullContact",
+          "message": "  explicit incoming-shot policy never sent a roll\n  Expected: True\n  But was:  False\n"
+        }
+      ],
+      "brokenSha256": "f0130c9ef2dbca2f241f26e991ed745f8bd542bc27f47f3bcd2a0213bb24639f",
+      "restoredSha256": "1369d9fdc2c6f091b513d41c8a5159b97e634acb600d8dc7687828dfa798f4b1"
+    }
+  },
+  "wrapperRejections": [
+    {
+      "path": "Builds/quality/C4/companion-spacing/controls-first-wrapper-rejection.txt",
+      "bytes": 416,
+      "sha256": "b4fc058077e52fe38216e824bddeb20bf565f64a44d3cad1258146ceae23e659"
+    },
+    {
+      "path": "Builds/quality/C4/flight-evasion/hull-entry-wrapper-rejection.txt",
+      "bytes": 322,
+      "sha256": "cee51dcb711c195ca793b682d0d252e28505d1fef927d8c1a7c64be42720709c"
+    }
+  ],
+  "rejectedReplay": {
+    "scope": "Ordinary virtual-input capture. Log events are associated with their containing route checkpoint, not an exact event timestamp. No quality acceptance.",
+    "rawProcess": {
+      "processId": 54416,
+      "exitCode": 1,
+      "recordedUtc": "2026-10-08T16:34:08.9690972Z"
+    },
+    "runtimeValid": false,
+    "runtimeFailures": [
+      "Cantor emitter pursuit 6: navigation checkpoint missed",
+      "Cantor emitter pursuit 7: navigation checkpoint missed",
+      "Cantor emitter pursuit 8: navigation checkpoint missed",
+      "Cantor emitter pursuit 9: navigation checkpoint missed",
+      "Cantor emitter pursuit 10: navigation checkpoint missed",
+      "Cantor releases the exit: missing flag bossdown.Cantor",
+      "regroup after the coil: navigation checkpoint missed",
+      "both pilots ready for the exit: condition timeout partyAlive",
+      "leave the coil by its centre: navigation checkpoint missed",
+      "through the exit valve: navigation checkpoint missed",
+      "Tallow warp stance: navigation checkpoint missed",
+      "arrive at Tallow approach: scene Title expected TallowApproach",
+      "arrive at Tallow approach: party unavailable",
+      "simulation paused"
+    ],
+    "offlineValid": false,
+    "offlineFailures": [
+      "Cantor emitter pursuit 10: navigation checkpoint missed",
+      "Cantor emitter pursuit 6: navigation checkpoint missed",
+      "Cantor emitter pursuit 7: navigation checkpoint missed",
+      "Cantor emitter pursuit 8: navigation checkpoint missed",
+      "Cantor emitter pursuit 9: navigation checkpoint missed",
+      "Cantor releases the exit: missing flag bossdown.Cantor",
+      "Tallow warp stance: checkpoint not reached",
+      "Tallow warp stance: navigation checkpoint missed",
+      "arrive at Tallow approach: party unavailable",
+      "arrive at Tallow approach: scene Title expected TallowApproach",
+      "arrive at Tallow approach: wrong body form",
+      "arrive at Tallow approach: wrong scene",
+      "both pilots ready for the exit: condition timeout partyAlive",
+      "leave the coil by its centre: checkpoint not reached",
+      "leave the coil by its centre: navigation checkpoint missed",
+      "paused simulation",
+      "regroup after the coil: navigation checkpoint missed",
+      "runtime validation rejected",
+      "simulation paused",
+      "through the exit valve: checkpoint not reached",
+      "through the exit valve: navigation checkpoint missed"
+    ],
+    "events": [
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 105,
+          "name": "engage the Cantor inside its coil",
+          "firstElapsed": 591.166252,
+          "lastElapsed": 610.150803
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 108,
+          "name": "Cantor emitter pursuit 1",
+          "firstElapsed": 610.801017,
+          "lastElapsed": 628.785755
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 108,
+          "name": "Cantor emitter pursuit 1",
+          "firstElapsed": 610.801017,
+          "lastElapsed": 628.785755
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 112,
+          "name": "brake after roll",
+          "firstElapsed": 629.619256,
+          "lastElapsed": 630.218999
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.236141,
+          "lastElapsed": 648.221217
+        }
+      },
+      {
+        "message": "CANTOR_LINK_CUT index=0 remaining=2",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.236141,
+          "lastElapsed": 648.221217
+        }
+      },
+      {
+        "message": "BOSS_PHASE Cantor 2",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.236141,
+          "lastElapsed": 648.221217
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.236141,
+          "lastElapsed": 648.221217
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=14 stagger=True",
+        "checkpoint": {
+          "step": 118,
+          "name": "Cantor emitter pursuit 3",
+          "firstElapsed": 649.655359,
+          "lastElapsed": 667.640807
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 118,
+          "name": "Cantor emitter pursuit 3",
+          "firstElapsed": 649.655359,
+          "lastElapsed": 667.640807
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=14 stagger=True",
+        "checkpoint": {
+          "step": 119,
+          "name": "Cantor Pulse 3",
+          "firstElapsed": 667.657532,
+          "lastElapsed": 667.823842
+        }
+      },
+      {
+        "message": "CANTOR_LINK_CUT index=1 remaining=1",
+        "checkpoint": {
+          "step": 119,
+          "name": "Cantor Pulse 3",
+          "firstElapsed": 667.657532,
+          "lastElapsed": 667.823842
+        }
+      },
+      {
+        "message": "BOSS_PHASE Cantor 3",
+        "checkpoint": {
+          "step": 119,
+          "name": "Cantor Pulse 3",
+          "firstElapsed": 667.657532,
+          "lastElapsed": 667.823842
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 123,
+          "name": "Cantor emitter pursuit 4",
+          "firstElapsed": 669.090631,
+          "lastElapsed": 687.076899
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 123,
+          "name": "Cantor emitter pursuit 4",
+          "firstElapsed": 669.090631,
+          "lastElapsed": 687.076899
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 123,
+          "name": "Cantor emitter pursuit 4",
+          "firstElapsed": 669.090631,
+          "lastElapsed": 687.076899
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.527365,
+          "lastElapsed": 706.512667
+        }
+      }
+    ],
+    "cutOrder": [
+      0,
+      1
+    ],
+    "encounterClearObserved": false,
+    "engagement": {
+      "step": 105,
+      "name": "engage the Cantor inside its coil",
+      "firstElapsed": 591.166252,
+      "lastElapsed": 610.150803
+    },
+    "resolution": null,
+    "activeMinimumIntegrity": -1.0,
+    "partnerMinimumIntegrity": -1.0,
+    "focusedSamples": 54320,
+    "samples": 54320,
+    "everyIntervalAbove25ms": [
+      {
+        "elapsed": "2.984969",
+        "ms": "230.5125",
+        "step": "5",
+        "scene": "Gullet_Tunnel",
+        "focus": "True"
+      },
+      {
+        "elapsed": "3.021982",
+        "ms": "37.0133",
+        "step": "5",
+        "scene": "Gullet_Tunnel",
+        "focus": "True"
+      },
+      {
+        "elapsed": "3.425535",
+        "ms": "34.4559",
+        "step": "5",
+        "scene": "Gullet_Tunnel",
+        "focus": "True"
+      }
+    ],
+    "timing": {
+      "seconds": 905.665643,
+      "medianMs": 16.6684,
+      "p95Ms": 17.1447,
+      "worstMs": 230.5125,
+      "hitches": {
+        "25": 3,
+        "33.3": 3,
+        "50": 1,
+        "100": 1
+      }
+    },
+    "audio": {
+      "sampleRate": 48000,
+      "channels": 2,
+      "bufferCount": 32,
+      "maximumBlockSamples": 32768,
+      "peakQueuedBlocks": 2,
+      "sampleBufferBytes": 4325376,
+      "acceptedSamples": 86945792,
+      "writtenSamples": 86945792,
+      "writtenBytes": 347783168,
+      "completed": true,
+      "failure": ""
+    },
+    "finalState": {
+      "version": 2,
+      "savedAtUtc": "2026-10-08T16:19:05.8587257Z",
+      "zone": "Title",
+      "spawn": "Arrival",
+      "activeMember": 1,
+      "quickItem": "RepairGel",
+      "party": [
+        {
+          "id": "Taren",
+          "level": 7,
+          "xp": 322,
+          "integrity": 0.0,
+          "charge": 72.15808,
+          "gear": [],
+          "equipped": {
+            "Edge": "d9d44c28f06c4c9a8dd429017aab3e50",
+            "Frame": "2bfe275e75b545c8803ad5afa43df604"
+          },
+          "module2": null
+        },
+        {
+          "id": "Sela",
+          "level": 7,
+          "xp": 322,
+          "integrity": 0.0,
+          "charge": 71.45729,
+          "gear": [],
+          "equipped": {
+            "Frame": "c344d9840bcd41d69d1b33dec351662d",
+            "Emitter": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe"
+          },
+          "module2": null
+        }
+      ],
+      "flags": {
+        "met.Orrin": true,
+        "met.Mira": true,
+        "met.Hal": true,
+        "hal.lesson": true,
+        "met.Survivor": true,
+        "clear.Sorrel_4": true,
+        "clear.Sorrel_5": true,
+        "clear.Sorrel_6": true,
+        "clear.Sorrel_7": true,
+        "mined.ridge_1_1": true,
+        "mined.ridge_1_0": true,
+        "clear.Sorrel_Burrower": true,
+        "bossdown.Burrower": true,
+        "quest.Sorrel.complete": true,
+        "warpkey": true,
+        "clear.Hushwell_0": true,
+        "clear.Hushwell_1": true,
+        "clear.Hushwell_2": true,
+        "clear.Hushwell_3": true,
+        "clear.Hushwell_Bellows": true,
+        "bossdown.BellowsBelow": true,
+        "hushwell.nursery": true,
+        "quest.Hushwell.complete": true,
+        "clear.Gullet_Chamber_0": true,
+        "clear.Gullet_Chamber_1": true,
+        "clear.Gullet_Chamber_2": true
+      },
+      "materials": {
+        "ScrapAlloy": 131,
+        "LatticeFilament": 22,
+        "RidgeCrystal": 3,
+        "HuskCore": 4,
+        "WarpKey": 1,
+        "ChoirResin": 12
+      },
+      "collectedMaterials": {
+        "ScrapAlloy": 182,
+        "LatticeFilament": 22,
+        "RidgeCrystal": 5,
+        "HuskCore": 4,
+        "WarpKey": 1,
+        "ChoirResin": 12
+      },
+      "consumables": {
+        "RepairGel": 6
+      },
+      "craftingXp": {
+        "Edges": 50,
+        "Emitters": 150,
+        "Frames": 20
+      },
+      "questSteps": {
+        "Sorrel": 4,
+        "MiraCrystals": 0,
+        "Hushwell": 2
+      },
+      "questCounts": {
+        "Sorrel/0": 1,
+        "Sorrel/1": 1,
+        "MiraCrystals/0": 2,
+        "Sorrel/2": 1,
+        "Sorrel/3": 1,
+        "Hushwell/0": 1,
+        "Hushwell/1": 1
+      },
+      "parts": [
+        {
+          "instanceId": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe",
+          "definitionId": "EmittersT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "72f1a314a3234d6aa4102cf6bb86fd7b",
+          "definitionId": "EdgesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "c693c9b2db0645d1b3635d9ddbc21ebc",
+          "definitionId": "EdgesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "816e7f8d257c4b78b85b020aa81a2569",
+          "definitionId": "EdgesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "d9d44c28f06c4c9a8dd429017aab3e50",
+          "definitionId": "EdgesT2",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "2bfe275e75b545c8803ad5afa43df604",
+          "definitionId": "FramesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "c344d9840bcd41d69d1b33dec351662d",
+          "definitionId": "FramesT1",
+          "upgrade": 0,
+          "affixes": []
+        }
+      ],
+      "scrip": 1294,
+      "playtime": 2279.07739
+    },
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalPresentation": "UNVERIFIED"
+  },
+  "rejectedObservations": {
+    "status": "REJECTED ordinary route; no Cantor release or Tallow arrival",
+    "imagesOpened": [
+      {
+        "path": "player01/combat-entry.png",
+        "requestedElapsed": 615,
+        "index": 18450,
+        "elapsed": 615.003124
+      },
+      {
+        "path": "player01/combat-first-link.png",
+        "requestedElapsed": 635,
+        "index": 19050,
+        "elapsed": 635.004477
+      },
+      {
+        "path": "player01/combat-second-link.png",
+        "requestedElapsed": 660,
+        "index": 19800,
+        "elapsed": 660.007747
+      },
+      {
+        "path": "player01/taren-down.png",
+        "requestedElapsed": 674,
+        "index": 20220,
+        "elapsed": 674.012969
+      },
+      {
+        "path": "player01/sela-alone.png",
+        "requestedElapsed": 687,
+        "index": 20610,
+        "elapsed": 687.011971
+      },
+      {
+        "path": "player01/party-down.png",
+        "requestedElapsed": 706,
+        "index": 21180,
+        "elapsed": 706.013926
+      }
+    ],
+    "observations": [
+      "615/635/660 seconds: Sela is beside the animal with clear separation, active Taren stays in its firing lane",
+      "674: forced takeover and urgent cover line, disabled Taren visible, third link 4702/5500",
+      "687: Sela still faces from the head side, third link remains 4702/5500, Sela at 49 integrity",
+      "706: LINK LOST with both disabled ships visible"
+    ],
+    "allSamplesFocused": true,
+    "firstDown": {
+      "elapsed": "673.526321",
+      "ms": "18.0892",
+      "step": "123",
+      "scene": "Gullet_Tunnel",
+      "hero": "Taren",
+      "form": "Flight",
+      "state": "Down",
+      "clip": "ship",
+      "animationTime": "0.0000",
+      "x": "2.36782",
+      "y": "1.00000",
+      "z": "790.36850",
+      "cameraX": "-2.41493",
+      "cameraY": "43.70100",
+      "cameraZ": "762.55020",
+      "forwardX": "-0.38909",
+      "forwardZ": "0.92120",
+      "pelvisYaw": "NaN",
+      "chestYaw": "NaN",
+      "reportedSpeed": "0.0000",
+      "integrity": "0.0",
+      "focus": "True",
+      "paused": "False",
+      "blocked": "False",
+      "gameDelta": "0.016663",
+      "gcCollections": "67",
+      "gcBytes": "7928",
+      "mainThreadNs": "16654400",
+      "renderThreadNs": "-1",
+      "batches": "-1",
+      "memoryBytes": "971770684",
+      "dialogueLines": "0",
+      "prompt": "",
+      "speaker": "",
+      "partnerHealth": "188.9",
+      "partnerState": "Move",
+      "hudNs": "-1",
+      "hudBytes": "-1",
+      "audioVoices": "-1",
+      "sceneObjects": "4464",
+      "objects": "8141",
+      "activeCpuNs": "-1",
+      "activeRenderNs": "-1",
+      "gpuWorkNs": "-1",
+      "capWaitNs": "-1",
+      "ftmTimestamp": "0",
+      "ftmGpuMs": "-1.000000",
+      "ftmCpuMs": "-1.000000",
+      "ui": "world"
+    },
+    "initial": {
+      "elapsed": "591.166252",
+      "ms": "16.8704",
+      "step": "105",
+      "scene": "Gullet_Tunnel",
+      "hero": "Taren",
+      "form": "Flight",
+      "state": "Idle",
+      "clip": "ship",
+      "animationTime": "0.0000",
+      "x": "0.16303",
+      "y": "1.00000",
+      "z": "754.45280",
+      "cameraX": "0.16961",
+      "cameraY": "20.32177",
+      "cameraZ": "736.85550",
+      "forwardX": "-0.03293",
+      "forwardZ": "0.99946",
+      "pelvisYaw": "NaN",
+      "chestYaw": "NaN",
+      "reportedSpeed": "0.0000",
+      "integrity": "170.9",
+      "focus": "True",
+      "paused": "False",
+      "blocked": "False",
+      "gameDelta": "0.016669",
+      "gcCollections": "62",
+      "gcBytes": "10646",
+      "mainThreadNs": "16667300",
+      "renderThreadNs": "-1",
+      "batches": "-1",
+      "memoryBytes": "964956816",
+      "dialogueLines": "0",
+      "prompt": "",
+      "speaker": "",
+      "partnerHealth": "188.9",
+      "partnerState": "Idle",
+      "hudNs": "-1",
+      "hudBytes": "-1",
+      "audioVoices": "-1",
+      "sceneObjects": "4178",
+      "objects": "7853",
+      "activeCpuNs": "-1",
+      "activeRenderNs": "-1",
+      "gpuWorkNs": "-1",
+      "capWaitNs": "-1",
+      "ftmTimestamp": "0",
+      "ftmGpuMs": "-1.000000",
+      "ftmCpuMs": "-1.000000",
+      "ui": "world"
+    },
+    "minimumAvailableActiveIntegrity": 0.0,
+    "minimumAvailablePartnerIntegrity": 0.0,
+    "missingActorSamples": 638,
+    "limitations": [
+      "No continuous video/audio observed",
+      "Old input routine has no reactive evasion and the scripted firing stages last 18 seconds",
+      "Companion shielding is a supported hypothesis from old/new geometry and projectile collision rules, not yet an isolated causal result",
+      "The existing combat report raw minimum -1 denotes unavailable actor samples after Title, not negative health",
+      "Battle balance remains open; retain all failures and diagnose changed input before changing damage"
+    ]
+  },
+  "replay": {
+    "scope": "Ordinary virtual-input capture. Log events are associated with their containing route checkpoint, not an exact event timestamp. No quality acceptance.",
+    "rawProcess": {
+      "processId": 31436,
+      "exitCode": 0,
+      "recordedUtc": "2026-10-08T17:25:20.5021095Z"
+    },
+    "runtimeValid": true,
+    "runtimeFailures": [],
+    "offlineValid": true,
+    "offlineFailures": [],
+    "events": [
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 105,
+          "name": "engage the Cantor inside its coil",
+          "firstElapsed": 591.156489,
+          "lastElapsed": 610.14299
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 108,
+          "name": "Cantor emitter pursuit 1",
+          "firstElapsed": 610.809942,
+          "lastElapsed": 628.79507
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 108,
+          "name": "Cantor emitter pursuit 1",
+          "firstElapsed": 610.809942,
+          "lastElapsed": 628.79507
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.245524,
+          "lastElapsed": 648.230465
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=8 stagger=False",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.245524,
+          "lastElapsed": 648.230465
+        }
+      },
+      {
+        "message": "CANTOR_LINK_CUT index=0 remaining=2",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.245524,
+          "lastElapsed": 648.230465
+        }
+      },
+      {
+        "message": "BOSS_PHASE Cantor 2",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.245524,
+          "lastElapsed": 648.230465
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 113,
+          "name": "Cantor emitter pursuit 2",
+          "firstElapsed": 630.245524,
+          "lastElapsed": 648.230465
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=14 stagger=True",
+        "checkpoint": {
+          "step": 118,
+          "name": "Cantor emitter pursuit 3",
+          "firstElapsed": 649.681008,
+          "lastElapsed": 667.666836
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 118,
+          "name": "Cantor emitter pursuit 3",
+          "firstElapsed": 649.681008,
+          "lastElapsed": 667.666836
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=14 stagger=True",
+        "checkpoint": {
+          "step": 123,
+          "name": "Cantor emitter pursuit 4",
+          "firstElapsed": 669.117396,
+          "lastElapsed": 687.102181
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 123,
+          "name": "Cantor emitter pursuit 4",
+          "firstElapsed": 669.117396,
+          "lastElapsed": 687.102181
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=14 stagger=True",
+        "checkpoint": {
+          "step": 123,
+          "name": "Cantor emitter pursuit 4",
+          "firstElapsed": 669.117396,
+          "lastElapsed": 687.102181
+        }
+      },
+      {
+        "message": "CANTOR_LINK_CUT index=1 remaining=1",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.552328,
+          "lastElapsed": 706.5377
+        }
+      },
+      {
+        "message": "BOSS_PHASE Cantor 3",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.552328,
+          "lastElapsed": 706.5377
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.552328,
+          "lastElapsed": 706.5377
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.552328,
+          "lastElapsed": 706.5377
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.552328,
+          "lastElapsed": 706.5377
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 128,
+          "name": "Cantor emitter pursuit 5",
+          "firstElapsed": 688.552328,
+          "lastElapsed": 706.5377
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 133,
+          "name": "Cantor emitter pursuit 6",
+          "firstElapsed": 707.987974,
+          "lastElapsed": 725.972643
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 133,
+          "name": "Cantor emitter pursuit 6",
+          "firstElapsed": 707.987974,
+          "lastElapsed": 725.972643
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 133,
+          "name": "Cantor emitter pursuit 6",
+          "firstElapsed": 707.987974,
+          "lastElapsed": 725.972643
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 137,
+          "name": "brake after roll",
+          "firstElapsed": 726.8226,
+          "lastElapsed": 727.406002
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 138,
+          "name": "Cantor emitter pursuit 7",
+          "firstElapsed": 727.42248,
+          "lastElapsed": 745.409009
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 138,
+          "name": "Cantor emitter pursuit 7",
+          "firstElapsed": 727.42248,
+          "lastElapsed": 745.409009
+        }
+      },
+      {
+        "message": "CANTOR_LINK_CUT index=2 remaining=0",
+        "checkpoint": {
+          "step": 138,
+          "name": "Cantor emitter pursuit 7",
+          "firstElapsed": 727.42248,
+          "lastElapsed": 745.409009
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=False radius=5 stagger=False",
+        "checkpoint": {
+          "step": 140,
+          "name": "Cantor Pulse 7 release",
+          "firstElapsed": 745.60932,
+          "lastElapsed": 746.058465
+        }
+      },
+      {
+        "message": "CANTOR_TELL song=True radius=10 stagger=False",
+        "checkpoint": {
+          "step": 143,
+          "name": "Cantor emitter pursuit 8",
+          "firstElapsed": 746.875652,
+          "lastElapsed": 751.458885
+        }
+      },
+      {
+        "message": "ENCOUNTER_CLEAR Gullet_Cantor",
+        "checkpoint": {
+          "step": 143,
+          "name": "Cantor emitter pursuit 8",
+          "firstElapsed": 746.875652,
+          "lastElapsed": 751.458885
+        }
+      },
+      {
+        "message": "BOSS_DURATION Cantor seconds=150.6",
+        "checkpoint": {
+          "step": 143,
+          "name": "Cantor emitter pursuit 8",
+          "firstElapsed": 746.875652,
+          "lastElapsed": 751.458885
+        }
+      }
+    ],
+    "cutOrder": [
+      0,
+      1,
+      2
+    ],
+    "encounterClearObserved": true,
+    "engagement": {
+      "step": 105,
+      "name": "engage the Cantor inside its coil",
+      "firstElapsed": 591.156489,
+      "lastElapsed": 610.14299
+    },
+    "resolution": {
+      "message": "ENCOUNTER_CLEAR Gullet_Cantor",
+      "checkpoint": {
+        "step": 143,
+        "name": "Cantor emitter pursuit 8",
+        "firstElapsed": 746.875652,
+        "lastElapsed": 751.458885
+      }
+    },
+    "activeMinimumIntegrity": 161.8,
+    "partnerMinimumIntegrity": 188.9,
+    "focusedSamples": 51338,
+    "samples": 51338,
+    "everyIntervalAbove25ms": [
+      {
+        "elapsed": "2.948292",
+        "ms": "226.8888",
+        "step": "5",
+        "scene": "Gullet_Tunnel",
+        "focus": "True"
+      },
+      {
+        "elapsed": "2.988412",
+        "ms": "40.1201",
+        "step": "5",
+        "scene": "Gullet_Tunnel",
+        "focus": "True"
+      },
+      {
+        "elapsed": "3.403399",
+        "ms": "29.9930",
+        "step": "5",
+        "scene": "Gullet_Tunnel",
+        "focus": "True"
+      }
+    ],
+    "timing": {
+      "seconds": 855.938883,
+      "medianMs": 16.6677,
+      "p95Ms": 17.1597,
+      "worstMs": 226.8888,
+      "hitches": {
+        "25": 3,
+        "33.3": 2,
+        "50": 1,
+        "100": 1
+      }
+    },
+    "audio": {
+      "sampleRate": 48000,
+      "channels": 2,
+      "bufferCount": 32,
+      "maximumBlockSamples": 32768,
+      "peakQueuedBlocks": 2,
+      "sampleBufferBytes": 4325376,
+      "acceptedSamples": 82171904,
+      "writtenSamples": 82171904,
+      "writtenBytes": 328687616,
+      "completed": true,
+      "failure": ""
+    },
+    "finalState": {
+      "version": 2,
+      "savedAtUtc": "2026-10-08T17:25:12.1372550Z",
+      "zone": "TallowApproach",
+      "spawn": "Arrival",
+      "activeMember": 0,
+      "quickItem": "RepairGel",
+      "party": [
+        {
+          "id": "Taren",
+          "level": 7,
+          "xp": 562,
+          "integrity": 161.814682,
+          "charge": 38.3226128,
+          "gear": [],
+          "equipped": {
+            "Edge": "d9d44c28f06c4c9a8dd429017aab3e50",
+            "Frame": "2bfe275e75b545c8803ad5afa43df604"
+          },
+          "module2": null
+        },
+        {
+          "id": "Sela",
+          "level": 7,
+          "xp": 562,
+          "integrity": 188.86499,
+          "charge": 58.2936172,
+          "gear": [],
+          "equipped": {
+            "Frame": "c344d9840bcd41d69d1b33dec351662d",
+            "Emitter": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe"
+          },
+          "module2": null
+        }
+      ],
+      "flags": {
+        "met.Orrin": true,
+        "met.Mira": true,
+        "met.Hal": true,
+        "hal.lesson": true,
+        "met.Survivor": true,
+        "clear.Sorrel_4": true,
+        "clear.Sorrel_5": true,
+        "clear.Sorrel_6": true,
+        "clear.Sorrel_7": true,
+        "mined.ridge_1_1": true,
+        "mined.ridge_1_0": true,
+        "clear.Sorrel_Burrower": true,
+        "bossdown.Burrower": true,
+        "quest.Sorrel.complete": true,
+        "warpkey": true,
+        "clear.Hushwell_0": true,
+        "clear.Hushwell_1": true,
+        "clear.Hushwell_2": true,
+        "clear.Hushwell_3": true,
+        "clear.Hushwell_Bellows": true,
+        "bossdown.BellowsBelow": true,
+        "hushwell.nursery": true,
+        "quest.Hushwell.complete": true,
+        "clear.Gullet_Chamber_0": true,
+        "clear.Gullet_Chamber_1": true,
+        "clear.Gullet_Chamber_2": true,
+        "clear.Gullet_Cantor": true,
+        "bossdown.Cantor": true
+      },
+      "materials": {
+        "ScrapAlloy": 143,
+        "LatticeFilament": 22,
+        "RidgeCrystal": 3,
+        "HuskCore": 4,
+        "WarpKey": 1,
+        "ChoirResin": 15,
+        "CantorPearl": 1
+      },
+      "collectedMaterials": {
+        "ScrapAlloy": 194,
+        "LatticeFilament": 22,
+        "RidgeCrystal": 5,
+        "HuskCore": 4,
+        "WarpKey": 1,
+        "ChoirResin": 15,
+        "CantorPearl": 1
+      },
+      "consumables": {
+        "RepairGel": 6
+      },
+      "craftingXp": {
+        "Edges": 50,
+        "Emitters": 150,
+        "Frames": 20
+      },
+      "questSteps": {
+        "Sorrel": 4,
+        "MiraCrystals": 0,
+        "Hushwell": 2
+      },
+      "questCounts": {
+        "Sorrel/0": 1,
+        "Sorrel/1": 1,
+        "MiraCrystals/0": 2,
+        "Sorrel/2": 1,
+        "Sorrel/3": 1,
+        "Hushwell/0": 1,
+        "Hushwell/1": 1
+      },
+      "parts": [
+        {
+          "instanceId": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe",
+          "definitionId": "EmittersT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "72f1a314a3234d6aa4102cf6bb86fd7b",
+          "definitionId": "EdgesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "c693c9b2db0645d1b3635d9ddbc21ebc",
+          "definitionId": "EdgesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "816e7f8d257c4b78b85b020aa81a2569",
+          "definitionId": "EdgesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "d9d44c28f06c4c9a8dd429017aab3e50",
+          "definitionId": "EdgesT2",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "2bfe275e75b545c8803ad5afa43df604",
+          "definitionId": "FramesT1",
+          "upgrade": 0,
+          "affixes": []
+        },
+        {
+          "instanceId": "c344d9840bcd41d69d1b33dec351662d",
+          "definitionId": "FramesT1",
+          "upgrade": 0,
+          "affixes": []
+        }
+      ],
+      "scrip": 1444,
+      "playtime": 2229.56079
+    },
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalPresentation": "UNVERIFIED"
+  },
+  "observations": {
+    "imagesOpened": [
+      {
+        "path": "player01/early-flight.png",
+        "requestedElapsed": 615,
+        "index": 18450,
+        "elapsed": 615.012351
+      },
+      {
+        "path": "player01/first-link.png",
+        "requestedElapsed": 650,
+        "index": 19500,
+        "elapsed": 650.01578
+      },
+      {
+        "path": "player01/second-link.png",
+        "requestedElapsed": 690,
+        "index": 20700,
+        "elapsed": 690.004001
+      },
+      {
+        "path": "player01/third-link.png",
+        "requestedElapsed": 720,
+        "index": 21600,
+        "elapsed": 720.007197
+      },
+      {
+        "path": "player01/lock-window.png",
+        "requestedElapsed": 750,
+        "index": 22500,
+        "elapsed": 750.011269
+      },
+      {
+        "path": "player01/release+0.20.png",
+        "requestedElapsed": 751.658885,
+        "index": 22549,
+        "elapsed": 751.644374
+      },
+      {
+        "path": "player01/release+0.85.png",
+        "requestedElapsed": 752.308885,
+        "index": 22569,
+        "elapsed": 752.310971
+      },
+      {
+        "path": "player01/release+1.50.png",
+        "requestedElapsed": 752.958885,
+        "index": 22588,
+        "elapsed": 752.944116
+      },
+      {
+        "path": "player01/release+1.80.png",
+        "requestedElapsed": 753.258885,
+        "index": 22597,
+        "elapsed": 753.244724
+      },
+      {
+        "path": "player01/release+2.75.png",
+        "requestedElapsed": 754.208885,
+        "index": 22626,
+        "elapsed": 754.211082
+      },
+      {
+        "path": "player01/release+3.20.png",
+        "requestedElapsed": 754.658885,
+        "index": 22639,
+        "elapsed": 754.644308
+      }
+    ],
+    "method": "Eleven extracted video frames actually opened with view_image; no continuous video watched or audio auditioned.",
+    "observations": [
+      "Both ships clearly separated from the animal at 615, 650, 690, 720 and 750 seconds",
+      "Both ships fully inside all six sampled release/return frames",
+      "Whole animal visible through selected +1.50; head leaves the top by +1.80 after the bounded hold",
+      "Three link objectives and final exposed lock readable; bands remain blockout geometry",
+      "Selected separation improves; continuous motion, text readability, physical feel and final quality remain unaccepted"
+    ],
+    "anchor": {
+      "step": 143,
+      "name": "Cantor emitter pursuit 8",
+      "firstElapsed": 746.875652,
+      "lastElapsed": 751.458885
+    },
+    "anchorScope": "Offsets from last sample of resolving checkpoint, not an exact lethal timestamp.",
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalPresentation": "UNVERIFIED"
+  },
+  "displayBefore": {
+    "utc": "2026-10-08T17:10:51.0473237Z",
+    "session": 1,
+    "awakeRequested": false,
+    "observations": [
+      "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+      "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+      "2026-10-08T17:10:51.0639336Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=0",
+      "2026-10-08T17:10:51.0639336Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=0",
+      "unregister result=0",
+      "unregister result=0"
+    ]
+  },
+  "displayAfter": {
+    "utc": "2026-10-08T17:25:36.4051744Z",
+    "session": 1,
+    "awakeRequested": false,
+    "observations": [
+      "register 2b84c20e-ad23-4ddf-93db-05ffbd7efca5 result=0",
+      "register 6fe69556-704a-47a0-8f24-c28d936fda47 result=0",
+      "2026-10-08T17:25:36.4255739Z type=32787 setting=2b84c20e-ad23-4ddf-93db-05ffbd7efca5 length=4 value=0",
+      "2026-10-08T17:25:36.4255739Z type=32787 setting=6fe69556-704a-47a0-8f24-c28d936fda47 length=4 value=0",
+      "unregister result=0",
+      "unregister result=0"
+    ]
+  },
+  "inputContract": "Original chapter-10 route unchanged. New variant preserves every step/assertion/duration/button; only eleven firing stages opt into carrier-tell and visible-shot reactions through actual gamepad input. Capture copy additionally defers live PNG requests.",
+  "preservation": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-affected02-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-affected02-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-candidate01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-candidate01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-no-aim-wrapper-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-no-aim-wrapper-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-player01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-player01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-wrong-plane-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/companion-spacing-wrong-plane-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flash-barks-lost-cover-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flash-barks-lost-cover-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flash-barks-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flash-barks-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flash-barks-permanent-quiet-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flash-barks-permanent-quiet-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-candidate01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-candidate01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-clock-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-clock-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-clock-repair-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-clock-repair-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-hull-entry-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-hull-entry-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-implicit-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-implicit-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-player01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-player01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-slow-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-slow-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-slow-shot-input-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-slow-shot-input-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-slow-shot-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/flight-evasion-slow-shot-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    }
+  ],
+  "evidenceInventories": [
+    {
+      "path": "Builds/quality/C4/companion-spacing/evidence-inventory.json",
+      "bytes": 26010,
+      "sha256": "a53d42bf34bac6787fdce57df8534c909feca881143198f00b5a8de95be21141"
+    },
+    {
+      "path": "Builds/quality/C5/flash-barks/evidence-inventory.json",
+      "bytes": 2966,
+      "sha256": "04eeb5137340be80b902a987fbb0695874ee83ea72846a59a390d9c9ed0f4a98"
+    },
+    {
+      "path": "Builds/quality/C4/flight-evasion/evidence-inventory.json",
+      "bytes": 59232,
+      "sha256": "5d3d3466dbf2cec1cdd350544d4443c70d03c6c1ab85128110315347d565c087"
+    }
+  ],
+  "suiteScope": "57 spacing/text integration checks before clock repair; 19 affected clock checks plus one later slow-shot check. All green results have zero skips. No fresh full suite claimed.",
+  "limitations": [
+    "The 905.666-second old-input route remains rejected after two links and both heroes down",
+    "The new 150.6-second legal virtual-input fight does not accept human balance; final Taren 161.814682, Sela 188.86499 integrity",
+    "No combat damage reduction or outcome bypass; companion shielding explanation remains an unisolated hypothesis",
+    "Raw -1 integrity in the rejected report denotes missing actors at Title, not negative health",
+    "Display-off VSync-0 capture is excluded from clean C1 timing/presentation; retain every original hitch and invalid GPU sample",
+    "Flash change is text arbitration only, not voice/audio acceptance",
+    "No continuous video/audio/physical observation; final collar art, preview/story and all unmet gates remain OPEN"
+  ]
+}

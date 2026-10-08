@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Companion spacing and real-time evasion reach Tallow — October 8
+
+**C3/C4/C5/C6/C8 remain OPEN.** Both standard players contain companion spacing, Flash-text arbitration and real-time evasion repairs. The spacing/text candidate passes 57 affected checks, followed by 19 affected clock checks and one additional slowed-projectile input check, all with zero skips. Original failures, deliberate faults and both earlier-assertion wrapper rejections remain. [Evidence and exact inventories](validation/C4-companion-spacing.md).
+
+The first unchanged earned route **REJECTS** after two links and both heroes down: 905.666 seconds / 54,320 focused samples, exit 1. It stays rejected. An explicit reactive-input variant preserves every old step/assertion/duration/button request and passes in **855.939 seconds / 51,338 fully focused samples**, exit 0. Three cuts and the final lock resolve a **150.6-second** fight; both living heroes save at TallowApproach, without docking or chapter completion. Taren finishes at 161.8 integrity and Sela at 188.9. This legal virtual-input outcome does not accept balance.
+
+Eleven opened frames show clear companion/animal separation and both ships inside sampled release/return views. The whole animal remains visible through +1.50 and begins leaving the top by +1.80 after the bounded hold. Continuous motion/audio and physical quality stay UNVERIFIED. Displays off/VSync 0 and all three retained loading hitches exclude clean C1 acceptance; older awake hitches and invalid GPU evidence remain unresolved. Nathan's saves and frozen a3aaad6 match. Exact prior and rejected players are archived; no presentation candidate is validated. Continue final collar art, preview/story and other dependency-safe production while every unmet gate remains OPEN.
+
 ## Nearby companions share the flight frame — October 8
 
 **C3/C4/C8 remain OPEN.** Both standard players now include nearby living and disabled companion craft in encounter/release bounds, limited to 30 m. The original clipping and both deliberately broken distance/downed controls reject; **32 affected PlayMode checks pass**, zero skipped. [Evidence and exact inventories](validation/C4-companion-framing.md).

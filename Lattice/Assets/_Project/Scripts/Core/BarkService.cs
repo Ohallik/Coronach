@@ -8,11 +8,17 @@ namespace Lattice.Core
     {
         public static event Action<string,string> Spoken;
         static Dictionary<string,Dictionary<string,string>> table;
+        static readonly Dictionary<string,float> nextFlash=new();
         static float next;
         public static void Play(string character,string situation,bool priority=false)
         {
             if(Time.unscaledTime<next&&!priority)return;
-            var line=Line(character,situation);if(line==null)return;next=Time.unscaledTime+4;Spoken?.Invoke(character,line);
+            // Repeated successful evasions must not restart the same banter
+            // every few seconds. Urgent cover/story calls keep their priority.
+            if(situation=="flash"&&nextFlash.TryGetValue(character,out var after)&&Time.unscaledTime<after)return;
+            var line=Line(character,situation);if(line==null)return;
+            if(situation=="flash")nextFlash[character]=Time.unscaledTime+12;
+            next=Time.unscaledTime+4;Spoken?.Invoke(character,line);
         }
         /// <summary>The authored line for a situation, or null.</summary>
         public static string Line(string character,string situation)

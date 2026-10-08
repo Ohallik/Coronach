@@ -105,7 +105,7 @@ namespace Lattice.Combat
                 {
                     flashConsumed=true;FlashMoves++;Health.InvulnerableUntil=GameTime.Now+1.5f;
                     StartCoroutine(FlashTime());Debug.Log("FLASH_MOVE_OK");
-                    AudioManager.Play("forceField_000",.3f);BarkService.Play(character,"flash",true);
+                    AudioManager.Play("forceField_000",.3f);BarkService.Play(character,"flash");
                     if(flight){critical=true;charge=Mathf.Min(100,charge+25);}
                 }
                 return true;

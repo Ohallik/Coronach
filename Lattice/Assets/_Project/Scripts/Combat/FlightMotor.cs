@@ -69,6 +69,15 @@ namespace Lattice.Combat
             if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
         }
         public void Dash(Vector3 direction,float distance){DashSequence++;Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;thrustFrame=Time.frameCount;engineDrive=2.3f;transform.rotation=Quaternion.LookRotation(Facing);}
+        // A companion can brake into a firing position, then turn its actual
+        // nose toward the link. Player thrust/aim rules are unchanged.
+        public void FaceTarget(Vector3 direction)
+        {
+            if(Core.GameTime.Paused||dashRemaining>0||actor!=null&&(!actor.Health.Alive||actor.Recovering||actor.ChangingForm))return;
+            direction.y=0;if(direction.sqrMagnitude<.01f)return;
+            var turn=Quaternion.RotateTowards(Quaternion.LookRotation(Facing),Quaternion.LookRotation(direction),360*(actor!=null?actor.MotorDelta:Time.deltaTime));
+            Facing=turn*Vector3.forward;transform.rotation=turn;
+        }
         void OnControllerColliderHit(ControllerColliderHit hit)
         {
             // Combatants resolve damage through their attacks. Brushing a partner or a

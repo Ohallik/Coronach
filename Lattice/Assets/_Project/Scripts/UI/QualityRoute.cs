@@ -45,6 +45,9 @@ namespace Lattice.UI
         // Opt-in agent reaction to the chased enemy's visible attack wind-up.
         // It queues a lateral stick + dodge press through the ordinary input path.
         public bool evadeTelegraphs;
+        // Explicit replay policy only: react to an incoming visible shot with
+        // normal stick/roll input. Default routes retain their original input.
+        public bool evadeProjectiles;
         public Vector3 point;
         public float tolerance = .65f, magnitude = 1, pulseSeconds;
         public string[] buttons;
