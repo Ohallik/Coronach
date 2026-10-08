@@ -48,6 +48,7 @@ namespace Lattice.Combat
         Vector3 freeDirection=Vector3.forward;
         float turnRecovery;
         float balanceWeight;
+        float idleBalanceLift;
         Vector3 balanceUp=Vector3.up;
         void OnEnable(){ResetContacts();}
 
@@ -183,6 +184,15 @@ namespace Lattice.Combat
             Apply(left,clip,cycle,stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
             Apply(right,clip,Mathf.Repeat(cycle-(clip=="Sprint"?.55f:.5f),1),stride,moving&&!transitioning,legDirection,terrainRotation*lowerRotation,directional);
             pelvis.position+=Vector3.ProjectOnPlane(gravityPelvis-terrainPelvis,Vector3.up)*balanceWeight;
+            // Horizontal idle support still left the hips lowered by the
+            // terrain rotation, even when neither leg needed a reach drop.
+            // Restore that vertical loss after preserving the foot targets.
+            // Fade through starts/stops so this cannot pop the knees; the
+            // existing reach descent below remains authoritative.
+            float idleLift=clip=="Idle"?Mathf.Clamp(gravityPelvis.y-terrainPelvis.y,0,.25f)*balanceWeight:0;
+            if(reset)idleBalanceLift=idleLift;
+            else if(!paused)idleBalanceLift=Mathf.Lerp(idleBalanceLift,idleLift,1-Mathf.Exp(-correctionDelta/.3f));
+            pelvis.position+=Vector3.up*idleBalanceLift;
             balanceUp=Vector3.Slerp(supportUp,Vector3.up,balanceWeight);
             // Uphill motion raises the root over a rear foot. Keep both final
             // ankle targets inside their real chain length, including landing

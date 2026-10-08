@@ -26,6 +26,11 @@ namespace Lattice.Tests.EditMode
         public void PauseHoldsAnActivelyBalancingUphillIdle(string hero,bool shaped)
             =>Measure(hero,shaped,"Idle",3);
 
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void PauseHoldsTheRisingIdleSupport(string hero,bool shaped)
+            =>Measure(hero,shaped,"Idle",30);
+
         static void Measure(string hero,bool shaped,string state,int slopeFrames)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);

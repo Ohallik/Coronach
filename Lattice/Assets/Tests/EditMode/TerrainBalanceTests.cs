@@ -22,7 +22,12 @@ namespace Lattice.Tests.EditMode
         public void StationaryUphillPoseDoesNotSitBehindBothVisibleFeet(string hero,bool shaped)
             =>Measure(hero,shaped,"Idle",0);
 
-        static void Measure(string hero,bool shaped,string state,float speed)
+        [TestCase("Taren",false)][TestCase("Sela",false)]
+        [TestCase("Taren",true)][TestCase("Sela",true)]
+        public void StationarySlopesDoNotFoldBothSupportingLegs(string hero,bool shaped)
+            =>Measure(hero,shaped,"Idle",0,true);
+
+        static void Measure(string hero,bool shaped,string state,float speed,bool checkHeight=false)
         {
             var floor=GameObject.CreatePrimitive(PrimitiveType.Cube);
             floor.transform.position=new Vector3(0,-.5f,0);floor.transform.localScale=new Vector3(100,1,100);
@@ -46,7 +51,7 @@ namespace Lattice.Tests.EditMode
                     floor.transform.rotation=Quaternion.Euler(-slope,0,0);Physics.SyncTransforms();feet.ResetContacts();
                     var normal=floor.transform.up;var surface=floor.transform.position+normal*.5f;
                     float grade=Mathf.Abs(normal.z)/normal.y,rate=state=="Idle"?1:profile.Cadence(state,speed,grade),stride=state=="Idle"?1:profile.Stride(state,speed,rate,grade);
-                    float worst=0;int samples=0;
+                    float worst=0,minimumSupportedAngle=180;int samples=0;
                     for(int frame=0;frame<Mathf.CeilToInt(clip.length/rate*3/dt);frame++)
                     {
                         float time=frame*dt,phase=time*rate/clip.length;
@@ -54,16 +59,30 @@ namespace Lattice.Tests.EditMode
                         pose.SetTime(Mathf.Repeat(phase,1)*clip.length);graph.Evaluate(0);
                         feet.Correct(Vector3.forward*speed,state,phase,stride,false,targetFacing:false,deltaTime:dt);
                         float halfStep=Mathf.Repeat(phase,.5f);
-                        if(phase<1||halfStep<.2f||halfStep>.4f)continue;
+                        if(phase<1||!checkHeight&&(halfStep<.2f||halfStep>.4f))continue;
                         float rear=Mathf.Min(soles[0].Rear(),soles[1].Rear());
                         float torso=(rig.GetBoneTransform(HumanBodyBones.Hips).position.z+rig.GetBoneTransform(HumanBodyBones.Chest).position.z)*.5f;
                         worst=Mathf.Max(worst,rear-torso);samples++;
+                        float Knee(HumanBodyBones hip,HumanBodyBones knee,HumanBodyBones ankle)
+                        {var k=rig.GetBoneTransform(knee).position;return Vector3.Angle(rig.GetBoneTransform(hip).position-k,rig.GetBoneTransform(ankle).position-k);}
+                        minimumSupportedAngle=Mathf.Min(minimumSupportedAngle,Mathf.Max(
+                            Knee(HumanBodyBones.LeftUpperLeg,HumanBodyBones.LeftLowerLeg,HumanBodyBones.LeftFoot),
+                            Knee(HumanBodyBones.RightUpperLeg,HumanBodyBones.RightLowerLeg,HumanBodyBones.RightFoot)));
                     }
                     Debug.Log($"TERRAIN_BALANCE {hero}/{shaped}/{state} slope={slope} samples={samples} torsoBehindRearSole={worst:F6}");
                     Assert.Greater(samples,80,"must cover both repeated stance intervals");
                     // This generous posture bound rejects the measured seated
                     // pose. It is not a COM simulation or visual acceptance.
                     Assert.LessOrEqual(worst,.15f,"slow uphill torso stays behind both visible feet");
+                    if(checkHeight)
+                    {
+                        Debug.Log($"IDLE_SUPPORT_HEIGHT {hero}/{shaped} slope={slope} samples={samples} minimumMoreExtendedKnee={minimumSupportedAngle:F6}");
+                        // The live companion held both knees deeply bent with
+                        // zero reach-related drop. Keep at least one leg open
+                        // beyond that recorded crouch throughout the idle.
+                        // This geometric bound does not accept visual quality.
+                        Assert.GreaterOrEqual(minimumSupportedAngle,115,"stationary terrain correction folds both legs into a crouch");
+                    }
                 }
             }
             finally{graph.Destroy();foreach(var sole in soles)sole.Dispose();Object.DestroyImmediate(root);Object.DestroyImmediate(floor);}

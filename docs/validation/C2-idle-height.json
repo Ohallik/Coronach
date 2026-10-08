@@ -1,0 +1,2179 @@
+{
+  "date": "2026-10-08",
+  "status": "C2 OPEN; idle-height repair verified numerically; selected-pose improvement only",
+  "source": {
+    "baseRevision": "25d9addebea189c633fb7b0d1e3d0204e9367b0a",
+    "scope": "Idle-only vertical pelvis restoration with pause-safe 0.3 second easing; established foot targets and reach descent preserved",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorRelease.cs",
+        "normalizedSha256": "8c17243fba72d79d3445441c25a6603ba6ca35a09ce893ab75b6078de306a274"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+        "normalizedSha256": "9a5a15f62b553b21879fce8fc99e4ae055316d05b2a0ea82e03ebab26a826c20"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/SerpentSegments.cs",
+        "normalizedSha256": "bb844c84ab96939ed6608f197cc8e1ebd1c13cd60fdc7cb41cdbe2dcab260967"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs",
+        "normalizedSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "normalizedSha256": "3055efaa7650cac3dd34da7b34ff682b48941251d13a7621f4ae0291d18ef3fe"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "normalizedSha256": "e2ce8d4e7104e612335af66e6937fe015db5326eddcceee648ae6c84fde3c8dd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "normalizedSha256": "08ffa64ec1875925360d5afbd0b882bd1d515dc4f851235cfc0aa9d2b9611078"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "de8f34c05dc6b252028cd0274d5a8a07b8c8f3f48e6a71d8e57b2d99569298e1"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/CameraRig.cs",
+        "normalizedSha256": "86c239b97974baa3afe3b7e8dbedec95b039840c0abdc77fff719f42d5beb569"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "normalizedSha256": "874faf867eb46cd49f6422104ed6337955a22760d0d33292a90fc3519ddf1c63"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/SliceSmoke.cs",
+        "normalizedSha256": "8411a016f97b50f39b9cafa29dee33bd78939db3728e844fecbf1d65d985db6a"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+        "normalizedSha256": "f4995d76138275bb6eef1e347a3e9c7abe5ec016bcd345ab5ba0c2aaf16407c9"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+        "normalizedSha256": "c2a58243043604e90852f59dbb5472c0b92ad47ef5e5578d480cc49e0e859754"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityCapture.cs",
+        "normalizedSha256": "f6c85976908672b84ab1171647d4e15735f03bee438a872e44163ca6a3c4241f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CaptureAudioWriter.cs",
+        "normalizedSha256": "b1057ef0274ee27e7e0a78bae119e208dcc503ede79ba087bfaf409834afbe09"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/NativeGpuClock.cs",
+        "normalizedSha256": "e02b2f51cea6d55594d27bd65504c11b31b2cc04ed2f1e4ad3b962923867b0e8"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/BatchTools.cs",
+        "normalizedSha256": "41d6e064b17fad39df70eb351cdd51e0954398f03ec8c2fc704eef408f968022"
+      },
+      {
+        "path": "tools/native_gpu/CoronachGpuClock.cpp",
+        "normalizedSha256": "6ac85ca318a2173459d132bf87e4bae28563fabdfdefbf8dc8e8901253d1af76"
+      },
+      {
+        "path": "Lattice/Assets/Plugins/x86_64/CoronachGpuClock.dll",
+        "normalizedSha256": "76696c832c15078e2324a1e7834bfd4b3afc1d6090ec4886b466e053d2238a35"
+      },
+      {
+        "path": "tools/native_gpu/THIRD-PARTY-NOTICES.txt",
+        "normalizedSha256": "a695d79444b4a8e58e07aeda1573d52fb848e02cbaa118cd482b5661a4be3265"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/GroundPoseCapture.cs",
+        "normalizedSha256": "2ecc4f5613572cfa373c7968dfcd4243aec29e19cb8eac287f3fdbfa8f27b85f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/Art/TerrainPoseAudit.cs",
+        "normalizedSha256": "aafd0f2662a8c9f5dd559385a492f16c312a9763d30177e0b0f234edf8860adc"
+      },
+      {
+        "path": "Lattice/Assets/Tests/EditMode/TerrainBalanceTests.cs",
+        "normalizedSha256": "80eb46bf5fed499af0cd5161d9a8330a00f2a82d86adcf06eaeb3c1061f81b80"
+      },
+      {
+        "path": "Lattice/Assets/Tests/EditMode/TerrainPauseTests.cs",
+        "normalizedSha256": "4d2137272a30f2cff16bb6fb96620c9d845888c6c920500e923238b5e1208137"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C2/idle-height/packages.json",
+    "bytes": 140155,
+    "sha256": "e3c8054aff48bd39a92088312bbab6d207bb0c60cb5af8a5bca2a541d8e86cda"
+  },
+  "tests": {
+    "original-height-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "2",
+        "failed": "2",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:38:04Z",
+        "end-time": "2026-10-08 06:38:06Z",
+        "duration": "1.2506851"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.EditMode.TerrainBalanceTests.StationarySlopesDoNotFoldBothSupportingLegs(\"Taren\",False)",
+          "message": "  stationary terrain correction folds both legs into a crouch\n  Expected: greater than or equal to 115.0f\n  But was:  114.355499f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainBalanceTests.StationarySlopesDoNotFoldBothSupportingLegs(\"Taren\",True)",
+          "message": "  stationary terrain correction folds both legs into a crouch\n  Expected: greater than or equal to 115.0f\n  But was:  94.4974899f\n"
+        }
+      ]
+    },
+    "height01-edit": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "62",
+        "result": "Passed",
+        "total": "62",
+        "passed": "62",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:40:49Z",
+        "end-time": "2026-10-08 06:40:54Z",
+        "duration": "4.950479"
+      },
+      "failed": []
+    },
+    "height01-play": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "14",
+        "result": "Passed",
+        "total": "14",
+        "passed": "14",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:45:10Z",
+        "end-time": "2026-10-08 06:50:07Z",
+        "duration": "297.1581465"
+      },
+      "failed": []
+    },
+    "lowered-idle-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "0",
+        "failed": "4",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:50:25Z",
+        "end-time": "2026-10-08 06:50:25Z",
+        "duration": "0.5498421"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.EditMode.TerrainBalanceTests.StationarySlopesDoNotFoldBothSupportingLegs(\"Taren\",False)",
+          "message": "  stationary terrain correction folds both legs into a crouch\n  Expected: greater than or equal to 115.0f\n  But was:  78.0000305f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainBalanceTests.StationarySlopesDoNotFoldBothSupportingLegs(\"Sela\",False)",
+          "message": "  stationary terrain correction folds both legs into a crouch\n  Expected: greater than or equal to 115.0f\n  But was:  79.1085358f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainBalanceTests.StationarySlopesDoNotFoldBothSupportingLegs(\"Taren\",True)",
+          "message": "  stationary terrain correction folds both legs into a crouch\n  Expected: greater than or equal to 115.0f\n  But was:  58.7886086f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainBalanceTests.StationarySlopesDoNotFoldBothSupportingLegs(\"Sela\",True)",
+          "message": "  stationary terrain correction folds both legs into a crouch\n  Expected: greater than or equal to 115.0f\n  But was:  78.5768127f\n"
+        }
+      ]
+    },
+    "unpaused-lift-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "3",
+        "failed": "1",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:50:34Z",
+        "end-time": "2026-10-08 06:50:34Z",
+        "duration": "0.1156939"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.EditMode.TerrainPauseTests.PauseHoldsAnActivelyBalancingUphillIdle(\"Taren\",True)",
+          "message": "  Hips moves while paused\n  Expected: less than 0.00100000005f\n  But was:  0.00101423264f\n"
+        }
+      ]
+    },
+    "unpaused-lift-later-red": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "4",
+        "result": "Failed(Child)",
+        "total": "4",
+        "passed": "0",
+        "failed": "4",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:51:21Z",
+        "end-time": "2026-10-08 06:51:22Z",
+        "duration": "0.0951852"
+      },
+      "failed": [
+        {
+          "name": "Lattice.Tests.EditMode.TerrainPauseTests.PauseHoldsTheRisingIdleSupport(\"Taren\",False)",
+          "message": "  Hips moves while paused\n  Expected: less than 0.00100000005f\n  But was:  0.00409626961f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainPauseTests.PauseHoldsTheRisingIdleSupport(\"Sela\",False)",
+          "message": "  Hips moves while paused\n  Expected: less than 0.00100000005f\n  But was:  0.0040179491f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainPauseTests.PauseHoldsTheRisingIdleSupport(\"Taren\",True)",
+          "message": "  Hips moves while paused\n  Expected: less than 0.00100000005f\n  But was:  0.00402772427f\n"
+        },
+        {
+          "name": "Lattice.Tests.EditMode.TerrainPauseTests.PauseHoldsTheRisingIdleSupport(\"Sela\",True)",
+          "message": "  Hips moves while paused\n  Expected: less than 0.00100000005f\n  But was:  0.00407850742f\n"
+        }
+      ]
+    },
+    "full-editmode": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "173",
+        "result": "Passed",
+        "total": "173",
+        "passed": "173",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:51:50Z",
+        "end-time": "2026-10-08 06:52:13Z",
+        "duration": "23.65402"
+      },
+      "failed": []
+    },
+    "full-playmode": {
+      "summary": {
+        "id": "2",
+        "testcasecount": "252",
+        "result": "Passed",
+        "total": "252",
+        "passed": "252",
+        "failed": "0",
+        "inconclusive": "0",
+        "skipped": "0",
+        "asserts": "0",
+        "engine-version": "3.5.0.0",
+        "clr-version": "4.0.30319.42000",
+        "start-time": "2026-10-08 06:52:23Z",
+        "end-time": "2026-10-08 07:18:40Z",
+        "duration": "1576.6000626"
+      },
+      "failed": []
+    }
+  },
+  "replays": {
+    "player01": {
+      "run": {
+        "route": "c2-shaped-sorrel-slope-60",
+        "sourceRevision": "C2 candidate; exact packaged hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 13950,
+        "refreshHz": 60.0,
+        "seconds": 232.49868239999998,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "frameTimingRequested": false,
+        "frameTimingEnabled": false,
+        "frameTimingCpuFrequency": 0,
+        "failures": [],
+        "loadWaitSeconds": 1.1682690999999998,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "process": {
+        "processId": 57928,
+        "exitCode": 0,
+        "recordedUtc": "2026-10-08T07:24:07.7105738Z"
+      },
+      "motion": {
+        "valid": true,
+        "failures": [],
+        "worstContactDriftMetres": 0.0070189814075833626,
+        "minimumCentralSoleClearance": 0.0029970000000001384
+      },
+      "timing": {
+        "medianMs": 16.6675,
+        "p95Ms": 17.1433,
+        "worstMs": 19.9202,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        }
+      },
+      "launch": {
+        "capture": true,
+        "exeHash": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+        "nativePlugins": [
+          {
+            "path": "Plugins\\x86_64\\CoronachGpuClock.dll",
+            "bytes": 221696,
+            "hash": "4CFD22AED94F0E83ADBB11DEF68003CF6568187A8CD69EC4099DE4CDA6693038"
+          },
+          {
+            "path": "Plugins\\x86_64\\lib_burst_generated.dll",
+            "bytes": 484352,
+            "hash": "4868653FF8F497831ED2ACFDD2A1DD3A1B0023497D7A3FE9DCA640EF0566640F"
+          }
+        ],
+        "assemblies": [
+          {
+            "hash": "272F4E0894B680C8F1D5DA8E1E47D269A2A69BBD997263200EB1A91057694181",
+            "name": "Lattice.Combat.dll"
+          },
+          {
+            "hash": "C6B28180AD21008E88D1A489BE045B2D2468FB756BA9F729B4C8FA8221C59E55",
+            "name": "Lattice.Core.dll"
+          },
+          {
+            "hash": "C903C1EDA131A40A77424DDE05DD564947AA89AC29B4C81D4D467C81159FF894",
+            "name": "Lattice.Data.dll"
+          },
+          {
+            "hash": "54C58C2C4C4F17807C60CA097AFDA7BE33A81950FED698E9F099969318F8C274",
+            "name": "Lattice.Dialogue.dll"
+          },
+          {
+            "hash": "C0A1B02A92478F8A063A3421264EC0BEA31D86860C241B0E5F110C46C21B56CE",
+            "name": "Lattice.Rpg.dll"
+          },
+          {
+            "hash": "411B39F226F7DE303B6D40DB0A90ADA84233400D8F8D6EA33B5E76C56B6DCE30",
+            "name": "Lattice.UI.dll"
+          },
+          {
+            "hash": "8930C3EC8C17A02BFB264E9F5B290FFF3E461812963C5AC9CEF76ECC764BF8FA",
+            "name": "Lattice.World.dll"
+          }
+        ],
+        "d3d11BitBlt": false,
+        "groundPoseDiagnostic": true,
+        "build": "Development",
+        "arguments": [
+          "-screen-fullscreen",
+          "0",
+          "-screen-width",
+          "1920",
+          "-screen-height",
+          "1080",
+          "-quality-route",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\2026-10-07-bounded-trace\\slope60-unsynced63\\route.json",
+          "-quality-output",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\player01",
+          "-savepath",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\player01\\saves",
+          "-logFile",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\player01\\player.log",
+          "-quality-vsync",
+          "0",
+          "-quality-ffmpeg",
+          "C:\\Users\\natem\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+          "-quality-motion",
+          "-quality-ground-pose"
+        ],
+        "graphicsApi": "Auto",
+        "routeHash": "A01E7984813F22BD7CF9E8874E0055083327D00A05F3EB5A9B01F9E38C84E99C",
+        "content": [
+          {
+            "name": "app.info",
+            "bytes": 15,
+            "hash": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44"
+          },
+          {
+            "name": "boot.config",
+            "bytes": 355,
+            "hash": "0A319B522548F03A8C233039165AE7981ED96632F494ABCEDFA87D7CA2E81370"
+          },
+          {
+            "name": "globalgamemanagers",
+            "bytes": 300260,
+            "hash": "FC7D532C20FBE865A0A4D46D9BDF50D4707DE8ABC34493C01B4FE03BD8CC6D7E"
+          },
+          {
+            "name": "globalgamemanagers.assets",
+            "bytes": 1015916,
+            "hash": "9F22B97B851FAB53EC65F1E0E9E71FEC7D4845E903F9790D83C7B03AC972F38D"
+          },
+          {
+            "name": "globalgamemanagers.assets.resS",
+            "bytes": 6176992,
+            "hash": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A"
+          },
+          {
+            "name": "level0",
+            "bytes": 3820,
+            "hash": "2BE8411F849D12F7D4526F480F15A4275D17C2AC8C7AAC00A8DFE05A25005421"
+          },
+          {
+            "name": "level1",
+            "bytes": 1136,
+            "hash": "4B368F3F08392495B2CA46A501F52391BAFD7475EEEF43F26A7FCFCDC50CCAD1"
+          },
+          {
+            "name": "level10",
+            "bytes": 246636,
+            "hash": "66648F3726029655D41ABD46D988FE370AA0AF798523B7264B486F45D6B673EF"
+          },
+          {
+            "name": "level2",
+            "bytes": 1388012,
+            "hash": "385B9F216EA5B04FE1D83C211D80245F05C8BEC101F575FCED3DAB12ABAFEE26"
+          },
+          {
+            "name": "level2.resS",
+            "bytes": 41200,
+            "hash": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B"
+          },
+          {
+            "name": "level3",
+            "bytes": 923200,
+            "hash": "F2AE93EE35EB6CBFB0F44B98F2C0DCBB5F2FCB88E9F36C1A9E48DAC252D7A455"
+          },
+          {
+            "name": "level4",
+            "bytes": 265148,
+            "hash": "FB75B4F841966E2AB3917F794E0F12C5A1F23162D04A4A6F68CF05D36135CB21"
+          },
+          {
+            "name": "level4.resS",
+            "bytes": 21568,
+            "hash": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6"
+          },
+          {
+            "name": "level5",
+            "bytes": 181676,
+            "hash": "BD822E51EA3DEE9F7ACF4B59B6625FAB3B0BB460F846081F7A48DBC18CB6266B"
+          },
+          {
+            "name": "level5.resS",
+            "bytes": 1920,
+            "hash": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D"
+          },
+          {
+            "name": "level6",
+            "bytes": 487792,
+            "hash": "586B5B3361BF70227B659BAF1367201818F82C87E3A9162607F1C94C8444BFE5"
+          },
+          {
+            "name": "level6.resS",
+            "bytes": 592848,
+            "hash": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2"
+          },
+          {
+            "name": "level7",
+            "bytes": 20172,
+            "hash": "956549219E938778F616A68EA064198B24800FF34F6E5C260BE9610D4C722920"
+          },
+          {
+            "name": "level8",
+            "bytes": 130220,
+            "hash": "A5FE1DC234CEDA069EBC654E38F2C2CB69E3B6AD565965704348839DE60CDB7F"
+          },
+          {
+            "name": "level9",
+            "bytes": 81276,
+            "hash": "0807D5E0624068B2AD3E591E3D76CECE061CE84A3FC6AF8E24CB716303A2799B"
+          },
+          {
+            "name": "level9.resS",
+            "bytes": 22528,
+            "hash": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172"
+          },
+          {
+            "name": "resources.assets",
+            "bytes": 47549688,
+            "hash": "4924306591942AE585D50B0B49D2A09D2B248239D800C2C9FD17778D44954917"
+          },
+          {
+            "name": "resources.assets.resS",
+            "bytes": 355367744,
+            "hash": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263"
+          },
+          {
+            "name": "resources.resource",
+            "bytes": 16363712,
+            "hash": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB"
+          },
+          {
+            "name": "RuntimeInitializeOnLoads.json",
+            "bytes": 5019,
+            "hash": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB"
+          },
+          {
+            "name": "ScriptingAssemblies.json",
+            "bytes": 5369,
+            "hash": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E"
+          },
+          {
+            "name": "sharedassets0.assets",
+            "bytes": 159568,
+            "hash": "A5B903D0BBB43E652DAD6CDD1AE029A1019624BEC4142FA5AD7C140D88FDCA9D"
+          },
+          {
+            "name": "sharedassets0.assets.resS",
+            "bytes": 524288,
+            "hash": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36"
+          },
+          {
+            "name": "sharedassets1.assets",
+            "bytes": 361,
+            "hash": "363EEBE3915F655EB254EE048DE85D28436F480800C0C54CE09E913CB4870603"
+          },
+          {
+            "name": "sharedassets10.assets",
+            "bytes": 58116,
+            "hash": "DA5BB0FC09E5041B42BC9FAB9471D90D7F771634F3B8D87FCBD75D91C0C79656"
+          },
+          {
+            "name": "sharedassets10.assets.resS",
+            "bytes": 1677792,
+            "hash": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1"
+          },
+          {
+            "name": "sharedassets2.assets",
+            "bytes": 603360,
+            "hash": "245DAC8AAB08543093B41C9180AB4680B8403DDD8D605193AD4E0D7DE6FB53BC"
+          },
+          {
+            "name": "sharedassets2.assets.resS",
+            "bytes": 11042016,
+            "hash": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184"
+          },
+          {
+            "name": "sharedassets3.assets",
+            "bytes": 345044,
+            "hash": "7FA35614E62C2E85B7A0EC5DF5BE0FBBC6D89903FD6858409C85B9BC10F8DC2A"
+          },
+          {
+            "name": "sharedassets3.assets.resS",
+            "bytes": 7071712,
+            "hash": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5"
+          },
+          {
+            "name": "sharedassets4.assets",
+            "bytes": 6583812,
+            "hash": "11D52077468EDC26C50F154B128B5C3B01D63CE40C955DC0A2CA98119BD72FD7"
+          },
+          {
+            "name": "sharedassets4.assets.resS",
+            "bytes": 22834928,
+            "hash": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08"
+          },
+          {
+            "name": "sharedassets5.assets",
+            "bytes": 5784076,
+            "hash": "B523F947CB5E89BCE62865ADEADB19788B854EE6B750B2F3869C758C7313B2C4"
+          },
+          {
+            "name": "sharedassets5.assets.resS",
+            "bytes": 21360704,
+            "hash": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592"
+          },
+          {
+            "name": "sharedassets6.assets",
+            "bytes": 1075508,
+            "hash": "AECAA21400E6634FBBD7520897711BEB498D0D881C5301663885CF924D686426"
+          },
+          {
+            "name": "sharedassets6.assets.resS",
+            "bytes": 4994208,
+            "hash": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759"
+          },
+          {
+            "name": "sharedassets7.assets",
+            "bytes": 72932,
+            "hash": "E687B048A6B427D5BEF4ACB0A334D659637FA39C159F4A63D3658F79BBC73AAC"
+          },
+          {
+            "name": "sharedassets7.assets.resS",
+            "bytes": 1693152,
+            "hash": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC"
+          },
+          {
+            "name": "sharedassets8.assets",
+            "bytes": 16100,
+            "hash": "50D1AFF1B7B46A041D035639DDB3EEE527275DCFADEDA59886EAFC7DA419FC9E"
+          },
+          {
+            "name": "sharedassets9.assets",
+            "bytes": 24308,
+            "hash": "321ECF9ECB9076B92930BDF8C9A9A181251331FA8DD32659B39CB30A464EA710"
+          }
+        ],
+        "diagnosticVSync": 0,
+        "started": "2026-10-08T07:20:00.3810211Z",
+        "multithreadedRendering": false,
+        "nativeGpuDiagnostic": false,
+        "source": "25d9addebea189c633fb7b0d1e3d0204e9367b0a"
+      },
+      "pose": {
+        "valid": true,
+        "failures": [],
+        "rows": 27900,
+        "replaySamples": 13950,
+        "actors": {
+          "Taren Shaped": {
+            "samples": 13950,
+            "transitions": 1379,
+            "hipAboveRoot": {
+              "minimum": 0.3729350600000001,
+              "maximum": 1.1226126099999991
+            },
+            "leftKnee": {
+              "minimum": 22.655501357265457,
+              "maximum": 153.5151658492943
+            },
+            "rightKnee": {
+              "minimum": 32.24768906229395,
+              "maximum": 153.56501983523756
+            },
+            "moreExtendedKnee": {
+              "minimum": 74.1329577623309,
+              "maximum": 153.56501983523756
+            }
+          },
+          "Sela Shaped": {
+            "samples": 13950,
+            "transitions": 1318,
+            "hipAboveRoot": {
+              "minimum": 0.3134849099999999,
+              "maximum": 1.1067500000000008
+            },
+            "leftKnee": {
+              "minimum": 7.680456625259944,
+              "maximum": 152.8368728435973
+            },
+            "rightKnee": {
+              "minimum": 23.64703887190117,
+              "maximum": 152.82426104656838
+            },
+            "moreExtendedKnee": {
+              "minimum": 81.04151478534052,
+              "maximum": 152.8368728435973
+            }
+          }
+        },
+        "scope": "Evaluated geometry coverage only; ranges include every transition. No visual, continuous-motion, physical or clean-timing acceptance."
+      },
+      "audio": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferCount": 32,
+        "maximumBlockSamples": 32768,
+        "peakQueuedBlocks": 2,
+        "sampleBufferBytes": 4325376,
+        "acceptedSamples": 22323200,
+        "writtenSamples": 22323200,
+        "writtenBytes": 89292800,
+        "completed": true,
+        "failure": ""
+      }
+    },
+    "pad60": {
+      "run": {
+        "route": "c2-shaped-sorrel-pad-60",
+        "sourceRevision": "C2 candidate; exact packaged hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 60,
+        "vSync": 0,
+        "samples": 13941,
+        "refreshHz": 60.0,
+        "seconds": 232.34728489999998,
+        "captured": true,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "frameTimingRequested": false,
+        "frameTimingEnabled": false,
+        "frameTimingCpuFrequency": 0,
+        "failures": [],
+        "loadWaitSeconds": 1.1526118000000003,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "process": {
+        "processId": 58732,
+        "exitCode": 0,
+        "recordedUtc": "2026-10-08T07:30:44.0246954Z"
+      },
+      "motion": {
+        "valid": true,
+        "failures": [],
+        "worstContactDriftMetres": 0.01656490341052392,
+        "minimumCentralSoleClearance": 0.005999
+      },
+      "timing": {
+        "medianMs": 16.6634,
+        "p95Ms": 17.1383,
+        "worstMs": 19.6123,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        }
+      },
+      "launch": {
+        "capture": true,
+        "exeHash": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+        "nativePlugins": [
+          {
+            "path": "Plugins\\x86_64\\CoronachGpuClock.dll",
+            "bytes": 221696,
+            "hash": "4CFD22AED94F0E83ADBB11DEF68003CF6568187A8CD69EC4099DE4CDA6693038"
+          },
+          {
+            "path": "Plugins\\x86_64\\lib_burst_generated.dll",
+            "bytes": 484352,
+            "hash": "4868653FF8F497831ED2ACFDD2A1DD3A1B0023497D7A3FE9DCA640EF0566640F"
+          }
+        ],
+        "assemblies": [
+          {
+            "hash": "272F4E0894B680C8F1D5DA8E1E47D269A2A69BBD997263200EB1A91057694181",
+            "name": "Lattice.Combat.dll"
+          },
+          {
+            "hash": "C6B28180AD21008E88D1A489BE045B2D2468FB756BA9F729B4C8FA8221C59E55",
+            "name": "Lattice.Core.dll"
+          },
+          {
+            "hash": "C903C1EDA131A40A77424DDE05DD564947AA89AC29B4C81D4D467C81159FF894",
+            "name": "Lattice.Data.dll"
+          },
+          {
+            "hash": "54C58C2C4C4F17807C60CA097AFDA7BE33A81950FED698E9F099969318F8C274",
+            "name": "Lattice.Dialogue.dll"
+          },
+          {
+            "hash": "C0A1B02A92478F8A063A3421264EC0BEA31D86860C241B0E5F110C46C21B56CE",
+            "name": "Lattice.Rpg.dll"
+          },
+          {
+            "hash": "411B39F226F7DE303B6D40DB0A90ADA84233400D8F8D6EA33B5E76C56B6DCE30",
+            "name": "Lattice.UI.dll"
+          },
+          {
+            "hash": "8930C3EC8C17A02BFB264E9F5B290FFF3E461812963C5AC9CEF76ECC764BF8FA",
+            "name": "Lattice.World.dll"
+          }
+        ],
+        "d3d11BitBlt": false,
+        "groundPoseDiagnostic": true,
+        "build": "Development",
+        "arguments": [
+          "-screen-fullscreen",
+          "0",
+          "-screen-width",
+          "1920",
+          "-screen-height",
+          "1080",
+          "-quality-route",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\2026-10-07-bounded-trace\\pad60-unsynced63\\route.json",
+          "-quality-output",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\pad60",
+          "-savepath",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\pad60\\saves",
+          "-logFile",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\pad60\\player.log",
+          "-quality-vsync",
+          "0",
+          "-quality-ffmpeg",
+          "C:\\Users\\natem\\AppData\\Local\\Programs\\Python\\Python314\\Lib\\site-packages\\imageio_ffmpeg\\binaries\\ffmpeg-win-x86_64-v7.1.exe",
+          "-quality-motion",
+          "-quality-ground-pose"
+        ],
+        "graphicsApi": "Auto",
+        "routeHash": "D188601C15F98860FE14BFB2A0EC8236A403EF453FCAB860E52B8374F66FD7C6",
+        "content": [
+          {
+            "name": "app.info",
+            "bytes": 15,
+            "hash": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44"
+          },
+          {
+            "name": "boot.config",
+            "bytes": 355,
+            "hash": "0A319B522548F03A8C233039165AE7981ED96632F494ABCEDFA87D7CA2E81370"
+          },
+          {
+            "name": "globalgamemanagers",
+            "bytes": 300260,
+            "hash": "FC7D532C20FBE865A0A4D46D9BDF50D4707DE8ABC34493C01B4FE03BD8CC6D7E"
+          },
+          {
+            "name": "globalgamemanagers.assets",
+            "bytes": 1015916,
+            "hash": "9F22B97B851FAB53EC65F1E0E9E71FEC7D4845E903F9790D83C7B03AC972F38D"
+          },
+          {
+            "name": "globalgamemanagers.assets.resS",
+            "bytes": 6176992,
+            "hash": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A"
+          },
+          {
+            "name": "level0",
+            "bytes": 3820,
+            "hash": "2BE8411F849D12F7D4526F480F15A4275D17C2AC8C7AAC00A8DFE05A25005421"
+          },
+          {
+            "name": "level1",
+            "bytes": 1136,
+            "hash": "4B368F3F08392495B2CA46A501F52391BAFD7475EEEF43F26A7FCFCDC50CCAD1"
+          },
+          {
+            "name": "level10",
+            "bytes": 246636,
+            "hash": "66648F3726029655D41ABD46D988FE370AA0AF798523B7264B486F45D6B673EF"
+          },
+          {
+            "name": "level2",
+            "bytes": 1388012,
+            "hash": "385B9F216EA5B04FE1D83C211D80245F05C8BEC101F575FCED3DAB12ABAFEE26"
+          },
+          {
+            "name": "level2.resS",
+            "bytes": 41200,
+            "hash": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B"
+          },
+          {
+            "name": "level3",
+            "bytes": 923200,
+            "hash": "F2AE93EE35EB6CBFB0F44B98F2C0DCBB5F2FCB88E9F36C1A9E48DAC252D7A455"
+          },
+          {
+            "name": "level4",
+            "bytes": 265148,
+            "hash": "FB75B4F841966E2AB3917F794E0F12C5A1F23162D04A4A6F68CF05D36135CB21"
+          },
+          {
+            "name": "level4.resS",
+            "bytes": 21568,
+            "hash": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6"
+          },
+          {
+            "name": "level5",
+            "bytes": 181676,
+            "hash": "BD822E51EA3DEE9F7ACF4B59B6625FAB3B0BB460F846081F7A48DBC18CB6266B"
+          },
+          {
+            "name": "level5.resS",
+            "bytes": 1920,
+            "hash": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D"
+          },
+          {
+            "name": "level6",
+            "bytes": 487792,
+            "hash": "586B5B3361BF70227B659BAF1367201818F82C87E3A9162607F1C94C8444BFE5"
+          },
+          {
+            "name": "level6.resS",
+            "bytes": 592848,
+            "hash": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2"
+          },
+          {
+            "name": "level7",
+            "bytes": 20172,
+            "hash": "956549219E938778F616A68EA064198B24800FF34F6E5C260BE9610D4C722920"
+          },
+          {
+            "name": "level8",
+            "bytes": 130220,
+            "hash": "A5FE1DC234CEDA069EBC654E38F2C2CB69E3B6AD565965704348839DE60CDB7F"
+          },
+          {
+            "name": "level9",
+            "bytes": 81276,
+            "hash": "0807D5E0624068B2AD3E591E3D76CECE061CE84A3FC6AF8E24CB716303A2799B"
+          },
+          {
+            "name": "level9.resS",
+            "bytes": 22528,
+            "hash": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172"
+          },
+          {
+            "name": "resources.assets",
+            "bytes": 47549688,
+            "hash": "4924306591942AE585D50B0B49D2A09D2B248239D800C2C9FD17778D44954917"
+          },
+          {
+            "name": "resources.assets.resS",
+            "bytes": 355367744,
+            "hash": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263"
+          },
+          {
+            "name": "resources.resource",
+            "bytes": 16363712,
+            "hash": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB"
+          },
+          {
+            "name": "RuntimeInitializeOnLoads.json",
+            "bytes": 5019,
+            "hash": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB"
+          },
+          {
+            "name": "ScriptingAssemblies.json",
+            "bytes": 5369,
+            "hash": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E"
+          },
+          {
+            "name": "sharedassets0.assets",
+            "bytes": 159568,
+            "hash": "A5B903D0BBB43E652DAD6CDD1AE029A1019624BEC4142FA5AD7C140D88FDCA9D"
+          },
+          {
+            "name": "sharedassets0.assets.resS",
+            "bytes": 524288,
+            "hash": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36"
+          },
+          {
+            "name": "sharedassets1.assets",
+            "bytes": 361,
+            "hash": "363EEBE3915F655EB254EE048DE85D28436F480800C0C54CE09E913CB4870603"
+          },
+          {
+            "name": "sharedassets10.assets",
+            "bytes": 58116,
+            "hash": "DA5BB0FC09E5041B42BC9FAB9471D90D7F771634F3B8D87FCBD75D91C0C79656"
+          },
+          {
+            "name": "sharedassets10.assets.resS",
+            "bytes": 1677792,
+            "hash": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1"
+          },
+          {
+            "name": "sharedassets2.assets",
+            "bytes": 603360,
+            "hash": "245DAC8AAB08543093B41C9180AB4680B8403DDD8D605193AD4E0D7DE6FB53BC"
+          },
+          {
+            "name": "sharedassets2.assets.resS",
+            "bytes": 11042016,
+            "hash": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184"
+          },
+          {
+            "name": "sharedassets3.assets",
+            "bytes": 345044,
+            "hash": "7FA35614E62C2E85B7A0EC5DF5BE0FBBC6D89903FD6858409C85B9BC10F8DC2A"
+          },
+          {
+            "name": "sharedassets3.assets.resS",
+            "bytes": 7071712,
+            "hash": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5"
+          },
+          {
+            "name": "sharedassets4.assets",
+            "bytes": 6583812,
+            "hash": "11D52077468EDC26C50F154B128B5C3B01D63CE40C955DC0A2CA98119BD72FD7"
+          },
+          {
+            "name": "sharedassets4.assets.resS",
+            "bytes": 22834928,
+            "hash": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08"
+          },
+          {
+            "name": "sharedassets5.assets",
+            "bytes": 5784076,
+            "hash": "B523F947CB5E89BCE62865ADEADB19788B854EE6B750B2F3869C758C7313B2C4"
+          },
+          {
+            "name": "sharedassets5.assets.resS",
+            "bytes": 21360704,
+            "hash": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592"
+          },
+          {
+            "name": "sharedassets6.assets",
+            "bytes": 1075508,
+            "hash": "AECAA21400E6634FBBD7520897711BEB498D0D881C5301663885CF924D686426"
+          },
+          {
+            "name": "sharedassets6.assets.resS",
+            "bytes": 4994208,
+            "hash": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759"
+          },
+          {
+            "name": "sharedassets7.assets",
+            "bytes": 72932,
+            "hash": "E687B048A6B427D5BEF4ACB0A334D659637FA39C159F4A63D3658F79BBC73AAC"
+          },
+          {
+            "name": "sharedassets7.assets.resS",
+            "bytes": 1693152,
+            "hash": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC"
+          },
+          {
+            "name": "sharedassets8.assets",
+            "bytes": 16100,
+            "hash": "50D1AFF1B7B46A041D035639DDB3EEE527275DCFADEDA59886EAFC7DA419FC9E"
+          },
+          {
+            "name": "sharedassets9.assets",
+            "bytes": 24308,
+            "hash": "321ECF9ECB9076B92930BDF8C9A9A181251331FA8DD32659B39CB30A464EA710"
+          }
+        ],
+        "diagnosticVSync": 0,
+        "started": "2026-10-08T07:26:37.4256786Z",
+        "multithreadedRendering": false,
+        "nativeGpuDiagnostic": false,
+        "source": "25d9addebea189c633fb7b0d1e3d0204e9367b0a"
+      },
+      "pose": {
+        "valid": true,
+        "failures": [],
+        "rows": 27882,
+        "replaySamples": 13941,
+        "actors": {
+          "Taren Shaped": {
+            "samples": 13941,
+            "transitions": 1476,
+            "hipAboveRoot": {
+              "minimum": 0.7509197630000001,
+              "maximum": 1.111107887
+            },
+            "leftKnee": {
+              "minimum": 48.7787533494706,
+              "maximum": 153.51540117697812
+            },
+            "rightKnee": {
+              "minimum": 44.666399534729855,
+              "maximum": 153.56486782110545
+            },
+            "moreExtendedKnee": {
+              "minimum": 73.87319053909494,
+              "maximum": 153.56486782110545
+            }
+          },
+          "Sela Shaped": {
+            "samples": 13941,
+            "transitions": 1465,
+            "hipAboveRoot": {
+              "minimum": 0.6815481179999999,
+              "maximum": 1.10646141
+            },
+            "leftKnee": {
+              "minimum": 32.97127506627424,
+              "maximum": 152.83604300536143
+            },
+            "rightKnee": {
+              "minimum": 43.16734009378239,
+              "maximum": 152.823999909712
+            },
+            "moreExtendedKnee": {
+              "minimum": 81.09980813215017,
+              "maximum": 152.83604300536143
+            }
+          }
+        },
+        "scope": "Evaluated geometry coverage only; ranges include every transition. No visual, continuous-motion, physical or clean-timing acceptance."
+      },
+      "audio": {
+        "sampleRate": 48000,
+        "channels": 2,
+        "bufferCount": 32,
+        "maximumBlockSamples": 32768,
+        "peakQueuedBlocks": 2,
+        "sampleBufferBytes": 4325376,
+        "acceptedSamples": 22308864,
+        "writtenSamples": 22308864,
+        "writtenBytes": 89235456,
+        "completed": true,
+        "failure": ""
+      }
+    },
+    "slope30": {
+      "run": {
+        "route": "c2-shaped-sorrel-slope-60",
+        "sourceRevision": "C2 candidate; exact packaged hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 30,
+        "vSync": 0,
+        "samples": 7009,
+        "refreshHz": 60.0,
+        "seconds": 233.6142439,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "frameTimingRequested": false,
+        "frameTimingEnabled": false,
+        "frameTimingCpuFrequency": 0,
+        "failures": [],
+        "loadWaitSeconds": 1.1740755999999997,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "process": {
+        "processId": 11084,
+        "exitCode": 0,
+        "recordedUtc": "2026-10-08T07:36:05.1290420Z"
+      },
+      "motion": {
+        "valid": true,
+        "failures": [],
+        "worstContactDriftMetres": 0.012099574414002513,
+        "minimumCentralSoleClearance": 0.002998999999999974
+      },
+      "timing": {
+        "medianMs": 33.3323,
+        "p95Ms": 33.7069,
+        "worstMs": 36.5958,
+        "hitches": {
+          "25": 7008,
+          "33.3": 3964,
+          "50": 0,
+          "100": 0
+        }
+      },
+      "launch": {
+        "capture": false,
+        "exeHash": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+        "nativePlugins": [
+          {
+            "path": "Plugins\\x86_64\\CoronachGpuClock.dll",
+            "bytes": 221696,
+            "hash": "4CFD22AED94F0E83ADBB11DEF68003CF6568187A8CD69EC4099DE4CDA6693038"
+          },
+          {
+            "path": "Plugins\\x86_64\\lib_burst_generated.dll",
+            "bytes": 484352,
+            "hash": "4868653FF8F497831ED2ACFDD2A1DD3A1B0023497D7A3FE9DCA640EF0566640F"
+          }
+        ],
+        "assemblies": [
+          {
+            "hash": "272F4E0894B680C8F1D5DA8E1E47D269A2A69BBD997263200EB1A91057694181",
+            "name": "Lattice.Combat.dll"
+          },
+          {
+            "hash": "C6B28180AD21008E88D1A489BE045B2D2468FB756BA9F729B4C8FA8221C59E55",
+            "name": "Lattice.Core.dll"
+          },
+          {
+            "hash": "C903C1EDA131A40A77424DDE05DD564947AA89AC29B4C81D4D467C81159FF894",
+            "name": "Lattice.Data.dll"
+          },
+          {
+            "hash": "54C58C2C4C4F17807C60CA097AFDA7BE33A81950FED698E9F099969318F8C274",
+            "name": "Lattice.Dialogue.dll"
+          },
+          {
+            "hash": "C0A1B02A92478F8A063A3421264EC0BEA31D86860C241B0E5F110C46C21B56CE",
+            "name": "Lattice.Rpg.dll"
+          },
+          {
+            "hash": "411B39F226F7DE303B6D40DB0A90ADA84233400D8F8D6EA33B5E76C56B6DCE30",
+            "name": "Lattice.UI.dll"
+          },
+          {
+            "hash": "8930C3EC8C17A02BFB264E9F5B290FFF3E461812963C5AC9CEF76ECC764BF8FA",
+            "name": "Lattice.World.dll"
+          }
+        ],
+        "d3d11BitBlt": false,
+        "groundPoseDiagnostic": false,
+        "build": "Development",
+        "arguments": [
+          "-screen-fullscreen",
+          "0",
+          "-screen-width",
+          "1920",
+          "-screen-height",
+          "1080",
+          "-quality-route",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\2026-10-07-bounded-trace\\slope30-final63\\route.json",
+          "-quality-output",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\slope30",
+          "-savepath",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\slope30\\saves",
+          "-logFile",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\slope30\\player.log",
+          "-quality-vsync",
+          "0",
+          "-quality-motion"
+        ],
+        "graphicsApi": "Auto",
+        "routeHash": "454C23081895354C44E0D2E1A2F65F5B145B520E7903539C186C534B6D5637F1",
+        "content": [
+          {
+            "name": "app.info",
+            "bytes": 15,
+            "hash": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44"
+          },
+          {
+            "name": "boot.config",
+            "bytes": 355,
+            "hash": "0A319B522548F03A8C233039165AE7981ED96632F494ABCEDFA87D7CA2E81370"
+          },
+          {
+            "name": "globalgamemanagers",
+            "bytes": 300260,
+            "hash": "FC7D532C20FBE865A0A4D46D9BDF50D4707DE8ABC34493C01B4FE03BD8CC6D7E"
+          },
+          {
+            "name": "globalgamemanagers.assets",
+            "bytes": 1015916,
+            "hash": "9F22B97B851FAB53EC65F1E0E9E71FEC7D4845E903F9790D83C7B03AC972F38D"
+          },
+          {
+            "name": "globalgamemanagers.assets.resS",
+            "bytes": 6176992,
+            "hash": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A"
+          },
+          {
+            "name": "level0",
+            "bytes": 3820,
+            "hash": "2BE8411F849D12F7D4526F480F15A4275D17C2AC8C7AAC00A8DFE05A25005421"
+          },
+          {
+            "name": "level1",
+            "bytes": 1136,
+            "hash": "4B368F3F08392495B2CA46A501F52391BAFD7475EEEF43F26A7FCFCDC50CCAD1"
+          },
+          {
+            "name": "level10",
+            "bytes": 246636,
+            "hash": "66648F3726029655D41ABD46D988FE370AA0AF798523B7264B486F45D6B673EF"
+          },
+          {
+            "name": "level2",
+            "bytes": 1388012,
+            "hash": "385B9F216EA5B04FE1D83C211D80245F05C8BEC101F575FCED3DAB12ABAFEE26"
+          },
+          {
+            "name": "level2.resS",
+            "bytes": 41200,
+            "hash": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B"
+          },
+          {
+            "name": "level3",
+            "bytes": 923200,
+            "hash": "F2AE93EE35EB6CBFB0F44B98F2C0DCBB5F2FCB88E9F36C1A9E48DAC252D7A455"
+          },
+          {
+            "name": "level4",
+            "bytes": 265148,
+            "hash": "FB75B4F841966E2AB3917F794E0F12C5A1F23162D04A4A6F68CF05D36135CB21"
+          },
+          {
+            "name": "level4.resS",
+            "bytes": 21568,
+            "hash": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6"
+          },
+          {
+            "name": "level5",
+            "bytes": 181676,
+            "hash": "BD822E51EA3DEE9F7ACF4B59B6625FAB3B0BB460F846081F7A48DBC18CB6266B"
+          },
+          {
+            "name": "level5.resS",
+            "bytes": 1920,
+            "hash": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D"
+          },
+          {
+            "name": "level6",
+            "bytes": 487792,
+            "hash": "586B5B3361BF70227B659BAF1367201818F82C87E3A9162607F1C94C8444BFE5"
+          },
+          {
+            "name": "level6.resS",
+            "bytes": 592848,
+            "hash": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2"
+          },
+          {
+            "name": "level7",
+            "bytes": 20172,
+            "hash": "956549219E938778F616A68EA064198B24800FF34F6E5C260BE9610D4C722920"
+          },
+          {
+            "name": "level8",
+            "bytes": 130220,
+            "hash": "A5FE1DC234CEDA069EBC654E38F2C2CB69E3B6AD565965704348839DE60CDB7F"
+          },
+          {
+            "name": "level9",
+            "bytes": 81276,
+            "hash": "0807D5E0624068B2AD3E591E3D76CECE061CE84A3FC6AF8E24CB716303A2799B"
+          },
+          {
+            "name": "level9.resS",
+            "bytes": 22528,
+            "hash": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172"
+          },
+          {
+            "name": "resources.assets",
+            "bytes": 47549688,
+            "hash": "4924306591942AE585D50B0B49D2A09D2B248239D800C2C9FD17778D44954917"
+          },
+          {
+            "name": "resources.assets.resS",
+            "bytes": 355367744,
+            "hash": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263"
+          },
+          {
+            "name": "resources.resource",
+            "bytes": 16363712,
+            "hash": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB"
+          },
+          {
+            "name": "RuntimeInitializeOnLoads.json",
+            "bytes": 5019,
+            "hash": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB"
+          },
+          {
+            "name": "ScriptingAssemblies.json",
+            "bytes": 5369,
+            "hash": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E"
+          },
+          {
+            "name": "sharedassets0.assets",
+            "bytes": 159568,
+            "hash": "A5B903D0BBB43E652DAD6CDD1AE029A1019624BEC4142FA5AD7C140D88FDCA9D"
+          },
+          {
+            "name": "sharedassets0.assets.resS",
+            "bytes": 524288,
+            "hash": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36"
+          },
+          {
+            "name": "sharedassets1.assets",
+            "bytes": 361,
+            "hash": "363EEBE3915F655EB254EE048DE85D28436F480800C0C54CE09E913CB4870603"
+          },
+          {
+            "name": "sharedassets10.assets",
+            "bytes": 58116,
+            "hash": "DA5BB0FC09E5041B42BC9FAB9471D90D7F771634F3B8D87FCBD75D91C0C79656"
+          },
+          {
+            "name": "sharedassets10.assets.resS",
+            "bytes": 1677792,
+            "hash": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1"
+          },
+          {
+            "name": "sharedassets2.assets",
+            "bytes": 603360,
+            "hash": "245DAC8AAB08543093B41C9180AB4680B8403DDD8D605193AD4E0D7DE6FB53BC"
+          },
+          {
+            "name": "sharedassets2.assets.resS",
+            "bytes": 11042016,
+            "hash": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184"
+          },
+          {
+            "name": "sharedassets3.assets",
+            "bytes": 345044,
+            "hash": "7FA35614E62C2E85B7A0EC5DF5BE0FBBC6D89903FD6858409C85B9BC10F8DC2A"
+          },
+          {
+            "name": "sharedassets3.assets.resS",
+            "bytes": 7071712,
+            "hash": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5"
+          },
+          {
+            "name": "sharedassets4.assets",
+            "bytes": 6583812,
+            "hash": "11D52077468EDC26C50F154B128B5C3B01D63CE40C955DC0A2CA98119BD72FD7"
+          },
+          {
+            "name": "sharedassets4.assets.resS",
+            "bytes": 22834928,
+            "hash": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08"
+          },
+          {
+            "name": "sharedassets5.assets",
+            "bytes": 5784076,
+            "hash": "B523F947CB5E89BCE62865ADEADB19788B854EE6B750B2F3869C758C7313B2C4"
+          },
+          {
+            "name": "sharedassets5.assets.resS",
+            "bytes": 21360704,
+            "hash": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592"
+          },
+          {
+            "name": "sharedassets6.assets",
+            "bytes": 1075508,
+            "hash": "AECAA21400E6634FBBD7520897711BEB498D0D881C5301663885CF924D686426"
+          },
+          {
+            "name": "sharedassets6.assets.resS",
+            "bytes": 4994208,
+            "hash": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759"
+          },
+          {
+            "name": "sharedassets7.assets",
+            "bytes": 72932,
+            "hash": "E687B048A6B427D5BEF4ACB0A334D659637FA39C159F4A63D3658F79BBC73AAC"
+          },
+          {
+            "name": "sharedassets7.assets.resS",
+            "bytes": 1693152,
+            "hash": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC"
+          },
+          {
+            "name": "sharedassets8.assets",
+            "bytes": 16100,
+            "hash": "50D1AFF1B7B46A041D035639DDB3EEE527275DCFADEDA59886EAFC7DA419FC9E"
+          },
+          {
+            "name": "sharedassets9.assets",
+            "bytes": 24308,
+            "hash": "321ECF9ECB9076B92930BDF8C9A9A181251331FA8DD32659B39CB30A464EA710"
+          }
+        ],
+        "diagnosticVSync": 0,
+        "started": "2026-10-08T07:31:57.3632065Z",
+        "multithreadedRendering": false,
+        "nativeGpuDiagnostic": false,
+        "source": "25d9addebea189c633fb7b0d1e3d0204e9367b0a"
+      }
+    },
+    "slope120": {
+      "run": {
+        "route": "c2-shaped-sorrel-slope-60",
+        "sourceRevision": "C2 candidate; exact packaged hashes in each run",
+        "input": "continuous agent-directed virtual gamepad replay",
+        "build": "Development",
+        "unity": "6000.4.7f1",
+        "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+        "gpu": "NVIDIA GeForce RTX 5070",
+        "quality": "Ultra",
+        "gpuTiming": "UNAVAILABLE",
+        "vrr": "UNVERIFIED",
+        "width": 1920,
+        "height": 1080,
+        "frameCap": 120,
+        "vSync": 0,
+        "samples": 27786,
+        "refreshHz": 60.0,
+        "seconds": 231.5954806,
+        "captured": false,
+        "profiled": false,
+        "headroom": false,
+        "census": false,
+        "motion": true,
+        "valid": true,
+        "frameTimingRequested": false,
+        "frameTimingEnabled": false,
+        "frameTimingCpuFrequency": 0,
+        "failures": [],
+        "loadWaitSeconds": 1.1415065999999996,
+        "settleSeconds": 8.0,
+        "interactions": []
+      },
+      "process": {
+        "processId": 58884,
+        "exitCode": 0,
+        "recordedUtc": "2026-10-08T07:40:30.1870640Z"
+      },
+      "motion": {
+        "valid": true,
+        "failures": [],
+        "worstContactDriftMetres": 0.022152338477009925,
+        "minimumCentralSoleClearance": 0.0029980000000002782
+      },
+      "timing": {
+        "medianMs": 8.3321,
+        "p95Ms": 8.6977,
+        "worstMs": 11.616,
+        "hitches": {
+          "25": 0,
+          "33.3": 0,
+          "50": 0,
+          "100": 0
+        }
+      },
+      "launch": {
+        "capture": false,
+        "exeHash": "F76F2B3C76A5951B76B4C5A38528F7F8DF23795525D8836ACC286E437B58BBF6",
+        "nativePlugins": [
+          {
+            "path": "Plugins\\x86_64\\CoronachGpuClock.dll",
+            "bytes": 221696,
+            "hash": "4CFD22AED94F0E83ADBB11DEF68003CF6568187A8CD69EC4099DE4CDA6693038"
+          },
+          {
+            "path": "Plugins\\x86_64\\lib_burst_generated.dll",
+            "bytes": 484352,
+            "hash": "4868653FF8F497831ED2ACFDD2A1DD3A1B0023497D7A3FE9DCA640EF0566640F"
+          }
+        ],
+        "assemblies": [
+          {
+            "hash": "272F4E0894B680C8F1D5DA8E1E47D269A2A69BBD997263200EB1A91057694181",
+            "name": "Lattice.Combat.dll"
+          },
+          {
+            "hash": "C6B28180AD21008E88D1A489BE045B2D2468FB756BA9F729B4C8FA8221C59E55",
+            "name": "Lattice.Core.dll"
+          },
+          {
+            "hash": "C903C1EDA131A40A77424DDE05DD564947AA89AC29B4C81D4D467C81159FF894",
+            "name": "Lattice.Data.dll"
+          },
+          {
+            "hash": "54C58C2C4C4F17807C60CA097AFDA7BE33A81950FED698E9F099969318F8C274",
+            "name": "Lattice.Dialogue.dll"
+          },
+          {
+            "hash": "C0A1B02A92478F8A063A3421264EC0BEA31D86860C241B0E5F110C46C21B56CE",
+            "name": "Lattice.Rpg.dll"
+          },
+          {
+            "hash": "411B39F226F7DE303B6D40DB0A90ADA84233400D8F8D6EA33B5E76C56B6DCE30",
+            "name": "Lattice.UI.dll"
+          },
+          {
+            "hash": "8930C3EC8C17A02BFB264E9F5B290FFF3E461812963C5AC9CEF76ECC764BF8FA",
+            "name": "Lattice.World.dll"
+          }
+        ],
+        "d3d11BitBlt": false,
+        "groundPoseDiagnostic": false,
+        "build": "Development",
+        "arguments": [
+          "-screen-fullscreen",
+          "0",
+          "-screen-width",
+          "1920",
+          "-screen-height",
+          "1080",
+          "-quality-route",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\2026-10-07-bounded-trace\\slope120-final63\\route.json",
+          "-quality-output",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\slope120",
+          "-savepath",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\slope120\\saves",
+          "-logFile",
+          "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C2\\idle-height\\slope120\\player.log",
+          "-quality-vsync",
+          "0",
+          "-quality-motion"
+        ],
+        "graphicsApi": "Auto",
+        "routeHash": "ED6C1D99963DC61F560E22DF864F4429C67785643BAF06C8CD75E6173F52EA33",
+        "content": [
+          {
+            "name": "app.info",
+            "bytes": 15,
+            "hash": "EDAF2846134B935036CEA7BD4FE699C5DA156ED07932780F7993F0EAB33F6F44"
+          },
+          {
+            "name": "boot.config",
+            "bytes": 355,
+            "hash": "0A319B522548F03A8C233039165AE7981ED96632F494ABCEDFA87D7CA2E81370"
+          },
+          {
+            "name": "globalgamemanagers",
+            "bytes": 300260,
+            "hash": "FC7D532C20FBE865A0A4D46D9BDF50D4707DE8ABC34493C01B4FE03BD8CC6D7E"
+          },
+          {
+            "name": "globalgamemanagers.assets",
+            "bytes": 1015916,
+            "hash": "9F22B97B851FAB53EC65F1E0E9E71FEC7D4845E903F9790D83C7B03AC972F38D"
+          },
+          {
+            "name": "globalgamemanagers.assets.resS",
+            "bytes": 6176992,
+            "hash": "F122983B2E999B7F97C5B76FF4A4D07663DF0407E3D921D2826AA61D3671A70A"
+          },
+          {
+            "name": "level0",
+            "bytes": 3820,
+            "hash": "2BE8411F849D12F7D4526F480F15A4275D17C2AC8C7AAC00A8DFE05A25005421"
+          },
+          {
+            "name": "level1",
+            "bytes": 1136,
+            "hash": "4B368F3F08392495B2CA46A501F52391BAFD7475EEEF43F26A7FCFCDC50CCAD1"
+          },
+          {
+            "name": "level10",
+            "bytes": 246636,
+            "hash": "66648F3726029655D41ABD46D988FE370AA0AF798523B7264B486F45D6B673EF"
+          },
+          {
+            "name": "level2",
+            "bytes": 1388012,
+            "hash": "385B9F216EA5B04FE1D83C211D80245F05C8BEC101F575FCED3DAB12ABAFEE26"
+          },
+          {
+            "name": "level2.resS",
+            "bytes": 41200,
+            "hash": "FC176D0FDDE535704E83154A6124F2716A8264C7C1B0339C75FF68848C80ED9B"
+          },
+          {
+            "name": "level3",
+            "bytes": 923200,
+            "hash": "F2AE93EE35EB6CBFB0F44B98F2C0DCBB5F2FCB88E9F36C1A9E48DAC252D7A455"
+          },
+          {
+            "name": "level4",
+            "bytes": 265148,
+            "hash": "FB75B4F841966E2AB3917F794E0F12C5A1F23162D04A4A6F68CF05D36135CB21"
+          },
+          {
+            "name": "level4.resS",
+            "bytes": 21568,
+            "hash": "D74D0BCB672C492CF23FE4B0CC5B8DF39EEA06B392EB42C89DA052D7AC1E90C6"
+          },
+          {
+            "name": "level5",
+            "bytes": 181676,
+            "hash": "BD822E51EA3DEE9F7ACF4B59B6625FAB3B0BB460F846081F7A48DBC18CB6266B"
+          },
+          {
+            "name": "level5.resS",
+            "bytes": 1920,
+            "hash": "E21126998646478C2508D3979B8EC22D6CE895027E66E2CA0BC33A3AE92FB88D"
+          },
+          {
+            "name": "level6",
+            "bytes": 487792,
+            "hash": "586B5B3361BF70227B659BAF1367201818F82C87E3A9162607F1C94C8444BFE5"
+          },
+          {
+            "name": "level6.resS",
+            "bytes": 592848,
+            "hash": "5C8E641F91C3ECF49285119897EAF3E4ACC023A2B4953DEF2F91A5765D937DF2"
+          },
+          {
+            "name": "level7",
+            "bytes": 20172,
+            "hash": "956549219E938778F616A68EA064198B24800FF34F6E5C260BE9610D4C722920"
+          },
+          {
+            "name": "level8",
+            "bytes": 130220,
+            "hash": "A5FE1DC234CEDA069EBC654E38F2C2CB69E3B6AD565965704348839DE60CDB7F"
+          },
+          {
+            "name": "level9",
+            "bytes": 81276,
+            "hash": "0807D5E0624068B2AD3E591E3D76CECE061CE84A3FC6AF8E24CB716303A2799B"
+          },
+          {
+            "name": "level9.resS",
+            "bytes": 22528,
+            "hash": "3D9B26375EB593ED066E4D4E3EE3EF9EA70A6589413D0B3D4FC0054C44972172"
+          },
+          {
+            "name": "resources.assets",
+            "bytes": 47549688,
+            "hash": "4924306591942AE585D50B0B49D2A09D2B248239D800C2C9FD17778D44954917"
+          },
+          {
+            "name": "resources.assets.resS",
+            "bytes": 355367744,
+            "hash": "E193677A27A92688E4DA9D03A9882DE43D5DD95B1E24F06DE6BB38371D1AF263"
+          },
+          {
+            "name": "resources.resource",
+            "bytes": 16363712,
+            "hash": "B0D523EB594AE194DDBE53E676453F31587DE45741AD1B83142199A4A53CD4FB"
+          },
+          {
+            "name": "RuntimeInitializeOnLoads.json",
+            "bytes": 5019,
+            "hash": "2A1BFF58E84B5F4A3E561A7B61DD06D8C5D65C2523D9F82783FE0BA6E25258CB"
+          },
+          {
+            "name": "ScriptingAssemblies.json",
+            "bytes": 5369,
+            "hash": "3A43C6D30BF2C8A337C27DA6896CC15B8C46BDD1C0BEC4DEDB6278646045760E"
+          },
+          {
+            "name": "sharedassets0.assets",
+            "bytes": 159568,
+            "hash": "A5B903D0BBB43E652DAD6CDD1AE029A1019624BEC4142FA5AD7C140D88FDCA9D"
+          },
+          {
+            "name": "sharedassets0.assets.resS",
+            "bytes": 524288,
+            "hash": "393EFE6399536384AA91BDFC4E64F244B4D3E1FBB6A4FF145C483FFEE64CCB36"
+          },
+          {
+            "name": "sharedassets1.assets",
+            "bytes": 361,
+            "hash": "363EEBE3915F655EB254EE048DE85D28436F480800C0C54CE09E913CB4870603"
+          },
+          {
+            "name": "sharedassets10.assets",
+            "bytes": 58116,
+            "hash": "DA5BB0FC09E5041B42BC9FAB9471D90D7F771634F3B8D87FCBD75D91C0C79656"
+          },
+          {
+            "name": "sharedassets10.assets.resS",
+            "bytes": 1677792,
+            "hash": "90BCF47D57AB0A47B7C5B0517A7AACBD13698935F07BD0D2EB2EC7830A178AB1"
+          },
+          {
+            "name": "sharedassets2.assets",
+            "bytes": 603360,
+            "hash": "245DAC8AAB08543093B41C9180AB4680B8403DDD8D605193AD4E0D7DE6FB53BC"
+          },
+          {
+            "name": "sharedassets2.assets.resS",
+            "bytes": 11042016,
+            "hash": "1FF5E4CDE15104A9A90A2BC149DF1DA4756086B26A35147CD0EA7FDB43D97184"
+          },
+          {
+            "name": "sharedassets3.assets",
+            "bytes": 345044,
+            "hash": "7FA35614E62C2E85B7A0EC5DF5BE0FBBC6D89903FD6858409C85B9BC10F8DC2A"
+          },
+          {
+            "name": "sharedassets3.assets.resS",
+            "bytes": 7071712,
+            "hash": "EF2F42C0C0D7B8DB7794DF2F8B9AA12B61B7659E0641304A4842F2F4E6A8AAF5"
+          },
+          {
+            "name": "sharedassets4.assets",
+            "bytes": 6583812,
+            "hash": "11D52077468EDC26C50F154B128B5C3B01D63CE40C955DC0A2CA98119BD72FD7"
+          },
+          {
+            "name": "sharedassets4.assets.resS",
+            "bytes": 22834928,
+            "hash": "D4CF5E4387F7A0F45D265E2C2F4002AC0ADFA0D846AECE381AD2D3B3B7C80A08"
+          },
+          {
+            "name": "sharedassets5.assets",
+            "bytes": 5784076,
+            "hash": "B523F947CB5E89BCE62865ADEADB19788B854EE6B750B2F3869C758C7313B2C4"
+          },
+          {
+            "name": "sharedassets5.assets.resS",
+            "bytes": 21360704,
+            "hash": "4C2FD44E03772449299625578285C5EDF8D458EAC3D3D8B5D4A25608D9DF2592"
+          },
+          {
+            "name": "sharedassets6.assets",
+            "bytes": 1075508,
+            "hash": "AECAA21400E6634FBBD7520897711BEB498D0D881C5301663885CF924D686426"
+          },
+          {
+            "name": "sharedassets6.assets.resS",
+            "bytes": 4994208,
+            "hash": "6CEDF04EF555056368366E282D4E0D8AF6232995DE5D252370D2CDE5E3004759"
+          },
+          {
+            "name": "sharedassets7.assets",
+            "bytes": 72932,
+            "hash": "E687B048A6B427D5BEF4ACB0A334D659637FA39C159F4A63D3658F79BBC73AAC"
+          },
+          {
+            "name": "sharedassets7.assets.resS",
+            "bytes": 1693152,
+            "hash": "160B6969ED492D572BFD86ED8597772BD45E6B3C27493FB795942FEA36D9DBEC"
+          },
+          {
+            "name": "sharedassets8.assets",
+            "bytes": 16100,
+            "hash": "50D1AFF1B7B46A041D035639DDB3EEE527275DCFADEDA59886EAFC7DA419FC9E"
+          },
+          {
+            "name": "sharedassets9.assets",
+            "bytes": 24308,
+            "hash": "321ECF9ECB9076B92930BDF8C9A9A181251331FA8DD32659B39CB30A464EA710"
+          }
+        ],
+        "diagnosticVSync": 0,
+        "started": "2026-10-08T07:36:24.2121536Z",
+        "multithreadedRendering": false,
+        "nativeGpuDiagnostic": false,
+        "source": "25d9addebea189c633fb7b0d1e3d0204e9367b0a"
+      }
+    }
+  },
+  "comparison": {
+    "scope": "All recorded stationary, non-transition partner Taren rows on step 166; player trajectories and phases are retained, not assumed identical.",
+    "player": {
+      "original": {
+        "samples": 300,
+        "elapsed": {
+          "minimum": 211.4097924,
+          "maximum": 216.39275619999998
+        },
+        "hipAboveRoot": {
+          "minimum": 0.6219351300000002,
+          "maximum": 0.64906949
+        },
+        "leftKnee": {
+          "minimum": 71.4175949285005,
+          "maximum": 77.15576901959442
+        },
+        "rightKnee": {
+          "minimum": 102.89905673738906,
+          "maximum": 107.02577956704961
+        },
+        "moreExtendedKnee": {
+          "minimum": 102.89905673738906,
+          "maximum": 107.02577956704961
+        },
+        "positions": [
+          {
+            "rootX": "-31.77752",
+            "rootY": "2.03921151",
+            "rootZ": "-9.716646",
+            "forwardX": "-1.00000012",
+            "forwardZ": "-1.1920929E-07",
+            "phase": "58.06249",
+            "elapsed": "211.4097924"
+          },
+          {
+            "rootX": "-31.77752",
+            "rootY": "2.03921151",
+            "rootZ": "-9.716646",
+            "forwardX": "-1.00000012",
+            "forwardZ": "-1.1920929E-07",
+            "phase": "61.052742",
+            "elapsed": "216.39275619999998"
+          }
+        ]
+      },
+      "height01": {
+        "samples": 77,
+        "elapsed": {
+          "minimum": 213.8469274,
+          "maximum": 215.1136957
+        },
+        "hipAboveRoot": {
+          "minimum": 0.9986497722000001,
+          "maximum": 1.0202315722
+        },
+        "leftKnee": {
+          "minimum": 117.26193644926536,
+          "maximum": 123.53716980419719
+        },
+        "rightKnee": {
+          "minimum": 118.56864242613423,
+          "maximum": 124.29620800634724
+        },
+        "moreExtendedKnee": {
+          "minimum": 119.3746794765119,
+          "maximum": 124.29620800634724
+        },
+        "positions": [
+          {
+            "rootX": "-28.1482544",
+            "rootY": "-0.0186715126",
+            "rootZ": "-6.3797183",
+            "forwardX": "0.09900112",
+            "forwardZ": "-0.995087266",
+            "phase": "0.07998864",
+            "elapsed": "213.8469274"
+          },
+          {
+            "rootX": "-28.1482544",
+            "rootY": "-0.0186715722",
+            "rootZ": "-6.3797183",
+            "forwardX": "0.09900112",
+            "forwardZ": "-0.995087266",
+            "phase": "0.8400082",
+            "elapsed": "215.1136957"
+          }
+        ]
+      }
+    },
+    "controlled": {
+      "original": {
+        "elapsed": "213.159400",
+        "clip": "Idle",
+        "phase": "59.112570",
+        "stride": "1.000000",
+        "transitioning": "False",
+        "grade": "0.764422",
+        "requestedDrop": "0.000000",
+        "reach": "0.000000",
+        "hipHeight": "0.951234",
+        "torsoBehindRearSole": "0.145527",
+        "hipX": "-31.613350",
+        "hipY": "2.671751",
+        "hipZ": "-9.660944",
+        "chestX": "-31.512290",
+        "chestY": "2.840796",
+        "chestZ": "-9.642120",
+        "donorHipAboveRoot": "1.004799",
+        "leftKneeAngle": "72.906910",
+        "rightKneeAngle": "104.219500"
+      },
+      "height01": {
+        "elapsed": "213.159400",
+        "clip": "Idle",
+        "phase": "59.112570",
+        "stride": "1.000000",
+        "transitioning": "False",
+        "grade": "0.764422",
+        "requestedDrop": "0.085709",
+        "reach": "0.000865",
+        "hipHeight": "1.072457",
+        "torsoBehindRearSole": "0.143189",
+        "hipX": "-31.621520",
+        "hipY": "2.799895",
+        "hipZ": "-9.663628",
+        "chestX": "-31.520470",
+        "chestY": "2.968940",
+        "chestZ": "-9.644804",
+        "donorHipAboveRoot": "1.004799",
+        "leftKneeAngle": "94.343970",
+        "rightKneeAngle": "136.148900"
+      }
+    }
+  },
+  "observations": {
+    "openedPlayerImages": [
+      "player01/step78-1.25.png",
+      "player01/step166-1.25.png",
+      "player01/step166-1.75.png",
+      "player01/step166-4.50.png",
+      "player01/taren-steep-idle.png",
+      "player01/sela-steep-idle.png",
+      "pad60/step118-0.90.png",
+      "pad60/step118-1.07.png",
+      "pad60/step118-1.17.png"
+    ],
+    "openedControlledImages": [
+      "Builds/quality/C2/oct7-idle-height-original/side.png",
+      "Builds/quality/C2/oct7-idle-height01/side.png"
+    ],
+    "notes": [
+      "The four route-offset images retain Sela high/deep stepping. The Taren companion takes a different path; the new step-166 stationary rows are on a different, much lower surface and do not attribute improvement to the repair.",
+      "Additional actual active-idle views at 115.103 s (Taren) and 231.934 s (Sela) show one more extended supporting leg on steep ground. Knee angles are 102.40/136.15 and 136.02/103.79 degrees. Lean/stance quality and transitions remain unaccepted.",
+      "Only the controlled old/new Taren side uses the identical retained root/heading/phase and shows a direct improvement in the deep crouch.",
+      "Three pad step-118 images show running travel at 6.7 m/s and recorded non-transition Run, retaining the faster-gait recovery behavior. They do not replicate the former failed collision trajectory exactly or accept continuous foot contact."
+    ],
+    "continuousNormalVideo": "UNVERIFIED",
+    "continuousSlowVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalInput": "UNVERIFIED",
+    "physicalScanOut": "UNVERIFIED"
+  },
+  "preservedFailures": [
+    "Original Taren Natural downhill and Shaped uphill height failures",
+    "Early pause-guard mutation rejects only one of four cases; the control harness correctly fails its all-four expectation",
+    "Initial outer ownership-helper invocation rejected by PowerShell execution policy; nested test launchers retain normal ownership checks; note retained",
+    "Every earlier knee, terrain, gait, focus, frame-time and GPU rejection remains unchanged"
+  ],
+  "evidenceInventory": {
+    "path": "Builds/quality/C2/idle-height/evidence-inventory.json",
+    "bytes": 31352,
+    "sha256": "6235e1cddd9eed208319e8bf1140a3e65b5cbb7e4eb548b575c303ac28675077"
+  },
+  "preservation": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-controls-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-controls-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-integrated-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-integrated-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-pad60-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-pad60-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-player01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-player01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-slope120-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-slope120-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-slope30-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height-slope30-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height01-play-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height01-play-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/idle-height01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    }
+  ],
+  "limitations": [
+    "No continuous normal/slow video or audio audition; physical scan-out/input feel UNVERIFIED",
+    "Sela high stepping and complete posture quality remain unaccepted",
+    "Capture/pose and explicit 30/120 Hz diagnostics cannot accept C1",
+    "Frozen a3aaad6 chapter/profile unchanged; all unmet C1-C10 gates OPEN"
+  ]
+}

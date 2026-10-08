@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Idle height restores stationary slope support — 2026-10-08
+
+**C2 remains OPEN. Both standard players contain the bounded idle-height repair, with 173 EditMode / 252 PlayMode tests passing, zero skipped.** Original height failures and deliberate lowered-hip/pause faults remain. Four fresh motion routes pass, with focused shoulder/pad captures and explicit 30/120 fps diagnostics. [Evidence and exact inventories](validation/C2-idle-height.md).
+
+The matched controlled pose improves stationary support. The fresh companion takes a different path, so its new height range cannot prove that comparison; separately opened active-Idle views cover both heroes on steep ground. The correction preserves established feet/reach descent, e93bf13's knee/terrain repairs and all gait/contact assertions. Selected improvement does not accept continuous motion; Sela's high stepping, audiovisual/physical observations and every unmet C1–C10 gate remain OPEN/UNVERIFIED.
+
+Nathan's saves and frozen `a3aaad6` files/profile match. Exact `25d9add` players are archived under `Builds/quality/C2/idle-height/prior-Windows*`. Continue the rapid Cantor camera return, full collar/preview staging and later dependency-safe production. C1's original awake hitches and invalid GPU evidence remain unresolved; no presentation candidate is published as validated.
+
+
 ## Live joint capture isolates the remaining idle crouch — October 7
 
 **C2 remains OPEN. Both players now record evaluated ground joints for both heroes on request, without changing locomotion.** New evidence covers every Animator transition instead of reconstructing all poses from one clip. **202 offline / 5 affected PlayMode checks pass**, both builds succeed, and deliberately wrong geometry/completion/coverage controls reject. [Evidence and exact source/package inventories](validation/C2-evaluated-pose.md).
