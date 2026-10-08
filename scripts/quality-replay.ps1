@@ -13,6 +13,7 @@ param(
     [switch]$NativeGpu,
     [switch]$Census,
     [switch]$Motion,
+    [switch]$GroundPose,
     [ValidateSet('Auto','D3D11','D3D12')][string]$GraphicsApi='Auto',
     [ValidateSet(-1,0,1)][int]$DiagnosticVSync=-1,
     [switch]$MultithreadedRendering,
@@ -25,6 +26,7 @@ param(
 )
 $ErrorActionPreference='Stop'
 if($GpuClocks){$Headroom=$true}
+if($GroundPose){$Motion=$true}
 if($NativeGpu){
     if($GraphicsApi -eq 'D3D11'){throw 'Native GPU diagnostic requires Direct3D12'}
     $GraphicsApi='D3D12'
@@ -90,11 +92,13 @@ if ($FrameClocks) { $launch+='-quality-frame-clocks' }
 if ($NativeGpu) { $launch+='-quality-native-gpu' }
 if ($Census) { $launch+='-quality-census' }
 if ($Motion) { $launch+='-quality-motion' }
+if ($GroundPose) { $launch+='-quality-ground-pose' }
 $manifest=@{source=(& git -C $repo rev-parse HEAD);routeHash=(Get-FileHash -LiteralPath $routePath).Hash;exeHash=(Get-FileHash -LiteralPath $exe).Hash;build=$Build;capture=[bool]$Capture;graphicsApi=$GraphicsApi;diagnosticVSync=$DiagnosticVSync;multithreadedRendering=[bool]$MultithreadedRendering;d3d11BitBlt=[bool]$D3D11BitBlt;started=[DateTime]::UtcNow.ToString('o')}
 $assemblyDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data/Managed'
 $manifest.assemblies=@(Get-ChildItem -LiteralPath $assemblyDir -Filter 'Lattice.*.dll' | ForEach-Object { @{name=$_.Name;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })
 $manifest.arguments=$launch
 $manifest.nativeGpuDiagnostic=[bool]$NativeGpu
+$manifest.groundPoseDiagnostic=[bool]$GroundPose
 # Include packaged scene/asset content, not just the Unity launcher EXE and code.
 $dataDir=Join-Path (Split-Path $exe -Parent) 'Coronach_Data'
 $manifest.content=@(Get-ChildItem -LiteralPath $dataDir -File | ForEach-Object { @{name=$_.Name;bytes=$_.Length;hash=(Get-FileHash -LiteralPath $_.FullName).Hash} })

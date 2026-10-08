@@ -1,0 +1,449 @@
+{
+  "date": "2026-10-07",
+  "status": "C2 OPEN; evaluated-pose diagnostics verified; stationary uphill crouch remains a visual rejection",
+  "baseRevision": "324a6db860157d7fee37552120f176ff1365ff29",
+  "source": {
+    "baseRevision": "324a6db860157d7fee37552120f176ff1365ff29",
+    "scope": "Opt-in evaluated ground-pose records for both heroes; single-clip audit gains knee geometry; no GroundFeet or gameplay change",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CantorRelease.cs",
+        "normalizedSha256": "8c17243fba72d79d3445441c25a6603ba6ca35a09ce893ab75b6078de306a274"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/PartyController.cs",
+        "normalizedSha256": "9a5a15f62b553b21879fce8fc99e4ae055316d05b2a0ea82e03ebab26a826c20"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/SerpentSegments.cs",
+        "normalizedSha256": "bb844c84ab96939ed6608f197cc8e1ebd1c13cd60fdc7cb41cdbe2dcab260967"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs",
+        "normalizedSha256": "6d3a265b8636229250930abaae89e0805b2144964a68a3363add206f554a181d"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "normalizedSha256": "3055efaa7650cac3dd34da7b34ff682b48941251d13a7621f4ae0291d18ef3fe"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "normalizedSha256": "e2ce8d4e7104e612335af66e6937fe015db5326eddcceee648ae6c84fde3c8dd"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "normalizedSha256": "08ffa64ec1875925360d5afbd0b882bd1d515dc4f851235cfc0aa9d2b9611078"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "ee45cef596a7e156b35ee263b01244f19dd0fbaa7599a8897ea4e09623d4575e"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Core/CameraRig.cs",
+        "normalizedSha256": "86c239b97974baa3afe3b7e8dbedec95b039840c0abdc77fff719f42d5beb569"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "normalizedSha256": "874faf867eb46cd49f6422104ed6337955a22760d0d33292a90fc3519ddf1c63"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/SliceSmoke.cs",
+        "normalizedSha256": "8411a016f97b50f39b9cafa29dee33bd78939db3728e844fecbf1d65d985db6a"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/GulletCoilArt.cs",
+        "normalizedSha256": "f4995d76138275bb6eef1e347a3e9c7abe5ec016bcd345ab5ba0c2aaf16407c9"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/World/MapEvidence.cs",
+        "normalizedSha256": "c2a58243043604e90852f59dbb5472c0b92ad47ef5e5578d480cc49e0e859754"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/QualityCapture.cs",
+        "normalizedSha256": "f6c85976908672b84ab1171647d4e15735f03bee438a872e44163ca6a3c4241f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CaptureAudioWriter.cs",
+        "normalizedSha256": "b1057ef0274ee27e7e0a78bae119e208dcc503ede79ba087bfaf409834afbe09"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/NativeGpuClock.cs",
+        "normalizedSha256": "e02b2f51cea6d55594d27bd65504c11b31b2cc04ed2f1e4ad3b962923867b0e8"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/BatchTools.cs",
+        "normalizedSha256": "41d6e064b17fad39df70eb351cdd51e0954398f03ec8c2fc704eef408f968022"
+      },
+      {
+        "path": "tools/native_gpu/CoronachGpuClock.cpp",
+        "normalizedSha256": "6ac85ca318a2173459d132bf87e4bae28563fabdfdefbf8dc8e8901253d1af76"
+      },
+      {
+        "path": "Lattice/Assets/Plugins/x86_64/CoronachGpuClock.dll",
+        "normalizedSha256": "76696c832c15078e2324a1e7834bfd4b3afc1d6090ec4886b466e053d2238a35"
+      },
+      {
+        "path": "tools/native_gpu/THIRD-PARTY-NOTICES.txt",
+        "normalizedSha256": "a695d79444b4a8e58e07aeda1573d52fb848e02cbaa118cd482b5661a4be3265"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/GroundPoseCapture.cs",
+        "normalizedSha256": "2ecc4f5613572cfa373c7968dfcd4243aec29e19cb8eac287f3fdbfa8f27b85f"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Editor/Art/TerrainPoseAudit.cs",
+        "normalizedSha256": "aafd0f2662a8c9f5dd559385a492f16c312a9763d30177e0b0f234edf8860adc"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C2/uphill-clearance/packages.json",
+    "bytes": 139775,
+    "sha256": "c61edd0580ef2508f7acc6657151742339bb903b323e1d3014894d0532b656fb"
+  },
+  "tests": {
+    "offlinePassed": 202,
+    "affectedPlayMode": {
+      "id": "2",
+      "testcasecount": "5",
+      "result": "Passed",
+      "total": "5",
+      "passed": "5",
+      "failed": "0",
+      "inconclusive": "0",
+      "skipped": "0",
+      "asserts": "0",
+      "engine-version": "3.5.0.0",
+      "clr-version": "4.0.30319.42000",
+      "start-time": "2026-10-08 06:21:06Z",
+      "end-time": "2026-10-08 06:21:25Z",
+      "duration": "19.0230824"
+    },
+    "controls": [
+      "Wrong-joint producer: one of two PlayMode checks rejects",
+      "False-complete producer: one of two PlayMode checks rejects",
+      "Accepting coverage reader: 17 failures",
+      "Wrong angle calculation: one failure",
+      "Original launch checker: two false passes reproduced"
+    ]
+  },
+  "run": {
+    "route": "c2-shaped-sorrel-slope-60",
+    "sourceRevision": "C2 candidate; exact packaged hashes in each run",
+    "input": "continuous agent-directed virtual gamepad replay",
+    "build": "Development",
+    "unity": "6000.4.7f1",
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "quality": "Ultra",
+    "gpuTiming": "UNAVAILABLE",
+    "vrr": "UNVERIFIED",
+    "width": 1920,
+    "height": 1080,
+    "frameCap": -1,
+    "vSync": 1,
+    "samples": 13978,
+    "refreshHz": 60.0,
+    "seconds": 232.94343759999998,
+    "captured": true,
+    "profiled": false,
+    "headroom": false,
+    "census": false,
+    "motion": true,
+    "valid": true,
+    "frameTimingRequested": false,
+    "frameTimingEnabled": false,
+    "frameTimingCpuFrequency": 0,
+    "failures": [],
+    "loadWaitSeconds": 1.1345838000000001,
+    "settleSeconds": 8.0,
+    "interactions": []
+  },
+  "poses": {
+    "valid": true,
+    "failures": [],
+    "rows": 27956,
+    "replaySamples": 13978,
+    "actors": {
+      "Taren Shaped": {
+        "samples": 13978,
+        "transitions": 479,
+        "hipAboveRoot": {
+          "minimum": 0.3609609600000001,
+          "maximum": 1.0992076
+        },
+        "leftKnee": {
+          "minimum": 10.742389856531512,
+          "maximum": 153.4470930854317
+        },
+        "rightKnee": {
+          "minimum": 30.135324126472128,
+          "maximum": 153.56484600943483
+        },
+        "moreExtendedKnee": {
+          "minimum": 77.77008808621869,
+          "maximum": 153.56484600943483
+        }
+      },
+      "Sela Shaped": {
+        "samples": 13978,
+        "transitions": 1247,
+        "hipAboveRoot": {
+          "minimum": 0.32821173000000003,
+          "maximum": 1.1055333200000002
+        },
+        "leftKnee": {
+          "minimum": 12.833268056738778,
+          "maximum": 152.83726060351208
+        },
+        "rightKnee": {
+          "minimum": 29.684120114231682,
+          "maximum": 152.82425580550333
+        },
+        "moreExtendedKnee": {
+          "minimum": 79.40045955059428,
+          "maximum": 152.83726060351208
+        }
+      }
+    },
+    "scope": "Evaluated geometry coverage only; ranges include every transition. No visual, continuous-motion, physical or clean-timing acceptance."
+  },
+  "audio": {
+    "sampleRate": 48000,
+    "channels": 2,
+    "bufferCount": 32,
+    "maximumBlockSamples": 32768,
+    "peakQueuedBlocks": 2,
+    "sampleBufferBytes": 4325376,
+    "acceptedSamples": 22366208,
+    "writtenSamples": 22366208,
+    "writtenBytes": 89464832,
+    "completed": true,
+    "failure": ""
+  },
+  "motion": {
+    "valid": true,
+    "failures": [],
+    "worstContactDriftMetres": 0.013981728255113932,
+    "minimumCentralSoleClearance": 0.0029970000000001384
+  },
+  "timing": {
+    "medianMs": 16.6691,
+    "p95Ms": 17.1844,
+    "worstMs": 20.2563,
+    "hitches": {
+      "25": 0,
+      "33.3": 0,
+      "50": 0,
+      "100": 0
+    }
+  },
+  "process": {
+    "processId": 28412,
+    "exitCode": 0,
+    "recordedUtc": "2026-10-08T06:29:21.3912352Z"
+  },
+  "reconstruction": {
+    "hipDistance": {
+      "minimum": 0.0,
+      "median": 7.963906641862144e-05,
+      "maximum": 0.0007099534094548367
+    },
+    "leftAngleDifference": {
+      "minimum": 3.753964136876675e-06,
+      "median": 0.007558112753599744,
+      "maximum": 0.14809340392162085
+    },
+    "rightAngleDifference": {
+      "minimum": 1.4313093146256506e-06,
+      "median": 0.006177256467907455,
+      "maximum": 0.14557491179550652
+    }
+  },
+  "extractedMarkers": [
+    {
+      "step": 78,
+      "offset": 1.25,
+      "videoFrame": 2872,
+      "elapsed": 95.742225,
+      "image": "step78-1.25.png",
+      "poseSample": 5745,
+      "poseFrame": 6261,
+      "leftKnee": 126.03354275626327,
+      "rightKnee": 131.487203068282,
+      "hipAboveRoot": 0.955771624,
+      "phase": "6.677433",
+      "transitioning": "False"
+    },
+    {
+      "step": 166,
+      "offset": 0.75,
+      "videoFrame": 6364,
+      "elapsed": 212.14512,
+      "image": "step166-0.75.png",
+      "poseSample": 12729,
+      "poseFrame": 13245,
+      "leftKnee": 149.0833736925165,
+      "rightKnee": 148.03644552078512,
+      "hipAboveRoot": 1.0490331069999999,
+      "phase": "6.12251043",
+      "transitioning": "False"
+    },
+    {
+      "step": 166,
+      "offset": 1.25,
+      "videoFrame": 6379,
+      "elapsed": 212.644848,
+      "image": "step166-1.25.png",
+      "poseSample": 12759,
+      "poseFrame": 13275,
+      "leftKnee": 132.19194493347595,
+      "rightKnee": 103.2354193496523,
+      "hipAboveRoot": 0.844466988,
+      "phase": "6.65285349",
+      "transitioning": "False"
+    },
+    {
+      "step": 166,
+      "offset": 1.75,
+      "videoFrame": 6394,
+      "elapsed": 213.145079,
+      "image": "step166-1.75.png",
+      "poseSample": 12789,
+      "poseFrame": 13305,
+      "leftKnee": 125.20794023243565,
+      "rightKnee": 122.14503628875366,
+      "hipAboveRoot": 0.8380995099999999,
+      "phase": "7.2120657",
+      "transitioning": "False"
+    },
+    {
+      "step": 166,
+      "offset": 4.5,
+      "videoFrame": 6477,
+      "elapsed": 215.911815,
+      "image": "step166-4.50.png",
+      "poseSample": 12955,
+      "poseFrame": 13471,
+      "leftKnee": 135.64059756739886,
+      "rightKnee": 60.87838308148212,
+      "hipAboveRoot": 0.7276923699999998,
+      "phase": "10.3915424",
+      "transitioning": "False"
+    }
+  ],
+  "openedPlayerImages": [
+    "step78-1.25.png",
+    "step166-1.25.png",
+    "step166-1.75.png",
+    "step166-4.50.png"
+  ],
+  "openedControlledImage": "Builds/quality/C2/oct7-clearance-sela63-measured/side.png",
+  "findings": [
+    "Actual idle companion Taren at step 166 has hip height above actor root 0.631-0.646 m, knee angles about 73-106 degrees and requested support drop 0; this supports investigating unnecessary vertical idle lowering",
+    "Sela still shows high stepping/crouched phases; a selected late frame has knee angles 135.64/60.88 degrees. No arbitrary knee-angle range accepts its visual quality",
+    "For 300 non-transition Sela ascent frames, single-clip audit agrees within 0.710 mm hip position and 0.149 degrees knee angle; this does not validate transition mixtures or companion history"
+  ],
+  "failures": [
+    "First audit used a relative fixture path resolved under Lattice and failed; raw folder/log retained",
+    "First angle fixture differed from 180 degrees by 0.0000012 degrees; an exactly representable fixture repaired setup without loosening its assertion"
+  ],
+  "evidenceInventory": {
+    "path": "Builds/quality/C2/uphill-clearance/evidence-inventory.json",
+    "bytes": 16242,
+    "sha256": "26f953a37d6145a864d1d14a67f0a2bde15fad5956a47f91db35489083a5a5f4"
+  },
+  "preservation": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-live-audit-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-live-audit-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-original-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-original-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-player01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-player01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-pose-tests01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-pose-tests01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-producer-controls-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/clearance-producer-controls-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    }
+  ],
+  "observations": {
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalInput": "UNVERIFIED",
+    "physicalScanOut": "UNVERIFIED"
+  },
+  "limitations": [
+    "Both display endpoints report on and VSync 1 is retained, but pose instrumentation/capture disqualifies clean C1 acceptance",
+    "No GroundFeet, GeneratedAnimator, motor, donor clip, knee/contact limit or gameplay change",
+    "All unmet gates remain OPEN; frozen a3aaad6 chapter/profile is untouched"
+  ]
+}

@@ -308,6 +308,8 @@ def launch_diagnostics(build):
         errors.append('frame clock diagnostic overhead disqualifies clean timing/headroom')
     elif '-quality-native-gpu' in {value.lower() for value in arguments} or build.get('nativeGpuDiagnostic') is True:
         errors.append('native GPU camera-envelope diagnostic disqualifies clean timing/headroom')
+    elif '-quality-ground-pose' in {value.lower() for value in arguments} or build.get('groundPoseDiagnostic') is True:
+        errors.append('evaluated ground-pose diagnostic disqualifies clean timing/headroom')
     elif build.get('cleanTimingEligible') is False:
         errors.append('launch manifest excludes clean timing/headroom')
     return dict(valid=not errors,failures=errors,profilingArguments=found,
@@ -315,6 +317,7 @@ def launch_diagnostics(build):
 
 from capture_audio_analyze import include as include_bounded_audio
 from native_gpu_analyze import include as include_native_gpu
+from ground_pose_analyze import include as include_ground_pose
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('folder',type=Path);modes=p.add_mutually_exclusive_group();modes.add_argument('--performance',action='store_true');modes.add_argument('--headroom',action='store_true');args=p.parse_args()
@@ -336,6 +339,7 @@ if __name__=='__main__':
         result['valid']=False
     include_bounded_audio(result,args.folder)
     include_native_gpu(result,args.folder)
+    include_ground_pose(result,args.folder)
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

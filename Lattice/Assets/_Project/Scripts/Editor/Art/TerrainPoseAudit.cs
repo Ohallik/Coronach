@@ -44,7 +44,7 @@ namespace Lattice.EditorTools
             var poses=new Dictionary<string,AnimationClipPlayable>();
             float previousTime=-1;bool captured=false;
             using var writer=new StreamWriter(Path.Combine(folder,"pose.csv"));
-            writer.WriteLine("elapsed,clip,phase,stride,transitioning,grade,requestedDrop,reach,hipHeight,torsoBehindRearSole,hipX,hipY,hipZ,chestX,chestY,chestZ");
+            writer.WriteLine("elapsed,clip,phase,stride,transitioning,grade,requestedDrop,reach,hipHeight,torsoBehindRearSole,hipX,hipY,hipZ,chestX,chestY,chestZ,donorHipAboveRoot,leftKneeAngle,rightKneeAngle");
             try
             {
                 Physics.SyncTransforms();GameTime.Reset();
@@ -55,6 +55,7 @@ namespace Lattice.EditorTools
                     root.transform.SetPositionAndRotation(new Vector3(F(1),F(2),F(3)),Quaternion.LookRotation(new Vector3(F(6),0,F(7))));
                     if(!poses.TryGetValue(clip,out var pose)){pose=AnimationClipPlayable.Create(graph,clips[clip]);pose.SetApplyFootIK(true);poses.Add(clip,pose);}
                     output.SetSourcePlayable(pose);pose.SetTime(Mathf.Repeat(phase,1)*pose.GetAnimationClip().length);graph.Evaluate(0);
+                    float donorHip=rig.GetBoneTransform(HumanBodyBones.Hips).position.y-root.transform.position.y;
                     var velocity=new Vector3(F(4),0,F(5));
                     feet.Correct(velocity,clip,phase,F(10),transitioning,targetFacing:false,deltaTime:previousTime<0?1f/60:time-previousTime);
                     previousTime=time;
@@ -62,7 +63,11 @@ namespace Lattice.EditorTools
                     var direction=velocity.sqrMagnitude>.01f?velocity.normalized:root.transform.forward;
                     float rear=Mathf.Min(Vector3.Dot(soles[0].Heel,direction),Vector3.Dot(soles[0].Toe,direction),Vector3.Dot(soles[1].Heel,direction),Vector3.Dot(soles[1].Toe,direction));
                     Physics.Raycast(hips+Vector3.up,Vector3.down,out var ground,3,~0,QueryTriggerInteraction.Ignore);
-                    writer.WriteLine(FormattableString.Invariant($"{time:F6},{clip},{phase:F6},{F(10):F6},{transitioning},{feet.TerrainGrade:F6},{feet.RequestedSupportDrop:F6},{feet.MaximumReachCorrection:F6},{hips.y-ground.point.y:F6},{rear-Vector3.Dot((hips+chest)*.5f,direction):F6},{hips.x:F6},{hips.y:F6},{hips.z:F6},{chest.x:F6},{chest.y:F6},{chest.z:F6}"));
+                    float Knee(HumanBodyBones hip,HumanBodyBones knee,HumanBodyBones foot)
+                    {var k=rig.GetBoneTransform(knee).position;return Vector3.Angle(rig.GetBoneTransform(hip).position-k,rig.GetBoneTransform(foot).position-k);}
+                    float leftKnee=Knee(HumanBodyBones.LeftUpperLeg,HumanBodyBones.LeftLowerLeg,HumanBodyBones.LeftFoot);
+                    float rightKnee=Knee(HumanBodyBones.RightUpperLeg,HumanBodyBones.RightLowerLeg,HumanBodyBones.RightFoot);
+                    writer.WriteLine(FormattableString.Invariant($"{time:F6},{clip},{phase:F6},{F(10):F6},{transitioning},{feet.TerrainGrade:F6},{feet.RequestedSupportDrop:F6},{feet.MaximumReachCorrection:F6},{hips.y-ground.point.y:F6},{rear-Vector3.Dot((hips+chest)*.5f,direction):F6},{hips.x:F6},{hips.y:F6},{hips.z:F6},{chest.x:F6},{chest.y:F6},{chest.z:F6},{donorHip:F6},{leftKnee:F6},{rightKnee:F6}"));
                     if(!captured&&time>=shot&&shot>=0)
                     {
                         File.WriteAllText(Path.Combine(folder,"shot.txt"),FormattableString.Invariant($"elapsed={time:F6}; state={clip}; transitioning={transitioning}; single clip only\n"));

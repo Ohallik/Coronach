@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Live joint capture isolates the remaining idle crouch — October 7
+
+**C2 remains OPEN. Both players now record evaluated ground joints for both heroes on request, without changing locomotion.** New evidence covers every Animator transition instead of reconstructing all poses from one clip. **202 offline / 5 affected PlayMode checks pass**, both builds succeed, and deliberately wrong geometry/completion/coverage controls reject. [Evidence and exact source/package inventories](validation/C2-evaluated-pose.md).
+
+A changed diagnostic of the full shoulder route completes **232.943 s / 13,978 focused samples / 27,956 pose rows**, with process exit 0, both displays on and VSync 1. Existing motion assertions pass, but four opened new gameplay frames retain Sela's high-stepping concern and clearly show stationary Taren crouched. His hips remain 0.631–0.646 m above the root with no requested support drop. **Test an idle-only height correction next; do not accept these numerical passes as posture quality.** All knee/terrain runtime bytes and older failures remain unchanged.
+
+Nathan's saves and all frozen `a3aaad6` files/profile match. Prior `324a6db` players are archived under `Builds/quality/C2/uphill-clearance/prior-Windows*`. Instrumentation/capture excludes clean C1 acceptance. Continuous video/audio and physical observation remain UNVERIFIED; all unmet C1–C10 gates stay open.
+
+
 ## Independent GPU queries survive full routes; C1 failures remain open — October 7
 
 **C1 remains OPEN. Both players now include an opt-in D3D12 camera-envelope diagnostic with GPU frame tags and private queue fences.** The first prototype's uncapped run reproduces a stale-slot read despite a completed Unity frame fence; that rejected source, binary and full capture remain. The repaired producer and final wrong-tag control behave correctly. **188 offline / 3 affected PlayMode checks pass**, zero skipped, and both final builds succeed. [Evidence, failures and exact inventories](validation/C1-native-gpu.md).

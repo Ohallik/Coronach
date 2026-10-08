@@ -149,6 +149,7 @@ namespace Lattice.UI
         }
         QualityCapture capture;
         NativeGpuClock nativeGpu;
+        GroundPoseCapture groundPose;
         double lastScreenshot=-1000;
         Vector3 measuredMotion;
         bool arrows, profiled, tracing, headroom;
@@ -243,6 +244,7 @@ namespace Lattice.UI
                 capture.Begin(folder, DevArgs.Value("-quality-ffmpeg"));
             }
             nativeGpu?.Begin();
+            if(DevArgs.Has("-quality-ground-pose"))groundPose=new GroundPoseCapture(folder);
             clock.Start(); recording = true;
             Debug.Log("QUALITY_REPLAY_BEGIN " + route.name);
             for (stepIndex = 0; stepIndex < route.steps.Length; stepIndex++)
@@ -270,6 +272,7 @@ namespace Lattice.UI
             yield return null;
             if (capture != null) yield return capture.Finish();
             if (nativeGpu != null) yield return nativeGpu.Finish();
+            groundPose?.Finish();
             WriteEvidence();
             Debug.Log(failures.Count == 0 ? "QUALITY_REPLAY_OK " + route.name : "QUALITY_REPLAY_REJECTED " + string.Join("; ", failures));
             Application.Quit(failures.Count == 0 ? 0 : 1);
@@ -400,6 +403,7 @@ namespace Lattice.UI
             }
             var party = PartyController.Current;
             var partner = party != null && party.members.Length > 1 ? party.members[1-party.index] : null;
+            groundPose?.Record(samples.Count,Time.frameCount,now,stepIndex,actor,partner);
             FrameTiming timing = default;
             bool hasTiming = false;
             if (headroom || gpuClocks)
@@ -514,6 +518,7 @@ namespace Lattice.UI
             if (Screen.width != 1920 || Screen.height != 1080) failures.Add("wrong resolution");
             if (capture != null && !string.IsNullOrEmpty(capture.Failure)) failures.Add(capture.Failure);
             if (nativeGpu != null && !string.IsNullOrEmpty(nativeGpu.Failure)) failures.Add(nativeGpu.Failure);
+            if (groundPose != null && !string.IsNullOrEmpty(groundPose.Failure)) failures.Add(groundPose.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
                 writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs,ui");
@@ -560,6 +565,7 @@ namespace Lattice.UI
         }
         void OnDestroy()
         {
+            groundPose?.Dispose();
             StopProfile();
             segmentedTrace?.Stop();
             InputSystem.onBeforeUpdate -= InputUpdate;

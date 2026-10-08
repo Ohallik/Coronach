@@ -93,6 +93,16 @@ class NativeProfileManifestContract(unittest.TestCase):
         self.assertEqual(1, code)
         self.assertFalse(result['valid'])
 
+    def test_ground_pose_argument_cannot_accept_clean_timing(self):
+        code, result = self.result(['-quality-ground-pose'])
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
+    def test_ground_pose_metadata_cannot_accept_headroom(self):
+        code, result = self.result([], headroom=True, groundPoseDiagnostic=True)
+        self.assertEqual(1, code)
+        self.assertFalse(result['valid'])
+
     def test_missing_launch_manifest_cannot_accept_clean_timing(self):
         code, result = self.result([], omit_manifest=True)
         self.assertEqual(1, code)
