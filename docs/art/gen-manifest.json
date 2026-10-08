@@ -2949,5 +2949,39 @@
       "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove.fbx",
       "art-src/Generated/C8-NurseryGroove-v2/NurseryGroove_base_color.png"
     ]
+  },
+  {
+    "task": "c8-cantorcollarplate-img3d-01a11c94-319d-775d-af78-22eca73b77ac",
+    "task_id": "01a11c94-319d-775d-af78-22eca73b77ac",
+    "prompt_id": "C8-CantorCollarPlate",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:CantorCollarPlate.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1920028 sha256(base64)=d3cd30583f63390f>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 1000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-CantorCollar/CantorCollarPlate.fbx",
+    "batch": "C8-CantorCollar",
+    "created_at": "2026-10-08T17:33:57+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 1000
+    },
+    "updated_at": "2026-10-08T17:35:59+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-CantorCollar/CantorCollarPlate.fbx",
+      "art-src/Generated/C8-CantorCollar/CantorCollarPlate_base_color.png"
+    ]
   }
 ]

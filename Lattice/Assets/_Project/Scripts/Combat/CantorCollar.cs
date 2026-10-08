@@ -5,8 +5,8 @@ using UnityEngine;
 
 namespace Lattice.Combat
 {
-    // Gameplay blockout: generated collar art and the approach preview remain
-    // separate intake work. No severed link resolves the animal or awards loot.
+    // Independent restraint equipment. No severed link resolves the animal or
+    // awards loot; the generated module shares the original bounded lifetime.
     [DefaultExecutionOrder(800)]
     public sealed class CantorCollar:MonoBehaviour
     {
@@ -47,10 +47,10 @@ namespace Lattice.Combat
                 var shape=node.AddComponent<CapsuleCollider>();shape.isTrigger=true;shape.radius=1.15f;shape.height=2.3f;
                 var box=node.AddComponent<Hurtbox>();box.owner=link;box.multiplier=2;
                 int index=i;
-                bands[i]=new CollarBand(node.transform,Vector3.zero,i);
+                bands[i]=new CollarBand(node.transform,Vector3.zero,i,definition.collarPlate);
                 link.Died+=(_,__)=>Cut(index);
             }
-            bands[3]=new CollarBand(transform,Vector3.up*SerpentSegments.CenterHeight,3);
+            bands[3]=new CollarBand(transform,Vector3.up*SerpentSegments.CenterHeight,3,definition.collarPlate);
             health.Died+=Released;health.Revived+=Rearmed;
         }
         void Cut(int index)
@@ -91,6 +91,7 @@ namespace Lattice.Combat
 
         sealed class CollarBand
         {
+            static readonly Vector3 PlateScale=new Vector3(.85f,.3f,.45f);
             readonly Transform[] plates=new Transform[8];
             readonly Vector3[] rest=new Vector3[8],positions=new Vector3[8],directions=new Vector3[8];
             readonly Quaternion[] rotations=new Quaternion[8],worldRotations=new Quaternion[8];
@@ -98,21 +99,25 @@ namespace Lattice.Combat
             readonly Vector3 center;
             public Transform Root {get;}
             float opened=float.PositiveInfinity;
-            public CollarBand(Transform parent,Vector3 center,int index)
+            public CollarBand(Transform parent,Vector3 center,int index,GameObject platePrefab)
             {
                 anchor=parent;this.center=center;
                 // Discarded equipment has its own lifetime and world pose; it
                 // must not extend the departing animal's body bounds.
-                Root=new GameObject("Cantor collar blockout equipment "+index).transform;Follow();
+                Root=new GameObject("Cantor collar equipment "+index).transform;Follow();
                 for(int i=0;i<plates.Length;i++)
                 {
                     float angle=i*Mathf.PI/4;var radial=new Vector3(Mathf.Cos(angle),Mathf.Sin(angle),0);
-                    var go=ActorFactory.Visual("Collar blockout plate",PrimitiveType.Cube,Root,new Vector3(.85f,.3f,.45f),radial*1.1f,"Rock");
+                    var go=platePrefab!=null?Object.Instantiate(platePrefab,Root):ActorFactory.Visual("Collar blockout plate",PrimitiveType.Cube,Root,PlateScale,radial*1.1f,"Rock");
+                    go.transform.localPosition=radial*1.1f;go.transform.localScale=PlateScale;
                     var temporaryCollider=go.GetComponent<Collider>();if(temporaryCollider!=null)temporaryCollider.enabled=false;
-                    plates[i]=go.transform;go.transform.localRotation=Quaternion.Euler(0,0,angle*Mathf.Rad2Deg+90);
+                    // The generated pale outer face is local +Y; point it away
+                    // from the animal instead of showing the dark underside.
+                    plates[i]=go.transform;go.transform.localRotation=Quaternion.Euler(0,0,angle*Mathf.Rad2Deg-90);
                     rest[i]=go.transform.localPosition;rotations[i]=go.transform.localRotation;
-                    var properties=new MaterialPropertyBlock();properties.SetColor("_BaseColor",index==3?new Color(.85f,.63f,.3f):new Color(.7f,.46f,.2f));
-                    properties.SetColor("_EmissionColor",new Color(.18f,.07f,.01f));go.GetComponent<Renderer>().SetPropertyBlock(properties);
+                    var properties=new MaterialPropertyBlock();properties.SetColor("_BaseColor",platePrefab!=null?(index==3?new Color(1,.91f,.74f):Color.white):(index==3?new Color(.85f,.63f,.3f):new Color(.7f,.46f,.2f)));
+                    if(platePrefab==null)properties.SetColor("_EmissionColor",new Color(.18f,.07f,.01f));
+                    go.GetComponent<Renderer>().SetPropertyBlock(properties);
                 }
             }
             public void Open()
@@ -131,7 +136,7 @@ namespace Lattice.Combat
                 {
                     plates[i].position=positions[i]+directions[i]*(1-Mathf.Exp(-5*age))*1.4f-Vector3.up*(1.8f*age*age);
                     plates[i].rotation=worldRotations[i]*Quaternion.Euler(age*50,0,age*35);
-                    plates[i].localScale=new Vector3(.85f,.3f,.45f)*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.7f,1.2f,age)));
+                    plates[i].localScale=PlateScale*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.7f,1.2f,age)));
                     if(age>=1.2f)plates[i].gameObject.SetActive(false);
                 }
             }
@@ -139,7 +144,7 @@ namespace Lattice.Combat
             {
                 opened=float.PositiveInfinity;Follow();
                 for(int i=0;i<plates.Length;i++)
-                {plates[i].gameObject.SetActive(true);plates[i].SetLocalPositionAndRotation(rest[i],rotations[i]);plates[i].localScale=new Vector3(.85f,.3f,.45f);}
+                {plates[i].gameObject.SetActive(true);plates[i].SetLocalPositionAndRotation(rest[i],rotations[i]);plates[i].localScale=PlateScale;}
             }
             void Follow(){if(anchor!=null)Root.SetPositionAndRotation(anchor.TransformPoint(center),anchor.rotation);}
             public void SetOwnerActive(bool active){if(Root!=null)Root.gameObject.SetActive(active);}

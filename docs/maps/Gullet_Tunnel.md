@@ -91,7 +91,11 @@ The changed earned route passes in 797.269 seconds with all 47,815 samples focus
 
 The companion now takes a lateral firing position beside the selected segment and turns its actual nose toward it. Six controlled cases verify clearance, settled hits and flight altitude. The unchanged earned input subsequently **fails** after two links and both heroes down; preserve that 905.666-second capture. A separate explicitly reactive-input route retains every original step/assertion/duration/button and passes in 855.939 seconds, cutting all links and saving both living heroes at TallowApproach. Its 150.6-second fight does not accept balance. Eleven opened frames show improved companion separation and retained ship framing, with the whole animal through +1.50 and top cropping by +1.80. Real-time evasion and Flash-text arbitration repairs, all failures and source/package bindings are in [the spacing report](../validation/C4-companion-spacing.md). Display-off VSync-0 capture accepts no C1 presentation; continuous audiovisual/physical quality, final collar art, preview/story and final map review remain OPEN.
 
-### History
+### Generated collar candidate — October 8
+
+The blockout plates are replaced by one 950-triangle Compact module with outward-facing pale alloy, ochre edge and restrained cyan pigment. Existing link positions, collision, integrity, exit identities and 1.2-second debris lifetime remain. The earned route passes in 870.855 seconds with all three cuts and both living heroes at TallowApproach. Twelve opened frames show equipment separated from anatomy and detached release debris, but detail is small/dark and **Sela overlaps the animal in some combat samples**. The 167-second fight, 82.560/49.736 ms engagement hitches, final art, preview/story and continuous quality remain unaccepted. Exact source/build/art/failure records are in [the collar-art report](../validation/C8-collar-art.md). One 15-credit task leaves 2,398 live Meshy credits. No final MAP_EYE_TEST acceptance is claimed.
+
+### Earlier map history
 
 Codex's September 26 source inspection and rejection of the original repeated sinusoid (900 m, periodic 24–30 m width, 180 identical side modules and a 44 m Cantor trigger in a narrow passage) is superseded by this plan; the before images are retained under `Builds/quality/workshop/`.
 

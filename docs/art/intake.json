@@ -1667,5 +1667,18 @@
     "emissionColor": "#22F5FF",
     "yaw": 0,
     "pitch": -90
+  },
+  {
+    "id": "CantorCollarPlate",
+    "model": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_trimmed_clean.fbx",
+    "albedo": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_base_color.png",
+    "emission": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_emission.png",
+    "emissionColor": "#22AFC7",
+    "kind": "static",
+    "fit": "length",
+    "folder": "Environment",
+    "size": 0.85,
+    "yaw": 90,
+    "clips": []
   }
 ]

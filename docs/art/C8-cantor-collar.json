@@ -1,0 +1,145 @@
+{
+  "id": "C8-CantorCollarPlate",
+  "purpose": "Replace explicit primitive collar plates with one reusable generated Compact restraint module while preserving links, collision, rewards and discarded-equipment lifetime.",
+  "generator": "built-in image_gen; Meshy T2 via guarded bridge",
+  "reference": "art-src/Generated/C8-CantorCollar/refs/CantorCollarPlate.png",
+  "referencePrompt": "Use case: stylized-concept. Asset type: isolated single-view reference for one small reusable 3D science-fantasy game prop in CORONACH. Create exactly ONE detached Compact restraint collar plate, a short chunky curved link that repeats eight times around a large living route-serpent's collar. Show only one module, never a whole collar or creature. The module is a shallow 45-degree arc of a thick metal strap: long tangential width, about half as wide along the animal's length, and one-third as thick radially. Clearly readable pale warm-grey ceramic-alloy outer face, muted ochre edge strip, dark gunmetal underside, two large recessed dark fasteners, a single small recessed cyan status light and physically attached simple hinge ends. Use a broad, low rectangular silhouette with chamfered corners and a gently concave underside; no towering parts. It must read as removable industrial restraint equipment, distinct from living purple/cyan anatomy. Clean HD-2D cel-shaded game art with broad matte colour regions, minimal large wear marks, restrained mechanical detail. Composition: one complete connected object centered at 75 percent canvas in a three-quarter view from 40 degrees above, top and front side visible, generous margins. Opaque pure white background. Neutral local colours, no baked illumination or ambient occlusion. No ground, cast shadow, scenery, other objects, labels, letters, logos, cables, spikes, complete ring, animal or decoration. Keep all hinges attached and the complete silhouette visible. This isolated object will become a textured low-poly mesh with roughly 1000 triangles.",
+  "referenceReview": "Inspected single complete attached prop on white, pale alloy/ochre/dark cavities with tiny cyan status light, distinct from living anatomy; mesh orientation and final game quality pending.",
+  "meshTask": "01a11c94-319d-775d-af78-22eca73b77ac",
+  "meshCredits": 15,
+  "creditBalanceBefore": 2413,
+  "creditBalanceAfter": 2398,
+  "budget": {
+    "balanceBefore": 2413,
+    "ledgerSpentOrReserved": 1249,
+    "cumulativeCap": 4952,
+    "proposedTaskCount": 1,
+    "estimatedCredits": 15,
+    "guardReserve": 50,
+    "targetTriangles": 1000,
+    "scope": "One reusable collar plate; references outside Assets; no final acceptance; earlier 365-credit balance difference remains unattributed"
+  },
+  "targetTriangles": 1000,
+  "status": "ART_CANDIDATE; 38 affected checks, both builds and earned ordinary route pass; sampled overlap, engagement hitches, balance and final quality remain OPEN",
+  "sources": [
+    {
+      "path": "art-src/Generated/C8-CantorCollar/budget-before.json",
+      "bytes": 335,
+      "sha256": "21eede12f2b9738529a6604ebf0305a115501389ad84877dd26e547c3741134d"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/CantorCollarPlate.fbx",
+      "bytes": 5070572,
+      "sha256": "92a70fb084234875db8d454c98fd4497ede3891de26780926089774f6b0abe12"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_base_color.png",
+      "bytes": 5008508,
+      "sha256": "01d904bbde5226663c5afba2f24154dd623c33c2d7bc170c1aeb5296d68b8709"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_clean.fbx",
+      "bytes": 62316,
+      "sha256": "8dbbcd4d27deb8e3e6b43b16df290110f4278ce67d7c999b2807d2be7eae2f83"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_emission.png",
+      "bytes": 4318,
+      "sha256": "325610220d7f9a9648253018f69465992c4d7f23d88d4f655abbba5980c4b0b1"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_trimmed_clean.fbx",
+      "bytes": 57948,
+      "sha256": "8e2b88e7b15adf1c2c2f1d445463cf2ac1f798b19c3116b1afbcae14fab8ebfb"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/inspect-parts.ps1",
+      "bytes": 308,
+      "sha256": "7cc102741bf687e07a876f61d36e1aac97096822d5aa2a2e937c0c387453cf89"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/model-inventory.json",
+      "bytes": 405,
+      "sha256": "e7adfc2551aa0663d786e9f13c2ed3c87b0bfadfc06bad04575c11b0f69ec1bc"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/parts.json",
+      "bytes": 2613,
+      "sha256": "121534451f426ca0dda863452dabf47887e28f5f8cf79e73e60d0c2c4ca48a29"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/preprocess-first-rejection.txt",
+      "bytes": 549,
+      "sha256": "325715e996dbde37cb65119f87d03cb4a381e080737df258b969a3e640399af1"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/preprocess.ps1",
+      "bytes": 473,
+      "sha256": "94196baa44cdda978793714b83c564eb9115fb9e0aa2ee342d34eb504a6805d0"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/refs/CantorCollarPlate.png",
+      "bytes": 1440021,
+      "sha256": "76c36f492a695812af61d387158db16f16accd532bd8b9504079a419af615878"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/refs/prompt.txt",
+      "bytes": 1613,
+      "sha256": "7102256479c449f9e304b3d5df50ca5aabc38125cba1c43c3c73eac728ad4534"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/trim.json",
+      "bytes": 612,
+      "sha256": "a8269f20e06c1de48ac3f302442ffcd2941afc8ec73381bcf886396ae3dfa96c"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/trim.ps1",
+      "bytes": 337,
+      "sha256": "5f452ba4fa5507e9954174466f221b4668f3f99fb2efbaba80c0398ab54ab42c"
+    },
+    {
+      "path": "art-src/Generated/C8-CantorCollar/unity-stage.json",
+      "bytes": 62,
+      "sha256": "32722a23e730a81cc7717a1ddb4d0432a2b96db6fa54784fc05bd9c6de55c714"
+    }
+  ],
+  "notes": [
+    "First preprocessing launcher rejected its bare -- PowerShell parameter before Blender started; fail-fast explicit ScriptArgs wrapper succeeded; preserve rejection.",
+    "Both first-model render invocations passed with separate image folders; the shared log was overwritten before take 01 archive. A separate first log is unavailable. Revised takes archive their logs immediately.",
+    "First runtime mesh derivative inherited GPU-only read access. Source inspection found it before runtime tests; exact first asset/source/log retained. Prepared a small shared readable derivative for actual geometry checks without changing imported scenery.",
+    "The old cube orientation points local +Y inward. Generated outer faces must point outward; new tests reproduce both primitive geometry and inward-facing failures on the unchanged runtime."
+  ],
+  "trianglesBeforeCleanup": 1048,
+  "triangles": 950,
+  "unityVertices": 1232,
+  "intakeYaw": 90,
+  "size": [
+    0.85,
+    0.150024965,
+    0.30796352
+  ],
+  "cleanup": {
+    "source": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_clean.fbx",
+    "output": "art-src/Generated/C8-CantorCollar/CantorCollarPlate_trimmed_clean.fbx",
+    "removedVertices": 51,
+    "removedBounds": {
+      "min": [
+        0.04590800032019615,
+        -0.15762199461460114,
+        -0.08679699897766113
+      ],
+      "max": [
+        0.22535699605941772,
+        0.15699300169944763,
+        -0.03019101172685623
+      ]
+    },
+    "beforeVertices": 540,
+    "afterVertices": 489,
+    "beforeTriangles": 1048,
+    "afterTriangles": 950,
+    "retainedPositionsUnchanged": true,
+    "retainedUvsUnchanged": true
+  },
+  "modelReview": "Four first intake images opened and rejected for a loose underside tab. Four revised images from take 04 opened after removing only that 51-vertex/98-triangle component: tab absent, pale alloy, ochre edging, dark hinge hardware and tiny cyan status pigment retained. Intake-scale asset only; final in-player placement/readability pending. Twelve in-player frames opened: bands and separate release debris visible; small/dark combat-scale detail remains unaccepted. Sampled companion overlap persists."
+}

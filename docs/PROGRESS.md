@@ -1,5 +1,11 @@
 # CORONACH slice progress
 
+## Generated collar candidate reaches Tallow; quality remains open — October 8
+
+Both standard players contain the generated collar candidate; exact `968dae2` players are archived under `Builds/quality/C8/collar-art/prior-Windows*`. One built-in imagegen reference and one Meshy T2 task cost **15 credits**, live balance **2,398**. Four first intake views reject a loose tab; bounded cleanup preserves all remaining vertices/UVs, and four revised views show it removed. The 950-triangle module retains the old collision and debris lifetime. Both original checks fail, 38 affected checks pass with zero skips, both deliberate faults reject and both builds bind to 83 inputs. Every earlier failed attempt remains. [Evidence and limitations](validation/C8-collar-art.md).
+
+The earned route passes in **870.855 seconds / 52,228 focused samples**, exit 0, three cuts and both living heroes at TallowApproach. The **167-second fight is not accepted balance**. Twelve opened frames show bands and detached plates, retained release framing, and **remaining Sela/body overlap near 650/720 seconds**. Displays Off/Off, VSync 0; preserve three loading hitches and new **82.560/49.736 ms engagement intervals**, whose cause remains unisolated. Continuous audiovisual/physical quality, final art and all unmet gates remain OPEN/UNVERIFIED. Next diagnose companion separation during actual turns/target changes (the prior six cases use a passive carrier), then continue preview/release story and other dependency-safe production. Nathan's saves, e93bf13 repairs and frozen a3aaad6 remain preserved.
+
 ## Companion spacing and real-time evasion reach Tallow — October 8
 
 **C3/C4/C5/C6/C8 remain OPEN.** Both standard players contain companion spacing, Flash-text arbitration and real-time evasion repairs. The spacing/text candidate passes 57 affected checks, followed by 19 affected clock checks and one additional slowed-projectile input check, all with zero skips. Original failures, deliberate faults and both earlier-assertion wrapper rejections remain. [Evidence and exact inventories](validation/C4-companion-spacing.md).
