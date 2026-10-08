@@ -179,10 +179,12 @@ def compare_frame_timing(run, frames, counters, visit_ms):
     errors = []
     if not run.get('frameTimingEnabled'):
         errors.append('FrameTimingManager is disabled')
-    seen = set()
+    seen = {}
     values = []
+    raw_values = []
     impossible = []
     nonfinite = []
+    conflicting = []
     repeated = pending = 0
     previous = 0
     for row in frames:
@@ -191,6 +193,12 @@ def compare_frame_timing(run, frames, counters, visit_ms):
         if not math.isfinite(value):
             nonfinite.append(dict(elapsed=float(row['elapsed']), value=str(value)))
             continue
+        # Validate every returned duration before cached/pending timestamps can
+        # skip it. Deduplication must never conceal corrupt or changed values.
+        if value > 0:
+            raw_values.append(value)
+        if value > visit_ms:
+            impossible.append(dict(elapsed=float(row['elapsed']), milliseconds=value, timestamp=timestamp))
         if timestamp <= 0 or value <= 0:
             pending += 1
             continue
@@ -199,17 +207,24 @@ def compare_frame_timing(run, frames, counters, visit_ms):
         previous = timestamp
         if timestamp in seen:
             repeated += 1
+            if value != seen[timestamp]:
+                conflicting.append(dict(elapsed=float(row['elapsed']),timestamp=timestamp,
+                                        firstMilliseconds=seen[timestamp],milliseconds=value))
             continue
-        seen.add(timestamp)
+        seen[timestamp] = value
         values.append(value)
-        if value > visit_ms:
-            impossible.append(dict(elapsed=float(row['elapsed']), milliseconds=value, timestamp=timestamp))
     if nonfinite:
         errors.append('FrameTimingManager returned nonfinite GPU duration')
     if impossible:
         errors.append('FrameTimingManager: impossible frame duration; API evidence rejected')
+    if conflicting:
+        errors.append('FrameTimingManager: conflicting positive durations for one frame; API evidence rejected')
     api = dict(samples=len(values), repeatedRows=repeated, unavailableOrPendingRows=pending,
-               nonfiniteSamples=nonfinite, impossibleSamples=impossible)
+               nonfiniteSamples=nonfinite, impossibleSamples=impossible,conflictingSamples=conflicting,
+               rawPositiveDurations=dict(samples=len(raw_values),
+                    p95Ms=percentile(raw_values,.95) if raw_values else None,
+                    p99Ms=percentile(raw_values,.99) if raw_values else None,
+                    worstMs=max(raw_values) if raw_values else None))
     comparison = dict(status='UNVERIFIED')
     if not values:
         api['status'] = 'UNSUPPORTED'

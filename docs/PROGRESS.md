@@ -1,5 +1,9 @@
 # CORONACH slice progress
 
+## Cached GPU timestamps can no longer hide corrupt durations — October 7
+
+**C1 stays OPEN.** Three new controls prove the prior checker could accept impossible GPU values on cached/missing timestamps, or conflicting positive values on one frame. Validation now checks every duration before deduplication and reports all raw-positive statistics. **149 offline checks pass.** A read-only recheck of all six original headroom captures preserves their outcomes and all three impossible samples; no old report is overwritten. [Evidence](validation/C1-cached-gpu-values.md). The candidate-59 runtime remains the pushed player checkpoint; the independently reproduced stationary-slope repair is undergoing integrated tests.
+
 ## Uphill support improves; fresh player stills retain a balance rejection — October 7
 
 **C1/C2 remain OPEN; neither standard player is presentation-validated.** Candidate 59 preserves `e93bf13`'s knee/terrain repairs and adds bounded horizontal pelvis support for short uphill walking. Controlled torso-behind-foot maxima improve from 443–501 mm to 47–87 mm. **147 EditMode, 231 full PlayMode, 7 affected replay PlayMode, 146 offline and 384 contact-matrix checks pass**, with original assertions and all rejected candidates retained. Both players build; fresh development shoulder/pad 60 fps captures and shoulder 30/120 fps diagnostics pass motion. [Repair, failures and exact evidence](validation/C2-uphill-balance.md).

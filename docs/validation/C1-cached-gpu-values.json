@@ -1,0 +1,230 @@
+{
+  "status": "C1 OPEN; offline reinterpretation only; original artifacts untouched",
+  "results": [
+    {
+      "run": "decks-development-headroom",
+      "originalAnalysisSha256": "6061e64e22c3fe42ce2892461e990bcc9ce447d617e0be2e26176292b45749a1",
+      "framesSha256": "42ed7ace19d44306dac689794ab486cb9b8308dcb34979ad255011e9ef9c65fc",
+      "api": {
+        "samples": 70174,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1269,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "conflictingSamples": [],
+        "rawPositiveDurations": {
+          "samples": 70174,
+          "p95Ms": 1.969408,
+          "p99Ms": 2.082304,
+          "worstMs": 3.128064
+        },
+        "p95Ms": 1.969408,
+        "p99Ms": 2.082304,
+        "worstMs": 3.128064
+      },
+      "comparison": {
+        "status": "AGREE",
+        "profilerP95Ms": 1.969408,
+        "apiP95Ms": 1.969408,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      },
+      "failures": []
+    },
+    {
+      "run": "decks-release-headroom",
+      "originalAnalysisSha256": "a4b7e4297595369a01b30df76cd01fbb58473b2f3502a873852a34ee80043ea5",
+      "framesSha256": "b0abb415d3aefe939fc81cb7340c0292e018b53a7f4dd29cbbe780256087f440",
+      "api": {
+        "samples": 71968,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1839,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 56.723196,
+            "milliseconds": 1791401928741.87,
+            "timestamp": 19317590726837
+          }
+        ],
+        "conflictingSamples": [],
+        "rawPositiveDurations": {
+          "samples": 71968,
+          "p95Ms": 1.901056,
+          "p99Ms": 2.011648,
+          "worstMs": 1791401928741.87
+        },
+        "p95Ms": 1.901056,
+        "p99Ms": 2.011648,
+        "worstMs": 1791401928741.87
+      },
+      "comparison": {
+        "status": "DISAGREEMENT_OR_INVALID",
+        "profilerP95Ms": 1.901056,
+        "apiP95Ms": 1.901056,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      },
+      "failures": [
+        "FrameTimingManager: impossible frame duration; API evidence rejected",
+        "GPU source agreement rejected; retain both raw sources"
+      ]
+    },
+    {
+      "run": "decks-release-headroom-repeat",
+      "originalAnalysisSha256": "59057c39a5055fec32b3e4d414858a681d5a39998f8efb9f675654880b340487",
+      "framesSha256": "77a6e19b40fa5dcfb6105df4a7b084793b5eb74bea0507ad5003ec86cb6cd0d0",
+      "api": {
+        "samples": 72044,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1811,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "conflictingSamples": [],
+        "rawPositiveDurations": {
+          "samples": 72044,
+          "p95Ms": 1.894912,
+          "p99Ms": 2.006784,
+          "worstMs": 4.639744
+        },
+        "p95Ms": 1.894912,
+        "p99Ms": 2.006784,
+        "worstMs": 4.639744
+      },
+      "comparison": {
+        "status": "AGREE",
+        "profilerP95Ms": 1.894912,
+        "apiP95Ms": 1.894912,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      },
+      "failures": []
+    },
+    {
+      "run": "tallow-development-headroom",
+      "originalAnalysisSha256": "70f4dee262ba65e34841cdea04d7f3db601ac659b0221e8b119d9611f137d3f6",
+      "framesSha256": "ffe4015fa451511b6c3cdf3d9846f8d0ae17e5c4ced078e474c885607e5d13d5",
+      "api": {
+        "samples": 90919,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1821,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 28.484444,
+            "milliseconds": 1791402511958.0,
+            "timestamp": 19323423057898
+          }
+        ],
+        "conflictingSamples": [],
+        "rawPositiveDurations": {
+          "samples": 90919,
+          "p95Ms": 1.32736,
+          "p99Ms": 1.436416,
+          "worstMs": 1791402511958.0
+        },
+        "p95Ms": 1.32736,
+        "p99Ms": 1.436416,
+        "worstMs": 1791402511958.0
+      },
+      "comparison": {
+        "status": "DISAGREEMENT_OR_INVALID",
+        "profilerP95Ms": 1.327104,
+        "apiP95Ms": 1.32736,
+        "differenceMs": 0.000256000000000034,
+        "toleranceMs": 0.25
+      },
+      "failures": [
+        "FrameTimingManager: impossible frame duration; API evidence rejected",
+        "GPU source agreement rejected; retain both raw sources"
+      ]
+    },
+    {
+      "run": "tallow-development-headroom-repeat",
+      "originalAnalysisSha256": "c93ef03c25275b923be6e0c77c05bd5293a094b6cc4870abfc428681e3ec5128",
+      "framesSha256": "c0cf8301126840d61d920c487c758dc24c243e0ff2583968097fbe7fb8b00df3",
+      "api": {
+        "samples": 90736,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 1859,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [
+          {
+            "elapsed": 111.442621,
+            "milliseconds": 1791402763112.81,
+            "timestamp": 19325934672121
+          }
+        ],
+        "conflictingSamples": [],
+        "rawPositiveDurations": {
+          "samples": 90736,
+          "p95Ms": 1.330688,
+          "p99Ms": 1.436672,
+          "worstMs": 1791402763112.81
+        },
+        "p95Ms": 1.330688,
+        "p99Ms": 1.436672,
+        "worstMs": 1791402763112.81
+      },
+      "comparison": {
+        "status": "DISAGREEMENT_OR_INVALID",
+        "profilerP95Ms": 1.330688,
+        "apiP95Ms": 1.330688,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      },
+      "failures": [
+        "FrameTimingManager: impossible frame duration; API evidence rejected",
+        "GPU source agreement rejected; retain both raw sources"
+      ]
+    },
+    {
+      "run": "tallow-release-headroom",
+      "originalAnalysisSha256": "bc6c0420f46b87ec6d53dae1e6f4baf7af0469061be5061781de55ff1f614fa9",
+      "framesSha256": "04871356eae38392d69ce478edbaa5686f1cd2674d69013c184e9eae6b7f5757",
+      "api": {
+        "samples": 94633,
+        "repeatedRows": 0,
+        "unavailableOrPendingRows": 2471,
+        "nonfiniteSamples": [],
+        "impossibleSamples": [],
+        "conflictingSamples": [],
+        "rawPositiveDurations": {
+          "samples": 94633,
+          "p95Ms": 1.272832,
+          "p99Ms": 1.381632,
+          "worstMs": 3.090688
+        },
+        "p95Ms": 1.272832,
+        "p99Ms": 1.381632,
+        "worstMs": 3.090688
+      },
+      "comparison": {
+        "status": "AGREE",
+        "profilerP95Ms": 1.272832,
+        "apiP95Ms": 1.272832,
+        "differenceMs": 0.0,
+        "toleranceMs": 0.25
+      },
+      "failures": []
+    }
+  ],
+  "limitation": "No new player observations, no invalid duration correction, and no independent GPU clock verification.",
+  "artifacts": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/cached-gpu-original-red.log",
+      "sha256": "52caf7ef37be64a9e92e87b7ee56e91071ab6418700b2b67543f45d9c9e4608c",
+      "bytes": 16700
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/offline-cached-149.log",
+      "sha256": "2206522f95ce0f334a227878be41041d70fb5f21c0623d1d05b4fb541a693488",
+      "bytes": 41934
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/quality_analyze-before-cached-checks.py",
+      "sha256": "64e39c32df0255566967d17b997f1e9f17f6e14d500b8be7ddc8ed1c4d098511",
+      "bytes": 20663
+    }
+  ]
+}

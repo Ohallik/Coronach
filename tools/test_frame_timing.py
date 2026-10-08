@@ -43,6 +43,27 @@ class FrameTimingContract(unittest.TestCase):
         self.frames[300]['ftmGpuMs'] = '1790456079119.5764'
         self.assertFalse(self.result()['valid'])
 
+    def test_cached_timestamp_cannot_hide_an_impossible_duration(self):
+        self.frames[300].update(ftmTimestamp=self.frames[299]['ftmTimestamp'],ftmGpuMs='1790456079119.5764')
+        result=self.result()
+        self.assertFalse(result['valid'])
+        self.assertEqual(1,len(result['frameTimingApi']['impossibleSamples']))
+        self.assertGreater(result['frameTimingApi']['rawPositiveDurations']['worstMs'],1e12)
+
+    def test_missing_timestamp_cannot_hide_an_impossible_duration(self):
+        self.frames[300].update(ftmTimestamp='0',ftmGpuMs='1790456079119.5764')
+        result=self.result()
+        self.assertFalse(result['valid'])
+        self.assertEqual(1,len(result['frameTimingApi']['impossibleSamples']))
+        self.assertGreater(result['frameTimingApi']['rawPositiveDurations']['worstMs'],1e12)
+
+    def test_same_frame_cannot_report_conflicting_positive_durations(self):
+        self.frames[300].update(ftmTimestamp=self.frames[299]['ftmTimestamp'],ftmGpuMs='250')
+        result=self.result()
+        self.assertFalse(result['valid'])
+        self.assertEqual(1,len(result['frameTimingApi']['conflictingSamples']))
+        self.assertEqual(250,result['frameTimingApi']['rawPositiveDurations']['worstMs'])
+
     def test_nonfinite_api_duration_rejects(self):
         self.frames[300]['ftmGpuMs'] = 'nan'
         self.assertFalse(self.result()['valid'])
