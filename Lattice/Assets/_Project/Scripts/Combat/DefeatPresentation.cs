@@ -22,6 +22,7 @@ namespace Lattice.Combat
         Vector3 supportPoint,supportNormal;Vector3[] supportVertices;
         Transform[] sections;Vector3[] sectionOrigins;Quaternion[] sectionRotations;
         FlightFailurePresentation flightFailure;
+        CantorRelease cantorRelease;
         void Awake()
         {
             health=GetComponent<Health>();actor=GetComponent<CombatActor>();enemy=GetComponent<EnemyBrain>();
@@ -66,6 +67,11 @@ namespace Lattice.Combat
                 var form=GetComponent<FormController>();form.FinishForDefeat();visual=form.flight.transform;
                 flightFailure=GetComponent<FlightFailurePresentation>()??gameObject.AddComponent<FlightFailurePresentation>();
                 flightFailure.Begin(actor,visual,packet);return;
+            }
+            if(enemy!=null&&enemy.definition.id=="Cantor"&&visual!=null)
+            {
+                cantorRelease=GetComponent<CantorRelease>()??gameObject.AddComponent<CantorRelease>();
+                cantorRelease.Begin(visual,GetComponent<SerpentSegments>().Parts);return;
             }
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
@@ -157,11 +163,29 @@ namespace Lattice.Combat
         {
             if(!down)return;recovering=true;started=GameTime.Now;
             if(flightFailure!=null)flightFailure.BeginRecovery();
+            if(cantorRelease!=null)cantorRelease.Restore();
         }
         void LateUpdate()
         {
             if(!down)return;
             float elapsed=GameTime.Now-started;
+            if(cantorRelease!=null)
+            {
+                if(recovering)
+                {
+                    if(elapsed>=CombatActor.ReviveDuration)
+                    {
+                        for(int i=0;i<colliders.Length;i++)if(colliders[i]!=null)colliders[i].enabled=collisionEnabled[i];
+                        down=recovering=false;cantorRelease=null;
+                    }
+                }
+                else
+                {
+                    if(!GameTime.Paused)cantorRelease.Advance(elapsed);
+                    if(elapsed>=CantorRelease.Duration)Destroy(gameObject);
+                }
+                return;
+            }
             if(flightFailure!=null)
             {
                 if(!health.Alive)

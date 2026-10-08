@@ -152,7 +152,7 @@ namespace Lattice.EditorTools
             Shot(camera,folder,"Gullet-overhead-length",new Vector3(0,0,450),Quaternion.Euler(90,90,0),265);
             foreach(var (name,z,scale) in new[]{("mouth",4f,24f),("feeding-chamber",165f,38f),("valve-0",262f,16f),("slalom-throat",330f,26f),
                 ("salvage-eddy",410f,26f),("valve-1",490f,16f),("nursery-gate",600f,34f),("valve-2",700f,16f),("cantor-coil",805f,44f),("exit-valve",888f,20f)})
-                Shot(camera,folder,"Gullet-"+name,new Vector3(Lattice.World.GulletProfile.Center(z),0,z),Quaternion.Euler(52,0,0),scale);
+                Shot(camera,folder,"Gullet-"+name,new Vector3(Lattice.Data.GulletProfile.Center(z),0,z),Quaternion.Euler(52,0,0),scale);
             Debug.Log("MAP_EVIDENCE_OK " + folder);
         });
         public static void GulletCoilViews()=>BatchTools.Run(()=>

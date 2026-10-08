@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Cantor departs through the exit; camera readability remains rejected — October 7
+
+**C3 remains OPEN. Both standard players contain the bounded Cantor release, but its gameplay-camera finish is not accepted.** The animal now keeps its full size and connected body, uses the owned opening cue and clears the actual Gullet exit. The first path passed arena checks yet crossed the Gullet wall by 11.699 m; routing through the shared exit profile fixes it without changing map geometry. All original, pause, recovery, camera, fixture and compile failures remain. **35 affected PlayMode / 164 offline checks pass**, zero skipped; both players build. [Evidence and exact inventories](validation/C3-cantor-release.md).
+
+The specimen reel passes with 272 focused frames / eight images. The unchanged earned Gullet route passes in **793.869 s / 47,615 focused samples**, resolves Cantor and saves both heroes at Tallow. Five controlled and seven ordinary views were actually opened. The controlled body remains attached, but the ordinary camera tightens at resolution and crops the animal before much departure is visible. **Repair that camera transition next; numerical passes do not accept it.** Audio levels pass while listening stays UNVERIFIED. Display-off VSync-0 capture and three retained load hitches exclude C1 acceptance.
+
+Nathan's saves and all 243 frozen chapter files still match. The prior `4f06f01` players are archived under `Builds/quality/C3/cantor-prior-Windows*`; C2 `edbe1d6` remains intact. Full collar objectives/art, preview and story staging are unfinished. Continuous audiovisual/physical review and every unmet gate stay open; the frozen chapter remains `a3aaad6`.
+
 ## Burrower powers down; fresh focused boss evidence retained — October 7
 
 **C3 remains OPEN; both standard players now contain the Burrower shutdown.** The repair uses an owned mechanical cue, restrained sparks and a pause-safe emission fade during the existing supported collapse. Three original defects, the first candidate's HDR conversion error and all deliberate pause/property/recovery failures remain recorded. **22 affected PlayMode checks pass**, zero skipped, followed by both builds. [Evidence and exact inventories](validation/C3-burrower-shutdown.md).

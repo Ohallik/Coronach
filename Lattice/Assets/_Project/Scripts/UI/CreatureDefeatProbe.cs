@@ -13,15 +13,23 @@ namespace Lattice.UI
 {
     // Isolated graphics diagnostic: creates specimens and delivers lethal
     // packets directly. This is never ordinary-input combat/route evidence.
+    [DefaultExecutionOrder(1000)]
     public sealed class CreatureDefeatProbe:MonoBehaviour
     {
         [Serializable] sealed class Snapshot
-        {public string body,image;public float slope,seconds,minimum;public bool focus;public int liveColliders;}
+        {public string body,image,framing;public float slope,seconds,minimum;public bool focus;public int liveColliders;}
         [Serializable] sealed class Report
-        {public int schema=2;public string method="Direct lethal diagnostic, not ordinary-input play";public string captureFailure;public string[] bodies;public int observedFrames;public bool focusLost;public Snapshot[] snapshots;}
+        {public int schema=2;public string method="Direct lethal diagnostic, not ordinary-input play; Cantor uses a following specimen camera";public string captureFailure;public string[] bodies;public int observedFrames;public bool focusLost;public Snapshot[] snapshots;}
         readonly List<Snapshot> snapshots=new();
         Camera camera;string folder;QualityCapture capture;
         bool tracking,focusLost;int observedFrames;
+        Transform followedSpecimen;Vector3 priorSpecimenPosition;
+        void LateUpdate()
+        {
+            if(followedSpecimen==null)return;
+            camera.transform.position+=followedSpecimen.position-priorSpecimenPosition;
+            priorSpecimenPosition=followedSpecimen.position;
+        }
         void Update(){if(tracking){observedFrames++;if(!Application.isFocused)focusLost=true;}}
         void OnApplicationFocus(bool focused){if(tracking&&!focused)focusLost=true;}
         static List<Vector3> Points(Transform root)
@@ -37,7 +45,7 @@ namespace Lattice.UI
             float minimum=float.PositiveInfinity;foreach(var p in Points(enemy.transform))minimum=Mathf.Min(minimum,Vector3.Dot(p-plane,normal));
             int live=0;foreach(var c in enemy.GetComponentsInChildren<Collider>())if(c.enabled)live++;
             string file=name+".png";ScreenCapture.CaptureScreenshot(Path.Combine(folder,file));
-            snapshots.Add(new Snapshot{body=enemy.definition.id,image=file,slope=slope,seconds=elapsed,minimum=minimum,focus=Application.isFocused,liveColliders=live});
+            snapshots.Add(new Snapshot{body=enemy.definition.id,image=file,framing=followedSpecimen==enemy.transform?"release-follow":"fixed",slope=slope,seconds=elapsed,minimum=minimum,focus=Application.isFocused,liveColliders=live});
         }
         IEnumerator Start()
         {
@@ -85,6 +93,7 @@ namespace Lattice.UI
                     var points=Points(enemy.transform);var bounds=new Bounds(points[0],Vector3.zero);foreach(var p in points)bounds.Encapsulate(p);
                     camera.orthographicSize=Mathf.Max(1.8f,bounds.size.magnitude*.55f);
                     var centre=bounds.center;camera.transform.position=centre+new Vector3(3,2.3f,4).normalized*30;camera.transform.LookAt(centre);
+                    var specimenOrigin=enemy.transform.position;followedSpecimen=id=="Cantor"?enemy.transform:null;priorSpecimenPosition=specimenOrigin;
                     string label=id+"-"+slope.ToString("F0",System.Globalization.CultureInfo.InvariantCulture);
                     yield return new WaitForSecondsRealtime(.2f);Capture(enemy,label+"-standing",slope,-1,plane,normal);
                     yield return new WaitForEndOfFrame();yield return null;
@@ -98,11 +107,13 @@ namespace Lattice.UI
                         yield return null;Capture(enemy,label+"-"+Mathf.RoundToInt(phase*100),slope,GameTime.Now-started,plane,normal);
                         yield return new WaitForEndOfFrame();yield return null;
                     }
-                    GameTime.Paused=true;camera.transform.position=centre+Quaternion.FromToRotation(Vector3.up,normal)*new Vector3(30,.5f,0);camera.transform.LookAt(centre);
+                    var heldCentre=centre+(id=="Cantor"?enemy.transform.position-specimenOrigin:Vector3.zero);
+                    GameTime.Paused=true;camera.transform.position=heldCentre+Quaternion.FromToRotation(Vector3.up,normal)*new Vector3(30,.5f,0);camera.transform.LookAt(heldCentre);
                     yield return new WaitForSecondsRealtime(.3f);Capture(enemy,label+"-side-held",slope,GameTime.Now-started,plane,normal);
                     yield return new WaitForSecondsRealtime(.2f);GameTime.Paused=false;
                     // Deliberate cleanup, viewed from the same three-quarter camera.
-                    camera.transform.position=centre+new Vector3(3,2.3f,4).normalized*30;camera.transform.LookAt(centre);
+                    var cleanupCentre=centre+(id=="Cantor"?enemy.transform.position-specimenOrigin:Vector3.zero);
+                    camera.transform.position=cleanupCentre+new Vector3(3,2.3f,4).normalized*30;camera.transform.LookAt(cleanupCentre);
                     foreach(float part in new[]{.35f,.75f})
                     {
                         while(enemy!=null&&GameTime.Now-started<duration+hold+DefeatPresentation.Cleanup*part)yield return null;
@@ -110,7 +121,7 @@ namespace Lattice.UI
                         yield return null;Capture(enemy,label+"-cleanup"+Mathf.RoundToInt(part*100),slope,GameTime.Now-started,plane,normal);
                         yield return new WaitForEndOfFrame();yield return null;
                     }
-                    if(enemy!=null)Destroy(enemy.gameObject);Destroy(floor);Destroy(material);yield return null;
+                    followedSpecimen=null;if(enemy!=null)Destroy(enemy.gameObject);Destroy(floor);Destroy(material);yield return null;
                 }
             }
             yield return new WaitForSecondsRealtime(.25f);

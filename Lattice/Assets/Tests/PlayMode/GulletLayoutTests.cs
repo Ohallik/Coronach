@@ -2,6 +2,7 @@ using System.Collections;
 using System.Linq;
 using Lattice.Combat;
 using Lattice.Core;
+using Lattice.Data;
 using Lattice.UI;
 using Lattice.World;
 using NUnit.Framework;

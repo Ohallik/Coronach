@@ -1,6 +1,6 @@
 """Generate the ordinary Gullet combat circuits for the redesigned anatomy.
 
-Geometry comes from Lattice/.../World/GulletProfile.cs (one source of truth).
+Geometry comes from Lattice/.../Data/GulletProfile.cs (one source of truth).
 Tactics follow the previous accepted circuits: lunge chain into the first
 chamber, mine clearing from four sides, a braked second-chamber charge with
 Pulse, then handling, wall contact, regroup and swaps. Equipment, AI, damage,
@@ -10,7 +10,7 @@ import json, math, re, sys
 from pathlib import Path
 
 root = Path(__file__).resolve().parents[1]
-src = (root / 'Lattice/Assets/_Project/Scripts/World/GulletProfile.cs').read_text(encoding='utf-8')
+src = (root / 'Lattice/Assets/_Project/Scripts/Data/GulletProfile.cs').read_text(encoding='utf-8')
 knots = [tuple(float(v) for v in m) for m in
          re.findall(r'\((-?\d+), (-?\d+), (\d+), (\d+)\)', src.split('knots =')[1].split('};')[0])]
 folds = [(float(z), int(s), float(d)) for z, s, d in

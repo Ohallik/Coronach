@@ -28,6 +28,7 @@ def check(report, bodies):
         if name in seen:errors.append('duplicate specimen image: '+name)
         seen.add(name);body,slope,stage=expected[name]
         if shot.get('body')!=body or shot.get('slope')!=slope:errors.append('specimen identity mismatch: '+name)
+        if body=='Cantor' and shot.get('framing')!='release-follow':errors.append('Cantor follow-camera scope missing: '+name)
         if 'focus' not in shot:errors.append('missing specimen focus evidence: '+name)
         elif shot['focus'] is not True:errors.append('unfocused specimen image: '+name)
         elapsed=shot.get('seconds');colliders=shot.get('liveColliders');minimum=shot.get('minimum')

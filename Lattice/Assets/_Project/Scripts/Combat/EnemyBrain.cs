@@ -75,11 +75,12 @@ namespace Lattice.Combat
             if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill();
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
-            bool disabledRig=definition.id=="Burrower";
-            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig?"failure":"kill");
-            // The Burrower loses power as disabled equipment. Other bosses keep
-            // their existing finish until their authored outcomes are staged.
-            if(disabledRig)CombatAudio.Death(transform,true);
+            bool disabledRig=definition.id=="Burrower",releasedAnimal=definition.id=="Cantor";
+            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig||releasedAnimal?"failure":"kill");
+            // Resolution can disable equipment or release an animal. Neither
+            // outcome borrows the generic boss explosion.
+            if(releasedAnimal)AudioManager.PlayAt("doorOpen_000",transform,transform.position+Vector3.up,.24f,AudioBus.SFX,70);
+            else if(disabledRig)CombatAudio.Death(transform,true);
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
             else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine);
             CancelAttack();

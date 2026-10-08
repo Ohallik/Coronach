@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace Lattice.World
+namespace Lattice.Data
 {
     /// <summary>
     /// The Gullet's anatomy along its length, shared by the scene builder, the

@@ -2,7 +2,7 @@
 
 2026-09-28 redesign (Claude Code). **Blockout MAP_EYE_TEST PASSED (agent review). Final in-player pass: PASS from the mouth through the salvage eddy** (both heroes' ordinary circuits, full focus, 2026-09-30, [evidence](../validation/C4-gullet-circuits05.md)). The nursery gate, coil and exit were traversed by the scripted smoke only; their ordinary pass remains OPEN.
 
-The Gullet is the interior passage of an adult Choir that travellers use as a route. It should read as one organism's anatomy, in the order a traveller meets it, rather than a repeated tube. `Lattice.World.GulletProfile` holds the plan; the scene builder, smoke route, circuit generator (`tools/gullet_routes.py`) and layout tests all read it.
+The Gullet is the interior passage of an adult Choir that travellers use as a route. It should read as one organism's anatomy, in the order a traveller meets it, rather than a repeated tube. `Lattice.Data.GulletProfile` holds the plan; the scene builder, smoke route, circuit generator (`tools/gullet_routes.py`) and layout tests all read it.
 
 | z (m) | Section | Function and construction |
 |---|---|---|

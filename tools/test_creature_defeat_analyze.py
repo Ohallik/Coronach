@@ -34,6 +34,14 @@ class CreatureCapture(unittest.TestCase):
         self.assertFalse(check(self.report,['Ridgehound'])['valid'])
     def test_encoder_failure_rejects(self):
         self.report['captureFailure']='queue overflow';self.assertFalse(check(self.report,['Burrower'])['valid'])
+    def test_cantor_follow_camera_must_be_explicit(self):
+        self.report['bodies']=['Cantor']
+        self.report['snapshots']=[dict(body='Cantor',image=f'Cantor-0-{stage}.png',slope=0,
+            seconds=-1 if stage=='standing' else i*.3,minimum=1,focus=True,
+            liveColliders=5 if stage=='standing' else 0,framing='release-follow') for i,stage in enumerate(STAGES)]
+        self.assertTrue(check(self.report,['Cantor'])['valid'])
+        del self.report['snapshots'][3]['framing']
+        self.assertFalse(check(self.report,['Cantor'])['valid'],'moving specimen view is not declared')
     def test_missing_geometry_cannot_accept_a_blank_specimen(self):
         self.report['snapshots'][2]['minimum']=float('inf');self.assertFalse(check(self.report,['Burrower'])['valid'])
     def test_backward_lifecycle_time_rejects_misordered_evidence(self):
