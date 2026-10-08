@@ -18,9 +18,12 @@ namespace Lattice.UI
         [Serializable] sealed class Snapshot
         {public string body,image;public float slope,seconds,minimum;public bool focus;public int liveColliders;}
         [Serializable] sealed class Report
-        {public string method="Direct lethal diagnostic, not ordinary-input play";public string captureFailure;public Snapshot[] snapshots;}
+        {public int schema=2;public string method="Direct lethal diagnostic, not ordinary-input play";public string captureFailure;public string[] bodies;public int observedFrames;public bool focusLost;public Snapshot[] snapshots;}
         readonly List<Snapshot> snapshots=new();
         Camera camera;string folder;QualityCapture capture;
+        bool tracking,focusLost;int observedFrames;
+        void Update(){if(tracking){observedFrames++;if(!Application.isFocused)focusLost=true;}}
+        void OnApplicationFocus(bool focused){if(tracking&&!focused)focusLost=true;}
         static List<Vector3> Points(Transform root)
         {
             var points=new List<Vector3>();
@@ -58,7 +61,15 @@ namespace Lattice.UI
             foreach(var canvas in FindObjectsByType<Canvas>(FindObjectsSortMode.None))canvas.gameObject.SetActive(false);
             Application.targetFrameRate=60;QualitySettings.vSyncCount=0;
             if(DevArgs.Has("-quality-ffmpeg")){capture=camera.gameObject.AddComponent<QualityCapture>();capture.Begin(folder,DevArgs.Value("-quality-ffmpeg"));}
-            foreach(string id in new[]{"Ridgehound","Scrapmite","Burrower","ChoristerDart","ChoristerDrifter","Shellmine","Cantor"})
+            string[] bodies={"Ridgehound","Scrapmite","Burrower","ChoristerDart","ChoristerDrifter","Shellmine","Cantor"};
+            string only=DevArgs.Value("-creature-only");
+            if(!string.IsNullOrWhiteSpace(only))
+            {
+                if(Array.IndexOf(bodies,only)<0)throw new InvalidOperationException("Unknown creature audit selection: "+only);
+                bodies=new[]{only};
+            }
+            tracking=true;focusLost=!Application.isFocused;
+            foreach(string id in bodies)
             {
                 bool ground=id=="Ridgehound"||id=="Scrapmite"||id=="Burrower";
                 foreach(float slope in ground?new[]{0f,10f,-10f}:new[]{0f})
@@ -104,9 +115,11 @@ namespace Lattice.UI
             }
             yield return new WaitForSecondsRealtime(.25f);
             if(capture!=null)yield return capture.Finish();
-            var report=new Report{captureFailure=capture!=null?capture.Failure:null,snapshots=snapshots.ToArray()};
+            tracking=false;
+            var report=new Report{captureFailure=capture!=null?capture.Failure:null,bodies=bodies,observedFrames=observedFrames,focusLost=focusLost,snapshots=snapshots.ToArray()};
             File.WriteAllText(Path.Combine(folder,"report.json"),JsonUtility.ToJson(report,true));
-            bool valid=string.IsNullOrEmpty(report.captureFailure);Debug.Log(valid?"CREATURE_DEFEAT_CAPTURE_OK":"CREATURE_DEFEAT_CAPTURE_REJECTED "+report.captureFailure);Application.Quit(valid?0:1);
+            bool valid=string.IsNullOrEmpty(report.captureFailure)&&!focusLost&&observedFrames>0;
+            Debug.Log(valid?"CREATURE_DEFEAT_CAPTURE_OK":"CREATURE_DEFEAT_CAPTURE_REJECTED capture="+report.captureFailure+" focusLost="+focusLost+" frames="+observedFrames);Application.Quit(valid?0:1);
         }
     }
 }

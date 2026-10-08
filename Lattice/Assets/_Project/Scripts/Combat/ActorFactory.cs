@@ -44,6 +44,7 @@ namespace Lattice.Combat
             root.AddComponent<LootDrop>().definition=definition;
             if(definition.boss)root.AddComponent<BossController>();if(definition.id=="Cantor")root.AddComponent<SerpentSegments>();
             root.AddComponent<DefeatPresentation>().visual=visual.transform;
+            if(definition.id=="Burrower")root.AddComponent<BurrowerShutdown>();
             if(definition.id=="Burrower"||definition.id=="BellowsBelow")root.AddComponent<BossOcclusion>();
             return enemy;
         }

@@ -1,0 +1,1791 @@
+{
+  "status": "C3 OPEN; bounded Burrower disable implementation and affected progression checks pass; presentation acceptance UNVERIFIED",
+  "source": {
+    "baseRevision": "edbe1d66f21aa3d8167458817e472676a38627b9",
+    "scope": "Burrower shutdown candidate; no milestone or continuous presentation acceptance",
+    "files": [
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BurrowerShutdown.cs",
+        "normalizedSha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/ActorFactory.cs",
+        "normalizedSha256": "3055efaa7650cac3dd34da7b34ff682b48941251d13a7621f4ae0291d18ef3fe"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/EnemyBrain.cs",
+        "normalizedSha256": "c6e4a9f81255da8e9f36f985a1393e7c4bb63d09a71c9caf272687ed666dc144"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/DefeatPresentation.cs",
+        "normalizedSha256": "fc0a2a576c2b71c17572665272225afb70eff9f45003652d7898f15c9daf86b6"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/BossOcclusion.cs",
+        "normalizedSha256": "ce7e9c8e27e3dfac88be430febca713ebf9da2ab11897d183738661c41b73f9c"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatAudio.cs",
+        "normalizedSha256": "1d4a9bfff187cbe65a233f09fefc9d974dfaf63a97812637178ce1072580f1e3"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/CombatVfx.cs",
+        "normalizedSha256": "cb19af0e9de1d78046f7ae39ca744cba69973e3c964552ea8f44a95cb5585244"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GeneratedAnimator.cs",
+        "normalizedSha256": "f3ac1bcf899df353d8c2268b3a87f56065c5244bad54eaa185f4d051d03f3879"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/Combat/GroundFeet.cs",
+        "normalizedSha256": "ee45cef596a7e156b35ee263b01244f19dd0fbaa7599a8897ea4e09623d4575e"
+      },
+      {
+        "path": "Lattice/Assets/_Project/Scripts/UI/CreatureDefeatProbe.cs",
+        "normalizedSha256": "26caa0016b9934f2ca7f770b62a5a59d2baa07ed195d934c6c92a26858ccf249"
+      }
+    ]
+  },
+  "packages": {
+    "path": "Builds/quality/C3/burrower-shutdown-packages.json",
+    "bytes": 135739,
+    "sha256": "25f2ddeaaabf3cf3ed01046a071b75ecd8c72571dc635dc895c640045d49d47c"
+  },
+  "tests": [
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-affected-green.xml",
+      "sha256": "114c3f5c5f988a2d53e5d38428b8ca169edd281c3af58983cbcb74f75440a639",
+      "result": {
+        "result": "Passed",
+        "total": "22",
+        "passed": "22",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "177.3730967"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-green.xml",
+      "sha256": "dfbad321e7dd800aae2ecf7c7859155212b9811ffc4d0bd078dcbdf0644b3760",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "1",
+        "failed": "2",
+        "skipped": "0",
+        "duration": "8.4126878"
+      },
+      "failures": [
+        {
+          "name": "DisabledBurrowerPowersDownWithoutDimmingAnotherRigOrItsSharedMaterial",
+          "message": "  another working rig lost power\n  Expected: RGBA(0.200, 1.441, 1.500, 1.500)\n  But was:  RGBA(0.200, 1.441, 1.500, 1.500)\n"
+        },
+        {
+          "name": "HealthRecoveryRestoresTheRigEmissionState",
+          "message": "  recovery retained the shutdown tint\n  Expected: RGBA(0.200, 1.441, 1.500, 1.500)\n  But was:  RGBA(0.200, 1.441, 1.500, 1.500)\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-hdr-green.xml",
+      "sha256": "993856fbf0a4a922f216a987b074d52a0b8a1563c6ac77e633dceae401614d43",
+      "result": {
+        "result": "Passed",
+        "total": "3",
+        "passed": "3",
+        "failed": "0",
+        "skipped": "0",
+        "duration": "8.7467581"
+      },
+      "failures": []
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-hdr-red.xml",
+      "sha256": "d40b8babbad67f0f1462debece2b3b2c428b8b19006e1463b548cf7cfdff68b6",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "1",
+        "failed": "2",
+        "skipped": "0",
+        "duration": "6.7943227"
+      },
+      "failures": [
+        {
+          "name": "DisabledBurrowerPowersDownWithoutDimmingAnotherRigOrItsSharedMaterial",
+          "message": "  attaching the shutdown changed the live HDR emission\n  Expected: RGBA(0.200, 1.441, 1.500, 1.500)\n  But was:  RGBA(0.033, 2.234, 2.440, 1.500)\n"
+        },
+        {
+          "name": "HealthRecoveryRestoresTheRigEmissionState",
+          "message": "  fixture must reach actual power loss before recovery\n  Expected: less than 1.42499995f\n  But was:  1.6252557f\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-pause-mutation-red.xml",
+      "sha256": "fab676d9dad36bfabfb335934927cfec07708a8fde9322743ebcf200a3d604ab",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "2.7566946"
+      },
+      "failures": [
+        {
+          "name": "DisabledBurrowerPowersDownWithoutDimmingAnotherRigOrItsSharedMaterial",
+          "message": "  shutdown advances while paused\n  Expected: RGBA(0.148, 1.063, 1.107, 1.000)\n  But was:  RGBA(0.135, 0.973, 1.013, 1.000)\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-properties-mutation-red.xml",
+      "sha256": "e8b4ce57a9646ecf2031442413ca680c7a3b13723dd9c51ba95e5a3214e7f03d",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "2.5167946"
+      },
+      "failures": [
+        {
+          "name": "DisabledBurrowerPowersDownWithoutDimmingAnotherRigOrItsSharedMaterial",
+          "message": "  shutdown erased the hero visibility fade\n  Expected: 0.730000019f\n  But was:  0.0f\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-recovery-mutation-red.xml",
+      "sha256": "e2628fe19977d743986af3a69ca2f2d94e2ec252cb051bdc3db11517d28adf29",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "1",
+        "passed": "0",
+        "failed": "1",
+        "skipped": "0",
+        "duration": "2.6394614"
+      },
+      "failures": [
+        {
+          "name": "HealthRecoveryRestoresTheRigEmissionState",
+          "message": "  recovery retained the shutdown tint\n  Expected: RGBA(0.200, 1.441, 1.500, 1.500)\n  But was:  RGBA(0.163, 1.171, 1.219, 1.000)\n"
+        }
+      ]
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-red.xml",
+      "sha256": "8409dd2386ed154d4fc0b8424501e677dc889859b577e7a16fc2ef13cf9fdf89",
+      "result": {
+        "result": "Failed(Child)",
+        "total": "3",
+        "passed": "0",
+        "failed": "3",
+        "skipped": "0",
+        "duration": "7.2480813"
+      },
+      "failures": [
+        {
+          "name": "DisabledBurrowerHasOneMechanicalFinishWithoutTheGenericBossExplosion",
+          "message": "  disabled rig needs exactly one mechanical finish: hit_armor_2, explosionCrunch_000\n  Expected: 1\n  But was:  0\n"
+        },
+        {
+          "name": "DisabledBurrowerPowersDownWithoutDimmingAnotherRigOrItsSharedMaterial",
+          "message": "  disabled rig has no readable power loss\n  Expected: in range (0.075,1.47)\n  But was:  1.5f\n"
+        },
+        {
+          "name": "HealthRecoveryRestoresTheRigEmissionState",
+          "message": "  fixture must reach actual power loss before recovery\n  Expected: less than 1.42499995f\n  But was:  1.5f\n"
+        }
+      ]
+    }
+  ],
+  "offlinePassed": 163,
+  "priorFullSuite": "C2 candidate63: 155 EditMode / 240 PlayMode; not a fresh full C3 suite",
+  "controlledCapture": {
+    "valid": true,
+    "failures": [],
+    "bodies": [
+      "Burrower"
+    ],
+    "snapshots": 24,
+    "observedFrames": 805,
+    "scope": "Diagnostic completeness/focus and collider lifecycle only. Continuous motion/audio and physical acceptance UNVERIFIED."
+  },
+  "ordinaryRun": {
+    "route": "chapter-06-burrower",
+    "sourceRevision": "D142 nursery integration; exact build and input hashes accompany each run",
+    "input": "continuous agent-directed virtual gamepad replay",
+    "build": "Release",
+    "unity": "6000.4.7f1",
+    "cpu": "AMD Ryzen 7 9800X3D 8-Core Processor ",
+    "gpu": "NVIDIA GeForce RTX 5070",
+    "quality": "Ultra",
+    "gpuTiming": "UNAVAILABLE",
+    "vrr": "UNVERIFIED",
+    "width": 1920,
+    "height": 1080,
+    "frameCap": 60,
+    "vSync": 0,
+    "samples": 10985,
+    "refreshHz": 60.0,
+    "seconds": 183.2977496,
+    "captured": true,
+    "profiled": false,
+    "headroom": false,
+    "census": false,
+    "motion": false,
+    "valid": true,
+    "frameTimingRequested": false,
+    "frameTimingEnabled": false,
+    "frameTimingCpuFrequency": 0,
+    "failures": [],
+    "loadWaitSeconds": 0.27243830000000013,
+    "settleSeconds": 5.0,
+    "interactions": [
+      {
+        "step": 1,
+        "expectedUi": "title",
+        "inputSeconds": 1.0205077,
+        "visibleResponseMs": 3.2754999999999868
+      },
+      {
+        "step": 3,
+        "expectedUi": "saves",
+        "inputSeconds": 1.5367513,
+        "visibleResponseMs": 4.644300000000046
+      },
+      {
+        "step": 5,
+        "expectedUi": "saves",
+        "inputSeconds": 2.3532452999999998,
+        "visibleResponseMs": 0.1849000000002654
+      },
+      {
+        "step": 7,
+        "expectedUi": "world",
+        "inputSeconds": 2.8701976,
+        "visibleResponseMs": 1073.9080999999996
+      }
+    ]
+  },
+  "ordinaryAnalysis": {
+    "valid": true,
+    "failures": [],
+    "samples": 10985,
+    "seconds": 183.29775,
+    "distance": 376.9500122891128,
+    "medianMs": 16.6679,
+    "p95Ms": 17.1308,
+    "p99Ms": 17.3244,
+    "worstMs": 223.4464,
+    "hitches": {
+      "25": 3,
+      "33.3": 2,
+      "50": 1,
+      "100": 1
+    },
+    "pausedSamples": 0,
+    "gcCollections": 14,
+    "gcBytesPerFrameMedian": -1,
+    "movingSamples": 1083,
+    "stoppedCameraWhileWalking": 27,
+    "interactions": [
+      {
+        "step": 1,
+        "expectedUi": "title",
+        "inputSeconds": 1.0205077,
+        "visibleResponseMs": 3.2754999999999868
+      },
+      {
+        "step": 3,
+        "expectedUi": "saves",
+        "inputSeconds": 1.5367513,
+        "visibleResponseMs": 4.644300000000046
+      },
+      {
+        "step": 5,
+        "expectedUi": "saves",
+        "inputSeconds": 2.3532452999999998,
+        "visibleResponseMs": 0.1849000000002654
+      },
+      {
+        "step": 7,
+        "expectedUi": "world",
+        "inputSeconds": 2.8701976,
+        "visibleResponseMs": 1073.9080999999996
+      }
+    ],
+    "stabilityWindows": [
+      {
+        "startSeconds": 0,
+        "endSeconds": 60,
+        "samples": 3587,
+        "memoryBytes": {
+          "median": 316697772,
+          "maximum": 341612315,
+          "minimum": 225767548,
+          "validSamples": 3586,
+          "unavailableOrPendingSamples": 1
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 60,
+        "endSeconds": 120,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 352481910,
+          "maximum": 376156025,
+          "minimum": 330664313,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      },
+      {
+        "startSeconds": 120,
+        "endSeconds": 180,
+        "samples": 3600,
+        "memoryBytes": {
+          "median": 388815132,
+          "maximum": 413758023,
+          "minimum": 366678580,
+          "validSamples": 3600,
+          "unavailableOrPendingSamples": 0
+        },
+        "sceneObjects": "UNSUPPORTED",
+        "objects": "UNSUPPORTED",
+        "audioVoices": "UNSUPPORTED"
+      }
+    ],
+    "worstFrames": [
+      {
+        "elapsed": 3.496041,
+        "ms": 223.4464,
+        "checkpoint": "load manual slot1",
+        "gcBytes": -1,
+        "gcCollections": 35,
+        "mainThreadNs": 16664200,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 3.533386,
+        "ms": 37.3449,
+        "checkpoint": "load manual slot1",
+        "gcBytes": -1,
+        "gcCollections": 35,
+        "mainThreadNs": 240581500,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 3.944106,
+        "ms": 33.072,
+        "checkpoint": "load manual slot1",
+        "gcBytes": -1,
+        "gcCollections": 35,
+        "mainThreadNs": 16666800,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 99.59563,
+        "ms": 23.3201,
+        "checkpoint": "enter Burrower excavation",
+        "gcBytes": -1,
+        "gcCollections": 42,
+        "mainThreadNs": 16665700,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 151.867478,
+        "ms": 22.0854,
+        "checkpoint": "fight Burrower round 2",
+        "gcBytes": -1,
+        "gcCollections": 46,
+        "mainThreadNs": 16667600,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 1.541396,
+        "ms": 21.5125,
+        "checkpoint": "open save picker",
+        "gcBytes": -1,
+        "gcCollections": 35,
+        "mainThreadNs": 16665400,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 2.874661,
+        "ms": 21.2912,
+        "checkpoint": "load manual slot1",
+        "gcBytes": -1,
+        "gcCollections": 35,
+        "mainThreadNs": 16659300,
+        "renderThreadNs": -1
+      },
+      {
+        "elapsed": 3.598666,
+        "ms": 20.8821,
+        "checkpoint": "load manual slot1",
+        "gcBytes": -1,
+        "gcCollections": 35,
+        "mainThreadNs": 16658100,
+        "renderThreadNs": -1
+      }
+    ],
+    "note": "Main/render-thread columns include cap and presentation waits. They are not active CPU/GPU cost. Skeletal yaw requires visual calibration.",
+    "launchDiagnostics": {
+      "valid": true,
+      "failures": [],
+      "profilingArguments": [],
+      "nativeProfilerDiagnostic": false
+    }
+  },
+  "finalState": {
+    "version": 2,
+    "savedAtUtc": "2026-10-08T03:19:52.2860388Z",
+    "zone": "Sorrel_Ridges",
+    "spawn": "Outpost",
+    "activeMember": 0,
+    "quickItem": "RepairGel",
+    "party": [
+      {
+        "id": "Taren",
+        "level": 4,
+        "xp": 172,
+        "integrity": 139.357147,
+        "charge": 87.38982,
+        "gear": [],
+        "equipped": {
+          "Edge": "d9d44c28f06c4c9a8dd429017aab3e50",
+          "Frame": "2bfe275e75b545c8803ad5afa43df604"
+        },
+        "module2": null
+      },
+      {
+        "id": "Sela",
+        "level": 4,
+        "xp": 172,
+        "integrity": 100.178574,
+        "charge": 87.3631439,
+        "gear": [],
+        "equipped": {
+          "Frame": "c344d9840bcd41d69d1b33dec351662d",
+          "Emitter": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe"
+        },
+        "module2": null
+      }
+    ],
+    "flags": {
+      "met.Orrin": true,
+      "met.Mira": true,
+      "met.Hal": true,
+      "hal.lesson": true,
+      "met.Survivor": true,
+      "clear.Sorrel_4": true,
+      "clear.Sorrel_5": true,
+      "clear.Sorrel_6": true,
+      "clear.Sorrel_7": true,
+      "mined.ridge_1_1": true,
+      "mined.ridge_1_0": true,
+      "clear.Sorrel_Burrower": true,
+      "bossdown.Burrower": true,
+      "quest.Sorrel.complete": true,
+      "warpkey": true
+    },
+    "materials": {
+      "ScrapAlloy": 33,
+      "LatticeFilament": 9,
+      "RidgeCrystal": 0,
+      "HuskCore": 2,
+      "WarpKey": 1
+    },
+    "collectedMaterials": {
+      "ScrapAlloy": 60,
+      "LatticeFilament": 9,
+      "RidgeCrystal": 2,
+      "HuskCore": 2,
+      "WarpKey": 1
+    },
+    "consumables": {
+      "RepairGel": 2
+    },
+    "craftingXp": {
+      "Edges": 50,
+      "Emitters": 30,
+      "Frames": 20
+    },
+    "questSteps": {
+      "Sorrel": 4,
+      "MiraCrystals": 0
+    },
+    "questCounts": {
+      "Sorrel/0": 1,
+      "Sorrel/1": 1,
+      "MiraCrystals/0": 2,
+      "Sorrel/2": 1,
+      "Sorrel/3": 1
+    },
+    "parts": [
+      {
+        "instanceId": "ef2ba3a9a6ce4da89c6d0dd3d91cfebe",
+        "definitionId": "EmittersT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "72f1a314a3234d6aa4102cf6bb86fd7b",
+        "definitionId": "EdgesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "c693c9b2db0645d1b3635d9ddbc21ebc",
+        "definitionId": "EdgesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "816e7f8d257c4b78b85b020aa81a2569",
+        "definitionId": "EdgesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "d9d44c28f06c4c9a8dd429017aab3e50",
+        "definitionId": "EdgesT2",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "2bfe275e75b545c8803ad5afa43df604",
+        "definitionId": "FramesT1",
+        "upgrade": 0,
+        "affixes": []
+      },
+      {
+        "instanceId": "c344d9840bcd41d69d1b33dec351662d",
+        "definitionId": "FramesT1",
+        "upgrade": 0,
+        "affixes": []
+      }
+    ],
+    "scrip": 554,
+    "playtime": 751.375732
+  },
+  "audio": {
+    "method": "FFmpeg ebur128 with oversampled true peak",
+    "seconds": null,
+    "peakLimitDbtp": -1.0,
+    "peakResolutionDb": 0.1,
+    "peakBoundary": "A rounded value at the ceiling cannot prove compliance; it is rejected.",
+    "audition": "UNVERIFIED; signal measurements do not establish sound quality",
+    "tool": {
+      "path": "C:/Users/natem/Projects/SpaceRPG/tools/audio_audit.py",
+      "bytes": 4805,
+      "sha256": "9d81ba0e2adfd88f2101f2e0d07c6649b80bd601b5d05c0e644641b792d90658"
+    },
+    "runs": [
+      {
+        "input": "Builds/quality/C3/burrower-shutdown-01/mix.wav",
+        "failures": [],
+        "source": {
+          "path": "Builds/quality/C3/burrower-shutdown-01/mix.wav",
+          "bytes": 5423148,
+          "sha256": "299a862bb53a5dca40968dd5a8180590dd250ea7727837b35b143502e6d04e5e"
+        },
+        "log": {
+          "path": "Builds/quality/C3/shutdown-audio-audit/000.log",
+          "bytes": 25740,
+          "sha256": "dbea2739bd6033c2a9995f4d1a578e210caf934a8c59180583512aa236c70099"
+        },
+        "truePeakDbtp": -12.1,
+        "integratedLufs": -24.1,
+        "silent": false,
+        "valid": true
+      },
+      {
+        "input": "Builds/quality/C3/burrower-shutdown-player-01/mix.wav",
+        "failures": [],
+        "source": {
+          "path": "Builds/quality/C3/burrower-shutdown-player-01/mix.wav",
+          "bytes": 70393900,
+          "sha256": "be79b784225bb2d1516268f7df07a9452314105ae4ee16d8764a8543afcd7931"
+        },
+        "log": {
+          "path": "Builds/quality/C3/shutdown-audio-audit/001.log",
+          "bytes": 321848,
+          "sha256": "1f75ac92aa94bebbdd011fdcf5bc40569442d7d2e4dece23bfc62fc0b4f17152"
+        },
+        "truePeakDbtp": -8.8,
+        "integratedLufs": -21.5,
+        "silent": false,
+        "valid": true
+      }
+    ],
+    "valid": true
+  },
+  "observations": {
+    "controlledImagesOpened": [
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-standing.png",
+        "bytes": 318075,
+        "sha256": "c6969131e2883aa447c26ab53f1c6bd84eef078491dbcbe31de192332dafa188"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-50.png",
+        "bytes": 320276,
+        "sha256": "c2bedc10155d3d31b2ae1566a4cf471930be985c53855e6b3936e9737566c374"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-100.png",
+        "bytes": 329178,
+        "sha256": "563f908a0ca4fba5bfb7b6653bc636a8f6041da1f14f1ceee3205aa7a2ff2e5e"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-side-held.png",
+        "bytes": 253722,
+        "sha256": "7c4ab2b68c3367d527906ff45f2bca09bf40ac0cdb605e366042a7b294d5dd1e"
+      }
+    ],
+    "ordinaryImagesOpened": [
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+0.45.png",
+        "bytes": 2447019,
+        "sha256": "f06898c202f1a182f475ef995187d0e2332ba5e868c86854d860c3a3ff92a951"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+0.95.png",
+        "bytes": 2420766,
+        "sha256": "bc670315756a61209e35633e58236b7b1432e316bb90a29f31ac63445b1cccae"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+1.65.png",
+        "bytes": 2484623,
+        "sha256": "8813b671043471782e48a272c3a716ee884c418c620f149a76cbcc1136aa2db2"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+2.50.png",
+        "bytes": 2484197,
+        "sha256": "0a5865497209f590760df26a4722ed45b4038cc4294124c406b65720637a9b1c"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+3.40.png",
+        "bytes": 2436863,
+        "sha256": "eaf617807c75ad09bdd11a1f7a59ad5f962d5de8b5d07452617d735107c68e20"
+      },
+      {
+        "path": "Builds/quality/C3/burrower-shutdown-player-01/finish-0.30.png",
+        "bytes": 2438073,
+        "sha256": "6d520a2dbc133b1765a9a383e0c73c73d9bad1a13693d2d80c5eb0289ec5ed5f"
+      }
+    ],
+    "notes": "Controlled core loses its bright emission but retains cyan paint. Ordinary frames show collapse/hold/cleanup and hero visibility; the occlusion ellipse hides much of the core, limiting power-down assessment. Full narrative staging and continuous quality are not accepted.",
+    "continuousVideo": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalScanout": "UNVERIFIED",
+    "physicalController": "UNVERIFIED"
+  },
+  "legacyCapture": {
+    "source": "Builds\\quality\\C3\\defeat-finish-visual01\\report.json",
+    "sha256": "afff7b0ef8397c67911c0261c6bec5918c667b8a1477090c5a4d613937fb86e3",
+    "recordedFields": [
+      "method",
+      "captureFailure",
+      "snapshots"
+    ],
+    "snapshotFocus": {
+      "False": 104
+    },
+    "result": {
+      "valid": false,
+      "failures": [
+        "continuous focus evidence unavailable: schema 2 required",
+        "focus lost or continuous focus evidence missing",
+        "recorded specimen selection differs from request",
+        "missing or insufficient observed focus frames",
+        "unfocused specimen image: Ridgehound-0-standing.png",
+        "unfocused specimen image: Ridgehound-0-25.png",
+        "unfocused specimen image: Ridgehound-0-50.png",
+        "unfocused specimen image: Ridgehound-0-75.png",
+        "unfocused specimen image: Ridgehound-0-100.png",
+        "unfocused specimen image: Ridgehound-0-side-held.png",
+        "unfocused specimen image: Ridgehound-0-cleanup35.png",
+        "unfocused specimen image: Ridgehound-0-cleanup75.png",
+        "unfocused specimen image: Ridgehound-10-standing.png",
+        "unfocused specimen image: Ridgehound-10-25.png",
+        "unfocused specimen image: Ridgehound-10-50.png",
+        "unfocused specimen image: Ridgehound-10-75.png",
+        "unfocused specimen image: Ridgehound-10-100.png",
+        "unfocused specimen image: Ridgehound-10-side-held.png",
+        "unfocused specimen image: Ridgehound-10-cleanup35.png",
+        "unfocused specimen image: Ridgehound-10-cleanup75.png",
+        "unfocused specimen image: Ridgehound--10-standing.png",
+        "unfocused specimen image: Ridgehound--10-25.png",
+        "unfocused specimen image: Ridgehound--10-50.png",
+        "unfocused specimen image: Ridgehound--10-75.png",
+        "unfocused specimen image: Ridgehound--10-100.png",
+        "unfocused specimen image: Ridgehound--10-side-held.png",
+        "unfocused specimen image: Ridgehound--10-cleanup35.png",
+        "unfocused specimen image: Ridgehound--10-cleanup75.png",
+        "unfocused specimen image: Scrapmite-0-standing.png",
+        "unfocused specimen image: Scrapmite-0-25.png",
+        "unfocused specimen image: Scrapmite-0-50.png",
+        "unfocused specimen image: Scrapmite-0-75.png",
+        "unfocused specimen image: Scrapmite-0-100.png",
+        "unfocused specimen image: Scrapmite-0-side-held.png",
+        "unfocused specimen image: Scrapmite-0-cleanup35.png",
+        "unfocused specimen image: Scrapmite-0-cleanup75.png",
+        "unfocused specimen image: Scrapmite-10-standing.png",
+        "unfocused specimen image: Scrapmite-10-25.png",
+        "unfocused specimen image: Scrapmite-10-50.png",
+        "unfocused specimen image: Scrapmite-10-75.png",
+        "unfocused specimen image: Scrapmite-10-100.png",
+        "unfocused specimen image: Scrapmite-10-side-held.png",
+        "unfocused specimen image: Scrapmite-10-cleanup35.png",
+        "unfocused specimen image: Scrapmite-10-cleanup75.png",
+        "unfocused specimen image: Scrapmite--10-standing.png",
+        "unfocused specimen image: Scrapmite--10-25.png",
+        "unfocused specimen image: Scrapmite--10-50.png",
+        "unfocused specimen image: Scrapmite--10-75.png",
+        "unfocused specimen image: Scrapmite--10-100.png",
+        "unfocused specimen image: Scrapmite--10-side-held.png",
+        "unfocused specimen image: Scrapmite--10-cleanup35.png",
+        "unfocused specimen image: Scrapmite--10-cleanup75.png",
+        "unfocused specimen image: Burrower-0-standing.png",
+        "unfocused specimen image: Burrower-0-25.png",
+        "unfocused specimen image: Burrower-0-50.png",
+        "unfocused specimen image: Burrower-0-75.png",
+        "unfocused specimen image: Burrower-0-100.png",
+        "unfocused specimen image: Burrower-0-side-held.png",
+        "unfocused specimen image: Burrower-0-cleanup35.png",
+        "unfocused specimen image: Burrower-0-cleanup75.png",
+        "unfocused specimen image: Burrower-10-standing.png",
+        "unfocused specimen image: Burrower-10-25.png",
+        "unfocused specimen image: Burrower-10-50.png",
+        "unfocused specimen image: Burrower-10-75.png",
+        "unfocused specimen image: Burrower-10-100.png",
+        "unfocused specimen image: Burrower-10-side-held.png",
+        "unfocused specimen image: Burrower-10-cleanup35.png",
+        "unfocused specimen image: Burrower-10-cleanup75.png",
+        "unfocused specimen image: Burrower--10-standing.png",
+        "unfocused specimen image: Burrower--10-25.png",
+        "unfocused specimen image: Burrower--10-50.png",
+        "unfocused specimen image: Burrower--10-75.png",
+        "unfocused specimen image: Burrower--10-100.png",
+        "unfocused specimen image: Burrower--10-side-held.png",
+        "unfocused specimen image: Burrower--10-cleanup35.png",
+        "unfocused specimen image: Burrower--10-cleanup75.png",
+        "unfocused specimen image: ChoristerDart-0-standing.png",
+        "unfocused specimen image: ChoristerDart-0-25.png",
+        "unfocused specimen image: ChoristerDart-0-50.png",
+        "unfocused specimen image: ChoristerDart-0-75.png",
+        "unfocused specimen image: ChoristerDart-0-100.png",
+        "unfocused specimen image: ChoristerDart-0-side-held.png",
+        "unfocused specimen image: ChoristerDart-0-cleanup35.png",
+        "unfocused specimen image: ChoristerDart-0-cleanup75.png",
+        "unfocused specimen image: ChoristerDrifter-0-standing.png",
+        "unfocused specimen image: ChoristerDrifter-0-25.png",
+        "unfocused specimen image: ChoristerDrifter-0-50.png",
+        "unfocused specimen image: ChoristerDrifter-0-75.png",
+        "unfocused specimen image: ChoristerDrifter-0-100.png",
+        "unfocused specimen image: ChoristerDrifter-0-side-held.png",
+        "unfocused specimen image: ChoristerDrifter-0-cleanup35.png",
+        "unfocused specimen image: ChoristerDrifter-0-cleanup75.png",
+        "unfocused specimen image: Shellmine-0-standing.png",
+        "unfocused specimen image: Shellmine-0-25.png",
+        "unfocused specimen image: Shellmine-0-50.png",
+        "unfocused specimen image: Shellmine-0-75.png",
+        "unfocused specimen image: Shellmine-0-100.png",
+        "unfocused specimen image: Shellmine-0-side-held.png",
+        "unfocused specimen image: Shellmine-0-cleanup35.png",
+        "unfocused specimen image: Shellmine-0-cleanup75.png",
+        "unfocused specimen image: Cantor-0-standing.png",
+        "unfocused specimen image: Cantor-0-25.png",
+        "unfocused specimen image: Cantor-0-50.png",
+        "unfocused specimen image: Cantor-0-75.png",
+        "unfocused specimen image: Cantor-0-100.png",
+        "unfocused specimen image: Cantor-0-side-held.png",
+        "unfocused specimen image: Cantor-0-cleanup35.png",
+        "unfocused specimen image: Cantor-0-cleanup75.png"
+      ],
+      "bodies": [
+        "Ridgehound",
+        "Scrapmite",
+        "Burrower",
+        "ChoristerDart",
+        "ChoristerDrifter",
+        "Shellmine",
+        "Cantor"
+      ],
+      "snapshots": 104,
+      "observedFrames": null,
+      "scope": "Diagnostic completeness/focus and collider lifecycle only. Continuous motion/audio and physical acceptance UNVERIFIED."
+    },
+    "scope": "The original records focus=false in all 104 screenshots. Schema/body-set/full-interval focus counters are absent. The first audit flags were correct; the subsequent commentary and corrected-audit scope wrongly inferred missing snapshot fields. Both mistaken notes remain retained. The checker now also distinguishes genuinely missing snapshot fields through its separate negative fixture. No original image/report or historical claim was rewritten."
+  },
+  "artifacts": [
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-build-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-build-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-player-01-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-player-01-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-tests-preservation-frozen.json",
+      "bytes": 218,
+      "sha256": "ca0c8dc8013e0932b68a16ae0d358efac714390c51c201c6e45896f9bb1df2cd"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/burrower-shutdown-tests-preservation.json",
+      "bytes": 464,
+      "sha256": "340510503150d4b90640167223d569844c5601296bd7966ce0d82bdb9b9b221c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/ActorFactory.cs",
+      "bytes": 5549,
+      "sha256": "848041354b2c6e2e3dbad3f3a2fc244aa4608f87dec533979343a43308dc5735"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/analyzer-extra-controls-green.log",
+      "bytes": 4088,
+      "sha256": "d2796662688c5ccb61f2fe548d3a0e2f81733fb79c6314dd6ac51dd912d54e71"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/analyzer-extra-controls-red.log",
+      "bytes": 7334,
+      "sha256": "34564e0a125148eafb25f5e8a0d00c0e9e67ece699838835eeedd9458f553b70"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/analyzer-missing-focus-green.log",
+      "bytes": 4442,
+      "sha256": "12d04835f53b356826b97329c831431293ab2f3efddc58c79bdf120818077896"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/analyzer-missing-focus-red.log",
+      "bytes": 6186,
+      "sha256": "ec20e0c14cd1641750754acef9989be195b1f7d735375650de1074bfe52a13ba"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/analyzer-png-completeness-green.log",
+      "bytes": 5002,
+      "sha256": "422912cb1f6a847c4ae3934be8e02bb65049acb476030e841f13011f62447cf9"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/analyzer-png-completeness-red.log",
+      "bytes": 6552,
+      "sha256": "0898581cf5329543521b65d8498a233455bfa96c16e2aa437977f6994382da50"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/build-shutdown.ps1",
+      "bytes": 1767,
+      "sha256": "a21c2ba914008a567347bbe25d96b9693c2c5377009309af06b4f6b62a861644"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/BurrowerShutdown.cs",
+      "bytes": 2856,
+      "sha256": "22e146674a9f20e77d89b0f531281a74dfe6c48ff07af31cd6f5f09e6db34ca7"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/BurrowerShutdown.cs.meta",
+      "bytes": 254,
+      "sha256": "d37efbd91fa3fbd9aba5ef1b09f738c8c208170ab48860be65a7f359253e6a93"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/BurrowerShutdownTests.cs",
+      "bytes": 6767,
+      "sha256": "9bcab20a9ef962c416acbd028779812b76f0ee63ca8819341fa56e9878e65219"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/BurrowerShutdownTests.cs.meta",
+      "bytes": 254,
+      "sha256": "ee8ac2be0c1ba42d3183d7b4e7c6310aa207af27050b4792db27f3bb4cac68b8"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/creature_defeat_analyze-initial.py",
+      "bytes": 3694,
+      "sha256": "90b77e53e4c50b088afc9ac01ac78dbfea7b5bfecd14f9d1f90c06a3a0c2b6f7"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/creature_defeat_analyze-pre-missing-focus.py",
+      "bytes": 4221,
+      "sha256": "12cb7e12bf1fc5aa6db5f7ce4987e05f0036bcf007f072ba95b80dbda7849006"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/creature_defeat_analyze-signature-only.py",
+      "bytes": 4416,
+      "sha256": "13370978553ac6ef6df5f74bdd6cd683f3270e8ed432b6678dfe86a2129e1a7a"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/creature_defeat_analyze.py",
+      "bytes": 4564,
+      "sha256": "5b1c7eca013074002e5eafdaa689ecd01b9c1a25689da9f0870d26441c0ec08c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/CreatureDefeatProbe.cs",
+      "bytes": 9912,
+      "sha256": "b01b268644a25403570b2405511d452c73e1fbfc78afe28c5d49ee3eaf2045e9"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/EnemyBrain.cs",
+      "bytes": 9272,
+      "sha256": "e302ce4a51d96e8b5afc85e3acbadc940ddd255fc03164d1029e563cee9085f7"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/finalize-shutdown-encoding-red.py",
+      "bytes": 4502,
+      "sha256": "4e16c0ce7f62c78a6c8ae060759a09669423fcc149f4fe08762bd7f8933ca288"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/finalize-shutdown.py",
+      "bytes": 4530,
+      "sha256": "6e4449d3a4b75b44256dc4d84401d72de9ea11313622f24956c270e6dda444fe"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/install-shutdown.ps1",
+      "bytes": 715,
+      "sha256": "1bc93596a42039e1940e898ca5489d5a3d1cd092bd69802eb4c9247dedde938f"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/integrate-shutdown.ps1",
+      "bytes": 561,
+      "sha256": "61d9e01868faf6546a18d301587da468fb9cceb985832ba46c9b512cbdbcc501"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/legacy-probe-focus-reconciled.json",
+      "bytes": 7640,
+      "sha256": "7a59c055aae9ee3bdc01db6f10d786444a6d1001bedf508b276a2856bf34c395"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/legacy-probe-focus-unavailable-corrected.json",
+      "bytes": 7232,
+      "sha256": "e5e68f6adcccbb5328e30472149eedb6b2953ba3b36fadd487ad4775ff61e990"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/legacy-probe-focus-unavailable.json",
+      "bytes": 7189,
+      "sha256": "3531da3fa5463366c9f56b07b05d031e3b048e419606764138db7c21610c2f39"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/legacy-probe-image-decode.json",
+      "bytes": 19552,
+      "sha256": "2dcd14c0a12d441dd3e941c1459a1f0ebdac94d4894a8c766334f5e9c0feceff"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/mutate-shutdown.ps1",
+      "bytes": 2194,
+      "sha256": "2e2be699fc48cf8f74b4e27a0dd7f6d5d905bb49939f163154d12b4fbcea9e5e"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/package-shutdown.py",
+      "bytes": 2377,
+      "sha256": "78cae3141235ac9898cce4c265ace9541162310aac0153b37d7c1a47e6e9a41d"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/run-shutdown-ordinary.ps1",
+      "bytes": 1952,
+      "sha256": "3b07c4b5e417fae6e481fe4144c95d5744b968f902802f69c556ee817c49d6e8"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/run-shutdown-reel.ps1",
+      "bytes": 3966,
+      "sha256": "76ab83b309ea99120b94d09c430b17b6cfb82efeb2b462627ce13589788d876c"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/test-shutdown.ps1",
+      "bytes": 843,
+      "sha256": "f2b0dc559f208f90facceb9ca9c0f4fe1f57fadc1cc458af4207eab52bba9f67"
+    },
+    {
+      "path": "Builds/quality/2026-10-07-bounded-trace/next-c3/test_creature_defeat_analyze.py",
+      "bytes": 3607,
+      "sha256": "dbbb26c7db98f7c5c8008da0cfb3552ff8fff8033281002185b91655830f433b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/build.json",
+      "bytes": 124659,
+      "sha256": "4efbd3ff0da00764504f6fa758d678e89a2d315971d10f26a414a75972313982"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-100.png",
+      "bytes": 313286,
+      "sha256": "9461fd57eb03514f96e1b88b88c8e299463c77dc0598f70747e5b376d8d85ad9"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-25.png",
+      "bytes": 331334,
+      "sha256": "7360e473e7b9b0835f3e3a1ab51d7c27f9c032cfd39958309edf7cb68fe82787"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-50.png",
+      "bytes": 335684,
+      "sha256": "a28724e47cc7bc01ecb210bce1b5c40fcf66f73da10762e0db5fbfc587b223db"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-75.png",
+      "bytes": 319592,
+      "sha256": "34acd99a64b443af42a8b6f06b1ead0f646af7fc90ed48cee9e84a2692ec5d33"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-cleanup35.png",
+      "bytes": 259404,
+      "sha256": "c095c71d9a5f7feceaf9a853bb82bfc0e1126c7c93e381e7d2611a5a1f4228fd"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-cleanup75.png",
+      "bytes": 139723,
+      "sha256": "83b4e5f4737fbbcdea704b0548860a11424106fe04f0caae14e0c8bdf087c158"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-side-held.png",
+      "bytes": 259719,
+      "sha256": "bbf93bf7ebb7f5a0892c67e4930f35d2b76fc6cd9c2ea5a184d15591c26ba493"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower--10-standing.png",
+      "bytes": 324412,
+      "sha256": "c60b794181aaffb1092c9780269cbd62480b630d6cfe367898c947bde24fecdb"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-100.png",
+      "bytes": 329178,
+      "sha256": "563f908a0ca4fba5bfb7b6653bc636a8f6041da1f14f1ceee3205aa7a2ff2e5e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-25.png",
+      "bytes": 315618,
+      "sha256": "a20fa67b7cb0a7835316dab51213905b672d856181a22f92723dde8f55993d33"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-50.png",
+      "bytes": 320276,
+      "sha256": "c2bedc10155d3d31b2ae1566a4cf471930be985c53855e6b3936e9737566c374"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-75.png",
+      "bytes": 327577,
+      "sha256": "fb713ec7bd143658b5a2c7d2ae4276ca215736f9603b766225b0cf6d91c75985"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-cleanup35.png",
+      "bytes": 275020,
+      "sha256": "47a2c4dd19ec956301062e25d72cde2b5b38c2494ae303c1353d0c311e979859"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-cleanup75.png",
+      "bytes": 135137,
+      "sha256": "761eef4741a1cfb7084584bd8b451079f7b7eb99ae7b59353830e944fe3b4a97"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-side-held.png",
+      "bytes": 296672,
+      "sha256": "411caf422491af1aa25a4e60db00855b9aaa1a97b3cc41f8e65335729f6ab56e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-0-standing.png",
+      "bytes": 318075,
+      "sha256": "c6969131e2883aa447c26ab53f1c6bd84eef078491dbcbe31de192332dafa188"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-100.png",
+      "bytes": 308558,
+      "sha256": "1a092b9cf758b716039c9e416e4b60265f242eb7e3cb6a3c4f31e48e14ac1dc5"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-25.png",
+      "bytes": 324209,
+      "sha256": "f386184dead3035cbae0a3e176161bd440d03aa5adb23278a78cb284eaecf3d1"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-50.png",
+      "bytes": 334480,
+      "sha256": "16d3c05c6132ddc1d11b84dc3b33bddc88aafeb254e36ed223e0726f9ee6dbcd"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-75.png",
+      "bytes": 313307,
+      "sha256": "ca1c027c6396161362fa6eeb06ba71e6aaff93f17e21df7c8fe254d31080625d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-cleanup35.png",
+      "bytes": 258496,
+      "sha256": "7c696ae004b0b8e4abde5ca51a9c169d0360e90b575170577c063bb4f47e4d3d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-cleanup75.png",
+      "bytes": 128532,
+      "sha256": "5ba983222e988b1a330a60aea63a94e07a66843f57ae1ce96be95a1797038fd4"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-side-held.png",
+      "bytes": 253722,
+      "sha256": "7c4ab2b68c3367d527906ff45f2bca09bf40ac0cdb605e366042a7b294d5dd1e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/Burrower-10-standing.png",
+      "bytes": 314657,
+      "sha256": "eb4834c3612ac16a705c3d5898595911f5854309daf6efc2056e1f7516a254b4"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/capture-analysis.json",
+      "bytes": 259,
+      "sha256": "24b09533e53d165fb2d6f1af2bafc62dbb9e7641147461a9b08871a5cca6a265"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/capture-frames.csv",
+      "bytes": 5848,
+      "sha256": "8d2f2fff296a4688a47ab9a68dbeaabf41f7956d777b7c22073c78acea272319"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/mix.wav",
+      "bytes": 5423148,
+      "sha256": "299a862bb53a5dca40968dd5a8180590dd250ea7727837b35b143502e6d04e5e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/player.log",
+      "bytes": 46597,
+      "sha256": "73512219ef45801cc302661b0d3bd41138e751361b370d8314e221cd0b79a3fb"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/replay.mp4",
+      "bytes": 5947550,
+      "sha256": "e8c62b4d0ef1e34212e669483801bd3eeac877fcc612ed1a8b24255f6e2b91bd"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/report.json",
+      "bytes": 6703,
+      "sha256": "5196cbf6a2fa96d74193e583af54aeff82209013c4c052431d52c5421011fd20"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01/video.mp4",
+      "bytes": 5597706,
+      "sha256": "f9393a6fad928d37253679c6a2f06302149e8abc823574421da536b84bd839dc"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01-build.json",
+      "bytes": 124659,
+      "sha256": "4efbd3ff0da00764504f6fa758d678e89a2d315971d10f26a414a75972313982"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01-display-after.json",
+      "bytes": 677,
+      "sha256": "38a22099eade581fd16bb67c936905b38693e8039c7f76976070c2589005c55d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01-display-before.json",
+      "bytes": 677,
+      "sha256": "36f5332f4b710766dc7d3ddd714f269cbfc9ba5689929a285306631e6fb88bd3"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-01-player.log",
+      "bytes": 46597,
+      "sha256": "73512219ef45801cc302661b0d3bd41138e751361b370d8314e221cd0b79a3fb"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-affected-green.log",
+      "bytes": 789366,
+      "sha256": "7d880408f82ae232a9b2abdc376eb521cdd3bc3bde7f4130d903749557d86a46"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-affected-green.xml",
+      "bytes": 37435,
+      "sha256": "114c3f5c5f988a2d53e5d38428b8ca169edd281c3af58983cbcb74f75440a639"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-build.log",
+      "bytes": 656649,
+      "sha256": "bd389d3ae6dfb542d03a17900d55b56fecc1fdef58d542859de0d6831f51e8c1"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-builddev.log",
+      "bytes": 665539,
+      "sha256": "ad5d4e112b890c9d6274ca3a3aae64e2305390109e118d4938c21c0ad53d02d0"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-green.log",
+      "bytes": 386929,
+      "sha256": "57ab0914f8a3a51071fd9f5d3911e9df120f3666b11e3afd1c66d50277b70587"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-green.xml",
+      "bytes": 9533,
+      "sha256": "dfbad321e7dd800aae2ecf7c7859155212b9811ffc4d0bd078dcbdf0644b3760"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-hdr-green.log",
+      "bytes": 168418,
+      "sha256": "44f29bce3bb5f5add1e4ae457a84b3b08cd8d27e70ad5e217a774ec3cc379bed"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-hdr-green.xml",
+      "bytes": 7388,
+      "sha256": "993856fbf0a4a922f216a987b074d52a0b8a1563c6ac77e633dceae401614d43"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-hdr-red.log",
+      "bytes": 303031,
+      "sha256": "d50770143cfd4897b3a3f5e3fdd4fe59786dae1a844530be9d8855805ca489ad"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-hdr-red.xml",
+      "bytes": 9560,
+      "sha256": "d40b8babbad67f0f1462debece2b3b2c428b8b19006e1463b548cf7cfdff68b6"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-packages.json",
+      "bytes": 135739,
+      "sha256": "25f2ddeaaabf3cf3ed01046a071b75ecd8c72571dc635dc895c640045d49d47c"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-pause-mutation-red.log",
+      "bytes": 99265,
+      "sha256": "5deb364fac32a0e2dabe07fcdbfed8e96e17650cfad95f26164a522b57b6bafd"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-pause-mutation-red.xml",
+      "bytes": 6122,
+      "sha256": "fab676d9dad36bfabfb335934927cfec07708a8fde9322743ebcf200a3d604ab"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/000.png",
+      "bytes": 2271779,
+      "sha256": "2dd35fa3aa0052d422a37001c0615fbf0fb0fd848c6237207c1bb51aa7bcf9cf"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/001.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/002.png",
+      "bytes": 2272482,
+      "sha256": "dda3d20dd52462d88a871b1c70424c3d841105d55a8163ebd0075b529825532b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/003.png",
+      "bytes": 1331774,
+      "sha256": "be5b06ae7d16d0e7090427f0378b157d3baf2a527e835c79106132ccbca1e99f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/004.png",
+      "bytes": 1331774,
+      "sha256": "be5b06ae7d16d0e7090427f0378b157d3baf2a527e835c79106132ccbca1e99f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/005.png",
+      "bytes": 1331855,
+      "sha256": "89ea40a45e2c37c3181e74f66dadd52ec9a27fbfbec205c6b78bd5c72f860ae3"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/006.png",
+      "bytes": 1331855,
+      "sha256": "89ea40a45e2c37c3181e74f66dadd52ec9a27fbfbec205c6b78bd5c72f860ae3"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/007.png",
+      "bytes": 2598753,
+      "sha256": "f972b0c1db2577bb2982dc7b77060713fdf87bf6ffb592239aaeadb45891adf7"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/008.png",
+      "bytes": 2338228,
+      "sha256": "9666d004ab64ad5f95cb2386c53eb056a93d70baf50580107df6e8a1980ce67f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/009.png",
+      "bytes": 2337727,
+      "sha256": "a58563f829118a3e4663e5713b055bb6dfd6099b9a2fcf63f5168e723e44a787"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/010.png",
+      "bytes": 2337201,
+      "sha256": "eb401c2104a45791446dcafc4dee62805450c9d86141b90674b87156059aa8e8"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/011.png",
+      "bytes": 2986793,
+      "sha256": "f9b54a4b2b306bd3c0f7449e147d33e912d1e1a78645a221f236ef31da794b65"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/012.png",
+      "bytes": 3024732,
+      "sha256": "7c9bdf2451bb4bf4428a03c65a5eee9a801a74a6f205e0f2eb9604461f993f44"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/013.png",
+      "bytes": 3065153,
+      "sha256": "e3f17615b6838c1ca422291907dbe9bcd9f8fde4ce352ed03e37e47c6c27b324"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/014.png",
+      "bytes": 3042419,
+      "sha256": "0fdd2b71cb7593097001c28212a010c3d0be5ffcee2da10677384f9f504fe90c"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/015.png",
+      "bytes": 3081460,
+      "sha256": "9a3ba3880c0ab74d3976c6022a2f4330f0b6a25ed41541d9e4f8866b28704838"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/016.png",
+      "bytes": 3097638,
+      "sha256": "cd03dd341f040ba660a4e3cfc3d83047e619ede44d69ebb17706a368df1bf520"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/017.png",
+      "bytes": 2951326,
+      "sha256": "122208ce6fbd8a6c62bc9c0fc43c044ac42039646413c364a675165ed9cb3ef5"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/018.png",
+      "bytes": 2671595,
+      "sha256": "0ccc3dfa291d185c14a826c7214d81df94982997760180b5fc2bf7d87422f51a"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/019.png",
+      "bytes": 2577702,
+      "sha256": "7752920bf46f7bb68f4c78ff93c40400676296c6d388a96e9d98a7f02205127c"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/020.png",
+      "bytes": 2753859,
+      "sha256": "765002c348afcf0aae45f882c2e013ec2465652750af96ba617467ef213b849e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/021.png",
+      "bytes": 2773431,
+      "sha256": "78ed22b8afb09cc8b91394f1720b7f6e0273a32ebf1c923e96f5b4b8f96f1e1e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/022.png",
+      "bytes": 2754343,
+      "sha256": "ebba96123b66c1134f63dc4ebcd44045c4c24e5c5a22fa7eb66051086132e833"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/023.png",
+      "bytes": 2747736,
+      "sha256": "3cebb45708a272d540ac35bb296fb0e38fce0722c9c6f6072460c1c6e7adc765"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/024.png",
+      "bytes": 2783522,
+      "sha256": "d739056f02e1f1a64c9a65e7d70a3a502a4738a387454cda490afd202f1b1fd7"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/025.png",
+      "bytes": 2765759,
+      "sha256": "fc0767e7f7cec5e72eabce88b406124d5930f1143c17f25a51f84385997edaf0"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/026.png",
+      "bytes": 2791080,
+      "sha256": "4ef16f97c42e73ad9c982aac9ea487b09cee6d1de7ee1cf220cf580aec88300e"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/027.png",
+      "bytes": 2702795,
+      "sha256": "8855081d8cc873331ad3e13c1ff8b09c35489cdc110ce95c2d0c9c8132407624"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/028.png",
+      "bytes": 2701617,
+      "sha256": "6f17af5eca7054a8523bc104395da79ac8a57ed306a1c0314fbad9fba622fdbc"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/029.png",
+      "bytes": 2699208,
+      "sha256": "2141d0304f171565694b5093b0d40628afab1be3d542f9ad2e80cb00f6ea6789"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/030.png",
+      "bytes": 2701210,
+      "sha256": "170517196d341cbb78aea2b35a647fe94f9bc115700a51bed9e0fc3ec654d0a6"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/031.png",
+      "bytes": 2697188,
+      "sha256": "fde3b877a82c3694e22f425c6b98c25b8759f230a17f04150d9677a23885abfd"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/032.png",
+      "bytes": 2697359,
+      "sha256": "d255b2c5876753fa22699466b24c72cc9ff54bc2a141226e0e394edae394e129"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/033.png",
+      "bytes": 2733736,
+      "sha256": "93dab1432c16d88193388581cdeef3c001f84ebcd474ba950268c77e1c89c0f6"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/035.png",
+      "bytes": 2734422,
+      "sha256": "56745fa127ec8e2c9e77ceafc834cc83b710b5806ab88ce394b8956f26fedb2b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/037.png",
+      "bytes": 2733350,
+      "sha256": "e9983f362160924c854570bbbfd01a4a35b708cf65721afa5b99f7f2a49194d7"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/039.png",
+      "bytes": 2706676,
+      "sha256": "2b10337116c12ec0c845c8bc4b23bcfaabf3c955c79ec8163b90a4318140e18c"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/042.png",
+      "bytes": 2708079,
+      "sha256": "2a32cea6fac68e2592512c488c8c24319feb9409e7f5250e7f56da1e576a32d6"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/044.png",
+      "bytes": 2708502,
+      "sha256": "ddc69b741908fba843707a17794786ee2869be3c689cfe06528c59d7a5bca26b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/046.png",
+      "bytes": 2708334,
+      "sha256": "e03f9cdd1b2de1026b35b4e872243e29d518c62404615b363f64023272402b48"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/049.png",
+      "bytes": 2708552,
+      "sha256": "ea0eb72895921b4d918ee7e2848fa3126769d7ab6b99ec94786b567e62d72cb1"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/051.png",
+      "bytes": 2708488,
+      "sha256": "21b2e76fe614201ae29266dc6bab2485c8449fa53f2d5a57e00b57840c31a68f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/053.png",
+      "bytes": 2693826,
+      "sha256": "30bb0dc07e31ca80a84d51e6b80969f7c6ea52e2753e156822ca25818cc89499"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/056.png",
+      "bytes": 2657215,
+      "sha256": "5f7b7406656f9cf20e6ad00132fe0edce78b9de4a47f2fc7df386647d2164839"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/059.png",
+      "bytes": 2659013,
+      "sha256": "11c20d997c5a32cbce220f5c19510b116c8fa95deb4b1500f76b980e8438c004"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/060.png",
+      "bytes": 2657466,
+      "sha256": "4975b18fc4b4c7bf33de2b5a54dc877ce68e5a250f298f33a7edc72cd3d9f590"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/061.png",
+      "bytes": 2776560,
+      "sha256": "4e1494a74b668dd59a4ef2d3099b4ede5523827c35d8508ba7a0b438dada4080"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/062.png",
+      "bytes": 2767648,
+      "sha256": "b7d230457ba5ea56e2aca02049b56e1347a03602e4d125cb982b7f268d25fcb0"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/063.png",
+      "bytes": 2767454,
+      "sha256": "2c411708e4b571906f9a81c12558e0c7b20dd0ca07897c62181f39fe6785ca07"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/analysis.json",
+      "bytes": 4346,
+      "sha256": "194b022e5e74db6e2a491d2dcfbdc57ec62e793c597a0e901a6163bc0201f03b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/available-counters.txt",
+      "bytes": 14766,
+      "sha256": "f04c32aa7333fe2717d32bad71cfc6f2e87163c4876c49dbc634cabd69b68f8d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/build.json",
+      "bytes": 14241,
+      "sha256": "abe27880833fda83e2f83200955d5a2862c108415beabf34b7e66801246583cb"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/capture-frames.csv",
+      "bytes": 89024,
+      "sha256": "eb4f3db7bcb7f5cc74ed8f4332c2aa8fc0a0a4287d82c2c70d4137a4f078834d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/capture.txt",
+      "bytes": 160,
+      "sha256": "2f7d3b8e6f7411c7f249cc589652a4398c70702fe6b0855de702b4f369287fab"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/environment.json",
+      "bytes": 123,
+      "sha256": "a1226ceae836c0df41f21f089a5c43b4602c429ad70c3e8fc9af60ba04aa6fad"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/final-state.json",
+      "bytes": 2970,
+      "sha256": "02957305894aea9cc69759129dd2c289a23c1bff7a44549ed163b3c954aa81e0"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+0.45.png",
+      "bytes": 2447019,
+      "sha256": "f06898c202f1a182f475ef995187d0e2332ba5e868c86854d860c3a3ff92a951"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+0.95.png",
+      "bytes": 2420766,
+      "sha256": "bc670315756a61209e35633e58236b7b1432e316bb90a29f31ac63445b1cccae"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+1.65.png",
+      "bytes": 2484623,
+      "sha256": "8813b671043471782e48a272c3a716ee884c418c620f149a76cbcc1136aa2db2"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+2.50.png",
+      "bytes": 2484197,
+      "sha256": "0a5865497209f590760df26a4722ed45b4038cc4294124c406b65720637a9b1c"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish+3.40.png",
+      "bytes": 2436863,
+      "sha256": "eaf617807c75ad09bdd11a1f7a59ad5f962d5de8b5d07452617d735107c68e20"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish-0.30.png",
+      "bytes": 2438073,
+      "sha256": "6d520a2dbc133b1765a9a383e0c73c73d9bad1a13693d2d80c5eb0289ec5ed5f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/finish-review-markers.json",
+      "bytes": 1111,
+      "sha256": "9354b14335d738bad125a51d99443dfc62707ed99749ecbe2cbc29f492071235"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/frame-times.svg",
+      "bytes": 141465,
+      "sha256": "8713e4d2bda7ef74afd2eb093b3a1c3143ca596ef43a44ed51ebe4da4c33e244"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/frames.csv",
+      "bytes": 3256085,
+      "sha256": "2dbc192a78ffd0a87ac8ced95a86b574d0fa9ddb86c574ffd3d06e930f10dbaf"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/mix.wav",
+      "bytes": 70393900,
+      "sha256": "be79b784225bb2d1516268f7df07a9452314105ae4ee16d8764a8543afcd7931"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/player.log",
+      "bytes": 6615,
+      "sha256": "9e5082ae087285fcb63d1b01e0ffa2e2d6e8663d4dd09bdc6707a1c8aaaa0e54"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/process.txt",
+      "bytes": 7,
+      "sha256": "e0de96fe9316bcfa7f1bc86b30db64290640cf49a03ba9043e7682b54f8aa8c3"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/replay.mp4",
+      "bytes": 403925471,
+      "sha256": "35956b4046cd63f52922ee8c2bfa52ad60664fbb106166dc0dcd483f050d54bd"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/resume.json",
+      "bytes": 604,
+      "sha256": "8b71e821de44b911f0ffeeb4c007e90549b26630e451b531cf495cca10df41fa"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/route.json",
+      "bytes": 59522,
+      "sha256": "6299a174c5aa376a7c00489c11e75b510908d01c2358b089a24c64da1c48c533"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/run.json",
+      "bytes": 1609,
+      "sha256": "d7aea01be248b3b1a8a6811f4beda46494d99f36676dcf0eaf5cd46440147908"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/saves/autosave.json",
+      "bytes": 2965,
+      "sha256": "0a851c0343a0a75622617eb22701f274a99576dc77acd1d66961bacb296f142f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/saves/autosave.json.bak",
+      "bytes": 2706,
+      "sha256": "15f22bf71c25c12ca44d880efecd421aaa447f510805954ef2b998985062a28c"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/saves/slot1.json",
+      "bytes": 2714,
+      "sha256": "ae007cb145c6367bfbadc1048191ecb6b1c0b6cb05d04fac51c260727ed1a946"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01/video.mp4",
+      "bytes": 400282678,
+      "sha256": "144f69254c5369cbfc713851c5017513a3c8c4ee3b1564b180196ed24a88fcb6"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01-analysis-console.log",
+      "bytes": 8694,
+      "sha256": "47378fe33cd9652accd9e494452f6fb8e37d09ad479565927a43b6d1144b851f"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01-console.log",
+      "bytes": 3762,
+      "sha256": "9a4b59ef571e6b2c6457e8c0a732bedcfd48783979eda8aad1ba0ddf8bfde3fc"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01-diagnostic-scope.txt",
+      "bytes": 104,
+      "sha256": "da4c41509f29381d3892b1f41b296ca8de477c18672db987fec4bbe026a656ea"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01-display-after.json",
+      "bytes": 677,
+      "sha256": "9502969ed335274fb27b57c1cf2846f8f95729104d2ab77ead0b76c4eeab1a79"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-player-01-display-before.json",
+      "bytes": 677,
+      "sha256": "4207f527c6cd148cb42837ec7c45486d05bbd2b6ca3c060c1a9bcb2b1e4ef72d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-properties-mutation-red.log",
+      "bytes": 99201,
+      "sha256": "b35367a5b1d76f37c6bec526211589d9f2072cac8115d6b2688c2b1fc418a6e5"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-properties-mutation-red.xml",
+      "bytes": 6085,
+      "sha256": "e8b4ce57a9646ecf2031442413ca680c7a3b13723dd9c51ba95e5a3214e7f03d"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-recovery-mutation-red.log",
+      "bytes": 98736,
+      "sha256": "a90b3daf606394d0fc5222d249205f8b56d02a8d62fe8affacfc631dccf8d89b"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-recovery-mutation-red.xml",
+      "bytes": 5897,
+      "sha256": "e2628fe19977d743986af3a69ca2f2d94e2ec252cb051bdc3db11517d28adf29"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-red.log",
+      "bytes": 325641,
+      "sha256": "2ae822726be27aaa836520bdb5eeff7e37442d7a150f5c38320be07b4076b1a7"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-red.xml",
+      "bytes": 10214,
+      "sha256": "8409dd2386ed154d4fc0b8424501e677dc889859b577e7a16fc2ef13cf9fdf89"
+    },
+    {
+      "path": "Builds/quality/C3/burrower-shutdown-source.json",
+      "bytes": 2013,
+      "sha256": "0623be1b2e9480e908ff3ccb1ec338ffcb993181d9c5ea1d3198835829961c24"
+    },
+    {
+      "path": "Builds/quality/C3/BurrowerShutdown-before-mutations.cs",
+      "bytes": 3019,
+      "sha256": "145c75feb62a8f4126b7b2a87bf969dcab03421a90c5e3560b7c50b06ee17e72"
+    },
+    {
+      "path": "Builds/quality/C3/BurrowerShutdown-color-red.cs",
+      "bytes": 2856,
+      "sha256": "22e146674a9f20e77d89b0f531281a74dfe6c48ff07af31cd6f5f09e6db34ca7"
+    },
+    {
+      "path": "Builds/quality/C3/BurrowerShutdown-mutation-pause.cs",
+      "bytes": 3029,
+      "sha256": "e44ca51c3bc9a7781ce623aa35aef27713a133eb15dac0fdad71ae8803d8b8e7"
+    },
+    {
+      "path": "Builds/quality/C3/BurrowerShutdown-mutation-properties.cs",
+      "bytes": 2965,
+      "sha256": "edd36a63c65161912bc3dfc96eeb0c561330b0d07cfa5fda225108dc87361ca4"
+    },
+    {
+      "path": "Builds/quality/C3/BurrowerShutdown-mutation-recovery.cs",
+      "bytes": 2990,
+      "sha256": "8e67062653028114741f7dbd63d857299d80ae3b4551a06ae94e407bf7fa16e1"
+    },
+    {
+      "path": "Builds/quality/C3/BurrowerShutdownTests-color-roundtrip-red.cs",
+      "bytes": 6767,
+      "sha256": "9bcab20a9ef962c416acbd028779812b76f0ee63ca8819341fa56e9878e65219"
+    },
+    {
+      "path": "Builds/quality/C3/defeat-finish-visual01/report.json",
+      "bytes": 28484,
+      "sha256": "afff7b0ef8397c67911c0261c6bec5918c667b8a1477090c5a4d613937fb86e3"
+    },
+    {
+      "path": "Builds/quality/C3/shutdown-audio-audit/000.log",
+      "bytes": 25740,
+      "sha256": "dbea2739bd6033c2a9995f4d1a578e210caf934a8c59180583512aa236c70099"
+    },
+    {
+      "path": "Builds/quality/C3/shutdown-audio-audit/001.log",
+      "bytes": 321848,
+      "sha256": "1f75ac92aa94bebbdd011fdcf5bc40569442d7d2e4dece23bfc62fc0b4f17152"
+    },
+    {
+      "path": "Builds/quality/C3/shutdown-audio-audit/report.json",
+      "bytes": 1802,
+      "sha256": "3bfb4c7d939f4af2a75e2191af7dbf77321d5858f02ef04f6e90ceb7b0cca7c3"
+    },
+    {
+      "path": "Builds/quality/C3/shutdown-initial-shell-warning.txt",
+      "bytes": 536,
+      "sha256": "afa1fc4c45f6b4478b6aadd587ac7fa3a013fe15464e8acee377d7202a59fe3b"
+    },
+    {
+      "path": "Builds/quality/C3/shutdown-offline-green.log",
+      "bytes": 46050,
+      "sha256": "b16bccdecb866ec93306bb88f8765f6986073ff6ae93624e7454731db7255375"
+    },
+    {
+      "path": "Builds/quality/C3/shutdown-test-summary.json",
+      "bytes": 5310,
+      "sha256": "0c11bb64ed1422a05651a6aacee27dae00b723ba6c4095a6b0bb3309fe04c03b"
+    }
+  ]
+}

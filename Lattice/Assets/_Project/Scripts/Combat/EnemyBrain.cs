@@ -75,10 +75,12 @@ namespace Lattice.Combat
             if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill();
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
-            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,"kill");
-            // Bosses keep the former finish until each gets its own; Cantor's
-            // outcome is a release, so no generic creature death is borrowed.
-            if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
+            bool disabledRig=definition.id=="Burrower";
+            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig?"failure":"kill");
+            // The Burrower loses power as disabled equipment. Other bosses keep
+            // their existing finish until their authored outcomes are staged.
+            if(disabledRig)CombatAudio.Death(transform,true);
+            else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
             else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine);
             CancelAttack();
             if(definition.id=="Scrapmite")CombatActor.Strike(transform.position+Vector3.up*.6f,2.5f,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});

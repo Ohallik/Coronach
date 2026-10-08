@@ -20,3 +20,5 @@ All removal times stay inside the existing lifecycle bounds (at most 2.75 s for 
 | `C3/defeat-finish-visual01` | Development-player defeat probe, extended to capture cleanup at 35% and 75%, 104 stills (`CREATURE_DEFEAT_CAPTURE_OK`). Claude opened the Ridgehound terminal/cleanup frames and the Chorister Dart standing/fall/cleanup frames (`defeat-finish-sheet01.png`). The corpse visibly shrinks into the floor, and the Dart tumbles and drops out of its framed position before shrinking. The dust puff itself is not visible in these stills. |
 
 Continuous video and physical feel remain UNVERIFIED. Boss finishes are still the generic lifecycle plus the old crunch, pending designed finishes.
+
+October 7 evidence correction: the raw `defeat-finish-visual01` report records `focus:false` in all 104 snapshots despite the producer's success marker. Its images decode and the selected-frame observations above remain historical observations, but this is **not accepted focused replay evidence**. The original report, images and marker are unchanged. The [shutdown follow-up](C3-burrower-shutdown.md) records the corrected producer and capture-completeness checks.

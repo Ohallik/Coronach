@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Burrower powers down; fresh focused boss evidence retained — October 7
+
+**C3 remains OPEN; both standard players now contain the Burrower shutdown.** The repair uses an owned mechanical cue, restrained sparks and a pause-safe emission fade during the existing supported collapse. Three original defects, the first candidate's HDR conversion error and all deliberate pause/property/recovery failures remain recorded. **22 affected PlayMode checks pass**, zero skipped, followed by both builds. [Evidence and exact inventories](validation/C3-burrower-shutdown.md).
+
+The new specimen reel passes with **805 focused frames / 24 complete images**. The unchanged earned boss route passes in **183.298 seconds / 10,985 focused frames**, completes the key/quest and saves. Four controlled and six ordinary views were actually opened: the core dims in controlled views, but the hero-visibility ellipse obscures much of it during combat. Full visual quality stays unaccepted. Recorded audio passes peak-margin checks; listening remains **UNVERIFIED**. A retained 223.446 ms load frame and explicit VSync-off/display-off capture exclude C1 acceptance. Nathan's saves and all 243 frozen chapter files still match.
+
+The old 104-image defeat probe reported success despite recording `focus:false` in every snapshot. Its raw files remain unchanged and focused-capture acceptance is explicitly rejected. The producer now tracks the whole interval; checks reject incomplete stages, missing/false focus, invalid geometry/time and truncated PNGs. **163 offline checks pass.** C2's `edbe1d6` locomotion repair remains intact; its full 155/240 results are prior evidence, not a fresh full C3 suite. C1/C2, continuous audiovisual review and all later gates remain open; the frozen chapter stays `a3aaad6`. Continue the unresolved Cantor release finish and dependent first-chapter staging in production order.
+
 ## Slope support and collision recovery pass; visual concern stays open — October 7
 
 **C1/C2 remain OPEN. Candidate 63 is in source and both standard players; 155 EditMode / 240 PlayMode and four fresh player motion checks pass.** The stationary-slope repair moves the hips over the feet. Fresh candidate-61 pad playback exposes a latent gait-delay defect: 451.197 mm walking-contact drift after collision recovery. Original-animator controls reproduce it; candidate 62 starts faster gaits immediately but its full suite rejects one downhill transition (236/237 PlayMode). Every failed runtime, fixture and recording remains. [Evidence and exact package/source inventory](validation/C2-idle-support.md).
