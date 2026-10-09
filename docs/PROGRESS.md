@@ -1,5 +1,14 @@
 # CORONACH slice progress
 
+## Cantor departure guidance checkpoint - October 8
+
+Both standard players contain bounded guidance through the actual departure. **56 affected PlayMode checks pass**, followed by a **16-case suite with post-presentation clearance**, zero skips; all **13 final lifecycle/geometry controls and nine added late-sampling controls reject**. Both builds bind **706 inputs**. Original overlaps, stale-reference/compiler/phase-cache failures and both failed Gullet braking probes remain. [Evidence and inventories](validation/C4-release-spacing.md).
+
+The unchanged earned route passes in **841.910 s / 50,502 fully focused samples**, process exit 0, three cuts and both living heroes at TallowApproach. The complete nine-hit trace now identifies **three distinct shots from one Drifter volley within 15.665 ms**, plus an identified released shot that outlives its source. Taren's additional early damage remains a balance concern. No Sela/wall/post-resolution damage is recorded; older unattributed events remain unresolved. The 60.5-second fight is not accepted balance.
+
+Nine opened stills retain **rejected quiet composition and a Sela/nose silhouette contact at +0.85** despite controlled numerical clearance. Continuous audiovisual/physical quality is UNVERIFIED. Displays report On/On, VSync 1; all four >25 ms loading intervals remain and this recording is excluded from clean C1 acceptance. Earlier Decks hitches, invalid GPU evidence and Sela stepping remain open. Saves, e93bf13 and frozen a3aaad6 are preserved; no presentation candidate is validated. Diagnose the attributed fan stack and actual release projection, then continue preview composition and Tallow story.
+
+
 ## Projectile provenance checkpoint - October 8
 
 Both standard players now include bounded capture-only launch/volley/source identities. **116 affected PlayMode / 100 quality-tool checks pass**, zero Unity skips; six runtime faults, five offline faults and a CLI-omission control reject. Both builds bind **702 inputs**. Original missing-identity and hero-fan failures, fixture errors and strict-version checker failures remain. [Evidence and inventories](validation/C4-damage-provenance.md).

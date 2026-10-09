@@ -13,8 +13,9 @@ namespace Lattice.Combat
         Health flankTarget;
         float flankSide;
         FlightSeparation flightSeparation;
+        SerpentSegments departingSerpent;
         FlightObstacles flightObstacles;
-        void OnEnable(){corners=null;nextPath=0;flankTarget=null;flightSeparation=null;flightObstacles=null;}
+        void OnEnable(){corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;}
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
@@ -22,8 +23,29 @@ namespace Lattice.Combat
             var active=party.Active;actor.target=active.target;
             var selectedCarrier=actor.target!=null?(actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target):null;
             var serpent=actor.flight&&selectedCarrier!=null&&selectedCarrier.Alive?selectedCarrier.GetComponent<SerpentSegments>():null;
-            if(serpent==null)flightSeparation=null;
-            else if(flightSeparation==null||flightSeparation.Body!=serpent)flightSeparation=new FlightSeparation(serpent,HeroCollision.HullRadius(actor.character));
+            // Lethal resolution clears the lock before the full-size animal
+            // leaves. Its visible body still needs room during regrouping.
+            if(flightSeparation!=null&&Departing(flightSeparation.Body))departingSerpent=flightSeparation.Body;
+            if(!actor.flight||!Departing(departingSerpent))departingSerpent=null;
+            // Swapping enables a different companion brain with no previous
+            // selection. Discover one nearby release from the existing collar
+            // registry; 48 m includes the whole trailing body and local route.
+            if(actor.flight&&departingSerpent==null)
+            {
+                float nearest=48*48;
+                foreach(var collar in CantorCollar.All)
+                {
+                    var body=collar.GetComponent<SerpentSegments>();
+                    float releaseDistance=(collar.transform.position-transform.position).sqrMagnitude;
+                    if(releaseDistance<nearest&&Departing(body)){nearest=releaseDistance;departingSerpent=body;}
+                }
+            }
+            var guidedBody=serpent!=null?serpent:departingSerpent;
+            var otherBody=serpent!=null&&departingSerpent!=serpent?departingSerpent:null;
+            if(guidedBody==null)flightSeparation=null;
+            else if(flightSeparation==null||flightSeparation.Body!=guidedBody||!ReferenceEquals(flightSeparation.OtherBody,otherBody)||
+                !ReferenceEquals(flightSeparation.DepartingBody,departingSerpent))
+                flightSeparation=new FlightSeparation(guidedBody,HeroCollision.HullRadius(actor.character),otherBody);
             if(actor.State==Lattice.Data.ActorState.Stagger){actor.motor.Move(Vector2.zero,false,true);return;}
             // Read incoming fire as a player does: roll across a shot about to hit.
             var shot=IncomingShot();if(shot.HasValue&&Dodge(shot.Value))return;
@@ -103,6 +125,8 @@ namespace Lattice.Combat
                 if(fromTarget.magnitude<(actor.flight||actor.character=="Sela"?14:3))actor.Attack();
             }
         }
+        static bool Departing(SerpentSegments body)=>body!=null&&body.gameObject.activeInHierarchy&&
+            body.TryGetComponent<CantorRelease>(out var release)&&release.Departing;
         bool Dodge(Vector3 direction)
         {
             if(direction.sqrMagnitude<.01f)return false;

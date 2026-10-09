@@ -12,18 +12,19 @@ namespace Lattice.Combat
     {
         public const float Duration=3.6f;
         public bool KeepInEncounterFrame {get;private set;}
+        public bool Departing {get;private set;}
         Transform head;
         Transform[] parts;
         Vector3[] localPositions,worldPositions;
         Quaternion[] localRotations;
         Vector3 origin,headPosition,firstControl,secondControl,destination;
         Vector3 turnCenter,turnOffset,travelOrigin;
-        float turnAngle,turnDuration;
+        float turnAngle,turnDuration,age;
         Quaternion heading,headRotation;
 
         public void Begin(Transform visual,IReadOnlyList<Transform> body)
         {
-            KeepInEncounterFrame=true;
+            age=0;Departing=true;KeepInEncounterFrame=true;
             head=visual;origin=transform.position;heading=transform.rotation;
             headPosition=head.localPosition;headRotation=head.localRotation;
             parts=new Transform[body.Count];localPositions=new Vector3[body.Count];
@@ -57,11 +58,26 @@ namespace Lattice.Combat
                 destination=new Vector3(GulletProfile.Center(GulletProfile.End),origin.y+6,GulletProfile.End+30);
             }
         }
+        // Guidance samples the authored departure without moving the animal.
+        // The evaluated presentation clock also holds this forecast on pause.
+        public Vector3 PredictPosition(float lead)
+        {
+            if(!Departing)return transform.position;
+            float elapsed=Mathf.Clamp(age+lead,0,Duration);
+            if(elapsed<=.35f)return origin;
+            if(elapsed<.35f+turnDuration)
+            {
+                float turn=Mathf.SmoothStep(0,1,(elapsed-.35f)/turnDuration);
+                return turnCenter-Quaternion.AngleAxis(turnAngle*turn,Vector3.up)*turnOffset;
+            }
+            float t=Mathf.SmoothStep(0,1,Mathf.Clamp01((elapsed-.35f-turnDuration)/(Duration-.35f-turnDuration))),u=1-t;
+            return u*u*u*travelOrigin+3*u*u*t*firstControl+3*u*t*t*secondControl+t*t*t*destination;
+        }
         public void Advance(float elapsed)
         {
             // Give the first turn room to read, then let the animal leave the
             // ordinary view before bounded removal. The owner passes game time.
-            KeepInEncounterFrame=elapsed<1.5f;
+            age=elapsed;KeepInEncounterFrame=elapsed<1.5f;
             if(elapsed<=.35f)return;
             if(elapsed<.35f+turnDuration)
             {
@@ -92,7 +108,7 @@ namespace Lattice.Combat
         }
         public void Restore()
         {
-            KeepInEncounterFrame=false;
+            Departing=false;KeepInEncounterFrame=false;
             transform.SetPositionAndRotation(origin,heading);
             head.SetLocalPositionAndRotation(headPosition,headRotation);
             for(int i=0;i<parts.Length;i++)

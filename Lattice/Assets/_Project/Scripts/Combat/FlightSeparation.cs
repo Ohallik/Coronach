@@ -6,42 +6,70 @@ namespace Lattice.Combat
     // guides ordinary motor input; it never relocates a ship or hides anatomy.
     sealed class FlightSeparation
     {
-        const int Sections=8,Directions=8,Capacity=2+Sections*Directions;
-        readonly Renderer[][] meshes=new Renderer[Sections][];
-        readonly Vector3[] centers=new Vector3[Sections],nodes=new Vector3[Capacity];
-        readonly float[] radii=new float[Sections],cost=new float[Capacity];
-        readonly int[] previous=new int[Capacity];
-        readonly bool[] valid=new bool[Capacity],visited=new bool[Capacity];
+        const int SectionsPerBody=8,Directions=8;
+        readonly int sections,capacity,measuredSections,departureSection;
+        readonly CantorRelease departure;
+        readonly Renderer[][] meshes;
+        readonly Vector3[] centers,nodes;
+        readonly float[] radii,cost;
+        readonly int[] previous;
+        readonly bool[] valid,visited;
         readonly RaycastHit[] shotHits=new RaycastHit[32];
         readonly float hull;
         public SerpentSegments Body {get;}
+        public SerpentSegments OtherBody {get;}
+        public SerpentSegments DepartingBody {get;}
         float nextPlan;
         Vector3 waypoint,lastGoal;
         bool detour,adjustedGoal;
         Health firingTarget;
-        public FlightSeparation(SerpentSegments body,float hull)
+        public FlightSeparation(SerpentSegments body,float hull,SerpentSegments otherBody=null)
         {
-            Body=body;this.hull=hull;
-            meshes[0]=body.GetComponent<DefeatPresentation>().visual.GetComponentsInChildren<Renderer>();
-            for(int i=1;i<Sections;i++)meshes[i]=body.Parts[i-1].GetComponentsInChildren<Renderer>();
+            Body=body;OtherBody=otherBody;this.hull=hull;
+            // At most one selected animal and one departing animal. A new
+            // live target cannot silently discard the nearby release hazard.
+            measuredSections=SectionsPerBody*(otherBody!=null?2:1);
+            departure=body.GetComponent<CantorRelease>();
+            if(departure==null||!departure.Departing){departure=otherBody!=null?otherBody.GetComponent<CantorRelease>():null;departureSection=SectionsPerBody;}
+            if(departure!=null&&!departure.Departing)departure=null;
+            DepartingBody=departure!=null?departure.GetComponent<SerpentSegments>():null;
+            sections=measuredSections+(departure!=null?5:0);capacity=2+sections*Directions;
+            meshes=new Renderer[sections][];centers=new Vector3[sections];radii=new float[sections];
+            nodes=new Vector3[capacity];cost=new float[capacity];previous=new int[capacity];
+            valid=new bool[capacity];visited=new bool[capacity];
+            Capture(body,0);if(otherBody!=null)Capture(otherBody,SectionsPerBody);
+        }
+        void Capture(SerpentSegments body,int offset)
+        {
+            meshes[offset]=body.GetComponent<DefeatPresentation>().visual.GetComponentsInChildren<Renderer>();
+            for(int i=1;i<SectionsPerBody;i++)meshes[offset+i]=body.Parts[i-1].GetComponentsInChildren<Renderer>();
         }
         static Vector3 Flat(Vector3 p){p.y=0;return p;}
         void Measure()
         {
-            for(int i=0;i<Sections;i++)
+            for(int i=0;i<measuredSections;i++)
             {
                 var bounds=meshes[i][0].bounds;
                 for(int j=1;j<meshes[i].Length;j++)bounds.Encapsulate(meshes[i][j].bounds);
                 centers[i]=Flat(bounds.center);
                 radii[i]=new Vector2(bounds.extents.x,bounds.extents.z).magnitude+hull+.8f;
             }
+            // Static obstacles alone route across the animal's accelerating
+            // nose, then brake too late as it catches the ship. Reserve the
+            // next 1.5 seconds of its real path with five bounded envelopes.
+            if(departure!=null)
+                for(int i=0;i<5;i++)
+                {
+                    centers[measuredSections+i]=Flat(departure.PredictPosition((i+1)*.3f));
+                    radii[measuredSections+i]=radii[departureSection]+.4f;
+                }
         }
-        float Clearance(Vector3 p)
-        {float best=float.PositiveInfinity;for(int i=0;i<Sections;i++)best=Mathf.Min(best,(p-centers[i]).magnitude-radii[i]);return best;}
+        float Clearance(Vector3 p,int count=-1)
+        {float best=float.PositiveInfinity;if(count<0)count=sections;for(int i=0;i<count;i++)best=Mathf.Min(best,(p-centers[i]).magnitude-radii[i]);return best;}
         bool Clear(Vector3 a,Vector3 b)
         {
             var d=b-a;float length=d.sqrMagnitude;
-            for(int i=0;i<Sections;i++)
+            for(int i=0;i<sections;i++)
             {
                 var away=a-centers[i];float radius=radii[i];
                 // Permit an outward escape if a moving body has already
@@ -61,13 +89,16 @@ namespace Lattice.Combat
             {
                 nextPlan=Time.unscaledTime+.1f;lastGoal=goal;Measure();Plan(position,goal);
             }
-            avoiding=detour;brake=Clearance(position)<3.5f;
+            // Forecasts reserve a path; they are not already touching the
+            // ship. Braking for those future envelopes caps an early escape
+            // near 2 m/s, letting the accelerating departure catch it.
+            avoiding=detour;brake=Clearance(position,measuredSections)<3.5f;
             var result=detour||adjustedGoal?waypoint:goal;result.y=height;return result;
         }
         void Plan(Vector3 start,Vector3 goal)
         {
             nodes[0]=start;nodes[1]=goal;valid[0]=true;valid[1]=Clearance(goal)>=0&&CanFire(goal);adjustedGoal=!valid[1];
-            for(int i=0;i<Sections;i++)for(int j=0;j<Directions;j++)
+            for(int i=0;i<sections;i++)for(int j=0;j<Directions;j++)
             {
                 int n=2+i*Directions+j;float angle=j*Mathf.PI*2/Directions;
                 nodes[n]=centers[i]+new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle))*(radii[i]+1.1f);
@@ -78,17 +109,17 @@ namespace Lattice.Combat
             if(!valid[1])
             {
                 float nearest=float.PositiveInfinity;
-                for(int n=2;n<Capacity;n++)if(valid[n]&&(nodes[n]-goal).sqrMagnitude<nearest&&CanFire(nodes[n]))
+                for(int n=2;n<capacity;n++)if(valid[n]&&(nodes[n]-goal).sqrMagnitude<nearest&&CanFire(nodes[n]))
                 {nearest=(nodes[n]-goal).sqrMagnitude;nodes[1]=nodes[n];valid[1]=true;}
             }
-            for(int i=0;i<Capacity;i++){cost[i]=float.PositiveInfinity;previous[i]=-1;visited[i]=false;}
+            for(int i=0;i<capacity;i++){cost[i]=float.PositiveInfinity;previous[i]=-1;visited[i]=false;}
             cost[0]=0;
-            for(int pass=0;pass<Capacity;pass++)
+            for(int pass=0;pass<capacity;pass++)
             {
                 int current=-1;float cheapest=float.PositiveInfinity;
-                for(int i=0;i<Capacity;i++)if(valid[i]&&!visited[i]&&cost[i]<cheapest){current=i;cheapest=cost[i];}
+                for(int i=0;i<capacity;i++)if(valid[i]&&!visited[i]&&cost[i]<cheapest){current=i;cheapest=cost[i];}
                 if(current<0||current==1)break;visited[current]=true;
-                for(int next=1;next<Capacity;next++)
+                for(int next=1;next<capacity;next++)
                 {
                     if(!valid[next]||visited[next])continue;
                     float proposed=cheapest+Vector3.Distance(nodes[current],nodes[next]);
@@ -106,7 +137,7 @@ namespace Lattice.Combat
             // No connected perimeter yet: move toward the clearest escape
             // that heads outward from all currently intersected margins.
             float best=float.NegativeInfinity;waypoint=start;
-            for(int n=2;n<Capacity;n++)if(valid[n]&&Clear(start,nodes[n]))
+            for(int n=2;n<capacity;n++)if(valid[n]&&Clear(start,nodes[n]))
             {float value=-(nodes[n]-goal).magnitude;if(value>best){best=value;waypoint=nodes[n];}}
             detour=true;
         }
