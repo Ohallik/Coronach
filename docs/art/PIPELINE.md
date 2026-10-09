@@ -1,6 +1,8 @@
 # Generated art intake
 
-Status, October 8: **NATHAN_SPECIES_APPROVED** is recorded in `species-approval.json`; generated models and portraits have passed individual intake checkpoints. `intake.json` is populated. An empty batch must still fail, and staged assets do not automatically pass final in-player presentation. Current work and exact review limits are recorded in `docs/PROGRESS.md` and the per-batch art/validation records.
+Status, October 9: **NATHAN_SPECIES_APPROVED** is recorded in `species-approval.json`; generated models and portraits have passed individual intake checkpoints. `intake.json` is populated. An empty batch must still fail, and staged assets do not automatically pass final in-player presentation. Current work and exact review limits are recorded in `docs/PROGRESS.md` and the per-batch art/validation records.
+
+Latest spending checkpoint: the [Tallow coupler](C8-tallow-fitting.json) costs 15 credits and leaves a live balance of **2,383**, October 9. Four Blender model views are opened; Unity intake and player appearance remain UNVERIFIED. The generated source stays outside Assets. Preserve the earlier unattributed 365-credit balance difference; recheck live balance before any further paid task.
 
 1. Record Nathan's actual species/hero response in `docs/DECISIONS.md`. Only then create `docs/art/species-approval.json` with status `NATHAN_SPECIES_APPROVED` and the response. Never create this receipt from silence or an automated decision.
 2. Generate and inspect the downstream references in P1 order. Meshy receives a single isolated pose, not a multi-view design board. Archive images and exact prompts under `art-src/Generated/<batch>/refs`.

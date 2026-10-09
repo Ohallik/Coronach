@@ -1,0 +1,125 @@
+{
+  "id": "C8-TallowMooringCoupler",
+  "status": "BLENDER_MESH_VIEWS_REVIEWED_OUTSIDE_ASSETS; UNITY_AND_PLAYER_VISUAL_REVIEW_UNVERIFIED",
+  "purpose": "Replace the generated crate stand-in at Tallow's loose line with an intact dock coupler; existing cable, marker motion and story outcomes must remain.",
+  "generator": "built-in image_gen reference; guarded Meshy T2",
+  "reference": "art-src/Generated/C8-TallowFitting/refs/TallowMooringCoupler.png",
+  "referencePrompt": "Use case: stylized-concept. Asset type: isolated single-view reference for one small 3D science-fantasy game prop in CORONACH. Subject: exactly ONE complete loose mooring-line coupler, a robust palm-sized quick-release fitting that has detached intact from a space refuge's anchorage. Give it a clear large open oval shackle eye with thick chamfered ivory ceramic-alloy sides, an attached compact dark gunmetal hinge and latch, a muted brass collar and one short tapered cable-entry ferrule at the base. The ferrule is empty: no rope or cable is part of this model. All hardware is physically connected. The eye's central opening is plainly visible and wide enough to read from far away. It should read as functional dock hardware, not a box, weapon, creature, jewellery or full anchor. Broad matte colour regions, restrained industrial detail, two large fasteners at most, no tiny text or glowing lights. Style: clean HD-2D cel-shaded low-poly game art, ivory body with muted brass and dark joints, no baked lighting or ambient occlusion. Composition: one complete connected object centered at 75 percent of a square canvas, three-quarter view from 40 degrees above, top and front visible, generous margins. Opaque pure white background, no scenery, ground, cast shadow, labels, letters, logos, other objects, loose parts, long pipes, dangling cables or decoration. Intended mesh is roughly 1000 triangles with a maximum in-game dimension of 0.6 metres. Keep the complete silhouette and central opening visible.",
+  "referenceReview": "Opened generated reference: one complete ivory and brass coupler with a large open eye, dark attached latch, short hollow cable-entry ferrule, white background. This is a reference review, not mesh or game acceptance.",
+  "meshTask": "01a1200c-11d5-7498-b7e6-69715fd8b425",
+  "meshCredits": 15,
+  "creditBalanceBefore": 2398,
+  "creditBalanceAfter": 2383,
+  "budget": {
+    "balanceBefore": 2398,
+    "ledgerSpentOrReserved": 1264,
+    "cumulativeCap": 4952,
+    "proposedTaskCount": 1,
+    "estimatedCredits": 15,
+    "guardReserve": 50,
+    "targetTriangles": 1000,
+    "scope": "One Tallow loose-line mooring coupler; generated reference opened and inspected; remains outside Assets until isolated intake. Earlier 365-credit balance difference remains unattributed."
+  },
+  "meshReview": "All four Blender views individually opened. The intact ivory eye, dark attached latch/axle, brass collar and hollow cable-entry ferrule remain connected in the rendered views. No visible floating fragments justify a trim. Mildly uneven facets and baked highlights remain; Unity shader, gameplay scale and final scene appearance are UNVERIFIED.",
+  "intake": "UNINSTALLED. Reading-repair players are being built. No Assets or intake manifest entry has been added.",
+  "sources": [
+    {
+      "path": "art-src/Generated/C8-TallowFitting/budget-after.json",
+      "bytes": 109,
+      "sha256": "e2c47bdfd94020e08ab666dc46172fad4f00d8e88377fb82971fae55417be1d9"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/budget-before.json",
+      "bytes": 398,
+      "sha256": "df1dce7dc247836d70f474aeb0f3a23a7ad37d6f79ff698aecb5832817967782"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/generate01.log",
+      "bytes": 532,
+      "sha256": "5ebcc4cc1e715c511b86e325d52cb13e3e220cd50365a90a2d83e3dc24c6c706"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/inspect_parts01.log",
+      "bytes": 118,
+      "sha256": "e7c64469c2bcdd27b82e69b6e57a02ae7f686e5bd23a50299b65198f862826ee"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/model-inventory.json",
+      "bytes": 408,
+      "sha256": "8b10b9057938efd66c889bdb3d5f9fed442b0cefd5b914c05f45112f44c3678b"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/model_inventory01.log",
+      "bytes": 169,
+      "sha256": "cc3a8f147a3ce84b8a9c06c831537f9cbbd8baf21b2c066b061634645344ac29"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/p64_strip_embedded01.log",
+      "bytes": 473,
+      "sha256": "4bd0060d9a72bdb9ce7ca0f20d131a9e85afa3aef4990bddd9305e1ea9e30001"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/parts.json",
+      "bytes": 2005,
+      "sha256": "336ee27d4955a33ced96f3f2e75efba5df083e3dde011dc178c5b2794fa449f6"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/preprocess.ps1",
+      "bytes": 1293,
+      "sha256": "33c1f7f9575b063a6c96b3e5e673ccde6054bd193f6b25d7451e78fc8af878dc"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/refs/prompt.txt",
+      "bytes": 1513,
+      "sha256": "faea440f635dbf2d95e4a35c96082484eea79f9db6bceb7b9c5f2642e8ac36aa"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/refs/TallowMooringCoupler.png",
+      "bytes": 1390346,
+      "sha256": "c20265cd397dc5a9e674033a22b79dfa5933d71f013b4712c46cd362b7ee3092"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler.fbx",
+      "bytes": 4534092,
+      "sha256": "4319896113ad0f6e3662a3b030a8e2f84033cb07767bc5fce86d4658e565b6ce"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_base_color.png",
+      "bytes": 4468941,
+      "sha256": "2fb550a7bc17e680b2c937e781c676445cdbb7bd4c873c634678af3ec537a0e4"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_clean.fbx",
+      "bytes": 65420,
+      "sha256": "00f9954db5d8251f4be382594535e27073d50c80d44c3e337eb4485e248a4114"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_emission.png",
+      "bytes": 4145,
+      "sha256": "47409785b30cc38f1ec62f219ce1c46f885427442416c0768dc470497ef784cb"
+    },
+    {
+      "path": "art-src/Generated/C8-TallowFitting/unity-stage.json",
+      "bytes": 63,
+      "sha256": "bb504962ebfa4827b5434b1a4842055a8bd24855f6b8005d1dda55cbe54cfba6"
+    }
+  ],
+  "meshViews": [
+    {
+      "path": "Builds/quality/C8/tallow-fitting/mesh-preview01_back.png",
+      "sha256": "44e372b9971ed8d5181544e7bdb44d8c8f07f969b9b1b9d146c1e0ff7ab4cba1"
+    },
+    {
+      "path": "Builds/quality/C8/tallow-fitting/mesh-preview01_front.png",
+      "sha256": "145d59390605e0f3aa7efe011998156b2fbb23575e153805404b4dd38f23de4e"
+    },
+    {
+      "path": "Builds/quality/C8/tallow-fitting/mesh-preview01_side.png",
+      "sha256": "2307570f90fd6e851f82f9ab8e9285d4a726ffb05169f5bda38a32d5c8e48777"
+    },
+    {
+      "path": "Builds/quality/C8/tallow-fitting/mesh-preview01_threequarter.png",
+      "sha256": "653bee378192dc1f1d45653891e71bb664eebd06728a81e0f66d2a547fd31b99"
+    }
+  ]
+}

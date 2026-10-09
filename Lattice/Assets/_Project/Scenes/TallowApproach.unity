@@ -226,6 +226,7 @@ GameObject:
   m_Component:
   - component: {fileID: 73348481}
   - component: {fileID: 73348480}
+  - component: {fileID: 73348482}
   m_Layer: 0
   m_Name: Port mooring service arm
   m_TagString: Untagged
@@ -273,6 +274,32 @@ Transform:
   - {fileID: 1749951313}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &73348482
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 73348479}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e5440a3f94f140aea14471b1433d78de, type: 3}
+  m_Name:
+  m_EditorClassIdentifier: Lattice.World::Lattice.World.TallowLineView
+  drift: {fileID: 73348480}
+  subjects:
+  - {fileID: 1749951313}
+  - {fileID: 131324573}
+  - {fileID: 153593045}
+  - {fileID: 2052779110}
+  enterDistance: 10
+  exitDistance: 12
+  safeViewport:
+    serializedVersion: 2
+    x: 0.055
+    y: 0.445
+    width: 0.89
+    height: 0.49
 --- !u!1001 &77035434
 PrefabInstance:
   m_ObjectHideFlags: 0

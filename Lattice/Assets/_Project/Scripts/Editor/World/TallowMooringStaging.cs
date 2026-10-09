@@ -12,6 +12,19 @@ namespace Lattice.EditorTools
         const string RootName="Port mooring service arm";
         static readonly Vector3 MarkerPosition=new Vector3(-34,1,5);
         static readonly Vector3 FittingPosition=new Vector3(-29,-2.4f,3);
+        public static void RefreshReadingView()=>BatchTools.Run(()=>
+        {
+            var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
+            ConfigureReadingView(Object.FindFirstObjectByType<TallowMarkerDrift>());
+            EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
+            Debug.Log("TALLOW_READING_VIEW_STAGING_OK");
+        });
+        static void ConfigureReadingView(TallowMarkerDrift drift)
+        {
+            var view=drift.GetComponent<TallowLineView>()??drift.gameObject.AddComponent<TallowLineView>();view.drift=drift;
+            view.subjects=new[]{drift.marker,drift.transform.Find("Free docking-line fitting"),drift.transform.Find("Port docking reel"),drift.transform.Find("Slack docking line")};
+            if(view.subjects.Any(t=>t==null))throw new System.InvalidOperationException("Missing actual Tallow story subject");
+        }
         public static void RefreshFitting()=>BatchTools.Run(()=>
         {
             var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
@@ -64,6 +77,7 @@ namespace Lattice.EditorTools
             discovery.flag="tallow.lineObserved";discovery.dialogueNode="SelaTallowLine";discovery.dialogueSpeaker="Sela";discovery.report="";discovery.situation="";
             var marker=Piece(root,"WarpBeacon","Detached anchorage marker",MarkerPosition,new Vector3(2,3,2),false);
             var drift=root.AddComponent<TallowMarkerDrift>();drift.marker=marker.transform;drift.observation=point.transform;
+            ConfigureReadingView(drift);
         }
         static Vector3[] CablePoints()
         {

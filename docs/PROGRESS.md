@@ -1,5 +1,15 @@
 # CORONACH slice progress
 
+## Tallow reading sightline and return diagnosis - October 9
+
+Both standard players now contain the Tallow dialogue-reading camera repair, bound to **827 inputs**. **173 EditMode / 450 PlayMode checks pass**, zero skips; eight camera lifecycle faults and two missing-graphics cases reject. Nine offline navigation checks pass with twelve rejecting mutations and an additional evidence-overwrite control. All original failures, the ineffective first camera candidate, failed pause fixture and null-graphics crash remain. [Evidence and inventories](validation/C8-tallow-reading.md).
+
+Twelve controlled images were individually opened. The revised six show the marker, free fitting, loop and both ships above the actual dialogue panel throughout the sampled reading views. Both 32-second frame checks report zero crops or overlay intersections, while the marker continues more than nine metres. Partial reel overlap, blockout fitting and missing reeling animation remain. **Final MAP_EYE_TEST and continuous audiovisual/physical quality stay OPEN/UNVERIFIED.** Numerical passes do not accept visual quality.
+
+Current ordinary confirmation is **UNVERIFIED**: the read-only preflight at 10:00:40 UTC found VS Code (PID 20408) in the foreground, so no competing visible replay was started. No foreground was changed. The earlier rejected mooring/player02 remains the latest ordinary evidence. The 126-step return variant adds one intermediate waypoint while preserving all 125 original steps, requests, durations and assertions. The diagnostic retains the earlier failed verdict and distinguishes the 20.84 m focused, unblocked full-brake return from later focus loss. Its speed-based time estimate is not a causal attribution.
+
+Nathan's saves, frozen a3aaad6/profile, paid exclusions, Unity ownership, exclusive replay focus and e93bf13 remain preserved. Original C1 hitches/invalid GPU evidence, Sela stepping, battle balance, ordinary Cantor release and all other unmet C1-C10 gates remain OPEN. No presentation candidate is validated. A separate generated mooring-coupler candidate costs 15 Meshy credits (live balance 2,383) and remains outside Assets, with four Blender mesh views opened and Unity/player review UNVERIFIED; see docs/art/C8-tallow-fitting.json. Complete isolated Unity intake and integrate that fitting before continuing the opening walkway/Sela-arrival drafts. Obtain the ordinary Tallow review only with exclusive focus.
+
 ## Tallow moving-refuge story and completion ownership — October 9
 
 Both standard players now contain Tallow's moving-refuge story blockout, actual slack-line observation, completion-owned Keeper acknowledgement and context-sensitive guidance, bound to **818 inputs**. **173 EditMode / 440 PlayMode checks pass**, zero skips; **33 deliberate fault cases reject**. Every original error, failed content/framing probe and visually rejected passing revision remains. [Evidence and inventories](validation/C8-tallow-mooring.md).

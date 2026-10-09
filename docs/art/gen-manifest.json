@@ -2983,5 +2983,39 @@
       "art-src/Generated/C8-CantorCollar/CantorCollarPlate.fbx",
       "art-src/Generated/C8-CantorCollar/CantorCollarPlate_base_color.png"
     ]
+  },
+  {
+    "task": "c8-tallowmooringcoupler-img3d-01a1200c-11d5-7498-b7e6-69715fd8b425",
+    "task_id": "01a1200c-11d5-7498-b7e6-69715fd8b425",
+    "prompt_id": "C8-TallowMooringCoupler",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Compact intact ivory and brass dock mooring coupler, large open shackle eye, dark attached latch, short empty cable ferrule, one connected object, no rope. Clean flat cel-shaded colour shapes; no baked illumination.",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1853796 sha256(base64)=d9637932afafd173>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 1000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler.fbx",
+    "batch": "C8-TallowFitting",
+    "created_at": "2026-10-09T09:43:45+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 1000
+    },
+    "updated_at": "2026-10-09T09:45:06+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-TallowFitting/TallowMooringCoupler.fbx",
+      "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_base_color.png"
+    ]
   }
 ]

@@ -59,7 +59,7 @@ Unity 6000.4.7f1. Run only one Unity process on this project.
 ```powershell
 powershell -ExecutionPolicy Bypass -File scripts/headless.ps1 verify
 powershell -ExecutionPolicy Bypass -File scripts/headless.ps1 tests
-powershell -ExecutionPolicy Bypass -File scripts/headless.ps1 playtests
+powershell -ExecutionPolicy Bypass -File scripts/headless.ps1 playtests -Graphics -TimeoutSec 3600
 powershell -ExecutionPolicy Bypass -File scripts/headless.ps1 builddev
 powershell -ExecutionPolicy Bypass -File scripts/headless.ps1 build
 powershell -ExecutionPolicy Bypass -File scripts/smoketest.ps1 -Dev -Scene Arena_Ground -RequirePad
