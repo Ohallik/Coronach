@@ -103,7 +103,10 @@ namespace Lattice.Combat
             }
             // Permanent flight braking capped the partner near 2 m/s, leaving her
             // a whole encounter behind and making swap pull the camera backwards.
-            actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,separation>10&&!avoidanceBrake,actor.flight&&(distance<stop+2||avoidanceBrake));
+            // An approaching release needs prompt outward thrust even when the
+            // partner is already close to the leader. Use the same motor boost;
+            // current wall/approach braking still takes priority.
+            actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,(separation>10||flightSeparation!=null&&flightSeparation.EscapingDeparture)&&!avoidanceBrake,actor.flight&&(distance<stop+2||avoidanceBrake));
             if((flanking||wallAdjusted&&fighting)&&!avoiding&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
                 GetComponent<FlightMotor>().FaceTarget(actor.target.transform.position-transform.position);
             if(fighting)

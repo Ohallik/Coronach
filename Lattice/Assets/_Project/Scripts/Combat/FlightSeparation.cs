@@ -19,8 +19,10 @@ namespace Lattice.Combat
         public SerpentSegments Body {get;}
         public SerpentSegments OtherBody {get;}
         public SerpentSegments DepartingBody {get;}
+        public bool EscapingDeparture {get;private set;}
         float nextPlan;
-        Vector3 waypoint,lastGoal;
+        Vector3 waypoint,lastGoal,forecastExit;
+        bool escapingForecast;
         bool detour,adjustedGoal;
         Health firingTarget;
         public FlightSeparation(SerpentSegments body,float hull,SerpentSegments otherBody=null)
@@ -66,16 +68,26 @@ namespace Lattice.Combat
         }
         float Clearance(Vector3 p,int count=-1)
         {float best=float.PositiveInfinity;if(count<0)count=sections;for(int i=0;i<count;i++)best=Mathf.Min(best,(p-centers[i]).magnitude-radii[i]);return best;}
-        bool Clear(Vector3 a,Vector3 b)
+        bool Clear(Vector3 a,Vector3 b,bool escapeForecast=false,bool currentOnly=false)
         {
             var d=b-a;float length=d.sqrMagnitude;
-            for(int i=0;i<sections;i++)
+            int count=currentOnly?measuredSections:sections;
+            for(int i=0;i<count;i++)
             {
                 var away=a-centers[i];float radius=radii[i];
                 // Permit an outward escape if a moving body has already
                 // entered the safety margin, never a path deeper through it.
                 if(away.sqrMagnitude<radius*radius)
-                {if(Vector3.Dot(d,away)<0)return false;continue;}
+                {
+                    // A ship can start inside several future head envelopes.
+                    // Those are alternative times, not simultaneous anatomy:
+                    // demanding outward travel from each can leave no route.
+                    // The escape starts toward an endpoint outside the union.
+                    // Ordinary routes keep the full forecast checks. Current body
+                    // margins and dodge paths retain their outward constraint.
+                    if((i<measuredSections||!escapeForecast)&&Vector3.Dot(d,away)<0)return false;
+                    continue;
+                }
                 float t=length>.0001f?Mathf.Clamp01(Vector3.Dot(centers[i]-a,d)/length):0;
                 if((a+d*t-centers[i]).sqrMagnitude<radius*radius)return false;
             }
@@ -92,17 +104,70 @@ namespace Lattice.Combat
             // Forecasts reserve a path; they are not already touching the
             // ship. Braking for those future envelopes caps an early escape
             // near 2 m/s, letting the accelerating departure catch it.
+            var result=detour||adjustedGoal?waypoint:goal;
             avoiding=detour;brake=Clearance(position,measuredSections)<3.5f;
-            var result=detour||adjustedGoal?waypoint:goal;result.y=height;return result;
+            // A nearby departing head can catch a correctly routed ship if
+            // proximity braking caps its outward thrust near 2 m/s. Let that
+            // escape accelerate only when it opens every nearby body margin.
+            // A final formation leg can still be an urgent outward escape;
+            // requiring an intermediate detour would brake it to walking speed.
+            // Inward/tangent approaches and ordinary live combat still brake.
+            EscapingDeparture=(brake||escapingForecast)&&departure!=null&&OutwardEscape(position,result);
+            if(EscapingDeparture)brake=false;
+            result.y=height;return result;
+        }
+        bool OutwardEscape(Vector3 position,Vector3 goal)
+        {
+            var direction=goal-position;if(direction.sqrMagnitude<.01f)return false;
+            for(int i=0;i<measuredSections;i++)
+            {
+                var away=position-centers[i];
+                if(away.magnitude-radii[i]<3.5f&&Vector3.Dot(direction,away)<=0)return false;
+            }
+            return true;
         }
         void Plan(Vector3 start,Vector3 goal)
         {
+            // Keep the escape point through the bounded departure. A clear
+            // forecast around the ship does not yet make crossing back toward
+            // formation safe: the long trailing body may still be passing.
+            // Removal/recovery releases this guide through its existing owner.
+            if(escapingForecast)
+            {
+                if(departure!=null&&departure.Departing)
+                {
+                    // The forecast moves and changes width while the head turns.
+                    // Keep leaving its corridor; do not stop at an old boundary
+                    // or reverse toward formation when that boundary advances.
+                    var away=forecastExit-start;
+                    if(Clearance(start)<1&&away.sqrMagnitude<9&&away.sqrMagnitude>.01f)
+                        forecastExit+=away.normalized*4;
+                    if(Clear(start,forecastExit,currentOnly:true))
+                    {waypoint=forecastExit;detour=true;adjustedGoal=false;return;}
+                }
+                escapingForecast=false;
+            }
             nodes[0]=start;nodes[1]=goal;valid[0]=true;valid[1]=Clearance(goal)>=0&&CanFire(goal);adjustedGoal=!valid[1];
             for(int i=0;i<sections;i++)for(int j=0;j<Directions;j++)
             {
                 int n=2+i*Directions+j;float angle=j*Mathf.PI*2/Directions;
                 nodes[n]=centers[i]+new Vector3(Mathf.Cos(angle),0,Mathf.Sin(angle))*(radii[i]+1.1f);
                 valid[n]=Clearance(nodes[n])>=0;
+            }
+            // Escape an approaching departure before trying to regain formation.
+            // Prefer the nearest clear exit, not the exit closest to the leader:
+            // that preference can steer ahead of the accelerating nose.
+            if(departure!=null&&Clearance(start)<1&&Clearance(start,measuredSections)<3.5f)
+            {
+                float nearest=float.PositiveInfinity;
+                for(int n=2;n<capacity;n++)
+                {
+                    float distance=(nodes[n]-start).sqrMagnitude;
+                    if(!valid[n]||distance>=nearest||!Clear(start,nodes[n],escapeForecast:true)||!OutwardEscape(start,nodes[n]))continue;
+                    nearest=distance;forecastExit=nodes[n];
+                }
+                if(!float.IsPositiveInfinity(nearest))
+                {waypoint=forecastExit;escapingForecast=true;detour=true;adjustedGoal=false;return;}
             }
             // A chosen segment's flank can lie inside another bend. Use the
             // nearest clear perimeter point instead of crossing that anatomy.

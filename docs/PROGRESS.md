@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Departure escape repair; ordinary review remains open - October 8
+
+Both standard players contain candidate07, bound to **720 inputs**. **80 affected PlayMode checks pass**, zero skips, and all **22 final deliberate fault cases reject**. Two exact recorded-pose fixtures and sixteen neighboring starts isolate proximity braking, forecast deadlock and premature regrouping. Every failed revision remains, including candidate06's 79/80 suite rejection and candidate02's visually rejected ordinary capture. [Evidence and inventories](validation/C4-release-escape.md).
+
+The new ordinary player02 is **REJECTED**: 994.543 seconds / 59,340 samples, only 5,545 focused, no Cantor resolution or release frames. Focus first drops at 52.577 seconds; the route stays in the Gullet. Three opened failure stills cannot evaluate the release. Checkpoint-start messages were attempts, not successful traversal; the earlier interim account is corrected. A new read-only foreground observer labels this distinction and passes four tests with four rejecting faults. A separate post-run read sees Frostbound in the foreground, but does not identify the failed run's owner. Leave it untouched and defer competing visible capture.
+
+Saves, frozen a3aaad6/profile, paid exclusions and e93bf13 repairs remain preserved. Quiet composition, release visual review, C1 hitches/invalid GPU evidence, Sela stepping, balance and continuous audiovisual/physical observations stay OPEN/UNVERIFIED. No presentation candidate is validated. Continue headless actual-preview composition and Tallow story, then obtain an exclusive ordinary capture when available.
+
 ## Drifter fan repair and release diagnosis - October 8
 
 Both standard players contain the per-hull fan budget and bounded evaluated-geometry recorder, with **714 bound inputs**, **73 affected fan checks**, **29 final geometry/precision checks** and **96 offline checks** passing, zero Unity skips. Original failures, eight rejecting fan faults, six geometry faults, failed float-R repair and the rejected first player remain. [Evidence and inventories](validation/C4-drifter-fan.md).
