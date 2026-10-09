@@ -117,9 +117,10 @@ namespace Lattice.Combat
                     var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
-                    {CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
+                    {packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
                     else if(ranged)
                     {
+                        packet=ProjectileProvenance.Volley(packet);
                         CombatAudio.HostileShot(transform,transform.position+Vector3.up);
                         int fan=collar!=null&&collar.VolleyAttached?1:0;
                         if(collar!=null)packet.amount*=.55f;

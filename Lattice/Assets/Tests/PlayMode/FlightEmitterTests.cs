@@ -83,10 +83,14 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest] public IEnumerator ScatterStartsAtTheSameHullEmitter()
         {
+            using(var capture=ProjectileProvenance.Begin(()=>Time.realtimeSinceStartupAsDouble))
+            {
             Place(taren,new Vector3(210,1,0));Place(sela,new Vector3(200,1,0),90,28);
             var observer=Observe(sela);sela.charge=100;Assert.IsTrue(sela.Skill(1));
             yield return new WaitForSecondsRealtime(.1f);
             Assert.AreEqual(5,observer.errors.Count);foreach(float error in observer.errors)Assert.LessOrEqual(error,.22f,"fan detached from banked hull");
+            Assert.AreEqual(5,capture.Launches);Assert.AreEqual(1,capture.Volleys,"one actual Scatter was mislabeled as five volleys");
+            }
         }
         [UnityTest] public IEnumerator NearCoverCannotBeSkippedByTheHullMuzzleOffset()
         {

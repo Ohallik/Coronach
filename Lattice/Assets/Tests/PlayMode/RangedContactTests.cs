@@ -138,6 +138,8 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest] public IEnumerator ScatterFanStartsAtThePosedEmitter()
         {
+            using(var capture=ProjectileProvenance.Begin(()=>Time.realtimeSinceStartupAsDouble))
+            {
             var observer=actor.gameObject.AddComponent<ShotBirthObserver>();
             observer.rig=actor.GetComponent<FormController>().shaped.GetComponentInChildren<Animator>();
             actor.charge=100;Assert.IsTrue(actor.Skill(1));
@@ -147,6 +149,8 @@ namespace Lattice.Tests.PlayMode
                 Assert.LessOrEqual(error,.35f,"fan projectile is detached from the posed emitter");
             Assert.Less(victim.Health.integrity,1000,"central fan ray must reach the real short target");
             TestContext.WriteLine("FAN handErrors="+string.Join(",",observer.errors));
+            Assert.AreEqual(5,capture.Launches);Assert.AreEqual(1,capture.Volleys,"one actual ground Scatter was mislabeled as five volleys");
+            }
         }
         [UnityTest] public IEnumerator LanceStopsAtSolidCoverAndPiercesUnobstructedBodiesOnce()
         {

@@ -24,7 +24,8 @@ namespace Lattice.Combat
                 go.transform.localScale=Vector3.one*.18f;p=go.AddComponent<Projectile>();
                 go.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Emission");
             }
-            p.transform.position=position;p.packet=damage;p.velocity=direction.normalized*speed;p.life=3;
+            p.transform.position=position;p.velocity=direction.normalized*speed;p.life=3;
+            damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;
             p.gameObject.SetActive(true);p.counted=true;ActiveCount++;Live.Add(p);
         }

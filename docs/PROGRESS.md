@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Projectile provenance checkpoint - October 8
+
+Both standard players now include bounded capture-only launch/volley/source identities. **116 affected PlayMode / 100 quality-tool checks pass**, zero Unity skips; six runtime faults, five offline faults and a CLI-omission control reject. Both builds bind **702 inputs**. Original missing-identity and hero-fan failures, fixture errors and strict-version checker failures remain. [Evidence and inventories](validation/C4-damage-provenance.md).
+
+The unchanged 171-step earned route passes in **843.506 s / 50,591 fully focused samples**, process exit 0, three cuts and both living heroes at TallowApproach. A complete four-hit trace identifies two close Dart contacts as **different living actors** and gives the single Drifter hit a valid release identity. The older three-hit fan, dead-source impact and post-resolution loss did not recur and remain unresolved. The 62.1-second fight is not accepted balance.
+
+Nine opened stills retain **rejected quiet-preview composition**, animal/HUD occlusion and top cropping during departure. Selected ship separation does not erase earlier overlap. Preserve all six >25 ms intervals, including two step-166 Gullet intervals and one Tallow-arrival interval. This display-off/VSync-0 recording is excluded from clean C1 acceptance. Earlier Decks hitches, invalid GPU evidence and Sela stepping remain open. Continuous audiovisual/physical quality is UNVERIFIED. Saves, e93bf13 and frozen a3aaad6 are preserved; no presentation candidate is validated. Continue the staged release-spacing mechanism probe, preview composition and Tallow story.
+
 ## Cantor preview and held-input checkpoint - October 8
 
 Both standard players contain the actual dormant Cantor preview, optional six-line story and held-movement input repair. **173 EditMode / 339 PlayMode checks pass**, zero skips, with **692 bound inputs**. The identical 171-step earned replay passes in **842.516 s / 50,532 fully focused samples**, process exit 0, three cuts and both living heroes at TallowApproach. Its post-dialogue return ends **0.50 m** from the waypoint versus **16.08 m** in the retained failed run. The first two-link failure, all failed fixtures and all 24 rejecting preview/story/input control cases remain. [Evidence and inventories](validation/C8-cantor-preview.md).

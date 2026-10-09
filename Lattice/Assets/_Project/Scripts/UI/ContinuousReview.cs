@@ -41,7 +41,7 @@ namespace Lattice.UI
         [Serializable] sealed class Report
         {
             public string route, sourceRevision, input = "continuous agent-directed virtual gamepad replay", build, unity, cpu, gpu, quality, gpuTiming = "UNAVAILABLE", vrr = "UNVERIFIED";
-            public int width, height, frameCap, vSync, samples;
+            public int width, height, frameCap, vSync, samples, damageTraceVersion;
             public double refreshHz, seconds;
             public bool captured, profiled, headroom, census, motion, valid;
             public bool frameTimingRequested, frameTimingEnabled;
@@ -568,7 +568,7 @@ namespace Lattice.UI
                 cpu = SystemInfo.processorType, gpu = SystemInfo.graphicsDeviceName, quality = QualitySettings.names[QualitySettings.GetQualityLevel()],
                 width = Screen.width, height = Screen.height, frameCap = Application.targetFrameRate, vSync = QualitySettings.vSyncCount,
                 refreshHz = Screen.currentResolution.refreshRateRatio.value, samples = samples.Count, seconds = samples.Count > 0 ? samples[^1].elapsed : 0,
-                captured = capture != null, profiled=profiled, headroom=headroom, census=census, motion=motion, failures = failures.ToArray(), valid = failures.Count == 0,
+                damageTraceVersion=damageCapture!=null?2:0, captured = capture != null, profiled=profiled, headroom=headroom, census=census, motion=motion, failures = failures.ToArray(), valid = failures.Count == 0,
                 frameTimingRequested=headroom||gpuClocks,frameTimingEnabled=frameTimingEnabled,
                 frameTimingCpuFrequency=headroom||gpuClocks?FrameTimingManager.GetCpuTimerFrequency():0,
                 loadWaitSeconds=loadWaitSeconds,settleSeconds=route.settleSeconds,interactions=interactions.ToArray() };

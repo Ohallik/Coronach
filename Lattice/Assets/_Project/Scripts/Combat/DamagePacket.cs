@@ -11,6 +11,7 @@ namespace Lattice.Combat
         public bool isCrit;
         public bool deathAttack;
         public string tag;
+        public ProjectileOrigin projectileOrigin;
     }
     public static class DamageMath
     {

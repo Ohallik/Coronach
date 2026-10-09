@@ -48,7 +48,14 @@ namespace Lattice.Combat
                 beam.Fire(origin,direction,packet,pattern==Pattern.Counter?16:18);
             }
             else if(pattern==Pattern.Fan)
-                for(int ray=-2;ray<=2;ray++)Projectile.Fire(origin,Quaternion.AngleAxis(ray*12,Vector3.up)*direction,fan[ray+2]);
+            {
+                var volley=ProjectileProvenance.Volley(packet).projectileOrigin;
+                for(int ray=-2;ray<=2;ray++)
+                {
+                    var pellet=fan[ray+2];pellet.projectileOrigin=volley;
+                    Projectile.Fire(origin,Quaternion.AngleAxis(ray*12,Vector3.up)*direction,pellet);
+                }
+            }
             else Projectile.Fire(origin,direction,packet);
         }
         void OnDisable(){pending=false;}
