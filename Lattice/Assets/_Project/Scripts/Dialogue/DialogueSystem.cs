@@ -100,6 +100,9 @@ namespace Lattice.Dialogue
         public bool StartNode(string node,string speaker,Action<bool> completed=null)
         {
             if(Preparing||Running||!Prepared)return false;
+            // Reject bad content before taking input or completion ownership.
+            if(string.IsNullOrEmpty(node)||Runner==null||Runner.YarnProject==null||
+                !Runner.YarnProject.Program.Nodes.ContainsKey(node))return false;
             // Yarn's VM stops before its presenters and completion commands drain.
             // Keep the conversation owned until those commands finish, so callers
             // cannot start a second node against the first node's cancellation state.

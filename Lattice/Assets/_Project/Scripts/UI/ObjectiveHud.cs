@@ -65,11 +65,18 @@ namespace Lattice.UI
                     }
                     else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
                     break;
-                case "TallowApproach":label="Dock at Tallow Drift";target=prompts.OfType<DockingPad>().FirstOrDefault();break;
+                case "TallowApproach":
+                    if(flags.GetBool("met.Keeper")&&!flags.GetBool("tallow.lineObserved"))
+                    {label="Inspect the port docking line";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag=="tallow.lineObserved");}
+                    else{label="Dock at Tallow Drift";target=prompts.OfType<DockingPad>().FirstOrDefault();}
+                    break;
                 case "TallowDrift":
-                    if(flags.GetBool("sliceComplete"))label="LINK SECURE · SLICE COMPLETE";
+                    if(flags.GetBool("tallow.lineObserved")&&!flags.GetBool("tallow.driftDiscussed"))
+                    {label="Tell the Keeper what you found";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(!flags.GetBool("met.Keeper")){label="Talk to the dock keeper";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
-                    else{label="Repair and save at Tallow Drift";target=prompts.OfType<RepairBay>().FirstOrDefault();}
+                    else if(!flags.GetBool("sliceComplete")){label="Repair and save at Tallow Drift";target=prompts.OfType<RepairBay>().FirstOrDefault();}
+                    else if(!flags.GetBool("tallow.lineObserved")){label="Launch to inspect the port line";target=prompts.OfType<DockingPad>().FirstOrDefault();}
+                    else label="Tallow is underway";
                     break;
                 default:label="Practice attacks, dodges and swaps";break;
             }

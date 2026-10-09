@@ -194,7 +194,7 @@ namespace Lattice.Tests.PlayMode
             StringAssert.Contains("lift",Objective());
             // The Survivor keeps the nursery thread: a third tier after the discovery.
             yield return Load("Sorrel_Ridges","Hushwell");
-            string node=null;void Heard(string n,string speaker){if(speaker=="Survivor")node=n;}
+            string node=null;void Heard(string n,string speaker,System.Action<bool> completed){if(speaker=="Survivor")node=n;}
             Npc.TalkRequested+=Heard;
             try{GameServices.Current.Flags.SetBool("warpkey",true);Object.FindObjectsByType<Npc>(FindObjectsSortMode.None).Single(n=>n.speaker=="Survivor").Interact();}
             finally{Npc.TalkRequested-=Heard;}

@@ -1,5 +1,13 @@
 # CORONACH slice progress
 
+## Tallow moving-refuge story and completion ownership — October 9
+
+Both standard players now contain Tallow's moving-refuge story blockout, actual slack-line observation, completion-owned Keeper acknowledgement and context-sensitive guidance, bound to **818 inputs**. **173 EditMode / 440 PlayMode checks pass**, zero skips; **33 deliberate fault cases reject**. Every original error, failed content/framing probe and visually rejected passing revision remains. [Evidence and inventories](validation/C8-tallow-mooring.md).
+
+Twenty-four controlled images were individually opened. Original views cropped the detached marker, then hid the free fitting behind either ship. Real marker/end placement repairs those controlled defects; a crossed angular loop was then rejected and replaced with a smooth open loop. The retained blockout still uses a generated crate as its fitting and has partial reel/attached-line overlap. **Changed-map final MAP_EYE_TEST stays OPEN.** No reeling animation is implemented. Eight additional ordinary images reveal the marker moving behind the dialogue panel and out of view during reading: **story sightline REJECTED**.
+
+The 125-step ordinary route preserves every field of the original 18 Tallow checkpoints. Its first launch is rejected before player startup for two missing scene assertions; those are added without changing compiled player bytes. The actual player02 is **REJECTED**: **225.317 seconds / 13,099 samples, 10,975 focused**, a missed return waypoint before focus loss, then an incomplete Keeper return. All failures and 133 intervals above 25ms remain. The line discovery is saved; the Keeper acknowledgement is absent. Continuous audiovisual/physical quality remains **UNVERIFIED**. Saves, frozen a3aaad6/profile, paid exclusions and e93bf13 remain preserved. No presentation candidate is validated and every unmet C1-C10 gate stays OPEN. Next reproduce and repair dialogue-duration marker framing, then use a waypoint-insertion route variant with exclusive focus; keep the opening drafts outside Assets until this follow-up is handled.
+
 ## Actual-preview composition and suspended encounter entry — October 8
 
 Both standard players now contain the closer actual Cantor preview, quieter coil surfaces and disabled-encounter entry guard, bound to **750 inputs**. **92 affected PlayMode checks pass**, zero skips; ten composition faults, three entry/regroup faults and two missing-graphics faults reject. All original failures and two visually rejected surface revisions remain. [Evidence and inventories](validation/C8-cantor-composition.md).

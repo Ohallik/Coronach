@@ -1,0 +1,1047 @@
+{
+  "name": "chapter-11-tallow-moving-refuge",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Tallow moving-refuge extension; exact source/player/input manifests accompany capture",
+  "steps": [
+    {
+      "name": "read title before Continue",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load actual Tallow approach",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "world",
+      "expectedFlag": "bossdown.Cantor",
+      "expectedCharacter": "Taren",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "approach refuge dock",
+      "seconds": 15,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4.2
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.65,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "dock at Tallow Drift",
+      "seconds": 3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "release docking input",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "walk through pressure cabin",
+      "seconds": 6,
+      "expectedScene": "TallowDrift",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "tolerance": 0.65
+    },
+    {
+      "name": "stand beside the Keeper",
+      "seconds": 3,
+      "expectedScene": "TallowDrift",
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.15
+    },
+    {
+      "name": "greet the Keeper",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read refuge welcome",
+      "seconds": 5,
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance refuge welcome",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "release Keeper port-line request input",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper port-line request line 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper port-line request line 2",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper port-line request line 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper port-line request line 2",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper port-line request line 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper port-line request line 3",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper port-line request line 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper port-line request line 3",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper port-line request line 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper port-line request line 4",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper port-line request line 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper port-line request line 4",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper port-line request line 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper port-line request line 5",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper port-line request line 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper port-line request line 5",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world"
+    },
+    {
+      "name": "Keeper conversation complete",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "met.Keeper"
+    },
+    {
+      "name": "reach the refuge repair console",
+      "seconds": 5,
+      "expectedScene": "TallowDrift",
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.3
+    },
+    {
+      "name": "repair save and rest",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift",
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "sliceComplete"
+    },
+    {
+      "name": "completion saved at refuge",
+      "seconds": 2,
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "sliceComplete"
+    },
+    {
+      "name": "return from repair to public aisle",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "leftTrigger": 0,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "reach pressure-lift launch",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "leftTrigger": 0,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "launch to inspect the requested port line",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "release port-line launch input",
+      "seconds": 0.5,
+      "buttons": [],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "clear dock along port approach",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 1,
+        "z": -8
+      },
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "reach port mooring shoulder",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -6
+      },
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "approach the actual slack-line prompt",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -2
+      },
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach",
+      "tolerance": 0.5
+    },
+    {
+      "name": "Taren watches the detached marker",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedCharacter": "Taren"
+    },
+    {
+      "name": "swap to Sela at the port line",
+      "seconds": 0.2,
+      "buttons": [
+        "North"
+      ],
+      "expectedCharacter": "Sela",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release port-line swap",
+      "seconds": 0.8,
+      "buttons": [],
+      "expectedCharacter": "Sela",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "bring Sela to the actual inspection point after swap",
+      "seconds": 7,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -2
+      },
+      "leftTrigger": 1,
+      "tolerance": 0.5,
+      "expectedScene": "TallowApproach",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "Sela watches the detached marker",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedCharacter": "Sela"
+    },
+    {
+      "name": "inspect the slack line through ordinary confirm",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release free-line observation input",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal free-line observation line 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read free-line observation line 1",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance free-line observation line 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release free-line observation line 1",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal free-line observation line 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read free-line observation line 2",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance free-line observation line 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release free-line observation line 2",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal free-line observation line 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read free-line observation line 3",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance free-line observation line 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release free-line observation line 3",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal free-line observation line 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read free-line observation line 4",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance free-line observation line 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release free-line observation line 4",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal free-line observation line 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read free-line observation line 5",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance free-line observation line 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release free-line observation line 5",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal free-line observation line 6",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read free-line observation line 6",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance free-line observation line 6",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release free-line observation line 6",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowApproach",
+      "expectedUi": "world",
+      "expectedFlag": "tallow.lineObserved"
+    },
+    {
+      "name": "clear line before returning to the dock",
+      "seconds": 5,
+      "navigate": true,
+      "point": {
+        "x": -26,
+        "y": 1,
+        "z": -8
+      },
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "return along clear dock approach",
+      "seconds": 10,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -8
+      },
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "approach refuge pad after inspection",
+      "seconds": 4,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4.2
+      },
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "redock to report the moving refuge",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "release report docking input",
+      "seconds": 0.5,
+      "buttons": [],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "return through pressure cabin",
+      "seconds": 6,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "leftTrigger": 0,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "stand beside Keeper with actual observation",
+      "seconds": 3,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "leftTrigger": 0,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "tell Keeper about the free line",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release Keeper moving-refuge return input",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 1",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 1",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 2",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 2",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 2",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 3",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 3",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 3",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 4",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 4",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 4",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 5",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 5",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 5",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 6",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 6",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 6",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 6",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 7",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 7",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 7",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 7",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 8",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 8",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 8",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 8",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper moving-refuge return line 9",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper moving-refuge return line 9",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper moving-refuge return line 9",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper moving-refuge return line 9",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "tallow.driftDiscussed"
+    },
+    {
+      "name": "keep the earlier repair completion",
+      "seconds": 1,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "sliceComplete"
+    },
+    {
+      "name": "ask Keeper again after acknowledgement",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release Keeper acknowledged repeat input",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "reveal Keeper acknowledged repeat line 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read Keeper acknowledged repeat line 1",
+      "seconds": 4,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "advance Keeper acknowledged repeat line 1",
+      "seconds": 0.18,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Keeper acknowledged repeat line 1",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "tallow.driftDiscussed"
+    }
+  ]
+}

@@ -10,7 +10,11 @@ namespace Lattice.UI
     {
         void OnEnable(){Npc.TalkRequested+=Talk;DiscoveryPoint.DialogueRequested+=Discover;Lattice.World.Bench.Requested+=Bench;Lattice.World.Shop.Requested+=Shop;DialogueSystem.UiRequested+=Request;DialogueSystem.MemberJoined+=Join;}
         void OnDisable(){Npc.TalkRequested-=Talk;DiscoveryPoint.DialogueRequested-=Discover;Lattice.World.Bench.Requested-=Bench;Lattice.World.Shop.Requested-=Shop;DialogueSystem.UiRequested-=Request;DialogueSystem.MemberJoined-=Join;}
-        void Talk(string node,string speaker)=>DialogueSystem.Current.StartNode(node,speaker);
+        void Talk(string node,string speaker,System.Action<bool> completed)
+        {
+            var dialogue=DialogueSystem.Current;
+            if(dialogue==null||!dialogue.StartNode(node,speaker,completed))completed?.Invoke(false);
+        }
         void Discover(DiscoveryPoint point)
         {
             var dialogue=DialogueSystem.Current;

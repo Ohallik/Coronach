@@ -48,7 +48,7 @@ namespace Lattice.EditorTools
             var hatch=WorldBuilder.Piece("DeckDoorway",new Vector3(0,1.6f,LiftFrontZ),new Vector3(3,3.2f,.5f),"Rock",false);
             StationSurfaces.ClosedHatch(hatch,0);
             WorldBuilder.Dock("Dock — Tallow Drift",new Vector3(0,1,DockZ),"TallowDrift","Arrival",WorldBuilder.FlightDockRange);
-            WorldBuilder.Label("TALLOW DRIFT",new Vector3(0,5,12));WorldBuilder.Save(approach,"TallowApproach");
+            WorldBuilder.Label("TALLOW DRIFT",new Vector3(0,5,12));TallowMooringStaging.ConfigureApproach();WorldBuilder.Save(approach,"TallowApproach");
         }
         static void BuildInterior()
         {
@@ -72,7 +72,7 @@ namespace Lattice.EditorTools
                 Prop("DeckConsole",side*7.5f,-10,1.5f);
             }
             Door(0,-7,4.4f);
-            var keeper=WorldBuilder.Npc("Keeper",new Vector3(0,0,4));keeper.postFlag="sliceComplete";
+            var keeper=WorldBuilder.Npc("Keeper",new Vector3(0,0,4));keeper.postFlag="sliceComplete";TallowMooringStaging.ConfigureKeeper(keeper);
             Prop("DeckConsole",-7,5,1.5f);
             Prop("DeckBench",-10,-1,1);Prop("DeckBench",-10,4,1);
             var repair=Prop("DeckConsole",6,4,1.5f).AddComponent<RepairBay>();

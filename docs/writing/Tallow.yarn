@@ -1,12 +1,43 @@
 title: KeeperFirst
 ---
-Keeper: You came through the singing dark? Dock your vanes. We have light, repair, and somewhere to be still. #emotion:Tender
+Keeper: You came through the singing dark. Dock your vanes. The repair cradle is free, and there's room to rest. #emotion:Tender
+Taren: Anything you need looked at? #emotion:Neutral
+Keeper: Our port docking line keeps going slack. Reel it snug for me before you settle in? #emotion:Neutral
+Sela: What does it tie to? #emotion:Neutral
+Keeper: The old anchorage, beyond the port marker. You can reach the reel from your flight form. #emotion:Neutral
 ===
 title: KeeperRepeat
 ---
-Keeper: The repair cradle is yours. Save your route before you rest. #emotion:Neutral
+Keeper: The cradle's yours. When you're ready, take a look at that slack line off the port side. #emotion:Tender
 ===
 title: KeeperPost
 ---
-Keeper: Your route is safe in the beacon. Welcome to Tallow Drift. #emotion:Happy
+Keeper: Your route is safe in the beacon. Rest as long as you need. #emotion:Happy
+Keeper: One small job, when you're ready: the port docking line won't stay tight. Would you check the reel? #emotion:Neutral
+===
+title: SelaTallowLine
+---
+Taren: Here's the end. Fitting and all. #emotion:Neutral
+Sela: No anchor? #emotion:Neutral
+Taren: Nothing to tighten it against. #emotion:Neutral
+Sela: Watch the marker. It's falling behind us. #emotion:Neutral
+Taren: I don't hear engines. #emotion:Neutral
+Sela: The passage is carrying the whole refuge. We're moving with it. #emotion:Neutral
+===
+title: KeeperDriftReturn
+---
+Keeper: Were you out by the port line? #emotion:Neutral
+Taren: Its free end is beside the reel. Tallow's moving. #emotion:Neutral
+Keeper: We're underway? Oh, look at that. The rooms, the cradle, all of it came with us. #emotion:Happy
+Sela: I can track the marker. We need a chart that moves with the passage. #emotion:Neutral
+Taren: Who agreed to go? #emotion:Neutral
+Keeper: Most of them are still asleep. I hadn't thought we'd actually leave. #emotion:Neutral
+Sela: Then they need to hear it from you. It's their home too. #emotion:Neutral
+Keeper: Will you stand with me when I tell them? #emotion:Tender
+Taren: Yes. Start with the cabins. #emotion:Neutral
+===
+
+title: KeeperDriftRepeat
+---
+Keeper: I'll start at the cabins. They should hear where their home is going before I ask them to stay aboard. #emotion:Tender
 ===
