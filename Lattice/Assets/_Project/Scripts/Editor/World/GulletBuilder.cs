@@ -241,7 +241,7 @@ namespace Lattice.EditorTools
                 string path="Assets/_Project/Resources/WorldMaterials/gullet-membrane-"+tints[i].Item1+".mat";
                 var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(mat==null){mat=new Material(source);AssetDatabase.CreateAsset(mat,path);}
                 mat.CopyPropertiesFromMaterial(source);mat.SetColor("_BaseColor",tints[i].Item2);mat.SetColor("_EmissionColor",tints[i].Item3);
-                if(tints[i].Item1=="coil"){mat.EnableKeyword("_VCOLOR_ON");mat.SetFloat("_VColor",1);mat.SetColor("_EmissionColor",new Color(.18f,.42f,.8f));}
+                if(tints[i].Item1=="coil")GulletCoilArt.ConfigureMembrane(mat);
                 EditorUtility.SetDirty(mat);result[i]=mat;
             }
             return result;

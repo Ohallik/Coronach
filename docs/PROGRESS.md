@@ -1,5 +1,15 @@
 # CORONACH slice progress
 
+## Actual-preview composition and suspended encounter entry — October 8
+
+Both standard players now contain the closer actual Cantor preview, quieter coil surfaces and disabled-encounter entry guard, bound to **750 inputs**. **92 affected PlayMode checks pass**, zero skips; ten composition faults, three entry/regroup faults and two missing-graphics faults reject. All original failures and two visually rejected surface revisions remain. [Evidence and inventories](validation/C8-cantor-composition.md).
+
+The original disabled-component probe starts a second live Cantor: Unity still delivers trigger callbacks to disabled behaviours. Automatic entry now checks `isActiveAndEnabled`; explicit Begin remains unchanged. The new physics-entry check proves disabling suspends entry and reenabling resumes it. Preserve the earlier 52/53 and 5/6 regroup rejections and all older fixture results as executed; they were not all isolated from automatic spawning.
+
+Fourteen controlled images were individually opened. The retained six views show a larger whole animal, separate ships, intact tissue detail and less dominant moorings. Broad repeated floor and rectangular anchor arrangement remain weak; **quiet composition and final MAP_EYE_TEST stay OPEN**. These controlled renders contain no HUD overlay or ordinary traversal. No competing visible replay was launched; current ordinary combat/release and continuous audiovisual/physical review remain **UNVERIFIED**.
+
+Saves, frozen a3aaad6/profile, paid exclusions and e93bf13 remain preserved. C1 hitches/invalid GPU evidence, Sela stepping, battle balance and all unmet C1–C10 gates stay OPEN. No presentation candidate is validated. Continue Tallow's moving-refuge story and completion-owned acknowledgement while awaiting an exclusive ordinary capture.
+
 ## Departure escape repair; ordinary review remains open - October 8
 
 Both standard players contain candidate07, bound to **720 inputs**. **80 affected PlayMode checks pass**, zero skips, and all **22 final deliberate fault cases reject**. Two exact recorded-pose fixtures and sixteen neighboring starts isolate proximity braking, forecast deadlock and premature regrouping. Every failed revision remains, including candidate06's 79/80 suite rejection and candidate02's visually rejected ordinary capture. [Evidence and inventories](validation/C4-release-escape.md).

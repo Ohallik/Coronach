@@ -40,7 +40,9 @@ namespace Lattice.World
         void OnTriggerStay(Collider other)=>TryEnter(other);
         void TryEnter(Collider other)
         {
-            if(Started||!other.TryGetComponent<Health>(out var h)||!h.friendly)return;
+            // Unity still sends trigger callbacks to disabled behaviours.
+            // Suspending an encounter must also suspend automatic entry.
+            if(!isActiveAndEnabled||Started||!other.TryGetComponent<Health>(out var h)||!h.friendly)return;
             var party=PartyController.Current;
             // An open gate is an entrance. Wait until every body has crossed it
             // before sealing; a downed companion outside still needs rescuing.

@@ -15,6 +15,28 @@ using UnityEngine.TestTools;
 
 namespace Lattice.Tests.PlayMode
 {
+    [DefaultExecutionOrder(2002)]
+    public sealed class GulletRegroupTrace:MonoBehaviour
+    {
+        CombatActor actor,leader;PartnerBrain brain;IMotor original;RecordedReleaseMotor motor;float began;
+        readonly List<string> rows=new(){"age,x,z,vx,vz,leaderX,leaderZ,distance,inputX,inputZ,boost,brake,wallAdjusted,wallX,wallZ,goalX,goalZ,state,guide"};
+        static object Field(object owner,string name)=>owner?.GetType().GetField(name,BindingFlags.Instance|BindingFlags.NonPublic).GetValue(owner);
+        public void Bind(CombatActor who,CombatActor target)
+        {actor=who;leader=target;brain=who.GetComponent<PartnerBrain>();original=who.motor;motor=new RecordedReleaseMotor(original,brain);who.motor=motor;began=Time.unscaledTime;}
+        void LateUpdate()
+        {
+            if(actor==null||leader==null)return;var p=actor.transform.position;var v=motor.Velocity;var l=leader.transform.position;
+            var walls=Field(brain,"flightObstacles");var w=walls!=null?(Vector3)Field(walls,"waypoint"):Vector3.zero;
+            var g=walls!=null?(Vector3)Field(walls,"lastGoal"):Vector3.zero;
+            rows.Add(System.FormattableString.Invariant($"{Time.unscaledTime-began:R},{p.x:R},{p.z:R},{v.x:R},{v.z:R},{l.x:R},{l.z:R},{Vector3.Distance(p,l):R},{motor.input.x:R},{motor.input.y:R},{motor.boost},{motor.brake},{motor.wallAdjusted},{w.x:R},{w.z:R},{g.x:R},{g.z:R},{actor.State},{Field(brain,"flightSeparation")!=null}"));
+        }
+        public void Write(string label)
+        {
+            var path=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/quality/C8/cantor-composition/regroup-"+label+"-"+System.Guid.NewGuid().ToString("N")+".csv"));
+            File.WriteAllLines(path,rows);Debug.Log("GULLET_REGROUP_TRACE "+path);
+        }
+        void OnDestroy(){if(actor!=null&&ReferenceEquals(actor.motor,motor))actor.motor=original;}
+    }
     public sealed class GulletReleaseSpacingTests
     {
         int wallContacts;
@@ -61,6 +83,7 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(.5f);
             Place(leader,origin+new Vector3(6,0,-2));Place(partner,origin+new Vector3(-6,0,12));
             var collar=enemy.GetComponent<CantorCollar>();leader.target=collar.Links[0];leader.TargetLocked=true;
+            Debug.Log("GULLET_CONTROLLED_ENEMIES "+string.Join(";",Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>e.definition.id=="Cantor").Select(e=>$"id={e.GetInstanceID()} passive={e.Passive} position={e.transform.position}")));
             partner.GetComponent<PartnerBrain>().enabled=true;yield return new WaitForSecondsRealtime(.2f);
             var anatomy=enemy.GetComponentsInChildren<Renderer>().Where(r=>r.GetComponentInParent<Health>()==enemy.Health).ToArray();Assert.GreaterOrEqual(anatomy.Length,8);
             var packet=new DamagePacket{source=leader.Health,amount=100000,type=DamageType.Pulse};
@@ -89,10 +112,42 @@ namespace Lattice.Tests.PlayMode
             probe.Check("Gullet-"+companion+"-"+x+"-"+bearing);
             Assert.IsTrue(enemy==null);Assert.Greater(samples,140);Assert.GreaterOrEqual(worst,.25f,"companion crosses the actual Gullet departure");
             Assert.Less(heightError,.1f);Assert.AreEqual(0,wallContacts,"release guidance routes the companion into real tissue");
+            var regroup=partner.gameObject.AddComponent<GulletRegroupTrace>();regroup.Bind(partner,leader);
             yield return new WaitForSecondsRealtime(3);
+            regroup.Write(companion+"-"+x+"-"+bearing);
             Assert.Less(Vector3.Distance(partner.transform.position,leader.transform.position),6,"Gullet departure leaves companion stranded");
             Assert.AreEqual(0,wallContacts);
         }
+        [UnityTest] public IEnumerator DisabledEncounterDoesNotReactivateOnPhysicsEntry()
+        {
+            var encounter=Object.FindObjectsByType<EncounterVolume>(FindObjectsSortMode.None).Single(e=>e.encounterId=="Gullet_Cantor");
+            Assert.IsFalse(encounter.enabled);Assert.IsFalse(encounter.Started);
+            foreach(var hero in PartyController.Current.members)Place(hero,encounter.transform.position+Vector3.right*(hero.character=="Sela"?4:-4));
+            yield return new WaitForSecondsRealtime(.3f);
+            var animals=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>e.definition.id=="Cantor").ToArray();
+            Debug.Log($"DISABLED_ENCOUNTER_ENTRY enabled={encounter.enabled} started={encounter.Started} animals={animals.Length} live={animals.Count(e=>e.enabled&&!e.Passive)}");
+            Assert.IsFalse(encounter.Started,"disabled encounter starts from a physics callback");
+            Assert.IsEmpty(animals,"disabled entry spawns a second uncontrolled animal");
+            encounter.enabled=true;yield return new WaitForSecondsRealtime(.3f);
+            Assert.IsTrue(encounter.Started,"re-enabled entry does not resume for a hero already inside");
+            animals=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>e.definition.id=="Cantor").ToArray();
+            Assert.AreEqual(1,animals.Length);Assert.IsTrue(animals[0].enabled);Assert.IsFalse(animals[0].Passive);
+        }
+        IEnumerator RegroupFromRecordedExit(string companion)
+        {
+            var party=PartyController.Current;if(party.Active.character==companion)Assert.IsTrue(party.Swap());
+            var leader=party.Active;var partner=party.members.First(h=>h!=leader);
+            foreach(var hero in party.members){hero.GetComponent<PlayerBrain>().AutoPilot=true;hero.GetComponent<PartnerBrain>().enabled=false;}
+            Place(leader,new Vector3(26,1,818));Place(partner,new Vector3(1.491014f,1,836.876831f));
+            leader.target=null;leader.TargetLocked=false;
+            var trace=partner.gameObject.AddComponent<GulletRegroupTrace>();trace.Bind(partner,leader);
+            partner.GetComponent<PartnerBrain>().enabled=true;
+            yield return new WaitForSecondsRealtime(3);trace.Write(companion+"-recorded-exit");
+            Assert.Less(Vector3.Distance(partner.transform.position,leader.transform.position),6,"recorded exit regroup leaves companion stranded");
+            Assert.AreEqual(0,wallContacts);Assert.Less(Mathf.Abs(partner.transform.position.y-1),.1f);
+        }
+        [UnityTest] public IEnumerator SelaRegroupsFromTheRecordedReverseExit()=>RegroupFromRecordedExit("Sela");
+        [UnityTest] public IEnumerator TarenRegroupsFromTheRecordedSelaReverseExit()=>RegroupFromRecordedExit("Taren");
         [UnityTest] public IEnumerator SelaClearsTheEastForwardDeparture()=>Depart("Sela",20,0);
         [UnityTest] public IEnumerator SelaClearsTheEastReverseDeparture()=>Depart("Sela",20,180);
         [UnityTest] public IEnumerator TarenClearsTheWestRightDeparture()=>Depart("Taren",-20,90);

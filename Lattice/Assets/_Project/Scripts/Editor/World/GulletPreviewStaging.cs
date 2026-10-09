@@ -21,6 +21,7 @@ namespace Lattice.EditorTools
         });
         public static void Configure(EncounterVolume encounter)
         {
+            GulletCantorComposition.Configure(encounter);
             var point=GameObject.Find("Cantor preview pocket");
             if(point==null)point=new GameObject("Cantor preview pocket");
             point.transform.position=new Vector3(23,1,768);encounter.previewPoint=point.transform;encounter.previewRadius=3.5f;

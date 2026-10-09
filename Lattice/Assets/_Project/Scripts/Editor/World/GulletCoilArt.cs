@@ -1,3 +1,4 @@
+using System.Linq;
 using Lattice.Data;
 using UnityEditor;
 using UnityEngine;
@@ -39,6 +40,46 @@ namespace Lattice.EditorTools
             return Color.Lerp(Color.white, tissue, Blend(z));
         }
 
+        // Material-only refresh: retain every socket, mesh, collider and placement.
+        public static void RefreshSurfaces()=>BatchTools.Run(()=>
+        {
+            var scene=UnityEditor.SceneManagement.EditorSceneManager.OpenScene("Assets/_Project/Scenes/Gullet_Tunnel.unity");
+            ConfigureMembrane(AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/gullet-membrane-coil.mat"));
+            var anchors=Object.FindObjectsByType<Transform>(FindObjectsSortMode.None).Where(t=>t.name=="Collar anchor clamp").ToArray();
+            if(anchors.Length!=4)throw new System.InvalidOperationException("Expected four existing moorings");
+            foreach(var anchor in anchors)ConfigureMooring(anchor.gameObject);
+            UnityEditor.SceneManagement.EditorSceneManager.MarkSceneDirty(scene);
+            UnityEditor.SceneManagement.EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
+            Debug.Log("GULLET_COIL_SURFACES_OK");
+        });
+
+        public static void ConfigureMembrane(Material material)
+        {
+            material.EnableKeyword("_VCOLOR_ON");material.SetFloat("_VColor",1);
+            material.SetFloat("_BaseMapStrength",.98f);
+            material.SetColor("_BaseColor",new Color(.65f,.60f,.84f));
+            material.SetColor("_EmissionColor",new Color(.12f,.28f,.52f));
+            EditorUtility.SetDirty(material);
+        }
+
+        static void ConfigureMooring(GameObject mooring)
+        {
+            const string path="Assets/_Project/Resources/WorldMaterials/gullet-coil-mooring.mat";
+            var source=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Art/Generated/Models/CoilMooring/CoilMooring_Toon.mat");
+            var material=AssetDatabase.LoadAssetAtPath<Material>(path);
+            if(material==null){material=new Material(source);AssetDatabase.CreateAsset(material,path);}
+            material.CopyPropertiesFromMaterial(source);
+            material.SetColor("_BaseColor",new Color(.48f,.54f,.65f));
+            material.SetColor("_EmissionColor",new Color(.06f,.25f,.3f));
+            material.SetColor("_RimColor",new Color(.08f,.08f,.1f));
+            EditorUtility.SetDirty(material);
+            foreach(var renderer in mooring.GetComponentsInChildren<Renderer>())
+            {
+                renderer.sharedMaterial=material;
+                if(PrefabUtility.IsPartOfPrefabInstance(renderer))PrefabUtility.RecordPrefabInstancePropertyModifications(renderer);
+            }
+        }
+
         public static void Moorings()
         {
             if (AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/CoilMooring.prefab") == null)
@@ -48,6 +89,7 @@ namespace Lattice.EditorTools
                 float x = side * 18, z = 805 + end * 20, bed = Height(x, z);
                 var mooring = WorldBuilder.Piece("CoilMooring", new Vector3(x, bed + 1.9f - .06f, z), new Vector3(9, 3.8f, 10));
                 mooring.name = "Collar anchor clamp";
+                ConfigureMooring(mooring);
                 mooring.transform.rotation = Quaternion.LookRotation(new Vector3(-x, 0, 805 - z));
             }
         }

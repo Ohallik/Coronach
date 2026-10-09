@@ -19,6 +19,9 @@ param(
     # "Lattice.Tests.PlayMode.Phase14Act6Tests"). A filtered run rides the same
     # save shield as the full suite; the FULL suite remains the shipping gate.
     [string]$TestFilter,
+    # Background graphics for controlled render tests; still uses save shielding
+    # and strict XML adjudication. Not ordinary player or performance evidence.
+    [switch]$Graphics,
     # 2026-08-21 (the 27-hour bugfix pass): the unity-batchmode-ilpp-hang law,
     # automated. If the -logFile goes silent for this many minutes while Unity is
     # still alive, the run is declared stalled: the Unity tree we launched is
@@ -278,7 +281,9 @@ $HadSaves = $ShieldPlaytestSaves -and (Test-Path -LiteralPath $SaveDir -PathType
 $SaveStashed = $false
 $SafeToClearPlaytestSaves = $false
 
-$commonArgs = @("-batchmode", "-nographics", "-projectPath", $ProjectPath, "-logFile", $LogFile)
+if($Graphics -and $Mode -notin @("tests","playtests")){throw "Graphics is available only for controlled tests; use exec.ps1 for editor rendering"}
+$commonArgs = @("-batchmode", "-projectPath", $ProjectPath, "-logFile", $LogFile)
+if(-not $Graphics){$commonArgs += "-nographics"}
 $TestResultsFile = $null
 
 switch ($Mode) {
