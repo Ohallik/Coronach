@@ -41,7 +41,7 @@ namespace Lattice.UI
         [Serializable] sealed class Report
         {
             public string route, sourceRevision, input = "continuous agent-directed virtual gamepad replay", build, unity, cpu, gpu, quality, gpuTiming = "UNAVAILABLE", vrr = "UNVERIFIED";
-            public int width, height, frameCap, vSync, samples, damageTraceVersion;
+            public int width, height, frameCap, vSync, samples, damageTraceVersion, releaseTraceVersion;
             public double refreshHz, seconds;
             public bool captured, profiled, headroom, census, motion, valid;
             public bool frameTimingRequested, frameTimingEnabled;
@@ -151,6 +151,7 @@ namespace Lattice.UI
         NativeGpuClock nativeGpu;
         GroundPoseCapture groundPose;
         QualityDamageCapture damageCapture;
+        ReleaseGeometryCapture releaseGeometry;
         double lastScreenshot=-1000;
         Vector3 measuredMotion;
         bool arrows, profiled, tracing, headroom;
@@ -244,6 +245,7 @@ namespace Lattice.UI
                 capture = Camera.main.gameObject.AddComponent<QualityCapture>();
                 capture.Begin(folder, DevArgs.Value("-quality-ffmpeg"));
                 damageCapture=new QualityDamageCapture(folder,()=>clock.Elapsed.TotalSeconds,()=>stepIndex);
+                releaseGeometry=new ReleaseGeometryCapture(folder);
             }
             nativeGpu?.Begin();
             if(DevArgs.Has("-quality-ground-pose"))groundPose=new GroundPoseCapture(folder);
@@ -269,6 +271,7 @@ namespace Lattice.UI
             }
             recording = false; held = default;
             damageCapture?.Finish();
+            releaseGeometry?.Finish();
             StopProfile();
             segmentedTrace?.Finish();
             GameHud.MeasureCosts=false;
@@ -444,6 +447,7 @@ namespace Lattice.UI
             var partner = party != null && party.members.Length > 1 ? party.members[1-party.index] : null;
             damageCapture?.Watch(actor!=null?actor.Health:null);damageCapture?.Watch(partner!=null?partner.Health:null);
             groundPose?.Record(samples.Count,Time.frameCount,now,stepIndex,actor,partner);
+            releaseGeometry?.Record(samples.Count,Time.frameCount,now,stepIndex,actor,partner,Camera.main);
             FrameTiming timing = default;
             bool hasTiming = false;
             if (headroom || gpuClocks)
@@ -559,16 +563,17 @@ namespace Lattice.UI
             if (capture != null && !string.IsNullOrEmpty(capture.Failure)) failures.Add(capture.Failure);
             if (nativeGpu != null && !string.IsNullOrEmpty(nativeGpu.Failure)) failures.Add(nativeGpu.Failure);
             if (groundPose != null && !string.IsNullOrEmpty(groundPose.Failure)) failures.Add(groundPose.Failure);
+            if (releaseGeometry != null && !string.IsNullOrEmpty(releaseGeometry.Failure)) failures.Add(releaseGeometry.Failure);
             using (var writer = new StreamWriter(Path.Combine(folder, "frames.csv")))
             {
                 writer.WriteLine("elapsed,ms,step,scene,hero,form,state,clip,animationTime,x,y,z,cameraX,cameraY,cameraZ,forwardX,forwardZ,pelvisYaw,chestYaw,reportedSpeed,integrity,focus,paused,blocked,gameDelta,gcCollections,gcBytes,mainThreadNs,renderThreadNs,batches,memoryBytes,dialogueLines,prompt,speaker,partnerHealth,partnerState,hudNs,hudBytes,audioVoices,sceneObjects,objects,activeCpuNs,activeRenderNs,gpuWorkNs,capWaitNs,ftmTimestamp,ftmGpuMs,ftmCpuMs,ui");
-                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{s.player.x:F5},{s.player.y:F5},{s.player.z:F5},{s.camera.x:F5},{s.camera.y:F5},{s.camera.z:F5},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait},{s.ftmTimestamp},{s.ftmGpuMs:F6},{s.ftmCpuMs:F6},{s.ui}"));
+                foreach (var s in samples) writer.WriteLine(FormattableString.Invariant($"{s.elapsed:F6},{s.ms:F4},{s.step},{s.scene},{s.hero},{s.form},{s.state},{s.clip},{s.animationTime:F4},{(double)s.player.x:R},{(double)s.player.y:R},{(double)s.player.z:R},{(double)s.camera.x:R},{(double)s.camera.y:R},{(double)s.camera.z:R},{s.forward.x:F5},{s.forward.z:F5},{s.pelvisYaw:F3},{s.chestYaw:F3},{s.reportedSpeed:F4},{s.health:F1},{s.focus},{s.paused},{s.blocked},{s.gameDelta:F6},{s.collections},{s.allocation},{s.mainThread},{s.renderThread},{s.batches},{s.memory},{s.lines},\"{s.prompt.Replace("\"", "\"\"")}\",{s.speaker},{s.partnerHealth:F1},{s.partnerState},{s.hudNs},{s.hudBytes},{s.audioVoices},{s.sceneObjects},{s.objects},{s.activeCpu},{s.activeRender},{s.gpuWork},{s.capWait},{s.ftmTimestamp},{s.ftmGpuMs:F6},{s.ftmCpuMs:F6},{s.ui}"));
             }
             var report = new Report { route = route.name, sourceRevision = route.sourceRevision, build = Debug.isDebugBuild ? "Development" : "Release", unity = Application.unityVersion,
                 cpu = SystemInfo.processorType, gpu = SystemInfo.graphicsDeviceName, quality = QualitySettings.names[QualitySettings.GetQualityLevel()],
                 width = Screen.width, height = Screen.height, frameCap = Application.targetFrameRate, vSync = QualitySettings.vSyncCount,
                 refreshHz = Screen.currentResolution.refreshRateRatio.value, samples = samples.Count, seconds = samples.Count > 0 ? samples[^1].elapsed : 0,
-                damageTraceVersion=damageCapture!=null?2:0, captured = capture != null, profiled=profiled, headroom=headroom, census=census, motion=motion, failures = failures.ToArray(), valid = failures.Count == 0,
+                releaseTraceVersion=releaseGeometry!=null?1:0, damageTraceVersion=damageCapture!=null?2:0, captured = capture != null, profiled=profiled, headroom=headroom, census=census, motion=motion, failures = failures.ToArray(), valid = failures.Count == 0,
                 frameTimingRequested=headroom||gpuClocks,frameTimingEnabled=frameTimingEnabled,
                 frameTimingCpuFrequency=headroom||gpuClocks?FrameTimingManager.GetCpuTimerFrequency():0,
                 loadWaitSeconds=loadWaitSeconds,settleSeconds=route.settleSeconds,interactions=interactions.ToArray() };
@@ -606,6 +611,7 @@ namespace Lattice.UI
         void OnDestroy()
         {
             damageCapture?.Dispose();
+            releaseGeometry?.Dispose();
             groundPose?.Dispose();
             StopProfile();
             segmentedTrace?.Stop();

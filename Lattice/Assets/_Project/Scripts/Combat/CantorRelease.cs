@@ -13,6 +13,7 @@ namespace Lattice.Combat
         public const float Duration=3.6f;
         public bool KeepInEncounterFrame {get;private set;}
         public bool Departing {get;private set;}
+        public float Elapsed=>age;
         Transform head;
         Transform[] parts;
         Vector3[] localPositions,worldPositions;

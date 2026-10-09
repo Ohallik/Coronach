@@ -1,0 +1,9 @@
+# OS GPU trace and audio-input capability attempts — October 8
+
+**C1/C2/C5 remain OPEN.** These attempts add no performance acceptance, continuous-motion observation, listening or physical validation. Their failures do not stop independent production. [Raw outcomes and artifact hashes](C1-C5-capability-attempts.json).
+
+Windows Performance Recorder 10.0.26100 reports no active recording before a bounded GPU-profile start attempt. `wpr -start GPU -filemode -recordtempto …` fails with exit **3310899217 / 0xc5585011**, stating that it could not enable the policy to profile system performance. The requested profile is `GPU.Verbose.File`. The following status again reports no recording. No GPU ETL was obtained, no elevation was requested and no system-policy workaround was applied. This is an observed capability failure, rather than an assumption based on an unelevated shell. It does not invalidate existing Unity/native-query diagnostics or explain the original Decks hitches or impossible Tallow GPU durations. Those failures remain in [the reconciliation](C1-oct7-reconciliation.md) and [independent-query report](C1-native-gpu.md).
+
+The available `functions.exec` audio helper was also tried with an actual five-second, 192-kbps MP3 excerpt from the retained release-spacing capture, at 30–35 seconds. Its explicit response was “audio content omitted because you do not support audio input.” **No audio was heard.** The 121,580-byte capability clip and its source WAV remain; the source was not changed. A valid capture and objective loudness/peak audit still cannot accept the mix. This supplements the earlier unavailable review methods recorded in [bounded audio capture](C5-bounded-capture.md).
+
+Continue useful diagnosis and production while these observations remain UNVERIFIED. Do not repeat unchanged attempts merely to seek a pass, weaken the original timing/geometry assertions, or publish a presentation candidate as validated.

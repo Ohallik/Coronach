@@ -319,6 +319,7 @@ from capture_audio_analyze import include as include_bounded_audio
 from native_gpu_analyze import include as include_native_gpu
 from ground_pose_analyze import include as include_ground_pose
 from quality_damage import include as include_damage
+from release_geometry_analyze import include as include_release_geometry
 
 if __name__=='__main__':
     p=argparse.ArgumentParser();p.add_argument('folder',type=Path);modes=p.add_mutually_exclusive_group();modes.add_argument('--performance',action='store_true');modes.add_argument('--headroom',action='store_true');args=p.parse_args()
@@ -342,6 +343,9 @@ if __name__=='__main__':
     include_native_gpu(result,args.folder)
     include_ground_pose(result,args.folder)
     include_damage(result,args.folder,run.get('damageTraceVersion',0))
+    include_release_geometry(result,args.folder,run.get('releaseTraceVersion',0),frames,run)
+    if (args.performance or args.headroom) and (run.get('releaseTraceVersion') or (args.folder/'release-geometry.json').exists()):
+        result['failures'].append('evaluated release geometry overhead disqualifies clean timing/headroom');result['valid']=False
     (args.folder/'analysis.json').write_text(json.dumps(result,indent=2)+'\n');plot(frames,args.folder/'frame-times.svg')
     print(json.dumps(result,indent=2))
     raise SystemExit(0 if result['valid'] else 1)

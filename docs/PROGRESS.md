@@ -1,5 +1,15 @@
 # CORONACH slice progress
 
+## Drifter fan repair and release diagnosis - October 8
+
+Both standard players contain the per-hull fan budget and bounded evaluated-geometry recorder, with **714 bound inputs**, **73 affected fan checks**, **29 final geometry/precision checks** and **96 offline checks** passing, zero Unity skips. Original failures, eight rejecting fan faults, six geometry faults, failed float-R repair and the rejected first player remain. [Evidence and inventories](validation/C4-drifter-fan.md).
+
+The corrected unchanged earned route passes in **842.125 s / 50,515 fully focused samples**, process exit 0, three cuts and both living heroes at TallowApproach. The seven-hit trace shows one early fan hit and harmful later independent volleys; no Sela/wall/post-resolution damage is recorded. Older unexplained damage remains. The 60.7-second fight is not accepted balance.
+
+The complete 217-frame release trace and eleven opened stills **REJECT Sela/nose overlap**: minimum conservative clearance -1.334 m and 63 projected-bounds overlap samples. Sela is moving, not rolling, during the departure. Diagnose her slow escape using the recorded pose and actual braking decisions. Quiet composition also remains rejected. The first capture stays analyzer-rejected for CSV coordinate precision; its nine opened images and all failures remain. No tolerance was weakened.
+
+Displays report On/On, VSync 1. Retain all five >25 ms intervals, including 25.876 ms at Tallow arrival; recording is excluded from clean C1 acceptance. [Actual WPR/audio capability failures](validation/C1-C5-capability-attempts.md) leave the original Decks hitches, invalid GPU evidence and audition unresolved. Continuous audiovisual/physical quality and Sela stepping remain UNVERIFIED. Saves, e93bf13 and frozen a3aaad6 are preserved; all unmet gates remain OPEN and no presentation candidate is validated. Continue release escape, preview composition and Tallow story.
+
 ## Cantor departure guidance checkpoint - October 8
 
 Both standard players contain bounded guidance through the actual departure. **56 affected PlayMode checks pass**, followed by a **16-case suite with post-presentation clearance**, zero skips; all **13 final lifecycle/geometry controls and nine added late-sampling controls reject**. Both builds bind **706 inputs**. Original overlaps, stale-reference/compiler/phase-cache failures and both failed Gullet braking probes remain. [Evidence and inventories](validation/C4-release-spacing.md).

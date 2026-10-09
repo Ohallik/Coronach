@@ -1,0 +1,86 @@
+{
+  "date": "2026-10-08",
+  "scope": "Two bounded capability attempts, not new game-performance or sound-quality acceptance.",
+  "wpr": {
+    "startedUtc": "2026-10-09T02:38:41.318473+00:00",
+    "scope": "Bounded OS GPU trace capability probe; no Unity replay or C1 timing acceptance.",
+    "before": {
+      "arguments": [
+        "-status"
+      ],
+      "exit": 0,
+      "stdout": "\nMicrosoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\n\nWPR is not recording\n",
+      "stderr": ""
+    },
+    "start": {
+      "arguments": [
+        "-start",
+        "GPU",
+        "-filemode",
+        "-recordtempto",
+        "C:\\Users\\natem\\Projects\\SpaceRPG\\Builds\\quality\\C1\\wpr-capability"
+      ],
+      "exit": 3310899217,
+      "stdout": "",
+      "stderr": "\n\tFailed to enable the policy to profile system performance.\n\n\n\tProfile Id: GPU.Verbose.File\n\t\n\tError code: 0xc5585011\n\t\n\tFailed to enable the policy to profile system performance.\n\n\t\n\t\n"
+    },
+    "after": {
+      "arguments": [
+        "-status"
+      ],
+      "exit": 0,
+      "stdout": "\nMicrosoft Windows Performance Recorder Version 10.0.26100 (CoreSystem)\nCopyright (c) 2024 Microsoft Corporation. All rights reserved.\n\nWPR is not recording\n",
+      "stderr": ""
+    }
+  },
+  "audio": {
+    "date": "2026-10-08",
+    "method": "functions.exec audio helper; audio/mpeg content from a five-second 192 kbps capability clip of C4/release-spacing/player01/mix.wav, 30\u201335 seconds",
+    "clip": "Builds/quality/C5/audio-helper-probe/drifter-30-35s.mp3",
+    "clipBytes": 121580,
+    "toolOutcome": "audio content omitted because you do not support audio input",
+    "audioActuallyHeard": false,
+    "audition": "UNVERIFIED",
+    "scope": "Capability attempt only. No sound-quality or full-route audition claim. Original lossless capture is unchanged."
+  },
+  "artifacts": [
+    {
+      "path": "Builds/quality/C1/wpr-capability/attempt01.json",
+      "bytes": 1188,
+      "sha256": "428a314b476bcba224af687b556841fcd22570cda19a9529318194c84dd92de7"
+    },
+    {
+      "path": "Builds/quality/C1/wpr-capability/probe.py",
+      "bytes": 971,
+      "sha256": "2c949e53e22006c01485972f2743232c69b78a83ff69a042ab9de5ba93ac6a14"
+    },
+    {
+      "path": "Builds/quality/C1/wpr-capability/probe.ps1",
+      "bytes": 288,
+      "sha256": "306adf38839df82b5d9eb540e807ccd7da01e54f5ae0e1a5382d3b48e68c7558"
+    },
+    {
+      "path": "Builds/quality/C5/audio-helper-probe/attempt.json",
+      "bytes": 548,
+      "sha256": "05a1d8047b337ed44e5c01fa9a68ad018375bf1911d09dd34bb0884ad646c141"
+    },
+    {
+      "path": "Builds/quality/C5/audio-helper-probe/drifter-30-35s.mp3",
+      "bytes": 121580,
+      "sha256": "d41faa60b580cbe317edba62c8976dba8b50fbf145bd42501987deba59e6990a"
+    },
+    {
+      "path": "Builds/quality/C4/release-spacing/player01/mix.wav",
+      "bytes": 323305516,
+      "sha256": "bbbe33b88fc5a47ad5e30556c8d2ec8de63221543d9669e9406ce5801c0974dc"
+    }
+  ],
+  "status": {
+    "C1": "OPEN",
+    "C2": "OPEN",
+    "C5": "OPEN",
+    "continuousMotion": "UNVERIFIED",
+    "audioAudition": "UNVERIFIED",
+    "physicalPresentation": "UNVERIFIED"
+  }
+}

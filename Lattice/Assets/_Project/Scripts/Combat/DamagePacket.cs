@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Lattice.Data;
 using UnityEngine;
 namespace Lattice.Combat
@@ -12,6 +13,9 @@ namespace Lattice.Combat
         public bool deathAttack;
         public string tag;
         public ProjectileOrigin projectileOrigin;
+        // Shared only by one hostile spread. Released shots retain this
+        // bounded hit budget independently of capture or source lifetime.
+        public HashSet<Health> hullVolleyHits;
     }
     public static class DamageMath
     {
