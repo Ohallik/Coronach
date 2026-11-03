@@ -12,6 +12,49 @@ namespace Lattice.EditorTools
         const string RootName="Port mooring service arm";
         static readonly Vector3 MarkerPosition=new Vector3(-34,1,5);
         static readonly Vector3 FittingPosition=new Vector3(-29,-2.4f,3);
+        public static void RefreshHardware()=>BatchTools.Run(()=>
+        {
+            var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
+            ConfigureHardware(GameObject.Find(RootName));
+            EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
+            Debug.Log("TALLOW_MOORING_HARDWARE_OK");
+        });
+        static void ConfigureHardware(GameObject root)
+        {
+            var prefab=AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/TallowMooringCoupler.prefab");
+            if(prefab==null)throw new System.InvalidOperationException("Missing generated Tallow mooring coupler");
+            var fitting=root.transform.Find("Free docking-line fitting");
+            foreach(Transform child in fitting.Cast<Transform>().ToArray())Object.DestroyImmediate(child.gameObject);
+            var body=(GameObject)PrefabUtility.InstantiatePrefab(prefab,fitting);body.transform.localRotation=Quaternion.Euler(-20,0,0);
+            // The opened intake views identify the ferrule at the model's -X
+            // end. Seat the actual rim at the existing cable endpoint, keeping
+            // the uniform intake scale and the wrapper's stable scene identity.
+            var points=ModelGeometry.Points(body);float end=points.Min(p=>p.x);
+            var rim=points.Where(p=>p.x<end+.02f).ToArray();
+            if(rim.Length<6)throw new System.InvalidOperationException("Coupler cable rim is not measurable");
+            var socket=new Vector3(end,rim.Average(p=>p.y),rim.Average(p=>p.z));
+            body.transform.position+=fitting.position-socket;
+            var reel=root.transform.Find("Port docking reel");reel.position=new Vector3(-24,-2.6f,8);
+            var platform=root.transform.Find("Mooring reel platform");platform.position=new Vector3(-24,-3.5f,8);
+            platform.localScale=new Vector3(1,1,1.1f);
+            var beams=root.transform.Cast<Transform>().Where(t=>t.name=="Mooring cantilever").ToArray();
+            if(beams.Length!=2)throw new System.InvalidOperationException("Mooring platform needs both existing cantilevers");
+            for(int i=0;i<beams.Length;i++)
+            {
+                // Tiled wall groups keep a zero wrapper origin. Translate the
+                // evaluated geometry to the support position, not its wrapper.
+                float actualZ=ModelGeometry.BoundsOf(beams[i].gameObject).center.z;
+                beams[i].position+=Vector3.forward*(7.2f+1.6f*i-actualZ);
+            }
+            var line=root.transform.Find("Slack docking line").GetComponent<LineRenderer>();
+            var cablePoints=CablePoints();line.positionCount=cablePoints.Length;line.SetPositions(cablePoints);
+            var machinery=ModelGeometry.BoundsOf(reel.gameObject);var deck=ModelGeometry.BoundsOf(platform.gameObject);
+            if(beams.Any(b=>!ModelGeometry.BoundsOf(b.gameObject).Intersects(deck)))throw new System.InvalidOperationException("A cantilever does not reach the platform");
+            var attached=line.transform.TransformPoint(line.GetPosition(0));
+            Debug.Log($"TALLOW_HARDWARE socketRimVertices={rim.Length} coupler={ModelGeometry.BoundsOf(body)} reel={machinery} platform={deck} cableStart={attached}");
+            if(!machinery.Contains(attached))throw new System.InvalidOperationException("Docking line no longer meets the reel");
+            ConfigureReadingView(root.GetComponent<TallowMarkerDrift>());
+        }
         public static void RefreshReadingView()=>BatchTools.Run(()=>
         {
             var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
@@ -77,12 +120,13 @@ namespace Lattice.EditorTools
             discovery.flag="tallow.lineObserved";discovery.dialogueNode="SelaTallowLine";discovery.dialogueSpeaker="Sela";discovery.report="";discovery.situation="";
             var marker=Piece(root,"WarpBeacon","Detached anchorage marker",MarkerPosition,new Vector3(2,3,2),false);
             var drift=root.AddComponent<TallowMarkerDrift>();drift.marker=marker.transform;drift.observation=point.transform;
+            ConfigureHardware(root);
             ConfigureReadingView(drift);
         }
         static Vector3[] CablePoints()
         {
             // One open, sagging bight. Smooth the authored path rather than drawing a knot.
-            var knots=new[]{new Vector3(-24,-2.2f,5),new Vector3(-26,-2.8f,3.5f),new Vector3(-27,-3.8f,1),new Vector3(-30,-3.6f,-.5f),new Vector3(-31,-2.9f,1.5f),FittingPosition};
+            var knots=new[]{new Vector3(-24,-2.2f,6.5f),new Vector3(-29,-2.8f,5.5f),new Vector3(-31.5f,-3.8f,3.5f),new Vector3(-31,-3.6f,-.5f),new Vector3(-29.5f,-2.9f,0),FittingPosition};
             const int samples=12;var points=new Vector3[(knots.Length-1)*samples+1];
             for(int segment=0;segment<knots.Length-1;segment++)for(int step=0;step<samples;step++)
             {

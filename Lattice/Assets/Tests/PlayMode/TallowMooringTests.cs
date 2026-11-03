@@ -76,6 +76,19 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(Vector3.Distance(after,drift.marker.position),.001f,"marker moves through pause");GameTime.Paused=false;
             yield return new WaitForSecondsRealtime(.4f);Assert.Less(drift.marker.position.z,after.z-.08f);
         }
+        [UnityTest] public IEnumerator BothCantileversActuallyReachTheReelPlatform()
+        {
+            var platform=Bounds(GameObject.Find("Mooring reel platform").transform);
+            var beams=drift.transform.Cast<Transform>().Where(t=>t.name=="Mooring cantilever").ToArray();Assert.AreEqual(2,beams.Length);
+            foreach(var beam in beams)
+            {
+                var support=Bounds(beam);
+                Assert.IsTrue(support.Intersects(platform),"a cantilever is detached from the platform: "+support+" versus "+platform);
+                Assert.Greater(Mathf.Min(support.max.x,platform.max.x)-Mathf.Max(support.min.x,platform.min.x),.5f,"support barely touches the platform end");
+                Assert.LessOrEqual(support.min.z,platform.max.z-.2f);Assert.GreaterOrEqual(support.max.z,platform.min.z+.2f);
+            }
+            yield return null;
+        }
         [UnityTest] public IEnumerator MarkerTravelRemainsBoundedWithoutReturningTowardTheRefuge()
         {
             drift.maxTravel=.4f;AtLine();yield return new WaitForSecondsRealtime(2);

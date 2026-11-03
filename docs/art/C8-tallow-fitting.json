@@ -1,6 +1,6 @@
 {
   "id": "C8-TallowMooringCoupler",
-  "status": "BLENDER_MESH_VIEWS_REVIEWED_OUTSIDE_ASSETS; UNITY_AND_PLAYER_VISUAL_REVIEW_UNVERIFIED",
+  "status": "INTEGRATED_AT_TALLOW; CONTROLLED_RENDERS_OPENED; ORDINARY_PLAYER_REVIEW_UNVERIFIED",
   "purpose": "Replace the generated crate stand-in at Tallow's loose line with an intact dock coupler; existing cable, marker motion and story outcomes must remain.",
   "generator": "built-in image_gen reference; guarded Meshy T2",
   "reference": "art-src/Generated/C8-TallowFitting/refs/TallowMooringCoupler.png",
@@ -21,7 +21,7 @@
     "scope": "One Tallow loose-line mooring coupler; generated reference opened and inspected; remains outside Assets until isolated intake. Earlier 365-credit balance difference remains unattributed."
   },
   "meshReview": "All four Blender views individually opened. The intact ivory eye, dark attached latch/axle, brass collar and hollow cable-entry ferrule remain connected in the rendered views. No visible floating fragments justify a trim. Mildly uneven facets and baked highlights remain; Unity shader, gameplay scale and final scene appearance are UNVERIFIED.",
-  "intake": "UNINSTALLED. Reading-repair players are being built. No Assets or intake manifest entry has been added.",
+  "intake": "Installed 2026-10-09 through isolated intake as Assets/_Project/Art/Generated/Models/TallowMooringCoupler and Prefabs/Environment/TallowMooringCoupler.prefab. TallowMooringStaging.RefreshHardware seats the ferrule rim (111 measured rim vertices) at the cable endpoint and replaces the generated-crate stand-in. 2026-11-03: 11/11 Tallow mooring/reel/view PlayMode checks pass with graphics; coupler close-up and gameplay views opened.",
   "sources": [
     {
       "path": "art-src/Generated/C8-TallowFitting/budget-after.json",

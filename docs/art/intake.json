@@ -1680,5 +1680,18 @@
     "size": 0.85,
     "yaw": 90,
     "clips": []
+  },
+  {
+    "id": "TallowMooringCoupler",
+    "model": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_clean.fbx",
+    "albedo": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_base_color.png",
+    "emission": "art-src/Generated/C8-TallowFitting/TallowMooringCoupler_emission.png",
+    "emissionColor": "#000000",
+    "kind": "static",
+    "fit": "length",
+    "folder": "Environment",
+    "size": 0.6,
+    "yaw": 0,
+    "clips": []
   }
 ]

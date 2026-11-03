@@ -9,12 +9,21 @@ namespace Lattice.Core
     {
         public Material material;
         Pass pass;
+        // The pass writes per-frame grade/grid values. Write them to a private
+        // instance so play sessions never dirty the shared Hd2d.mat asset.
+        Material source,runtime;
         public override void Create(){pass=new Pass();pass.renderPassEvent=RenderPassEvent.AfterRenderingPostProcessing;}
         public override void AddRenderPasses(ScriptableRenderer renderer,ref RenderingData data)
         {
             if(material==null||data.cameraData.cameraType!=CameraType.Game)return;
-            pass.material=material;renderer.EnqueuePass(pass);
+            if(runtime==null||source!=material)
+            {
+                CoreUtils.Destroy(runtime);source=material;
+                runtime=new Material(material){name=material.name+" (runtime)",hideFlags=HideFlags.HideAndDontSave};
+            }
+            pass.material=runtime;renderer.EnqueuePass(pass);
         }
+        protected override void Dispose(bool disposing){CoreUtils.Destroy(runtime);runtime=null;source=null;}
         sealed class Pass:ScriptableRenderPass
         {
             public Pass(){requiresIntermediateTexture=true;}
