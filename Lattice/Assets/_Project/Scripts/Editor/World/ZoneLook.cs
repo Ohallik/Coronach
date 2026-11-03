@@ -25,6 +25,7 @@ namespace Lattice.EditorTools
             public Color splitShadows=new Color(.5f,.5f,.5f),splitHighlights=new Color(.5f,.5f,.5f);public float splitBalance;
             public float bloomThreshold=1f,bloomIntensity=.5f,bloomScatter=.65f;public Color bloomTint=Color.white;
             public float vignette=.2f;
+            public bool practicals;
         }
 
         static Color C(float r,float g,float b)=>new Color(r,g,b,1);
@@ -45,11 +46,11 @@ namespace Lattice.EditorTools
                 contrast=10,saturation=0,splitShadows=C(.42f,.47f,.6f),splitHighlights=C(.58f,.53f,.46f),
                 bloomThreshold=1f,bloomIntensity=.45f,vignette=.2f},
             // Station deck: neutral hull light, gradient fill, glowing trim.
-            ["Hub_Decks"]=new Spec{sun=C(1f,.98f,.95f),sunIntensity=1.2f,shadowStrength=.8f,
+            ["Hub_Decks"]=new Spec{practicals=true,sun=C(1f,.98f,.95f),sunIntensity=1.2f,shadowStrength=.8f,
                 sky=C(.4f,.45f,.56f),equator=C(.34f,.34f,.37f),ground=C(.2f,.17f,.15f),
                 contrast=10,saturation=-4,splitShadows=Neutral,splitHighlights=Neutral,
                 bloomThreshold=.9f,bloomIntensity=.65f,vignette=.2f},
-            ["TallowDrift"]=new Spec{sun=C(1f,.97f,.92f),sunIntensity=1.2f,shadowStrength=.8f,
+            ["TallowDrift"]=new Spec{practicals=true,sun=C(1f,.97f,.92f),sunIntensity=1.2f,shadowStrength=.8f,
                 sky=C(.42f,.45f,.54f),equator=C(.36f,.34f,.34f),ground=C(.2f,.16f,.14f),
                 contrast=10,saturation=0,splitShadows=Neutral,splitHighlights=Neutral,
                 bloomThreshold=.9f,bloomIntensity=.65f,vignette=.2f},
@@ -99,6 +100,29 @@ namespace Lattice.EditorTools
             var bloom=Get<Bloom>(profile);bloom.threshold.Override(s.bloomThreshold);bloom.intensity.Override(s.bloomIntensity);bloom.scatter.Override(s.bloomScatter);bloom.tint.Override(s.bloomTint);
             var vignette=Get<Vignette>(profile);vignette.intensity.Override(s.vignette);vignette.smoothness.Override(.45f);
             foreach(var dof in profile.components.OfType<DepthOfField>())dof.active=false; // D060: never blur.
+            Practicals(s.practicals);
+        }
+
+        const string PracticalRoot="Practical lights";
+        /// <summary>People and services stand in warm pools of light. Rebuilt idempotently; no shadows or colliders.</summary>
+        static void Practicals(bool enabled)
+        {
+            foreach(var old in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t!=null&&t.parent==null&&t.name==PracticalRoot).ToArray())
+                Object.DestroyImmediate(old.gameObject);
+            if(!enabled)return;
+            var root=new GameObject(PracticalRoot){isStatic=true};
+            var anchors=Object.FindObjectsByType<Lattice.Core.InteractionPrompt>(FindObjectsSortMode.None)
+                .Where(p=>p is Lattice.World.Npc||p is Lattice.World.Shop||p is Lattice.World.Bench||p is Lattice.World.RepairBay)
+                .Select(p=>p.transform.position).OrderBy(p=>p.x).ThenBy(p=>p.z).ToList();
+            var placed=new System.Collections.Generic.List<Vector3>();
+            foreach(var at in anchors)
+            {
+                if(placed.Any(p=>Vector3.Distance(p,at)<3.5f))continue;placed.Add(at);
+                var go=new GameObject("Practical "+placed.Count);go.transform.SetParent(root.transform,false);go.transform.position=at+Vector3.up*1.3f; // the toon ramp bands distance attenuation only: a pool needs a low source
+                var light=go.AddComponent<Light>();light.type=LightType.Point;light.color=new Color(1f,.8f,.58f);
+                light.range=6f;light.intensity=1.8f;light.shadows=LightShadows.None;light.renderMode=LightRenderMode.Auto;
+            }
+            Debug.Log("ZONE_LOOK_PRACTICALS "+placed.Count);
         }
 
         static T Get<T>(VolumeProfile profile) where T:VolumeComponent
