@@ -53,3 +53,7 @@ The historical accepted refuge/dock layout remains. A new port reel/platform and
 ## Dialogue-reading follow-up - October 9
 
 The exterior story camera now keeps the actual moving assembly and both craft above dialogue during the controlled reading interval. No existing geometry or interior is changed. Twelve before/after images were opened; partial reel overlap, blockout fitting and missing reeling animation remain. Current ordinary confirmation is **UNVERIFIED**: the read-only preflight at 10:00:40 UTC found VS Code (PID 20408) in the foreground, so no competing visible replay was started. No foreground was changed. The earlier rejected mooring/player02 remains the latest ordinary evidence. Final MAP_EYE_TEST and continuous audiovisual/physical review remain OPEN/UNVERIFIED. [Evidence](../validation/C8-tallow-reading.md).
+
+## Furnished refuge - November 3
+
+`RoomDressing` (D191) adds a mess table and waiting rug/planter to port, help-desk shelving, the Keeper's bench and lamp, starboard shelving, life-support equipment behind the closed hatches, bunks in both rest cabins and a runner from the lift to the Keeper. All 18 Tallow route checkpoints' corridors stay clear (the Keeper body route's diagonal displaced two planned growing beds). Opened before/after stills (`dress-before-01`, `dress-after-02`): the room reads as an occupied refuge rather than an empty deck. Final in-player MAP_EYE_TEST OPEN.

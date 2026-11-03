@@ -16,11 +16,11 @@ namespace Lattice.EditorTools
     {
         static bool blockout;
         static readonly List<Rect> platforms=new();
-        static readonly Vector2[] Haul={new(0,-18),new(0,8),new(0,24),new(9,39),new(4,58),new(-8,75),new(-5,94),new(9,111),new(16,129),new(7,145),new(0,159),new(-5,177),new(0,199)};
-        static readonly Vector2[] Seam={new(-5,27),new(-24,35),new(-36,49),new(-39,68),new(-28,88),new(-24,107),new(-13,124),new(7,145)};
-        static readonly Vector2[] Service={new(9,39),new(29,46),new(39,64),new(31,83),new(35,103),new(31,123),new(16,129)};
-        static readonly Vector2[] Encounters={new(-33,46),new(-39,69),new(-25,90),new(-21,112),new(9,45),new(-7,75),new(-4,101),new(15,129),new(29,49),new(36,73),new(34,104),new(29,126)};
-        static readonly Vector2[] Mines={new(-38,36),new(-31,106),new(14,34),new(3,109),new(39,39),new(43,99)};
+        internal static readonly Vector2[] Haul={new(0,-18),new(0,8),new(0,24),new(9,39),new(4,58),new(-8,75),new(-5,94),new(9,111),new(16,129),new(7,145),new(0,159),new(-5,177),new(0,199)};
+        internal static readonly Vector2[] Seam={new(-5,27),new(-24,35),new(-36,49),new(-39,68),new(-28,88),new(-24,107),new(-13,124),new(7,145)};
+        internal static readonly Vector2[] Service={new(9,39),new(29,46),new(39,64),new(31,83),new(35,103),new(31,123),new(16,129)};
+        internal static readonly Vector2[] Encounters={new(-33,46),new(-39,69),new(-25,90),new(-21,112),new(9,45),new(-7,75),new(-4,101),new(15,129),new(29,49),new(36,73),new(34,104),new(29,126)};
+        internal static readonly Vector2[] Mines={new(-38,36),new(-31,106),new(14,34),new(3,109),new(39,39),new(43,99)};
         public static void Blockout()=>BatchTools.Run(()=>{BuildZone(true);AssetDatabase.SaveAssets();Debug.Log("SORREL_BLOCKOUT_OK");});
         public static void Final()=>BatchTools.Run(()=>{BuildZone(false);AssetDatabase.SaveAssets();Debug.Log("SORREL_REDESIGN_OK");});
         public static void BuildZone(bool grey=false)
@@ -172,7 +172,7 @@ namespace Lattice.EditorTools
             {Vector2 a=path[i-1],d=path[i]-a;float t=Mathf.Clamp01(Vector2.Dot(p-a,d)/d.sqrMagnitude);distance=Mathf.Min(distance,Vector2.Distance(p,a+d*t));}
             return distance;
         }
-        static float Height(Vector2 p)
+        internal static float Height(Vector2 p)
         {
             // Flat graded corridors and encounter clearings are cut from a
             // continuous basin rather than laid as three rectangular strips.

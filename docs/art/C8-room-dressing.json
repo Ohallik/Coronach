@@ -1,0 +1,95 @@
+{
+  "id": "C8-RoomDressing",
+  "status": "INTEGRATED_DECKS_TALLOW_SORREL; EDITOR_STILLS_OPENED; ORDINARY_PLAYER_REVIEW_PENDING",
+  "purpose": "Furnish the Decks and Tallow rooms for their purposes and give Sorrel outpost life, strata and ground variation (C8 / MAP_EYE_TEST).",
+  "generator": "Meshy gpt-image-2 image-to-image design boards (station kit, Sorrel kit) styled from the P41 Hushwell board and P3 DeckConsole/OutpostHab references; tools/isolate_board.py; Meshy T2 image-to-3D at 4000 triangles; Meshy text-to-image runner and rug textures.",
+  "pieces": [
+    "DressMarketStall",
+    "DressDeckLamp",
+    "DressShelfRack",
+    "DressGalleyTable",
+    "DressWorkbench",
+    "DressOfficeDesk",
+    "DressPlanter",
+    "DressCargoPallet",
+    "DressCabinBunk",
+    "DressSpoilHeap",
+    "DressStrataOutcrop",
+    "DressStrataLedge",
+    "DressFuelTank",
+    "DressCommsMast",
+    "DressSolarArray",
+    "DressWaterBarrels",
+    "DressRover",
+    "DressOreHopper"
+  ],
+  "credits": {
+    "boards": 24,
+    "models": 270,
+    "textures": 18,
+    "total": 312
+  },
+  "creditBalanceBefore": 3769,
+  "creditBalanceAfter": 3481,
+  "budget": {
+    "ledgerSpentOrReservedBefore": 1279,
+    "ledgerAfter": 1591,
+    "cumulativeCap": 4952
+  },
+  "referenceReview": "Both boards opened: nine clean, separated, style-matched objects each. All 18 isolated cells opened.",
+  "meshReview": "All 18 Blender four-view sheets opened (art-src/Generated/C8-RoomDressing/views). Every model is complete and connected from all sides; no trims needed. The bunk's length runs along local z and the rover's along local x; placement uses measured sizes.",
+  "textureReview": "Runner opened and made to tile vertically (seam row difference 7.4 vs 6.2 interior). Rug background removal punched holes in cream areas; cropped to the rug and composited opaque over cream.",
+  "intake": "GenIntake.BuildPrefix -intake-prefix Dress staged 18 prefabs under Prefabs/Environment. Decal textures staged by RoomDressing to Art/Generated/Dressing.",
+  "sources": [
+    {
+      "path": "art-src/Generated/C8-RoomDressing/refs/station-kit-board.png",
+      "bytes": 2063129,
+      "sha256": "024eb27acde9819c0acf6036ec9c6495a5665103bee53c0bc1bb1c867bf5eb04"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/refs/sorrel-kit-board.png",
+      "bytes": 2069211,
+      "sha256": "a7821b5c050afb00ea06f7447eeebf254bcd451436a8308d4332490ea43daecd"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/refs/runner-mat.png",
+      "bytes": 2175061,
+      "sha256": "b590fa1ea4299a1f86738b247e1aa0f25fe5bc1115b37578cdf04c59a62ddb98"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/refs/rug.png",
+      "bytes": 3203385,
+      "sha256": "dce48da91e4f6e3dbd6e5d9e9c3cdf981802884751da91300e31c0f5f558283d"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/budget-before.json",
+      "bytes": 355,
+      "sha256": "c65ee6febac59168e4c39523862c5db6881e6567b7b57a036da8b3b9241cb49f"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/budget-after.json",
+      "bytes": 107,
+      "sha256": "c32604d6734e20a9e7301075c258392219b6a55a0d46a923599a3844ad69ce80"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/generate01.log",
+      "bytes": 9715,
+      "sha256": "c24d2d0cbe0c9325d5cc532ed28361c38bc1c5358dddc6269fba81df252c74ab"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/preprocess.ps1",
+      "bytes": 1237,
+      "sha256": "4ef54330dbc5c4eb35c34153485bd30e2b4a517600b951bceaa6068dc8709bd5"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/DressRunner_base_color.png",
+      "bytes": 1949129,
+      "sha256": "ea6806c19eb782d040f94c7193a6ee82b2dfe0ec7c74259b59633d0175649508"
+    },
+    {
+      "path": "art-src/Generated/C8-RoomDressing/DressRug_base_color.png",
+      "bytes": 2254039,
+      "sha256": "7f1e22a0819d487598090b4968cc67a2ace7e61647e17a50b3ba3d83c1f6bbd6"
+    }
+  ]
+}

@@ -116,3 +116,7 @@ coverage is complete; these are not erased by the route result.
 ## Landscape dressing (October 3)
 
 Low dry olive grass occupies sheltered ridge/outpost margins, with the haul, seam, service and encounter lanes kept clear. Macro ground color varies under the fixed camera. The bore scaffold now stands over a real narrow terrain cut; its approach stays level and the compact cut retains support under the frame. Navigation was rebaked. Public generated fallbacks and optional licensed local art share the same placement/collision. [Validation](../validation/C8-landscape-surfaces.md); the final service and bore walks pass with full focus, including the transition into Hushwell.
+
+## Outpost life, strata and ground - November 3
+
+`RoomDressing` (D191): hab equipment (tank, comms mast, solar, barrels, parked rover), receiving/stores/repair-pad stock beside the chapter tour path, an ore hopper fed from the excavation face, generated strata on far slopes, spoil near ore and the excavation, low verges and haul-road bollard lamps; terrain vertex colour (packed haul road, clay/dust patches, darker slopes) and strata limited to steep faces. Opened before/after stills (`dress-before-01`, `dress-after-05`): the outpost reads as a working camp and the excavation cliffs as layered rock. The wide basin floors between paths still look plain because most verge pieces fall inside protected route corridors. Final in-player MAP_EYE_TEST OPEN.

@@ -52,6 +52,9 @@ Shader "Lattice/Toon"
         _StrataTintB("Strata Weather Tint", Color) = (1.12, 1.08, 1.02, 1)
         // x = band frequency (1/world-u), y = band strength, z = crack scale (1/world-u), w = crack strength
         _StrataParams("Strata Params", Vector) = (0.55, 0.5, 0.35, 0.6)
+        // x/y = slope (1 - normal.y) where strata begin/reach full strength; z = 1 enables the mask.
+        // Default off keeps every existing strata material unchanged; terrain uses it so flat ground stays plain.
+        _StrataSlope("Strata Slope Mask", Vector) = (0.12, 0.35, 0, 0)
 
         // ---- POLISH-01: soft edges ----
         [Toggle(_EDGEFADE_ON)] _EdgeFade("Edge Fade", Float) = 0
@@ -185,6 +188,7 @@ Shader "Lattice/Toon"
             half4 _StrataTintA;
             half4 _StrataTintB;
             float4 _StrataParams;
+            float4 _StrataSlope;
             float4 _EdgeParams;
             half4 _DeepColor;
             half4 _FoamColor;
@@ -637,6 +641,8 @@ Shader "Lattice/Toon"
                     // Horizontal strata bands keyed on world height (a slow XZ drift
                     // keeps band edges organic), crack seams in a 3D-ish noise, and a
                     // faint top-light so upward faces read as dusted ledges.
+                    half strataMask = _StrataSlope.z > 0.5 ? smoothstep(_StrataSlope.x, _StrataSlope.y, 1.0 - saturate(normalize(input.normalWS).y)) : 1.0h;
+                    half3 strataBase = albedo.rgb;
                     float band = FbNoise2(float2(input.positionWS.y * _StrataParams.x,
                                                  dot(input.positionWS.xz, float2(0.11, 0.07))));
                     albedo.rgb = lerp(albedo.rgb, albedo.rgb * _StrataTintA.rgb,
@@ -651,6 +657,7 @@ Shader "Lattice/Toon"
                     albedo.rgb = lerp(albedo.rgb, albedo.rgb * _StrataTintB.rgb,
                         smoothstep(0.55, 0.85, weather) * 0.5 * _StrataParams.w);
                     albedo.rgb *= 1.0 + saturate(input.normalWS.y) * 0.06;
+                    albedo.rgb = lerp(strataBase, albedo.rgb, strataMask);
                 }
                 #endif
 

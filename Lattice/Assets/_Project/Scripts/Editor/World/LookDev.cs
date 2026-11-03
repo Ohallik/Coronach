@@ -22,14 +22,18 @@ namespace Lattice.EditorTools
 
         public static readonly (string zone,View[] views)[] Views=
         {
-            ("Hub_Decks",new[]{new View("arrival",new Vector3(-20,0,0)),new View("promenade",new Vector3(0,0,0)),new View("market",new Vector3(20,0,0))}),
+            ("Hub_Decks",new[]{new View("arrival",new Vector3(-20,0,0)),new View("promenade",new Vector3(0,0,0)),new View("market",new Vector3(20,0,0)),
+                new View("vestibule",new Vector3(-28,0,-11)),new View("office",new Vector3(-31,0,4)),new View("cabins",new Vector3(-28,0,14)),new View("stalls",new Vector3(0,0,4)),
+                new View("galley",new Vector3(0,0,14)),new View("workshop",new Vector3(29,0,5)),new View("stores",new Vector3(28,0,14)),new View("receiving",new Vector3(28,0,-11)),new View("service",new Vector3(0,0,21.5f))}),
             ("Hub_CinderHalo",new[]{new View("dock",new Vector3(-20,1,0),true),new View("ring",new Vector3(25,1,25),true)}),
-            ("Sorrel_Ridges",new[]{new View("outpost",new Vector3(0,0,18)),new View("seam",new Vector3(-35,0,58)),new View("service",new Vector3(35,0,82)),new View("bore",new Vector3(8,0,164))}),
+            ("Sorrel_Ridges",new[]{new View("outpost",new Vector3(0,0,18)),new View("seam",new Vector3(-35,0,58)),new View("service",new Vector3(35,0,82)),new View("bore",new Vector3(8,0,164)),
+                new View("landing",new Vector3(2,0,-11)),new View("habs",new Vector3(12,0,10)),new View("haul",new Vector3(5,0,47)),new View("basin",new Vector3(-5,0,96)),new View("drill",new Vector3(4,0,141))}),
             ("Arena_Ground",new[]{new View("yard",new Vector3(-6,0,4))}),
             ("Hushwell",new[]{new View("descent",new Vector3(0,0,20)),new View("nursery",new Vector3(14,-15,334))}),
             ("Gullet_Tunnel",new[]{new View("mouth",new Vector3(0,1,8),true),new View("throat",new Vector3(Mathf.Sin(320f/900*Mathf.PI*4)*12,1,320),true)}),
             ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true)}),
-            ("TallowDrift",new[]{new View("refuge",new Vector3(0,0,-3)),new View("garden",new Vector3(6,0,3))}),
+            ("TallowDrift",new[]{new View("refuge",new Vector3(0,0,-3)),new View("garden",new Vector3(6,0,3)),
+                new View("waiting",new Vector3(-7,0,1)),new View("repair",new Vector3(7,0,5)),new View("arrival",new Vector3(0,0,-9)),new View("rest",new Vector3(0,0,8))}),
         };
 
         public static void Render()=>BatchTools.Run(()=>
