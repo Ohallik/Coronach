@@ -103,22 +103,30 @@ namespace Lattice.EditorTools
             Practicals(s.practicals);
         }
 
-        const string PracticalRoot="Practical lights";
-        /// <summary>People and services stand in warm pools of light. Rebuilt idempotently; no shadows or colliders.</summary>
+        const string PracticalRoot="Practical lights",PracticalName="Practical light";
+        /// <summary>People and services stand in warm pools of light, parented to their anchor. Rebuilt idempotently; no shadows or colliders.</summary>
         static void Practicals(bool enabled)
         {
-            foreach(var old in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t!=null&&t.parent==null&&t.name==PracticalRoot).ToArray())
-                Object.DestroyImmediate(old.gameObject);
+            foreach(var old in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t!=null&&(t.parent==null&&t.name==PracticalRoot||t.name==PracticalName)).ToArray())
+                if(old!=null)Object.DestroyImmediate(old.gameObject);
             if(!enabled)return;
-            var root=new GameObject(PracticalRoot){isStatic=true};
             var anchors=Object.FindObjectsByType<Lattice.Core.InteractionPrompt>(FindObjectsSortMode.None)
                 .Where(p=>p is Lattice.World.Npc||p is Lattice.World.Shop||p is Lattice.World.Bench||p is Lattice.World.RepairBay)
-                .Select(p=>p.transform.position).OrderBy(p=>p.x).ThenBy(p=>p.z).ToList();
+                .OrderBy(p=>p.transform.position.x).ThenBy(p=>p.transform.position.z).ToList();
+            // A pool of light on empty floor reads as a spotlight to nowhere: light
+            // only anchors with a visible body or standing fixture within reach.
+            var standing=Object.FindObjectsByType<Renderer>(FindObjectsSortMode.None)
+                .Where(r=>r.enabled&&r.gameObject.activeInHierarchy&&!(r is ParticleSystemRenderer)&&!(r is LineRenderer)&&r.bounds.size.y>.6f&&r.bounds.size.x<6&&r.bounds.size.z<6).ToArray();
             var placed=new System.Collections.Generic.List<Vector3>();
-            foreach(var at in anchors)
+            foreach(var anchor in anchors)
             {
+                var at=anchor.transform.position;
+                var visible=standing.FirstOrDefault(r=>{var b=r.bounds;var c=new Vector2(b.center.x,b.center.z);return Vector2.Distance(c,new Vector2(at.x,at.z))<2.2f&&b.max.y>at.y+.6f&&b.min.y<at.y+.5f;});
+                Debug.Log($"ZONE_LOOK_ANCHOR {anchor.GetType().Name} '{anchor.name}' at {at} visible={(visible!=null?visible.name:"none")}");
+                if(visible==null)continue;
                 if(placed.Any(p=>Vector3.Distance(p,at)<3.5f))continue;placed.Add(at);
-                var go=new GameObject("Practical "+placed.Count);go.transform.SetParent(root.transform,false);go.transform.position=at+Vector3.up*1.3f; // the toon ramp bands distance attenuation only: a pool needs a low source
+                // Child of its anchor, so a speaker who leaves (Sela joining the party) takes the light along.
+                var go=new GameObject(PracticalName);go.transform.SetParent(anchor.transform,false);go.transform.position=at+Vector3.up*1.3f; // the toon ramp bands distance attenuation only: a pool needs a low source
                 var light=go.AddComponent<Light>();light.type=LightType.Point;light.color=new Color(1f,.8f,.58f);
                 light.range=6f;light.intensity=1.8f;light.shadows=LightShadows.None;light.renderMode=LightRenderMode.Auto;
             }

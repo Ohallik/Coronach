@@ -1,7 +1,7 @@
-param([switch]$ShowCommand,[switch]$Chapter)
+param([switch]$ShowCommand,[switch]$Chapter,[ValidatePattern('^Workshop-[A-Za-z0-9-]+$')][string]$Package)
 $ErrorActionPreference='Stop'
 $repo=Split-Path $PSScriptRoot -Parent
-$package=if($Chapter){'Workshop-Chapter'}else{'Workshop'}
+$package=if($Package){$Package}elseif($Chapter){'Workshop-Chapter'}else{'Workshop'}
 $packageRoot=Join-Path $repo ('Builds/'+$package)
 $exe=Join-Path $packageRoot 'Player/Coronach.exe'
 $profile=Join-Path $packageRoot 'Profile'

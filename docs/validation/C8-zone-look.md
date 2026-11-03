@@ -28,6 +28,8 @@ These are editor stills with static heroes, not ordinary play.
 
 The Decks (5) and TallowDrift (2) get warm point lights at each NPC, shop, bench and repair bay, deduplicated within 3.5 m, no shadows or colliders, rebuilt idempotently under `Practical lights`. The first placement (3.4 m high) produced no visible light: the toon shader ramps distance attenuation only, so a high source never crosses the first band (`preview-03`, rejected). At 1.3 m each makes a ~3.7 m banded pool (`preview-04`, `cmp4-interiors.jpg` opened): Mira, the Keeper and the refuge bench now stand in warm light on the grid floor. There is no visible lamp body yet.
 
+In-player review (`Builds/logs/look/2026-11-03-after/`, opened) showed one pool on empty Decks floor: the recruitable "Sela" NPC hides itself once she joins, but its light stayed. Practicals are now children of their anchor (they switch off with it) and are placed only where a body or standing fixture exists; `PracticalLightsLeaveWithTheirSpeaker` failed on the root-parented scene (`checks/practical-owner-before.xml`) and passes now. 93 affected PlayMode checks (dialogue, speakers, station, Tallow, opening, workshop replay) pass with graphics.
+
 ## Checks
 
 `ZoneLookTests` (EditMode): `EveryZoneVolumeIsSharpAndGraded` **failed** before `Apply` (`Arena_FlightVolume.asset has no authored grade`, `checks/zonelook-before-apply.xml`) and passes after; `TheCheckerRecognisesABlurringProfile` is the built-in negative control. 2/2 pass.

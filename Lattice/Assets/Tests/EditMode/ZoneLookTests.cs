@@ -1,6 +1,7 @@
 using System.Linq;
 using NUnit.Framework;
 using UnityEditor;
+using UnityEditor.SceneManagement;
 using UnityEngine;
 using UnityEngine.Rendering;
 using UnityEngine.Rendering.Universal;
@@ -39,6 +40,22 @@ namespace Lattice.Tests.EditMode
                 var profile=AssetDatabase.LoadAssetAtPath<VolumeProfile>(path);
                 Assert.IsEmpty(Offences(profile),path+" blurs or warps the image");
                 Assert.IsTrue(profile.TryGet<ColorAdjustments>(out var adjust)&&adjust.active&&adjust.contrast.overrideState,path+" has no authored grade");
+            }
+        }
+        [Test] public void PracticalLightsLeaveWithTheirSpeaker()
+        {
+            foreach(var zone in new[]{"Hub_Decks","TallowDrift"})
+            {
+                var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity",OpenSceneMode.Single);
+                var lights=Object.FindObjectsByType<Light>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(l=>l.type==LightType.Point&&l.name.StartsWith("Practical")).ToArray();
+                Assert.IsNotEmpty(lights,zone+" has no practical lights");
+                foreach(var light in lights)
+                {
+                    var owner=light.GetComponentInParent<Lattice.Core.InteractionPrompt>(true);
+                    Assert.IsNotNull(owner,zone+": "+light.name+" is not owned by a speaker or service, so it would stay lit after they leave");
+                    Assert.AreEqual(LightShadows.None,light.shadows,zone+" practical casts shadows");
+                    Assert.IsEmpty(light.GetComponents<Collider>(),zone+" practical has a collider");
+                }
             }
         }
     }
