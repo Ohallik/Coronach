@@ -36,5 +36,5 @@ for path in sorted(destination.rglob('*')):
 manifest = dict(sourceRevision=args.revision, createdUtc=datetime.now(timezone.utc).isoformat(), files=files)
 (package / 'player-manifest.json').write_text(json.dumps(manifest, indent=2) + '\n')
 (package / 'Play Coronach.cmd').write_text(
-    '@echo off\npowershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\..\scripts\workshop.ps1" -Package ' + args.name + '\nif errorlevel 1 pause\n')
+    '@echo off\npowershell -NoProfile -ExecutionPolicy Bypass -File "%~dp0..\\..\\scripts\\workshop.ps1" -Package ' + args.name + '\nif errorlevel 1 pause\n')
 print('WORKSHOP_PACKAGE_VERIFIED', args.name, len(files), 'files', sum(f['bytes'] for f in files), 'bytes')
