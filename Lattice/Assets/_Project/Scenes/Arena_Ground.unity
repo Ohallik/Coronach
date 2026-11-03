@@ -14,17 +14,17 @@ OcclusionCullingSettings:
 RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
-  m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_Fog: 1
+  m_FogColor: {r: 0.78, g: 0.66, b: 0.62, a: 1}
+  m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.35, g: 0.39, b: 0.5, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_LinearFogStart: 60
+  m_LinearFogEnd: 260
+  m_AmbientSkyColor: {r: 0.46, g: 0.54, b: 0.7, a: 1}
+  m_AmbientEquatorColor: {r: 0.42, g: 0.39, b: 0.37, a: 1}
+  m_AmbientGroundColor: {r: 0.3, g: 0.22, b: 0.16, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -527,7 +527,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Arena_Ground-yard-0
   palette: Sorrel
@@ -1584,7 +1584,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Arena_Ground-yard-7
   palette: Sorrel
@@ -1993,8 +1993,8 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 1
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.5
+  m_Color: {r: 1, g: 0.94, b: 0.84, a: 1}
+  m_Intensity: 1.45
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -2003,7 +2003,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.85
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -4269,6 +4269,8 @@ MonoBehaviour:
   postFlag: warpkey
   finalNode: 
   finalFlag: 
+  finalCompletionFlag: 
+  finalRepeatNode: 
   hideWhenJoined: 
 --- !u!136 &1066582123
 CapsuleCollider:
@@ -4919,7 +4921,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Arena_Ground-yard-2
   palette: Sorrel
@@ -6267,7 +6269,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Arena_Ground-yard-3
   palette: Sorrel
@@ -7340,7 +7342,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Arena_Ground-yard-6
   palette: Sorrel

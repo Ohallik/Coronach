@@ -15,16 +15,16 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 0
-  m_FogColor: {r: 0.5, g: 0.5, b: 0.5, a: 1}
-  m_FogMode: 3
+  m_FogColor: {r: 0, g: 0, b: 0, a: 0}
+  m_FogMode: 1
   m_FogDensity: 0.01
-  m_LinearFogStart: 0
-  m_LinearFogEnd: 300
-  m_AmbientSkyColor: {r: 0.12, g: 0.13, b: 0.2, a: 1}
-  m_AmbientEquatorColor: {r: 0.114, g: 0.125, b: 0.133, a: 1}
-  m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
+  m_LinearFogStart: 60
+  m_LinearFogEnd: 260
+  m_AmbientSkyColor: {r: 0.15, g: 0.17, b: 0.26, a: 1}
+  m_AmbientEquatorColor: {r: 0.12, g: 0.12, b: 0.15, a: 1}
+  m_AmbientGroundColor: {r: 0.07, g: 0.06, b: 0.06, a: 1}
   m_AmbientIntensity: 1
-  m_AmbientMode: 3
+  m_AmbientMode: 1
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
   m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
@@ -913,6 +913,8 @@ MonoBehaviour:
   - {fileID: 238723147}
   membranes: []
   encounterId: Hushwell_1
+  previewPoint: {fileID: 0}
+  previewRadius: 6
 --- !u!65 &56870075
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1805,6 +1807,7 @@ MonoBehaviour:
   report: HushwellNursery
   dialogueNode: SelaNursery
   dialogueSpeaker: Sela
+  previewEncounter: {fileID: 0}
 --- !u!4 &127326479
 Transform:
   m_ObjectHideFlags: 0
@@ -5408,6 +5411,8 @@ MonoBehaviour:
   - {fileID: 1996473773}
   - {fileID: 1054077823}
   encounterId: Hushwell_Bellows
+  previewPoint: {fileID: 0}
+  previewRadius: 6
 --- !u!65 &519842237
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -6130,6 +6135,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.Health
   id: PressureOrgan
   friendly: 0
+  Damageable: 1
+  reactionOwner: {fileID: 0}
   maximum: 1500
   integrity: 1500
   breakThreshold: 100000
@@ -6725,7 +6732,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Hushwell-nursery-bank-0
   palette: Nursery
@@ -12810,7 +12817,7 @@ Light:
     m_Type: 2
     m_Resolution: -1
     m_CustomResolution: -1
-    m_Strength: 1
+    m_Strength: 0.8
     m_Bias: 0.05
     m_NormalBias: 0.4
     m_NearPlane: 0.2
@@ -12897,7 +12904,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 19d485ec34dd86c4b8c690864de23026, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GroundNavigation
   data: {fileID: 23800000, guid: b986f16c3c2912042aa7bff44c15c284, type: 2}
 --- !u!4 &1285445452
@@ -13668,6 +13675,8 @@ MonoBehaviour:
   - {fileID: 317050486}
   membranes: []
   encounterId: Hushwell_2
+  previewPoint: {fileID: 0}
+  previewRadius: 6
 --- !u!65 &1330736425
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -14240,7 +14249,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Hushwell-nursery-pool-0
   palette: Nursery
@@ -14996,6 +15005,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.Health
   id: PressureOrgan
   friendly: 0
+  Damageable: 1
+  reactionOwner: {fileID: 0}
   maximum: 1500
   integrity: 1500
   breakThreshold: 100000
@@ -15304,7 +15315,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Hushwell-nursery-bank-1
   palette: Nursery
@@ -16553,6 +16564,8 @@ MonoBehaviour:
   - {fileID: 1840662310}
   membranes: []
   encounterId: Hushwell_3
+  previewPoint: {fileID: 0}
+  previewRadius: 6
 --- !u!65 &1616915482
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -17824,7 +17837,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Hushwell-nursery-pool-2
   palette: Nursery
@@ -18540,6 +18553,8 @@ MonoBehaviour:
   - {fileID: 1815452731}
   membranes: []
   encounterId: Hushwell_0
+  previewPoint: {fileID: 0}
+  previewRadius: 6
 --- !u!65 &1759947841
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -21946,7 +21961,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Hushwell-nursery-pool-1
   palette: Nursery
@@ -22257,7 +22272,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 71e0113e1c7386045b51536b2912e0a3, type: 3}
-  m_Name:
+  m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.BiomePatch
   resourceKey: Hushwell-nursery-bank-2
   palette: Nursery
