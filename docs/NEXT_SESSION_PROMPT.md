@@ -1,11 +1,11 @@
-# Coronach - continuation prompt (November 3, 2026)
+# Coronach - continuation prompt (November 3, 2026, after room dressing)
 
 You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md`.
 
 ## Read first
 
-1. `docs/PROGRESS.md`, newest entry first (November 3), then `docs/WORKSHOP_NOV03.md`.
-2. `docs/DECISIONS.md` D186-D190 (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
+1. `docs/PROGRESS.md`, newest entry first (November 3, later: furnished maps), then `docs/WORKSHOP_NOV03B.md` and `docs/validation/C8-room-dressing.md`.
+2. `docs/DECISIONS.md` D186-D191 (D191 room dressing and `SightlineAudit`) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
 3. `docs/PRODUCTION_PLAN.md`: milestones C1-C10, evidence rules, MAP_EYE_TEST.
 4. As needed: `docs/STORY_CAMPAIGN.md`, `docs/WORLD_ATLAS.md`, `docs/maps/*.md`, `docs/validation/*.md`. The previous, much longer prompt is in git history if you need older detail.
 
@@ -17,14 +17,14 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 
 ## Where things stand
 
-- The playable chapter runs Title → Decks → Sorrel → Hushwell (nursery discovery, required for the Gullet) → Halo → Gullet (Cantor collar fight and release) → Tallow (moving-refuge line discovery, Keeper acknowledgement). On November 3 an agent-directed virtual-gamepad chain completed New Game → Tallow in 41:32 (`docs/validation/C7-nov03-chain.md`). 175 EditMode / 455 PlayMode tests passed in full runs on `729aae0`; the later practical-light change passed its 3 look checks and 93 affected PlayMode checks.
-- **Nathan's current build:** `Builds/Workshop-Nov03/Play Coronach.cmd` (source `a7409db`, own profile). The frozen October 4 chapter `Builds/Workshop-Chapter` (`a3aaad6`) must stay byte-identical (243 files).
-- Paid Staggart water and grass are a private, ignored layer with full public fallbacks; a fresh clone opens, builds and plays without them (`docs/OPTIONAL_ART_PACKS.md`, D131).
-- Every zone has authored light and a colour grade (`ZoneLook.Specs`, D189), and warm practical lights sit at Decks and Tallow speakers.
+- The playable chapter runs Title → Decks → Sorrel → Hushwell → Halo → Gullet → Tallow. On `f019bcf` an agent-directed virtual-gamepad chain completed New Game → Tallow in 41:36 (`docs/validation/C7-nov03b-chain.md`, displays asleep, `-DiagnosticVSync 0`, progression only). **176 EditMode / 460 PlayMode** pass.
+- **Nathan's current build:** `Builds/Workshop-Nov03b/Play Coronach.cmd` (source `f019bcf`, own profile). `Builds/Workshop-Nov03` (`a7409db`) and the frozen `Builds/Workshop-Chapter` (`a3aaad6`, 243 files) must stay byte-identical.
+- The Decks, Tallow and Sorrel are dressed by `Lattice.EditorTools.RoomDressing.Apply` (D191): it rebuilds only each scene's `Room dressing` root, rebakes navigation and refuses layouts that block replay routes/doors/speakers/spawns/encounters, remove a prompt approach, or hide a hero (`Lattice.World.SightlineAudit`). **Rerun it after any rebuild of those scenes** (`-dress-zones`, `-dress-floors` for deck wear). Generated `Dress*` kit: 18 pieces in `Prefabs/Environment`; runner/rug textures in `Art/Generated/Dressing`. Meshy live balance 3,481.
+- Paid Staggart water and grass stay a private, ignored layer with public fallbacks (D131). Every zone has authored light and grade (D189).
 
 ## What to do next, in order
 
-1. **Make the places worth walking through. This is the biggest gap.** Gameplay-camera stills show the Decks and Tallow as large empty grids of the same cross-pattern floor plate, and Sorrel as wide flat ochre plains with tufts and smooth slopes. Furnish each interior room for its purpose (market stalls and goods, Orrin's office, galley, residences, workshop benches, signage, visible lamp fixtures for the practical pools, floor wear and runner strips along real circulation). Give Sorrel ridge strata and rock outcrops, ground variation, spoil heaps and outpost life. Obey D119: nothing may rise into the sightline from the ground camera (pitch 40°, yaw 20°, 19.5 m, FOV 30°) to a hero on any walkable floor, so dress slopes and backs, not the camera side, and keep vegetation under 0.6 m. Keep collision, navigation, encounter/save IDs and replay routes valid, and use isolated builders, never `WorldBuilder.Prepare`/`BuildAll`. Reuse generated kits first; Meshy has about 2,383 credits (verify live before spending). Judge with before/after `LookDev.Render` stills, then the in-player `scripts/look.ps1`, then the relevant MAP_EYE_TEST questions.
+1. **Finish the places.** First pass done (D191); still weak: the bare centres of the Decks hulls and Tallow (they are walkways; consider floor-plate variants, inset grates, signage boards, wall-side cable/pipe runs), small 1.3 m lamps, and Sorrel's wide basin floors between paths (most verge pieces fall inside protected route corridors; consider retiring obsolete routes or authoring dressing that sits outside them). Run the in-player MAP_EYE_TEST for Hub_Decks, TallowDrift and Sorrel_Ridges with ordinary traversal. Keep D119 via `SightlineAudit`; collidable pieces on open floor stay ≤ ~1.4 m.
 2. **Remaining C8 staging:** opening walkway and Sela's arrival scene; resident interiors and town/service loops; repetitive nursery cradles; a reeling animation and a less flat cable for Tallow's line; the Gullet coil's quiet pre-fight composition.
 3. **Feel and presentation defects still open:** Sela's high stepping on slopes; the awake-display Decks hitches (34/42/62 ms, unexplained); combat balance (fights currently 50-80 s by agent input). Timing evidence is only valid with displays awake. Check display state first (D154); with displays asleep, use `-DiagnosticVSync 0` for progression runs only.
 4. After a meaningful batch: full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, commit and push.
@@ -51,6 +51,8 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 python tools/quality_analyze.py Builds/quality/<new>
 python tools/package_workshop.py Workshop-<name> --revision <sha>
 ```
+
+Dressing: `& .\scripts\exec.ps1 -Method Lattice.EditorTools.RoomDressing.Apply -Marker ROOM_DRESSING_OK -Graphics -ExtraArgs @('-dress-zones','Hub_Decks,TallowDrift,Sorrel_Ridges')` (a refused zone is left unsaved and the run fails; read `DRESSING_PROBLEM` lines in the exec log).
 
 Chain order: chapter-01-new-game-decks (no ResumeFrom), 02-continue-sorrel, 03-defeat-retry, 04-haul-preparation, 05-drill-equipment, 06-burrower, 07-enter-hushwell, 08-hushwell-nursery, 09-calibrated-gullet, 10-gullet-evasive (~13 min: it outlives the 10-minute tool limit and moves to the background; issue nothing until it reports), 11-tallow-reading-return. `python tools/quality_chain_summary.py <folders>` prints a one-line verdict per run.
 
