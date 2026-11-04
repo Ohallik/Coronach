@@ -4150,5 +4150,311 @@
       "art-src/Generated/C8-Dressing2/DressCoreRack.fbx",
       "art-src/Generated/C8-Dressing2/DressCoreRack_base_color.png"
     ]
+  },
+  {
+    "task": "c8-dressing3-cave-patches-text2image-01a1a555-bac2-70e4-8b61-671741476aa3",
+    "task_id": "01a1a555-bac2-70e4-8b61-671741476aa3",
+    "prompt_id": "C8-Dressing3-cave-patches",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate irregular cave-floor patches for a dusty moon cave of warm brown rock, arranged in a 3x2 grid with wide white gutters, each patch complete with soft ragged edges: (1) a patch of dark smooth basalt slabs with fine cracks between the slabs, dark brown-grey; (2) a soft drift of pale fine grey-ochre dust with gentle wind ripples; (3) a round crust of pale cream mineral deposit with radial cracks, like dried scalding spray around a steam vent; (4) a dark damp seep stain, glistening dark brown, with a thin trickle; (5) a scatter of small glowing cyan crystal shards in dark gravel; (6) a cluster of branching fissures cracked into warm brown stone. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate irregular cave-floor patches for a dusty moon cave of warm brown rock, arranged in a 3x2 grid with wide white gutters, each patch complete with soft ragged edges: (1) a patch of dark smooth basalt slabs with fine cracks between the slabs, dark brown-grey; (2) a soft drift of pale fine grey-ochre dust with gentle wind ripples; (3) a round crust of pale cream mineral deposit with radial cracks, like dried scalding spray around a steam vent; (4) a dark damp seep stain, glistening dark brown, with a thin trickle; (5) a scatter of small glowing cyan crystal shards in dark gravel; (6) a cluster of branching fissures cracked into warm brown stone. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+      "remove_background": true
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing3/refs/cave-patches.png",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T06:53:41+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T06:54:29+00:00"
+  },
+  {
+    "task": "c8-dressing3-mine-rails-text2image-01a1a556-7b52-7216-b5ad-c80b8eecb801",
+    "task_id": "01a1a556-7b52-7216-b5ad-c80b8eecb801",
+    "prompt_id": "C8-Dressing3-mine-rails",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: a narrow-gauge mine cart track running straight vertically from the top edge to the bottom edge, two parallel worn steel rails on evenly spaced dark wooden sleepers, a little scattered grit between the sleepers, on a pure white background beside and between the sleepers. Steel grey, dark brown and white only, flat colours, no lighting, no shadows, no text, no letters, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: a narrow-gauge mine cart track running straight vertically from the top edge to the bottom edge, two parallel worn steel rails on evenly spaced dark wooden sleepers, a little scattered grit between the sleepers, on a pure white background beside and between the sleepers. Steel grey, dark brown and white only, flat colours, no lighting, no shadows, no text, no letters, no logos."
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing3/refs/mine-rails.png",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T06:54:30+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T06:55:07+00:00"
+  },
+  {
+    "task": "c8-dressing3-gullet-patches-text2image-01a1a557-0c93-71bd-a1a2-eba49a626d72",
+    "task_id": "01a1a557-0c93-71bd-a1a2-eba49a626d72",
+    "prompt_id": "C8-Dressing3-gullet-patches",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate irregular floor patches for the inside of a giant living space creature, deep indigo and violet tissue with cyan bioluminescence, arranged in a 3x2 grid with wide white gutters, each patch complete with soft organic edges: (1) a branching network of thick glowing cyan veins spreading like roots across indigo tissue; (2) a shallow pool of glossy violet digestive fluid with floating pale particles and a soft fleshy rim; (3) a cluster of small luminous cyan-white eggs nestled in pale lilac tissue; (4) a spiral swirl of pale sediment and tiny debris settled in a slow eddy; (5) a puckered pore opening ringed by soft lilac folds with a faint glowing dark centre; (6) a patch of pale lilac scar tissue with long curved parallel grooves. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate irregular floor patches for the inside of a giant living space creature, deep indigo and violet tissue with cyan bioluminescence, arranged in a 3x2 grid with wide white gutters, each patch complete with soft organic edges: (1) a branching network of thick glowing cyan veins spreading like roots across indigo tissue; (2) a shallow pool of glossy violet digestive fluid with floating pale particles and a soft fleshy rim; (3) a cluster of small luminous cyan-white eggs nestled in pale lilac tissue; (4) a spiral swirl of pale sediment and tiny debris settled in a slow eddy; (5) a puckered pore opening ringed by soft lilac folds with a faint glowing dark centre; (6) a patch of pale lilac scar tissue with long curved parallel grooves. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+      "remove_background": true
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing3/refs/gullet-patches.png",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T06:55:07+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T06:55:50+00:00"
+  },
+  {
+    "task": "c8-dressing3-gullet-scour-text2image-01a1a557-b5cf-7139-afcc-9fff5bdffde8",
+    "task_id": "01a1a557-b5cf-7139-afcc-9fff5bdffde8",
+    "prompt_id": "C8-Dressing3-gullet-scour",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: a wide band of five long parallel scrape grooves worn into living tissue by a huge serpent's body, running straight vertically from the top edge to the bottom edge, each groove a dark violet furrow with pale lilac raised edges and a thin faint cyan glow along its floor, on a pure white background beside the band. Violet, lilac, cyan and white only, flat colours, no lighting, no shadows, no text, no letters, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: a wide band of five long parallel scrape grooves worn into living tissue by a huge serpent's body, running straight vertically from the top edge to the bottom edge, each groove a dark violet furrow with pale lilac raised edges and a thin faint cyan glow along its floor, on a pure white background beside the band. Violet, lilac, cyan and white only, flat colours, no lighting, no shadows, no text, no letters, no logos."
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing3/refs/gullet-scour.png",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T06:55:51+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T06:56:27+00:00"
+  },
+  {
+    "task": "c8-dressing3-kit3-board-image2image-01a1a558-b3e4-705e-b269-519fcb6be9e7",
+    "task_id": "01a1a558-b3e4-705e-b269-519fcb6be9e7",
+    "prompt_id": "C8-Dressing3-kit3-board",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference boards: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Six separated concept cells in a 3x2 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) a miners' tripod work lamp, chest high: three splayed dark slate legs, a small cream junction box at the hub, a wide rectangular floodlight head tilted downward with a glowing warm amber lens, a black cable coiled at its foot and attached to the box; (2) a hatched egg cradle: the same low curved rock cradle with cyan grooves as the reference nursery cradle, holding two intact glossy indigo eggs with cyan slits and the broken open shell halves of a third hatched egg, all resting inside the cradle; (3) a small egg cradle: a low curved rock cradle with a cyan grooved rim holding one single large glossy indigo egg with cyan slits, the egg tilted slightly and resting inside; (4) a wall crystal growth: a chunk of darker cave rock with long slender pale cyan crystal spars jutting out of its upper side at different angles, the crystal spars glowing cyan, the rock base flat on the ground; (5) a miners' rail buffer stop: a short end of narrow-gauge steel rail on two dark wooden sleepers, ending in a sturdy dark slate buffer frame with two cream bumper pads and a small warm amber lamp on top; (6) a miners' portable power cell: a squat dark slate battery crate with cream side panels, a row of small glowing cyan charge lights, and a thick black cable plugged into its side lying coiled on the ground beside it. Materials: dusty warm rock #A88461, darker cave rock #6E5540, dark slate plating #485568, small cream accents #D9D2BF, cyan #22F5FF seams and mineral light, glossy indigo eggs #2E2A6E, warm amber #FFB347 lamp light, dark wood #4A3426, steel grey #8A9099. Third kit for the miners' upper level and the nursery of a moon cave. This is a design board, NOT a model input.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference boards: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Six separated concept cells in a 3x2 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) a miners' tripod work lamp, chest high: three splayed dark slate legs, a small cream junction box at the hub, a wide rectangular floodlight head tilted downward with a glowing warm amber lens, a black cable coiled at its foot and attached to the box; (2) a hatched egg cradle: the same low curved rock cradle with cyan grooves as the reference nursery cradle, holding two intact glossy indigo eggs with cyan slits and the broken open shell halves of a third hatched egg, all resting inside the cradle; (3) a small egg cradle: a low curved rock cradle with a cyan grooved rim holding one single large glossy indigo egg with cyan slits, the egg tilted slightly and resting inside; (4) a wall crystal growth: a chunk of darker cave rock with long slender pale cyan crystal spars jutting out of its upper side at different angles, the crystal spars glowing cyan, the rock base flat on the ground; (5) a miners' rail buffer stop: a short end of narrow-gauge steel rail on two dark wooden sleepers, ending in a sturdy dark slate buffer frame with two cream bumper pads and a small warm amber lamp on top; (6) a miners' portable power cell: a squat dark slate battery crate with cream side panels, a row of small glowing cyan charge lights, and a thick black cable plugged into its side lying coiled on the ground beside it. Materials: dusty warm rock #A88461, darker cave rock #6E5540, dark slate plating #485568, small cream accents #D9D2BF, cyan #22F5FF seams and mineral light, glossy indigo eggs #2E2A6E, warm amber #FFB347 lamp light, dark wood #4A3426, steel grey #8A9099. Third kit for the miners' upper level and the nursery of a moon cave. This is a design board, NOT a model input.",
+      "aspect_ratio": "3:2",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2657820 sha256(base64)=5194b8bcb3cf0513>",
+        "data:image/png;base64,<omitted chars=2605344 sha256(base64)=04cd175444fa7ac0>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C8-Dressing3/refs/kit3-board.png",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T06:56:58+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T06:57:40+00:00"
+  },
+  {
+    "task": "c8-dressworklamp-img3d-01a1a55a-885c-713b-9b8c-274d8b72b8ba",
+    "task_id": "01a1a55a-885c-713b-9b8c-274d8b72b8ba",
+    "prompt_id": "C8-DressWorkLamp",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressWorkLamp.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=643740 sha256(base64)=3f617c05d38ce674>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing3/DressWorkLamp.fbx",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T06:58:56+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T07:00:43+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing3/DressWorkLamp.fbx",
+      "art-src/Generated/C8-Dressing3/DressWorkLamp_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-hushwellcradlehatched-img3d-01a1a55c-2bea-74fb-b526-2ec3450dc46e",
+    "task_id": "01a1a55c-2bea-74fb-b526-2ec3450dc46e",
+    "prompt_id": "C8-HushwellCradleHatched",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellCradleHatched.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=878068 sha256(base64)=8be1ea14cae890f0>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing3/HushwellCradleHatched.fbx",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T07:00:44+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T07:03:15+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing3/HushwellCradleHatched.fbx",
+      "art-src/Generated/C8-Dressing3/HushwellCradleHatched_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-hushwellcradlesingle-img3d-01a1a55e-8083-7619-a589-08207ec57c87",
+    "task_id": "01a1a55e-8083-7619-a589-08207ec57c87",
+    "prompt_id": "C8-HushwellCradleSingle",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellCradleSingle.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=821824 sha256(base64)=0b7e7ad4f930d013>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing3/HushwellCradleSingle.fbx",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T07:03:17+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T07:06:18+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing3/HushwellCradleSingle.fbx",
+      "art-src/Generated/C8-Dressing3/HushwellCradleSingle_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-hushwellwallcrystal-img3d-01a1a561-4b49-7433-bc5c-abb4052d105f",
+    "task_id": "01a1a561-4b49-7433-bc5c-abb4052d105f",
+    "prompt_id": "C8-HushwellWallCrystal",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:HushwellWallCrystal.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=859300 sha256(base64)=afdfe3e7d4809433>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing3/HushwellWallCrystal.fbx",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T07:06:20+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T07:06:51+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing3/HushwellWallCrystal.fbx",
+      "art-src/Generated/C8-Dressing3/HushwellWallCrystal_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dressrailbuffer-img3d-01a1a561-ca40-7770-ab17-ce58d50a6b03",
+    "task_id": "01a1a561-ca40-7770-ab17-ce58d50a6b03",
+    "prompt_id": "C8-DressRailBuffer",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressRailBuffer.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=931608 sha256(base64)=18342384540c4ec5>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing3/DressRailBuffer.fbx",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T07:06:52+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T07:07:23+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing3/DressRailBuffer.fbx",
+      "art-src/Generated/C8-Dressing3/DressRailBuffer_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresspowercell-img3d-01a1a562-4859-7361-9e71-d047c89e6c7f",
+    "task_id": "01a1a562-4859-7361-9e71-d047c89e6c7f",
+    "prompt_id": "C8-DressPowerCell",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressPowerCell.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=762332 sha256(base64)=9319394dde03305c>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing3/DressPowerCell.fbx",
+    "batch": "C8-Dressing3",
+    "created_at": "2026-11-04T07:07:24+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T07:07:56+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing3/DressPowerCell.fbx",
+      "art-src/Generated/C8-Dressing3/DressPowerCell_base_color.png"
+    ]
   }
 ]

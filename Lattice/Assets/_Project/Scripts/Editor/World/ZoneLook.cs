@@ -72,10 +72,12 @@ namespace Lattice.EditorTools
                 sky=C(.2f,.28f,.42f),equator=C(.2f,.17f,.28f),ground=C(.09f,.07f,.12f),
                 contrast=12,saturation=6,splitShadows=Neutral,splitHighlights=Neutral,
                 bloomThreshold=.85f,bloomIntensity=.75f,bloomTint=C(.85f,.96f,1f),vignette=.26f},
-            // Cave: its practical lights author the look; deepen the fill, let crystals glow.
-            ["Hushwell"]=new Spec{sun=C(.8f,.86f,1f),sunIntensity=.5f,shadowStrength=.8f,
-                sky=C(.15f,.17f,.26f),equator=C(.12f,.12f,.15f),ground=C(.07f,.06f,.06f),
-                exposure=.05f,contrast=10,saturation=4,splitShadows=Neutral,splitHighlights=Neutral,
+            // Cave: its practical lights author the look; let crystals glow. The fill was set darker while the cave
+            // was one renderer and its lamps never reached the floor; with lit chunks (D193) it rises a little so
+            // the floor between pools still reads.
+            ["Hushwell"]=new Spec{sun=C(.8f,.86f,1f),sunIntensity=.62f,shadowStrength=.8f,
+                sky=C(.2f,.22f,.32f),equator=C(.16f,.15f,.18f),ground=C(.09f,.08f,.08f),
+                exposure=.15f,contrast=10,saturation=4,splitShadows=Neutral,splitHighlights=Neutral,
                 bloomThreshold=.85f,bloomIntensity=.7f,vignette=.24f},
         };
 

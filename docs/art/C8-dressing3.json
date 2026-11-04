@@ -1,0 +1,147 @@
+{
+  "id": "C8-Dressing3",
+  "status": "INTEGRATED_HUSHWELL_GULLET; EDITOR_STILLS_OPENED; IN_PLAYER_MAP_EYE_TEST_PENDING",
+  "purpose": "Dressing pass 3 (D193): Hushwell's uniform dim cave floor and empty miners' level, the repeated nursery cradles, and the Gullet's single tiled membrane floor.",
+  "generator": "Meshy text-to-image decal sheets (cave patches and Gullet patches with background removal; mine rails and coil scour as white-background tiles) cut by tools/dressing_decals3.py; Meshy gpt-image-2 image-to-image kit board styled from the P40 Hushwell kit board and the P41 props board; tools/isolate_board.py; Meshy T2 image-to-3D at 4000 triangles.",
+  "pieces": [
+    "DressWorkLamp",
+    "HushwellCradleHatched",
+    "HushwellCradleSingle",
+    "HushwellWallCrystal",
+    "DressRailBuffer",
+    "DressPowerCell"
+  ],
+  "decals": [
+    "DecalRails",
+    "GroundBasalt",
+    "GroundDust",
+    "GroundCrust",
+    "GroundFissure",
+    "GroundVeins",
+    "GroundPool",
+    "GroundEggs",
+    "GroundSilt",
+    "GroundPore",
+    "GroundScar",
+    "GroundScour"
+  ],
+  "credits": {
+    "decalSheets": 36,
+    "board": 12,
+    "models": 90,
+    "total": 138
+  },
+  "creditBalanceBefore": 3289,
+  "creditBalanceAfter": 3151,
+  "referenceReview": "All four decal sheets opened. Background removal erased two of the six cave patches (damp seep: a faint ghost; crystal shards: empty); those cells are skipped by name, not regenerated. The mine-rail tile repeats every 129.7 px (three sleepers per measured 389 px period); the scour tile every 128 px. The six-cell board opened: six clean, separated, style-matched objects.",
+  "meshReview": "All six Blender four-view sheets opened (views/). Every model complete and connected from all sides; no trims. Lamp head and power-cell socket face front; the rail buffer's rails run along local x (RoomDressing turns local x onto the line).",
+  "processing": "Embedded textures stripped (p64_strip_embedded). Emission masks: work lamp and rail buffer 'lamp' key (amber glass); crystal, cradles and power cell cyan. Decals: cave and Gullet patches cut per grid cell and feathered (fissures left sharp: feathering erased the crack lines on the first cut, which was opened and rejected); the egg glow keyed pale blue-white (the cyan key found 0.08 %); the vein patch's own dark tissue faded to a 22 % tint around solid vessels after the first render showed dark rectangular halos; the scour band feathered toward both edges after the first render showed a hard striped ribbon.",
+  "intake": "GenIntake.BuildPrefix with -intake-prefix DressWorkLamp,DressRailBuffer,DressPowerCell,HushwellWallCrystal,HushwellCradleHatched,HushwellCradleSingle staged exactly these six prefabs under Prefabs/Environment. RoomDressing stages the twelve decal textures to Art/Generated/Dressing.",
+  "sources": [
+    {
+      "path": "art-src/Generated/C8-Dressing3/refs/cave-patches.png",
+      "bytes": 1224447,
+      "sha256": "5c6ad10f0a32f63f581e0287678c9151db58632c511eb04f97663707bab9a6e9"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/refs/gullet-patches.png",
+      "bytes": 1543560,
+      "sha256": "80cfa4266f6bb0b48aa7b00a3756882dd36f41319aff348cec1530b07e51ee4d"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/refs/gullet-scour.png",
+      "bytes": 1375489,
+      "sha256": "a46ba61e9fe8970aedc79f578f67b306e001aa096cc8c09032633a6c046a999c"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/refs/kit3-board.png",
+      "bytes": 1762493,
+      "sha256": "569e29dc5d3adec60e5374da923f162770c41b29822036120056b488c86b7cf9"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/refs/mine-rails.png",
+      "bytes": 1260421,
+      "sha256": "d28f5b0a3f1e852d602baa543c508329f7a08f9e3f766ce948510d998e5e5c52"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/isolated/DressPowerCell.png",
+      "bytes": 571747,
+      "sha256": "e73591b90527ed202c5bb56957205292010e8e39d4404a4b1c0c84a49457087f"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/isolated/DressRailBuffer.png",
+      "bytes": 698706,
+      "sha256": "49258ce31e353627276ccf59b5dc0e19d3b6e9ca227c30d556922b9ed53de0f2"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/isolated/DressWorkLamp.png",
+      "bytes": 482803,
+      "sha256": "a7f7893e7fb0560df1c90a8b0120ebe8018ec7c40d9ca07d2b92ac5db8d6b3c8"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/isolated/HushwellCradleHatched.png",
+      "bytes": 658551,
+      "sha256": "7359444c0806a3979bf4ec93156de389f9cf2604338c996f8272c7ee4f623e9e"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/isolated/HushwellCradleSingle.png",
+      "bytes": 616368,
+      "sha256": "bffabd4a62b5324b0026e4febe011c2f4480623e5d41903f2d6fb8e3559d6f4a"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/isolated/HushwellWallCrystal.png",
+      "bytes": 644473,
+      "sha256": "3858460cb676e3eafb541d85caa7b29ec9f14ae600563657a5f8b3cf5318abce"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/DressWorkLamp_clean.fbx",
+      "bytes": 188748,
+      "sha256": "0ea64506284a836db1d5ce078afae1114af1ee739de306ec98187708aa150c52"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/HushwellCradleHatched_clean.fbx",
+      "bytes": 191132,
+      "sha256": "b8c897dd3b43245c2a05ff25704f3ca921739bee66b4710c21b88bb11ebeb9a6"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/HushwellCradleSingle_clean.fbx",
+      "bytes": 186636,
+      "sha256": "300515bbccb19620311a28ffbe06f6c469383eca8a0aff9a7018491e08634030"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/HushwellWallCrystal_clean.fbx",
+      "bytes": 185084,
+      "sha256": "335ff0f30fd6c308d7c5267a37599e69d862dd1399a5ac269a758ed70dc5878d"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/DressRailBuffer_clean.fbx",
+      "bytes": 185436,
+      "sha256": "1e879c496da61fffe3ae8b8b8a1e4bda8df188d380896d58a33fc0b097cf9983"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/DressPowerCell_clean.fbx",
+      "bytes": 181324,
+      "sha256": "c1a15c4477e4c183a95677c219ebe9cee23c7181e1a04a4237fbe7b87f22ded1"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/generate_sheets.sh",
+      "bytes": 3376,
+      "sha256": "7326ff8dc75b35b0fd544d44acadb4fb038508fa91895c146fedb1ea3b769866"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/generate_board.sh",
+      "bytes": 2983,
+      "sha256": "033800b2e941ae34f1f635f907e57d09d6cf1d81e85cab4b7d299dc5aed1b424"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/generate_models.sh",
+      "bytes": 735,
+      "sha256": "0c4c45747c11599760b48298822677ade13ef9d58ae1d4d6f65867489621a3df"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing3/generate-models.log",
+      "bytes": 3968,
+      "sha256": "38a6331b3e27a883a4bbe710b54fed3ce68bb4a99926fc0cec81601e32f6a437"
+    }
+  ]
+}

@@ -40,16 +40,10 @@ for step in tallow['steps']:
     if step['name']=='keeper advance':step['seconds']=1;step.pop('pulseSeconds',None)
 tallow['steps'] += [move('second quay crossing',8,-6,5.5),move('quay return',0,-6,5.5)]
 write('station-tallow','TallowDrift',tallow['steps'])
-write('station-tallow-map','TallowDrift',tallow['steps']+[
-    move('refuge cross aisle',-3,1,5),move('life support service aisle',-3,7.4,4),
-    move('rest cabin frontage',5,7.4,5),move('around repair console',8,7.4,2),move('repair service return',8,1,4),
-    move('free repair console',6,1.6,2),action('repair and rest',1,['South'],expectedUi='world',expectedFlag='sliceComplete'),
-    move('starboard boundary',11,1,3),action('starboard hull contact',2,x=.939693,y=.342020),
-    move('central public return',0,1,7),move('pressure vestibule',0,-10,6),
-    action('launch Tallow',2,['South'],expectedScene='TallowApproach'),action('release launch confirm',.3,expectedScene='TallowApproach'),
-    move('clear beacon docking stem',0,-3,5,leftTrigger=1,expectedScene='TallowApproach'),
-    move('redock approach',0,2,5,leftTrigger=1,expectedScene='TallowApproach'),
-    action('redock refuge',2,['South']),action('arrival restored',2)])
+# station-tallow-map retired November 3 (D193): it predates the October 3 Tallow layout and fails
+# identically on older players. The ordinary Tallow traversal is chapter-11-tallow-reading-return
+# (docking, Keeper, launch, free-line observation, return), reviewed in C8-dressing-pass2.
+# The old route is kept as evidence in docs/quality/routes/retired/.
 
 for base,first,warm in [('station-decks',steps,warm_steps),('station-tallow',tallow['steps'],tallow['steps'])]:
     for count,suffix in [(2,'first-warm'),(5,'ten-minute')]:

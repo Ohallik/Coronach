@@ -19,11 +19,21 @@ namespace Lattice.EditorTools
     public static partial class RoomDressing
     {
         const string DetailSource="art-src/Generated/C8-Dressing2/decals/";
+        /// <summary>Dressing pass 3 (D193): Hushwell's cave floor and rails, the Gullet's floor anatomy.</summary>
+        const string DetailSource3="art-src/Generated/C8-Dressing3/decals/";
         static readonly string[] DetailKinds={"DecalGrate","DecalHatch","DecalTread","DecalTrench","DecalStud","DecalDrain","DecalHazard",
             "PictoGalley","PictoMarket","PictoRepair","PictoCabins","PictoOffice","PictoDock",
             "GroundGravel","GroundClay","GroundStain","GroundPebbles","GroundRipples","GroundScuff","GroundTracks"};
-        static readonly HashSet<string> Glowing=new(){"DecalGrate","DecalTrench","DecalStud"};
-        static readonly HashSet<string> Tiled=new(){"DecalHazard","GroundTracks"};
+        static readonly string[] DetailKinds3={"DecalRails","GroundBasalt","GroundDust","GroundCrust","GroundFissure",
+            "GroundVeins","GroundPool","GroundEggs","GroundSilt","GroundPore","GroundScar","GroundScour"};
+        static IEnumerable<string> AllDetailKinds=>DetailKinds.Concat(DetailKinds3);
+        static string SourceOf(string kind)=>(DetailKinds3.Contains(kind)?DetailSource3:DetailSource)+kind;
+        static readonly HashSet<string> Glowing=new(){"DecalGrate","DecalTrench","DecalStud","GroundVeins","GroundEggs","GroundPore","GroundScour"};
+        static readonly HashSet<string> Tiled=new(){"DecalHazard","GroundTracks","DecalRails","GroundScour"};
+        /// <summary>Width/length of one repeat of a strip texture, as measured when it was cut.</summary>
+        static readonly Dictionary<string,float> StripAspect=new(){["GroundTracks"]=1f,["DecalRails"]=.702f,["GroundScour"]=.652f};
+        /// <summary>The Gullet's ships fly at y=1; dressing on its bed stays well under them (D193).</summary>
+        public const float FlightCeiling=-.6f;
         const float DetailCell=8;
 
         sealed class DetailBatch{public readonly List<Vector3> v=new();public readonly List<Vector2> uv=new();public readonly List<int> t=new();}
@@ -36,13 +46,13 @@ namespace Lattice.EditorTools
 
         static void StageDetailTextures()
         {
-            foreach(var kind in DetailKinds)
+            foreach(var kind in AllDetailKinds)
             {
-                PackStaging.StageFile(DetailSource+kind+"_base_color.png","Art/Generated/Dressing/"+kind+"_base_color.png");
-                if(Glowing.Contains(kind))PackStaging.StageFile(DetailSource+kind+"_emission.png","Art/Generated/Dressing/"+kind+"_emission.png");
+                PackStaging.StageFile(SourceOf(kind)+"_base_color.png","Art/Generated/Dressing/"+kind+"_base_color.png");
+                if(Glowing.Contains(kind))PackStaging.StageFile(SourceOf(kind)+"_emission.png","Art/Generated/Dressing/"+kind+"_emission.png");
             }
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
-            foreach(var kind in DetailKinds)
+            foreach(var kind in AllDetailKinds)
             {
                 var importer=(TextureImporter)AssetImporter.GetAtPath(DecalFolder+kind+"_base_color.png");
                 if(importer==null)throw new System.InvalidOperationException("Missing staged detail texture "+kind);
@@ -70,6 +80,15 @@ namespace Lattice.EditorTools
                 "GroundRipples"=>new Color(.84f,.72f,.64f,.7f),
                 "GroundScuff"=>new Color(.86f,.74f,.66f,.75f),
                 "GroundClay"=>new Color(.88f,.76f,.72f,.8f),
+                // Hushwell: the cave floor is a dark warm brown under a dim key, so its patches are muted toward it.
+                "GroundBasalt"=>new Color(.84f,.8f,.82f,.45f),
+                "GroundDust"=>new Color(.72f,.66f,.62f,.62f),
+                "GroundCrust"=>new Color(.9f,.86f,.8f,.9f),
+                "GroundFissure"=>new Color(.42f,.34f,.32f,.95f),
+                // The Gullet: tissue patches sit on the tinted membrane, slightly translucent so the cells show through.
+                "GroundScour"=>new Color(.72f,.68f,.85f,.5f),
+                "GroundVeins"=>new Color(.85f,.88f,.98f,.95f),
+                _ when DetailKinds3.Contains(kind)&&kind.StartsWith("Ground")=>new Color(.86f,.84f,.95f,.85f),
                 _ when kind.StartsWith("Ground")=>new Color(.9f,.82f,.78f,.82f),
                 _=>Color.white
             });
@@ -89,7 +108,16 @@ namespace Lattice.EditorTools
             if(Glowing.Contains(kind))
             {
                 m.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(DecalFolder+kind+"_emission.png"));
-                m.SetColor("_EmissionColor",kind=="DecalStud"?new Color(1f,.68f,.28f)*2.4f:new Color(.13f,.9f,1f)*1.8f);
+                m.SetColor("_EmissionColor",kind switch
+                {
+                    "DecalStud"=>new Color(1f,.68f,.28f)*2.4f,
+                    // Bioluminescence carries the Gullet's colour: veins and scour lines brighter, eggs a soft pale glow.
+                    "GroundVeins"=>new Color(.13f,.9f,1f)*.85f,
+                    "GroundScour"=>new Color(.13f,.9f,1f)*1.1f,
+                    "GroundEggs"=>new Color(.6f,.9f,1f)*1.6f,
+                    "GroundPore"=>new Color(.3f,.6f,1f)*2f,
+                    _=>new Color(.13f,.9f,1f)*1.8f
+                });
             }
             else m.SetColor("_EmissionColor",Color.black);
             EditorUtility.SetDirty(m);
@@ -102,10 +130,12 @@ namespace Lattice.EditorTools
             if(obstacles!=null)return obstacles;
             // Station decks are at y=0, so a standing fixture reaches above .35 m from below .6 m;
             // Sorrel's ground varies, so there any collider short of the terrain itself counts.
-            bool deck=zone!="Sorrel_Ridges";
+            bool deck=Station;
             obstacles=Object.FindObjectsByType<Collider>(FindObjectsSortMode.None)
                 .Where(c=>c.enabled&&!c.isTrigger&&!c.transform.IsChildOf(root)&&c.bounds.size.x<60&&c.bounds.size.z<60
-                    &&(deck?c.bounds.max.y>.35f&&c.bounds.min.y<.6f:c.bounds.size.y>.3f))
+                    &&(deck?c.bounds.max.y>.35f&&c.bounds.min.y<.6f:c.bounds.size.y>.3f)
+                    // In the Gullet the dormant Cantor floats at flight height over the coil: only what reaches down toward the bed counts.
+                    &&(!Flight||c.bounds.min.y<FlightCeiling))
                 .Select(c=>Rect.MinMaxRect(c.bounds.min.x,c.bounds.min.z,c.bounds.max.x,c.bounds.max.z)).ToList();
             return obstacles;
         }
@@ -125,27 +155,35 @@ namespace Lattice.EditorTools
             if(!overlay)
             {
                 var inner=Rect.MinMaxRect(rect.xMin+.03f,rect.yMin+.03f,rect.xMax-.03f,rect.yMax-.03f);
-                bool blocked=detailRects.Any(r=>r.Overlaps(inner))||Obstacles().Any(r=>r.Overlaps(inner))
+                bool blocked=detailRects.Any(r=>r.Overlaps(inner))||(Cave?BlockedRect(x,z,w,l,yaw):Obstacles().Any(r=>r.Overlaps(inner)))
                     ||placed.Any(p=>p.solid&&Footprint2D(p.go).Overlaps(inner));
                 if(blocked){detailSkipped++;Debug.Log($"DRESSING_DETAIL_SKIPPED {zone} {kind} at ({x:0.0},{z:0.0})");return false;}
                 detailRects.Add(rect);
             }
             var rotation=Quaternion.Euler(0,yaw,0);var centre=new Vector3(x,0,z);
             float u=Tiled.Contains(kind)?(kind=="GroundTracks"?1:w/tile):1,v=Tiled.Contains(kind)?l/(kind=="GroundTracks"?w:tile):1;
-            bool conform=zone=="Sorrel_Ridges";
+            bool conform=!Station;
             int nx=conform?Mathf.Max(1,Mathf.CeilToInt(w/.5f)):1,nz=conform?Mathf.Max(1,Mathf.CeilToInt(l/.5f)):1;
             float flat=conform?0:Ground(x,z,new Bounds(Vector3.zero,Vector3.zero),0);
-            var verts=new Vector3[(nx+1)*(nz+1)];var uvs=new Vector2[verts.Length];
+            var verts=new Vector3[(nx+1)*(nz+1)];var uvs=new Vector2[verts.Length];var valid=new bool[verts.Length];
+            // In the cave and the Gullet a patch may end at the foot of a wall: cells with no floor under them are
+            // dropped (and their vertices removed), so a crust beside a wall loses only its transparent corner.
+            // Elsewhere, and for any patch that would lose half its cells, a missing floor still refuses it.
+            bool trim=Cave||Flight;
             for(int j=0;j<=nz;j++)for(int i=0;i<=nx;i++)
             {
                 var local=new Vector3(-w*.5f+w*i/nx,0,-l*.5f+l*j/nz);var p=centre+rotation*local;
-                float y=conform?Surface(p.x,p.z):flat;
-                if(float.IsNaN(y)){detailSkipped++;return false;}
-                verts[j*(nx+1)+i]=new Vector3(p.x,y+lift,p.z);uvs[j*(nx+1)+i]=new Vector2(u*i/nx,v*j/nz);
+                float y=conform?Surface(p.x,p.z):flat;int k=j*(nx+1)+i;valid[k]=!float.IsNaN(y);
+                if(!valid[k]&&!trim){detailSkipped++;if(!overlay)detailRects.Remove(rect);return false;}
+                verts[k]=new Vector3(p.x,valid[k]?y+lift:0,p.z);uvs[k]=new Vector2(u*i/nx,v*j/nz);
             }
-            // A patch across a cliff or step would stand up off the ground: refuse it.
-            if(conform&&verts.Max(q=>q.y)-verts.Min(q=>q.y)>Mathf.Max(w,l)*.45f){detailSkipped++;return false;}
-            Append(kind,x,z,verts,uvs,nx,nz);
+            int cells=0;for(int j=0;j<nz;j++)for(int i=0;i<nx;i++){int a=j*(nx+1)+i;if(valid[a]&&valid[a+1]&&valid[a+nx+1]&&valid[a+nx+2])cells++;}
+            if(cells<nx*nz*.5f){detailSkipped++;if(!overlay)detailRects.Remove(rect);Debug.Log($"DRESSING_DETAIL_REFUSED {zone} {kind} at ({x:0.0},{z:0.0}): floor under only {cells}/{nx*nz} cells");return false;}
+            // A patch across a cliff or step would stand up off the ground: refuse it. (The Gullet's bed is one smooth
+            // curve that the 0.5 m grid follows, so there the flight ceiling, not a step rule, bounds a patch.)
+            var kept=verts.Where((q,k)=>valid[k]).ToArray();
+            if(conform&&!Flight&&kept.Max(q=>q.y)-kept.Min(q=>q.y)>Mathf.Max(w,l)*.45f){detailSkipped++;if(!overlay)detailRects.Remove(rect);if(trim)Debug.Log($"DRESSING_DETAIL_REFUSED {zone} {kind} at ({x:0.0},{z:0.0}): crosses a step");return false;}
+            Append(kind,x,z,verts,uvs,nx,nz,valid);
             detailPlaced++;return true;
         }
 
@@ -169,43 +207,69 @@ namespace Lattice.EditorTools
                         ok=!float.IsNaN(y);row[k]=new Vector3(q.x,y+lift,q.y);
                     }
                     // Only ground the tracks could actually run on: no steps across the strip, nothing standing over it.
-                    if(ok&&row.Max(q=>q.y)-row.Min(q=>q.y)<.5f&&!Covered(c,width*.5f))rows.Add((row,along));
+                    // The Gullet's coil bed is sculpted but smooth; a scour band may follow it across a metre of rise.
+                    if(ok&&row.Max(q=>q.y)-row.Min(q=>q.y)<(Flight?1.2f:.5f)&&!(Cave?BlockedRect(c.x,c.y,width,step,0,row[across/2].y):Covered(c,width*.5f)))rows.Add((row,along));
                 }
             }
             // One row of quads per step, appended to the cell of its midpoint.
             for(int i=1;i<rows.Count;i++)
             {
                 var (r0,a0)=rows[i-1];var (r1,a1)=rows[i];
-                if(a1-a0>step*1.5f||Mathf.Abs(r1[across/2].y-r0[across/2].y)>.4f)continue;
+                if(a1-a0>step*1.5f||Mathf.Abs(r1[across/2].y-r0[across/2].y)>(Flight?.8f:.4f))continue;
                 var verts=r0.Concat(r1).ToArray();
-                var uvs=Enumerable.Range(0,across+1).Select(k=>new Vector2(k/(float)across,a0/width))
-                    .Concat(Enumerable.Range(0,across+1).Select(k=>new Vector2(k/(float)across,a1/width))).ToArray();
+                float repeat=width/StripAspect[kind];
+                var uvs=Enumerable.Range(0,across+1).Select(k=>new Vector2(k/(float)across,a0/repeat))
+                    .Concat(Enumerable.Range(0,across+1).Select(k=>new Vector2(k/(float)across,a1/repeat))).ToArray();
                 var mid=(r0[across/2]+r1[across/2])*.5f;Append(kind,mid.x,mid.z,verts,uvs,across,1);
             }
+            if(Cave||Flight)Debug.Log($"DRESSING_STRIP {zone} {kind} rows={rows.Count} length={along:0}");
             detailPlaced++;
         }
 
-        static void Append(string kind,float x,float z,Vector3[] verts,Vector2[] uvs,int nx,int nz)
+        static void Append(string kind,float x,float z,Vector3[] verts,Vector2[] uvs,int nx,int nz,bool[] valid=null)
         {
             var key=(kind,Mathf.FloorToInt(x/DetailCell),Mathf.FloorToInt(z/DetailCell));
             if(!details.TryGetValue(key,out var batch))details[key]=batch=new DetailBatch();
-            int start=batch.v.Count;batch.v.AddRange(verts);batch.uv.AddRange(uvs);
+            // Only vertices of kept cells enter the batch, so no stray vertex sits off the floor.
+            var index=new int[verts.Length];for(int k=0;k<index.Length;k++)index[k]=-1;
+            int Use(int k){if(index[k]<0){index[k]=batch.v.Count;batch.v.Add(verts[k]);batch.uv.Add(uvs[k]);}return index[k];}
             for(int j=0;j<nz;j++)for(int i=0;i<nx;i++)
             {
-                int a=start+j*(nx+1)+i,b=a+1,c=a+nx+1,d=c+1;
-                batch.t.AddRange(new[]{a,c,b,c,d,b});
+                int a=j*(nx+1)+i,b=a+1,c=a+nx+1,d=c+1;
+                if(valid!=null&&!(valid[a]&&valid[b]&&valid[c]&&valid[d]))continue;
+                int ia=Use(a),ib=Use(b),ic=Use(c),id=Use(d);
+                batch.t.AddRange(new[]{ia,ic,ib,ic,id,ib});
             }
         }
 
-        /// <summary>Sorrel's terrain is the one collider wider than 100 m; rocks, habs and pads are not ground.</summary>
-        static bool IsTerrain(Collider c)=>c.bounds.size.x>100&&c.bounds.size.z>100;
+        /// <summary>Sorrel's terrain and Hushwell's cave are the one collider wider than 100 m; rocks, habs and pads
+        /// are not ground. The Gullet's ground is its membrane shell (narrower than 100 m at the coil).</summary>
+        static bool IsTerrain(Collider c)=>Flight?c.name=="Gullet membrane shell":c.bounds.size.x>100&&c.bounds.size.z>100;
+
+        /// <summary>The point's height if it is floor a piece may stand on, else NaN: in Hushwell the cave floor of its
+        /// level (never a rock top or lip), in the Gullet only the bed well below the flight plane.</summary>
+        static float Floor(Vector3 p)
+        {
+            if(Cave)return p.y<=HushwellLayout.Level(p.z)+.3f?p.y:float.NaN;
+            if(Flight)return p.y<=FlightCeiling-.4f?p.y:float.NaN;
+            return p.y;
+        }
 
         /// <summary>Height of the terrain itself at a point (never a rock, roof or dressing), or NaN.</summary>
         static float Surface(float x,float z)
         {
             foreach(var hit in Physics.RaycastAll(new Vector3(x,80,z),Vector3.down,200,~0,QueryTriggerInteraction.Ignore).OrderBy(h=>h.distance))
-                if(IsTerrain(hit.collider))return hit.point.y;
+                if(IsTerrain(hit.collider))return Floor(hit.point);
             return float.NaN;
+        }
+        /// <summary>In the cave, the exact rotated colliders standing on the floor over a rectangle (the grooved walls'
+        /// axis-aligned boxes reach metres onto the floor, so the box test refused rails and patches that were clear).</summary>
+        static bool BlockedRect(float x,float z,float w,float l,float yaw,float? floor=null)
+        {
+            float y=floor??HushwellLayout.Level(z);
+            foreach(var c in Physics.OverlapBox(new Vector3(x,y+.65f,z),new Vector3(w*.5f,.5f,l*.5f),Quaternion.Euler(0,yaw,0),~0,QueryTriggerInteraction.Ignore))
+                if(!IsTerrain(c)&&!c.transform.IsChildOf(root))return true;
+            return false;
         }
         /// <summary>True when something other than terrain stands over the point (a hab, a rock, a pad).</summary>
         static bool Covered(Vector2 p,float radius)=>Obstacles().Any(r=>p.x>r.xMin-radius&&p.x<r.xMax+radius&&p.y>r.yMin-radius&&p.y<r.yMax+radius);

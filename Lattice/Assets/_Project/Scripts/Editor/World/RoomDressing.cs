@@ -14,7 +14,8 @@ namespace Lattice.EditorTools
         public static void Survey()=>BatchTools.Run(()=>
         {
             string folder=Path.GetFullPath(Path.Combine(Application.dataPath,"../../Builds/logs"));
-            foreach(var zone in new[]{"Hub_Decks","TallowDrift","Sorrel_Ridges"})
+            string only=Lattice.Core.DevArgs.Value("-dress-zones");
+            foreach(var zone in Zones.Where(z=>string.IsNullOrEmpty(only)||only.Split(',').Contains(z)))
             {
                 EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
                 var text=new StringBuilder();

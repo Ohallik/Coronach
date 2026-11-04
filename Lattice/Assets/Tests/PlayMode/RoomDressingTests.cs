@@ -34,7 +34,7 @@ namespace Lattice.Tests.PlayMode
         static Vector3 Arrival()=>Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None).First(s=>s.id=="Arrival").transform.position;
         static void ClearParty(){foreach(var c in Object.FindObjectsByType<CharacterController>(FindObjectsSortMode.None))c.enabled=false;}
 
-        [UnityTest] public IEnumerator DressingNeverHidesAHeroFromTheFixedCamera([Values("Hub_Decks","TallowDrift","Sorrel_Ridges")] string zone)
+        [UnityTest] public IEnumerator DressingNeverHidesAHeroFromTheFixedCamera([Values("Hub_Decks","TallowDrift","Sorrel_Ridges","Hushwell")] string zone)
         {
             yield return Load(zone);ClearParty();
             var root=Dressing();

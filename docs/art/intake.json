@@ -2044,5 +2044,83 @@
     "size": 2.0,
     "yaw": 0,
     "clips": []
+  },
+  {
+    "id": "DressWorkLamp",
+    "model": "art-src/Generated/C8-Dressing3/DressWorkLamp_clean.fbx",
+    "albedo": "art-src/Generated/C8-Dressing3/DressWorkLamp_base_color.png",
+    "emission": "art-src/Generated/C8-Dressing3/DressWorkLamp_emission.png",
+    "emissionColor": "#FFB347",
+    "kind": "static",
+    "fit": "height",
+    "folder": "Environment",
+    "size": 1.35,
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "DressRailBuffer",
+    "model": "art-src/Generated/C8-Dressing3/DressRailBuffer_clean.fbx",
+    "albedo": "art-src/Generated/C8-Dressing3/DressRailBuffer_base_color.png",
+    "emission": "art-src/Generated/C8-Dressing3/DressRailBuffer_emission.png",
+    "emissionColor": "#FFB347",
+    "kind": "static",
+    "fit": "height",
+    "folder": "Environment",
+    "size": 1.15,
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "DressPowerCell",
+    "model": "art-src/Generated/C8-Dressing3/DressPowerCell_clean.fbx",
+    "albedo": "art-src/Generated/C8-Dressing3/DressPowerCell_base_color.png",
+    "emission": "art-src/Generated/C8-Dressing3/DressPowerCell_emission.png",
+    "emissionColor": "#22F5FF",
+    "kind": "static",
+    "fit": "height",
+    "folder": "Environment",
+    "size": 0.85,
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "HushwellWallCrystal",
+    "model": "art-src/Generated/C8-Dressing3/HushwellWallCrystal_clean.fbx",
+    "albedo": "art-src/Generated/C8-Dressing3/HushwellWallCrystal_base_color.png",
+    "emission": "art-src/Generated/C8-Dressing3/HushwellWallCrystal_emission.png",
+    "emissionColor": "#22F5FF",
+    "kind": "static",
+    "fit": "height",
+    "folder": "Environment",
+    "size": 2.3,
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "HushwellCradleHatched",
+    "model": "art-src/Generated/C8-Dressing3/HushwellCradleHatched_clean.fbx",
+    "albedo": "art-src/Generated/C8-Dressing3/HushwellCradleHatched_base_color.png",
+    "emission": "art-src/Generated/C8-Dressing3/HushwellCradleHatched_emission.png",
+    "emissionColor": "#22F5FF",
+    "kind": "static",
+    "fit": "length",
+    "folder": "Environment",
+    "size": 3.3,
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "HushwellCradleSingle",
+    "model": "art-src/Generated/C8-Dressing3/HushwellCradleSingle_clean.fbx",
+    "albedo": "art-src/Generated/C8-Dressing3/HushwellCradleSingle_base_color.png",
+    "emission": "art-src/Generated/C8-Dressing3/HushwellCradleSingle_emission.png",
+    "emissionColor": "#22F5FF",
+    "kind": "static",
+    "fit": "length",
+    "folder": "Environment",
+    "size": 2.2,
+    "yaw": 0,
+    "clips": []
   }
 ]

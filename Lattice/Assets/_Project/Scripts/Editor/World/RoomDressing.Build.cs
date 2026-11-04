@@ -29,7 +29,12 @@ namespace Lattice.EditorTools
     {
         public const string RootName="Room dressing";
         const string RetiredSuffix=" (retired by room dressing)";
-        public static readonly string[] Zones={"Hub_Decks","TallowDrift","Sorrel_Ridges"};
+        public static readonly string[] Zones={"Hub_Decks","TallowDrift","Sorrel_Ridges","Hushwell","Gullet_Tunnel"};
+        /// <summary>Hushwell: a ground cave on three levels, audited from the ground camera like Sorrel.</summary>
+        static bool Cave=>zone=="Hushwell";
+        /// <summary>The Gullet is a flight zone: no navigation, nothing may rise toward the flight plane.</summary>
+        static bool Flight=>zone=="Gullet_Tunnel";
+        static bool Station=>zone=="Hub_Decks"||zone=="TallowDrift";
 
         /// <summary>Width (x), height, depth (z) of each piece as placed at scale 1; front faces -z.</summary>
         static readonly Dictionary<string,Vector3> Nominal=new()
@@ -46,10 +51,14 @@ namespace Lattice.EditorTools
             ["DressFanShrub"]=new(.7f,.55f,.7f),["DressSurveyBeacon"]=new(.8f,1.4f,.8f),["DressCoreRack"]=new(2f,.6f,1f),
             // Reused generated kit, sized as their original builders size them.
             ["DeckBench"]=new(2.2f,1f,.9f),["DeckCrate"]=new(1f,1f,1f),["HushwellCrates"]=new(1.6f,1.4f,1.4f),["HushwellRubble"]=new(2f,1f,2f),
-            ["HushwellOreCart"]=new(1.4f,1.3f,2f),["HushwellLowRidge"]=new(3f,1.1f,1.2f),["RidgeRock1"]=new(3f,3f,3f),["RidgeRock2"]=new(3f,3f,3f),["RidgeRock3"]=new(3f,3f,3f),
+            ["HushwellOreCart"]=new(1.4f,1.3f,2f),["HushwellLowRidge"]=new(3f,1.1f,1.2f),
+            // Third kit (D193): the miners' level and the nursery colony; the original cradle fitted as its builder fits it.
+            ["DressWorkLamp"]=new(.9f,1.35f,.9f),["DressRailBuffer"]=new(1.5f,1.15f,1.6f),["DressPowerCell"]=new(1.4f,.85f,1f),
+            ["HushwellWallCrystal"]=new(2f,2.3f,2f),["HushwellEggCradle"]=new(3.4f,1.8f,3.4f),["HushwellCradleHatched"]=new(3.3f,1.5f,2.4f),["HushwellCradleSingle"]=new(2.2f,1.7f,2f),["RidgeRock1"]=new(3f,3f,3f),["RidgeRock2"]=new(3f,3f,3f),["RidgeRock3"]=new(3f,3f,3f),
         };
         /// <summary>Pieces fitted by their largest horizontal extent rather than height.</summary>
-        static readonly HashSet<string> Footprint=new(){"DressSpoilHeap","DressStrataLedge","DressStrataOutcrop","HushwellRubble","HushwellLowRidge","DressBoulders","DressCoreRack"};
+        static readonly HashSet<string> Footprint=new(){"DressSpoilHeap","DressStrataLedge","DressStrataOutcrop","HushwellRubble","HushwellLowRidge","DressBoulders","DressCoreRack",
+            "HushwellEggCradle","HushwellCradleHatched","HushwellCradleSingle"};
 
         sealed class Placed{public GameObject go;public string key;public bool scatter;public bool solid;public bool structural;}
         static readonly List<Placed> placed=new();
@@ -84,24 +93,34 @@ namespace Lattice.EditorTools
             var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/"+zone+".unity");
             foreach(var t in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t.name.EndsWith(RetiredSuffix)).ToArray())
             {t.name=t.name.Substring(0,t.name.Length-RetiredSuffix.Length);t.gameObject.SetActive(true);}
-            foreach(var old in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t.parent==null&&t.name==RootName).ToArray())
+            foreach(var old in Object.FindObjectsByType<Transform>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t.parent==null&&(t.name==RootName||t.name==ChunkRootName)).ToArray())
                 Object.DestroyImmediate(old.gameObject);
+            RestoreChunkedRenderer();
             root=new GameObject(RootName){isStatic=true}.transform;
+            // Hushwell's seals carve the cave into sealed stages, and carving applies when navigation data is
+            // added: open them for the whole run (as its own bake does), so the pockets, the nursery and its
+            // lift are protected too, and close them again before the scene is saved (D193).
+            var seals=Cave?Object.FindObjectsByType<NavMeshObstacle>(FindObjectsSortMode.None).Where(o=>o.enabled).ToArray():new NavMeshObstacle[0];
+            foreach(var seal in seals)seal.enabled=false;
+            try{
             Physics.SyncTransforms();
             corridors=Corridors();
             // Dressing may not take away an approach that existed before it (prompts behind
             // closed boss seals were never reachable from the arrival and are not required).
             var arrival=Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None).First(s=>s.id=="Arrival").transform.position;
-            baseline=Bake()?WithNavigation(()=>ReachablePrompts(arrival)):new HashSet<InteractionPrompt>();
+            baseline=!Flight&&Bake()?WithNavigation(()=>ReachablePrompts(arrival)):new HashSet<InteractionPrompt>();
             decalMeshes.Clear();BeginDetails();
-            if(zone=="Hub_Decks")Decks();else if(zone=="TallowDrift")Tallow();else Sorrel();
+            if(zone=="Hub_Decks")Decks();else if(zone=="TallowDrift")Tallow();else if(Cave)Hushwell();else if(Flight)Gullet();else Sorrel();
             FlushDetails();
+            ChunkRenderer();
             SaveDecals();
             Physics.SyncTransforms();
             Clearances();
-            Audit();
+            if(Flight)FlightAudit();else Audit();
+            }
+            finally{foreach(var seal in seals)seal.enabled=true;}
             foreach(var p in problems)Debug.LogWarning("DRESSING_PROBLEM "+zone+": "+p);
-            Debug.Log($"DRESSING_ZONE {zone} pieces={placed.Count} problems={problems.Count}");
+            Debug.Log($"DRESSING_ZONE {zone} pieces={placed.Count} problems={problems.Count} seals-restored={seals.Length}");
             if(problems.Count>0&&!allow)return false;
             EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);
             return true;
@@ -151,12 +170,14 @@ namespace Lattice.EditorTools
                     if(hit.collider.transform.IsChildOf(root)||hit.normal.y<.5f)continue;
                     // Pass-2 Sorrel pieces stand on the terrain itself, never on a rock or roof.
                     if(terrainGround&&!IsTerrain(hit.collider))continue;
+                    // The cave and the Gullet have one ground: the cave floor (never a rock top) or the membrane bed.
+                    if((Cave||Flight)&&(!IsTerrain(hit.collider)||float.IsNaN(Floor(hit.point))))continue;
                     // Station floors are at deck level; anything standing proud of them is not floor.
-                    if(zone!="Sorrel_Ridges"&&hit.point.y>.3f)continue;
+                    if(Station&&hit.point.y>.3f)continue;
                     lowest=Mathf.Min(lowest,hit.point.y);break;
                 }
             }
-            return float.IsInfinity(lowest)?0:lowest;
+            return float.IsInfinity(lowest)?(Cave?HushwellLayout.Level(z):0):lowest;
         }
         /// <summary>A stand-in replaced by generated furniture is switched off, never deleted.</summary>
         static void Retire(string key,float x,float z,float radius=.8f)
@@ -340,7 +361,8 @@ namespace Lattice.EditorTools
         static bool Bake()
         {
             foreach(var nav in Object.FindObjectsByType<GroundNavigation>(FindObjectsInactive.Include,FindObjectsSortMode.None))Object.DestroyImmediate(nav.gameObject);
-            try{if(zone=="Sorrel_Ridges")SorrelRedesign.BakeNavigation();else StationNavigationBake.Bake(zone);return true;}
+            // Hushwell's own bake also proves every route point, both pockets, the nursery and each ore approach.
+            try{if(zone=="Sorrel_Ridges")SorrelRedesign.BakeNavigation();else if(Cave)HushwellBuilder.BakeNavigation();else StationNavigationBake.Bake(zone);return true;}
             catch(Exception e){problems.Add("navigation: "+e.Message);return false;}
         }
         static T WithNavigation<T>(Func<T> body)
@@ -368,12 +390,15 @@ namespace Lattice.EditorTools
                 {
                     float a=i*Mathf.PI/8;var probe=at+new Vector3(Mathf.Cos(a)*r,0,Mathf.Sin(a)*r);
                     // Prompts sit on their fixture (a console's centre is 0.8 m up); test the floor below.
-                    if(!NavMesh.SamplePosition(probe,out var hit,at.y+1f,NavMesh.AllAreas))continue;
+                    // A fixed 2 m search: the old radius (at.y+1) went negative below y=0, so every prompt on
+                    // Hushwell's lower levels silently counted as unreachable and was never protected (D193).
+                    if(!NavMesh.SamplePosition(probe,out var hit,2f,NavMesh.AllAreas))continue;
                     var flat=hit.position-at;flat.y=0;var drift=hit.position-probe;drift.y=0;
                     if(flat.magnitude>prompt.range||drift.magnitude>.4f)continue;
                     var path=new NavMeshPath();ok=NavMesh.CalculatePath(from.position,hit.position,NavMesh.AllAreas,path)&&path.status==NavMeshPathStatus.PathComplete;
                 }
                 if(ok)result.Add(prompt);
+                if(Cave)Debug.Log($"DRESSING_PROMPT {zone} {prompt.GetType().Name} '{prompt.name}' at {at} reachable={ok}");
             }
             return result;
         }
