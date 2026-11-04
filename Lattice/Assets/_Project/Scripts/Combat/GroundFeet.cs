@@ -174,7 +174,10 @@ namespace Lattice.Combat
             // bend reserve even at the owned stride (D197). At stride 1 the
             // landing leg otherwise reached full extension and unlocked at
             // ~1230 deg/s on flat ground, a visible snap in the civil walk.
-            if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp(WalkBendReserve+(stride-1)*.18f,WalkBendReserve,.08f);
+            // Steep support already keeps four extra centimetres of bend in the
+            // solver, so the reserve fades out with the terrain blend.
+            float bendReserve=WalkBendReserve*(1-terrainBlend);
+            if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp(bendReserve+(stride-1)*.18f,bendReserve,.08f);
             MaximumReachCorrection=0;
             float directional=targetFacing?Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0):0;
             // A slow uphill step has room to support the hips vertically.

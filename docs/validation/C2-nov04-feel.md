@@ -25,3 +25,5 @@ Gait regressions now run at the new civil paces (1.5 / 4.5 / 6.6 m/s). The first
 Results: EditMode 194/194 (`editmode-green.xml`); targeted PlayMode 17/17 (`playmode-feel-green.xml`). Full PlayMode and the chain follow with the batch.
 
 Not judged: how the new gait looks in motion on Nathan's screen, and how the Precision feels; both need a person.
+
+**Full PlayMode on `a7f25e0`: 472/475** (`playmode-full-on-a7f25e0-RED.xml`). Two Taren slope cases regressed from the walking bend reserve (downhill braking 1225 deg/s, uphill start 6.1 m/s on 39 degrees: steep support already keeps 4 cm of bend in the solver), and the dialogue sweep's outcome table assumed every Mira node opens her stock. The reserve now fades out with the terrain blend, and `MiraOpening` is listed as returning to the world. EditMode 194/194; the stride and dialogue-input classes pass (`playmode-fixup-green.xml`).
