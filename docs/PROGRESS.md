@@ -1,6 +1,46 @@
 # CORONACH slice progress
 
-## Hushwell lit and dressed, the Gullet's floor anatomy - November 4 (latest)
+## The first morning, dressed exteriors, a coiled Cantor and a reeling line - November 4 (latest)
+
+**New playable candidate: `Builds/Workshop-Nov04/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV04.md)), built from `f931c48`.
+- `Workshop-Nov03d`, `Nov03c`, `Nov03b`, `Nov03` and the frozen October 4 chapter were re-verified against their manifests.
+- **188 EditMode / 470 PlayMode** pass with graphics, zero skipped.
+- **The New Game → Tallow chain passes in 42:14 with the displays awake under ordinary VSync** ([chain](validation/C7-nov04-chain.md)), so its timings count.
+  - Outside scene loads there was a single frame over 33 ms in 42 minutes: 50 ms on a Tallow dialogue line, unexplained.
+- Two awake ten-minute Decks stability runs are clean (worst 25.1 and 26.3 ms). October's 34/42/62 ms Decks hitches did not reproduce. They are not diagnosed.
+
+**The opening scene from the story plan now plays on a genuine New Game (D195).**
+- Taren repairs the office-to-market walkway: amber gates, an open service cover, Mira's cart over his safety line.
+- Sela walks across the market with a receipt for a ship that already left.
+- The bridge shudders under a line of dialogue (camera tremor, creak). Then the gates fold, Sela walks on to wait for Orrin and Mira returns to her bay.
+- Orrin is unavailable until it is done, so his join cannot be skipped; disabled prompts now refuse direct requests.
+- Older saves and fixtures never see the scene. The chapter-01 route gains it by insertion.
+- `docs/writing` had stale dialogue copies that a world rebuild would have restored over the shipped text; they are synced.
+
+**Places (D196)**
+- The Halo's roofs and the Tallow refuge deck got their first dressing pass (`ExteriorAudit`).
+- Hushwell's lower ramp no longer reads black. The floor's three-step toon ramp had been rounding shaded floor down to no light; it now uses six steps.
+- The Gullet's coil scour fades out, and grooves lead to the exit.
+- The dormant Cantor rests coiled.
+- Tallow's line is a generated rope that reels in once seen (9 Meshy credits, balance 3,142).
+
+**Balance (D194)**
+- Burst skills deal 2.6× output instead of 1.7-1.8.
+- The Gullet's ordinary enemies hit 20% harder. Hushwell went back to 1 after Taren fell there in the chain (kept as evidence).
+
+[Evidence](validation/C8-nov04-batch.md).
+- The opening passed its in-player eye test (agent review). A missing safety line was rejected and fixed.
+- **Sela's high stepping is diagnosed, not fixed** ([fold](validation/C2-uphill-fold.md)):
+  - `UphillStepAudit` shows both heroes fold, at 61° against the recorded 60.9°.
+  - Five tuning variants broke planted-sole or knee-continuity checks, so the walk is unchanged.
+  - It needs gravity-frame uphill posing.
+
+Still OPEN:
+- human play and controller feel, audio, the uphill fold;
+- resident interiors (need generated resident bodies), the Cantor preview's in-player eye test, the unexplained Tallow dialogue frame;
+- C9A.
+
+## Hushwell lit and dressed, the Gullet's floor anatomy - November 4
 
 **New playable candidate: `Builds/Workshop-Nov03d/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV03D.md)), built from `34c6d30`. `Workshop-Nov03c`, `Workshop-Nov03b`, `Workshop-Nov03` and the frozen October 4 chapter re-verified byte-identical. **188 EditMode / 461 PlayMode** pass with graphics, zero skipped. The New Game → Tallow chain passes in **2,486.3 s (41:26)**, all 11 segments focused and valid, both heroes level 7 at full integrity; displays were asleep, so `-DiagnosticVSync 0` and progression evidence only. Against the previous chain: 51/51 intervals over 25 ms, identical medians. [Chain](validation/C7-nov03d-chain.md).
 

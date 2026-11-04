@@ -1,11 +1,11 @@
-# Coronach - continuation prompt (November 3, 2026, after dressing pass 2)
+# Coronach - continuation prompt (November 4, 2026, after the first-morning batch)
 
 You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md`.
 
 ## Read first
 
-1. `docs/PROGRESS.md`, newest entry first (November 4: Hushwell lit and dressed, the Gullet's floor), then `docs/WORKSHOP_NOV03D.md` and `docs/validation/C8-dressing-pass3.md`.
-2. `docs/DECISIONS.md` D186-D193 (D191 room dressing and `SightlineAudit`, D192 detail layer, D193 Hushwell/Gullet dressing, lit cave chunks, flight ceiling) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
+1. `docs/PROGRESS.md`, newest entry first (November 4: the first morning, dressed exteriors, coiled Cantor, reeling line), then `docs/WORKSHOP_NOV04.md`, `docs/validation/C8-nov04-batch.md`, `docs/validation/C7-nov04-chain.md` and `docs/validation/C2-uphill-fold.md`.
+2. `docs/DECISIONS.md` D186-D196 (D191 room dressing and `SightlineAudit`, D192 detail layer, D193 Hushwell/Gullet dressing, D194 skills and zone threat, D195 the first morning, D196 exteriors, coil, reel) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
 3. `docs/PRODUCTION_PLAN.md`: milestones C1-C10, evidence rules, MAP_EYE_TEST.
 4. As needed: `docs/STORY_CAMPAIGN.md`, `docs/WORLD_ATLAS.md`, `docs/maps/*.md`, `docs/validation/*.md`. The previous, much longer prompt is in git history if you need older detail.
 
@@ -17,18 +17,48 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 
 ## Where things stand
 
-- The playable chapter runs Title → Decks → Sorrel → Hushwell → Halo → Gullet → Tallow. An agent-directed virtual-gamepad chain completed New Game → Tallow in 41:26 (`docs/validation/C7-nov03d-chain.md`; segments 1-8 on `d6643fb`, 9-11 on `34c6d30`; displays asleep, `-DiagnosticVSync 0`, progression only). **188 EditMode / 461 PlayMode** pass.
-- **Nathan's current build:** `Builds/Workshop-Nov03d/Play Coronach.cmd` (source `34c6d30`, own profile). `Builds/Workshop-Nov03c` (`5a656ce`), `Workshop-Nov03b` (`f019bcf`), `Workshop-Nov03` (`a7409db`) and the frozen `Builds/Workshop-Chapter` (`a3aaad6`, 243 files) must stay byte-identical.
-- The Decks, Tallow, Sorrel, Hushwell and the Gullet are dressed by `Lattice.EditorTools.RoomDressing.Apply` (D191-D193): it rebuilds only each scene's `Room dressing` root, rebakes navigation and refuses layouts that block replay routes/doors/speakers/spawns/encounters, remove a prompt approach, or hide a hero (`Lattice.World.SightlineAudit`). **Rerun it after any rebuild of those scenes** (`-dress-zones`, `-dress-floors` for deck wear). D192 adds a flat detail layer (`RoomDressing.Detail.cs`/`Places.cs`: studs, pictograms, hazard paint, inset plates, Sorrel ground patches and tyre tracks, plants, boulders, beacons) and lit bollards; `RoomDressingDetailTests` (EditMode) keep every detail on the real ground. Route protection is per segment: a segment into an interactable is an approach; one through a wall marks the route obsolete. Generated `Dress*` kit: 27 pieces plus the D193 six (work lamp, rail buffer, power cell, wall crystal, hatched and single-egg cradles) in `Prefabs/Environment`; decal textures in `Art/Generated/Dressing` (D193 sources cut by `tools/dressing_decals3.py`). Hushwell: the builder also draws the cave in 16 m `Lit render chunks` (the whole-cave renderer is switched off; collider untouched), opens its seals for the run and restores them before saving. Gullet: no solid pieces; every renderer below y=-0.6 (`FlightAudit`). Meshy live balance 3,151.
-- Paid Staggart water and grass stay a private, ignored layer with public fallbacks (D131). Every zone has authored light and grade (D189).
+- The playable chapter runs Title → the first morning on the Decks → Sorrel → Hushwell → Halo → Gullet → Tallow.
+- The New Game → Tallow chain passes in 42:14 (`docs/validation/C7-nov04-chain.md`).
+  - **The displays were awake under ordinary VSync**: a display-required execution state held them on, so the timings count.
+  - Outside scene loads there was one frame over 33 ms (Tallow dialogue, unexplained).
+  - Two awake ten-minute Decks stability runs are clean; October's hitches did not reproduce and are not diagnosed.
+- **188 EditMode / 470 PlayMode** pass.
+- **Nathan's current build:** `Builds/Workshop-Nov04/Play Coronach.cmd` (source `f931c48`, own profile).
+  - `Workshop-Nov03d` (`34c6d30`), `Nov03c`, `Nov03b`, `Nov03` and the frozen `Builds/Workshop-Chapter` (`a3aaad6`) must stay byte-identical to their `player-manifest.json` (hashes are of the files under `Player/`).
+- **The first morning (D195).** Only a Title New Game sets `opening.marketRequested`; Continue, old saves and fixtures skip the scene.
+  - `MarketOpeningStaging` (isolated) builds the gates, cover, cart and repair point on the Decks bridge.
+  - `OpeningMarketSequence` presents the saved state and holds Orrin until `opening.walkwayRepaired`.
+  - `ScriptedWalk` moves Sela and Mira.
+  - `<<stationShift>>` gives the deck tremor.
+  - Rerun `MarketOpeningStaging.Refresh` after any Decks rebuild; it sweeps both walks against the real scene.
+- **Dressing.**
+  - `RoomDressing.Apply` dresses the Decks, Tallow, Sorrel, Hushwell, the Gullet, **the Halo roofs and the Tallow refuge deck** (D191-D196). Rerun it after any rebuild of those scenes (`-dress-zones`).
+  - Exterior roofs: collider-free, on a roof above the flight plane, 2 m back from every edge (`ExteriorAudit`).
+  - Flight zones: details only, below y=-0.6 (`FlightAudit`).
+  - Hushwell's floor material uses 6 toon ramp steps (the rock 3).
+- **Actors.** The dormant Cantor rests coiled (`SerpentSegments.Rest`). Tallow's line is a generated rope (`TallowMooringStaging.RefreshCable`) that reels in after `tallow.lineObserved` (`TallowLineReel`).
+- **Balance (D194).** Burst skills deal 2.6× output (`CombatActor.SkillBurst`). `ZoneDef.enemyThreat`: Gullet 1.2, Sorrel and Hushwell 1. At 1.25 in Hushwell, Taren fell in the chain.
+- Meshy live balance 3,142.
+- Paid Staggart water and grass stay a private, ignored layer with public fallbacks (D131).
 
 ## What to do next, in order
 
-1. **Places, remaining.** MAP_EYE_TEST_OK now holds for the Decks interior/Halo pairing, Tallow, Sorrel (blockout recorded November 4 from retained evidence), and Hushwell, all by agent review. Hushwell's lower ramp into the nursery is still dark (the miners never went below; more seam light, not lamps). The Gullet floor passes in player; the coil's dormant-preview composition and release presentation stay open in its brief, and its scour arcs end square. Next places: the Halo exterior and TallowApproach never had a dressing pass; look at them with the same eyes. Keep D119 via `SightlineAudit`; collidable pieces on open floor stay ≤ ~1.4 m.
-2. **Remaining C8 staging:** opening walkway and Sela's arrival scene; resident interiors and town/service loops; a reeling animation and a less flat cable for Tallow's line; the Gullet coil's quiet pre-fight composition.
-3. **Feel and presentation defects still open:** Sela's high stepping on slopes; the awake-display Decks hitches (34/42/62 ms, unexplained); combat balance (fights currently 50-80 s by agent input). Timing evidence is only valid with displays awake. Check display state first (D154); with displays asleep, use `-DiagnosticVSync 0` for progression runs only.
-4. After a meaningful batch: full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, commit and push.
-5. Then C9A (Xylos / Many Hands) per the atlas, with blockouts before art.
+1. **Sela's uphill fold (both heroes fold).**
+   - Re-pose uphill walking in `GroundFeet` in the gravity frame: an upright torso, slope-aware foot targets, and a trailing heel that lifts at toe-off.
+   - Do not retune parameters; five variants broke the planted-sole and knee-continuity checks (`docs/validation/C2-uphill-fold.md`).
+   - `Lattice.EditorTools.UphillStepAudit.Run` is the acceptance check; it is OPEN at 8 of 8 on the committed walk.
+2. **Town life.**
+   - Resident interiors and town/service loops need ordinary resident bodies. Generate 3-4 Decks residents with the Meshy character pipeline (rigged to the donor, a measured stride profile each), then give them `ScriptedWalk`-style loops on the public and service routes.
+   - Mira's walk back to her bay has no measured stride profile.
+3. **Places.**
+   - The Cantor preview's in-player eye test (the coil now rests coiled; the moorings keep their rectangle).
+   - The refuge hull's own texture is soft in the closest dock view.
+4. **Presentation.**
+   - The one 50 ms frame on a Tallow dialogue line.
+   - C1's remaining evidence: release first/warm laps, development stability, uncapped headroom, a person watching the motion.
+   - Check that the displays are awake before timing runs (D154).
+5. After a meaningful batch: full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, commit and push.
+6. Then C9A (Xylos / Many Hands) per the atlas, with blockouts before art.
 
 **Evidence proportionality.** Keep the hard rules: prove a new check fails on the broken state first, never loosen an assertion, keep failed evidence, and never claim unobserved quality (human play, controller feel, listening, continuous motion). But keep validation notes short, and spend time on what a player sees and feels. Earlier sessions spent whole days on single props and evidence bookkeeping while the maps stayed empty.
 
@@ -55,6 +85,8 @@ python tools/eye_sheet.py Builds/quality/<run> --per-sheet 16 --every 2
 ```
 
 Dressing: `& .\scripts\exec.ps1 -Method Lattice.EditorTools.RoomDressing.Apply -Marker ROOM_DRESSING_OK -Graphics -ExtraArgs @('-dress-zones','Hub_Decks,TallowDrift,Sorrel_Ridges,Hushwell,Gullet_Tunnel','-dress-final')` (a refused zone is left unsaved and the run fails; read `DRESSING_PROBLEM` lines in the exec log).
+
+Opening staging: `& .\scripts\exec.ps1 -Method Lattice.EditorTools.MarketOpeningStaging.Refresh -Marker MARKET_OPENING_STAGING_OK -Graphics`. Tallow rope/reel: `-Method Lattice.EditorTools.TallowMooringStaging.RefreshCable -Marker TALLOW_CABLE_OK`. Uphill fold audit: `-Method Lattice.EditorTools.UphillStepAudit.Run -Marker UPHILL_STEP_AUDIT -Graphics` (prints `UPHILL_STEP_AUDIT OPEN|PASS`).
 
 Chain order: chapter-01-new-game-decks (no ResumeFrom), 02-continue-sorrel, 03-defeat-retry, 04-haul-preparation, 05-drill-equipment, 06-burrower, 07-enter-hushwell, 08-hushwell-nursery, 09-calibrated-gullet, 10-gullet-evasive (~13 min: it outlives the 10-minute tool limit and moves to the background; issue nothing until it reports), 11-tallow-reading-return. `python tools/quality_chain_summary.py <folders>` prints a one-line verdict per run.
 
