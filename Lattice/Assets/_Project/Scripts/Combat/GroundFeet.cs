@@ -50,6 +50,9 @@ namespace Lattice.Combat
         float balanceWeight;
         float idleBalanceLift;
         Vector3 balanceUp=Vector3.up;
+        Vector3 previousVelocity;float previousYaw,leanPitch,leanRoll;
+        public float LeanPitch=>leanPitch;
+        public float LeanRoll=>leanRoll;
         void OnEnable(){ResetContacts();}
 
         public void Initialize(Animator rig,Transform root,GroundStrideProfile calibration)
@@ -167,7 +170,11 @@ namespace Lattice.Combat
             // A longer brisk-walk step needs knee room. Lower the animated
             // pelvis by at most eight centimetres instead of stretching a leg
             // past its chain length or accelerating the entire take further.
-            if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp((stride-1)*.18f,0,.08f);
+            // A walking knee never locks straight at heel strike: keep a small
+            // bend reserve even at the owned stride (D197). At stride 1 the
+            // landing leg otherwise reached full extension and unlocked at
+            // ~1230 deg/s on flat ground, a visible snap in the civil walk.
+            if(clip=="Walk")pelvis.position-=supportUp*Mathf.Clamp(WalkBendReserve+(stride-1)*.18f,WalkBendReserve,.08f);
             MaximumReachCorrection=0;
             float directional=targetFacing?Mathf.Max(Mathf.Abs(yaw)/90,reverse?1:0):0;
             // A slow uphill step has room to support the hips vertically.
@@ -208,6 +215,7 @@ namespace Lattice.Combat
                 1-Mathf.Exp(-Mathf.Max(0,deltaTime<0?Time.unscaledDeltaTime:deltaTime)/(clip=="Sprint"?.01f:.025f-.005f*balanceWeight)));
             pelvis.position-=balanceUp*smoothedSupportDrop;
             Complete(left);Complete(right);
+            Lean(velocity,clip,reset,paused,targetFacing,correctionDelta);
             if(!paused)
             {
                 bool canSound=actor!=null&&actor.Health.Alive&&!actor.flight&&!actor.ChangingForm&&
@@ -215,6 +223,35 @@ namespace Lattice.Combat
                 Footfall(left,canSound,transitioning);Footfall(right,canSound,transitioning);
             }
         }
+        /// <summary>D197. A free-running body leans into its pace and its acceleration and banks into turns, applied at the
+        /// lower spine after both legs are solved, so contacts and knees are untouched. Walking, target-facing travel
+        /// and paused frames keep the donor torso. Pause reapplies the held lean without advancing it.</summary>
+        void Lean(Vector3 velocity,string clip,bool reset,bool paused,bool targetFacing,float delta)
+        {
+            if(spine.Length==0)return;
+            float yaw=heading.eulerAngles.y;
+            if(!paused)
+            {
+                float pitch=0,roll=0;
+                bool running=(clip=="Run"||clip=="Sprint")&&!targetFacing;
+                if(running&&!reset&&delta>0)
+                {
+                    var forward=heading.forward;forward.y=0;forward.Normalize();
+                    var planar=velocity;planar.y=0;float speed=planar.magnitude;
+                    float acceleration=Vector3.Dot(planar-previousVelocity,forward)/delta;
+                    float turnRate=Mathf.DeltaAngle(previousYaw,yaw)/delta;
+                    pitch=Mathf.Clamp(speed*MaxLeanPerMetre+acceleration*.1f,-4,MaxLean);
+                    roll=Mathf.Clamp(-turnRate*speed*.0018f,-MaxBank,MaxBank);
+                }
+                float follow=reset?1:1-Mathf.Exp(-delta/.12f);
+                leanPitch=Mathf.Lerp(leanPitch,pitch,follow);leanRoll=Mathf.Lerp(leanRoll,roll,follow);
+                var flat=velocity;flat.y=0;previousVelocity=flat;previousYaw=yaw;
+            }
+            if(Mathf.Abs(leanPitch)<.01f&&Mathf.Abs(leanRoll)<.01f)return;
+            var right=heading.right;right.y=0;right.Normalize();var ahead=heading.forward;ahead.y=0;ahead.Normalize();
+            spine[0].rotation=Quaternion.AngleAxis(leanRoll,ahead)*Quaternion.AngleAxis(leanPitch,right)*spine[0].rotation;
+        }
+        public const float MaxLean=8,MaxBank=8,MaxLeanPerMetre=.6f,WalkBendReserve=.02f;
         void Footfall(Leg leg,bool eligible,bool transitioning)
         {
             if(!eligible){leg.soundReady=false;return;}

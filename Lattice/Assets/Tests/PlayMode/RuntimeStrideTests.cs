@@ -118,7 +118,7 @@ namespace Lattice.Tests.PlayMode
                 {
                     var root=new GameObject("redirected free travel",typeof(Health),typeof(CombatActor));root.transform.position=new Vector3(100,0,100);
                     var actor=root.GetComponent<CombatActor>();actor.character=hero;actor.TargetLocked=false;
-                    Vector3 travel=Quaternion.Euler(0,angle,0)*Vector3.forward;float speed=shaped?6.7f:2.6f;
+                    Vector3 travel=Quaternion.Euler(0,angle,0)*Vector3.forward;float speed=shaped?6.7f:GroundMotor.NaturalJog;
                     actor.motor=new Travel{velocity=travel*speed};
                     var definition=GameCatalog.Find<CharacterDef>(hero);var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
                     var rig=body.GetComponentInChildren<Animator>();float maximum=0;int samples=0;float started=Time.unscaledTime;
@@ -199,7 +199,7 @@ namespace Lattice.Tests.PlayMode
             Physics.SyncTransforms();
             try
             {
-                foreach(float speed in new[]{2.6f,6.7f,10.8f})
+                foreach(float speed in new[]{GroundMotor.NaturalWalk,GroundMotor.NaturalJog,6.7f,10.8f})
                 {
                     var root=new GameObject("moving emitter stride",typeof(Health),typeof(CombatActor),typeof(RangedContact));
                     root.transform.position=new Vector3(200,0,200);
@@ -225,7 +225,7 @@ namespace Lattice.Tests.PlayMode
                                 for(int side=0;side<2;side++)
                                 {
                                     float p=Mathf.Repeat(phase-side*(speed>7.5f?.55f:.5f),1);
-                                    bool planted=speed<3.1f?p>=.2f&&p<=.4f:p>=.08f&&p<=.16f;
+                                    bool planted=GeneratedAnimator.Gait(speed)=="Walk"?p>=.2f&&p<=.4f:p>=.08f&&p<=.16f;
                                     var samples=stances[side];
                                     if(planted)samples.Add(feet[side]);
                                     else if(samples.Count>0)
@@ -441,6 +441,8 @@ namespace Lattice.Tests.PlayMode
             }
             finally{GameTime.Reset();Object.Destroy(floor);Application.targetFrameRate=previousCap;}
         }
+        /// <summary>D197 paces: the civil light-tilt walk and full-tilt jog on the Natural body, the combat run on the Shaped one.</summary>
+        static readonly (bool shaped,float pace)[] Paces={(false,GroundMotor.NaturalWalk),(false,GroundMotor.NaturalJog),(true,6.7f)};
         static IEnumerator SlopeContacts(float[] slopes)
         {
             GameTime.Reset();
@@ -449,7 +451,7 @@ namespace Lattice.Tests.PlayMode
             var failures=new List<string>();
             try
             {
-                foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})foreach(float slope in slopes)
+                foreach(string hero in new[]{"Taren","Sela"})foreach(var (shaped,pace) in Paces)foreach(float slope in slopes)
                 {
                     floor.transform.rotation=Quaternion.Euler(-slope,0,0);
                     Vector3 normal=floor.transform.up,surface=floor.transform.position+normal*.5f;
@@ -474,7 +476,7 @@ namespace Lattice.Tests.PlayMode
                                 float phase=Mathf.Repeat(animator.GetCurrentAnimatorStateInfo(0).normalizedTime,1);
                                 for(int side=0;side<2;side++)
                                 {
-                                    float p=Mathf.Repeat(phase-side*.5f,1);bool stance=shaped?p>=.08f&&p<=.16f:p>=.2f&&p<=.4f;
+                                    float p=Mathf.Repeat(phase-side*.5f,1);bool stance=GeneratedAnimator.Gait(pace)!="Walk"?p>=.08f&&p<=.16f:p>=.2f&&p<=.4f;
                                     var list=points[side];var point=side==0?left.Point():right.Point();
                                     if(stance)
                                     {
@@ -488,10 +490,10 @@ namespace Lattice.Tests.PlayMode
                                     }
                                 }
                             }
-                            motor.Move(Vector2.up*(shaped?1:2.6f/6.7f),false,false);
+                            motor.Move(Vector2.up*(pace/6.7f),false,false);
                             yield return null;
                         }
-                        string context=hero+(shaped?" Shaped":" Natural")+" slope "+slope;
+                        string context=hero+(shaped?" Shaped":" Natural")+" "+pace+" m/s slope "+slope;
                         Debug.Log($"RUNTIME_SLOPE_CASE {context} contacts={contacts} drift={drift:F6} penetration={penetration:F6} lift={lift:F6}");
                         if(contacts<4)failures.Add(context+" fewer than four real contacts");
                         if(drift>.05f)failures.Add(context+" planted sole travel "+drift);
@@ -514,12 +516,12 @@ namespace Lattice.Tests.PlayMode
             Physics.SyncTransforms();
             try
             {
-                foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})
+                foreach(string hero in new[]{"Taren","Sela"})foreach(var (shaped,speed) in Paces)
                 foreach(float direction in new[]{0f,90,180})
                 {
                     var root=new GameObject("runtime stride "+hero,typeof(Health),typeof(CombatActor));root.transform.position=new Vector3(100,0,100);
                     var actor=root.GetComponent<CombatActor>();actor.character=hero;
-                    var travel=Quaternion.Euler(0,direction,0)*Vector3.forward;float speed=shaped?6.7f:2.6f;
+                    var travel=Quaternion.Euler(0,direction,0)*Vector3.forward;
                     actor.motor=new Travel{velocity=travel*speed};
                     var definition=GameCatalog.Find<CharacterDef>(hero);
                     var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
@@ -536,7 +538,7 @@ namespace Lattice.Tests.PlayMode
                                 float phase=Mathf.Repeat(animator.GetCurrentAnimatorStateInfo(0).normalizedTime,1);
                                 for(int side=0;side<2;side++)
                                 {
-                                    float p=Mathf.Repeat(phase-side*.5f,1);bool stance=shaped?p>=.08f&&p<=.16f:p>=.2f&&p<=.4f;
+                                    float p=Mathf.Repeat(phase-side*.5f,1);bool stance=GeneratedAnimator.Gait(speed)!="Walk"?p>=.08f&&p<=.16f:p>=.2f&&p<=.4f;
                                     var list=points[side];var point=side==0?left.Point():right.Point();
                                     if(stance){list.Add(point);penetration=Mathf.Max(penetration,-point.y);}
                                     else if(list.Count>0)
@@ -549,7 +551,7 @@ namespace Lattice.Tests.PlayMode
                             root.transform.position+=travel*speed*Time.unscaledDeltaTime;
                             yield return null;
                         }
-                        string context=hero+(shaped?" Shaped":" Natural")+" direction "+direction;
+                        string context=hero+(shaped?" Shaped":" Natural")+" "+speed+" m/s direction "+direction;
                         Assert.GreaterOrEqual(contacts,4,context+" must include repeated actual stance intervals");
                         Assert.LessOrEqual(drift,.05f,context+" rendered planted sole drift");
                         Assert.LessOrEqual(penetration,.03f,context+" rendered sole penetration");

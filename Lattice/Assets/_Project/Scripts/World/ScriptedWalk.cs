@@ -9,7 +9,9 @@ namespace Lattice.World
     /// holds: the civilian waits at the start of <see cref="path"/>, walks it once the party comes near
     /// <see cref="beginNear"/>, and walks <see cref="exitPath"/> once <see cref="exitFlag"/> is set. A scene loaded after
     /// the exit flag leaves the civilian where the scene places it (the exit path's end), so no walk is replayed. The
-    /// walk stops for pause, input-blocking UI and anything standing in the way; it never pushes through the player.
+    /// walk stops for pause and anything standing in the way, and it never pushes through the player. An approach that
+    /// a conversation may begin before it finishes (<see cref="walkThroughDialogue"/>) keeps walking under that dialogue;
+    /// every other walk also stops for input-blocking UI.
     /// </summary>
     [DefaultExecutionOrder(-50)]
     public sealed class ScriptedWalk:MonoBehaviour
@@ -18,6 +20,9 @@ namespace Lattice.World
         public string requireFlag="opening.marketRequested",exitFlag="opening.walkwayRepaired",skipIfJoined;
         public Transform beginNear;public float beginDistance=11;
         public float speed=1.1f,turnSpeed=300;
+        /// <summary>The first approach continues while dialogue blocks input (D197): the repair is offered once Sela sets
+        /// off, so she may still be crossing the market when its first lines play.</summary>
+        public bool walkThroughDialogue;
         readonly RaycastHit[] hits=new RaycastHit[16];
         GameState owner;Vector3[] current;int next;bool exiting;
         public enum Stage{Inactive,Waiting,Walking,Arrived,Exiting,Done}
@@ -41,7 +46,8 @@ namespace Lattice.World
             if(Phase==Stage.Inactive||Phase==Stage.Done)return;
             var service=GameServices.Current;
             if(service==null||!ReferenceEquals(owner,service.State)){Phase=Stage.Inactive;return;}
-            if(GameTime.Paused||GameInput.Current!=null&&GameInput.Current.Blocked)return;
+            if(GameTime.Paused)return;
+            if(GameInput.Current!=null&&GameInput.Current.Blocked&&!(walkThroughDialogue&&Phase==Stage.Walking))return;
             if(Phase==Stage.Waiting)
             {
                 var party=PartyController.Current;

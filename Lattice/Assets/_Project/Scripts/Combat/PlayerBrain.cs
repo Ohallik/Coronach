@@ -24,8 +24,7 @@ namespace Lattice.Combat
             Vector2 move=input.Move;
             var rotated=Quaternion.Euler(0,zone.definition.cameraProfile.yaw,0)*new Vector3(move.x,0,move.y);
             move=new Vector2(rotated.x,rotated.z);
-            bool boost=input.Held(actor.flight?"Boost":"Sprint")&&actor.thrust>1;
-            if(boost)actor.thrust=Mathf.Max(0,actor.thrust-Time.unscaledDeltaTime*34);
+            bool boost=SprintRequested(input.Held(actor.flight?"Boost":"Sprint"),move);
             actor.motor.Move(move,boost,actor.flight&&input.Held("Brake"));
             if(input.Pressed("Swap")&&!input.SkillMod)PartyController.Current.Swap();
             if(!combat)return;
@@ -57,6 +56,28 @@ namespace Lattice.Combat
             if(!actor.flight&&input.Pressed("QuickItem"))UseItem();
             if(actor.target==null||!actor.target.Targetable)actor.target=FindTarget();
         }
+        /// <summary>Thrust that must refill before a spent ground sprint resumes. Without it an empty bar flickered the sprint
+        /// on and off every few frames, which averaged out near walking pace while the button was still held.</summary>
+        public const float SprintRecovery=30;
+        bool winded;
+        /// <summary>D197. Civil (Natural form) sprinting is free: town travel has no reason to run out of breath. A combat
+        /// sprint spends Thrust only while it actually carries the body, and once spent waits for
+        /// <see cref="SprintRecovery"/> instead of flickering. Flight boost keeps its established budget.</summary>
+        bool SprintRequested(bool held,Vector2 move)
+        {
+            if(actor.flight)
+            {
+                bool engine=held&&actor.thrust>1;
+                if(engine)actor.thrust=Mathf.Max(0,actor.thrust-Time.unscaledDeltaTime*34);
+                return engine;
+            }
+            if(TryGetComponent<FormController>(out var form)&&form.Current==Lattice.Data.BodyForm.Natural){winded=false;return held;}
+            if(actor.thrust<=1)winded=true;else if(winded&&actor.thrust>=SprintRecovery)winded=false;
+            bool sprint=held&&!winded&&move.sqrMagnitude>.01f;
+            if(sprint)actor.thrust=Mathf.Max(0,actor.thrust-Time.unscaledDeltaTime*34);
+            return sprint;
+        }
+        public bool Winded=>winded;
         void OnDisable(){lungeRequestedUntil=attackRequestedUntil=-1;if(actor!=null)actor.TargetLocked=false;}
         public Health FindTarget()
         {

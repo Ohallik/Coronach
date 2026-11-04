@@ -9,6 +9,14 @@ namespace Lattice.Combat
         public TravelPhase Phase{get;private set;}
         CharacterController controller;CombatActor actor;
         public float speed=6.7f;
+        /// <summary>Civil (Natural form) paces, D197. The owned walk is a 1.1 m/s stroll and the owned jog only reads as
+        /// running near its own pace, so the old 2.6 m/s "walk" drove a stretched, crouched stroll and the 5.4 m/s sprint a
+        /// slow-motion jog (Nathan, November 4: "walking or running through a swamp"). Full tilt is now a compact jog; a
+        /// light tilt walks; sprint is the jog at its own stride.</summary>
+        public const float NaturalWalk=1.5f,NaturalJog=4.5f,NaturalSprint=6.6f,WalkTilt=.5f;
+        /// <summary>Heading change carried at speed (degrees per second). A sprint that turns keeps its pace instead of
+        /// braking through a straight-line velocity blend; only a near-reversal stops and restarts.</summary>
+        public const float CivilTurnRate=720,CombatTurnRate=900,ReversalAngle=150;
         public Vector3 Facing{get;private set;}=Vector3.forward;
         Vector3 measuredVelocity;
         Vector3 travelVelocity;
@@ -33,7 +41,10 @@ namespace Lattice.Combat
                 Facing=transform.forward;
             }
             bool natural=GetComponent<FormController>()?.Current==Lattice.Data.BodyForm.Natural;
-            float pace=natural?(boost?5.4f:2.6f):speed*(boost?1.55f:1);
+            float tilt=direction.magnitude;
+            // Civil movement: a light tilt walks; past half tilt the body jogs at a fixed pace (a digital pad or keys
+            // always jog). Combat keeps proportional analog control.
+            float pace=natural?(tilt<WalkTilt?NaturalWalk/WalkTilt:(boost?NaturalSprint:NaturalJog)/Mathf.Max(tilt,.001f)):speed*(boost?1.55f:1);
             if(actor!=null&&(actor.State==Lattice.Data.ActorState.Attack||actor.State==Lattice.Data.ActorState.Skill))pace*=.35f;
             if(actor!=null&&actor.State==Lattice.Data.ActorState.Guard)pace*=.5f;
             DesiredVelocity=direction*pace;
@@ -46,7 +57,7 @@ namespace Lattice.Combat
             // Short, physical start/braking steps keep first-frame response while
             // avoiding an instantaneous full-speed stride or a long release slide.
             float acceleration=natural?(stopping?36:32):(stopping?80:65);
-            travelVelocity=Vector3.MoveTowards(travelVelocity,DesiredVelocity,acceleration*dt);
+            travelVelocity=Steer(travelVelocity,DesiredVelocity,acceleration*dt,(natural?CivilTurnRate:CombatTurnRate)*dt);
             Phase=stopping?(travelVelocity.sqrMagnitude>.0025f?TravelPhase.Stopping:TravelPhase.Idle):
                 Vector3.Angle(transform.forward,direction)>12?TravelPhase.Turning:
                 (travelVelocity-DesiredVelocity).sqrMagnitude>.04f?TravelPhase.Starting:TravelPhase.Travelling;
@@ -66,6 +77,16 @@ namespace Lattice.Combat
             // Do not impose a 1 ms denominator: uncapped/high-frequency frames
             // can be shorter, and that clamp under-reported real travel speed.
             measuredVelocity=Time.unscaledDeltaTime>0?displacement/Time.unscaledDeltaTime:Vector3.zero;
+        }
+        /// <summary>Velocity toward the request. While already moving, a turn swings the heading at the turn rate and changes
+        /// pace at the ordinary rate, so a sprint keeps its speed around a corner; starting, stopping and near-reversals
+        /// keep the original straight-line response (a short brake, then the new direction).</summary>
+        public static Vector3 Steer(Vector3 current,Vector3 desired,float maxSpeedChange,float maxTurnDegrees)
+        {
+            float have=current.magnitude,want=desired.magnitude;
+            if(have<.5f||want<.01f||Vector3.Angle(current,desired)>ReversalAngle)return Vector3.MoveTowards(current,desired,maxSpeedChange);
+            var heading=Vector3.RotateTowards(current/have,desired/want,maxTurnDegrees*Mathf.Deg2Rad,0);
+            return heading*Mathf.MoveTowards(have,want,maxSpeedChange);
         }
         public void Dash(Vector3 direction,float distance){dash=direction.normalized*distance/.16f;dashTime=.16f;Facing=direction.normalized;}
         // Authored action travel is evaluated from the posed clip, then passed

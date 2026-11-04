@@ -51,7 +51,7 @@ namespace Lattice.EditorTools
             {
                 summary.WriteLine("hero,form,speed,direction,clip,cadence,stride,leftContacts,rightContacts,worstDrift,worstPenetration,contactLift,reachCorrection,shinSeparation,slope,rootClearance,torsoBehindRearSole");
                 foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})
-                foreach(float speed in shaped?new[]{1.2f,6.7f,10.385f}:new[]{1.2f,2.6f,5.4f})
+                foreach(float speed in shaped?new[]{1.2f,6.7f,10.385f}:new[]{1.2f,GroundMotor.NaturalWalk,GroundMotor.NaturalJog,GroundMotor.NaturalSprint})
                 {
                     foreach(float direction in DevArgs.Has("-stride-directions")?new[]{0f,45,90,135,180,225,270,315}:new[]{0f})
                     {

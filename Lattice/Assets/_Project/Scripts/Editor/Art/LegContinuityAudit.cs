@@ -35,13 +35,13 @@ namespace Lattice.EditorTools
             using var csv=new StreamWriter(Path.Combine(folder,"joints.csv"));
             csv.WriteLine("hero,form,clip,corrected,seconds,phase,side,hipY,kneeX,kneeY,kneeZ,footX,footY,footZ,kneeAngle");
             foreach(string hero in new[]{"Taren","Sela"})foreach(bool shaped in new[]{false,true})
-            foreach(float speed in shaped?new[]{6.7f,10.385f}:new[]{2.6f,5.4f})foreach(bool corrected in new[]{false,true})
+            foreach(float speed in shaped?new[]{6.7f,10.385f}:new[]{GroundMotor.NaturalWalk,GroundMotor.NaturalJog,GroundMotor.NaturalSprint})foreach(bool corrected in new[]{false,true})
             {
                 var root=new GameObject("leg continuity root");root.transform.position=Vector3.up*.08f;
                 var definition=GameCatalog.Find<CharacterDef>(hero);
                 var body=UnityEngine.Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
                 var rig=body.GetComponentInChildren<Animator>();
-                string state=speed>7.5f?"Sprint":speed>3.1f?"Run":"Walk";
+                string state=GeneratedAnimator.Gait(speed);
                 var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name==state);
                 var profile=body.GetComponent<GeneratedAnimator>().strideProfile;
                 UnityEngine.Object.DestroyImmediate(body.GetComponent<GeneratedAnimator>());

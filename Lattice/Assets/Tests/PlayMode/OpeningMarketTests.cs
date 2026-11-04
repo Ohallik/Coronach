@@ -57,23 +57,103 @@ namespace Lattice.Tests.PlayMode
             Assert.Less(Flat(Speaker("Mira").transform.position,new Vector3(0,0,4)),.6f,"Mira is not at her sales bay");
         }
 
-        [UnityTest] public IEnumerator FreshMorningClosesTheBridgeAndKeepsOrrinUntilSelaHasArrivedAndTheJobIsDone()
+        // Capture a talk request instead of opening the real conversation.
+        sealed class Heard{public string node,speaker;public System.Action<bool> complete;public int requests;}
+        static Heard Listen(out System.Action<string,string,System.Action<bool>> handler)
+        {
+            var heard=new Heard();
+            foreach(var bridge in Object.FindObjectsByType<WorldUiBridge>(FindObjectsSortMode.None))bridge.enabled=false;
+            handler=(node,speaker,complete)=>{heard.node=node;heard.speaker=speaker;heard.complete=complete;heard.requests++;};
+            Npc.TalkRequested+=handler;return heard;
+        }
+        static void Stop(System.Action<string,string,System.Action<bool>> handler)
+        {
+            Npc.TalkRequested-=handler;
+            foreach(var bridge in Object.FindObjectsByType<WorldUiBridge>(FindObjectsInactive.Include,FindObjectsSortMode.None))bridge.enabled=true;
+        }
+        // Read through reflection so the same checks also run (and fail) against the code that preceded D197.
+        static string Hold(Npc speaker)=>typeof(Npc).GetField("holdNode")?.GetValue(speaker) as string;
+        static bool Compiled(string node)=>System.Array.IndexOf(Lattice.Dialogue.DialogueSystem.Current.Runner.YarnProject.NodeNames,node)>=0;
+
+        [UnityTest] public IEnumerator FreshMorningClosesTheBridgeAndHoldsOrrinsBriefingUntilTheJobIsDone()
         {
             yield return Decks(true);
             var sequence=Sequence();var orrin=Speaker("Orrin");var sela=Speaker("Sela").GetComponent<ScriptedWalk>();
             Assert.IsTrue(sequence.Fresh);Assert.IsTrue(BridgeClosed(),"the walkway is open during the repair");
-            Assert.IsFalse(orrin.Available,"Orrin can be talked to before the walkway is fixed");
-            orrin.Interact();Assert.IsFalse(GameServices.Current.Flags.GetBool("met.Orrin"),"a direct request still marks Orrin met and skips Sela's join");
+            // D197: Orrin answers with a holding line, never with silence (Nathan read silence as a broken talk button),
+            // and never with the briefing that brings Sela aboard.
+            var heard=Listen(out var handler);
+            try
+            {
+                Assert.IsTrue(orrin.Available,"Orrin cannot be talked to during the opening");
+                orrin.Interact();
+                Assert.AreEqual("OrrinOpening",heard.node,"Orrin skips the scene with his full conversation");
+                Assert.IsTrue(Compiled(heard.node),"Orrin's holding line is missing from the dialogue");
+                heard.complete(true);
+                Assert.IsFalse(GameServices.Current.Flags.GetBool("met.Orrin"),"the holding line marks Orrin met and skips Sela's join");
+                Assert.IsFalse(GameServices.Current.State.questSteps.ContainsKey("Sorrel"),"the holding line starts the Sorrel quest");
+                Assert.IsTrue(orrin.Available,"Orrin stays busy after his holding line");
+            }
+            finally{Stop(handler);}
             Assert.AreEqual(ScriptedWalk.Stage.Waiting,sela.Phase,"Sela starts walking before Taren reaches the job");
-            Assert.IsFalse(sequence.repair.Available,"the job can be finished before Sela arrives");
+            Assert.IsFalse(sequence.repair.Available,"the job is offered before Sela sets off");
             Place(RepairPoint+Vector3.left*1.2f);
             float began=Time.unscaledTime;
+            while(sela.Phase==ScriptedWalk.Stage.Waiting&&Time.unscaledTime-began<3)yield return null;
+            Assert.AreEqual(ScriptedWalk.Stage.Walking,sela.Phase,"Sela never sets off when Taren reaches the job");
+            yield return null;
+            Assert.IsTrue(sequence.repair.Available,"Taren stands at a silent barrier while Sela crosses the market");
             while(!sela.Arrived&&Time.unscaledTime-began<15)yield return null;
             Assert.IsTrue(sela.Arrived,"Sela never arrives across the market");
             Assert.Less(Time.unscaledTime-began,12,"Sela takes too long to arrive");
             yield return null;
             Assert.IsTrue(sequence.repair.Available,"the job is not offered once Sela is there");
-            Assert.IsFalse(orrin.Available);
+            Assert.AreEqual("OrrinOpening",Hold(orrin),"Orrin's briefing opens before the job is done");
+        }
+
+        [UnityTest] public IEnumerator EveryoneAtTheWalkwayAnswersDuringTheOpeningWithoutSkippingIt()
+        {
+            yield return Decks(true);
+            var sequence=Sequence();var heard=Listen(out var handler);
+            try
+            {
+                foreach(var (name,node) in new[]{("Mira","MiraOpening"),("Sela","SelaOpening")})
+                {
+                    var speaker=Speaker(name);heard.node=null;
+                    Assert.IsTrue(speaker.Available,name+" cannot be talked to during the opening");
+                    speaker.Interact();
+                    Assert.AreEqual(node,heard.node,name+" plays the wrong conversation during the opening");
+                    Assert.IsTrue(Compiled(node),name+"'s holding line is missing from the dialogue");
+                    heard.complete(true);
+                    Assert.IsFalse(GameServices.Current.Flags.GetBool("met."+name),name+"'s holding line marks them met");
+                }
+                Assert.IsFalse(GameServices.Current.State.questSteps.ContainsKey("MiraCrystals"),"Mira's holding line starts her favour");
+            }
+            finally{Stop(handler);}
+            GameServices.Current.Flags.SetBool(OpeningMarketSequence.Repaired,true);
+            Place(new Vector3(-28,0,-9));
+            yield return new WaitForSecondsRealtime(1.6f);
+            Assert.AreEqual(1,sequence.Closure,.001f);
+            foreach(var name in new[]{"Orrin","Mira","Sela"})
+                Assert.IsTrue(string.IsNullOrEmpty(Hold(Speaker(name))),name+" keeps a holding line after the walkway opens");
+        }
+
+        [UnityTest] public IEnumerator SelaFinishesHerApproachWhileTheRepairConversationPlays()
+        {
+            yield return Decks(true);
+            var sequence=Sequence();var walk=Speaker("Sela").GetComponent<ScriptedWalk>();
+            float ready=Time.unscaledTime;
+            while(!Lattice.Dialogue.DialogueSystem.Current.Prepared&&Time.unscaledTime-ready<10)yield return null;
+            Assert.IsTrue(Lattice.Dialogue.DialogueSystem.Current.Prepared);
+            Place(RepairPoint+Vector3.left*1.2f);
+            float began=Time.unscaledTime;
+            while(!sequence.repair.Available&&Time.unscaledTime-began<3)yield return null;
+            Assert.IsFalse(walk.Arrived,"control: Sela must still be crossing when the job is first offered");
+            sequence.repair.Interact();yield return null;
+            Assert.IsTrue(GameInput.Current.Blocked,"the repair conversation never opened");
+            while(!walk.Arrived&&Time.unscaledTime-began<15)yield return null;
+            Assert.IsTrue(walk.Arrived,"Sela freezes mid-market while the repair conversation plays");
+            Assert.IsTrue(GameInput.Current.Blocked,"control: Sela must arrive under the conversation, not after it");
         }
 
         [UnityTest] public IEnumerator FinishingTheJobOpensTheWalkwayAndSendsEveryoneOnTheirWay()

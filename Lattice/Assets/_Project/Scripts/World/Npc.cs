@@ -11,12 +11,24 @@ namespace Lattice.World
         // Existing met/post/final behavior remains for NPCs without these fields.
         public string finalCompletionFlag,finalRepeatNode;
         public string hideWhenJoined;
+        /// <summary>A scene that is still playing out (the first morning, D197) can lend a speaker a short holding line. While
+        /// set, talking plays only this node: the speaker is not marked met and no completion flag is touched, so the
+        /// conversation the scene is protecting still happens later. A speaker who simply could not be talked to read as
+        /// a broken talk button.</summary>
+        [System.NonSerialized] public string holdNode;
         bool pending;int request;
         public override bool Available=>!pending&&isActiveAndEnabled;
         void Update(){if(!string.IsNullOrEmpty(hideWhenJoined)&&GameServices.Current.State.party.Exists(m=>m.id==hideWhenJoined))gameObject.SetActive(false);}
         public override void Interact()
         {
             if(!Available)return;
+            if(!string.IsNullOrEmpty(holdNode))
+            {
+                if(TalkRequested==null)return;
+                pending=true;int held=++request;
+                TalkRequested.Invoke(holdNode,speaker,_=>{if(this!=null&&held==request)pending=false;});
+                return;
+            }
             var service=GameServices.Current;var flags=service.Flags;var state=service.State;
             bool final=!string.IsNullOrEmpty(finalFlag)&&!string.IsNullOrEmpty(finalNode)&&flags.GetBool(finalFlag);
             string node=final?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:

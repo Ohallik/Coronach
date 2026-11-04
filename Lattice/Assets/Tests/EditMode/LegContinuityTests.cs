@@ -11,19 +11,23 @@ namespace Lattice.Tests.EditMode
 {
     public sealed class LegContinuityTests
     {
-        [TestCase("Taren",false,2.6f)][TestCase("Sela",false,2.6f)]
-        [TestCase("Taren",false,5.4f)][TestCase("Sela",false,5.4f)]
+        // Civil paces (D197): a light-tilt walk, the full-tilt jog and the sprint; combat run and sprint.
+        [TestCase("Taren",false,GroundMotor.NaturalWalk)][TestCase("Sela",false,GroundMotor.NaturalWalk)]
+        [TestCase("Taren",false,GroundMotor.NaturalJog)][TestCase("Sela",false,GroundMotor.NaturalJog)]
+        [TestCase("Taren",false,GroundMotor.NaturalSprint)][TestCase("Sela",false,GroundMotor.NaturalSprint)]
         [TestCase("Taren",true,6.7f)][TestCase("Sela",true,6.7f)]
         [TestCase("Taren",true,10.385f)][TestCase("Sela",true,10.385f)]
         public void WholeStepKeepsKneesContinuousWithoutFreezingTheSwing(string hero,bool shaped,float speed)
             =>Measure(hero,shaped,speed,0);
 
-        [TestCase("Taren",false,2.6f,39f)][TestCase("Sela",false,2.6f,39f)]
-        [TestCase("Taren",false,5.4f,39f)][TestCase("Sela",false,5.4f,39f)]
+        [TestCase("Taren",false,GroundMotor.NaturalWalk,39f)][TestCase("Sela",false,GroundMotor.NaturalWalk,39f)]
+        [TestCase("Taren",false,GroundMotor.NaturalJog,39f)][TestCase("Sela",false,GroundMotor.NaturalJog,39f)]
+        [TestCase("Taren",false,GroundMotor.NaturalSprint,39f)][TestCase("Sela",false,GroundMotor.NaturalSprint,39f)]
         [TestCase("Taren",true,6.7f,39f)][TestCase("Sela",true,6.7f,39f)]
         [TestCase("Taren",true,10.385f,39f)][TestCase("Sela",true,10.385f,39f)]
-        [TestCase("Taren",false,2.6f,-39f)][TestCase("Sela",false,2.6f,-39f)]
-        [TestCase("Taren",false,5.4f,-39f)][TestCase("Sela",false,5.4f,-39f)]
+        [TestCase("Taren",false,GroundMotor.NaturalWalk,-39f)][TestCase("Sela",false,GroundMotor.NaturalWalk,-39f)]
+        [TestCase("Taren",false,GroundMotor.NaturalJog,-39f)][TestCase("Sela",false,GroundMotor.NaturalJog,-39f)]
+        [TestCase("Taren",false,GroundMotor.NaturalSprint,-39f)][TestCase("Sela",false,GroundMotor.NaturalSprint,-39f)]
         [TestCase("Taren",true,6.7f,-39f)][TestCase("Sela",true,6.7f,-39f)]
         [TestCase("Taren",true,10.385f,-39f)][TestCase("Sela",true,10.385f,-39f)]
         public void SteepStepsKeepKneesContinuousWithoutFreezingTheSwing(string hero,bool shaped,float speed,float slope)
@@ -32,7 +36,7 @@ namespace Lattice.Tests.EditMode
             Measure(hero,shaped,speed,slope,.22f);
         }
 
-        [TestCase("Taren",false,5.4f)][TestCase("Sela",false,5.4f)]
+        [TestCase("Taren",false,GroundMotor.NaturalJog)][TestCase("Sela",false,GroundMotor.NaturalJog)]
         [TestCase("Taren",true,6.7f)][TestCase("Sela",true,6.7f)]
         public void SteepReverseDiagonalsKeepKneesContinuous(string hero,bool shaped,float speed)
         {
@@ -65,7 +69,7 @@ namespace Lattice.Tests.EditMode
             var definition=GameCatalog.Find<CharacterDef>(hero);
             var body=Object.Instantiate(shaped?definition.shaped:definition.natural,root.transform);
             var rig=body.GetComponentInChildren<Animator>();
-            string state=speed>7.5f?"Sprint":speed>3.1f?"Run":"Walk";
+            string state=GeneratedAnimator.Gait(speed);
             var clip=rig.runtimeAnimatorController.animationClips.Single(c=>c.name==state);
             var driver=body.GetComponent<GeneratedAnimator>();var profile=driver.strideProfile;
             Object.DestroyImmediate(driver);

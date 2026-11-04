@@ -82,7 +82,7 @@ namespace Lattice.EditorTools
             // Mira returns to her sales bay once the walkway is open.
             foreach(var old in sela.GetComponents<ScriptedWalk>().Concat(mira.GetComponents<ScriptedWalk>()))Object.DestroyImmediate(old);
             var selaWalk=sela.gameObject.AddComponent<ScriptedWalk>();selaWalk.path=SelaApproach;selaWalk.exitPath=SelaExit;
-            selaWalk.beginNear=point.transform;selaWalk.beginDistance=11;selaWalk.speed=1.1f;selaWalk.skipIfJoined="Sela";
+            selaWalk.beginNear=point.transform;selaWalk.beginDistance=11;selaWalk.speed=1.1f;selaWalk.skipIfJoined="Sela";selaWalk.walkThroughDialogue=true;
             var miraHome=mira.transform.position;
             var miraWalk=mira.gameObject.AddComponent<ScriptedWalk>();miraWalk.path=new[]{MiraAtStall};
             miraWalk.exitPath=new[]{MiraAtStall,new Vector3(-6,0,-2.6f),new Vector3(-2,0,.6f),new Vector3(miraHome.x,0,miraHome.z)};miraWalk.speed=.9f;

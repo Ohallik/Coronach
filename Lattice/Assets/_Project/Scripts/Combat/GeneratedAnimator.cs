@@ -29,6 +29,10 @@ namespace Lattice.Combat
         public float StrideScale {get;private set;}=1;
         public bool ReverseLocomotion {get;private set;}
         public bool IsLocomotion => state=="Idle"||state=="Walk"||state=="Run"||state=="Sprint";
+        /// <summary>Travelling gait for a hero's measured planar speed. The owned walk stretches cleanly to about 2.5 m/s;
+        /// above that a short-stride jog reads better than an over-reaching walk (D197).</summary>
+        public const float RunAbove=2.5f,SprintAbove=7.5f;
+        public static string Gait(float speed)=>speed>SprintAbove?"Sprint":speed>RunAbove?"Run":"Walk";
 
         void OnEnable() { previous = transform.position; state = pendingGait = null; sequence = emitterSequence = recoilSequence = -1;upperShot=false;emitterWeight=0;GameTime.PauseChanged+=OnPause; }
         void OnDisable(){GameTime.PauseChanged-=OnPause;}
@@ -65,8 +69,8 @@ namespace Lattice.Combat
             upperShot=false;
             if (actor != null)
             {
-                if (speed > 7.5f) { wanted = "Sprint"; rate = Mathf.Clamp(speed / 7.4f, .8f, 1.55f); }
-                else if (speed > 3.1f) { wanted = "Run"; rate = Mathf.Clamp(speed / 4.5f, .8f, 1.6f); }
+                if (speed > SprintAbove) { wanted = "Sprint"; rate = Mathf.Clamp(speed / 7.4f, .8f, 1.55f); }
+                else if (speed > RunAbove) { wanted = "Run"; rate = Mathf.Clamp(speed / 4.5f, .8f, 1.6f); }
                 if (actor.State == ActorState.Guard) { wanted = "Guard"; rate = 1; }
                 if (actor.State == ActorState.Stagger) { wanted = "Stagger"; rate = 1; }
                 visual = GameTime.Now < actor.VisualAttackUntil && actor.State != ActorState.Stagger && actor.State != ActorState.Guard;
