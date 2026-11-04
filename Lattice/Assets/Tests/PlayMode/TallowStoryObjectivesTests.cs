@@ -54,6 +54,9 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator AcknowledgedAndRepairedRefugeKeepsItsSavedCompletion()
         {
             foreach(string flag in new[]{"met.Keeper","sliceComplete","tallow.lineObserved","tallow.driftDiscussed"})GameServices.Current.Flags.SetBool(flag,true);
+            // D199: the chapter's last beat (the Compact on the beacon band) comes between the drift talk and the end.
+            yield return Load("TallowDrift");StringAssert.Contains("beacon band",Objective());Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));
+            GameServices.Current.Flags.SetBool("compact.hailHeard",true);
             yield return Load("TallowDrift");StringAssert.Contains("Tallow is underway",Objective());Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));
         }
     }
