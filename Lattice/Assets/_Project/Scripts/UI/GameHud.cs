@@ -13,6 +13,11 @@ namespace Lattice.UI
         TMP_Text status,partner,target,prompt,skills,zone,probe,hpLabel,chargeLabel,thrustLabel;
         Image hp,charge,thrust,reticle;
         readonly Image[] skillIcons=new Image[4];
+        // The boss bar (D198): name, integrity with a lagging chip, phase notches, break gauge and the fight's state.
+        GameObject bossRoot;TMP_Text bossName,bossEpithet,bossState;Image bossBack,bossFill,bossChip,bossBreak;
+        readonly System.Collections.Generic.List<Image> bossNotches=new();float bossChipFraction=1;BossController shownBoss,introduced;
+        TMP_Text bossCard,bossCardEpithet;float bossCardAge=99;
+        const float BossBarWidth=900;
         readonly TMP_Text[] skillLabels=new TMP_Text[4];
         static readonly ProfilerMarker UpdateMarker=new("Coronach.HUD.Refresh");
         static bool measureCosts,allocationCounterSupported;
@@ -63,7 +68,74 @@ namespace Lattice.UI
 #if LATTICE_DEV || UNITY_EDITOR
             probe=Text("InputProbe",new(1630,280),new(500,180),16,TextAlignmentOptions.Right);
 #endif
+            BuildBossBar();
             Health.DamageNumber+=Damage;
+        }
+        void BuildBossBar()
+        {
+            bossRoot=new GameObject("BossBar",typeof(RectTransform));bossRoot.transform.SetParent(canvas.transform,false);
+            var root=(RectTransform)bossRoot.transform;root.anchorMin=root.anchorMax=Vector2.zero;root.pivot=Vector2.zero;root.anchoredPosition=Vector2.zero;root.sizeDelta=Vector2.zero;
+            bossName=BossText("BossName",new(960,216),28,TextAlignmentOptions.Left);
+            bossEpithet=BossText("BossEpithet",new(960,216),20,TextAlignmentOptions.Right);
+            bossBack=UiKit.Panel(bossRoot.transform,"BossIntegrityBack",new Color(.025f,.045f,.065f,.9f));bossBack.raycastTarget=false;
+            UiKit.Rect(bossBack.gameObject,Vector2.zero,Vector2.zero,new(960,186),new(BossBarWidth,20));
+            bossChip=BossFill(bossBack.transform,"BossIntegrityChip",new Color(1,.9f,.72f,.8f),20);
+            bossFill=BossFill(bossBack.transform,"BossIntegrity",new Color(.86f,.25f,.2f),20);
+            var breakBack=UiKit.Panel(bossRoot.transform,"BossBreakBack",new Color(.025f,.045f,.065f,.9f));breakBack.raycastTarget=false;
+            UiKit.Rect(breakBack.gameObject,Vector2.zero,Vector2.zero,new(960,168),new(BossBarWidth,7));
+            bossBreak=BossFill(breakBack.transform,"BossBreak",new Color(1,.62f,.2f,.85f),7);
+            bossState=BossText("BossState",new(960,140),22,TextAlignmentOptions.Center);
+            for(int i=0;i<3;i++)
+            {
+                var notch=UiKit.Panel(bossBack.transform,"BossNotch"+i,new Color(.95f,.95f,1,.95f));notch.raycastTarget=false;
+                var rect=UiKit.Rect(notch.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(3,28));rect.pivot=new(.5f,.5f);bossNotches.Add(notch);
+            }
+            bossRoot.SetActive(false);
+            // The title card: the boss's name across the middle of the screen as its fight begins.
+            bossCard=UiKit.Text(canvas.transform,"BossTitleCard","",64,new Color(1,.93f,.8f),TextAlignmentOptions.Center);
+            UiKit.Rect(bossCard.gameObject,Vector2.zero,Vector2.zero,new(960,640),new(1400,90));bossCard.outlineWidth=.25f;bossCard.outlineColor=new Color32(5,12,22,255);bossCard.raycastTarget=false;
+            bossCardEpithet=UiKit.Text(canvas.transform,"BossTitleEpithet","",28,UiKit.TextColor,TextAlignmentOptions.Center);
+            UiKit.Rect(bossCardEpithet.gameObject,Vector2.zero,Vector2.zero,new(960,580),new(1400,44));bossCardEpithet.outlineWidth=.2f;bossCardEpithet.outlineColor=new Color32(5,12,22,255);bossCardEpithet.raycastTarget=false;
+            bossCard.alpha=bossCardEpithet.alpha=0;
+        }
+        TMP_Text BossText(string name,Vector2 pos,int font,TextAlignmentOptions align)
+        {
+            var t=UiKit.Text(bossRoot.transform,name,"",font,UiKit.TextColor,align);UiKit.Rect(t.gameObject,Vector2.zero,Vector2.zero,pos,new(BossBarWidth,36));
+            t.outlineWidth=.2f;t.outlineColor=new Color32(5,12,22,255);t.raycastTarget=false;return t;
+        }
+        Image BossFill(Transform parent,string name,Color color,float height)
+        {
+            var fill=UiKit.Panel(parent,name,color);fill.raycastTarget=false;
+            var rect=UiKit.Rect(fill.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(BossBarWidth,height));rect.pivot=new(0,.5f);return fill;
+        }
+        /// <summary>Shows the boss bar for the fighting boss nearest the active hero; returns whether it is up.</summary>
+        bool RefreshBossBar(CombatActor active)
+        {
+            var boss=BossController.Focus(active.transform.position);bool show=boss!=null;
+            if(bossRoot.activeSelf!=show)bossRoot.SetActive(show);
+            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;}
+            bossCardAge+=Time.unscaledDeltaTime;
+            float card=bossCardAge<.35f?bossCardAge/.35f:bossCardAge<2.2f?1:Mathf.Clamp01(1-(bossCardAge-2.2f)/.6f);
+            bossCard.alpha=bossCardEpithet.alpha=card;
+            if(!show){shownBoss=null;return false;}
+            var health=boss.Health;float fraction=Mathf.Clamp01(health.integrity/Mathf.Max(1,health.maximum));
+            if(boss!=shownBoss){shownBoss=boss;bossChipFraction=fraction;}
+            bossChipFraction=fraction>=bossChipFraction?fraction:Mathf.MoveTowards(bossChipFraction,fraction,Time.unscaledDeltaTime*.22f);
+            bossFill.rectTransform.sizeDelta=new Vector2(BossBarWidth*fraction,20);bossChip.rectTransform.sizeDelta=new Vector2(BossBarWidth*bossChipFraction,20);
+            bossFill.color=boss.Shifting?new Color(.95f,.85f,1f):new Color(.86f,.25f,.2f);
+            float meter=health.Broken?1:Mathf.Clamp01(health.BreakMeter/Mathf.Max(1,health.breakThreshold));
+            bossBreak.rectTransform.sizeDelta=new Vector2(BossBarWidth*meter,7);bossBreak.color=health.Broken?new Color(1,.92f,.45f):new Color(1,.62f,.2f,.85f);
+            if(bossName.text!=boss.DisplayName)bossName.text=boss.DisplayName;
+            if(bossEpithet.text!=boss.Epithet)bossEpithet.text=boss.Epithet;
+            var thresholds=boss.Thresholds;
+            for(int i=0;i<bossNotches.Count;i++)
+            {
+                bool on=i<thresholds.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
+                if(on)bossNotches[i].rectTransform.anchoredPosition=new Vector2(BossBarWidth*thresholds[i],0);
+            }
+            string state=boss.Shifting?"IT'S CHANGING":health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?"BELOW GROUND":"";
+            if(bossState.text!=state)bossState.text=state;
+            return true;
         }
         const float BarWidth=400;
         TMP_Text Text(string name,Vector2 pos,Vector2 size,int font,TextAlignmentOptions align=TextAlignmentOptions.Center)
@@ -97,7 +169,10 @@ namespace Lattice.UI
             // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
             if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
             zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
-            if(a.target!=null&&a.target.Alive)
+            bool bossUp=RefreshBossBar(a);
+            if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
+                target.text=(a.TargetLocked?"LOCKED    ":"")+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
+            else if(a.target!=null&&a.target.Alive)
                 target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
                     (a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"))+
                     "    "+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
@@ -109,7 +184,7 @@ namespace Lattice.UI
                 var screen=Camera.main.WorldToScreenPoint(a.target.transform.position+Vector3.up);
                 RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,screen,null,out var point);reticle.rectTransform.anchoredPosition=point;
             }
-            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked?PromptService.Tag("Interact")+"  "+interaction.prompt:"";
+            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp?PromptService.Tag("Interact")+"  "+interaction.prompt:"";
             string[] names=a.character=="Taren"?new[]{"Cleave","Ember","Pulse","Overdrive"}:new[]{"Lance","Scatter","Static net","Refract"};
             string[] faces={"A","B","X","Y"};
             bool combat=ZoneController.Current.Combat;

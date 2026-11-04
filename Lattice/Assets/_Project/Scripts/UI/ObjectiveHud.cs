@@ -78,6 +78,7 @@ namespace Lattice.UI
                     else if(!flags.GetBool("met.Keeper")){label="Talk to the dock keeper";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(!flags.GetBool("sliceComplete")){label="Repair and save at Tallow Drift";target=prompts.OfType<RepairBay>().FirstOrDefault();}
                     else if(!flags.GetBool("tallow.lineObserved")){label="Launch to inspect the port line";target=prompts.OfType<DockingPad>().FirstOrDefault();}
+                    else if(!flags.GetBool("compact.hailHeard")){label="The beacon band is crackling: see the Keeper";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else label="Tallow is underway";
                     break;
                 default:label="Practice attacks, dodges and swaps";break;

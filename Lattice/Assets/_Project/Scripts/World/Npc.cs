@@ -30,6 +30,15 @@ namespace Lattice.World
                 return;
             }
             var service=GameServices.Current;var flags=service.Flags;var state=service.State;
+            // A side story at its point for this speaker (D199) plays instead of the ordinary tier.
+            string story=SideStories.NodeFor(speaker,state);
+            if(story!=null)
+            {
+                if(TalkRequested==null)return;
+                pending=true;int asked=++request;
+                TalkRequested.Invoke(story,speaker,_=>{if(this!=null&&asked==request)pending=false;});
+                return;
+            }
             bool final=!string.IsNullOrEmpty(finalFlag)&&!string.IsNullOrEmpty(finalNode)&&flags.GetBool(finalFlag);
             string node=final?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:
                 flags.GetBool("met."+speaker)&&!string.IsNullOrEmpty(repeatNode)?repeatNode:firstNode;

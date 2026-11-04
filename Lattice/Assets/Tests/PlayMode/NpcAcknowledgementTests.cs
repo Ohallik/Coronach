@@ -28,7 +28,8 @@ namespace Lattice.Tests.PlayMode
             GameServices.Current.State=new GameState();
             foreach(var bridge in Object.FindObjectsByType<WorldUiBridge>(FindObjectsSortMode.None))bridge.enabled=false;
             npc=new GameObject("Completion fixture").AddComponent<Npc>();
-            npc.speaker="Keeper";npc.firstNode="First";npc.repeatNode="Repeat";npc.postNode="Post";npc.postFlag="warpkey";
+            // A neutral speaker: these are the tier mechanics, kept clear of any story beat routed to a real person (D199).
+            npc.speaker="Warden";npc.firstNode="First";npc.repeatNode="Repeat";npc.postNode="Post";npc.postFlag="warpkey";
             npc.finalNode="Final";npc.finalFlag="tallow.lineObserved";
             npc.finalCompletionFlag="tallow.driftDiscussed";npc.finalRepeatNode="FinalRepeat";
             requests=0;saves=0;node=null;complete=null;
@@ -84,7 +85,7 @@ namespace Lattice.Tests.PlayMode
         }
         [Test] public void ExistingFirstRepeatAndPostTiersRemainAndDoNotAcknowledge()
         {
-            npc.Interact();Assert.AreEqual("First",node);Assert.IsTrue(GameServices.Current.Flags.GetBool("met.Keeper"));complete(true);
+            npc.Interact();Assert.AreEqual("First",node);Assert.IsTrue(GameServices.Current.Flags.GetBool("met.Warden"));complete(true);
             npc.Interact();Assert.AreEqual("Repeat",node);complete(true);
             GameServices.Current.Flags.SetBool("warpkey",true);npc.Interact();Assert.AreEqual("Post",node);complete(true);
             Assert.IsFalse(Acknowledged);Assert.AreEqual(0,saves);

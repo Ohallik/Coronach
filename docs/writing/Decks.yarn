@@ -106,3 +106,11 @@ title: SelaOpening
 Sela: Is this bridge closed, or only resting? #emotion:Curious
 Taren: Closed until I finish the cover. Give me a minute at the job. #emotion:Neutral
 ===
+title: OrrinBerth
+---
+Orrin: Oda's token? Under the evacuation notices. Everything is under the evacuation notices. #emotion:Neutral
+Orrin: Stamped. One family, one berth, one harbour. The Compact likes things it can count. #emotion:Worried
+Taren: You don't sound sure about it. #emotion:Curious
+Orrin: I'm sure about the arithmetic. Take it to her. #emotion:Neutral
+<<setFlag oda.tokenCollected>>
+===

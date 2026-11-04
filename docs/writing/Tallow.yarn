@@ -41,3 +41,16 @@ title: KeeperDriftRepeat
 ---
 Keeper: I'll start at the cabins. They should hear where their home is going before I ask them to stay aboard. #emotion:Tender
 ===
+
+title: CompactHail
+---
+Keeper: Wait. There's a voice on the beacon band that isn't one of ours. #emotion:Worried
+Ilo: Tallow Drift, this is Compact survey. Ilo. We met at the Halo; I was the one with the chart. #emotion:Neutral
+Ilo: Director Venn has seen your station leave its mooring. She asked me to read you her words exactly. #emotion:Neutral
+Ilo: "The passages are separating. A town that moves will need food, power and a route that waits for it." #emotion:Determined
+Ilo: "Show me how you will have all three, and I will listen." #emotion:Determined
+Sela: She isn't wrong about the food. #emotion:Worried
+Taren: Then we find some, before she finds us a smaller answer. #emotion:Determined
+Ilo: For what it's worth, I hope you manage it. Ilo out. #emotion:Tender
+<<setFlag compact.hailHeard>>
+===

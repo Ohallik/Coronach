@@ -19,3 +19,24 @@ title: SurvivorNursery
 Survivor: Eggs. All this time, under the cradle. Under my bunk. #emotion:Worried
 Survivor: I'm shutting the drill down for good. Whatever is growing down there can have its quiet too. #emotion:Tender
 ===
+title: SurvivorParcel
+---
+Taren: A delivery from the Halo. It's late. #emotion:Neutral
+Survivor: Three cycles late. Socks. Coffee. And my sister's letter, written twice because the first one smudged. #emotion:Tender
+Survivor: Tell Neve we got it. And tell her to stop sending socks. #emotion:Amused
+<<setFlag neve.parcelDelivered>>
+===
+title: SurvivorBeaconsOffer
+---
+Survivor: The drill's quiet, but my crew planted evacuation beacons along both side trails before we shut the transmitter. #emotion:Worried
+Survivor: Four of them are still calling. Anything built to follow a rescue signal will keep coming here. #emotion:Worried
+Taren: Then we switch them off. #emotion:Determined
+Survivor: Two on the west seam, two up the east service branch. Low masts, blue lights. Mind the hounds. #emotion:Neutral
+<<startQuest SorrelBeacons>>
+===
+title: SurvivorBeaconsDone
+---
+Survivor: Four lights out. I can hear the wind again. #emotion:Tender
+Survivor: Take the frame plating from our stores. We were saving it for a rescue that never came. Turns out you were the rescue. #emotion:Happy
+<<setFlag sorrel.beaconsReported>>
+===

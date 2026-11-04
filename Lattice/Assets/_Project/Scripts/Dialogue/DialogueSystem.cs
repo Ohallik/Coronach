@@ -60,7 +60,7 @@ namespace Lattice.Dialogue
                 }
                 finally {try{FinishPending(completed);}finally{dialogueActive=false;}}
             });
-            Runner.AddCommandHandler("setFlag",(Action<string>)(key=>GameServices.Current.Flags.SetBool(key,true)));
+            Runner.AddCommandHandler("setFlag",(Action<string>)(key=>{GameServices.Current.Flags.SetBool(key,true);RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Flag,key);}));
             Runner.AddCommandHandler("giveItem",(Action<string,int>)((id,count)=>RpgServices.Inventory.Give(id,count)));
             Runner.AddCommandHandler("startQuest",(Action<string>)(id=>RpgServices.Quests.Start(id)));
             Runner.AddCommandHandler("shop",(Action)(()=>pendingUi="shop"));

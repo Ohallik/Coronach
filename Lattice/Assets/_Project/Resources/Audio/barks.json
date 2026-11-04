@@ -8,7 +8,10 @@
     "release": "Lock's open. Give it room.",
     "zone": "Same body. Different problem.",
     "cover": "Stay down a second. I've got this.",
-    "discovery": "Eggs. The whole cave is a nest."
+    "discovery": "Eggs. The whole cave is a nest.",
+    "bossphase": "It's changing its mind. Watch the ground.",
+    "bossopening": "It's wedged. Now!",
+    "beacon": "One less voice calling it here."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.",
@@ -19,6 +22,9 @@
     "release": "It's turning. Follow the opening.",
     "zone": "I vote we touch nothing. Yet.",
     "cover": "Hold still, Vosk. I'm covering you.",
-    "discovery": "The grooves curl to hold them. Something grew this cave on purpose."
+    "discovery": "The grooves curl to hold them. Something grew this cave on purpose.",
+    "bossphase": "New rhythm. Read the floor, Vosk.",
+    "bossopening": "There's your opening. Don't admire it.",
+    "beacon": "Quiet. That one won't call anything else in."
   }
 }

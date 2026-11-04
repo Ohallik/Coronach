@@ -71,6 +71,14 @@ namespace Lattice.Combat
             bool wasAlive=Alive;integrity=Mathf.Clamp(integrity+Mathf.Max(0,amount),0,maximum);
             if(!wasAlive&&Alive){BreakMeter=0;BrokenUntil=SlowUntil=ShieldUntil=0;Revived?.Invoke(this);}
         }
+        /// <summary>A deliberate opening (D198): a boss wedged in rock or surfacing from a dive is open to punishment as if
+        /// broken, for a set time, without spending or filling its break meter.</summary>
+        public void Expose(float seconds)
+        {
+            var reaction=reactionOwner!=null?reactionOwner:this;
+            reaction.BrokenUntil=Mathf.Max(reaction.BrokenUntil,Time.time+Mathf.Max(0,seconds));reaction.BreakMeter=0;
+            Debug.Log("EXPOSED "+reaction.id);
+        }
         public void ResetFull(){Heal(maximum);BreakMeter=0;BrokenUntil=SlowUntil=ShieldUntil=0;}
     }
 }

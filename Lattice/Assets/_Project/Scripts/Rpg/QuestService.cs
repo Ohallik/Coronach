@@ -41,7 +41,16 @@ namespace Lattice.Rpg
                     state.flags["quest."+d.id+".complete"]=true;
                     state.scrip+=d.rewardScrip;
                     foreach(var member in state.party)Levels.Grant(member,d.rewardXp);
-                    var inv=new Inventory(state);foreach(var reward in d.rewards??Array.Empty<Ingredient>())inv.Give(reward.id,reward.count);
+                    var inv=new Inventory(state);
+                    // A reward goes where its kind lives (D199): gear to the parts list, consumables to the item bag,
+                    // everything else to materials. Materials alone used to receive parts and gels it could not use.
+                    foreach(var reward in d.rewards??Array.Empty<Ingredient>())
+                    {
+                        var part=GameCatalog.Find<TechPartDef>(reward.id);
+                        if(part!=null){for(int i=0;i<Math.Max(1,reward.count);i++)inv.GivePart(part);continue;}
+                        if(GameCatalog.Find<ConsumableDef>(reward.id)!=null){state.consumables.TryGetValue(reward.id,out int held);state.consumables[reward.id]=held+reward.count;continue;}
+                        inv.Give(reward.id,reward.count);
+                    }
                     foreach(var flag in d.flagsOnComplete??Array.Empty<string>())state.flags[flag]=true;
                 }
                 Changed?.Invoke(d.id);

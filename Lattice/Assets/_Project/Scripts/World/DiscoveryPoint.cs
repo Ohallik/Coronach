@@ -12,9 +12,12 @@ namespace Lattice.World
         public string flag="hushwell.nursery",situation="discovery",report="HushwellNursery";
         public string dialogueNode="SelaNursery",dialogueSpeaker="Sela";
         public EncounterVolume previewEncounter;
+        /// <summary>Offered only while this side quest is at this step (D199); empty for every other discovery.</summary>
+        public string requiredQuest;public int requiredStep;
+        bool QuestReady=>string.IsNullOrEmpty(requiredQuest)||GameServices.Current.State.questSteps.TryGetValue(requiredQuest,out var step)&&step==requiredStep;
         bool pending;
         GameState requestedState;
-        public override bool Available=>!pending&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&
+        public override bool Available=>!pending&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&QuestReady&&
             (previewEncounter==null||!previewEncounter.Started);
         public override void Interact()
         {

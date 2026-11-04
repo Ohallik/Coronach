@@ -106,8 +106,14 @@ namespace Lattice.UI
             }
             else if(page==4)
             {
-                foreach(var q in GameCatalog.All<QuestDef>())if(state.questSteps.TryGetValue(q.id,out var step))Add(q.title+"  "+(step>=q.steps.Length?"COMPLETE":$"{step+1}/{q.steps.Length}"));
-                Note("Orrin at the Dock Office knows why Sorrel went quiet.");
+                string lead=null;
+                foreach(var q in GameCatalog.All<QuestDef>())if(state.questSteps.TryGetValue(q.id,out var step))
+                {
+                    bool done=step>=q.steps.Length;
+                    Add(done?q.title+"  ·  COMPLETE":q.title+"  ·  "+QuestText.Step(q,step,state));
+                    if(!done&&lead==null&&!string.IsNullOrEmpty(q.description))lead=q.description;
+                }
+                Note(lead??(state.questSteps.Count==0?"Orrin at the Dock Office knows why Sorrel went quiet.":"Every task here is finished. People around the Halo may still need a hand."));
             }
             else
             {
