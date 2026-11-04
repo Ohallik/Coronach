@@ -8,6 +8,9 @@ namespace Lattice.Combat
         readonly Vector3[] followedPositions=new Vector3[7];
         bool followingInitialized;
         bool holdingRestoredPose;
+        // A dormant animal lies in a loose S that ends in a curled tail, and only breathes until its head moves.
+        bool resting,restPending;
+        readonly Vector3[] restingPositions=new Vector3[7];
         Vector3 restoredPosition;
         Quaternion restoredRotation;
         public System.Collections.Generic.IReadOnlyList<Transform> Parts=>segments;
@@ -16,6 +19,30 @@ namespace Lattice.Combat
         {
             var definition=GetComponent<EnemyBrain>().definition;var health=GetComponent<Health>();
             Initialize(definition,health);
+            if(restPending)Rest();
+        }
+        /// <summary>Resting pose, in the carrier's frame (x right, z forward of the head): each joint's heading from the one
+        /// before, in degrees from straight back, turning right when positive. The body swings right, back left, and hooks
+        /// its tail; every joint stays exactly 2.2 m from the last, as in motion.</summary>
+        static readonly float[] RestHeadings={15,40,25,-15,-50,-30,35};
+        public static Vector2[] RestingLayout()
+        {
+            var result=new Vector2[RestHeadings.Length];var at=Vector2.zero;
+            for(int i=0;i<result.Length;i++){float h=RestHeadings[i]*Mathf.Deg2Rad;at+=new Vector2(Mathf.Sin(h),-Mathf.Cos(h))*2.2f;result[i]=at;}
+            return result;
+        }
+        /// <summary>Lay the held animal in its resting coil. The carrier itself never moves or turns here.</summary>
+        public void Rest()
+        {
+            if(segments[0]==null){restPending=true;return;}
+            restPending=false;var layout=RestingLayout();var previous=transform.position+Vector3.up*CenterHeight;
+            for(int i=0;i<segments.Length;i++)
+            {
+                var at=transform.position+transform.right*layout[i].x+transform.forward*layout[i].y+Vector3.up*CenterHeight;
+                segments[i].position=at;segments[i].rotation=Quaternion.LookRotation(previous-at);
+                restingPositions[i]=at;followedPositions[i]=at;previous=at;
+            }
+            followingInitialized=true;restoredPosition=transform.position;restoredRotation=transform.rotation;resting=true;
         }
         public static void CenterVisual(GameObject visual,float height)
         {
@@ -55,6 +82,17 @@ namespace Lattice.Combat
             // A stationary recovered carrier keeps its restored anatomy. The
             // next actual carrier movement/turn releases the chain, rather
             // than immediately replacing that pose with a later wave phase.
+            if(resting)
+            {
+                if(transform.position==restoredPosition&&transform.rotation==restoredRotation)
+                {
+                    // Slow breathing travels down the body; the joints keep their places on the bed.
+                    for(int i=0;i<segments.Length;i++)if(segments[i]!=null)
+                    {segments[i].position=restingPositions[i]+Vector3.up*Mathf.Sin(Time.time*.9f-i*.6f)*.12f;followedPositions[i]=segments[i].position;}
+                    return;
+                }
+                resting=false;
+            }
             if(holdingRestoredPose)
             {
                 if(transform.position==restoredPosition&&transform.rotation==restoredRotation)return;

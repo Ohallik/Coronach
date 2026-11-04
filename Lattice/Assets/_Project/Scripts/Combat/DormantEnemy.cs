@@ -29,6 +29,8 @@ namespace Lattice.Combat
             collision=GetComponentsInChildren<Collider>(true);collisionEnabled=new bool[collision.Length];
             for(int i=0;i<collision.Length;i++){collisionEnabled[i]=collision[i].enabled;collision[i].enabled=false;}
             viewpoint=point;range=Mathf.Max(0,radius);Held=true;waiting.Add(this);
+            // A held serpent lies in its resting coil rather than the straight line it was assembled in.
+            if(TryGetComponent<SerpentSegments>(out var serpent))serpent.Rest();
         }
         public void Activate()
         {

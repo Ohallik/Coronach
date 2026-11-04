@@ -58,7 +58,9 @@ namespace Lattice.Combat
                 Vector3.Distance(transform.position, previous) / Mathf.Max(.001f, Time.deltaTime);
             previous = transform.position;
             string wanted = speed > .12f ? "Walk" : "Idle";
-            float rate = speed > .12f ? Mathf.Clamp(speed / 2.1f, .7f, 1.5f) : 1;
+            // A walking civilian with a measured stride profile plays its walk at that profile's speed, so its feet
+            // keep pace with the ground (D195); bodies without one keep the original estimate.
+            float rate = speed > .12f ? (actor == null && strideProfile != null ? Mathf.Clamp(speed / strideProfile.walkSpeed, .5f, 1.6f) : Mathf.Clamp(speed / 2.1f, .7f, 1.5f)) : 1;
             bool visual = false;
             upperShot=false;
             if (actor != null)

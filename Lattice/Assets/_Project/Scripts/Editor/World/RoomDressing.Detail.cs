@@ -36,7 +36,9 @@ namespace Lattice.EditorTools
         public const float FlightCeiling=-.6f;
         const float DetailCell=8;
 
-        sealed class DetailBatch{public readonly List<Vector3> v=new();public readonly List<Vector2> uv=new();public readonly List<int> t=new();}
+        sealed class DetailBatch{public readonly List<Vector3> v=new();public readonly List<Vector2> uv=new();public readonly List<int> t=new();public readonly List<Color32> c=new();}
+        /// <summary>Strip kinds whose runs fade out at both ends instead of stopping square (vertex alpha, `_VCOLOR_ON`).</summary>
+        static readonly HashSet<string> FadedEnds=new(){"GroundScour"};
         static readonly Dictionary<(string kind,int x,int z),DetailBatch> details=new();
         static readonly List<Rect> detailRects=new();
         static List<Rect> obstacles;
@@ -106,6 +108,8 @@ namespace Lattice.EditorTools
                 m.SetFloat("_SrcBlend",(float)BlendMode.One);m.SetFloat("_DstBlend",(float)BlendMode.Zero);m.SetFloat("_ZWrite",1);
                 m.renderQueue=(int)RenderQueue.AlphaTest;
             }
+            if(FadedEnds.Contains(kind)){m.EnableKeyword("_VCOLOR_ON");m.SetFloat("_VColor",1);}
+            else{m.DisableKeyword("_VCOLOR_ON");m.SetFloat("_VColor",0);}
             if(Glowing.Contains(kind))
             {
                 m.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(DecalFolder+kind+"_emission.png"));
@@ -156,7 +160,7 @@ namespace Lattice.EditorTools
             if(!overlay)
             {
                 var inner=Rect.MinMaxRect(rect.xMin+.03f,rect.yMin+.03f,rect.xMax-.03f,rect.yMax-.03f);
-                bool blocked=detailRects.Any(r=>r.Overlaps(inner))||(Cave?BlockedRect(x,z,w,l,yaw):Obstacles().Any(r=>r.Overlaps(inner)))
+                bool blocked=detailRects.Any(r=>r.Overlaps(inner))||(Cave?BlockedRect(x,z,w,l,yaw):Exterior?RoofBlocked(x,z,w,l,yaw):Obstacles().Any(r=>r.Overlaps(inner)))
                     ||placed.Any(p=>p.solid&&Footprint2D(p.go).Overlaps(inner));
                 if(blocked){detailSkipped++;Debug.Log($"DRESSING_DETAIL_SKIPPED {zone} {kind} at ({x:0.0},{z:0.0})");return false;}
                 detailRects.Add(rect);
@@ -212,28 +216,41 @@ namespace Lattice.EditorTools
                     if(ok&&row.Max(q=>q.y)-row.Min(q=>q.y)<(Flight?1.2f:.5f)&&!(Cave?BlockedRect(c.x,c.y,width,step,0,row[across/2].y):Covered(c,width*.5f)))rows.Add((row,along));
                 }
             }
+            bool Linked(int i)=>i>0&&rows[i].along-rows[i-1].along<=step*1.5f&&Mathf.Abs(rows[i].row[across/2].y-rows[i-1].row[across/2].y)<=(Flight?.8f:.4f);
+            // Each continuous run tapers over its last few metres at both ends, so a band wears out instead of stopping square.
+            var alpha=new float[rows.Count];
+            for(int s=0;s<rows.Count;)
+            {
+                int e=s;while(e+1<rows.Count&&Linked(e+1))e++;
+                float start=rows[s].along,end=rows[e].along,fade=Mathf.Min(3.5f,(end-start)*.35f);
+                for(int i=s;i<=e;i++)alpha[i]=!FadedEnds.Contains(kind)||fade<=0?1:
+                    Mathf.SmoothStep(0,1,Mathf.Clamp01((rows[i].along-start)/fade))*Mathf.SmoothStep(0,1,Mathf.Clamp01((end-rows[i].along)/fade));
+                s=e+1;
+            }
             // One row of quads per step, appended to the cell of its midpoint.
             for(int i=1;i<rows.Count;i++)
             {
                 var (r0,a0)=rows[i-1];var (r1,a1)=rows[i];
-                if(a1-a0>step*1.5f||Mathf.Abs(r1[across/2].y-r0[across/2].y)>(Flight?.8f:.4f))continue;
+                if(!Linked(i))continue;
                 var verts=r0.Concat(r1).ToArray();
+                byte f0=(byte)Mathf.RoundToInt(alpha[i-1]*255),f1=(byte)Mathf.RoundToInt(alpha[i]*255);
+                var colors=Enumerable.Repeat(new Color32(255,255,255,f0),across+1).Concat(Enumerable.Repeat(new Color32(255,255,255,f1),across+1)).ToArray();
                 float repeat=width/StripAspect[kind];
                 var uvs=Enumerable.Range(0,across+1).Select(k=>new Vector2(k/(float)across,a0/repeat))
                     .Concat(Enumerable.Range(0,across+1).Select(k=>new Vector2(k/(float)across,a1/repeat))).ToArray();
-                var mid=(r0[across/2]+r1[across/2])*.5f;Append(kind,mid.x,mid.z,verts,uvs,across,1);
+                var mid=(r0[across/2]+r1[across/2])*.5f;Append(kind,mid.x,mid.z,verts,uvs,across,1,null,colors);
             }
             if(Cave||Flight)Debug.Log($"DRESSING_STRIP {zone} {kind} rows={rows.Count} length={along:0}");
             detailPlaced++;
         }
 
-        static void Append(string kind,float x,float z,Vector3[] verts,Vector2[] uvs,int nx,int nz,bool[] valid=null)
+        static void Append(string kind,float x,float z,Vector3[] verts,Vector2[] uvs,int nx,int nz,bool[] valid=null,Color32[] colors=null)
         {
             var key=(kind,Mathf.FloorToInt(x/DetailCell),Mathf.FloorToInt(z/DetailCell));
             if(!details.TryGetValue(key,out var batch))details[key]=batch=new DetailBatch();
             // Only vertices of kept cells enter the batch, so no stray vertex sits off the floor.
             var index=new int[verts.Length];for(int k=0;k<index.Length;k++)index[k]=-1;
-            int Use(int k){if(index[k]<0){index[k]=batch.v.Count;batch.v.Add(verts[k]);batch.uv.Add(uvs[k]);}return index[k];}
+            int Use(int k){if(index[k]<0){index[k]=batch.v.Count;batch.v.Add(verts[k]);batch.uv.Add(uvs[k]);batch.c.Add(colors!=null?colors[k]:new Color32(255,255,255,255));}return index[k];}
             for(int j=0;j<nz;j++)for(int i=0;i<nx;i++)
             {
                 int a=j*(nx+1)+i,b=a+1,c=a+nx+1,d=c+1;
@@ -245,7 +262,7 @@ namespace Lattice.EditorTools
 
         /// <summary>Sorrel's terrain and Hushwell's cave are the one collider wider than 100 m; rocks, habs and pads
         /// are not ground. The Gullet's ground is its membrane shell (narrower than 100 m at the coil).</summary>
-        static bool IsTerrain(Collider c)=>Flight?c.name=="Gullet membrane shell":c.bounds.size.x>100&&c.bounds.size.z>100;
+        static bool IsTerrain(Collider c)=>Flight?c.name==(zone=="TallowApproach"?TempHullCollider:"Gullet membrane shell"):Exterior?!c.transform.IsChildOf(root):c.bounds.size.x>100&&c.bounds.size.z>100;
 
         /// <summary>The point's height if it is floor a piece may stand on, else NaN: in Hushwell the cave floor of its
         /// level (never a rock top or lip), in the Gullet only the bed well below the flight plane.</summary>
@@ -253,6 +270,7 @@ namespace Lattice.EditorTools
         {
             if(Cave)return p.y<=HushwellLayout.Level(p.z)+.3f?p.y:float.NaN;
             if(Flight)return p.y<=FlightCeiling-.4f?p.y:float.NaN;
+            if(Exterior)return p.y>=RoofMin?p.y:float.NaN;
             return p.y;
         }
 
@@ -283,7 +301,7 @@ namespace Lattice.EditorTools
                 var (kind,cx,cz)=group.Key;var batch=group.Value;
                 if(!materials.TryGetValue(kind,out var material))materials[kind]=material=DetailMaterial(kind);
                 var mesh=new Mesh{name=$"{zone} detail {kind} {cx},{cz}",indexFormat=batch.v.Count>65000?IndexFormat.UInt32:IndexFormat.UInt16};
-                mesh.SetVertices(batch.v);mesh.SetUVs(0,batch.uv);mesh.SetTriangles(batch.t,0);
+                mesh.SetVertices(batch.v);mesh.SetUVs(0,batch.uv);mesh.SetTriangles(batch.t,0);if(FadedEnds.Contains(kind))mesh.SetColors(batch.c);
                 mesh.RecalculateNormals();mesh.RecalculateBounds();decalMeshes.Add(mesh);
                 var go=new GameObject("Floor detail "+kind,typeof(MeshFilter),typeof(MeshRenderer)){isStatic=true};
                 go.transform.SetParent(root,false);

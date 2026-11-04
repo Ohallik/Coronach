@@ -164,6 +164,10 @@ namespace Lattice.Combat
             direction.y=0;motor.Dash(direction,8);
             GetComponent<FlightDashContact>().Begin(Packet(damage,edgeType,28,"lunge"));return true;
         }
+        /// <summary>Single-target burst skills (Arc Cleave, Ember Dash, Lance) in multiples of the actor's output. At 1.7-1.8
+        /// a skill cost three landed hits of charge and a cooldown for less than two hits of damage, so skills barely
+        /// mattered; an Ys-style burst should be worth spending charge on (November 4, D194).</summary>
+        public const float SkillBurst=2.6f;
         public bool Skill(int slot)
         {
             if(!CanAct||slot<0||slot>3||cooldowns[slot]>0)return false;
@@ -182,16 +186,16 @@ namespace Lattice.Combat
                     slot==0?GroundMove.Lance:slot==1?GroundMove.Scatter:slot==2?GroundMove.StaticNet:GroundMove.Refract;
                 BeginVisual(move.clip,move.duration);actionUntil=GameTime.Now+move.recoveryEnd;
                 if(character=="Taren"&&slot==0)
-                    GetComponent<MeleeContact>().Begin(move,Packet(damage*1.7f*power,DamageType.Kinetic,35));
+                    GetComponent<MeleeContact>().Begin(move,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
                 else if(character=="Sela"&&slot<2)
                     GetComponent<RangedContact>().Begin(move,direction,
-                        Packet(rangedDamage*(slot==0?1.7f:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
+                        Packet(rangedDamage*(slot==0?SkillBurst:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
                         slot==0?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
                 else
                 {
                     var release=slot==3?(character=="Taren"?GroundSkillContact.Release.Overdrive:GroundSkillContact.Release.Refract):
                         character=="Sela"?GroundSkillContact.Release.Net:slot==1?GroundSkillContact.Release.Dash:GroundSkillContact.Release.Pulse;
-                    var packet=slot==3?default:character=="Taren"?Packet(damage*(slot==1?1.8f:1.1f)*power,slot==1?DamageType.Plasma:DamageType.Pulse,slot==1?40:85):
+                    var packet=slot==3?default:character=="Taren"?Packet(damage*(slot==1?SkillBurst:1.1f)*power,slot==1?DamageType.Plasma:DamageType.Pulse,slot==1?40:85):
                         Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
                     GetComponent<GroundSkillContact>().Begin(move,release,direction,packet);
                     if(character=="Taren"&&slot==1)GetComponent<MeleeContact>().Begin(move,packet);
@@ -203,10 +207,10 @@ namespace Lattice.Combat
         {
             if(character=="Taren")
             {
-                if(slot==0)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Cleave,direction,Packet(damage*1.7f*power,DamageType.Kinetic,35));
+                if(slot==0)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Cleave,direction,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
                 else if(slot==1)
                 {
-                    motor.Dash(direction,flight?10:6);var packet=Packet(damage*1.8f*power,DamageType.Plasma,40);
+                    motor.Dash(direction,flight?10:6);var packet=Packet(damage*SkillBurst*power,DamageType.Plasma,40);
                     if(flight)GetComponent<FlightDashContact>().Begin(packet);else Pierce(direction,packet,6);
                 }
                 else if(slot==2)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Pulse,direction,Packet(damage*1.1f*power,DamageType.Pulse,85));
@@ -214,7 +218,7 @@ namespace Lattice.Combat
             }
             else
             {
-                if(slot==0)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*1.7f*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
+                if(slot==0)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
                 else if(slot==1)
                 {
                     var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=Packet(rangedDamage*.65f*power,DamageType.Plasma,18);

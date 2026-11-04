@@ -12,7 +12,7 @@ namespace Lattice.World
         public string finalCompletionFlag,finalRepeatNode;
         public string hideWhenJoined;
         bool pending;int request;
-        public override bool Available=>!pending;
+        public override bool Available=>!pending&&isActiveAndEnabled;
         void Update(){if(!string.IsNullOrEmpty(hideWhenJoined)&&GameServices.Current.State.party.Exists(m=>m.id==hideWhenJoined))gameObject.SetActive(false);}
         public override void Interact()
         {

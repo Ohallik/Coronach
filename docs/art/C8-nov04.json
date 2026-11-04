@@ -1,0 +1,16 @@
+{
+ "id": "C8-Nov04",
+ "status": "INTEGRATED_TALLOW_LINE; EDITOR_STILL_OPENED; IN_PLAYER_REVIEW_PENDING",
+ "purpose": "Tallow's docking line read as a flat colour ribbon under the flight camera (D196).",
+ "generator": "Meshy text-to-image (gpt-image-2), one side-view braided rope sheet; tools/rope_tile.py cuts a seamless tile of four measured braid periods.",
+ "prompt": "Seamless tileable game texture, side view, filling the entire square edge to edge: one thick braided synthetic mooring rope lying perfectly straight and horizontal across the middle from the left edge to the right edge, tightly woven diagonal strands with a pale highlight along its top and a darker shaded underside so it reads as a round rope, worn ochre-orange with dull tan strands, on a pure white background above and below. Ochre, tan, brown and white only, painterly flat colours, no text, no letters, no logos.",
+ "task": "01a1a751-8718-72f2-a8cd-c3f417d5a241",
+ "credits": 9,
+ "sources": {
+  "art-src/Generated/C8-Nov04/refs/tallow-rope.png": "3a4c5409c54bb949d728417de0c6da298453f1b743190e56613f877c3c14988a",
+  "art-src/Generated/C8-Nov04/TallowRope_base_color.png": "48b6548814f2e378b9c3a8515f8cd52d9610ea3846bb060a111310eea6f540b5"
+ },
+ "processing": "Band rows 383..619 of the 1024 px sheet; braid period 94 px by luminance autocorrelation; tile 376 px (4 periods, aspect 1.593) with a 23 px seam cross-fade, resized to 512x128. Tiled three times and opened: no visible seam.",
+ "integration": "Assets/_Project/Art/Generated/Dressing/TallowRope_base_color.png via TallowMooringStaging.RefreshCable (U repeat, 4.83 repeats per metre at the line's 0.13 m width).",
+ "note": "The first download path doubled 'refs/' (the tool adds it); the finished task's image was fetched again from the task record, not regenerated."
+}

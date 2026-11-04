@@ -64,6 +64,23 @@ namespace Lattice.Tests.PlayMode
             Assert.IsFalse(enemy.Telegraphing);Assert.IsFalse(enemy.Attacking);Assert.IsFalse(enemy.GetComponent<BossController>().Busy);
             Assert.AreEqual(shots,Projectile.ActiveCount);Assert.AreEqual("Starfight",MusicDirector.Current.Track,"preview starts the combat cue");
         }
+        [UnityTest] public IEnumerator DormantAnimalLiesCoiledAndUnwindsOnceItsHeadMoves()
+        {
+            // November 4: the held animal lay as a straight line behind its head, which read as an assembled model.
+            var enemy=Preview();yield return null;yield return null;
+            var parts=enemy.GetComponent<SerpentSegments>().Parts;Assert.AreEqual(7,parts.Count);
+            var lateral=parts.Select(p=>enemy.transform.InverseTransformPoint(p.position).x).ToArray();
+            Assert.GreaterOrEqual(lateral.Max(x=>Mathf.Abs(x)),1.5f,"the resting body is still a straight line: "+string.Join(", ",lateral.Select(x=>x.ToString("0.00"))));
+            Assert.IsTrue(lateral.Any(x=>x>.5f)&&lateral.Any(x=>x<-.2f),"the resting body does not swing both ways: "+string.Join(", ",lateral.Select(x=>x.ToString("0.00"))));
+            static Vector2 Flat(Vector3 v)=>new(v.x,v.z);
+            var previous=Flat(enemy.transform.position);
+            foreach(var part in parts){Assert.AreEqual(2.2f,Vector2.Distance(previous,Flat(part.position)),.1f,"resting joints must keep the chain's spacing");previous=Flat(part.position);}
+            // Once the head actually moves, the body follows it out of the coil instead of holding the pose.
+            enemy.transform.position+=Vector3.forward*3;var before=parts.Select(p=>p.position).ToArray();
+            yield return new WaitForSecondsRealtime(1.2f);
+            Assert.Greater(Enumerable.Range(0,parts.Count).Max(i=>Vector3.Distance(before[i],parts[i].position)),.8f,"the coil never releases when the head moves");
+            Assert.AreEqual(2.2f,Vector2.Distance(Flat(enemy.transform.position),Flat(parts[0].position)),.35f,"the first joint does not follow the head");
+        }
         [UnityTest] public IEnumerator DormancyAlsoSuppressesNearbyTellsShotsAndDamage()
         {
             var enemy=Preview();encounter.GetComponent<Collider>().enabled=false;

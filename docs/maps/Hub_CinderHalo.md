@@ -44,3 +44,7 @@ Both speak through `HailPoint` from 7 m with their bodies removed, and neither s
 
 
 Paired re-inspection after dressing passes 1-3 (November 4, Claude, agent review). Opened `Builds/quality/look/decks-halo-pair-01`: the Halo station and hull overviews beside the furnished Decks overview. Three hull casings with one docking pad each at their south ends match the Decks' three dock vestibules; the enclosed mid-length and rear links match the promenade bridges and the service gallery; the open slots between casings match the voids between hulls; the ring attaches behind. Furniture changed no envelope or link. Exterior/interior agreement holds.
+
+## Roof dressing - November 4 (D196)
+
+The three hull roofs were bare repeated plating seen from the flight camera. Each roof now shows its hull's trade, painted large (office, market, repair). It also carries solar arrays, fuel tanks and a pipe run feeding its plant housing, hatches and grates, a hazard frame round the housing, one comms mast at the back and lamps at the corners. Everything stands above the flight plane, has no collider and keeps 2 m back from every roof edge, so no ship meets or loses sight of it (`ExteriorAudit`, 41 pieces, 0 problems). Overview `Builds/quality/look/nov04-places-02`; the old `dock`/`ring` look points lie inside the redesigned hulls, so `office-dock`, `market-roof` and `workshop-roof` replace them for review.

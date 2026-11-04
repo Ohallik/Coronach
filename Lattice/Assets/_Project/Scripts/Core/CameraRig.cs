@@ -64,6 +64,11 @@ namespace Lattice.Core
             flight=new GameObject("FlightFollow",typeof(CinemachineCamera)).GetComponent<CinemachineCamera>();
             ground.transform.SetParent(transform);flight.transform.SetParent(transform);
         }
+        float tremorAge=1,tremorLength=1,tremorAmplitude;
+        /// <summary>A brief deck tremor (the station shifting under the opening scene): a presentation offset that decays
+        /// over its length and never moves the gameplay framing target.</summary>
+        public void Tremor(float seconds,float amplitude){tremorLength=Mathf.Max(.05f,seconds);tremorAmplitude=Mathf.Max(0,amplitude);tremorAge=0;}
+        public bool Trembling=>tremorAge<tremorLength;
         public void Apply(Transform follow,CameraProfile settings)
         {
             bool preserve=initialized&&follow!=null&&profile==settings&&(encounterBounds.HasValue||returning||HasSceneInterest)&&
@@ -140,7 +145,13 @@ namespace Lattice.Core
                 requestedOffset=rotation*new Vector3(tan*aspect*(sceneInterestViewport.xMin+sceneInterestViewport.xMax-1),tan*(sceneInterestViewport.yMin+sceneInterestViewport.yMax-1),0)*cameraDistance;
             }
             viewOffset=Vector3.Lerp(viewOffset,requestedOffset,1-Mathf.Exp(-10*dt));
-            active.transform.SetPositionAndRotation(center-viewOffset-rotation*Vector3.forward*cameraDistance,rotation);
+            Vector3 tremor=Vector3.zero;
+            if(tremorAge<tremorLength)
+            {
+                tremorAge+=Time.unscaledDeltaTime;float fade=1-Mathf.Clamp01(tremorAge/tremorLength),t=Time.unscaledTime*23;
+                tremor=new Vector3(Mathf.PerlinNoise(t,.3f)-.5f,Mathf.PerlinNoise(.7f,t)-.5f,0)*2*tremorAmplitude*fade*fade;
+            }
+            active.transform.SetPositionAndRotation(center-viewOffset-rotation*Vector3.forward*cameraDistance+rotation*tremor,rotation);
             var lens=active.Lens;lens.FieldOfView=profile.fov;lens.NearClipPlane=.1f;lens.FarClipPlane=1600;active.Lens=lens;
         }
     }

@@ -279,14 +279,19 @@ namespace Lattice.EditorTools
                 light.range=7f;light.intensity=1.7f;light.shadows=LightShadows.None;
             }
             // The lower ramp down to the nursery: nobody worked below, so only the seam lights the way.
-            foreach(float z in new[]{299f,311f})
+            // The east wall shades the whole right half of the ramp from the sun, so the seam runs down that side
+            // too, its light thrown low across the floor (November 4: the two west crystals alone left it black).
+            foreach(var (z,side,scale) in new[]{(299f,-1,.95f),(311f,-1,.95f),(292f,1,1.05f),(303f,1,.9f),(315f,1,1.1f),(325f,1,.85f)})
             {
-                var p=NearWall(z,-1,.6f);if(p==null)continue;var (at,_)=RouteAt(z);var inward=(at-p.Value).normalized;
-                var go=Put("HushwellWallCrystal",p.Value.x,p.Value.y,FaceToward(p.Value,at),.95f,false,true,.15f);
+                var p=NearWall(z,side,.6f);if(p==null){Debug.Log($"DRESSING_RAMP_CRYSTAL none z={z} side={side}");continue;}
+                var (at,_)=RouteAt(z);var inward=(at-p.Value).normalized;
+                var go=Put("HushwellWallCrystal",p.Value.x,p.Value.y,FaceToward(p.Value,at),scale,false,true,.15f);
                 var holder=new GameObject("Crystal light"){isStatic=true};holder.transform.SetParent(go.transform,false);
-                holder.transform.position=go.transform.position+new Vector3(inward.x,0,inward.y)*1.4f+Vector3.up*1.3f;
-                var light=holder.AddComponent<Light>();light.type=LightType.Point;light.color=new Color(.25f,.88f,1f);
-                light.range=7f;light.intensity=1.7f;light.shadows=LightShadows.None;count++;
+                bool shaded=side>0;
+                // The shaded side's light sits higher and paler so it washes the floor instead of pooling green on it.
+                holder.transform.position=go.transform.position+new Vector3(inward.x,0,inward.y)*(shaded?2f:1.4f)+Vector3.up*(shaded?2.4f:1.3f);
+                var light=holder.AddComponent<Light>();light.type=LightType.Point;light.color=shaded?new Color(.5f,.8f,1f):new Color(.25f,.88f,1f);
+                light.range=shaded?10f:7f;light.intensity=shaded?1.4f:1.7f;light.shadows=LightShadows.None;count++;
             }
             Debug.Log("DRESSING_CRYSTALS placed="+count);
         }
@@ -340,7 +345,10 @@ namespace Lattice.EditorTools
             }
             mesh.colors=colors;EditorUtility.SetDirty(mesh);
             var material=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/hushwell-floor.mat")??throw new System.InvalidOperationException("hushwell-floor material missing");
-            material.EnableKeyword("_VCOLOR_ON");material.SetFloat("_VColor",1);EditorUtility.SetDirty(material);
+            material.EnableKeyword("_VCOLOR_ON");material.SetFloat("_VColor",1);
+            // Six ramp steps on the floor only: with three, the floor in the walls' shadow quantised to no key light at all
+            // (the lower ramp read black) and every lamp or crystal pool was a hard two-ring disc. The rock keeps three.
+            material.SetFloat("_RampSteps",6);EditorUtility.SetDirty(material);
             Debug.Log("DRESSING_HUSHWELL_GROUND_OK vertices="+v.Length);
         }
 
@@ -401,6 +409,18 @@ namespace Lattice.EditorTools
             for(int i=0;i<6;i++){float size=R(4,6);Patch("GroundScar",new Vector2(R(-20,20),R(745,860)),size,size,R(0,360));}
             // The exit valve: vessels converge on the opening.
             foreach(int side in new[]{-1,1})for(int i=0;i<2;i++){float z=872+i*9;Patch("GroundVeins",GulletBed(z,side*.3f,9),3.6f,9,side*-18);}
+            // The current out of the animal has worn grooves that converge on the aperture, leading the eye to the way out,
+            // and the exit's breathing pores ring the opening (November 4: the exit floor carried almost nothing).
+            foreach(var (start,end) in new[]{(-.62f,-.12f),(-.34f,-.05f),(.34f,.05f),(.62f,.12f)})
+            {
+                var groove=new List<Vector2>();
+                for(float z=846;z<=896;z+=2.5f){float t=Mathf.SmoothStep(0,1,(z-846)/50f);groove.Add(GulletAt(z,Mathf.Lerp(start,end,t)));}
+                Strip("GroundScour",groove.ToArray(),0,2.6f,.06f);placed3++;
+            }
+            for(int i=0;i<7;i++){float a=(i/7f*360+R(-12,12))*Mathf.Deg2Rad,size=R(2.6f,3.6f);Patch("GroundPore",GulletBed(884+Mathf.Sin(a)*7,Mathf.Cos(a)*.5f,size),size,size,R(0,360));}
+            var exitGlow=new GameObject("Exit aperture glow"){isStatic=true};exitGlow.transform.SetParent(root,false);
+            exitGlow.transform.position=new Vector3(GulletProfile.Center(893),FlightCeiling-1.6f,893);
+            var glow=exitGlow.AddComponent<Light>();glow.type=LightType.Point;glow.color=new Color(.62f,.86f,1f);glow.range=15f;glow.intensity=1.4f;glow.shadows=LightShadows.None;
             Debug.Log("DRESSING_GULLET_FLOOR placed="+placed3);
         }
     }

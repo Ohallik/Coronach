@@ -14,7 +14,7 @@ namespace Lattice.World
         public EncounterVolume previewEncounter;
         bool pending;
         GameState requestedState;
-        public override bool Available=>!pending&&!GameServices.Current.Flags.GetBool(flag)&&
+        public override bool Available=>!pending&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&
             (previewEncounter==null||!previewEncounter.Started);
         public override void Interact()
         {

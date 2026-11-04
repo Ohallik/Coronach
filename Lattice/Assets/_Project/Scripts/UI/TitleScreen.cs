@@ -68,7 +68,13 @@ namespace Lattice.UI
         public void StartGame(bool resume)
         {
             if(resume) GameServices.Current.State=GameServices.Current.Saves.Load("autosave")??new GameState();
-            else GameServices.Current.NewGame();
+            else
+            {
+                GameServices.Current.NewGame();
+                // Only a genuine New Game from the title plays the first town's morning (D195); Continue, older saves and
+                // controlled fixtures never see it.
+                GameServices.Current.Flags.SetBool(Lattice.World.OpeningMarketSequence.Requested,true);
+            }
             SceneFlow.Current.LoadZone(GameServices.Current.State.zone,GameServices.Current.State.spawn);
             canvas.gameObject.SetActive(false);
         }

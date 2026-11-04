@@ -67,6 +67,27 @@ namespace Lattice.Tests.PlayMode
             Assert.Greater(Bounds(drift.marker).size.y,2,"detached marker cannot be read from a ship");
             yield return null;
         }
+        [UnityTest] public IEnumerator ObservedLineIsReeledInBesideTheReelAndHoldsDuringPause()
+        {
+            // November 4: the Keeper asks for the line to be reeled snug, but nothing ever reeled it; the free end stayed
+            // 5 m out while the return conversation says it lies beside the reel. The slack bight doubles back on itself,
+            // so the paid-out length, not the straight distance, shows the reel winding.
+            var cable=GameObject.Find("Slack docking line").GetComponent<LineRenderer>();var fitting=GameObject.Find("Free docking-line fitting").transform;
+            float Length(){float l=0;for(int i=1;i<cable.positionCount;i++)l+=Vector3.Distance(cable.GetPosition(i-1),cable.GetPosition(i));return l;}
+            var start=cable.transform.TransformPoint(cable.GetPosition(0));float before=Length();var fittingBefore=fitting.position;
+            yield return new WaitForSecondsRealtime(1);
+            Assert.AreEqual(before,Length(),.01f,"the line reels before anyone has looked at it");Assert.Less(Vector3.Distance(fittingBefore,fitting.position),.01f);
+            GameServices.Current.Flags.SetBool("tallow.lineObserved",true);
+            yield return new WaitForSecondsRealtime(2);
+            float midway=Length();Assert.Less(midway,before-1,"the observed line does not start reeling in");
+            GameTime.Paused=true;yield return new WaitForSecondsRealtime(1);
+            Assert.AreEqual(midway,Length(),.01f,"reeling continues while paused");
+            GameTime.Paused=false;yield return new WaitForSecondsRealtime(7);
+            float rest=Vector3.Distance(fitting.position,start);
+            Assert.Less(rest,2.5f,$"the free end is not beside the reel after reeling ({rest:0.00} m)");
+            Assert.Less(Length(),2.5f,"the line is still paid out after reeling");
+            Assert.Less(Vector3.Distance(cable.transform.TransformPoint(cable.GetPosition(cable.positionCount-1)),fitting.position),.05f,"the line's end leaves the fitting");
+        }
         [UnityTest] public IEnumerator MarkerFallsBehindAndStopsDuringPause()
         {
             AtLine();yield return null;var before=drift.marker.position;

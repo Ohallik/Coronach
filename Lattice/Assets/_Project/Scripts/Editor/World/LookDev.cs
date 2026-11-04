@@ -26,9 +26,13 @@ namespace Lattice.EditorTools
                 new View("vestibule",new Vector3(-28,0,-11)),new View("office",new Vector3(-31,0,4)),new View("cabins",new Vector3(-28,0,14)),new View("stalls",new Vector3(0,0,4)),
                 new View("galley",new Vector3(0,0,14)),new View("workshop",new Vector3(29,0,5)),new View("stores",new Vector3(28,0,14)),new View("receiving",new Vector3(28,0,-11)),new View("service",new Vector3(0,0,21.5f)),
                 // Paired overview with the Halo exterior (MAP_EYE_TEST exterior/interior agreement).
-                new View("overview",new Vector3(0,0,3),false,3.6f)}),
+                new View("overview",new Vector3(0,0,3),false,3.6f),
+                // The opening scene's walkway job (D195), staged in its closed morning state.
+                new View("walkway",new Vector3(-14,0,-3.5f)),new View("walkway-wide",new Vector3(-14,0,-3),false,1.7f)}),
             ("Hub_CinderHalo",new[]{new View("dock",new Vector3(-20,1,0),true),new View("ring",new Vector3(25,1,25),true),
-                new View("hulls-overview",new Vector3(0,1,0),true,4f),new View("station-overview",new Vector3(0,1,0),true,7f)}),
+                new View("hulls-overview",new Vector3(0,1,0),true,4f),new View("station-overview",new Vector3(0,1,0),true,7f),
+                // The old dock/ring points lie inside the redesigned hulls; these sit where ships actually fly.
+                new View("office-dock",new Vector3(-28,1,-27),true),new View("market-roof",new Vector3(0,1,-25),true,2.2f),new View("workshop-roof",new Vector3(28,1,-25),true,2.2f)}),
             ("Sorrel_Ridges",new[]{new View("outpost",new Vector3(0,0,18)),new View("seam",new Vector3(-35,0,58)),new View("service",new Vector3(35,0,82)),new View("bore",new Vector3(8,0,164)),
                 new View("landing",new Vector3(2,0,-11)),new View("habs",new Vector3(12,0,10)),new View("haul",new Vector3(5,0,47)),new View("basin",new Vector3(-5,0,96)),new View("drill",new Vector3(4,0,141))}),
             ("Arena_Ground",new[]{new View("yard",new Vector3(-6,0,4))}),
@@ -45,7 +49,7 @@ namespace Lattice.EditorTools
                 new View("gate",new Vector3(GulletProfile.RouteX(560),1,560),true),new View("gate-far",new Vector3(GulletProfile.RouteX(660),1,660),true),
                 new View("coil-entry",new Vector3(GulletProfile.RouteX(745),1,745),true),new View("coil",new Vector3(GulletProfile.RouteX(805),1,805),true),
                 new View("exit",new Vector3(GulletProfile.RouteX(880),1,880),true)}),
-            ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true)}),
+            ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true),new View("deck",new Vector3(4.75f,1,18),true,1.8f),new View("mooring",new Vector3(-25,1,3),true)}),
             ("TallowDrift",new[]{new View("refuge",new Vector3(0,0,-3)),new View("garden",new Vector3(6,0,3)),
                 new View("waiting",new Vector3(-7,0,1)),new View("repair",new Vector3(7,0,5)),new View("arrival",new Vector3(0,0,-9)),new View("rest",new Vector3(0,0,8))}),
         };

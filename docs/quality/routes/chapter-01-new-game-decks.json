@@ -58,6 +58,64 @@
       }
     },
     {
+      "name": "approach the walkway job",
+      "seconds": 5,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -16.2,
+        "y": 0,
+        "z": -3
+      }
+    },
+    {
+      "name": "watch Sela cross the market",
+      "seconds": 7,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "start the walkway repair",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release start repair",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "read the walkway repair",
+      "seconds": 30,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "opening.walkwayRepaired"
+    },
+    {
+      "name": "release after repair",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "back to the office promenade",
+      "seconds": 4,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      }
+    },
+    {
       "name": "office entrance",
       "seconds": 3,
       "expectedScene": "Hub_Decks",

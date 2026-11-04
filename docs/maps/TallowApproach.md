@@ -57,3 +57,7 @@ The historical accepted refuge/dock layout remains. A new port reel/platform and
 ## Dialogue-reading follow-up - October 9
 
 The exterior story camera now keeps the actual moving assembly and both craft above dialogue during the controlled reading interval. No existing geometry or interior is changed. Twelve before/after images were opened; partial reel overlap, blockout fitting and missing reeling animation remain. Current ordinary confirmation is **UNVERIFIED**: the read-only preflight at 10:00:40 UTC found VS Code (PID 20408) in the foreground, so no competing visible replay was started. No foreground was changed. The earlier rejected mooring/player02 remains the latest ordinary evidence. Final MAP_EYE_TEST and continuous audiovisual/physical review remain OPEN/UNVERIFIED. [Evidence](../validation/C8-tallow-reading.md).
+
+## Rope, reel and deck - November 4 (D196)
+
+The docking line is a generated braided rope tiled along its length, so it reads as a round line rather than a flat ribbon. Once the party has looked at its free end, the reel winds the line in along its own path until the fitting rests beside the reel. That is where the Keeper's return conversation describes it, and a later visit finds it wound. The refuge deck carries crisp hazard paint round the docking apron, with flat details only under the flight-ceiling rule. The generated hull texture is still soft in the closest dock view. Stills: `Builds/quality/look/nov04-opening-01` (mooring) and `nov04-places-02` (deck, refuge).

@@ -75,3 +75,19 @@ title: SelaWaiting
 ---
 Sela: Orrin has the coordinates. I have several unreasonable ideas. See him first. #emotion:Playful
 ===
+title: SelaWalkwayRepair
+---
+Taren: Mira. The yellow line is where the stall stops. #emotion:Neutral
+Mira: It stopped. Then I needed room for the pears. #emotion:Smug
+Taren: I need room to close this cover without pinching the conduit. #emotion:Determined
+Sela: Does your repair include a ship? I have a receipt for one that left an hour ago. #emotion:Worried
+Mira: The receipt was punctual. #emotion:Amused
+Sela: I found the right dock. Eventually. Here, let me hold that side. #emotion:Playful
+Taren: Keep the hinge clear. There. The cover can sit flush now. #emotion:Determined
+<<stationShift>>
+Mira: Did the bridge just move? #emotion:Curious
+Taren: A little. I hadn't tightened that joint yet. #emotion:Worried
+Sela: Both sides moved together. #emotion:Curious
+Mira: Then my stall is still on its side of the line. Open the walkway before the pears bruise. #emotion:Amused
+Taren: All right. Orrin has been waiting for us. #emotion:Neutral
+===

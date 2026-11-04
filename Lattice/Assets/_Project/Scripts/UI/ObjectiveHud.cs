@@ -31,7 +31,9 @@ namespace Lattice.UI
                     else{label=flags.GetBool("warpkey")?"Explore Hushwell beneath Sorrel":"Land on Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Sorrel_Ridges");}
                     break;
                 case "Hub_Decks":
-                    if(!flags.GetBool("met.Orrin")){label="Talk to Orrin";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Orrin");}
+                    if(flags.GetBool(OpeningMarketSequence.Requested)&&!flags.GetBool(OpeningMarketSequence.Repaired))
+                    {label="Reopen the market walkway";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag==OpeningMarketSequence.Repaired);goal=new Vector3(-14.6f,0,-3);}
+                    else if(!flags.GetBool("met.Orrin")){label="Talk to Orrin";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Orrin");}
                     else{label="Return to the Halo";target=prompts.OfType<DockingPad>().OrderBy(p=>(p.transform.position-PartyController.Current.Active.transform.position).sqrMagnitude).FirstOrDefault();}
                     break;
                 case "Sorrel_Ridges":

@@ -55,6 +55,36 @@ namespace Lattice.EditorTools
             if(!machinery.Contains(attached))throw new System.InvalidOperationException("Docking line no longer meets the reel");
             ConfigureReadingView(root.GetComponent<TallowMarkerDrift>());
         }
+        /// <summary>November 4: a braided rope instead of a flat colour ribbon, and the reel that winds the free line in
+        /// once the party has seen it holds nothing. Isolated: changes only the line's look and adds the reel.</summary>
+        public static void RefreshCable()=>BatchTools.Run(()=>
+        {
+            var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
+            ConfigureCable(GameObject.Find(RootName));
+            EditorSceneManager.MarkSceneDirty(scene);EditorSceneManager.SaveScene(scene);AssetDatabase.SaveAssets();
+            Debug.Log("TALLOW_CABLE_OK");
+        });
+        const string RopeTexture="Art/Generated/Dressing/TallowRope_base_color.png";
+        // The generated rope tile spans four braid repeats at 1.593 times the rope's thickness.
+        const float RopeTileAspect=1.593f;
+        static void ConfigureCable(GameObject root)
+        {
+            PackStaging.StageFile("art-src/Generated/C8-Nov04/TallowRope_base_color.png",RopeTexture);
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            var importer=(TextureImporter)AssetImporter.GetAtPath("Assets/_Project/"+RopeTexture);
+            importer.wrapModeU=TextureWrapMode.Repeat;importer.wrapModeV=TextureWrapMode.Clamp;importer.maxTextureSize=512;importer.mipmapEnabled=true;importer.SaveAndReimport();
+            var line=root.transform.Find("Slack docking line").GetComponent<LineRenderer>();
+            line.textureMode=LineTextureMode.Tile;line.textureScale=Vector2.one;
+            var material=CableMaterial();
+            material.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/"+RopeTexture));material.SetFloat("_BaseMapStrength",1);
+            material.SetTextureScale("_BaseMap",new Vector2(1/(line.startWidth*RopeTileAspect),1));
+            material.SetColor("_BaseColor",new Color(.9f,.86f,.82f));EditorUtility.SetDirty(material);
+            line.sharedMaterial=material;
+            var reel=root.GetComponent<TallowLineReel>()??root.AddComponent<TallowLineReel>();
+            reel.line=line;reel.fitting=root.transform.Find("Free docking-line fitting");
+            if(reel.fitting==null)throw new System.InvalidOperationException("Missing the free docking-line fitting");
+            Debug.Log($"TALLOW_CABLE texture={material.GetTexture("_BaseMap")} repeat={1/(line.startWidth*RopeTileAspect):0.00}/m points={line.positionCount}");
+        }
         public static void RefreshReadingView()=>BatchTools.Run(()=>
         {
             var scene=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
@@ -122,6 +152,7 @@ namespace Lattice.EditorTools
             var drift=root.AddComponent<TallowMarkerDrift>();drift.marker=marker.transform;drift.observation=point.transform;
             ConfigureHardware(root);
             ConfigureReadingView(drift);
+            ConfigureCable(root);
         }
         static Vector3[] CablePoints()
         {
@@ -143,7 +174,7 @@ namespace Lattice.EditorTools
             const string path="Assets/_Project/Resources/WorldMaterials/tallow-docking-line.mat";
             var material=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(material==null){material=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(material,path);}
-            material.SetColor("_BaseColor",new Color(.64f,.43f,.18f));material.SetColor("_EmissionColor",Color.black);EditorUtility.SetDirty(material);return material;
+            material.SetColor("_EmissionColor",Color.black);EditorUtility.SetDirty(material);return material;
         }
     }
 }

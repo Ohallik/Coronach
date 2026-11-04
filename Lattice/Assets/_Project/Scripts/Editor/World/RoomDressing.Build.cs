@@ -29,11 +29,11 @@ namespace Lattice.EditorTools
     {
         public const string RootName="Room dressing";
         const string RetiredSuffix=" (retired by room dressing)";
-        public static readonly string[] Zones={"Hub_Decks","TallowDrift","Sorrel_Ridges","Hushwell","Gullet_Tunnel"};
+        public static readonly string[] Zones={"Hub_Decks","TallowDrift","Sorrel_Ridges","Hushwell","Gullet_Tunnel","Hub_CinderHalo","TallowApproach"};
         /// <summary>Hushwell: a ground cave on three levels, audited from the ground camera like Sorrel.</summary>
         static bool Cave=>zone=="Hushwell";
         /// <summary>The Gullet is a flight zone: no navigation, nothing may rise toward the flight plane.</summary>
-        static bool Flight=>zone=="Gullet_Tunnel";
+        static bool Flight=>zone=="Gullet_Tunnel"||zone=="TallowApproach";
         static bool Station=>zone=="Hub_Decks"||zone=="TallowDrift";
 
         /// <summary>Width (x), height, depth (z) of each piece as placed at scale 1; front faces -z.</summary>
@@ -102,23 +102,26 @@ namespace Lattice.EditorTools
             // lift are protected too, and close them again before the scene is saved (D193).
             var seals=Cave?Object.FindObjectsByType<NavMeshObstacle>(FindObjectsSortMode.None).Where(o=>o.enabled).ToArray():new NavMeshObstacle[0];
             foreach(var seal in seals)seal.enabled=false;
+            // The refuge hull has no collision (ships pass over it); survey colliders let details find its deck, then go.
+            var survey=zone=="TallowApproach"?SurveyHull():new List<Collider>();
             try{
             Physics.SyncTransforms();
             corridors=Corridors();
             // Dressing may not take away an approach that existed before it (prompts behind
             // closed boss seals were never reachable from the arrival and are not required).
             var arrival=Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None).First(s=>s.id=="Arrival").transform.position;
-            baseline=!Flight&&Bake()?WithNavigation(()=>ReachablePrompts(arrival)):new HashSet<InteractionPrompt>();
+            baseline=!Flight&&!Exterior&&Bake()?WithNavigation(()=>ReachablePrompts(arrival)):new HashSet<InteractionPrompt>();
             decalMeshes.Clear();BeginDetails();
-            if(zone=="Hub_Decks")Decks();else if(zone=="TallowDrift")Tallow();else if(Cave)Hushwell();else if(Flight)Gullet();else Sorrel();
+            if(zone=="Hub_Decks")Decks();else if(zone=="TallowDrift")Tallow();else if(Cave)Hushwell();else if(zone=="TallowApproach")TallowRefuge();else if(Flight)Gullet();else if(Exterior)Halo();else Sorrel();
             FlushDetails();
             ChunkRenderer();
             SaveDecals();
             Physics.SyncTransforms();
             Clearances();
-            if(Flight)FlightAudit();else Audit();
+            foreach(var c in survey)if(c!=null)Object.DestroyImmediate(c.gameObject);survey.Clear();Physics.SyncTransforms();
+            if(Flight)FlightAudit();else if(Exterior)ExteriorAudit();else Audit();
             }
-            finally{foreach(var seal in seals)seal.enabled=true;}
+            finally{foreach(var seal in seals)seal.enabled=true;foreach(var c in survey)if(c!=null)Object.DestroyImmediate(c.gameObject);}
             foreach(var p in problems)Debug.LogWarning("DRESSING_PROBLEM "+zone+": "+p);
             Debug.Log($"DRESSING_ZONE {zone} pieces={placed.Count} problems={problems.Count} seals-restored={seals.Length}");
             if(problems.Count>0&&!allow)return false;

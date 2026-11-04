@@ -66,6 +66,12 @@ namespace Lattice.Dialogue
             Runner.AddCommandHandler("shop",(Action)(()=>pendingUi="shop"));
             Runner.AddCommandHandler("repair",(Action)(()=>pendingUi="repair"));
             Runner.AddCommandHandler("bench",(Action)(()=>pendingUi="bench"));
+            // The station shifts a few centimetres under the opening scene: a short deck tremor and a hull creak (D195).
+            Runner.AddCommandHandler("stationShift",(Action)(()=>
+            {
+                var rig=UnityEngine.Object.FindFirstObjectByType<CameraRig>();if(rig!=null)rig.Tremor(.9f,.07f);
+                AudioManager.Play("impactMetal_000",.16f);Debug.Log("STATION_SHIFT");
+            }));
             Runner.AddCommandHandler("warpUnlock",(Action)(()=>{GameServices.Current.Flags.SetBool("warpkey",true);Debug.Log("QUEST_STEP warpkey");}));
             Runner.AddCommandHandler("joinParty",(Action<string>)(id=>
             {
