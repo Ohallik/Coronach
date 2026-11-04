@@ -1,5 +1,16 @@
 # CORONACH slice progress
 
+## Walkways, lamps and basin floors - November 3 (latest)
+
+**New playable candidate: `Builds/Workshop-Nov03c/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV03C.md)), built from `5a656ce`. `Workshop-Nov03b` (246), `Workshop-Nov03` (244) and the frozen October 4 chapter (243) re-verified byte-identical. **181 EditMode / 460 PlayMode** pass with graphics, zero skipped. The New Game → Tallow chain passes on this exact build in **2,484.3 s (41:24)**, all 11 segments focused and valid. Displays were asleep, so it ran under `-DiagnosticVSync 0` and counts as progression evidence only; dressed segments show unchanged median/p99 frame times. [Chain](validation/C7-nov03c-chain.md).
+
+Dressing pass 2 (D192) fills what pass 1 left bare. On the Decks and in Tallow the walkways themselves carry the detail: amber guide studs along every runner, stencilled room pictograms at each threshold, hazard paint at docks, hull joints and work bays, and grates, hatches, drains and tread plates on the plates. Stick lamps became lit bollards with real warm pools; kiosks, pipe runs and cable drums stand where no route runs. Sorrel's basins get tyre tracks on the haul lanes, soft ground patches that follow the terrain colour, 593 low alien plants in clusters near the roads (none in encounter clearings), boulder groups, survey beacons and core racks. Nine generated models and twenty decals cost 192 Meshy credits (balance 3,289). Failures found and fixed along the way:
+- Tracks and a plant had draped over a rock and a roof and hid the hero; Sorrel pieces now stand on terrain only, and a new ground check has a negative control.
+- Hard-edged patches read as stickers.
+- The builder had dropped live chain routes (chapter-04/07) from corridor protection because their last step walks into an ore node or the anvil. [Evidence](validation/C8-dressing-pass2.md).
+
+**Final in-player MAP_EYE_TEST passed** for the Decks interior, Tallow and Sorrel by agent review (Claude) of captured ordinary traversal in the release player. `MAP_EYE_TEST_OK Sorrel_Ridges` is not claimed, because no blockout pass was ever recorded. `station-tallow-map` is stale (it fails identically on the previous player) and is kept as evidence. Still OPEN: human play and controller feel, audio, awake-display timing (Decks hitches), Sela's high stepping, Tallow reeling, nursery cradles, Hushwell/Gullet dressing, combat balance.
+
 ## Furnished Decks and Tallow, a working Sorrel outpost - November 3 (later)
 
 **New playable candidate: `Builds/Workshop-Nov03b/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV03B.md)), built from `f019bcf`. `Workshop-Nov03` (244 files) and the frozen October 4 chapter (243) re-verified byte-identical. **176 EditMode / 460 PlayMode** pass with graphics, zero skipped. The New Game → Tallow chain passes again on this exact build in **2,495.7 s (41:36)**, all 11 segments focused and valid, final save complete with both heroes alive; displays were asleep, so it ran under `-DiagnosticVSync 0` and is progression evidence only. Under the same capped conditions the dressed segments show no frame-time change. [Chain](validation/C7-nov03b-chain.md).

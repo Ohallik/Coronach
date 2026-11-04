@@ -57,3 +57,7 @@ The exterior story camera now keeps the actual moving assembly and both craft ab
 ## Furnished refuge - November 3
 
 `RoomDressing` (D191) adds a mess table and waiting rug/planter to port, help-desk shelving, the Keeper's bench and lamp, starboard shelving, life-support equipment behind the closed hatches, bunks in both rest cabins and a runner from the lift to the Keeper. All 18 Tallow route checkpoints' corridors stay clear (the Keeper body route's diagonal displaced two planned growing beds). Opened before/after stills (`dress-before-01`, `dress-after-02`): the room reads as an occupied refuge rather than an empty deck. Final in-player MAP_EYE_TEST OPEN.
+
+## Detail layer and in-player review - November 3 (later)
+
+Dressing pass 2 (D192): runner studs, the lift lobby painted and plumbed as the launch square, mess/repair/cabins pictograms, grates and drains, lit bollards and a cable drum by repair. **Final in-player MAP_EYE_TEST recheck after this material change: PASSED** (agent review, Claude) on the chain's Tallow segment (docking, Keeper, launch, observation, return) in the release player. `station-tallow-map` predates the October 3 layout and fails identically on the previous player; the chain route is the current Tallow traversal. [Evidence](../validation/C8-dressing-pass2.md).
