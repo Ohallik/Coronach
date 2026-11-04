@@ -68,3 +68,5 @@ Final review, September 26: Codex accepts the integrated spatial construction/ci
 ## Detail layer and in-player review - November 3 (later)
 
 Dressing pass 2 (D192) puts the detail on the walkways themselves: lit studs along every runner, room pictograms at thresholds, hazard paint at docks, hull joints and work bays, grates and hatches on the plates, lit bollards, kiosks, pipe runs and cable drums. **Final in-player interior MAP_EYE_TEST: PASSED** (agent review, Claude) on ordinary traversal of `station-decks` in the release player: every room reads as its purpose from the doorway, circulation is obvious and unobstructed, and nothing hides the heroes. The paired exterior ring's status is recorded in [Hub_CinderHalo](Hub_CinderHalo.md) (September 28) and was not re-inspected. [Evidence](../validation/C8-dressing-pass2.md).
+
+Paired with the Halo exterior again after dressing passes 1-3 (November 4, Claude, agent review): docks, links and hull gaps still agree. See [Hub_CinderHalo](Hub_CinderHalo.md).

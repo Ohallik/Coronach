@@ -40,3 +40,15 @@ The outpost result does not establish remote service traversal, boss access, all
 Original save hashes remain `65b2ca12c171d0167a62b443988b7b66b0ac737a0ce11537a2197ab4278de47a` and backup `a9b131c2c9bd9ca03f1d69adfaf551a28f82be812f96f4146f26499d64e20745`. Development was rebuilt with this blockout; Release remains the preceding C3 integrated package. Full suites, final player pair and final in-player map acceptance are pending. C1 clean timing remains unavailable with foreign Unity/player activity recorded in `Builds/quality/C1/competitors-after-sorrel-blockout.json`.
 
 The checkpoint manifest records exact source/evidence hashes. No independent viewer or Nathan approval is claimed.
+
+## Blockout MAP_EYE_TEST recorded - November 3 (Claude, agent review of retained blockout evidence)
+
+The blockout pass was never recorded because the western ordinary route lost focus on its return. The blockout geometry has since been replaced by final art, so this review is made from the retained blockout-stage evidence, not a re-render: all thirteen `sorrel-blockout-06` views (overhead, structure, arrival, receiving, repair, hab access, first junction, seam bend, service branch, drill approach, drill excavation, north return, section) and frames 003, 012, 020, 028, 036, 044, 052 and 062 of `sorrel-west-blockout-walk-02`, all opened.
+
+- **Purpose and adjacency:** the landing pad opens onto receiving and stores pads with their crates, the repair pad has operator space beside a hab, the two habs face inward to the common court with entrance approaches, and the haul road ends at the drill on its footing inside the excavation. PASS.
+- **Circulation and scale:** curved graded paths of road width; the western seam loop and the service branch leave and rejoin the haul road, with rock cover along the bends. Ordinary traversal: the outpost route passed 36/36 with full focus (`sorrel-blockout-walk-01`); the western route reached and cleared all four clearings with both heroes alive (`-walk-02`, frames 003-062) before focus loss interrupted its return. That failure is a capture failure, not a spatial one, and the same loop on the same layout later passed in full focus on final art (`eye-sorrel-01`, C8-dressing-pass2). PASS with that limitation stated.
+- **Construction and enclosure:** a continuous basin rim; the drill seal ends in cliffs on both sides (the earlier hill bypass was rejected by a regression test and closed). PASS.
+- **Terrain, ecology and arenas:** a basin with strata, an excavation dug by the operation, and the boss space is the Burrower's own excavation. PASS.
+- **Immediate understanding:** from arrival the landing, stores and habs read as one outpost and the haul road leads away from it. PASS.
+
+Rejected iterations 01-04 and their fixes are recorded above; no major contradiction remains at blockout. With the final in-player pass of November 3 (`eye-sorrel-01`, C8-dressing-pass2), **MAP_EYE_TEST_OK Sorrel_Ridges** (reviewer: Claude, agent review; not Nathan, not an independent viewer).

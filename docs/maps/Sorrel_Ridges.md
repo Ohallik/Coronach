@@ -1,6 +1,6 @@
 # Sorrel Ridges - working landscape brief
 
-2026-09-26. Source inspection by Codex. Blockout and final MAP_EYE_TEST **OPEN**. This records the built workshop's spatial problems before its next geometry pass; the larger atlas chapter is not implemented here.
+2026-09-26. Source inspection by Codex. **MAP_EYE_TEST_OK (November 3, agent review by Claude):** blockout pass recorded from the retained blockout-06 evidence and the final in-player pass of dressing pass 2 ([blockout record](../validation/MAP-Sorrel-blockout.md)). The original September 26 status follows: blockout and final MAP_EYE_TEST **OPEN**. This records the built workshop's spatial problems before its next geometry pass; the larger atlas chapter is not implemented here.
 
 Sorrel is a small inhabited extraction outpost beside exposed mineral ridges. Workers need a landing/receiving area, sheltered habitation, repair and stores, then access to the drill site. Ridgehounds occupy the rock cover, scrapmites follow discarded equipment and crystals occur in exposed seams. The drill disturbance is the cause of the journey toward the nursery, not an unrelated arena at the end of a corridor.
 

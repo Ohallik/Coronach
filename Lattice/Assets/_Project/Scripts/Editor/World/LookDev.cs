@@ -18,14 +18,17 @@ namespace Lattice.EditorTools
     /// </summary>
     public static class LookDev
     {
-        public struct View{public string name;public Vector3 point;public bool flight;public View(string n,Vector3 p,bool f=false){name=n;point=p;flight=f;}}
+        public struct View{public string name;public Vector3 point;public bool flight;public float zoom;public View(string n,Vector3 p,bool f=false,float z=1){name=n;point=p;flight=f;zoom=z;}}
 
         public static readonly (string zone,View[] views)[] Views=
         {
             ("Hub_Decks",new[]{new View("arrival",new Vector3(-20,0,0)),new View("promenade",new Vector3(0,0,0)),new View("market",new Vector3(20,0,0)),
                 new View("vestibule",new Vector3(-28,0,-11)),new View("office",new Vector3(-31,0,4)),new View("cabins",new Vector3(-28,0,14)),new View("stalls",new Vector3(0,0,4)),
-                new View("galley",new Vector3(0,0,14)),new View("workshop",new Vector3(29,0,5)),new View("stores",new Vector3(28,0,14)),new View("receiving",new Vector3(28,0,-11)),new View("service",new Vector3(0,0,21.5f))}),
-            ("Hub_CinderHalo",new[]{new View("dock",new Vector3(-20,1,0),true),new View("ring",new Vector3(25,1,25),true)}),
+                new View("galley",new Vector3(0,0,14)),new View("workshop",new Vector3(29,0,5)),new View("stores",new Vector3(28,0,14)),new View("receiving",new Vector3(28,0,-11)),new View("service",new Vector3(0,0,21.5f)),
+                // Paired overview with the Halo exterior (MAP_EYE_TEST exterior/interior agreement).
+                new View("overview",new Vector3(0,0,3),false,3.6f)}),
+            ("Hub_CinderHalo",new[]{new View("dock",new Vector3(-20,1,0),true),new View("ring",new Vector3(25,1,25),true),
+                new View("hulls-overview",new Vector3(0,1,0),true,4f),new View("station-overview",new Vector3(0,1,0),true,7f)}),
             ("Sorrel_Ridges",new[]{new View("outpost",new Vector3(0,0,18)),new View("seam",new Vector3(-35,0,58)),new View("service",new Vector3(35,0,82)),new View("bore",new Vector3(8,0,164)),
                 new View("landing",new Vector3(2,0,-11)),new View("habs",new Vector3(12,0,10)),new View("haul",new Vector3(5,0,47)),new View("basin",new Vector3(-5,0,96)),new View("drill",new Vector3(4,0,141))}),
             ("Arena_Ground",new[]{new View("yard",new Vector3(-6,0,4))}),
@@ -86,7 +89,7 @@ namespace Lattice.EditorTools
                         var heroes=Heroes(view);
                         var profile=view.flight?flight:ground;var rotation=Quaternion.Euler(profile.pitch,profile.yaw,0);
                         camera.fieldOfView=profile.fov;
-                        camera.transform.SetPositionAndRotation(view.point+Vector3.up*(view.flight?0:1)-rotation*Vector3.forward*profile.distance,rotation);
+                        camera.transform.SetPositionAndRotation(view.point+Vector3.up*(view.flight?0:1)-rotation*Vector3.forward*profile.distance*Mathf.Max(1,view.zoom),rotation);
                         Shot(camera,Path.Combine(folder,zone+"-"+view.name+".png"));count++;
                         foreach(var h in heroes)Object.DestroyImmediate(h);
                     }
