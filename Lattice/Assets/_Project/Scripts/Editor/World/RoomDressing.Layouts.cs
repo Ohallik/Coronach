@@ -25,53 +25,55 @@ namespace Lattice.EditorTools
             Decal("rug",-5.2f,15.15f,4.6f,2.4f,90);Decal("rug",5.2f,15.15f,4.6f,2.4f,90);
             // ---- Office hull: arrivals vestibule ----
             Put("DeckBench",-36.8f,-15.1f,180);Put("DressPlanter",-33f,-15.2f,180);
-            Put("DressDeckLamp",-30.9f,-15.2f,0);Put("DressDeckLamp",-25.1f,-15.2f,0);
+            Lamp(-30.9f,-15.2f,0);Lamp(-25.1f,-15.2f,0);
             Put("DressCargoPallet",-22.4f,-14.8f,0);Put("DeckCrate",-20.4f,-15.1f,15,.8f);Put("DressCargoPallet",-18.2f,-14.8f,0);
             Put("DressShelfRack",-37.4f,-7.65f,0);Put("DressShelfRack",-34.6f,-7.65f,0);
             Put("DeckBench",-21.6f,-8f,0);Put("DressPlanter",-18.4f,-7.7f,0);
             Put("DressPlanter",-37f,-6.2f,0);Put("DressPlanter",-20.6f,-6.2f,0);
             // ---- Orrin's office and the visitors' side ----
             Put("DressOfficeDesk",-37.8f,5f,90);Put("DressShelfRack",-39.3f,8.6f,-90);Put("DressShelfRack",-36.9f,9.38f,0);
-            Put("DressPlanter",-39.2f,1.6f,-90);Put("DressDeckLamp",-35.6f,6.4f,0);
-            Put("DressShelfRack",-24.4f,9.38f,0);Put("DressPlanter",-16.9f,5f,90);Put("DressDeckLamp",-17f,1.2f,0);
+            Put("DressPlanter",-39.2f,1.6f,-90);Lamp(-35.6f,6.4f,0);
+            Put("DressShelfRack",-24.4f,9.38f,0);Put("DressPlanter",-16.9f,5f,90);Lamp(-17f,1.2f,0);
             // ---- Four cabins, now closed: homes, each a little different ----
             Retire("DeckBench",-36.5f,12.25f);Retire("DeckBench",-36.5f,16.75f);Retire("DeckBench",-19.5f,12.25f);Retire("DeckBench",-19.5f,16.75f);
             Retire("DeckCrate",-38f,13.5f);Retire("DeckCrate",-38f,18f);Retire("DeckCrate",-18f,13.5f);Retire("DeckCrate",-18f,18f);
-            Put("DressCabinBunk",-38.7f,12.25f,0,.8f);Put("DressShelfRack",-36f,13.9f,0);Put("DressDeckLamp",-34.2f,10.8f,0);
+            Put("DressCabinBunk",-38.7f,12.25f,0,.8f);Put("DressShelfRack",-36f,13.9f,0);Lamp(-35f,10.75f,0);
             Put("DressCabinBunk",-38.7f,16.75f,0,.8f);Put("DressGalleyTable",-36f,17.4f,0);Put("DressPlanter",-36.2f,15.2f,0);
-            Put("DressCabinBunk",-17.3f,12.25f,0,.8f);Put("DressWorkbench",-20f,13.75f,0);Put("DressDeckLamp",-18.2f,13.9f,0);
+            Put("DressCabinBunk",-17.3f,12.25f,0,.8f);Put("DressWorkbench",-20f,13.75f,0);Lamp(-18.2f,13.9f,0);
             Put("DressCabinBunk",-17.3f,16.75f,0,.8f);Put("DressShelfRack",-19.8f,15.15f,180);Put("DressPlanter",-19.6f,18.25f,0);
 
             // ---- Market hull: vestibule, Mira's market, galley ----
-            Put("DeckBench",-8f,-15.1f,180);Put("DeckBench",8f,-15.1f,180);Put("DressDeckLamp",-2.9f,-15.2f,0);Put("DressDeckLamp",2.9f,-15.2f,0);
+            Put("DeckBench",-8f,-15.1f,180);Put("DeckBench",8f,-15.1f,180);Lamp(-2.9f,-15.2f,0);Lamp(2.9f,-15.2f,0);
             Put("DressPlanter",-10.9f,-11.5f,-90);Put("DressPlanter",10.9f,-11.5f,90);
             Put("DressCargoPallet",-9.5f,-8.1f,0);Put("DressCargoPallet",9.5f,-8.1f,0);
             Put("DressPlanter",-7.5f,-6.2f,0);Put("DressPlanter",7.5f,-6.2f,0);
             foreach(float x in new[]{-7.8f,-6.4f,-5f,5f,6.4f,7.8f})Retire("DeckCrate",x,8);
             Put("DressMarketStall",-4.6f,9.05f,0);Put("DressMarketStall",4.6f,9.05f,0);
             Put("DressCargoPallet",-7.5f,8.9f,0);Put("DressCargoPallet",7.5f,8.9f,0);
-            Put("DressDeckLamp",-2.6f,5.3f,0);Put("DressDeckLamp",2.6f,5.3f,0);
+            Lamp(-2.6f,5.3f,0);Lamp(2.6f,5.3f,0);
             Put("HushwellCrates",-9.9f,6.6f,20,.9f);Put("DressCargoPallet",10.2f,6.4f,90);
             // Galley: herb planters back onto the market stalls through the wall.
             Put("DressPlanter",-4.6f,10.7f,180);Put("DressPlanter",4.6f,10.7f,180);
             foreach(float x in new[]{-5f,5f}){Retire("DeckBench",x,12);Retire("DeckBench",x,17);Retire("DeckCrate",x,14.5f);}
             foreach(float x in new[]{-5.2f,5.2f})foreach(float z in new[]{13.4f,16.9f})Put("DressGalleyTable",x,z,0);
             Put("DressPlanter",11.2f,13.5f,90);Put("DressPlanter",-11.2f,13.5f,-90);
-            Put("DressDeckLamp",-7.4f,15.1f,0);Put("DressDeckLamp",7.4f,15.1f,0);Put("DressWaterBarrels",-10.6f,17.7f,0,.8f);
+            Lamp(-7.4f,15.1f,0);Lamp(7.4f,15.1f,0);Put("DressWaterBarrels",-10.6f,17.7f,0,.8f);
 
             // ---- Repair hull: receiving, Hal's workshop, stores ----
             Put("DressCargoPallet",37.9f,-14.6f,0);Put("DressCargoPallet",37.9f,-12.3f,0);
             Put("DressShelfRack",21f,-7.65f,0);Put("DressShelfRack",23.8f,-7.65f,0);
-            Put("DressFuelTank",20.6f,-14.9f,0);Put("DressDeckLamp",25.1f,-15.2f,0);Put("DressDeckLamp",30.9f,-15.2f,0);
+            Put("DressFuelTank",20.6f,-14.9f,0);Lamp(25.1f,-15.2f,0);Lamp(30.9f,-15.2f,0);
             Put("DressWorkbench",38.9f,6f,90);Put("DressShelfRack",33f,9.38f,0);Put("DressShelfRack",23f,9.38f,0);
             Put("DressCargoPallet",19f,2f,0);Put("HushwellOreCart",19.4f,6.6f,90);
-            Put("DressDeckLamp",30.6f,7.6f,0);Put("DressDeckLamp",25.6f,7.4f,0);
+            Lamp(30.6f,7.6f,0);Lamp(25.6f,7.4f,0);
             Put("DressShelfRack",16.7f,13.7f,-90);Put("DressShelfRack",16.7f,16.05f,-90);Put("DressCargoPallet",17.25f,18.15f,0);
             Put("DressWaterBarrels",37.8f,14f,0,.8f);Put("DressFuelTank",38.4f,17.5f,90);Put("DressCargoPallet",23.8f,17.6f,0);
 
             // ---- Service gallery: stores against the full-height back wall ----
             foreach(float x in new[]{-36f,-21f,-7f,7f,21f,36f})Put("DressShelfRack",x,23.3f,0);
-            foreach(float x in new[]{-31f,-3f,3f,31f})Put("DressDeckLamp",x,23.35f,0);
+            foreach(float x in new[]{-31f,-3f,3f,31f})Lamp(x,23.35f,0);
+
+            DecksServices();DecksDetail();
         }
 
         /// <summary>Tallow's refuge: waiting and mess space to port, repair to starboard,
@@ -85,12 +87,13 @@ namespace Lattice.EditorTools
             Put("DressCabinBunk",-10.4f,10.45f,90,.8f);Put("DressCabinBunk",-2.6f,10.45f,-90,.8f);Put("DressCabinBunk",2.6f,10.45f,90,.8f);Put("DressCabinBunk",10.4f,10.45f,-90,.8f);
             Put("DressFuelTank",-10.6f,-10.4f,0);Put("DressWaterBarrels",-4.3f,-10.5f,0,.8f);
             Put("DressShelfRack",10.4f,-11.25f,0);Put("DressCargoPallet",4.5f,-10.5f,0);
-            Put("DressPlanter",-11.7f,1.5f,-90);Put("DressDeckLamp",-11.8f,-2.6f,0);
+            Put("DressPlanter",-11.7f,1.5f,-90);Lamp(-11.8f,-2.6f,0);
             Put("DressGalleyTable",-4.3f,-2.6f,0);
-            Put("DressShelfRack",-11f,8.4f,0);Put("DressShelfRack",-8.75f,8.4f,0);Put("DressDeckLamp",-8.7f,5.6f,0);
+            Put("DressShelfRack",-11f,8.4f,0);Put("DressShelfRack",-8.75f,8.4f,0);Lamp(-8.7f,5.6f,0);
             Put("DressGalleyTable",-10.7f,6.4f,90);
-            Put("DressDeckLamp",1.8f,5.2f,0);Put("DressWorkbench",3.3f,5.4f,0);
+            Lamp(1.8f,5.2f,0);Put("DressWorkbench",3.3f,5.4f,0);
             Put("DressShelfRack",10.85f,8.4f,0);Put("DressCargoPallet",11.3f,-5.8f,90);
+            TallowDetail();
         }
 
         /// <summary>Sorrel: outpost life beside the habs and pads, slope strata and spoil
@@ -104,13 +107,16 @@ namespace Lattice.EditorTools
             // Receiving, stores and the repair pad, beside (never across) the chapter tour path.
             Put("DressCargoPallet",5f,-8.6f,0);Put("DressCargoPallet",8.6f,-8.4f,90);Put("DressWaterBarrels",2.6f,-9f,0,.8f);
             Put("HushwellOreCart",12f,-7.6f,0);Put("DressCargoPallet",19f,-4f,0);
-            Put("DressWorkbench",-6f,3f,0);Put("DressCargoPallet",-3.8f,4.6f,0);Put("DressDeckLamp",-11.2f,8.6f,0);
+            // Sorrel's terrain is one renderer: extra point lights would fight Forward's per-object
+            // limit across the whole basin, so outpost bollards glow without casting a pool.
+            Put("DressWorkbench",-6f,3f,0);Put("DressCargoPallet",-3.8f,4.6f,0);Lamp(-11.2f,8.6f,0,false);
             Put("DressFuelTank",-13f,-9f,90);
-            Put("HushwellCrates",-9.5f,22f,30);Put("DressDeckLamp",3.4f,20.4f,0);
+            Put("HushwellCrates",-9.5f,22f,30);Lamp(3.4f,20.4f,0,false);
             // Ore handling: the hopper backs onto the excavation face it is fed from.
             Put("DressOreHopper",15.5f,146.4f,0);
             Scatter();
             Verges();
+            SorrelDetail();
         }
 
         /// <summary>Low rock, strata and spoil along the edges of the graded paths, and bollard
@@ -144,7 +150,7 @@ namespace Lattice.EditorTools
             for(float z=-6;z<=40;z+=11)foreach(int side in new[]{-1,1})
             {
                 var p=new Vector2(z<8?0:z<24?0:9*(z-24)/15,z)+new Vector2(side*3.6f,0);
-                Put("DressDeckLamp",p.x,p.y,0,1,true,true);count++;
+                Put("DressLightBollard",p.x,p.y,0,1,true,true);count++;
             }
             Debug.Log("DRESSING_VERGES_PLACED "+count);
         }

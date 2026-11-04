@@ -40,12 +40,16 @@ namespace Lattice.EditorTools
             ["DressSpoilHeap"]=new(4f,1.2f,3f),["DressStrataOutcrop"]=new(4f,2.6f,3.5f),["DressStrataLedge"]=new(5f,1.1f,1.6f),
             ["DressFuelTank"]=new(3f,1.35f,1.6f),["DressCommsMast"]=new(1.2f,5.5f,1.2f),["DressSolarArray"]=new(3.6f,1.2f,1.6f),
             ["DressWaterBarrels"]=new(1.8f,1.2f,1.8f),["DressRover"]=new(3.4f,1.9f,1.9f),["DressOreHopper"]=new(2.2f,2.8f,2.4f),
+            // Second kit (D192): lit bollards, wall-side services, wayfinding, basin life.
+            ["DressLightBollard"]=new(.55f,1f,.55f),["DressPipeRun"]=new(2.6f,.8f,.55f),["DressCableDrum"]=new(1.4f,1.1f,1f),
+            ["DressKiosk"]=new(.8f,1.3f,.6f),["DressBoulders"]=new(2.6f,1.2f,2f),["DressSucculent"]=new(.8f,.5f,.8f),
+            ["DressFanShrub"]=new(.7f,.55f,.7f),["DressSurveyBeacon"]=new(.8f,1.4f,.8f),["DressCoreRack"]=new(2f,.6f,1f),
             // Reused generated kit, sized as their original builders size them.
             ["DeckBench"]=new(2.2f,1f,.9f),["DeckCrate"]=new(1f,1f,1f),["HushwellCrates"]=new(1.6f,1.4f,1.4f),["HushwellRubble"]=new(2f,1f,2f),
             ["HushwellOreCart"]=new(1.4f,1.3f,2f),["HushwellLowRidge"]=new(3f,1.1f,1.2f),["RidgeRock1"]=new(3f,3f,3f),["RidgeRock2"]=new(3f,3f,3f),["RidgeRock3"]=new(3f,3f,3f),
         };
         /// <summary>Pieces fitted by their largest horizontal extent rather than height.</summary>
-        static readonly HashSet<string> Footprint=new(){"DressSpoilHeap","DressStrataLedge","DressStrataOutcrop","HushwellRubble","HushwellLowRidge"};
+        static readonly HashSet<string> Footprint=new(){"DressSpoilHeap","DressStrataLedge","DressStrataOutcrop","HushwellRubble","HushwellLowRidge","DressBoulders","DressCoreRack"};
 
         sealed class Placed{public GameObject go;public string key;public bool scatter;public bool solid;public bool structural;}
         static readonly List<Placed> placed=new();
@@ -61,7 +65,7 @@ namespace Lattice.EditorTools
             final=DevArgs.Has("-dress-final");
             bool allow=DevArgs.Has("-dress-allow-problems");
             string only=DevArgs.Value("-dress-zones");
-            StageDecals();
+            StageDecals();StageDetailTextures();
             var refused=new List<string>();
             foreach(var z in Zones)
             {
@@ -89,8 +93,9 @@ namespace Lattice.EditorTools
             // closed boss seals were never reachable from the arrival and are not required).
             var arrival=Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None).First(s=>s.id=="Arrival").transform.position;
             baseline=Bake()?WithNavigation(()=>ReachablePrompts(arrival)):new HashSet<InteractionPrompt>();
-            decalMeshes.Clear();
+            decalMeshes.Clear();BeginDetails();
             if(zone=="Hub_Decks")Decks();else if(zone=="TallowDrift")Tallow();else Sorrel();
+            FlushDetails();
             SaveDecals();
             Physics.SyncTransforms();
             Clearances();
@@ -144,6 +149,8 @@ namespace Lattice.EditorTools
                 foreach(var hit in Physics.RaycastAll(at,Vector3.down,80,~0,QueryTriggerInteraction.Ignore).OrderBy(h=>h.distance))
                 {
                     if(hit.collider.transform.IsChildOf(root)||hit.normal.y<.5f)continue;
+                    // Pass-2 Sorrel pieces stand on the terrain itself, never on a rock or roof.
+                    if(terrainGround&&!IsTerrain(hit.collider))continue;
                     // Station floors are at deck level; anything standing proud of them is not floor.
                     if(zone!="Sorrel_Ridges"&&hit.point.y>.3f)continue;
                     lowest=Mathf.Min(lowest,hit.point.y);break;
@@ -198,6 +205,7 @@ namespace Lattice.EditorTools
             go.transform.SetParent(root,false);go.transform.SetPositionAndRotation(new Vector3(x,Ground(x,z,new Bounds(Vector3.zero,Vector3.zero),0)+lift,z),Quaternion.Euler(0,yaw,0));
             go.GetComponent<MeshFilter>().sharedMesh=mesh;var r=go.GetComponent<MeshRenderer>();r.sharedMaterial=DecalMaterial(kind);
             r.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;go.isStatic=true;
+            detailRects.Add(Aabb(x,z,width,length,yaw));
         }
         static void SaveDecals()
         {

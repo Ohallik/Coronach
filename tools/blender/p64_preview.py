@@ -73,10 +73,21 @@ def main():
                         "established -Y/front convention")
     p.add_argument("--elevation", type=float, default=ELEVATION_DEG,
                    help="orbit elevation; a negative value exposes the underside")
+    p.add_argument("--texture", help="bind this albedo to every mesh (stripped or re-exported FBX "
+                                     "files no longer carry their own texture)")
     args = p.parse_args(cli_args())
 
     reset()
     import_model(args.input)
+    if args.texture:
+        material = bpy.data.materials.new("PreviewAlbedo")
+        material.use_nodes = True
+        node = material.node_tree.nodes.new("ShaderNodeTexImage")
+        node.image = bpy.data.images.load(str(Path(args.texture).resolve()))
+        material.node_tree.links.new(node.outputs["Color"], material.node_tree.nodes["Principled BSDF"].inputs["Base Color"])
+        for obj in mesh_objects():
+            obj.data.materials.clear()
+            obj.data.materials.append(material)
     # Freeze the imported pose before normalization. Rendering evaluates FBX
     # actions; an animated root scale would otherwise undo that normalization
     # after the camera had already been fitted, changing later views too.

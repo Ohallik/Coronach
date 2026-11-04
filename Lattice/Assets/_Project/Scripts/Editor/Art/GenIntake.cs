@@ -47,7 +47,9 @@ namespace Lattice.EditorTools
         public static void BuildPrefix()=>BatchTools.Run(()=>
         {
             string prefix=DevArgs.Value("-intake-prefix");if(string.IsNullOrEmpty(prefix))throw new InvalidOperationException("-intake-prefix is required");
-            var rows=Rows().Where(r=>r.id.StartsWith(prefix,StringComparison.Ordinal)).ToArray();
+            // Comma-separated prefixes stage several named pieces without touching their siblings.
+            var prefixes=prefix.Split(',',StringSplitOptions.RemoveEmptyEntries);
+            var rows=Rows().Where(r=>prefixes.Any(p=>r.id.StartsWith(p,StringComparison.Ordinal))).ToArray();
             if(rows.Length==0)throw new InvalidOperationException("No intake rows start with "+prefix);
             foreach(var row in rows)Build(row);
             AssetDatabase.SaveAssets();Debug.Log("GEN_INTAKE_OK prefix="+prefix+" count="+rows.Length);

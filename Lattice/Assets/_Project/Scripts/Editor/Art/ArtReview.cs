@@ -26,7 +26,7 @@ namespace Lattice.EditorTools
         {
             var rows=JsonConvert.DeserializeObject<GenIntake.Row[]>(File.ReadAllText(Path.Combine(Root,"docs/art/intake.json")));
             string prefix=Lattice.Core.DevArgs.Value("-intake-prefix");
-            return string.IsNullOrEmpty(prefix)?rows:rows.Where(r=>r.id.StartsWith(prefix,StringComparison.Ordinal)).ToArray();
+            return string.IsNullOrEmpty(prefix)?rows:rows.Where(r=>prefix.Split(',').Any(p=>p.Length>0&&r.id.StartsWith(p,StringComparison.Ordinal))).ToArray();
         }
         public static void Render(){routine=ReviewRoutine();nextTick=0;EditorApplication.update+=Tick;}
         static void Tick()

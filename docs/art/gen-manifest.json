@@ -3718,5 +3718,437 @@
     "created_at": "2026-11-03T20:23:32+00:00",
     "status": "SUCCEEDED",
     "updated_at": "2026-11-03T20:24:09+00:00"
+  },
+  {
+    "task": "c8-dressing2-hazard-stripe-text2image-01a1a4b1-810c-702e-911c-e918338fd464",
+    "task_id": "01a1a4b1-810c-702e-911c-e918338fd464",
+    "prompt_id": "C8-Dressing2-hazard-stripe",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge with no border: a straight band of worn diagonal hazard stripes painted on a deck, running vertically from the top edge to the bottom edge, alternating bold warm yellow stripes and pure black gaps at 45 degrees, the yellow paint chipped and scuffed with small black flecks. Pure yellow and pure black only, flat colours, no lighting, no shadows, no text, no letters, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge with no border: a straight band of worn diagonal hazard stripes painted on a deck, running vertically from the top edge to the bottom edge, alternating bold warm yellow stripes and pure black gaps at 45 degrees, the yellow paint chipped and scuffed with small black flecks. Pure yellow and pure black only, flat colours, no lighting, no shadows, no text, no letters, no logos.",
+      "aspect_ratio": "1:1"
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing2/refs/hazard-stripe.png",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:54:18+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T03:54:55+00:00"
+  },
+  {
+    "task": "c8-dressing2-ground-patches-text2image-01a1a4b1-812c-74f5-b8f9-f0d5581261e4",
+    "task_id": "01a1a4b1-812c-74f5-b8f9-f0d5581261e4",
+    "prompt_id": "C8-Dressing2-ground-patches",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate irregular ground patches for a dry ochre moon arranged in a 3x2 grid with wide white gutters, each patch complete with soft ragged edges: (1) a patch of loose grey-ochre gravel and small angular stones; (2) a patch of cracked dry rust-red clay with polygonal cracks; (3) a dark brown mineral stain with a few tiny dark crystals; (4) a scatter of small rounded pebbles in sand and rust colours; (5) a patch of pale sand ripples blown by wind; (6) a shallow dusty scuff ring with scattered rock chips. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate irregular ground patches for a dry ochre moon arranged in a 3x2 grid with wide white gutters, each patch complete with soft ragged edges: (1) a patch of loose grey-ochre gravel and small angular stones; (2) a patch of cracked dry rust-red clay with polygonal cracks; (3) a dark brown mineral stain with a few tiny dark crystals; (4) a scatter of small rounded pebbles in sand and rust colours; (5) a patch of pale sand ripples blown by wind; (6) a shallow dusty scuff ring with scattered rock chips. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+      "aspect_ratio": "4:3",
+      "remove_background": true
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing2/refs/ground-patches.png",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:54:18+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T03:54:55+00:00"
+  },
+  {
+    "task": "c8-dressing2-tyre-tracks-text2image-01a1a4b1-812b-703d-ace9-08b10aa8e47a",
+    "task_id": "01a1a4b1-812b-703d-ace9-08b10aa8e47a",
+    "prompt_id": "C8-Dressing2-tyre-tracks",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: two parallel tyre tread tracks pressed into soft dust, running straight vertically from the top edge to the bottom edge, each track a band of repeated chevron tread marks in dark warm brown, with a little scattered dust at their edges, on a pure white background between and beside the tracks. Dark brown and white only, flat colours, no lighting, no shadows, no text, no letters, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: two parallel tyre tread tracks pressed into soft dust, running straight vertically from the top edge to the bottom edge, each track a band of repeated chevron tread marks in dark warm brown, with a little scattered dust at their edges, on a pure white background between and beside the tracks. Dark brown and white only, flat colours, no lighting, no shadows, no text, no letters, no logos.",
+      "aspect_ratio": "1:1"
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing2/refs/tyre-tracks.png",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:54:18+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T03:56:15+00:00"
+  },
+  {
+    "task": "c8-dressing2-floor-inserts-text2image-01a1a4b1-8131-735c-8457-f52075b824f3",
+    "task_id": "01a1a4b1-8131-735c-8457-f52075b824f3",
+    "prompt_id": "C8-Dressing2-floor-inserts",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate flat floor inserts for a space-station deck arranged in a 3x2 grid with wide white gutters, each one complete and centred in its cell: (1) a square ventilation floor grate: dark slate frame, parallel slats over a dark recess with a faint cyan glow showing between the slats; (2) a round maintenance hatch: dark slate disc with a ring of bolts, a cream rim and a recessed copper pull handle; (3) a square diamond-tread steel patch plate with a bolt in each corner, dark slate grey with worn pale edges; (4) a long rectangular cable-trench cover: ribbed dark slate plate with a cream frame and small cyan indicator lights at both ends; (5) a small round floor light stud: dark slate ring with a glowing warm amber lens; (6) a square drain plate: slate frame with a radial slotted grate and a copper centre boss. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Game texture sheet, exactly top-down orthographic view, no perspective, on a plain pure white background: six separate flat floor inserts for a space-station deck arranged in a 3x2 grid with wide white gutters, each one complete and centred in its cell: (1) a square ventilation floor grate: dark slate frame, parallel slats over a dark recess with a faint cyan glow showing between the slats; (2) a round maintenance hatch: dark slate disc with a ring of bolts, a cream rim and a recessed copper pull handle; (3) a square diamond-tread steel patch plate with a bolt in each corner, dark slate grey with worn pale edges; (4) a long rectangular cable-trench cover: ribbed dark slate plate with a cream frame and small cyan indicator lights at both ends; (5) a small round floor light stud: dark slate ring with a glowing warm amber lens; (6) a square drain plate: slate frame with a radial slotted grate and a copper centre boss. Crisp cel-shaded hand-painted game art, flat local colours, soft gradients, no lighting, no cast shadows, no highlights, no text, no letters, no numbers, no logos.",
+      "aspect_ratio": "4:3",
+      "remove_background": true
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing2/refs/floor-inserts.png",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:54:18+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T03:54:55+00:00"
+  },
+  {
+    "task": "c8-dressing2-kit2-board-image2image-01a1a4b1-813c-731d-b9ed-b6257cff435b",
+    "task_id": "01a1a4b1-813c-731d-b9ed-b6257cff435b",
+    "prompt_id": "C8-Dressing2-kit2-board",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference images: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Nine separated concept cells in a 3x3 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) a chunky space-station deck light bollard, waist high: a squat cylindrical dark slate body on a square slate foot, a wide ring of warm amber glowing light panel around its upper third, a flat round warm amber glowing lens covering its whole top, a cream collar and copper bolts; (2) a low wall-side utility pipe run, much longer than tall: three parallel horizontal pipes, two dark slate and one copper, held in cream saddle brackets on a low slate base rail, one red-orange valve hand wheel and one small round gauge on the middle pipe; (3) a heavy cable drum: two large round dark slate end discs joined by a drum wound with thick black cable, resting in a low cream cradle stand with copper fittings; (4) a public information kiosk, waist high: a slate pedestal with a cream front panel and copper trim, topped by a wide angled screen glowing cyan, tilted up toward the viewer; (5) a cluster of three rounded weathered boulders of ochre and rust-red sandstone fused together at their base, low and wide, knee to waist height, one connected piece; (6) a low wide clump of alien desert succulents: thick fleshy rosettes of rust-red and coral leaves with pale cream tips, rooted in a small mound of ochre gravel, one connected clump; (7) a knee-high alien desert shrub: a clump of stiff pale teal-green fan-shaped fronds with darker teal veins and a few small pale-yellow glowing bulbs at the frond tips, rooted in ochre gravel, one connected clump; (8) a geological survey beacon: a slender dark slate tripod with a small cream instrument box at mid height and an orange glowing beacon lamp at the top, a short orange pennant fixed to the mast; (9) a low geological core-sample rack: a long slate tray frame on four short legs holding five long cylindrical rock cores lying side by side, each banded in ochre, rust-red and pale sand strata, with cream end caps. Materials: cream ceramic panels #D9D2BF, dark slate plating #485568, copper trim #B8693A, cyan #22F5FF screen light, warm amber #FFB347 lamp light, dusty ochre rock #C08A55, rust-red stone #9A5235, pale sand #E2C79A, coral #E07A5F, pale teal #8CC7B5, orange beacon #FF8A3D. Second kit for a lived-in space-station neighbourhood and a small mining outpost on a dry ochre moon. This is a design board, NOT a model input.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference images: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Nine separated concept cells in a 3x3 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) a chunky space-station deck light bollard, waist high: a squat cylindrical dark slate body on a square slate foot, a wide ring of warm amber glowing light panel around its upper third, a flat round warm amber glowing lens covering its whole top, a cream collar and copper bolts; (2) a low wall-side utility pipe run, much longer than tall: three parallel horizontal pipes, two dark slate and one copper, held in cream saddle brackets on a low slate base rail, one red-orange valve hand wheel and one small round gauge on the middle pipe; (3) a heavy cable drum: two large round dark slate end discs joined by a drum wound with thick black cable, resting in a low cream cradle stand with copper fittings; (4) a public information kiosk, waist high: a slate pedestal with a cream front panel and copper trim, topped by a wide angled screen glowing cyan, tilted up toward the viewer; (5) a cluster of three rounded weathered boulders of ochre and rust-red sandstone fused together at their base, low and wide, knee to waist height, one connected piece; (6) a low wide clump of alien desert succulents: thick fleshy rosettes of rust-red and coral leaves with pale cream tips, rooted in a small mound of ochre gravel, one connected clump; (7) a knee-high alien desert shrub: a clump of stiff pale teal-green fan-shaped fronds with darker teal veins and a few small pale-yellow glowing bulbs at the frond tips, rooted in ochre gravel, one connected clump; (8) a geological survey beacon: a slender dark slate tripod with a small cream instrument box at mid height and an orange glowing beacon lamp at the top, a short orange pennant fixed to the mast; (9) a low geological core-sample rack: a long slate tray frame on four short legs holding five long cylindrical rock cores lying side by side, each banded in ochre, rust-red and pale sand strata, with cream end caps. Materials: cream ceramic panels #D9D2BF, dark slate plating #485568, copper trim #B8693A, cyan #22F5FF screen light, warm amber #FFB347 lamp light, dusty ochre rock #C08A55, rust-red stone #9A5235, pale sand #E2C79A, coral #E07A5F, pale teal #8CC7B5, orange beacon #FF8A3D. Second kit for a lived-in space-station neighbourhood and a small mining outpost on a dry ochre moon. This is a design board, NOT a model input.",
+      "aspect_ratio": "4:3",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2750840 sha256(base64)=c9484bd72743f586>",
+        "data:image/png;base64,<omitted chars=2758948 sha256(base64)=20f032f251f65930>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C8-Dressing2/refs/kit2-board.png",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:54:20+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-04T03:54:57+00:00"
+  },
+  {
+    "task": "c8-dressing2-floor-pictograms-text2image-01a1a4b1-8129-75c1-a5c3-368f86f10d66",
+    "task_id": "01a1a4b1-8129-75c1-a5c3-368f86f10d66",
+    "prompt_id": "C8-Dressing2-floor-pictograms",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Exactly top-down flat view: six simple bold floor-paint pictograms in solid white paint on a pure black background, arranged in a 3x2 grid with wide black gutters, each icon complete, centred and the same size, slightly worn with fine scratches and chipped edges like stencilled deck paint: (1) a steaming bowl with chopsticks; (2) an open crate holding round fruit and leaves; (3) a wrench crossed over a gear; (4) a simple bed with a pillow; (5) a document sheet with a round seal stamp; (6) a small spaceship silhouette above a horizontal docking bar. Pure white on pure black only, no grey background, no gradient, no shading, no text, no letters, no numbers, no logos, no frame.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Exactly top-down flat view: six simple bold floor-paint pictograms in solid white paint on a pure black background, arranged in a 3x2 grid with wide black gutters, each icon complete, centred and the same size, slightly worn with fine scratches and chipped edges like stencilled deck paint: (1) a steaming bowl with chopsticks; (2) an open crate holding round fruit and leaves; (3) a wrench crossed over a gear; (4) a simple bed with a pillow; (5) a document sheet with a round seal stamp; (6) a small spaceship silhouette above a horizontal docking bar. Pure white on pure black only, no grey background, no gradient, no shading, no text, no letters, no numbers, no logos, no frame.",
+      "aspect_ratio": "4:3"
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C8-Dressing2/refs/floor-pictograms.png",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:56:15+00:00",
+    "status": "SUCCEEDED",
+    "recovered": "row lost to a parallel manifest write; restored from the Meshy task list"
+  },
+  {
+    "task": "c8-dresslightbollard-img3d-01a1a4b3-ad86-70b6-a9fe-a1db4ab7cbe1",
+    "task_id": "01a1a4b3-ad86-70b6-a9fe-a1db4ab7cbe1",
+    "prompt_id": "C8-DressLightBollard",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressLightBollard.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=629872 sha256(base64)=ec5b8492b2ed0f26>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressLightBollard.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:56:42+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T03:57:28+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressLightBollard.fbx",
+      "art-src/Generated/C8-Dressing2/DressLightBollard_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresspiperun-img3d-01a1a4b4-6831-77b4-a034-2f704dd14dfe",
+    "task_id": "01a1a4b4-6831-77b4-a034-2f704dd14dfe",
+    "prompt_id": "C8-DressPipeRun",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressPipeRun.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=674708 sha256(base64)=494cbec12d609bf7>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressPipeRun.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:57:29+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T03:58:01+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressPipeRun.fbx",
+      "art-src/Generated/C8-Dressing2/DressPipeRun_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresscabledrum-img3d-01a1a4b4-e72e-75b5-ac4f-50a695d52cc7",
+    "task_id": "01a1a4b4-e72e-75b5-ac4f-50a695d52cc7",
+    "prompt_id": "C8-DressCableDrum",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressCableDrum.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=850656 sha256(base64)=8362379d6a289437>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressCableDrum.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:58:02+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T03:58:33+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressCableDrum.fbx",
+      "art-src/Generated/C8-Dressing2/DressCableDrum_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresskiosk-img3d-01a1a4b5-6635-73a2-816c-1bee2000170d",
+    "task_id": "01a1a4b5-6635-73a2-816c-1bee2000170d",
+    "prompt_id": "C8-DressKiosk",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressKiosk.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=639920 sha256(base64)=24ae73676cd25a78>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressKiosk.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:58:34+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T03:59:06+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressKiosk.fbx",
+      "art-src/Generated/C8-Dressing2/DressKiosk_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dressboulders-img3d-01a1a4b5-e4d8-7511-92be-371a0338250c",
+    "task_id": "01a1a4b5-e4d8-7511-92be-371a0338250c",
+    "prompt_id": "C8-DressBoulders",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressBoulders.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=728608 sha256(base64)=92efa6a8e913f294>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressBoulders.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:59:07+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T03:59:38+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressBoulders.fbx",
+      "art-src/Generated/C8-Dressing2/DressBoulders_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresssucculent-img3d-01a1a4b6-6413-777e-a4f0-d9283a5b97cb",
+    "task_id": "01a1a4b6-6413-777e-a4f0-d9283a5b97cb",
+    "prompt_id": "C8-DressSucculent",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressSucculent.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=803544 sha256(base64)=1b61e37e339754ea>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressSucculent.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T03:59:39+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T04:00:26+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressSucculent.fbx",
+      "art-src/Generated/C8-Dressing2/DressSucculent_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dressfanshrub-img3d-01a1a4b7-1e0e-7500-a9ad-10887ab33c04",
+    "task_id": "01a1a4b7-1e0e-7500-a9ad-10887ab33c04",
+    "prompt_id": "C8-DressFanShrub",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressFanShrub.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1011384 sha256(base64)=674964879b589c18>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressFanShrub.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T04:00:27+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T04:01:13+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressFanShrub.fbx",
+      "art-src/Generated/C8-Dressing2/DressFanShrub_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresssurveybeacon-img3d-01a1a4b7-d788-73f7-a8fa-a962e31d4cda",
+    "task_id": "01a1a4b7-d788-73f7-a8fa-a962e31d4cda",
+    "prompt_id": "C8-DressSurveyBeacon",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressSurveyBeacon.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=365396 sha256(base64)=1ce556c279f411b4>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressSurveyBeacon.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T04:01:14+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T04:01:46+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressSurveyBeacon.fbx",
+      "art-src/Generated/C8-Dressing2/DressSurveyBeacon_base_color.png"
+    ]
+  },
+  {
+    "task": "c8-dresscorerack-img3d-01a1a4b8-55ee-74c8-875d-37adf68c86c2",
+    "task_id": "01a1a4b8-55ee-74c8-875d-37adf68c86c2",
+    "prompt_id": "C8-DressCoreRack",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:DressCoreRack.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=662208 sha256(base64)=e32942acb4928d91>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C8-Dressing2/DressCoreRack.fbx",
+    "batch": "C8-Dressing2",
+    "created_at": "2026-11-04T04:01:47+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-04T04:02:18+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C8-Dressing2/DressCoreRack.fbx",
+      "art-src/Generated/C8-Dressing2/DressCoreRack_base_color.png"
+    ]
   }
 ]

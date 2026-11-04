@@ -1,0 +1,114 @@
+{
+  "id": "C8-Dressing2",
+  "status": "INTEGRATED_DECKS_TALLOW_SORREL; EDITOR_STILLS_OPENED; IN_PLAYER_MAP_EYE_TEST_PENDING",
+  "purpose": "Dressing pass 2 (D192): the bare walkway centres, stick lamps and plain Sorrel basin floors left by pass 1.",
+  "generator": "Meshy gpt-image-2 image-to-image design board styled from the C8-RoomDressing station and Sorrel boards; tools/isolate_board.py; Meshy T2 image-to-3D at 4000 triangles; Meshy text-to-image decal sheets (floor inserts and ground patches with background removal; pictograms, hazard stripe and tyre tracks keyed by luminance/colour in tools/dressing_decals.py).",
+  "pieces": [
+    "DressLightBollard",
+    "DressPipeRun",
+    "DressCableDrum",
+    "DressKiosk",
+    "DressBoulders",
+    "DressSucculent",
+    "DressFanShrub",
+    "DressSurveyBeacon",
+    "DressCoreRack"
+  ],
+  "decals": [
+    "DecalDrain",
+    "DecalGrate",
+    "DecalHatch",
+    "DecalHazard",
+    "DecalStud",
+    "DecalTread",
+    "DecalTrench",
+    "GroundClay",
+    "GroundGravel",
+    "GroundPebbles",
+    "GroundRipples",
+    "GroundScuff",
+    "GroundStain",
+    "GroundTracks",
+    "PictoCabins",
+    "PictoDock",
+    "PictoGalley",
+    "PictoMarket",
+    "PictoOffice",
+    "PictoRepair"
+  ],
+  "credits": {
+    "board": 12,
+    "decalSheets": 45,
+    "models": 135,
+    "total": 192
+  },
+  "creditBalanceBefore": 3481,
+  "creditBalanceAfter": 3289,
+  "manifestIncident": "Running the six image tasks in parallel raced on docs/art/gen-manifest.json: the floor-pictograms row was lost and the tyre-tracks row left IN_PROGRESS. Both were restored from the Meshy task list by recover_manifest.py (the restored row is marked 'recovered'). Image tasks now run sequentially.",
+  "referenceReview": "Board opened: nine clean, separated, style-matched objects. All five decal sheets opened; the hazard stripe and tyre tracks were cropped to whole measured periods and checked tiled 2x2 for seams.",
+  "meshReview": "All nine Blender four-view sheets opened (views/). Every model complete and connected from all sides; no trims. Pipe run and cable drum run along local x; kiosk screen faces front.",
+  "processing": "Embedded textures stripped (p64_strip_embedded). Emission masks: kiosk cyan; bollard 'lamp' key (bright amber glass only; the generic amber key also lit copper trim); fan shrub 'bulb' key (pale bulbs only; the amber key lit its ochre gravel); survey beacon unlit (its orange key lit the pennant). Succulent, fan shrub and boulders decimated to ~900/1100/1200 triangles (tools/blender/decimate_static.py); textured four-view renders of the low meshes opened to confirm UVs survived.",
+  "intake": "GenIntake.BuildPrefix with a comma-separated -intake-prefix list staged exactly these nine prefabs under Prefabs/Environment. RoomDressing stages the 20 decal textures to Art/Generated/Dressing.",
+  "sources": [
+    {
+      "path": "art-src/Generated/C8-Dressing2/refs/floor-inserts.png",
+      "bytes": 1827903,
+      "sha256": "8a9701decef7698d29928887f9a34e5ccfef106c08ea485ef7396243210b96ba"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/refs/floor-pictograms.png",
+      "bytes": 1616081,
+      "sha256": "b450f71743aefa37c3aa40bee7e8b7317d93bc295c8b8a7533a43e7f0434273f"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/refs/ground-patches.png",
+      "bytes": 2865943,
+      "sha256": "55520b6424a7b49ec07feaf0f2d35900f0acdd799c269a17d0c36cf8a19dc7a3"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/refs/hazard-stripe.png",
+      "bytes": 1133429,
+      "sha256": "c7565df4f8d87ff1744482ae1b3bba6e4e9bc747d019cc23ac4824a100492d24"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/refs/kit2-board.png",
+      "bytes": 1970750,
+      "sha256": "6b783c75dd0529bd38c7feeb67119bded39f3e2d267c3ba4c502481bc3600d61"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/refs/tyre-tracks.png",
+      "bytes": 1362510,
+      "sha256": "ee7e4b7b41598ae84b9aeabdc9d427ff6eb475537aed3ad0e02f5c80d2b8ad5f"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/generate_images.py",
+      "bytes": 8666,
+      "sha256": "ab3fb5a66fa4d3cfdcaf21ffa0bd9e6600c0f9a11fc382e7a0efe4810fd596bd"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/generate_models.sh",
+      "bytes": 692,
+      "sha256": "a3ad16f089f1936a2f5bba0f03df6afe4539dd44dbcc9d921455eb43076dfa0c"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/recover_manifest.py",
+      "bytes": 1873,
+      "sha256": "a2415ad6a76cb52d2fa0077087cd7cd9ad0ff0a9e8c20e28a21c8cd44300ea75"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/budget-before.json",
+      "bytes": 110,
+      "sha256": "ab7fa8a0c101f161a36688c9af30385b75781428c7278b347dbb6f3dd4feb52b"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/budget-after-models.json",
+      "bytes": 107,
+      "sha256": "3e63d84dff9f8293bf287533bca72f6933db817bdfe24a35576a3586baa0d9fc"
+    },
+    {
+      "path": "art-src/Generated/C8-Dressing2/generate-models.log",
+      "bytes": 3966,
+      "sha256": "e93f768a098480df884c309e818f5f516755420701c99589c10299cca3d275b6"
+    }
+  ]
+}
