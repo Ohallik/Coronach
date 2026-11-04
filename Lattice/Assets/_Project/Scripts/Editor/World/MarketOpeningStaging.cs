@@ -60,7 +60,8 @@ namespace Lattice.EditorTools
 
             // The safety line, and Mira's mobile counter across it; it settles back behind the line afterwards.
             var line=GameObject.CreatePrimitive(PrimitiveType.Quad);line.name="Walkway safety line";Object.DestroyImmediate(line.GetComponent<Collider>());
-            line.transform.SetParent(root.transform,false);line.transform.position=new Vector3(-10.6f,.012f,-3);line.transform.rotation=Quaternion.Euler(90,0,0);line.transform.localScale=new Vector3(.2f,5.2f,1);
+            line.transform.SetParent(root.transform,false);// Above the deck runners and studs (which sit up to 2 cm proud), so the line shows under the cart as well.
+            line.transform.position=new Vector3(-10.6f,.035f,-3);line.transform.rotation=Quaternion.Euler(90,0,0);line.transform.localScale=new Vector3(.24f,5.2f,1);
             line.GetComponent<Renderer>().sharedMaterial=SafetyLine();
             var stall=new GameObject("Mira's mobile produce stall");stall.transform.SetParent(root.transform,false);stall.transform.position=new Vector3(-10.6f,0,-1.5f);
             var body=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/DressMarketStall.prefab"));
@@ -130,7 +131,7 @@ namespace Lattice.EditorTools
             var source=AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/dress-detail-DecalHazard.mat")??throw new System.InvalidOperationException("Hazard paint material missing");
             var material=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(material==null){material=new Material(source);AssetDatabase.CreateAsset(material,path);}
-            material.CopyPropertiesFromMaterial(source);material.SetTextureScale("_BaseMap",new Vector2(1,5.2f/.9f));EditorUtility.SetDirty(material);return material;
+            material.CopyPropertiesFromMaterial(source);material.SetTextureScale("_BaseMap",new Vector2(1,5.2f/.9f));material.renderQueue=source.renderQueue+10;EditorUtility.SetDirty(material);return material;
         }
     }
 }
