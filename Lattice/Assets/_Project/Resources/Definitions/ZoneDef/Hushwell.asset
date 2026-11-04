@@ -23,4 +23,4 @@ MonoBehaviour:
   flightPlane: 1
   safePockets: []
   skybox: {fileID: 0}
-  enemyThreat: 1.25
+  enemyThreat: 1

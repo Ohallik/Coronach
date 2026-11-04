@@ -59,7 +59,7 @@
     },
     {
       "name": "approach the walkway job",
-      "seconds": 5,
+      "seconds": 6.5,
       "expectedScene": "Hub_Decks",
       "navigate": true,
       "point": {
@@ -106,7 +106,7 @@
     },
     {
       "name": "back to the office promenade",
-      "seconds": 4,
+      "seconds": 6.5,
       "expectedScene": "Hub_Decks",
       "navigate": true,
       "point": {

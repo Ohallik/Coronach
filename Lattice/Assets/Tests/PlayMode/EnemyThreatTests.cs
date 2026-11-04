@@ -31,7 +31,9 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator OrdinaryEnemiesTakeTheirZonesThreatAndBossesDoNot([Values("Sorrel_Ridges","Hushwell","Gullet_Tunnel")] string zone)
         {
             yield return Load(zone);
-            float expected=zone=="Hushwell"?1.25f:zone=="Gullet_Tunnel"?1.2f:1f;
+            // Hushwell stays at 1: in the chain its Scrapmite bursts already took the party to about a quarter of its integrity,
+            // and at 1.25 Taren fell in the pressure gallery (Builds/quality/C7/nov04/s08).
+            float expected=zone=="Gullet_Tunnel"?1.2f:1f;
             var spawners=Object.FindObjectsByType<Spawner>(FindObjectsSortMode.None).Where(s=>s.definition!=null).ToArray();
             var ordinary=spawners.FirstOrDefault(s=>!s.definition.boss);
             Assert.IsNotNull(ordinary,zone+" has no ordinary spawner");
