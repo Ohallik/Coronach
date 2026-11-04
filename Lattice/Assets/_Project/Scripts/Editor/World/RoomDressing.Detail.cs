@@ -87,7 +87,8 @@ namespace Lattice.EditorTools
                 "GroundFissure"=>new Color(.42f,.34f,.32f,.95f),
                 // The Gullet: tissue patches sit on the tinted membrane, slightly translucent so the cells show through.
                 "GroundScour"=>new Color(.72f,.68f,.85f,.5f),
-                "GroundVeins"=>new Color(.85f,.88f,.98f,.95f),
+                // In play the Gullet's bloom made full-strength vessels the brightest thing on screen, the same cyan as shots: kept quiet.
+                "GroundVeins"=>new Color(.62f,.7f,.82f,.85f),
                 _ when DetailKinds3.Contains(kind)&&kind.StartsWith("Ground")=>new Color(.86f,.84f,.95f,.85f),
                 _ when kind.StartsWith("Ground")=>new Color(.9f,.82f,.78f,.82f),
                 _=>Color.white
@@ -112,7 +113,7 @@ namespace Lattice.EditorTools
                 {
                     "DecalStud"=>new Color(1f,.68f,.28f)*2.4f,
                     // Bioluminescence carries the Gullet's colour: veins and scour lines brighter, eggs a soft pale glow.
-                    "GroundVeins"=>new Color(.13f,.9f,1f)*.85f,
+                    "GroundVeins"=>new Color(.13f,.9f,1f)*.32f,
                     "GroundScour"=>new Color(.13f,.9f,1f)*1.1f,
                     "GroundEggs"=>new Color(.6f,.9f,1f)*1.6f,
                     "GroundPore"=>new Color(.3f,.6f,1f)*2f,
