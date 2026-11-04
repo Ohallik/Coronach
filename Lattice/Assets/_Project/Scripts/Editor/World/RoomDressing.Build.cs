@@ -240,13 +240,30 @@ namespace Lattice.EditorTools
                     segments.Add((from,p,Mathf.Min(1.6f,SightlineAudit.HeroRadius+step.tolerance+.3f),name));last=p;
                 }
                 if(segments.Count==0)continue;
-                // A route whose own path already runs through a wall predates the current layout.
-                var blocked=segments.FirstOrDefault(s=>Vector2.Distance(s.Item1,s.Item2)>.1f&&Physics.Linecast(new Vector3(s.Item1.x,1,s.Item1.y),new Vector3(s.Item2.x,1,s.Item2.y),~0,QueryTriggerInteraction.Ignore));
-                if(blocked.Item4!=null){Debug.Log($"DRESSING_ROUTE_OBSOLETE {zone} {name} {blocked.Item1}->{blocked.Item2}");continue;}
-                list.AddRange(segments);
+                // A segment that runs through a wall predates the current layout: the whole route is obsolete.
+                // A segment that only runs into the ore node or console the hero walks up to is an approach:
+                // skip that segment and keep protecting the rest. (Dropping every route with any blocked
+                // segment left live chain routes such as chapter-04/07 unprotected, D192.)
+                var keep=new List<(Vector2,Vector2,float,string)>();string obsolete=null;
+                foreach(var s in segments)
+                {
+                    var blockers=Blockers(s.Item1,s.Item2);
+                    if(blockers.Count==0){keep.Add(s);continue;}
+                    if(blockers.All(c=>c.GetComponentInParent<InteractionPrompt>()!=null)){Debug.Log($"DRESSING_APPROACH_SKIPPED {zone} {name} {s.Item1}->{s.Item2} into {string.Join(",",blockers.Select(c=>c.name))}");continue;}
+                    obsolete=$"{s.Item1}->{s.Item2} through {string.Join(",",blockers.Select(c=>c.name).Distinct())}";break;
+                }
+                if(obsolete!=null){Debug.Log($"DRESSING_ROUTE_OBSOLETE {zone} {name} {obsolete}");continue;}
+                list.AddRange(keep);
             }
             Debug.Log($"DRESSING_CORRIDORS {zone} segments={list.Count}");
             return list;
+        }
+        /// <summary>Solid colliders a route segment passes through at chest height.</summary>
+        static List<Collider> Blockers(Vector2 a,Vector2 b)
+        {
+            float length=Vector2.Distance(a,b);if(length<=.1f)return new List<Collider>();
+            var from=new Vector3(a.x,1,a.y);var dir=new Vector3(b.x-a.x,0,b.y-a.y)/length;
+            return Physics.RaycastAll(from,dir,length,~0,QueryTriggerInteraction.Ignore).Select(h=>h.collider).Distinct().ToList();
         }
         static Rect Footprint2D(GameObject go)
         {
