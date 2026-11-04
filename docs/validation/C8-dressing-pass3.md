@@ -1,6 +1,6 @@
 # Dressing pass 3: Hushwell and the Gullet (D193)
 
-2026-11-03. Status: **Hushwell and the Gullet dressed; builder refusals all clear in all five zones; in-player MAP_EYE_TEST pending.**
+2026-11-03. Status: **Hushwell and the Gullet dressed; 188 EditMode / 461 PlayMode; final in-player MAP_EYE_TEST passed for both by agent review; New Game → Tallow chain passes on the published build.**
 
 ## Before
 
@@ -25,3 +25,12 @@ Art: 6 generated models and 12 decal textures, 138 Meshy credits (3,289 -> 3,151
 ## Editor stills (opened)
 
 `Builds/quality/look/hg-after-01` ... `hg-after-06`. Rejected along the way, on sight: hard orange lamp discs (softened), dark basalt blocks reading as stickers (fainter, rarer), fragmented rails, missing crusts, blob-like vein patches with dark halos (now vessels with the tissue faded), a hard striped scour ribbon (now feathered grooves). Current: the breach reads as the miners' working end of a rail line; lamps pool warm light along the haul tunnel; each vent's danger radius is visible on the floor; crystals light the galleries; the nursery colony is varied; the Gullet's organs differ from the flight camera. Still weak: the lower ramp to the nursery stays dark; the coil's scour arcs end square; the Gullet's exit valve carries little.
+
+## In-player MAP_EYE_TEST (ordinary traversal, release player)
+
+Reviewer: Claude (agent review of captured play; not Nathan, not an independent viewer). Agent-directed virtual gamepad, displays asleep, `-DiagnosticVSync 0`. Every captured step was opened as labelled sheets (`tools/eye_sheet.py`).
+
+- **Hushwell** (`chapter-08-hushwell-nursery` from the chain's segment-7 saves, `Builds/quality/C8/dressing-3/eye-hushwell-01`, 446.6 s, fully focused, OK, `d6643fb`). The breach reads as the miners' end of a rail line, carts on the rails and a lamp-lit camp; gallery A and B fights happen along the rails under crystal light; the survey-grid wall carries its beacons; in every pressure-gallery chamber the fights happen on the dark ledges between the pale scald rings; the Bellows chamber is unchanged as an arena; the nursery colony frames Sela's discovery conversation and the lift returns the party to Sorrel. Both heroes stay visible; no route crosses a piece. The lower descent before the nursery remains dark. **Final in-player pass: PASSED.** Hushwell's blockout pass is recorded in [MAP-Hushwell](MAP-Hushwell.md), so with this pass **MAP_EYE_TEST_OK Hushwell**.
+- **Gullet** (`chapter-10-gullet-evasive` from the segment-9 saves, `eye-gullet-01`, 788.4 s, fully focused, OK, `d6643fb`). Vessels run along the canal; pools and pores surround the feeding-chamber fights; silt lies in front of the eddy wreck; egg clusters thicken toward the nursery gate; in the coil the scour arcs ring the Cantor fight like an arena and frame the duel. **Rejected on sight in play:** under the Gullet's bloom the vessel decals were the brightest thing on screen and the same cyan as shots and enemy glows. `34c6d30` quiets their tint and glow; `eye-gullet-02` (43.9 s, fully focused) on the published player shows them as a quiet blue beneath the ships. **Final in-player pass for the floor anatomy: PASSED.** The map brief keeps the coil's dormant-preview composition and the release presentation as separate open items, so `MAP_EYE_TEST_OK Gullet_Tunnel` is not claimed.
+
+Timing and chain: [C7-nov03d-chain](C7-nov03d-chain.md). None of this is awake-display C1 timing.

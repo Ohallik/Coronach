@@ -1,6 +1,6 @@
 # Hushwell — the moon cave above the nursery
 
-2026-09-28 functional brief (Claude Code), written before construction as MAP_EYE_TEST requires. **Blockout PASS (agent review); final built with the generated kit, in-player pass OPEN.** Evidence: [validation/MAP-Hushwell.md](../validation/MAP-Hushwell.md). Atlas map 04; music **Moon Caverns**; boss **B02 Bellows Below**.
+2026-09-28 functional brief (Claude Code), written before construction as MAP_EYE_TEST requires. **MAP_EYE_TEST_OK (November 4, agent review by Claude):** blockout PASS (agent review) and final in-player pass after dressing pass 3 ([evidence](../validation/C8-dressing-pass3.md)). Earlier status: final built with the generated kit, in-player pass OPEN. Evidence: [validation/MAP-Hushwell.md](../validation/MAP-Hushwell.md). Atlas map 04; music **Moon Caverns**; boss **B02 Bellows Below**.
 
 ## Purpose and formation
 
