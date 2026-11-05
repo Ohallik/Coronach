@@ -1,6 +1,34 @@
 # CORONACH slice progress
 
-## The first morning, dressed exteriors, a coiled Cantor and a reeling line - November 4 (latest)
+## Feel fixes, boss move sets and side stories - November 4, evening (latest)
+
+**New playable candidate: `Builds/Workshop-Nov04b/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV04B.md)), built from `a2929dd`.
+- All six earlier packages re-verified against their manifests.
+- **194 EditMode / 494 PlayMode** pass with graphics, zero skipped.
+- **The New Game → Tallow chain passes in 43:51 with the displays awake** ([chain](validation/C7-nov04b-chain.md)).
+  - One frame over 33 ms outside scene loads (45 ms entering the Scrapmite wash).
+  - Three routes gained steps by insertion: a harder chapter changes who wins the undefended clearing, who leads after the Burrower, and what the Keeper says next.
+
+**Nathan's report, fixed (D197, [feel](validation/C2-nov04-feel.md)).**
+- **NPCs.** His controller worked; the opening had silenced Orrin, Mira and Sela. They now give holding lines, and the repair is offered once Sela sets off.
+- **Gait.** Civil movement jogs at 4.5 m/s (short step, the jog's own rhythm), walks at 1.5 m/s under half tilt and sprints at 6.6 m/s. A walking knee keeps a bend reserve on flat ground. Running leans and banks.
+- **Sprint.** Free in town. In combat a spent sprint rests until Thrust refills instead of flickering. Turns at speed keep the pace.
+
+**Boss fights (D198, [evidence](validation/C8-nov04b-bosses-sides.md)).**
+- Every special marks its exact ground (`Telegraph`) and strikes only inside it.
+- **Burrower:** a charge that wedges only when baited into rock, spoil, tail sweep, a hunt from below with an eruption, seismic rings, Scrapmites at each phase shift.
+- **Bellows:** an inhale that pulls the party in, a rib star, pressure bubbles.
+- **Cantor:** spiral song and a coil lash once wounded.
+- Phase shifts, a boss bar and a title card.
+- Watching three captured fights found and fixed:
+  - free wedges from a fixed-length charge;
+  - launching off a pad mid-fight;
+  - the camera losing the party behind Sorrel's cliffs (`cameraClearsScenery`);
+  - eruptions no companion could read.
+
+**Side stories (D199).** Neve's overdue parcel, Quiet ridges (four Sorrel beacons), A berth for two (seeds Nacre), and the chapter's closing Compact call. Rewards go to the right inventory; quest steps have text; task cards announce changes.
+
+## The first morning, dressed exteriors, a coiled Cantor and a reeling line - November 4
 
 **New playable candidate: `Builds/Workshop-Nov04/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV04.md)), built from `f931c48`.
 - `Workshop-Nov03d`, `Nov03c`, `Nov03b`, `Nov03` and the frozen October 4 chapter were re-verified against their manifests.

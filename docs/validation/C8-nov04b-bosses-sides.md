@@ -1,6 +1,6 @@
 # November 4 evening: boss move sets and chapter 1 side stories (D198, D199)
 
-Status: built and checked by targeted suites; the full suites, the chain and an in-player eye test follow with the batch.
+Status: **194 EditMode / 494 PlayMode pass on `a2929dd`** (`Builds/quality/C8/nov04b/playmode-full-a2929dd.xml`); the chain passes ([chain](C7-nov04b-chain.md)); three captured Burrower runs were reviewed frame by frame (below). Human play is still needed for feel and difficulty.
 
 ## Built
 

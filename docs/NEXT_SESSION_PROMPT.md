@@ -1,30 +1,41 @@
-# Coronach - continuation prompt (November 4, 2026, after the first-morning batch)
+# Coronach - continuation prompt (November 4, 2026, after the feel, boss and side-story batch)
 
 You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md`.
 
 ## Read first
 
-1. `docs/PROGRESS.md`, newest entry first (November 4: the first morning, dressed exteriors, coiled Cantor, reeling line), then `docs/WORKSHOP_NOV04.md`, `docs/validation/C8-nov04-batch.md`, `docs/validation/C7-nov04-chain.md` and `docs/validation/C2-uphill-fold.md`.
-2. `docs/DECISIONS.md` D186-D196 (D191 room dressing and `SightlineAudit`, D192 detail layer, D193 Hushwell/Gullet dressing, D194 skills and zone threat, D195 the first morning, D196 exteriors, coil, reel) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
+1. `docs/PROGRESS.md`, newest entry first (November 4 evening: feel fixes, boss move sets, side stories), then `docs/WORKSHOP_NOV04B.md`, `docs/validation/C8-nov04b-bosses-sides.md`, `docs/validation/C7-nov04b-chain.md`, `docs/validation/C2-nov04-feel.md` and `docs/validation/C2-uphill-fold.md`.
+2. `docs/DECISIONS.md` D197 (civil gait, sprint, the opening answers), D198 (boss move sets, markings, phase shifts, boss bar), D199 (side stories), then D186-D196 (D191 room dressing and `SightlineAudit`, D192 detail layer, D193 Hushwell/Gullet dressing, D194 skills and zone threat, D195 the first morning, D196 exteriors, coil, reel) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
 3. `docs/PRODUCTION_PLAN.md`: milestones C1-C10, evidence rules, MAP_EYE_TEST.
 4. As needed: `docs/STORY_CAMPAIGN.md`, `docs/WORLD_ATLAS.md`, `docs/maps/*.md`, `docs/validation/*.md`. The previous, much longer prompt is in git history if you need older detail.
 
 ## Session-start safety (do this before any Unity run)
 
-- **Saves:** Nathan's saves live in `%USERPROFILE%\AppData\LocalLow\Nathan\Lattice\Saves` (`autosave.json` sha256 `65b2ca12…`, `autosave.json.bak` `a9b131c2…` as of November 4). If any `Builds/logs/playmode-human-saves-backup-*` folder exists, a previous run was interrupted. With no Unity/Coronach process alive, compare hashes and move it back. This happened on November 3. Hash the live files before and after every big run.
+- **Saves:** Nathan's saves live in `%USERPROFILE%\AppData\LocalLow\Nathan\Lattice\Saves` (`autosave.json` sha256 `a87ab0b0…`, `autosave.json.bak` `5f7218db…` since Nathan's own play on November 4; he plays `Builds/WindowsDev` directly and his log is `LocalLow\Nathan\Coronach\Player.log`). If any `Builds/logs/playmode-human-saves-backup-*` folder exists, a previous run was interrupted. With no Unity/Coronach process alive, compare hashes and move it back. This happened on November 3. Hash the live files before and after every big run.
 - **Processes:** only one Unity may own `Lattice/`. Never stop Frostbound or other unrelated Unity processes.
 - **Git:** Unity re-adds the embedded grass entry to `Lattice/Packages/packages-lock.json` on every run; revert that file before committing. Never commit `Builds/`, `Library/`, `art-src/`, `tools/meshy/.env`, `Lattice/Assets/Stylized Water 3/`, `Lattice/Packages/xyz.staggart-creations.stylized-grass/` or `Lattice/Assets/_Project/LocalStaggart/`. Check staged paths.
 
 ## Where things stand
 
 - The playable chapter runs Title → the first morning on the Decks → Sorrel → Hushwell → Halo → Gullet → Tallow.
-- The New Game → Tallow chain passes in 42:14 (`docs/validation/C7-nov04-chain.md`).
-  - **The displays were awake under ordinary VSync**: a display-required execution state held them on, so the timings count.
-  - Outside scene loads there was one frame over 33 ms (Tallow dialogue, unexplained).
-  - Two awake ten-minute Decks stability runs are clean; October's hitches did not reproduce and are not diagnosed.
-- **188 EditMode / 470 PlayMode** pass.
-- **Nathan's current build:** `Builds/Workshop-Nov04/Play Coronach.cmd` (source `f931c48`, own profile).
-  - `Workshop-Nov03d` (`34c6d30`), `Nov03c`, `Nov03b`, `Nov03` and the frozen `Builds/Workshop-Chapter` (`a3aaad6`) must stay byte-identical to their `player-manifest.json` (hashes are of the files under `Player/`).
+- The New Game → Tallow chain passes in 43:51 with the displays awake (`docs/validation/C7-nov04b-chain.md`); one frame over 33 ms outside loads (45 ms entering the Scrapmite wash).
+  - Hold the displays awake for timing runs with a display-required execution state (a small PowerShell `SetThreadExecutionState(0x80000003)` loop; stop it afterwards).
+- **194 EditMode / 494 PlayMode** pass.
+- **Nathan's current build:** `Builds/Workshop-Nov04b/Play Coronach.cmd` (source `a2929dd`, own profile).
+  - `Workshop-Nov04` (`f931c48`), `Nov03d`, `Nov03c`, `Nov03b`, `Nov03` and the frozen `Builds/Workshop-Chapter` (`a3aaad6`) must stay byte-identical to their `player-manifest.json` (hashes are of the files under `Player/`).
+- **Feel (D197).** Civil movement: jog 4.5 m/s at full tilt, walk 1.5 under half tilt, sprint 6.6 without Thrust (`GroundMotor.Natural*`). `GroundMotor.Steer` carries pace around turns. `GroundStrideProfile.RunCadence` shortens the jog's step instead of slowing it. Gait threshold `GeneratedAnimator.RunAbove` is 2.5 m/s. The walking bend reserve fades on steep support. `GroundFeet.Lean` leans and banks free running.
+- **The opening answers (D197).** `Npc.holdNode` gives Orrin, Mira and Sela holding lines until the walkway is repaired. The repair is offered once Sela sets off (`ScriptedWalk.walkThroughDialogue`).
+- **Bosses (D198).**
+  - `BossController` is partial per boss (`.Burrower/.Bellows/.Cantor.cs`); `Perform(move)` starts a named special for tests.
+  - `Telegraph` markings (circle, ring, cone, lane; shader `Resources/Effects/Telegraph.shader`) decide every strike.
+  - Phase shifts, `Health.Expose`, a boss bar and title card in `GameHud`.
+  - Pads and warps wait during a nearby engaged fight. `ZoneDef.cameraClearsScenery` (Sorrel, Hushwell) slides the ground camera past blocking scenery.
+  - Cantor's new moves follow integrity only, because its collar tests pin the choir rhythm.
+- **Side stories (D199).**
+  - `SideStories` routes beats; steps advance on `ObjectiveKind.Flag` from `<<setFlag>>`.
+  - Quests: `NeveParcel`, `SorrelBeacons` (beacons staged by isolated `SideStoryStaging.Refresh`; rerun after any Sorrel rebuild), `OdaBerth`, and the Keeper's `CompactHail`.
+  - Rewards route by kind. `QuestDef.stepText` feeds the quest log and `QuestToast`.
+- **Replay driver.** `QualityStep.ensureCharacter` presses Swap until that hero leads.
 - **The first morning (D195).** Only a Title New Game sets `opening.marketRequested`; Continue, old saves and fixtures skip the scene.
   - `MarketOpeningStaging` (isolated) builds the gates, cover, cart and repair point on the Decks bridge.
   - `OpeningMarketSequence` presents the saved state and holds Orrin until `opening.walkwayRepaired`.
@@ -43,22 +54,24 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 
 ## What to do next, in order
 
-1. **Sela's uphill fold (both heroes fold).**
+0. **Watch for Nathan's verdict on Workshop-Nov04b** (gait, Precision feel, boss difficulty: the replay driver lost Taren once in the Burrower's last phase). Tune from his words before adding more.
+1. **Bosses, next layer.** Boss animation is still staged with existing bodies (the Burrower rears and lunges procedurally). Consider an optional chapter-1 boss reusing generated art (for example, a Scrapmite matriarch) and Bellows/Cantor in-player eye tests like the Burrower's three.
+2. **Sela's uphill fold (both heroes fold).**
    - Re-pose uphill walking in `GroundFeet` in the gravity frame: an upright torso, slope-aware foot targets, and a trailing heel that lifts at toe-off.
    - Do not retune parameters; five variants broke the planted-sole and knee-continuity checks (`docs/validation/C2-uphill-fold.md`).
    - `Lattice.EditorTools.UphillStepAudit.Run` is the acceptance check; it is OPEN at 8 of 8 on the committed walk.
-2. **Town life.**
+3. **Town life.**
    - Resident interiors and town/service loops need ordinary resident bodies. Generate 3-4 Decks residents with the Meshy character pipeline (rigged to the donor, a measured stride profile each), then give them `ScriptedWalk`-style loops on the public and service routes.
    - Mira's walk back to her bay has no measured stride profile.
-3. **Places.**
+4. **Places.**
    - The Cantor preview's in-player eye test (the coil now rests coiled; the moorings keep their rectangle).
    - The refuge hull's own texture is soft in the closest dock view.
-4. **Presentation.**
-   - The one 50 ms frame on a Tallow dialogue line.
+5. **Presentation.**
+   - The one 45 ms frame entering Sorrel's Scrapmite wash (likely first spawn); the 50 ms Tallow dialogue frame did not recur.
    - C1's remaining evidence: release first/warm laps, development stability, uncapped headroom, a person watching the motion.
    - Check that the displays are awake before timing runs (D154).
-5. After a meaningful batch: full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, commit and push.
-6. Then C9A (Xylos / Many Hands) per the atlas, with blockouts before art.
+6. After a meaningful batch: full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, commit and push.
+7. Then C9A (Xylos / Many Hands) per the atlas, with blockouts before art. The chapter now ends on the Compact's call, which leads straight into Act II.
 
 **Evidence proportionality.** Keep the hard rules: prove a new check fails on the broken state first, never loosen an assertion, keep failed evidence, and never claim unobserved quality (human play, controller feel, listening, continuous motion). But keep validation notes short, and spend time on what a player sees and feels. Earlier sessions spent whole days on single props and evidence bookkeeping while the maps stayed empty.
 
