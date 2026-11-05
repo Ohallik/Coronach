@@ -45,7 +45,10 @@ namespace Lattice.Core
             center-=viewOffset;viewOffset=Vector3.zero;
             returnOffset=center-(target.position+velocity*profile.lookAhead);
         }
-        float cameraDistance;
+        float cameraDistance,groundDistance=-1;
+        static readonly RaycastHit[] Occluders=new RaycastHit[8];
+        /// <summary>Closest the ground camera comes when a terrain rim blocks the party (D198).</summary>
+        public const float NearestGroundDistance=6;
         Vector3 returnOffset;
         float returnDistance,returnAge;
         bool returning;
@@ -77,6 +80,27 @@ namespace Lattice.Core
             if(preserve){lastTarget=follow.position;velocity=Vector3.zero;}
             else{initialized=false;encounterBounds=null;returning=false;viewOffset=Vector3.zero;}
         }
+        /// <summary>The fixed ground camera keeps its angle, but where a terrain rim (Sorrel's excavation, Hushwell's
+        /// walls) stands between it and the party it slides in along its own view line until the party is in sight,
+        /// quickly in and gently back out. Station interiors have no terrain and keep their framing exactly.</summary>
+        float GroundDistance(Quaternion rotation,float dt)
+        {
+            float clear=profile.distance;var back=-(rotation*Vector3.forward);
+            var zone=ZoneController.Current;
+            if(zone!=null&&zone.definition!=null&&zone.definition.cameraClearsScenery)
+            {
+                int count=Physics.SphereCastNonAlloc(center+Vector3.up*1.2f,.4f,back,Occluders,profile.distance,~0,QueryTriggerInteraction.Ignore);
+                for(int i=0;i<count;i++)if(Occluders[i].distance>0&&Scenery(Occluders[i].collider))
+                    clear=Mathf.Min(clear,Mathf.Max(NearestGroundDistance,Occluders[i].distance-.6f));
+            }
+            if(groundDistance<0||dt<=0&&groundDistance>clear)groundDistance=clear;
+            else groundDistance=Mathf.Lerp(groundDistance,clear,1-Mathf.Exp(-(clear<groundDistance?14:2.5f)*dt));
+            return groundDistance;
+        }
+        /// <summary>Visible, static scenery: not a body, not an invisible boundary.</summary>
+        public static bool Scenery(Collider collider)=>!(collider is CharacterController)&&collider.attachedRigidbody==null&&
+            collider.TryGetComponent<Renderer>(out var view)&&view.enabled&&collider.GetComponentInParent<CharacterController>()==null;
+        public float GroundCameraDistance=>groundDistance<0?profile!=null?profile.distance:0:groundDistance;
         void LateUpdate()
         {
             if(target==null||profile==null)return;
@@ -137,7 +161,7 @@ namespace Lattice.Core
                 // Keep pause protection through the filter's settling tail.
                 if(returnAge>=2)returning=false;
             }
-            cameraDistance=isFlight?Mathf.Lerp(cameraDistance,required,1-Mathf.Exp(-6*dt)):profile.distance;
+            cameraDistance=isFlight?Mathf.Lerp(cameraDistance,required,1-Mathf.Exp(-6*dt)):GroundDistance(rotation,dt);
             Vector3 requestedOffset=Vector3.zero;
             if(sceneFraming)
             {

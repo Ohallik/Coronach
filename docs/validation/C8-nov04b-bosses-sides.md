@@ -39,3 +39,11 @@ The Burrower's moves fired as designed (charges, spoil, tail sweeps, phase shift
 - **The party launched out of the fight.** The attack button also interacts, and a launch pad within reach sent the party to the Halo mid-swing (`DOCK_OK`, then the route rejected). Launch pads and warp beacons now wait while an engaged boss is within 45 m (`TravelWaitsUntilTheBossFightIsOver`, red first in the same file).
 
 Boss, break and core-play classes pass 43/43 after both fixes.
+
+## Second in-player run (`eye-burrower-02`, `2fc3807`)
+
+The marking, boss bar, epithet, phase notches, "OPENING · STRIKE NOW" and the "It's wedged. Now!" bark all render as intended (opened eye sheets 01-04). Two new problems:
+- **The camera lost the party behind the excavation's south cliff** for five steps (frames 027-031). The hero was 4 m inside the south seal, and the fixed camera 13.6 m behind and 12.5 m up looked into the rim. Zones flagged `cameraClearsScenery` (Sorrel, Hushwell) now slide the camera in along its own view line when visible scenery blocks the party, and ease back out. Stations keep their framing. `BesideTheExcavationsSouthRimTheCameraStillSeesTheParty` failed with the slide disabled (`playmode-camera-rim-RED.xml`, blocked at 19.0 m). With it, the camera reaches 5.6 m with a clear view, and the open excavation keeps the 19.5 m profile.
+- **The party fell in phase 2.** Hunts from below dealt 35 per hit and were never dodged: the buried body stayed at its dive point while the marking hunted, and both the companion and the replay driver ignore tells from a boss more than 18 m away. The buried body now travels under its marking. Damage also comes down: eruption 24, spoil 15, charge 24. Rests between specials rise to 4.2 / 3.6 / 3.0 s.
+
+Camera, boss and Hushwell classes: 85/85.

@@ -24,3 +24,4 @@ MonoBehaviour:
   safePockets: []
   skybox: {fileID: 0}
   enemyThreat: 1
+  cameraClearsScenery: 1

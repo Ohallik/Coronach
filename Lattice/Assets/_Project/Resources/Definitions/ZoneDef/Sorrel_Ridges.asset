@@ -23,3 +23,4 @@ MonoBehaviour:
   flightPlane: 1
   safePockets: []
   skybox: {fileID: 2100000, guid: 788961950675a154a8665d4fa5b6ca96, type: 2}
+  cameraClearsScenery: 1

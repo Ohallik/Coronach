@@ -16,7 +16,7 @@ namespace Lattice.Combat
     {
         bool burrowed;
         public bool Burrowed=>burrowed;
-        float BurrowerRest=>Phase>=3?2.6f:Phase>=2?3.2f:4f;
+        float BurrowerRest=>Phase>=3?3f:Phase>=2?3.6f:4.2f;
 
         (string,IEnumerator) ChooseBurrower(CombatActor hero)
         {
@@ -62,7 +62,7 @@ namespace Lattice.Combat
                     var before=transform.position;
                     if(controller.enabled)controller.Move(direction*step);
                     travelled+=Flat(transform.position-before).magnitude;
-                    Contact(hit,transform.position,2.3f,26,.45f);
+                    Contact(hit,transform.position,2.3f,24,.45f);
                     yield return null;
                 }
                 strikeAt=0;Collide(true);Pose(0);
@@ -127,7 +127,7 @@ namespace Lattice.Combat
                 ThreatFrom(marks);
                 yield return null;
             }
-            foreach(var marking in marks){Strike(marking,18,DamageType.Kinetic,.3f);CombatVfx.Burst(marking.Origin+Vector3.up*.3f,new Color(.55f,.45f,.35f),"kill");}
+            foreach(var marking in marks){Strike(marking,15,DamageType.Kinetic,.3f);CombatVfx.Burst(marking.Origin+Vector3.up*.3f,new Color(.55f,.45f,.35f),"kill");}
             Tremor(.25f,.06f);ClearTemporary();Pose(0);
             Finish(BurrowerRest);
         }
@@ -167,6 +167,9 @@ namespace Lattice.Combat
                 var goal=PartyController.Current.Active.transform.position;
                 at=Vector3.MoveTowards(Flat(at),Flat(goal),7.5f*Time.deltaTime)+Vector3.up*goal.y;
                 trail.MoveTo(at);
+                // The buried body travels under its marking, so the eruption's tell comes from where it will strike
+                // (the companion and the replay driver read tells by the boss's distance).
+                transform.position=at;
                 if(Time.frameCount%6==0)CombatVfx.Burst(at+Vector3.up*.2f,new Color(.6f,.5f,.38f),"failure");
                 yield return null;
             }
@@ -179,7 +182,7 @@ namespace Lattice.Combat
             transform.position=surface+Vector3.up*.05f;Physics.SyncTransforms();
             controller.enabled=true;burrowed=false;health.Damageable=true;
             if(visual!=null)visual.localPosition=visualRest;
-            Strike(eruption,30,DamageType.Kinetic,.6f,3f);strikeAt=0;
+            Strike(eruption,24,DamageType.Kinetic,.6f,3f);strikeAt=0;
             Tremor(.5f,.13f);CombatVfx.Burst(surface+Vector3.up,new Color(.65f,.52f,.4f),"kill");
             AudioManager.PlayAt("explosionCrunch_000",transform,surface,.3f,AudioBus.SFX,60);
             health.Expose(1.4f);
