@@ -75,6 +75,22 @@
       "pauseUi": "defeat"
     },
     {
+      "name": "stand undefended in the first clearing",
+      "seconds": 45,
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "ui:defeat",
+      "pauseUi": "defeat"
+    },
+    {
+      "name": "drift undefended into the scrapmite wash",
+      "seconds": 3.4,
+      "expectedScene": "Sorrel_Ridges",
+      "x": 0.682,
+      "y": 0.732,
+      "stopWhen": "ui:defeat",
+      "pauseUi": "defeat"
+    },
+    {
       "name": "take the consequences without defence",
       "seconds": 90,
       "expectedScene": "Sorrel_Ridges",

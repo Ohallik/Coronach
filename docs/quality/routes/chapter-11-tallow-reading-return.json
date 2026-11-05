@@ -1008,6 +1008,41 @@
       "expectedFlag": "sliceComplete"
     },
     {
+      "name": "hear the beacon band crackle",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release the beacon band",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "read the Compact's call",
+      "seconds": 45,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world",
+      "expectedFlag": "compact.hailHeard"
+    },
+    {
+      "name": "release after the Compact's call",
+      "seconds": 0.5,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world"
+    },
+    {
       "name": "ask Keeper again after acknowledgement",
       "seconds": 0.3,
       "buttons": [

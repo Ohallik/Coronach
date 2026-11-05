@@ -33,6 +33,9 @@ namespace Lattice.UI
         // Ends the step early once true, without requiring it: a fight round
         // that its outcome may or may not cut short.
         public string stopWhen;
+        /// <summary>Ordinary input: press Swap (spaced half a second) until this hero leads. A harder fight can leave the
+        /// partner in the lead after the other went down and was revived; later routes expect a particular lead.</summary>
+        public string ensureCharacter;
         public float seconds = 1, x, y, leftTrigger, rightTrigger;
         public bool navigate;
         public bool approachPartner;

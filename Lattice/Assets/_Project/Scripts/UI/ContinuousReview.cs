@@ -116,7 +116,7 @@ namespace Lattice.UI
         int stepIndex;
         bool recording, arrived, endedByCondition;
         Health stepTarget;
-        double stepStart, previous;
+        double stepStart, previous, lastSwapPress=-1;
         string folder;
         ProfilerRecorder allocations, mainThread, renderThread, batches, memory, audioVoices, sceneObjects, objects;
         ProfilerRecorder activeCpu,activeRender,gpuWork,capWait;
@@ -349,6 +349,9 @@ namespace Lattice.UI
                     }
                 }
                 held = new GamepadState { leftStick = Vector2.ClampMagnitude(direction, 1), leftTrigger = step.leftTrigger, rightTrigger = step.rightTrigger };
+                if (!string.IsNullOrEmpty(step.ensureCharacter) && party != null && party.Active != null && party.Active.character != step.ensureCharacter &&
+                    !GameInput.Current.Blocked && clock.Elapsed.TotalSeconds - lastSwapPress > .5)
+                {held = held.WithButton(GamepadButton.North); lastSwapPress = clock.Elapsed.TotalSeconds;}
                 if (evading) held = held.WithButton(GamepadButton.East);
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
                 if (!evading && press && inReach && step.buttons != null) foreach (var button in step.buttons)

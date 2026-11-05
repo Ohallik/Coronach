@@ -523,6 +523,18 @@
       "seconds": 20.0
     },
     {
+      "name": "Taren leads again after the fight",
+      "seconds": 1.2,
+      "expectedScene": "Sorrel_Ridges",
+      "ensureCharacter": "Taren"
+    },
+    {
+      "name": "Taren in the lead",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "expectedCharacter": "Taren"
+    },
+    {
       "name": "cross excavation toward the cradle",
       "expectedScene": "Sorrel_Ridges",
       "seconds": 15.0,
