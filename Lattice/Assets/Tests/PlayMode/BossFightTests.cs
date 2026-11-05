@@ -83,8 +83,8 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Arena_Ground");
             EnemyBrain rig=null;BossController boss=null;yield return Boss("Burrower",new Vector3(10,.1f,0),(e,b)=>{rig=e;boss=b;});
-            // The arena's east wall stands at x = 21; the lane runs from the rig through the hero into it.
-            Place(Lead,new Vector3(15,.1f,1.5f));Place(Partner,new Vector3(-10,.1f,-25));
+            // The arena's east wall stands at x = 21. A hero waiting beside it baits the charge into the rock.
+            Place(Lead,new Vector3(17,.1f,1f));Place(Partner,new Vector3(-10,.1f,-25));
             Lead.Health.InvulnerableUntil=GameTime.Now+30;
             Assert.IsTrue(boss.Perform("DrillCharge"));yield return null;
             var lane=Marking(boss);Assert.IsNotNull(lane,"the charge marks no lane");Assert.AreEqual(Telegraph.Kind.Line,lane.Shape);
@@ -96,6 +96,39 @@ namespace Lattice.Tests.PlayMode
             yield return Until(()=>!rig.Health.Broken,4);
             yield return Until(()=>!boss.Busy,2);
             Assert.IsFalse(boss.Busy,"the rig never pulls free");
+        }
+
+        [UnityTest] public IEnumerator AChargeAcrossOpenFloorOvershootsTheHeroWithoutWedging()
+        {
+            yield return Zone("Arena_Ground");
+            EnemyBrain rig=null;BossController boss=null;yield return Boss("Burrower",new Vector3(0,.1f,0),(e,b)=>{rig=e;boss=b;});
+            // The same east wall is 21 m away; the hero stands 6 m from the rig in open floor.
+            Place(Lead,new Vector3(6,.1f,0));Place(Partner,new Vector3(-10,.1f,-25));Lead.Health.InvulnerableUntil=GameTime.Now+30;
+            Assert.IsTrue(boss.Perform("DrillCharge"));yield return null;
+            var lane=Marking(boss);Assert.IsNotNull(lane);
+            TestContext.WriteLine($"OPEN_CHARGE lane={lane.Length:F1}");
+            Assert.Less(lane.Length,16,"the lane does not end a short overshoot past the hero");
+            yield return Until(()=>!boss.Busy,5);
+            Assert.IsFalse(log.Contains("BURROWER_STUCK"),"a charge across open floor still runs on into the far wall and wedges: the opening must be baited");
+            Assert.IsFalse(rig.Health.Broken);
+            Assert.Greater(rig.transform.position.x,7,"the charge stops short of the hero instead of carrying through");
+        }
+
+        [UnityTest] public IEnumerator TravelWaitsUntilTheBossFightIsOver()
+        {
+            yield return Zone("Arena_Ground");
+            EnemyBrain rig=null;BossController boss=null;yield return Boss("Burrower",new Vector3(0,.1f,0),(e,b)=>{rig=e;boss=b;});
+            Place(Lead,new Vector3(0,.1f,-12));Place(Partner,new Vector3(-10,.1f,-25));
+            foreach(var m in PartyController.Current.members)m.Health.InvulnerableUntil=GameTime.Now+60;
+            var pad=new GameObject("Launch pad fixture").AddComponent<Lattice.World.DockingPad>();pad.transform.position=Lead.transform.position;
+            var beacon=new GameObject("Warp fixture").AddComponent<Lattice.World.WarpBeacon>();beacon.requiredFlag="";beacon.transform.position=Lead.transform.position;
+            yield return null;
+            Assert.IsTrue(pad.Available&&beacon.Available,"control: travel is offered before the fight");
+            rig.Passive=false;rig.Health.Receive(new DamagePacket{source=Lead.Health,amount=50,type=DamageType.Plasma});yield return null;
+            Assert.IsFalse(pad.Available,"a launch pad answers the attack button in the middle of a boss fight");
+            Assert.IsFalse(beacon.Available,"a warp beacon answers in the middle of a boss fight");
+            rig.Health.Receive(new DamagePacket{source=Lead.Health,amount=rig.Health.maximum*50,type=DamageType.Plasma});yield return null;
+            Assert.IsTrue(pad.Available&&beacon.Available,"travel stays closed after the boss is down");
         }
 
         [UnityTest] public IEnumerator TheBurrowerHuntsFromBelowEruptsAtTheHeroAndIsExposed()

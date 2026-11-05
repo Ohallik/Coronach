@@ -31,3 +31,11 @@ First green attempt (`playmode-boss-side-first-green-attempt-RED.xml`, 116/120):
 Green: the boss, side-story, break, collar, preview, Hushwell, core-play, evasion, replay, acknowledgement, dialogue-input, dialogue-layout and opening classes (120 tests) pass, with the final two classes rerun at 18/18. Measured in passing: the inhale drew a standing hero from 7.96 to 6.63 m, the wounded Burrower used SpoilToss, DrillCharge, Burrow and SeismicRings, and the spiral sang 48 shots.
 
 Not judged yet: how the markings, bar and moves look and feel in play.
+
+## First in-player run (`Builds/quality/C8/nov04b/eye-burrower-01`, release player, captured)
+
+The Burrower's moves fired as designed (charges, spoil, tail sweeps, phase shift with mites, a hunt from below), but two things were wrong in play:
+- **8 of 10 charges wedged in rock.** The fixed 20 m charge reached the enclosed excavation's walls from almost anywhere, so the opening came for free. A charge now carries only 6 m (7 in phase 3) past where the hero stood, and wedges only when the hero baited it beside rock. `AChargeAcrossOpenFloorOvershootsTheHeroWithoutWedging` failed on the old length (`playmode-charge-length-travel-RED.xml`); its lane is now 12 m.
+- **The party launched out of the fight.** The attack button also interacts, and a launch pad within reach sent the party to the Halo mid-swing (`DOCK_OK`, then the route rejected). Launch pads and warp beacons now wait while an engaged boss is within 45 m (`TravelWaitsUntilTheBossFightIsOver`, red first in the same file).
+
+Boss, break and core-play classes pass 43/43 after both fixes.

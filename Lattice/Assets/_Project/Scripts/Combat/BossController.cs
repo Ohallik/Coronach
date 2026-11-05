@@ -56,6 +56,22 @@ namespace Lattice.Combat
 
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
         void OnDisable(){All.Remove(this);}
+        /// <summary>A boss fight is under way around the party: an awake, engaged boss within 45 m of the active hero. Travel
+        /// waits for it; a party that has retreated out of the fight can still leave.</summary>
+        public static bool AnyFightUnderway
+        {
+            get
+            {
+                var party=PartyController.Current;if(party==null||party.Active==null)return false;
+                foreach(var boss in All)
+                {
+                    if(boss==null||!boss.Fighting||!boss.Engaged)continue;
+                    var offset=boss.transform.position-party.Active.transform.position;offset.y=0;
+                    if(offset.sqrMagnitude<45*45)return true;
+                }
+                return false;
+            }
+        }
         /// <summary>The fighting boss nearest a point, within range.</summary>
         public static BossController Focus(Vector3 from,float range=34)
         {

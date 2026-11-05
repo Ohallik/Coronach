@@ -42,7 +42,10 @@ namespace Lattice.Combat
             {
                 var target=PartyController.Current.Active.transform.position;var direction=Toward(target);
                 transform.rotation=Quaternion.LookRotation(direction);
-                float tell=Phase>=2?.75f:.9f,length=Phase>=3?24:20,speed=Phase>=2?19:15;
+                // The charge carries a short way past where the hero stood, so it wedges in rock only when the hero baited it
+                // there; across open floor it overshoots and turns. (A fixed 20 m run hit a wall almost every time.)
+                float tell=Phase>=2?.75f:.9f,speed=Phase>=2?19:15;
+                float length=Mathf.Clamp(Flat(target-transform.position).magnitude+(Phase>=3?7:6),10,Phase>=3?24:20);
                 var lane=Mark(Telegraph.Line(transform.position,direction,length,3.4f,tell,Telegraph.Heavy));
                 strikeAt=Time.time+tell;
                 yield return Windup(tell,-9,.15f,.05f);
