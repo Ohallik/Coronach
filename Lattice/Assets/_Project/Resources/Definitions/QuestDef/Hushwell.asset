@@ -26,3 +26,6 @@ MonoBehaviour:
   rewardScrip: 150
   rewards: []
   flagsOnComplete: []
+  stepText:
+  - 'Follow the breathing down to the Bellows'
+  - 'Find what the Bellows was guarding'

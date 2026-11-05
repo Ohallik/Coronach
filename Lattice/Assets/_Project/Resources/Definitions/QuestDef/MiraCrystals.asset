@@ -23,3 +23,5 @@ MonoBehaviour:
   rewardScrip: 100
   rewards: []
   flagsOnComplete: []
+  stepText:
+  - 'Mine six Ridge Crystals from Sorrel''s bright seams'

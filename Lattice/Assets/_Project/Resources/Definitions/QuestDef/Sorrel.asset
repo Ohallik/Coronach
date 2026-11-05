@@ -33,3 +33,8 @@ MonoBehaviour:
   rewards: []
   flagsOnComplete:
   - warpkey
+  stepText:
+  - 'Land on Sorrel and find out why it went quiet'
+  - 'Find who is still answering at the outpost'
+  - 'Stop the Burrower at the drill site'
+  - 'Recover the survey key from the drill''s control cradle'
