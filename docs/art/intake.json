@@ -2122,5 +2122,524 @@
     "size": 2.2,
     "yaw": 0,
     "clips": []
+  },
+  {
+    "id": "LanternTower",
+    "model": "art-src/Generated/C9-Lantern/LanternTower_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/LanternTower_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/LanternTower_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 12,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "AncelaneArch",
+    "model": "art-src/Generated/C9-Lantern/AncelaneArch_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/AncelaneArch_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/AncelaneArch_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 8,
+    "fit": "height",
+    "yaw": 0,
+    "clips": [],
+    "pitch": -90
+  },
+  {
+    "id": "CanyonHouse",
+    "model": "art-src/Generated/C9-Lantern/CanyonHouse_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/CanyonHouse_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/CanyonHouse_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 5,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "RelayMirror",
+    "model": "art-src/Generated/C9-Lantern/RelayMirror_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/RelayMirror_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/RelayMirror_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 1.8,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "AncelaneColumn",
+    "model": "art-src/Generated/C9-Lantern/AncelaneColumn_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/AncelaneColumn_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/AncelaneColumn_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 4.5,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "GreatLantern",
+    "model": "art-src/Generated/C9-Lantern/GreatLantern_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/GreatLantern_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/GreatLantern_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 4,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "MusterCrate",
+    "model": "art-src/Generated/C9-Lantern/MusterCrate_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/MusterCrate_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/MusterCrate_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 1.1,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "MusterLeanTo",
+    "model": "art-src/Generated/C9-Lantern/MusterLeanTo_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/MusterLeanTo_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/MusterLeanTo_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 2.8,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "MusterCutterRig",
+    "model": "art-src/Generated/C9-Lantern/MusterCutterRig_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/MusterCutterRig_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/MusterCutterRig_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 2.2,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "OrchardTree",
+    "model": "art-src/Generated/C9-Lantern/OrchardTree_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/OrchardTree_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/OrchardTree_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 3.2,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "LampPost",
+    "model": "art-src/Generated/C9-Lantern/LampPost_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/LampPost_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/LampPost_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 1.6,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "LanternShard",
+    "model": "art-src/Generated/C9-Lantern/LanternShard_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/LanternShard_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/LanternShard_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 1.2,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
+  },
+  {
+    "id": "Gloomgrazer",
+    "model": "art-src/Generated/P3-Ridgehound/Ridgehound_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/Gloomgrazer_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/Gloomgrazer_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "generic",
+    "fit": "length",
+    "folder": "Enemies",
+    "character": null,
+    "form": null,
+    "enemy": "Gloomgrazer",
+    "size": 2.3,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/Fox-Idle.anim",
+        "name": "AnimalArmature|AnimalArmature|AnimalArmature|Idle"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/Fox-Walk.anim",
+        "name": "AnimalArmature|AnimalArmature|AnimalArmature|Walk"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/Fox-Attack.anim",
+        "name": "AnimalArmature|AnimalArmature|AnimalArmature|Attack"
+      }
+    ]
+  },
+  {
+    "id": "MusterScav",
+    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/MusterScav_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/MusterScav_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Enemies",
+    "character": null,
+    "form": null,
+    "enemy": "MusterScav",
+    "size": 2.3,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Stagger",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Stagger"
+      }
+    ]
+  },
+  {
+    "id": "MusterSergeant",
+    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/MusterSergeant_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/MusterSergeant_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Enemies",
+    "character": null,
+    "form": null,
+    "enemy": "MusterSergeant",
+    "size": 2.75,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Stagger",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Stagger"
+      }
+    ]
+  },
+  {
+    "id": "HessaKorl",
+    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/HessaKorl_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/HessaKorl_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Enemies",
+    "character": null,
+    "form": null,
+    "enemy": "HessaKorl",
+    "size": 2.6,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Stagger",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Stagger"
+      }
+    ]
+  },
+  {
+    "id": "BrekkBody",
+    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/BrekkBody_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/BrekkBody_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Characters",
+    "character": null,
+    "form": "Natural",
+    "enemy": null,
+    "size": 2.25,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      },
+      {
+        "state": "Down",
+        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
+        "name": "Down"
+      },
+      {
+        "state": "Stagger",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Stagger"
+      }
+    ]
+  },
+  {
+    "id": "MusterSkiff",
+    "model": "art-src/Generated/P3-PatrolCutter/PatrolCutter_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/MusterSkiff_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/MusterSkiff_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "static",
+    "fit": "length",
+    "folder": "Enemies",
+    "character": null,
+    "form": null,
+    "enemy": "MusterSkiff",
+    "size": 3.6,
+    "yaw": -90.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": []
+  },
+  {
+    "id": "AumiBody",
+    "model": "art-src/Generated/P3-Neve/Neve_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/AumiBody_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/AumiBody_emission.png",
+    "emissionColor": "#FFB62E",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Characters",
+    "character": null,
+    "form": "Natural",
+    "enemy": null,
+    "size": 1.86,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "CorraBody",
+    "model": "art-src/Generated/P3-Mira/Mira_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/CorraBody_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/CorraBody_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Characters",
+    "character": null,
+    "form": "Natural",
+    "enemy": null,
+    "size": 1.84,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "IshenBody",
+    "model": "art-src/Generated/P3-Hal/Hal_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/IshenBody_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/IshenBody_emission.png",
+    "emissionColor": "#FF8046",
+    "kind": "biped",
+    "fit": "height",
+    "folder": "Characters",
+    "character": null,
+    "form": "Natural",
+    "enemy": null,
+    "size": 1.88,
+    "yaw": 0.0,
+    "pitch": 0.0,
+    "roll": 0.0,
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ]
+  },
+  {
+    "id": "PellBody",
+    "model": "art-src/Generated/P44-NPCBodies/SurvivorNatural_clean.fbx",
+    "albedo": "art-src/Generated/C9-Lantern/PellBody_albedo.png",
+    "emission": "art-src/Generated/C9-Lantern/PellBody_emission.png",
+    "kind": "biped",
+    "folder": "Characters",
+    "size": 1.7,
+    "fit": "height",
+    "emissionColor": "#FF8046",
+    "yaw": 0,
+    "character": null,
+    "form": "Natural",
+    "clips": [
+      {
+        "state": "Idle",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Idle_Loop"
+      },
+      {
+        "state": "Walk",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Walk_Loop"
+      },
+      {
+        "state": "Attack",
+        "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
+        "name": "Armature|Armature|Armature|Sword_Attack"
+      }
+    ],
+    "enemy": null
   }
 ]

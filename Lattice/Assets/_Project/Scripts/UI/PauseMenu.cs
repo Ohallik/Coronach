@@ -17,6 +17,8 @@ namespace Lattice.UI
         readonly string[] tabs={"Party","Skills","Gear","Fabricate","Items","Quests","Settings"};
         public int PageCount=>tabs.Length;
         int skillSlot=-1;
+        /// <summary>Skill bindings name the active map's face actions (Fire/Roll/Lunge in flight).</summary>
+        static bool InFlight=>ZoneController.Current!=null&&ZoneController.Current.Flight;
         Canvas canvas;
         GameObject panel;
         int page,offset,gearMode;
@@ -78,7 +80,7 @@ namespace Lattice.UI
                     for(int i=0;i<SkillBook.Slots;i++)
                     {
                         int slot=i;var skill=SkillBook.Equipped(member.id,i);if(skill==null)continue;
-                        Add($"{GameHud.SkillBinding(i,false)}  {skill.displayName}  ·  {SkillBook.Cost(member.id,skill):0} Charge  ·  Mastery {SkillBook.Mastery(member.id,skill.id)}",
+                        Add($"{GameHud.SkillBinding(i,InFlight)}  {skill.displayName}  ·  {SkillBook.Cost(member.id,skill):0} Charge  ·  Mastery {SkillBook.Mastery(member.id,skill.id)}",
                             ()=>{skillSlot=slot;offset=0;Rebuild(false);});
                     }
                     var next=all.Where(s=>!SkillBook.Knows(member,s)).OrderBy(s=>s.unlockLevel).FirstOrDefault();
@@ -93,10 +95,10 @@ namespace Lattice.UI
                     {
                         var s=skill;bool known=SkillBook.Knows(member,s);
                         Add(known?$"{(s==current?"[E] ":"")}{s.displayName}  ·  {SkillBook.Cost(member.id,s):0} Charge  ·  {s.description}":$"Locked  ·  {s.displayName}  ·  learned at Sync {s.unlockLevel}",
-                            known?()=>{int slot=skillSlot;SkillBook.Equip(member,slot,s);feedback=$"{s.displayName} is on {GameHud.SkillBinding(slot,false)}.";skillSlot=-1;Rebuild(false);}:null);
+                            known?()=>{int slot=skillSlot;SkillBook.Equip(member,slot,s);feedback=$"{s.displayName} is on {GameHud.SkillBinding(slot,InFlight)}.";skillSlot=-1;Rebuild(false);}:null);
                     }
                     Pager(all.Length,5);
-                    Note($"Choosing for {GameHud.SkillBinding(skillSlot,false)} (now {current?.displayName}). A skill already in another slot trades places.");
+                    Note($"Choosing for {GameHud.SkillBinding(skillSlot,InFlight)} (now {current?.displayName}). A skill already in another slot trades places.");
                 }
             }
             else if(page==GearPage)

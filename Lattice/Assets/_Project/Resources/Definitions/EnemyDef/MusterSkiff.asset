@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   collarPlate: {fileID: 0}
   id: MusterSkiff
-  prefab: {fileID: 6852759957176126445, guid: c0cc74cfdcfd80044b9c21b00c5df887, type: 3}
+  prefab: {fileID: 4340319659880878799, guid: 638bfad0f862581499f1dbd44355dff6, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

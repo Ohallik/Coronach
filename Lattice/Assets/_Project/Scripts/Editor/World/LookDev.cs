@@ -52,6 +52,15 @@ namespace Lattice.EditorTools
             ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true),new View("deck",new Vector3(4.75f,1,18),true,1.8f),new View("mooring",new Vector3(-25,1,3),true)}),
             ("TallowDrift",new[]{new View("refuge",new Vector3(0,0,-3)),new View("garden",new Vector3(6,0,3)),
                 new View("waiting",new Vector3(-7,0,1)),new View("repair",new Vector3(7,0,5)),new View("arrival",new Vector3(0,0,-9)),new View("rest",new Vector3(0,0,8))}),
+            // Chapter 2, the Lantern Road (D202).
+            ("WickReach",new[]{new View("arrival",new Vector3(0,1,8),true),new View("relay",new Vector3(-22,1,150),true),new View("gate",new Vector3(0,1,250),true),
+                new View("dock",new Vector3(0,1,282),true),new View("overview",new Vector3(0,1,150),true,4f)}),
+            ("Lanternwick",new[]{new View("dock",new Vector3(0,0,-14)),new View("arch-market",new Vector3(0,0,14)),new View("wick-house",new Vector3(-12,0,28)),
+                new View("lantern-stair",new Vector3(24,3,52)),new View("orchard",new Vector3(-28,1.4f,62)),new View("archive",new Vector3(0,0,92)),new View("overview",new Vector3(0,0,40),false,3.4f)}),
+            ("LanternGorge",new[]{new View("entry",new Vector3(0,0,6)),new View("first-relay",new Vector3(6,0,52)),new View("den",new Vector3(-20,0,98)),
+                new View("camp",new Vector3(-8,0,116)),new View("ridge",new Vector3(8,0,186)),new View("relay-door",new Vector3(0,0,222)),new View("overview",new Vector3(0,0,110),false,3.6f)}),
+            ("SunkenRelay",new[]{new View("entry",new Vector3(0,0,8)),new View("corridor",new Vector3(0,0,32)),new View("gallery",new Vector3(0,0,66)),
+                new View("vault",new Vector3(0,0,104)),new View("great-lantern",new Vector3(0,0,140)),new View("overview",new Vector3(0,0,90),false,3.6f)}),
         };
 
         public static void Render()=>BatchTools.Run(()=>

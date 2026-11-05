@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   collarPlate: {fileID: 0}
   id: HessaKorl
-  prefab: {fileID: 2651303975460094046, guid: 71a6526b79fc02f429f80fd05b414a5c, type: 3}
+  prefab: {fileID: 4328696755841274204, guid: 82333fb5fcfca3246bd6a3c6e801ce02, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

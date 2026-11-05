@@ -1043,52 +1043,23 @@
       "expectedUi": "world"
     },
     {
-      "name": "ask Keeper again after acknowledgement",
-      "seconds": 0.3,
+      "name": "hear Abri's lantern tale (chapter 2 begins)",
+      "seconds": 45,
       "buttons": [
         "South"
       ],
-      "expectedScene": "TallowDrift",
-      "expectedUi": "dialogue"
-    },
-    {
-      "name": "release Keeper acknowledged repeat input",
-      "seconds": 0.3,
-      "buttons": [],
-      "expectedScene": "TallowDrift",
-      "expectedUi": "dialogue"
-    },
-    {
-      "name": "reveal Keeper acknowledged repeat line 1",
-      "seconds": 0.18,
-      "buttons": [
-        "South"
-      ],
-      "expectedScene": "TallowDrift",
-      "expectedUi": "dialogue"
-    },
-    {
-      "name": "read Keeper acknowledged repeat line 1",
-      "seconds": 4,
-      "buttons": [],
-      "expectedScene": "TallowDrift",
-      "expectedUi": "dialogue"
-    },
-    {
-      "name": "advance Keeper acknowledged repeat line 1",
-      "seconds": 0.18,
-      "buttons": [
-        "South"
-      ],
-      "expectedScene": "TallowDrift"
-    },
-    {
-      "name": "release Keeper acknowledged repeat line 1",
-      "seconds": 0.3,
-      "buttons": [],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
       "expectedScene": "TallowDrift",
       "expectedUi": "world",
-      "expectedFlag": "tallow.driftDiscussed"
+      "expectedFlag": "lantern.routeKnown"
+    },
+    {
+      "name": "release after the lantern tale",
+      "seconds": 0.5,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "world"
     }
   ]
 }

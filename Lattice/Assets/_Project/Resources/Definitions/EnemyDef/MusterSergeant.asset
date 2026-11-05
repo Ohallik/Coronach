@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
   collarPlate: {fileID: 0}
   id: MusterSergeant
-  prefab: {fileID: 2651303975460094046, guid: 71a6526b79fc02f429f80fd05b414a5c, type: 3}
+  prefab: {fileID: 4447860018934240250, guid: c2e144a5f27af7046a38e98b7c3ca429, type: 3}
   bodySegment: {fileID: 0}
   tailSegment: {fileID: 0}
   stats:

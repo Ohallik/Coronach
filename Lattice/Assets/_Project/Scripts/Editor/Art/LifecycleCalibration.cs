@@ -11,6 +11,8 @@ namespace Lattice.EditorTools
 {
     public static class LifecycleCalibration
     {
+        /// <summary>The Sentinel Husk's rig and its reskins (the Muster's soldiers and captain, D202) share one lifecycle.</summary>
+        static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.model!=null&&row.model.Contains("P3-SentinelHusk/");
         internal static void Install(GenIntake.Row row)
         {
             string path="Assets/_Project/Prefabs/"+row.folder+"/"+row.id+".prefab";
@@ -24,14 +26,14 @@ namespace Lattice.EditorTools
             Vector3 restEuler=Vector3.zero,restPivot=Vector3.zero;
             try
             {
-                foreach(string name in row.enemy=="SentinelHusk"?new[]{"Down","Idle","Walk","Attack","Stagger"}.Where(clips.ContainsKey):new[]{"Down","Revive"})
+                foreach(string name in HuskRig(row)?new[]{"Down","Idle","Walk","Attack","Stagger"}.Where(clips.ContainsKey):new[]{"Down","Revive"})
                 {
                     var clip=clips[name];var graph=PlayableGraph.Create("Lifecycle surface calibration");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
                     try
                     {
                         var playable=AnimationClipPlayable.Create(graph,clip);playable.SetApplyFootIK(false);
                         AnimationPlayableOutput.Create(graph,"Pose",animator).SetSourcePlayable(playable);graph.Play();graph.Evaluate(0);
-                        if(name=="Down"&&row.enemy=="SentinelHusk")
+                        if(name=="Down"&&HuskRig(row))
                         {
                             playable.SetTime(clip.length*.9999f);graph.Evaluate(0);
                             restPivot=animator.GetBoneTransform(HumanBodyBones.Hips).position;

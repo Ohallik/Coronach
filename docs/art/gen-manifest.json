@@ -5425,10 +5425,154 @@
     },
     "credits": 10,
     "consumed_credits": 10,
-    "output_path": null,
+    "output_path": "art-src/Generated/C9-Lantern/BrekkBody.fbx",
     "batch": "C9-Lantern",
     "created_at": "2026-11-05T21:57:38+00:00",
-    "status": "IN_PROGRESS",
-    "updated_at": "2026-11-05T21:58:03+00:00"
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:58:16+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/BrekkBody.fbx",
+      "art-src/Generated/C9-Lantern/BrekkBody_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb8-42ed-7488-82e5-07320253e9dc",
+    "task_id": "01a1adb8-42ed-7488-82e5-07320253e9dc",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Muster raider skiff: angular dark gunmetal hull with rust-red armor plates, crude welded salvage patches, red running lights, scorched engine nozzles. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=633616 sha256(base64)=8a73725c81d8dd67>",
+      "text_style_prompt": "Muster raider skiff: angular dark gunmetal hull with rust-red armor plates, crude welded salvage patches, red running lights, scorched engine nozzles. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/MusterSkiff.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:58:19+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:58:56+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/MusterSkiff.fbx",
+      "art-src/Generated/C9-Lantern/MusterSkiff_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb8-e27a-7116-97ae-2428dd468d2f",
+    "task_id": "01a1adb8-e27a-7116-97ae-2428dd468d2f",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "older Vael lantern-keeper woman: a high-collared deep rust-red robe to the ankles with a bronze lantern clasp, long silver-grey keratin fronds, warm dusk-grey skin, fine amber sync-lines. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1030588 sha256(base64)=45f3e2166f4ec9f1>",
+      "text_style_prompt": "older Vael lantern-keeper woman: a high-collared deep rust-red robe to the ankles with a bronze lantern clasp, long silver-grey keratin fronds, warm dusk-grey skin, fine amber sync-lines. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/AumiBody.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:58:59+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:59:37+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/AumiBody.fbx",
+      "art-src/Generated/C9-Lantern/AumiBody_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb9-7f5e-7152-828d-05350ed6d948",
+    "task_id": "01a1adb9-7f5e-7152-828d-05350ed6d948",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Vael market trader woman: a dark green market vest over a cream shirt, brown trousers, leather coin belt, copper-red keratin fronds tied up with green cloth, warm umber skin. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1030588 sha256(base64)=45f3e2166f4ec9f1>",
+      "text_style_prompt": "Vael market trader woman: a dark green market vest over a cream shirt, brown trousers, leather coin belt, copper-red keratin fronds tied up with green cloth, warm umber skin. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/CorraBody.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:59:39+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T22:00:17+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/CorraBody.fbx",
+      "art-src/Generated/C9-Lantern/CorraBody_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adba-1c1c-702e-8d31-9026236fb155",
+    "task_id": "01a1adba-1c1c-702e-8d31-9026236fb155",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "elderly Vael archivist man: a layered sand-colored scholar's coat with many small pockets, cream trousers, small brass reading lenses, thin white keratin fronds, cool grey-blue skin. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1006608 sha256(base64)=2e18695d4a467e00>",
+      "text_style_prompt": "elderly Vael archivist man: a layered sand-colored scholar's coat with many small pockets, cream trousers, small brass reading lenses, thin white keratin fronds, cool grey-blue skin. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/IshenBody.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T22:00:19+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T22:00:57+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/IshenBody.fbx",
+      "art-src/Generated/C9-Lantern/IshenBody_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adba-b78a-73d7-a343-93e2964d59fd",
+    "task_id": "01a1adba-b78a-73d7-a343-93e2964d59fd",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "young Vael lamp apprentice: a patched ochre work tunic with rolled sleeves, brown trousers, soot smudges, short sand-colored keratin fronds, light slate skin, a small brass wick-trimmer on a cord. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1033832 sha256(base64)=be7be793bd9505ec>",
+      "text_style_prompt": "young Vael lamp apprentice: a patched ochre work tunic with rolled sleeves, brown trousers, soot smudges, short sand-colored keratin fronds, light slate skin, a small brass wick-trimmer on a cord. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/PellBody.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T22:01:00+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T22:01:37+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/PellBody.fbx",
+      "art-src/Generated/C9-Lantern/PellBody_base_color.png"
+    ]
   }
 ]

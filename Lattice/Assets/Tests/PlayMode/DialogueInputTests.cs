@@ -84,17 +84,19 @@ namespace Lattice.Tests.PlayMode
             {
                 ["MiraFirst"]=new[]{"shop","world"},["HalFirst"]=new[]{"bench","repair","world"},
                 ["HalRepeat"]=new[]{"repair","bench","world"},["HalPost"]=new[]{"repair","bench"},
-                ["ArenaGuide"]=new[]{"bench","world"}
+                ["ArenaGuide"]=new[]{"bench","world"},
+                // Chapter 2 (D202): Corra keeps Lanternwick's own stock.
+                ["CorraFirst"]=new[]{"shop","world"}
             };
             var nodes=Resources.Load<YarnProject>("Dialogue/Lattice").NodeNames.Where(n=>!n.StartsWith("__")).OrderBy(n=>n).ToArray();
             Assert.GreaterOrEqual(nodes.Length,25);
             var saves=new SaveSystem(System.IO.Path.Combine(Application.temporaryCachePath,"C6-all-branches-"+System.Guid.NewGuid().ToString("N")));
             foreach(string node in nodes)
             {
-                string speaker=node=="ArenaGuide"?"Hal":node=="CacheFound"?"Neve":node=="CompactHail"?"Keeper":node.StartsWith("Sela")?"Sela":
-                    new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper","Oda","Ilo"}.Single(n=>node.StartsWith(n));
+                string speaker=node=="ArenaGuide"?"Hal":node=="CacheFound"?"Neve":node=="CompactHail"||node.StartsWith("Abri")?"Keeper":node.StartsWith("Sela")?"Sela":
+                    new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper","Oda","Ilo","Aumi","Pell","Ishen","Corra","Brekk","Hessa"}.Single(n=>node.StartsWith(n));
                 // Mira's holding line during the first morning (D197) points at the walkway job instead of opening her stock.
-                var outcomes=branches.TryGetValue(node,out var choices)?choices:new[]{node.StartsWith("Mira")&&node!="MiraOpening"?"shop":"world"};
+                var outcomes=branches.TryGetValue(node,out var choices)?choices:new[]{node.StartsWith("Mira")&&node!="MiraOpening"||node=="CorraRepeat"||node=="CorraPost"?"shop":"world"};
                 for(int choice=0;choice<outcomes.Length;choice++)
                 {
                     // A real serialized reload before and after every implemented branch.

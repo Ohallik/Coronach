@@ -76,8 +76,32 @@ namespace Lattice.EditorTools
         static GameObject Prefab(string folder,string id)=>AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/"+folder+"/"+id+".prefab");
         static GameObject Body(string folder,string id,string fallbackFolder,string fallback)=>Prefab(folder,id)??Prefab(fallbackFolder,fallback);
         static Objective Step(ObjectiveKind kind,string target,int count=1)=>new(){kind=kind,target=target,count=count};
+        /// <summary>The generated canyon floor and strata textures become world materials, cloned from Sorrel's so the
+        /// toon shading and tiling match.</summary>
+        static void CanyonMaterials()
+        {
+            string root=Path.GetFullPath(Path.Combine(Application.dataPath,"../.."));
+            var made=new List<(string texture,string material,string template)>{("canyon-floor","canyon-ground","sorrel-ground"),("canyon-cliff","canyon-cliff","sorrel-rock")};
+            foreach(var (texture,_,_) in made)
+            {
+                string source="art-src/Generated/C9-Lantern/refs/"+texture+".png";
+                if(File.Exists(Path.Combine(root,source)))PackStaging.StageFile(source,"Art/Generated/Lantern/"+texture+".png");
+            }
+            AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
+            foreach(var (texture,material,template) in made)
+            {
+                string path="Assets/_Project/Art/Generated/Lantern/"+texture+".png";var importer=AssetImporter.GetAtPath(path) as TextureImporter;if(importer==null)continue;
+                importer.wrapMode=TextureWrapMode.Repeat;importer.mipmapEnabled=true;importer.maxTextureSize=1024;importer.SaveAndReimport();
+                var source=WorldMaterial(template);if(source==null)continue;
+                string target="Assets/_Project/Resources/WorldMaterials/"+material+".mat";var copy=AssetDatabase.LoadAssetAtPath<Material>(target);
+                if(copy==null){copy=new Material(source){name=material};AssetDatabase.CreateAsset(copy,target);}else copy.CopyPropertiesFromMaterial(source);
+                copy.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>(path));copy.SetTextureScale("_BaseMap",Vector2.one);EditorUtility.SetDirty(copy);
+            }
+            AssetDatabase.SaveAssets();
+        }
         static void Define()
         {
+            CanyonMaterials();
             var ground=Find<CameraProfile>("Ground");var flight=Find<CameraProfile>("Flight");
             var dusk=ArenaBuilder.Asset<Hd2dProfile>("Dusk",p=>{p.tint=new Color(1,.9f,.82f);p.tiltStart=.2f;p.tiltStrength=0;p.nativeResolution=true;p.bloom=.5f;});
             var cold=Find<Hd2dProfile>("Cold");var cave=Find<Hd2dProfile>("Cave")??cold;
@@ -142,11 +166,19 @@ namespace Lattice.EditorTools
 
         // ---------------------------------------------------------------- shared helpers
         static string Kit(string key,string fallback)=>Prefab("Environment",key)!=null?key:fallback;
+        /// <summary>A dead relay: its crystal unlit (the generated emission off), so relit relays stand out.</summary>
+        static GameObject Dark(GameObject go)
+        {
+            var block=new MaterialPropertyBlock();block.SetColor("_EmissionColor",Color.black);
+            foreach(var r in go.GetComponentsInChildren<Renderer>())r.SetPropertyBlock(block);return go;
+        }
         static Material WorldMaterial(string name)=>AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/"+name+".mat");
         /// <summary>The canyon ground and strata (generated textures) or, until they are staged, Sorrel's.</summary>
         static Material Canyon(bool cliff)=>WorldMaterial(cliff?"canyon-cliff":"canyon-ground")??WorldMaterial(cliff?"sorrel-rock":"sorrel-ground");
 
         static Func<Vector2,float> height=_=>0;
+        /// <summary>Ground above this height that is level is "above the cliffs" (strata texture, not floor).</summary>
+        static float CliffTop=3.5f;
         /// <summary>Stand-ins whose proportions differ from the generated piece they replace are scaled to its footprint.</summary>
         static readonly Dictionary<string,float> StandIn=new(){{"OutpostHab",.55f},{"HushwellColumn",.8f}};
         static GameObject Prop(string key,Vector3 at,float size,float yaw=0,bool solid=true,bool grounded=true)
@@ -160,6 +192,15 @@ namespace Lattice.EditorTools
             go.isStatic=solid;foreach(var t in go.GetComponentsInChildren<Transform>())t.gameObject.isStatic=solid;
             return go;
         }
+        static Mesh SaveMesh(Mesh mesh,string path)
+        {
+            var prior=AssetDatabase.LoadAssetAtPath<Mesh>(path);
+            if(prior==null){AssetDatabase.CreateAsset(mesh,path);return mesh;}
+            EditorUtility.CopySerialized(mesh,prior);UnityEngine.Object.DestroyImmediate(mesh);EditorUtility.SetDirty(prior);return prior;
+        }
+        /// <summary>A heightfield landform in three parts: an invisible full-resolution collider (walls stop bodies and
+        /// navigation reads it), the walkable floor drawn with the ground texture, and the cliff faces drawn with the
+        /// strata texture mapped along each wall so its bands stay horizontal.</summary>
         static GameObject Terrain(string zone,string label,float xMin,float xMax,float zMin,float zMax,float cell,Material material)
         {
             int nx=Mathf.CeilToInt((xMax-xMin)/cell)+1,nz=Mathf.CeilToInt((zMax-zMin)/cell)+1;
@@ -170,12 +211,34 @@ namespace Lattice.EditorTools
                 if(x==nx-1||z==nz-1)continue;
                 triangles[ti++]=i;triangles[ti++]=i+nx;triangles[ti++]=i+1;triangles[ti++]=i+1;triangles[ti++]=i+nx;triangles[ti++]=i+nx+1;
             }
-            var mesh=new Mesh{name=label,indexFormat=IndexFormat.UInt32};mesh.vertices=vertices;mesh.uv=uv;mesh.triangles=triangles;mesh.RecalculateNormals();mesh.RecalculateBounds();
-            string path="Assets/_Project/Scenes/"+zone+"-Terrain.asset";var prior=AssetDatabase.LoadAssetAtPath<Mesh>(path);
-            if(prior==null){AssetDatabase.CreateAsset(mesh,path);prior=mesh;}else{EditorUtility.CopySerialized(mesh,prior);UnityEngine.Object.DestroyImmediate(mesh);EditorUtility.SetDirty(prior);}
+            var full=new Mesh{name=label+" collision",indexFormat=IndexFormat.UInt32};full.vertices=vertices;full.triangles=triangles;full.RecalculateNormals();full.RecalculateBounds();
+            var floor=new List<int>();var cliffVerts=new List<Vector3>();var cliffUv=new List<Vector2>();var cliffTris=new List<int>();
+            for(int t=0;t<triangles.Length;t+=3)
+            {
+                Vector3 a=vertices[triangles[t]],b=vertices[triangles[t+1]],c=vertices[triangles[t+2]];
+                var n=Vector3.Cross(b-a,c-a).normalized;float h=(a.y+b.y+c.y)/3;
+                if(Mathf.Abs(n.y)>=.78f&&h<=CliffTop){floor.Add(triangles[t]);floor.Add(triangles[t+1]);floor.Add(triangles[t+2]);continue;}
+                bool facesX=Mathf.Abs(n.x)>Mathf.Abs(n.z);
+                foreach(var v in new[]{a,b,c})
+                {
+                    cliffTris.Add(cliffVerts.Count);cliffVerts.Add(v);
+                    cliffUv.Add(Mathf.Abs(n.y)>=.78f?new Vector2(v.x,v.z)/8:new Vector2((facesX?v.z:v.x)/7,v.y/5));
+                }
+            }
+            var ground=new Mesh{name=label,indexFormat=IndexFormat.UInt32};ground.vertices=vertices;ground.uv=uv;ground.triangles=floor.ToArray();ground.RecalculateNormals();ground.RecalculateBounds();
+            var cliffs=new Mesh{name=label+" cliffs",indexFormat=IndexFormat.UInt32};cliffs.SetVertices(cliffVerts);cliffs.SetUVs(0,cliffUv);cliffs.SetTriangles(cliffTris,0);cliffs.RecalculateNormals();cliffs.RecalculateBounds();
+            full=SaveMesh(full,"Assets/_Project/Scenes/"+zone+"-Terrain.asset");
+            ground=SaveMesh(ground,"Assets/_Project/Scenes/"+zone+"-Ground.asset");
+            cliffs=SaveMesh(cliffs,"Assets/_Project/Scenes/"+zone+"-Cliffs.asset");
+            // The collision body keeps an enabled (never drawn) renderer: the ground camera treats only rendered
+            // colliders as scenery to look past, as it does Sorrel's basin.
             var terrain=new GameObject(label,typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));terrain.isStatic=true;
-            terrain.GetComponent<MeshFilter>().sharedMesh=prior;terrain.GetComponent<MeshCollider>().sharedMesh=prior;terrain.GetComponent<Renderer>().sharedMaterial=material;
-            terrain.AddComponent<AudioSurface>();
+            terrain.GetComponent<MeshCollider>().sharedMesh=full;terrain.GetComponent<MeshFilter>().sharedMesh=full;terrain.AddComponent<AudioSurface>();
+            var hidden=terrain.GetComponent<MeshRenderer>();hidden.sharedMaterial=material;hidden.forceRenderingOff=true;hidden.shadowCastingMode=ShadowCastingMode.Off;
+            var floorView=new GameObject(label+" floor",typeof(MeshFilter),typeof(MeshRenderer));floorView.transform.SetParent(terrain.transform,false);floorView.isStatic=true;
+            floorView.GetComponent<MeshFilter>().sharedMesh=ground;floorView.GetComponent<Renderer>().sharedMaterial=material;
+            var cliffView=new GameObject(label+" cliffs",typeof(MeshFilter),typeof(MeshRenderer));cliffView.transform.SetParent(terrain.transform,false);cliffView.isStatic=true;
+            cliffView.GetComponent<MeshFilter>().sharedMesh=cliffs;cliffView.GetComponent<Renderer>().sharedMaterial=Canyon(true);
             return terrain;
         }
         static Npc Person(string id,Vector3 at,float yaw,string postFlag,bool post=true,string finalFlag=null,string finalNode=null)
@@ -247,6 +310,27 @@ namespace Lattice.EditorTools
             else{EditorUtility.CopySerialized(built,previous);UnityEngine.Object.DestroyImmediate(built);EditorUtility.SetDirty(previous);}
             new GameObject("Walkable paths",typeof(GroundNavigation)).GetComponent<GroundNavigation>().data=previous;
         }
+        /// <summary>Small, non-blocking floor detail scattered where it never meets a route point or prompt.</summary>
+        static void Scatter(System.Random rng,int count,Func<Vector2> pick,Func<Vector2,bool> allowed,params (string key,float size,bool solid)[] kinds)
+        {
+            int placed=0;
+            for(int tries=0;placed<count&&tries<count*12;tries++)
+            {
+                var p=pick();if(!allowed(p))continue;var (key,size,solid)=kinds[rng.Next(kinds.Length)];if(Prefab("Environment",key)==null)continue;
+                Prop(key,new Vector3(p.x,0,p.y),size*(.75f+.5f*(float)rng.NextDouble()),(float)rng.NextDouble()*360,solid);placed++;
+            }
+        }
+        /// <summary>Rock outcrops and strata ledges along a cliff foot, so canyon walls read as rock from the fixed camera.</summary>
+        static void CliffFoot(IEnumerable<Vector3> points,int seed)
+        {
+            var rng=new System.Random(seed);string[] kinds={"RidgeRock1","RidgeRock2","RidgeRock3","DressStrataOutcrop","DressStrataLedge","DressBoulders"};
+            foreach(var p in points)
+            {
+                string key=kinds[rng.Next(kinds.Length)];if(Prefab("Environment",key)==null)continue;
+                float size=key.StartsWith("Ridge")?3.5f+(float)rng.NextDouble()*3:key=="DressBoulders"?1.6f+(float)rng.NextDouble():2.2f+(float)rng.NextDouble()*1.5f;
+                Prop(key,p,size,(float)rng.NextDouble()*360,true);
+            }
+        }
         static float Smooth(float edge0,float edge1,float x)=>Mathf.SmoothStep(0,1,Mathf.Clamp01((x-edge0)/(edge1-edge0)));
         static float Segment(Vector2 p,Vector2 a,Vector2 b){var d=b-a;float t=Mathf.Clamp01(Vector2.Dot(p-a,d)/Mathf.Max(.0001f,d.sqrMagnitude));return Vector2.Distance(p,a+d*t);}
 
@@ -260,13 +344,13 @@ namespace Lattice.EditorTools
             WorldArt.Planet("Wick",new Vector3(-150,-90,240),130);
             // A chain of fallen relays, below the flight plane: backdrop, never an obstacle.
             var rng=new System.Random(37);
-            for(int i=0;i<14;i++)
+            for(int i=0;i<20;i++)
             {
-                float z=12+i*21,x=(i%2==0?-1:1)*(26+(float)rng.NextDouble()*24);
+                float z=10+i*14,x=(i%2==0?-1:1)*(18+(float)rng.NextDouble()*28);
                 var tower=Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,-14-(float)rng.NextDouble()*8,z),9+(float)rng.NextDouble()*5,(float)rng.NextDouble()*360,false,false);
-                tower.transform.rotation=Quaternion.Euler(60+(float)rng.NextDouble()*40,(float)rng.NextDouble()*360,(float)rng.NextDouble()*30);tower.name="Fallen relay "+i;
+                tower.transform.rotation=Quaternion.Euler(60+(float)rng.NextDouble()*40,(float)rng.NextDouble()*360,(float)rng.NextDouble()*30);tower.name="Fallen relay "+i;Dark(tower);
             }
-            for(int i=0;i<10;i++)
+            for(int i=0;i<26;i++)
                 Prop(Kit("LanternShard","CrystalClusterB"),new Vector3((float)rng.NextDouble()*90-45,-6-(float)rng.NextDouble()*6,(float)rng.NextDouble()*ReachLength),2+(float)rng.NextDouble()*2,(float)rng.NextDouble()*360,false,false);
             // Encounters along the lane: raiders first, then the wild Choir swarm the raiders stirred up.
             void Fight(string id,float x,float z,(string enemy,int count)[] waves)
@@ -291,6 +375,19 @@ namespace Lattice.EditorTools
             Discovery("Relight the second lantern relay",new Vector3(26,1,228),"Relight the lantern relay","wick.relay2","",null,"Sela",null,0,6.5f);
             var count=new GameObject("Lantern gate count",typeof(FlagAll)).GetComponent<FlagAll>();count.flags=new[]{"wick.relay1","wick.relay2"};count.result="wick.gateOpen";
             var gate=WorldBuilder.Membrane("Lantern gate",new Vector3(0,1,ReachLength-40),110,false,8);
+            // Not the Choir's tissue: a curtain of relay light, amber, strung between lantern towers.
+            var curtain=new MaterialPropertyBlock();curtain.SetColor("_BaseColor",new Color(1,.62f,.24f,.55f));curtain.SetColor("_EmissionColor",new Color(1.6f,.9f,.3f));
+            foreach(var r in gate.GetComponentsInChildren<Renderer>())r.enabled=false;
+            var beam=new Material(Resources.Load<Material>("Effects/flare_01"));beam.SetTexture("_BaseMap",Texture2D.whiteTexture);
+            AssetDatabase.CreateAsset(beam,"Assets/_Project/Scenes/WickReach-Curtain.mat");
+            for(float x=-54;x<=54;x+=4.5f)
+            {
+                var line=new GameObject("Curtain strand",typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(gate.transform,true);
+                line.useWorldSpace=false;line.positionCount=2;line.SetPosition(0,line.transform.InverseTransformPoint(new Vector3(x,-5,ReachLength-40)));
+                line.SetPosition(1,line.transform.InverseTransformPoint(new Vector3(x,5,ReachLength-40)));line.startWidth=line.endWidth=.45f;
+                line.sharedMaterial=beam;line.startColor=new Color(1.6f,.85f,.3f,.15f);line.endColor=new Color(1.8f,1f,.4f,.85f);line.shadowCastingMode=ShadowCastingMode.Off;
+            }
+            foreach(float x in new[]{-56f,-20f,20f,56f})Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,-9,ReachLength-40),10,x,false,false);
             var gateKeeper=new GameObject("Lantern gate light",typeof(FlagGate)).GetComponent<FlagGate>();gateKeeper.flag="wick.gateOpen";gateKeeper.showWhenSet=false;gateKeeper.targets=new[]{gate.gameObject};
             WorldBuilder.Label("LANTERN GATE",new Vector3(0,4,ReachLength-42),2.2f);
             WorldBuilder.Dock("Dock — Lanternwick",new Vector3(0,1,ReachLength-14),"Lanternwick","Arrival",WorldBuilder.FlightDockRange);
@@ -311,7 +408,7 @@ namespace Lattice.EditorTools
             // terrace (+1.4 m) and carved walls; the south mouth stays low so the fixed camera sees the courier dock.
             float east=Smooth(15,19,p.x)*Smooth(18,34,p.y)*(1-Smooth(96,100,p.y))*3f;
             float west=Smooth(-17,-21,p.x)*Smooth(42,48,p.y)*(1-Smooth(84,88,p.y))*1.4f;
-            float walls=Smooth(40,46,Mathf.Abs(p.x))*(14+6*Mathf.PerlinNoise(p.x*.05f+3,p.y*.05f));
+            float walls=Smooth(33,39,Mathf.Abs(p.x))*(14+6*Mathf.PerlinNoise(p.x*.05f+3,p.y*.05f))+Smooth(44,52,Mathf.Abs(p.x))*8;
             float north=Smooth(106,114,p.y)*(16+5*Mathf.PerlinNoise(p.x*.06f,p.y*.04f));
             float south=Smooth(-34,-42,p.y)*4;
             float texture=.25f*Mathf.PerlinNoise(p.x*.12f+10,p.y*.12f);
@@ -319,7 +416,7 @@ namespace Lattice.EditorTools
         }
         static void Lanternwick()
         {
-            height=TownHeight;
+            height=TownHeight;CliffTop=3.6f;
             var scene=WorldBuilder.Begin("Lanternwick");
             Terrain("Lanternwick","Canyon terraces",-60,60,-50,125,1,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
@@ -327,7 +424,7 @@ namespace Lattice.EditorTools
             var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — the Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
             WorldBuilder.Label("COURIER DOCK",new Vector3(0,.1f,-17));
             // The arch market: the great arch spans the main street; stalls under and around it.
-            Prop(Kit("AncelaneArch","HushwellColumn"),new Vector3(0,0,6),9,0,false);
+            Prop(Kit("AncelaneArch","HushwellColumn"),new Vector3(0,0,4),7,0,false);
             foreach(var (x,z,yaw) in new[]{(-8f,14f,90f),(8f,14f,-90f),(-9f,22f,80f),(9f,23f,-100f)})Prop("DressMarketStall",new Vector3(x,0,z),2.6f,yaw);
             Prop("DressKiosk",new Vector3(-4,0,27),2.2f,10);Prop("DressWaterBarrels",new Vector3(12,0,10),1.2f,40);Prop("DressCargoPallet",new Vector3(-12,0,8),1.1f,20);
             WorldBuilder.Label("ARCH MARKET",new Vector3(0,.1f,12));
@@ -336,9 +433,18 @@ namespace Lattice.EditorTools
             Prop(Kit("CanyonHouse","OutpostHab"),new Vector3(-17,0,31),6,90);
             var repair=Prop("DeckConsole",new Vector3(-12,0,30),1.4f,90).AddComponent<RepairBay>();repair.prompt="Wick House — repair and save";repair.saveSpawn="Arrival";
             WorldBuilder.Label("WICK HOUSE",new Vector3(-13,.1f,34));
-            // Homes carved along the canyon walls.
-            foreach(var (x,z,yaw) in new[]{(-30f,4f,90f),(-31f,20f,90f),(31f,4f,-90f),(-12f,98f,180f),(14f,99f,180f),(34f,40f,-90f),(35f,70f,-90f),(-32f,30f,90f)})
-                Prop(Kit("CanyonHouse","OutpostHab"),new Vector3(x,0,z),5.5f,yaw);
+            // Homes: carved along the canyon walls and lining the main street up to the archive, doors to the street.
+            foreach(var (x,z,yaw) in new[]{(-30f,4f,90f),(-31f,20f,90f),(31f,4f,-90f),(-12f,98f,180f),(14f,99f,180f),(30f,46f,-90f),(30f,74f,-90f),(-30f,32f,90f),
+                (-12f,40f,90f),(-12f,56f,90f),(-12f,70f,90f),(-12f,84f,90f),(11f,40f,-90f),(11f,52f,-90f),(11f,80f,-90f),(-22f,-4f,90f),(22f,-6f,-90f),(-20f,92f,140f),(22f,92f,-140f)})
+                Prop(Kit("CanyonHouse","OutpostHab"),new Vector3(x,0,z),x*x>400?5.5f:4.8f,yaw);
+            // The street itself: lamps on both sides and the clutter of people who live there.
+            for(float z=-6;z<92;z+=11)foreach(int side in new[]{-1,1})
+            {var at=new Vector3(side*6.5f,0,z+(side>0?5:0));Prop(Kit("LampPost","DressLightBollard"),at,1.6f,0);Lamp(at+Vector3.up*1.6f,8,1.3f);}
+            var trng=new System.Random(29);
+            Scatter(trng,60,()=>new Vector2((float)trng.NextDouble()*60-30,(float)trng.NextDouble()*120-20),p=>
+                {float street=Mathf.Abs(p.x);bool walk=street<5.2f||Mathf.Abs(p.y-26)<3.5f&&p.x>0||Mathf.Abs(p.y-48)<3.5f&&p.x<0||Vector2.Distance(p,new Vector2(0,-20))<9||Vector2.Distance(p,new Vector2(-34,84))<6;
+                 return !walk&&TownHeight(p)<3.6f&&street<31;},
+                ("DressPlanter",1f,true),("DressWaterBarrels",1.1f,true),("DressFanShrub",1.3f,false),("DressSucculent",1f,false),("DeckCrate",1f,true),("DressCargoPallet",1f,true),("HushwellRubble",.9f,false));
             // The lantern stair: three towers on the east terrace, the keeper below the tallest.
             Relay("Lantern tower south",new Vector3(28,0,40),"lanternwick.lit",14,0);
             Relay("Lantern tower",new Vector3(31,0,64),"lanternwick.lit",18,15);
@@ -358,14 +464,24 @@ namespace Lattice.EditorTools
             // Lamps and lamp posts along the walk.
             foreach(var (x,z) in new[]{(-4f,-8f),(4f,-8f),(-5f,30f),(5f,40f),(-6f,55f),(6f,70f),(-5f,85f),(18f,26f)})
             {Prop(Kit("LampPost","DressLightBollard"),new Vector3(x,0,z),1.6f,0);Lamp(new Vector3(x,1.6f,z));}
+            // The canyon walls' feet: rock and strata between the homes.
+            var townCliffs=new List<Vector3>();
+            for(float z=-26;z<104;z+=9)foreach(int side in new[]{-1,1})
+            {
+                float x=side*(32.5f+1.5f*Mathf.PerlinNoise(z*.1f,side));
+                if(Mathf.Abs(z-4)<5||Mathf.Abs(z-20)<5&&side<0||Mathf.Abs(z-46)<5&&side>0||Mathf.Abs(z-74)<5&&side>0||Mathf.Abs(z-32)<5&&side<0||side<0&&z>40&&z<92)continue;
+                townCliffs.Add(new Vector3(x,0,z));
+            }
+            for(float x=-30;x<=30;x+=10)if(Mathf.Abs(x)>9)townCliffs.Add(new Vector3(x,0,106));
+            CliffFoot(townCliffs,11);
             // People.
             Person("Aumi",new Vector3(22,0,52),-110,"bossdown.HessaKorl",true,"lanternwick.chartGiven","AumiFinal").postNode="AumiReturn";
             Person("Pell",new Vector3(6,0,34),200,"lanternwick.chartGiven");
             Person("Ishen",new Vector3(4,0,92),170,"ishen.recordRestored");
             var corra=Person("Corra",new Vector3(-6,0,17),110,"unsworn.rationsDelivered");
             Person("Brekk",new Vector3(-32,0,60),90,"unsworn.rationsDelivered");
-            WorldBuilder.Boundary("West town limit",new Vector3(-44,8,40),new Vector3(2,20,170));
-            WorldBuilder.Boundary("East town limit",new Vector3(44,8,40),new Vector3(2,20,170));
+            WorldBuilder.Boundary("West town limit",new Vector3(-37,8,40),new Vector3(2,20,170));
+            WorldBuilder.Boundary("East town limit",new Vector3(37,8,40),new Vector3(2,20,170));
             WorldBuilder.Boundary("North town limit",new Vector3(0,8,110),new Vector3(90,20,2));
             WorldBuilder.Boundary("South town limit",new Vector3(0,8,-34),new Vector3(90,20,2));
             BakeNavigation("Lanternwick",new Bounds(new Vector3(0,6,40),new Vector3(96,30,160)),new Vector3(0,0,-14),
@@ -388,7 +504,7 @@ namespace Lattice.EditorTools
         }
         static void Gorge()
         {
-            height=GorgeHeight;
+            height=GorgeHeight;CliffTop=2.5f;
             var scene=WorldBuilder.Begin("LanternGorge");
             Terrain("LanternGorge","Lantern Gorge",-60,60,-24,250,1,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,0));WorldBuilder.Spawn("Relay",new Vector3(0,0,220));
@@ -399,11 +515,30 @@ namespace Lattice.EditorTools
             foreach(var (x,z,yaw,size) in new[]{(14f,40f,30f,14f),(-14f,84f,-20f,16f),(13f,140f,60f,13f),(-12f,170f,-40f,15f)})
             {
                 // Lying along the canyon wall: scenery and a landmark, never a wall across the route.
-                var fallen=Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,0,z),size,yaw,false);fallen.name="Fallen relay tower";
+                var fallen=Dark(Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,0,z),size,yaw,false));fallen.name="Fallen relay tower";
                 fallen.transform.rotation=Quaternion.Euler(0,yaw,84);var lying=ModelGeometry.BoundsOf(fallen);
                 fallen.transform.position+=new Vector3(x,height(new Vector2(x,z))-.4f,z)-new Vector3(lying.center.x,lying.min.y,lying.center.z);
             }
             foreach(var (x,z) in new[]{(10f,44f),(-10f,88f),(9f,144f),(-9f,166f),(4f,100f)})Prop(Kit("LanternShard","CrystalClusterB"),new Vector3(x,0,z),1.6f,x*13);
+            // Cliff feet along both walls, and boulders on the floor's verge (never on the route itself).
+            var gorgeCliffs=new List<Vector3>();var verge=new List<Vector3>();
+            for(int i=1;i<GorgePath.Length;i++)
+            {
+                Vector2 a=GorgePath[i-1],d=GorgePath[i]-a;float length=d.magnitude;var normal=new Vector2(-d.y,d.x)/length;
+                for(float along=4;along<length;along+=8)
+                    foreach(int side in new[]{-1,1})
+                    {
+                        var at=a+d*(along/length)+normal*side*(14.5f+1.5f*Mathf.PerlinNoise(along,i));
+                        if(GorgeDistance(at)<12.5f)continue;
+                        gorgeCliffs.Add(new Vector3(at.x,0,at.y));
+                        var v=a+d*(along/length)+normal*side*9.5f;if(((int)along/8+i)%3==0&&GorgeDistance(v)>8.5f)verge.Add(new Vector3(v.x,0,v.y));
+                    }
+            }
+            CliffFoot(gorgeCliffs,23);
+            foreach(var v in verge)if(Prefab("Environment","DressBoulders")!=null)Prop("DressBoulders",v,1.2f,v.x*31,true);
+            var grng=new System.Random(41);
+            Scatter(grng,70,()=>new Vector2((float)grng.NextDouble()*60-30,(float)grng.NextDouble()*236-6),p=>{float d=GorgeDistance(p);return d>5.5f&&d<12.5f;},
+                ("HushwellRubble",1f,false),("DressSucculent",.9f,false),("DressFanShrub",1.2f,false),("CrystalClusterA",1.1f,false),("LanternShard",1f,false),("DressBoulders",1f,true));
             // Relays to relight (the main quest's step), each in an open clearing.
             var gorgeRelays=new[]{(new Vector3(9,0,52),"gorge.relay1","SelaRelayLit"),(new Vector3(-9,0,124),"gorge.relay2",(string)null),(new Vector3(10,0,186),"gorge.relay3",(string)null)};
             int index=0;
@@ -453,38 +588,42 @@ namespace Lattice.EditorTools
         }
 
         // ---------------------------------------------------------------- the Sunken Relay (dungeon)
-        static void Room(Vector3 centre,Vector3 size,string label,bool northOpen=true,bool southOpen=true,float doorway=6)
+        /// <summary>The relay's halls, carved out of the canyon's rock: (centre, size) of each chamber along +z.</summary>
+        static readonly (Vector2 centre,Vector2 size,string label)[] RelayHalls=
         {
-            var floor=WorldBuilder.Piece("DeckFloor",new Vector3(centre.x,-.08f,centre.z),new Vector3(size.x,.16f,size.z),"Ground");floor.name=label+" floor";
-            foreach(var r in floor.GetComponentsInChildren<Renderer>())r.sharedMaterial=Canyon(false);
-            float wall=4.5f;var material=Canyon(true);
-            void Wall(Vector3 at,Vector3 extent){var w=WorldBuilder.Piece("DeckWall",at,extent,"Rock");foreach(var r in w.GetComponentsInChildren<Renderer>())r.sharedMaterial=material;w.name=label+" wall";foreach(var t in w.GetComponentsInChildren<Transform>())t.gameObject.isStatic=true;}
-            Wall(new Vector3(centre.x-size.x*.5f,wall*.5f,centre.z),new Vector3(.8f,wall,size.z));
-            Wall(new Vector3(centre.x+size.x*.5f,wall*.5f,centre.z),new Vector3(.8f,wall,size.z));
-            foreach(var (open,z) in new[]{(northOpen,centre.z+size.z*.5f),(southOpen,centre.z-size.z*.5f)})
+            (new(0,10),new(18,20),"ENTRY HALL"),(new(0,32),new(8,24),"CUT CORRIDOR"),(new(0,64),new(30,40),"FLOODED GALLERY"),
+            (new(0,100),new(22,32),"LOWER VAULT"),(new(0,140),new(38,48),"GREAT LANTERN"),
+        };
+        static float RelayHeight(Vector2 p)
+        {
+            float inside=float.PositiveInfinity;
+            foreach(var (centre,size,_) in RelayHalls)
             {
-                if(!open){Wall(new Vector3(centre.x,wall*.5f,z),new Vector3(size.x,wall,.8f));continue;}
-                float side=(size.x-doorway)*.5f;
-                Wall(new Vector3(centre.x-doorway*.5f-side*.5f,wall*.5f,z),new Vector3(side,wall,.8f));
-                Wall(new Vector3(centre.x+doorway*.5f+side*.5f,wall*.5f,z),new Vector3(side,wall,.8f));
+                var d=new Vector2(Mathf.Abs(p.x-centre.x)-size.x*.5f,Mathf.Abs(p.y-centre.y)-size.y*.5f);
+                // Rounded rectangles: the outside distance, softened at the corners.
+                float box=Mathf.Max(d.x,d.y)<0?Mathf.Max(d.x,d.y):new Vector2(Mathf.Max(d.x,0),Mathf.Max(d.y,0)).magnitude;
+                inside=Mathf.Min(inside,box);
             }
-            WorldBuilder.Label(label,new Vector3(centre.x,.1f,centre.z-size.z*.5f+2.5f),1.6f);
+            float rock=Smooth(-.2f,1.3f,inside)*(5.2f+1.4f*Mathf.PerlinNoise(p.x*.08f+4,p.y*.08f));
+            return rock+.06f*Mathf.PerlinNoise(p.x*.3f,p.y*.3f);
         }
         static void Relay()
         {
-            height=_=>0;
+            height=RelayHeight;CliffTop=3f;
             var scene=WorldBuilder.Begin("SunkenRelay");
+            Terrain("SunkenRelay","Relay halls",-36,36,-14,180,.5f,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,3));
-            Room(new Vector3(0,0,10),new Vector3(18,0,20),"ENTRY HALL",true,false);
-            Room(new Vector3(0,0,32),new Vector3(8,0,24),"CUT CORRIDOR",true,true,5);
-            Room(new Vector3(0,0,64),new Vector3(30,0,40),"FLOODED GALLERY",true,true,6);
-            Room(new Vector3(0,0,100),new Vector3(22,0,32),"LOWER VAULT",true,true,6);
-            Room(new Vector3(0,0,140),new Vector3(38,0,48),"GREAT LANTERN",false,true,6);
+            foreach(var (centre,size,label) in RelayHalls)WorldBuilder.Label(label,new Vector3(centre.x,.1f,centre.y-size.y*.5f+2.5f),1.6f);
             Gate("Climb out — Lantern Gorge",new Vector3(0,0,1),"LanternGorge","Relay",null,null,"AncelaneColumn",3);
             Discovery("Cut lantern housings",new Vector3(0,0,14),"Look at the cut lantern housings","relay.entered","","SelaSunkenRelay","Taren");
             foreach(var (x,z) in new[]{(-6f,18f),(6f,18f),(-12f,50f),(12f,50f),(-12f,78f),(12f,78f),(-8f,90f),(8f,90f)})
             {Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,z),4.2f,x*z);}
             foreach(var (x,z) in new[]{(-6f,6f),(6f,26f),(-10f,60f),(10f,68f),(0f,96f),(-8f,128f),(8f,128f)})Lamp(new Vector3(x,2.6f,z),11,1.7f);
+            var rrng=new System.Random(53);
+            Scatter(rrng,46,()=>new Vector2((float)rrng.NextDouble()*36-18,(float)rrng.NextDouble()*160),p=>RelayHeight(p)<.2f&&Mathf.Abs(p.x)>3.2f&&RelayHeight(p+Vector2.right*2.5f)+RelayHeight(p-Vector2.right*2.5f)>.5f,
+                ("HushwellRubble",1.1f,false),("LanternShard",1.1f,false),("CrystalClusterB",1f,false),("DressBoulders",1.1f,true),("HushwellStalagmites",1.6f,true));
+            foreach(var (x,z,yaw) in new[]{(-11f,60f,80f),(11f,92f,-20f),(-15f,140f,30f)})
+            {var fallen=Dark(Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,z),4f,yaw,false));fallen.transform.rotation=Quaternion.Euler(0,yaw,86);var b=ModelGeometry.BoundsOf(fallen);fallen.transform.position+=new Vector3(x,-.2f,z)-new Vector3(b.center.x,b.min.y,b.center.z);}
             // Record plates for Ishen.
             var plates=new[]{new Vector3(-7,0,16),new Vector3(12,0,76),new Vector3(-9,0,108)};
             for(int i=0;i<plates.Length;i++)
