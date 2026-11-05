@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: OdaBerth
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: OdaBerth
-  title: A berth for two
+  title: A Berth for Two
   description: 'Oda''s family filed for the Nacre transfer; their berth token is stuck on Orrin''s desk.'
   steps:
   - kind: 5
@@ -29,5 +29,5 @@ MonoBehaviour:
     count: 2
   flagsOnComplete: []
   stepText:
-  - 'Ask Orrin at the Decks office for Oda''s berth token'
+  - 'Ask Orrin at the Decks dock office for Oda''s berth token'
   - 'Bring the stamped token to Oda at the Halo'

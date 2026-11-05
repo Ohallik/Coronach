@@ -37,7 +37,7 @@ namespace Lattice.Combat
             down=true;recovering=false;started=GameTime.Now;
             bool flier=enemy!=null&&enemy.definition.id.StartsWith("Chorister");
             duration=actor!=null?CombatActor.DownDuration:enemy.definition.boss?1.5f:
-                enemy.definition.id=="SentinelHusk"?1.15f:enemy.definition.id=="Ridgehound"?.9f:flier?1.1f:.75f;
+                enemy.definition.id=="SentinelHusk"||enemy.definition.id.StartsWith("Muster")&&enemy.definition.id!="MusterSkiff"?1.15f:enemy.definition.id=="Ridgehound"||enemy.definition.id=="Gloomgrazer"?.9f:flier?1.1f:.75f;
             hold=enemy!=null&&enemy.definition.boss?1.65f:flier?.6f:1.15f;
             colliders=GetComponentsInChildren<Collider>(true);collisionEnabled=new bool[colliders.Length];
             for(int i=0;i<colliders.Length;i++)
@@ -86,13 +86,14 @@ namespace Lattice.Combat
                 terminalRotation=originRotation*Quaternion.Euler(30,0,150);
                 terminal=origin+visual.parent.InverseTransformVector(Vector3.down*1.8f);
             }
-            bool groundCreature=enemy!=null&&(enemy.definition.id=="Ridgehound"||enemy.definition.id=="Scrapmite"||enemy.definition.id=="Burrower");
+            bool hound=enemy!=null&&(enemy.definition.id=="Ridgehound"||enemy.definition.id=="Gloomgrazer");
+            bool groundCreature=enemy!=null&&(hound||enemy.definition.id=="Scrapmite"||enemy.definition.id=="Burrower");
             if(groundCreature)
             {
                 // Inspected against each generated body: hound on its flank,
                 // mite on its upper shell, burrower along its lower side.
                 // A shared tilt left them balancing on a paw, leg or jaw.
-                Vector3 rest=enemy.definition.id=="Ridgehound"?new Vector3(0,0,98):
+                Vector3 rest=hound?new Vector3(0,0,98):
                     enemy.definition.id=="Scrapmite"?new Vector3(0,0,170):new Vector3(-10,0,128);
                 terminalRotation=originRotation*Quaternion.Euler(rest);
             }

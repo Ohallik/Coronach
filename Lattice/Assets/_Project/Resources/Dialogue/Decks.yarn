@@ -1,52 +1,52 @@
 title: OrrinFirst
 ---
-Orrin: Sorrel missed three deliveries. Their last telemetry showed the drill still turning. #emotion:Worried
-Taren: A working drill and nobody asking for spare parts. That is suspicious. #emotion:Curious
-Orrin: Find the workers at the outpost. Then shut down whatever keeps them from answering. #emotion:Determined
+Orrin: Sorrel's missed three deliveries. Their last telemetry says the drill is still turning. #emotion:Worried
+Taren: A drill that runs for three cycles and never orders a part. Somebody down there is busy. #emotion:Curious
+Orrin: Find the outpost crew. Whatever's keeping them from answering, shut it down. #emotion:Determined
 <<startQuest Sorrel>>
-Sela: You said "whatever". Excellent briefing. I am coming. #emotion:Amused
-Taren: I was counting on it. #emotion:Happy
+Sela: "Whatever." Very thorough briefing. I'm coming. #emotion:Amused
+Taren: I'd already counted you in. #emotion:Happy
 <<joinParty Sela>>
-Orrin: Launch from any Decks airlock. Sorrel is east of the ring. Bring the drill's survey key; ours no longer matches the Gullet. #emotion:Neutral
+Orrin: Launch from any airlock; Sorrel's east of the ring. And bring back the drill's survey key. Ours doesn't match the Gullet anymore. #emotion:Neutral
 ===
 title: OrrinRepeat
 ---
-Orrin: The outpost first, then the drill. If Sela stops talking, run. #emotion:Smug
+Orrin: Outpost first, then the drill. And if Sela ever goes quiet, run. #emotion:Smug
 ===
 title: OrrinPost
 ---
-Orrin: The drill went quiet. For once, silence is good news. #emotion:Tender
-Orrin: The key names the route. Sela's chart must show where it actually goes. Check them against each other. #emotion:Worried
+Orrin: The drill's gone quiet. First time in a month that silence counts as good news. #emotion:Tender
+Orrin: That key reads like a route, but routes have been moving. Check it against Sela's chart before you trust it. #emotion:Worried
 ===
 title: MiraFirst
 ---
-Mira: Two Shapers. Twice the damage to my stock, half the patience. #emotion:Amused
-Mira: Six Ridge Crystals will settle a favour. Mine the bright seams on Sorrel; do not lick them. #emotion:Happy
+Mira: Two Shapers. Twice the damage to my stock and half the patience. #emotion:Amused
+Mira: Bring me six Ridge Crystals from Sorrel and I'll make it worth the trip. Bright seams only. Don't lick them. #emotion:Happy
 <<startQuest MiraCrystals>>
--> Let us see the stock.
+-> Show us the stock.
     <<shop>>
--> We will bring the crystals.
-    Mira: Then I will pretend that was a promise. #emotion:Smug
+-> We'll bring the crystals.
+    Mira: Then I'll pretend that was a promise. #emotion:Smug
 ===
 title: MiraRepeat
 ---
-Mira: If it sparks, I sell it. If it smokes, Hal is down the corridor. #emotion:Happy
+Mira: If it sparks, I sell it. If it smokes, Hal's down the corridor. #emotion:Happy
 <<shop>>
 ===
 title: MiraPost
 ---
-Mira: Six clear crystals. You found all the colours I asked for, including "not stolen". #emotion:Happy
+Mira: Six clean crystals. Every colour I asked for, including "not stolen". #emotion:Happy
 <<shop>>
 ===
 title: HalFirst
 ---
-Hal: Hold still a moment. Your collar node is running warm. #emotion:Worried
-Taren: It does that when somebody says "hold still". #emotion:Amused
-Hal: Here. Scrap Alloy for your first part. The bench knows five disciplines. Make three edges and it will teach you the refined pattern. #emotion:Tender
+Hal: Hold still a moment. Your collar node's running warm. #emotion:Worried
+Taren: It does that whenever someone tells me to hold still. #emotion:Amused
+Hal: Here's alloy and filament for a first part. Forge three edges on that bench and it'll show you the refined pattern. #emotion:Tender
 <<giveItem ScrapAlloy 12>>
 <<giveItem LatticeFilament 3>>
 <<setFlag hal.lesson>>
--> Link to the fabrication bench.
+-> Use the fabrication bench.
     <<bench>>
 -> Repair and save.
     <<repair>>
@@ -55,7 +55,7 @@ Hal: Here. Scrap Alloy for your first part. The bench knows five disciplines. Ma
 ===
 title: HalRepeat
 ---
-Hal: You can mend a body. It is harder to mend a hurry. #emotion:Neutral
+Hal: I can mend a body. A hurry's harder to fix. #emotion:Neutral
 -> Repair and save.
     <<repair>>
 -> Use the bench.
@@ -65,7 +65,7 @@ Hal: You can mend a body. It is harder to mend a hurry. #emotion:Neutral
 ===
 title: HalPost
 ---
-Hal: Orrin's board says the drill is quiet. Your collar node agrees. Thank you. #emotion:Happy
+Hal: Orrin's board says the drill's quiet. So does your collar node. Thank you. #emotion:Happy
 -> Repair and save.
     <<repair>>
 -> Use the bench.
@@ -73,44 +73,44 @@ Hal: Orrin's board says the drill is quiet. Your collar node agrees. Thank you. 
 ===
 title: SelaWaiting
 ---
-Sela: Orrin has the coordinates. I have several unreasonable ideas. See him first. #emotion:Playful
+Sela: Orrin has the coordinates, and I have several unreasonable ideas. See him first. #emotion:Playful
 ===
 title: SelaWalkwayRepair
 ---
 Taren: Mira. The yellow line is where the stall stops. #emotion:Neutral
-Mira: It stopped. Then I needed room for the pears. #emotion:Smug
-Taren: I need room to close this cover without pinching the conduit. #emotion:Determined
-Sela: Does your repair include a ship? I have a receipt for one that left an hour ago. #emotion:Worried
-Mira: The receipt was punctual. #emotion:Amused
-Sela: I found the right dock. Eventually. Here, let me hold that side. #emotion:Playful
-Taren: Keep the hinge clear. There. The cover can sit flush now. #emotion:Determined
+Mira: It did stop. Then the pears needed room. #emotion:Smug
+Taren: And I need room to close this cover without pinching the conduit. #emotion:Determined
+Sela: Does your repair come with a ship? I've got a receipt for one that left an hour ago. #emotion:Worried
+Mira: Well, the receipt was on time. #emotion:Amused
+Sela: I found the right dock. Eventually. Here, I'll hold this side. #emotion:Playful
+Taren: Keep the hinge clear. There. Now it'll sit flush. #emotion:Determined
 <<stationShift>>
-Mira: Did the bridge just move? #emotion:Curious
+Mira: Did the bridge just move? #emotion:Shocked
 Taren: A little. I hadn't tightened that joint yet. #emotion:Worried
-Sela: Both sides moved together. #emotion:Curious
-Mira: Then my stall is still on its side of the line. Open the walkway before the pears bruise. #emotion:Amused
-Taren: All right. Orrin has been waiting for us. #emotion:Neutral
+Sela: Both sides moved. Together. #emotion:Curious
+Mira: Then my stall's still on its side of the line. Open the walkway before the pears bruise. #emotion:Amused
+Taren: All right. Orrin's been waiting for us. #emotion:Neutral
 ===
 title: OrrinOpening
 ---
-Orrin: Not yet, Taren. Half my morning is stuck on the far side of that walkway. #emotion:Neutral
-Orrin: Close the cover and open the gates. Then come back and I will tell you about Sorrel. #emotion:Determined
+Orrin: Not yet, Taren. Half my morning's stuck on the far side of that walkway. #emotion:Neutral
+Orrin: Close the cover and open the gates. Then come and see me about Sorrel. #emotion:Determined
 ===
 title: MiraOpening
 ---
-Mira: The stall is not on your line. Your line is under my stall. Different thing. #emotion:Smug
-Mira: Shut that cover and I can open. The pears keep a schedule even if your bridge does not. #emotion:Amused
+Mira: The stall isn't on your line. Your line is under my stall. Different thing. #emotion:Smug
+Mira: Shut that cover so I can open. The pears keep a schedule, even if your bridge doesn't. #emotion:Amused
 ===
 title: SelaOpening
 ---
-Sela: Is this bridge closed, or only resting? #emotion:Curious
-Taren: Closed until I finish the cover. Give me a minute at the job. #emotion:Neutral
+Sela: Is this bridge closed, or just resting? #emotion:Curious
+Taren: Closed until I finish the cover. Give me a minute. #emotion:Neutral
 ===
 title: OrrinBerth
 ---
-Orrin: Oda's token? Under the evacuation notices. Everything is under the evacuation notices. #emotion:Neutral
+Orrin: Oda's token? It'll be under the evacuation notices. Everything's under the evacuation notices. #emotion:Neutral
 Orrin: Stamped. One family, one berth, one harbour. The Compact likes things it can count. #emotion:Worried
-Taren: You don't sound sure about it. #emotion:Curious
-Orrin: I'm sure about the arithmetic. Take it to her. #emotion:Neutral
+Taren: You don't sound sure. #emotion:Curious
+Orrin: I'm sure of the arithmetic. Take it to her. #emotion:Neutral
 <<setFlag oda.tokenCollected>>
 ===

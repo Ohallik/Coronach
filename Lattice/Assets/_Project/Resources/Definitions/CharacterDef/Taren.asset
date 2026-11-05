@@ -38,5 +38,10 @@ MonoBehaviour:
   - {fileID: 11400000, guid: a9f17306d0b1e8143a5592273f3b8e48, type: 2}
   - {fileID: 11400000, guid: 808a343f4c3447045b7eeae8f05195f9, type: 2}
   - {fileID: 11400000, guid: 96d021d8e937f4948962a399d7950c2d, type: 2}
+  learnable:
+  - {fileID: 11400000, guid: c9edefb9f84648f6a561e7061916f063, type: 2}
+  - {fileID: 11400000, guid: ef05ee417a0549feb96d7914d5ddfac6, type: 2}
+  - {fileID: 11400000, guid: 67d7b915db35406ea47f449e7f368f56, type: 2}
+  - {fileID: 11400000, guid: a14f5a008a454ec3beeee9e24c2eb5f2, type: 2}
   startingGear: []
   syncHue: {r: 1, g: 0.65, b: 0.12, a: 1}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NeveParcel
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: NeveParcel
-  title: An overdue parcel
+  title: An Overdue Parcel
   description: 'Neve has held one of Sorrel''s missed deliveries since the courier refused to land.'
   steps:
   - kind: 5
@@ -29,5 +29,5 @@ MonoBehaviour:
     count: 2
   flagsOnComplete: []
   stepText:
-  - 'Deliver Neve''s parcel to the Survivor at Sorrel'
-  - 'Bring the Survivor''s reply back to Neve at the Halo'
+  - 'Deliver Neve''s parcel to Dace at Sorrel''s outpost'
+  - 'Bring Dace''s reply back to Neve at the Halo'

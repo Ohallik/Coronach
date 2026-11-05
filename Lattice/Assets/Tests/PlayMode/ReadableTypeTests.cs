@@ -112,7 +112,7 @@ namespace Lattice.Tests.PlayMode
             panel.Options(new List<string>{"Ask about Sorrel.","Leave."},_=>{});yield return null;Audit("dialogue",failures);panel.ClearOptions();panel.Hide();
             var shop=Object.FindFirstObjectByType<ShopUi>();shop.Open(null);yield return null;Audit("shop",failures);shop.Close();yield return null;
             var pause=Object.FindFirstObjectByType<PauseMenu>();
-            for(int page=0;page<6;page++){pause.Open(page);yield return null;Audit("pause page "+page,failures);pause.Close();yield return null;}
+            for(int page=0;page<pause.PageCount;page++){pause.Open(page);yield return null;Audit("pause page "+page,failures);pause.Close();yield return null;}
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct()));
         }
     }

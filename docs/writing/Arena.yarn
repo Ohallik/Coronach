@@ -1,0 +1,9 @@
+title: ArenaGuide
+---
+Hal: Four clean hits. Read the wind-up before you rush the next one. #emotion:Neutral
+Hal: Dodge just before the strike. The world slows, and you keep moving. #emotion:Determined
+-> Open the fabrication bench.
+    <<bench>>
+-> I'll try that.
+    Hal: Good. I can fix the armour. The timing is yours. #emotion:Amused
+===

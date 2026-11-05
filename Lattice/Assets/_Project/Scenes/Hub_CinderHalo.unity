@@ -56017,7 +56017,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 795c32de908316c4e8242655ce815673, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.WarpBeacon
-  prompt: Sorrel approach
+  prompt: "Warp — Sorrel"
   range: 5
   requiredFlag: met.Orrin
   scene: Sorrel_Ridges

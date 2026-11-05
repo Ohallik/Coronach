@@ -1,40 +1,40 @@
 title: KeeperFirst
 ---
-Keeper: You came through the singing dark. Dock your vanes. The repair cradle is free, and there's room to rest. #emotion:Tender
-Taren: Anything you need looked at? #emotion:Neutral
-Keeper: Our port docking line keeps going slack. Reel it snug for me before you settle in? #emotion:Neutral
-Sela: What does it tie to? #emotion:Neutral
-Keeper: The old anchorage, beyond the port marker. You can reach the reel from your flight form. #emotion:Neutral
+Keeper: You came through the singing dark. I'm Abri, keeper here. Fold your vanes; the repair cradle's free. #emotion:Tender
+Taren: Anything here need looking at? #emotion:Curious
+Keeper: Our port docking line keeps going slack. Would you reel it snug before you settle in? #emotion:Neutral
+Sela: What's it tied to? #emotion:Curious
+Keeper: The old anchorage, out past the port marker. You can reach the reel in flight form. #emotion:Neutral
 ===
 title: KeeperRepeat
 ---
-Keeper: The cradle's yours. When you're ready, take a look at that slack line off the port side. #emotion:Tender
+Keeper: The cradle's yours. When you're ready, have a look at that slack line off the port side. #emotion:Tender
 ===
 title: KeeperPost
 ---
-Keeper: Your route is safe in the beacon. Rest as long as you need. #emotion:Happy
+Keeper: Your route's safe in the beacon. Rest as long as you like. #emotion:Happy
 Keeper: One small job, when you're ready: the port docking line won't stay tight. Would you check the reel? #emotion:Neutral
 ===
 title: SelaTallowLine
 ---
-Taren: Here's the end. Fitting and all. #emotion:Neutral
-Sela: No anchor? #emotion:Neutral
-Taren: Nothing to tighten it against. #emotion:Neutral
-Sela: Watch the marker. It's falling behind us. #emotion:Neutral
-Taren: I don't hear engines. #emotion:Neutral
-Sela: The passage is carrying the whole refuge. We're moving with it. #emotion:Neutral
+Taren: Here's the end. Fitting and all. #emotion:Curious
+Sela: No anchor? #emotion:Worried
+Taren: Nothing on it to pull against. #emotion:Worried
+Sela: Look at the marker. It's falling behind us. #emotion:Shocked
+Taren: And I don't hear any engines. #emotion:Curious
+Sela: The passage is carrying the whole refuge. We're moving with it. #emotion:Intense
 ===
 title: KeeperDriftReturn
 ---
-Keeper: Were you out by the port line? #emotion:Neutral
-Taren: Its free end is beside the reel. Tallow's moving. #emotion:Neutral
-Keeper: We're underway? Oh, look at that. The rooms, the cradle, all of it came with us. #emotion:Happy
-Sela: I can track the marker. We need a chart that moves with the passage. #emotion:Neutral
-Taren: Who agreed to go? #emotion:Neutral
-Keeper: Most of them are still asleep. I hadn't thought we'd actually leave. #emotion:Neutral
-Sela: Then they need to hear it from you. It's their home too. #emotion:Neutral
+Keeper: Were you out by the port line? #emotion:Curious
+Taren: The free end's floating by the reel. Tallow is moving. #emotion:Neutral
+Keeper: We're underway? Oh, look at that. The rooms, the cradle, all of it came along. #emotion:Happy
+Sela: I can track the marker. We'll need a chart that moves with the passage. #emotion:Determined
+Taren: Who agreed to go? #emotion:Curious
+Keeper: Most of them are still asleep. I never thought we'd actually leave. #emotion:Worried
+Sela: Then they should hear it from you. It's their home too. #emotion:Tender
 Keeper: Will you stand with me when I tell them? #emotion:Tender
-Taren: Yes. Start with the cabins. #emotion:Neutral
+Taren: Yes. Start with the cabins. #emotion:Determined
 ===
 
 title: KeeperDriftRepeat
@@ -44,12 +44,12 @@ Keeper: I'll start at the cabins. They should hear where their home is going bef
 
 title: CompactHail
 ---
-Keeper: Wait. There's a voice on the beacon band that isn't one of ours. #emotion:Worried
-Ilo: Tallow Drift, this is Compact survey. Ilo. We met at the Halo; I was the one with the chart. #emotion:Neutral
+Keeper: Wait. There's a voice on the beacon band, and it isn't one of ours. #emotion:Worried
+Ilo: Tallow Drift, Compact survey. This is Ilo. We met at the Halo; I'm the one with the chart. #emotion:Neutral
 Ilo: Director Venn has seen your station leave its mooring. She asked me to read you her words exactly. #emotion:Neutral
-Ilo: "The passages are separating. A town that moves will need food, power and a route that waits for it." #emotion:Determined
-Ilo: "Show me how you will have all three, and I will listen." #emotion:Determined
-Sela: She isn't wrong about the food. #emotion:Worried
+Ilo: "The passages are separating. A town that moves will need food, power, and a route that waits for it." #emotion:Determined
+Ilo: "Show me how you'll have all three, and I'll listen." #emotion:Determined
+Sela: She's not wrong about the food. #emotion:Worried
 Taren: Then we find some, before she finds us a smaller answer. #emotion:Determined
 Ilo: For what it's worth, I hope you manage it. Ilo out. #emotion:Tender
 <<setFlag compact.hailHeard>>

@@ -22,7 +22,7 @@ namespace Lattice.Dialogue
             var view=system.PresenterView;if(view==null)return;
             var emotion=EmotionTags.Parse(line.Metadata);var form=ZoneController.Current!=null?ZoneController.Current.Form:BodyForm.Natural;
             string plain=line.TextWithoutCharacterName.Text;
-            using(ShowMarker.Auto())view.Show(line.CharacterName,emotion,PortraitLookup.Get(line.CharacterName,form,emotion),plain);
+            using(ShowMarker.Auto())view.Show(DisplayNames.Speaker(line.CharacterName),emotion,PortraitLookup.Get(line.CharacterName,form,emotion),plain);
             if(!system.Preparing)system.LinesPresented++;
             await YarnTask.Yield();
             if(system==null||system.PresenterView!=view)return;

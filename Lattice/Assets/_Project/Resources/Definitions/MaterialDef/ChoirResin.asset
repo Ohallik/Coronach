@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ChoirResin
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.MaterialDef
   id: ChoirResin
-  displayName: ChoirResin
+  displayName: Choir Resin
   icon: {fileID: 0}
   stack: 999

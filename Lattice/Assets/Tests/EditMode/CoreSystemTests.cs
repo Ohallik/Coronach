@@ -73,7 +73,7 @@ namespace Lattice.Tests.EditMode
             }finally{UnityEngine.Object.DestroyImmediate(q);}
         }
         [Test]public void LevelsCapAtTenAndRetainRemainder()
-        {var m=new MemberState{level=1};Assert.AreEqual(2,Levels.Grant(m,340));Assert.AreEqual(3,m.level);Assert.AreEqual(10,m.xp);Levels.Grant(m,99999);Assert.AreEqual(10,m.level);}
+        {var m=new MemberState{level=1};Assert.AreEqual(2,Levels.Grant(m,340));Assert.AreEqual(3,m.level);Assert.AreEqual(10,m.xp);Levels.Grant(m,99999);Assert.AreEqual(Levels.Cap,m.level);Assert.AreEqual(40,Levels.Cap);}
         [Test]public void FlightCoastsAndBrakeReducesVelocity()
         {var coast=FlightMotor.Integrate(Vector3.forward*10,Vector3.zero,.1f,19,.75f,12,false);var brake=FlightMotor.Integrate(Vector3.forward*10,Vector3.zero,.1f,19,.75f,12,true);Assert.Greater(coast.z,9);Assert.Less(brake.z,5);Assert.AreEqual(0,coast.y);}
         [Test]public void SyncedPortraitTagPreservesSlotSeven()

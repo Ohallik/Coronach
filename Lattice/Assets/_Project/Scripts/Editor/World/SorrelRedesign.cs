@@ -90,7 +90,7 @@ namespace Lattice.EditorTools
             var bore=Prop("HushwellScaffold",8,177,2.6f).AddComponent<WarpBeacon>();
             bore.prompt="Descend the drill bore — Hushwell";bore.range=3.5f;bore.scene="Hushwell";bore.spawn="Arrival";
             bore.requiredFlag="bossdown.Burrower";bore.lockedPrompt="The Burrower still guards the bore";
-            var key=Prop("LatticeAnvil",0,199,2).AddComponent<KeyPickup>();key.prompt="Recover the warp key";
+            var key=Prop("LatticeAnvil",0,199,2).AddComponent<KeyPickup>();key.prompt="Recover the survey key";
             Dock("Launch — outer Halo beacon",8,201,"Outer");
             // Hard limits sit within the steep, visible enclosing basin rim.
             WorldBuilder.Boundary("West distant terrain limit",new Vector3(-106,15,90),new Vector3(2,40,340));

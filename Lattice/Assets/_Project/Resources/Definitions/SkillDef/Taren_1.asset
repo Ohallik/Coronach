@@ -26,3 +26,9 @@ MonoBehaviour:
   groundVariant: {fileID: 0}
   flightVariant: {fileID: 0}
   icon: {fileID: 0}
+  kind: 0
+  shortName: Cleave
+  description: 'A wide sweep that hits everything in front'
+  unlockLevel: 1
+  iconSheet: skill-icons
+  iconCell: 0

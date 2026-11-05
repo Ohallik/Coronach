@@ -38,4 +38,16 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/_Project/Scenes/Arena_Flight.unity
     guid: 87f5f039423957845aafb4cd17638f91
+  - enabled: 1
+    path: Assets/_Project/Scenes/WickReach.unity
+    guid: e7a47655802d91e4a942a82b93650fab
+  - enabled: 1
+    path: Assets/_Project/Scenes/Lanternwick.unity
+    guid: ff68700e991b9984d821acb520641984
+  - enabled: 1
+    path: Assets/_Project/Scenes/LanternGorge.unity
+    guid: 1bf2b2cdf7fffcf4bb13884d426a0754
+  - enabled: 1
+    path: Assets/_Project/Scenes/SunkenRelay.unity
+    guid: 3f5d2071949abbd4bb01a4aac5083ae9
   m_configObjects: {}

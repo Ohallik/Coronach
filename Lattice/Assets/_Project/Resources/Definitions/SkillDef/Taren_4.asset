@@ -26,3 +26,9 @@ MonoBehaviour:
   groundVariant: {fileID: 0}
   flightVariant: {fileID: 0}
   icon: {fileID: 0}
+  kind: 3
+  shortName: Overdrive
+  description: 'Twenty percent more damage for ten seconds'
+  unlockLevel: 1
+  iconSheet: skill-icons
+  iconCell: 3

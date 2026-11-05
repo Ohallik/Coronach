@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: ScrapAlloy
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.MaterialDef
   id: ScrapAlloy
-  displayName: ScrapAlloy
+  displayName: Scrap Alloy
   icon: {fileID: 0}
   stack: 999

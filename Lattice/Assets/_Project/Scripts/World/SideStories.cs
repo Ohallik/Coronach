@@ -36,6 +36,18 @@ namespace Lattice.World
             new("Oda","OdaBerthOffer",s=>Step(s,"OdaBerth")<0&&Met(s,"Oda")&&Met(s,"Orrin")),
             // The chapter's last beat: once Tallow knows it is moving, the Compact calls on the beacon band (Act II's hook).
             new("Keeper","CompactHail",s=>Flag(s,"tallow.driftDiscussed")&&!Flag(s,"compact.hailHeard")),
+            // The Lantern Road (chapter 2, D202): Abri remembers the canyon town whose lanterns guided moving stations.
+            new("Keeper","AbriLanternHome",s=>Flag(s,"lanternwick.chartGiven")&&!Flag(s,"chapter2.homecoming")),
+            new("Keeper","AbriLanternTale",s=>Flag(s,"compact.hailHeard")&&Step(s,"LanternRoad")<0&&!Flag(s,"lanternwick.chartGiven")),
+            new("Keeper","AbriLanternRepeat",s=>Step(s,"LanternRoad")>=0&&Step(s,"LanternRoad")<2),
+            // Pell's lamp (PellsLamp): the apprentice lost her mother's lamp to a grazer in the gorge.
+            new("Pell","PellLampReturn",s=>Step(s,"PellsLamp")==1),
+            new("Pell","PellLampOffer",s=>Step(s,"PellsLamp")<0&&Met(s,"Pell")&&Step(s,"LanternRoad")>=3&&!Flag(s,"lanternwick.chartGiven")),
+            // Ishen's record (IshensRecord): three record plates from the Sunken Relay.
+            new("Ishen","IshenRecordReturn",s=>Step(s,"IshensRecord")==1),
+            // Unsworn rations (UnswornRations): Corra feeds a Muster deserter hiding in the orchard shed.
+            new("Brekk","BrekkRations",s=>Step(s,"UnswornRations")==1),
+            new("Corra","CorraRationsOffer",s=>Step(s,"UnswornRations")<0&&Met(s,"Corra")&&Step(s,"LanternRoad")>=3),
         };
 
         /// <summary>The side-story conversation for this speaker now, or null for their ordinary tiers.</summary>

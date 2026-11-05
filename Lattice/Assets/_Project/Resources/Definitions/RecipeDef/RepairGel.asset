@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RepairGel
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.RecipeDef
   id: RepairGel
-  displayName: Repair gel
+  displayName: Repair Gel
   discipline: 0
   tier: 1
   unlockLevel: 1

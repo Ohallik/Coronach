@@ -35,7 +35,7 @@ namespace Lattice.EditorTools
             foreach(string clip in new[]{"laserSmall_000","impactMetal_000","forceField_000","explosionCrunch_000","thrusterFire_000","doorOpen_000","spaceEngineLow_000","computerNoise_000"})
                 PackStaging.StageFile("art-src/Kenney_SciFiSounds/Audio/"+clip+".ogg","Resources/Audio/SFX/"+clip+".ogg");
             PackStaging.StageFile("art-src/Kenney_SciFiSounds/License.txt","Audio/Licenses/Kenney-SciFiSounds.txt");
-            foreach(var name in new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper"})ArenaBuilder.Asset<CharacterDef>(name,c=>{c.id=c.speakerId=c.displayName=name;});
+            foreach(var name in new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper"})ArenaBuilder.Asset<CharacterDef>(name,c=>{c.id=c.speakerId=name;if(string.IsNullOrEmpty(c.displayName))c.displayName=name;});
             // Generated intake and portrait intake bind each speaker's own
             // identity. Definition setup must not restore the retired aliases.
             ArenaBuilder.Asset<ConsumableDef>("ChargeCell",d=>{d.id="ChargeCell";d.displayName="Charge cell";d.heal=0;d.charge=50;});
@@ -150,8 +150,8 @@ namespace Lattice.EditorTools
             if(definition!=null&&definition.natural!=null){var body=(GameObject)PrefabUtility.InstantiatePrefab(definition.natural);body.transform.SetParent(go.transform,false);body.name="Generated civilian";}
             else {if(requireGenerated)throw new InvalidOperationException("Final world requires generated civilian "+id);var body=GameObject.CreatePrimitive(PrimitiveType.Capsule);body.name="ART_PENDING_Civilian";body.transform.SetParent(go.transform,false);body.transform.localPosition=Vector3.up*.95f;body.transform.localScale=new Vector3(.75f,.95f,.75f);}
             var collider=go.AddComponent<CapsuleCollider>();collider.height=1.9f;collider.radius=.35f;collider.center=Vector3.up*.95f;
-            var npc=go.AddComponent<Npc>();npc.speaker=id;npc.firstNode=first??id+"First";npc.repeatNode=id+"Repeat";npc.postNode=id+"Post";npc.prompt="Talk to "+id;npc.range=3.2f;
-            Label(id,position+new Vector3(0,2.8f,0),1.5f).transform.SetParent(go.transform,true);return npc;
+            var npc=go.AddComponent<Npc>();npc.speaker=id;npc.firstNode=first??id+"First";npc.repeatNode=id+"Repeat";npc.postNode=id+"Post";npc.prompt="Talk to "+DisplayNames.Speaker(id);npc.range=3.2f;
+            Label(DisplayNames.Speaker(id),position+new Vector3(0,2.8f,0),1.5f).transform.SetParent(go.transform,true);return npc;
         }
         /// <summary>A ship's hull (up to 1.78 m) stops against a flight pad's solid box
         /// as much as 5.3 m from its centre at a corner; flight docks pass

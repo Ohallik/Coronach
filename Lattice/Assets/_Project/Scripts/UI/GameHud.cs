@@ -162,18 +162,18 @@ namespace Lattice.UI
             hp.rectTransform.sizeDelta=new Vector2(BarWidth*a.Health.integrity/a.Health.maximum,14);
             charge.rectTransform.sizeDelta=new Vector2(BarWidth*a.charge/100,14);thrust.rectTransform.sizeDelta=new Vector2(BarWidth*a.thrust/100,14);
             var state=GameServices.Current.State;int level=state.party.Find(m=>m.id==a.character)?.level??1;
-            status.text=$"{a.character.ToUpperInvariant()}   ·   SYNC {level}";
+            status.text=$"{DisplayNames.Speaker(a.character).ToUpperInvariant()}   ·   SYNC {level}";
             hpLabel.text=$"INTEGRITY   {a.Health.integrity:0} / {a.Health.maximum:0}";
             chargeLabel.text=$"CHARGE   {a.charge:0} / 100";
             thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
             // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
-            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {p.character}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
-            zone.text=ZoneController.Current.definition.id switch{"Hub_CinderHalo"=>"CINDER HALO","Hub_Decks"=>"THE DECKS","Sorrel_Ridges"=>"SORREL RIDGES","Gullet_Tunnel"=>"THE GULLET","TallowApproach"=>"TALLOW DRIFT · APPROACH","TallowDrift"=>"TALLOW DRIFT",var id=>id.Replace('_',' ').ToUpperInvariant()};
+            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
+            zone.text=ZoneController.Current.definition.id=="TallowApproach"?"TALLOW DRIFT · APPROACH":DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
             if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
                 target.text=(a.TargetLocked?"LOCKED    ":"")+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
             else if(a.target!=null&&a.target.Alive)
-                target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{Readable(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":a.target.id).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
+                target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
                     (a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"))+
                     "    "+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
             else target.text="";
@@ -185,23 +185,28 @@ namespace Lattice.UI
                 RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,screen,null,out var point);reticle.rectTransform.anchoredPosition=point;
             }
             var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp?PromptService.Tag("Interact")+"  "+interaction.prompt:"";
-            string[] names=a.character=="Taren"?new[]{"Cleave","Ember","Pulse","Overdrive"}:new[]{"Lance","Scatter","Static net","Refract"};
-            string[] faces={"A","B","X","Y"};
             bool combat=ZoneController.Current.Combat;
-            var character=GameCatalog.Find<Lattice.Data.CharacterDef>(a.character);
             for(int i=0;i<4;i++)
             {
-                float cost=character!=null&&character.skills.Length>i?character.skills[i].chargeCost:20;
-                skillIcons[i].enabled=combat;skillLabels[i].enabled=combat;skillIcons[i].sprite=UiSkin.Skill(a.character,i);
+                var skill=SkillBook.Equipped(a.character,i);
+                float cost=SkillBook.Cost(a.character,skill);
+                skillIcons[i].enabled=combat&&skill!=null;skillLabels[i].enabled=combat&&skill!=null;if(skill==null)continue;
+                skillIcons[i].sprite=UiSkin.Skill(skill);
                 skillIcons[i].color=a.cooldowns[i]>0||a.charge<cost?new Color(.4f,.46f,.53f):Color.white;
-                string binding=PromptService.Device==PromptDevice.Gamepad?"RB+"+faces[i]:PromptService.Tag("Skill"+(i+1));
-                skillLabels[i].text=(a.cooldowns[i]>0?a.cooldowns[i].ToString("0.0")+"s":binding+" · "+cost.ToString("0")+"C")+"\n"+names[i];
+                skillLabels[i].text=(a.cooldowns[i]>0?a.cooldowns[i].ToString("0.0")+"s":SkillBinding(i,a.flight)+" · "+cost.ToString("0")+"C")+"\n"+(string.IsNullOrEmpty(skill.shortName)?skill.displayName:skill.shortName);
             }
             string Hint(string action,string label)=>PromptService.Tag(action)+"  "+label;
             skills.text=!combat?Hint("Interact","INTERACT")+"    "+Hint("Swap","SWAP")+"    "+Hint(a.flight?"Boost":"Sprint",a.flight?"BOOST":"SPRINT")+(a.flight?"    "+Hint("Brake","BRAKE"):"")+"    "+Hint("Pause","MENU"):
                 a.flight?Hint("Fire","FIRE")+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
-                Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+Hint("Sprint","SPRINT")+"    "+Hint("QuickItem",Readable(state.quickItem).ToUpperInvariant());
+                Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+Hint("Sprint","SPRINT")+"    "+Hint("QuickItem",DisplayNames.Item(state.quickItem).ToUpperInvariant());
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
+        }
+        /// <summary>The skill's button on the active device: RB plus the face glyph on a pad, the number key on a keyboard.</summary>
+        public static string SkillBinding(int slot,bool flight)
+        {
+            if(PromptService.Device!=PromptDevice.Gamepad)return PromptService.Tag("Skill"+(slot+1));
+            string[] faces=flight?new[]{"Fire","Roll","Lunge","Swap"}:new[]{"Attack","Dodge","Guard","Swap"};
+            return PromptService.Tag("SkillMod")+PromptService.Tag(faces[slot]);
         }
         static string Readable(string value)=>System.Text.RegularExpressions.Regex.Replace(value??"","(?<=[a-z])(?=[A-Z])"," ");
         void Damage(Health health,float amount,bool weak){if(canvas!=null)StartCoroutine(Number(health.transform.position+Vector3.up*1.9f,amount,weak));}

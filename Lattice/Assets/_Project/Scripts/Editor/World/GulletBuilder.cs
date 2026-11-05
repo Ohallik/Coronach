@@ -78,7 +78,7 @@ namespace Lattice.EditorTools
                 encounter.spawners=spawners.ToArray();
                 WorldBuilder.Label(anatomy[chamber],new(GulletProfile.Center(z),-1,z-40));
             }
-            var cache=WorldBuilder.Piece("NeveCache",new(eddyX+2,1,GulletProfile.CacheZ),new(2,2,2),"Taren").AddComponent<SalvageField>();cache.prompt="Neve's salvage cache";
+            var cache=WorldBuilder.Piece("NeveCache",new(eddyX+2,1,GulletProfile.CacheZ),new(2,2,2),"Taren").AddComponent<SalvageField>();cache.prompt="Open Neve's salvage cache";
             var cacheTrigger=cache.gameObject.GetComponent<BoxCollider>();cacheTrigger.isTrigger=true;cacheTrigger.size=Vector3.one*2;
             WorldBuilder.Label("SALVAGE EDDY",new(eddyX,-1,GulletProfile.CacheZ-16));
             // The coil is wide enough for both ships and the serpent to turn.

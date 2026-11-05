@@ -59,7 +59,7 @@ namespace Lattice.EditorTools
             var entry=WorldBuilder.Membrane("Drill entry seal",new(0,2,153),125,true);var exit=WorldBuilder.Membrane("Drill cradle seal",new(0,2,191),125,false);
             var boss=WorldBuilder.Encounter("Sorrel_Burrower",new(0,1,164),new(110,5,12),"Burrower",1,new[]{entry,exit});
             WorldBuilder.Piece("OutpostDrill",new(-12,4,181),new(7,8,7));WorldBuilder.Label("DRILL SITE",new(0,.1f,147));
-            var key=WorldBuilder.Piece("WarpKeyCradle",new(0,1,199),new(1.5f,2,1.5f),"Emission").AddComponent<KeyPickup>();key.prompt="Recover the warp key";
+            var key=WorldBuilder.Piece("WarpKeyCradle",new(0,1,199),new(1.5f,2,1.5f),"Emission").AddComponent<KeyPickup>();key.prompt="Recover the survey key";
             WorldBuilder.Dock("Launch — outer Halo beacon",new(8,0,201),"Hub_CinderHalo","Outer");
             WorldBuilder.Boundary("West ridge limit",new(-70,10,90),new(1,30,234));WorldBuilder.Boundary("East ridge limit",new(70,10,90),new(1,30,234));
             WorldBuilder.Boundary("Landing edge",new(0,10,-25),new(140,30,1));WorldBuilder.Boundary("Drill edge",new(0,10,205),new(140,30,1));

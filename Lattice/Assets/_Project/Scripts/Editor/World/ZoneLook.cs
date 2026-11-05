@@ -75,6 +75,26 @@ namespace Lattice.EditorTools
             // Cave: its practical lights author the look; let crystals glow. The fill was set darker while the cave
             // was one renderer and its lamps never reached the floor; with lit chunks (D193) it rises a little so
             // the floor between pools still reads.
+            // Chapter 2 (D202). The canyon world at dusk: a low amber sun over red-gold stone, violet sky fill in the
+            // shade, lamps that matter. The gorge is the same light half an hour later; the buried relay is a cave.
+            ["WickReach"]=new Spec{sun=C(1f,.86f,.68f),sunIntensity=1.35f,shadowStrength=.85f,
+                sky=C(.36f,.32f,.5f),equator=C(.26f,.22f,.3f),ground=C(.13f,.1f,.12f),
+                contrast=14,saturation=6,splitShadows=C(.44f,.44f,.6f),splitHighlights=C(.58f,.52f,.44f),
+                bloomThreshold=.9f,bloomIntensity=.7f,vignette=.24f},
+            ["Lanternwick"]=new Spec{sun=C(1f,.8f,.58f),sunIntensity=1.3f,sunPitch=32,shadowStrength=.8f,
+                sky=C(.42f,.38f,.58f),equator=C(.4f,.32f,.32f),ground=C(.26f,.17f,.12f),
+                fog=true,fogColor=C(.7f,.55f,.55f),fogStart=55,fogEnd=200,
+                contrast=12,saturation=8,splitShadows=C(.44f,.43f,.6f),splitHighlights=C(.6f,.52f,.42f),
+                bloomThreshold=.95f,bloomIntensity=.6f,vignette=.22f},
+            ["LanternGorge"]=new Spec{sun=C(.95f,.7f,.55f),sunIntensity=.95f,sunPitch=26,shadowStrength=.85f,
+                sky=C(.3f,.3f,.5f),equator=C(.28f,.23f,.3f),ground=C(.16f,.11f,.1f),
+                fog=true,fogColor=C(.42f,.36f,.5f),fogStart=40,fogEnd=170,
+                exposure=.05f,contrast=14,saturation=6,splitShadows=C(.42f,.44f,.62f),splitHighlights=C(.6f,.5f,.42f),
+                bloomThreshold=.85f,bloomIntensity=.7f,vignette=.26f},
+            ["SunkenRelay"]=new Spec{sun=C(.85f,.82f,1f),sunIntensity=.6f,shadowStrength=.8f,
+                sky=C(.22f,.2f,.3f),equator=C(.18f,.15f,.16f),ground=C(.1f,.08f,.07f),
+                exposure=.2f,contrast=10,saturation=6,splitShadows=Neutral,splitHighlights=C(.56f,.5f,.44f),
+                bloomThreshold=.85f,bloomIntensity=.75f,vignette=.26f},
             ["Hushwell"]=new Spec{sun=C(.8f,.86f,1f),sunIntensity=.62f,shadowStrength=.8f,
                 sky=C(.2f,.22f,.32f),equator=C(.16f,.15f,.18f),ground=C(.09f,.08f,.08f),
                 exposure=.15f,contrast=10,saturation=4,splitShadows=Neutral,splitHighlights=Neutral,

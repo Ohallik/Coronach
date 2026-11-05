@@ -86,7 +86,7 @@ namespace Lattice.Tests.PlayMode
             while (SceneFlow.Current.Loading) yield return null;
             Set(replay, "route", new QualityRoute { scene = "Hub_Decks" });
             Set(replay, "step", JsonUtility.FromJson<QualityStep>("{\"name\":\"craft\",\"expectedUi\":\"bench\",\"pauseUi\":\"bench\"}"));
-            var menu = Object.FindFirstObjectByType<PauseMenu>(); menu.Open(2, true);
+            var menu = Object.FindFirstObjectByType<PauseMenu>(); menu.Open(PauseMenu.FabricatePage, true);
             Call(replay, "LateUpdate");
             var last = Samples[Samples.Count - 1];
             Assert.AreEqual("bench", last.GetType().GetField("ui")?.GetValue(last), "pause declaration needs an independently observed menu");

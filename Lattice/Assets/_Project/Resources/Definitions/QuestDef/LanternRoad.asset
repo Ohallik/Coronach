@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: LanternRoad
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: LanternRoad
+  title: The Lantern Road
+  description: Venn wants a route that waits for a moving town. Lanternwick's lanterns
+    once guided stations like Tallow.
+  steps:
+  - kind: 1
+    target: WickReach
+    count: 1
+  - kind: 1
+    target: Lanternwick
+    count: 1
+  - kind: 0
+    target: Aumi
+    count: 1
+  - kind: 4
+    target: GorgeRelay
+    count: 3
+  - kind: 2
+    target: HessaKorl
+    count: 1
+  - kind: 5
+    target: lanternwick.chartGiven
+    count: 1
+  rewardXp: 700
+  rewardScrip: 400
+  rewards:
+  - id: ModulesT2
+    count: 1
+  - id: RepairGel
+    count: 3
+  flagsOnComplete:
+  - chapter2.complete
+  stepText:
+  - Take Tallow's old lantern route through the Wick Reach
+  - Dock at Lanternwick's courier pad
+  - Find Lanternwick's lantern-keeper
+  - Relight the three relays in Lantern Gorge
+  - Stop the scavengers stripping the Sunken Relay
+  - Bring word back to Keeper Aumi

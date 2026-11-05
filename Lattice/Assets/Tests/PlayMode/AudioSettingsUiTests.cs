@@ -56,7 +56,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator PausedSoundControlsCanDecreaseAndBindingsRemainReachable()
         {
             SceneFlow.Current.LoadZone("Hub_Decks");while(SceneFlow.Current.Loading)yield return null;yield return null;
-            var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(5);yield return null;
+            var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(PauseMenu.SettingsPage);yield return null;
             CheckChannels(menu.GetComponentsInChildren<Slider>());Assert.IsTrue(GameTime.Paused);
             var binding=menu.GetComponentsInChildren<Button>().Single(b=>b.GetComponentInChildren<TMP_Text>().text=="Keyboard bindings");EventSystem.current.SetSelectedGameObject(binding.gameObject);binding.onClick.Invoke();yield return null;
             Assert.AreEqual("Back to sound controls",EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text,"subpage inherited a different indexed row's focus");
@@ -68,7 +68,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator ShoulderTabFromEmptyQuestsSelectsAnAdjustableSoundControl()
         {
             SceneFlow.Current.LoadZone("Hub_Decks");while(SceneFlow.Current.Loading)yield return null;yield return null;
-            GameServices.Current.State.questSteps.Clear();var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(4);yield return null;
+            GameServices.Current.State.questSteps.Clear();var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open(PauseMenu.QuestsPage);yield return null;
             Assert.AreEqual("Close",EventSystem.current.currentSelectedGameObject.name,"empty-page focus control changed");
             var pad=InputSystem.AddDevice<Gamepad>();
             try

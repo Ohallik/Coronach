@@ -171,65 +171,73 @@ namespace Lattice.Combat
         public bool Skill(int slot)
         {
             if(!CanAct||slot<0||slot>3||cooldowns[slot]>0)return false;
-            var definition=GameCatalog.Find<CharacterDef>(character);var skill=definition!=null&&definition.skills.Length>slot?definition.skills[slot]:null;
-            float cost=skill!=null?skill.chargeCost:20;if(charge<cost)return false;
-            charge-=cost;cooldowns[slot]=skill!=null?skill.cooldown:slot==3?10:4;State=ActorState.Skill;
-            float power=1+Mathf.Max(0,resonance-10)*.025f;Vector3 direction=Aim();
+            var skill=SkillBook.Equipped(character,slot);if(skill==null)return false;
+            int mastery=SkillBook.Mastery(character,skill.id);
+            float cost=SkillBook.Cost(skill,mastery);if(charge<cost)return false;
+            charge-=cost;cooldowns[slot]=skill.cooldown;State=ActorState.Skill;
+            float power=(1+Mathf.Max(0,resonance-10)*.025f)*SkillBook.Power(mastery);Vector3 direction=Aim();
+            var kind=skill.kind;
             if(flight)
             {
-                BeginVisual(slot==0?(character=="Taren"?"Cleave":"Shoot"):slot==1?"Dash":slot==2?"Pulse":"Buff",slot==0?.5f:slot==1?.4f:.55f);
-                actionUntil=GameTime.Now+(slot==2?.3f:slot==3?.2f:character=="Taren"&&slot==0?.24f:.16f);ApplySkill(slot,power,direction);
-            }
-            else
-            {
-                var move=character=="Taren"?slot==0?GroundMove.Cleave:slot==1?GroundMove.EmberDash:slot==2?GroundMove.Pulse:GroundMove.Overdrive:
-                    slot==0?GroundMove.Lance:slot==1?GroundMove.Scatter:slot==2?GroundMove.StaticNet:GroundMove.Refract;
-                BeginVisual(move.clip,move.duration);actionUntil=GameTime.Now+move.recoveryEnd;
-                if(character=="Taren"&&slot==0)
-                    GetComponent<MeleeContact>().Begin(move,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
-                else if(character=="Sela"&&slot<2)
-                    GetComponent<RangedContact>().Begin(move,direction,
-                        Packet(rangedDamage*(slot==0?SkillBurst:.65f)*power,slot==0?DamageType.Beam:DamageType.Plasma,slot==0?40:18),
-                        slot==0?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
+                if(Learned(kind))GetComponent<HeroSkills>().Flight(kind,power,direction);
                 else
                 {
-                    var release=slot==3?(character=="Taren"?GroundSkillContact.Release.Overdrive:GroundSkillContact.Release.Refract):
-                        character=="Sela"?GroundSkillContact.Release.Net:slot==1?GroundSkillContact.Release.Dash:GroundSkillContact.Release.Pulse;
-                    var packet=slot==3?default:character=="Taren"?Packet(damage*(slot==1?SkillBurst:1.1f)*power,slot==1?DamageType.Plasma:DamageType.Pulse,slot==1?40:85):
-                        Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
-                    GetComponent<GroundSkillContact>().Begin(move,release,direction,packet);
-                    if(character=="Taren"&&slot==1)GetComponent<MeleeContact>().Begin(move,packet);
+                    BeginVisual(kind==SkillKind.ArcCleave?"Cleave":kind==SkillKind.ThreadLance?"Shoot":Slot(kind)==1?"Dash":Slot(kind)==2?"Pulse":"Buff",Slot(kind)==0?.5f:Slot(kind)==1?.4f:.55f);
+                    actionUntil=GameTime.Now+(Slot(kind)==2?.3f:Slot(kind)==3?.2f:kind==SkillKind.ArcCleave?.24f:.16f);ApplySkill(kind,power,direction);
                 }
             }
-            Debug.Log($"SKILL_OK {character} slot={slot+1}");return true;
-        }
-        void ApplySkill(int slot,float power,Vector3 direction)
-        {
-            if(character=="Taren")
-            {
-                if(slot==0)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Cleave,direction,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
-                else if(slot==1)
-                {
-                    motor.Dash(direction,flight?10:6);var packet=Packet(damage*SkillBurst*power,DamageType.Plasma,40);
-                    if(flight)GetComponent<FlightDashContact>().Begin(packet);else Pierce(direction,packet,6);
-                }
-                else if(slot==2)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Pulse,direction,Packet(damage*1.1f*power,DamageType.Pulse,85));
-                else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Overdrive,direction,default);
-            }
+            else if(Learned(kind))GetComponent<HeroSkills>().Ground(kind,power,direction);
             else
             {
-                if(slot==0)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
-                else if(slot==1)
+                var move=kind switch{SkillKind.ArcCleave=>GroundMove.Cleave,SkillKind.EmberStep=>GroundMove.EmberDash,SkillKind.PulseBurst=>GroundMove.Pulse,
+                    SkillKind.Overdrive=>GroundMove.Overdrive,SkillKind.ThreadLance=>GroundMove.Lance,SkillKind.ScatterBloom=>GroundMove.Scatter,
+                    SkillKind.StaticNet=>GroundMove.StaticNet,_=>GroundMove.Refract};
+                BeginVisual(move.clip,move.duration);actionUntil=GameTime.Now+move.recoveryEnd;
+                if(kind==SkillKind.ArcCleave)
+                    GetComponent<MeleeContact>().Begin(move,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
+                else if(kind==SkillKind.ThreadLance||kind==SkillKind.ScatterBloom)
+                    GetComponent<RangedContact>().Begin(move,direction,
+                        Packet(rangedDamage*(kind==SkillKind.ThreadLance?SkillBurst:.65f)*power,kind==SkillKind.ThreadLance?DamageType.Beam:DamageType.Plasma,kind==SkillKind.ThreadLance?40:18),
+                        kind==SkillKind.ThreadLance?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
+                else
                 {
-                    var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=Packet(rangedDamage*.65f*power,DamageType.Plasma,18);
-                    GetComponent<FlightEmitter>().Queue(direction,pellets[0],FlightEmitter.Pattern.Fan,pellets);
+                    var release=kind==SkillKind.Overdrive?GroundSkillContact.Release.Overdrive:kind==SkillKind.Refract?GroundSkillContact.Release.Refract:
+                        kind==SkillKind.StaticNet?GroundSkillContact.Release.Net:kind==SkillKind.EmberStep?GroundSkillContact.Release.Dash:GroundSkillContact.Release.Pulse;
+                    var packet=kind==SkillKind.Overdrive||kind==SkillKind.Refract?default:
+                        kind==SkillKind.EmberStep?Packet(damage*SkillBurst*power,DamageType.Plasma,40):
+                        kind==SkillKind.PulseBurst?Packet(damage*1.1f*power,DamageType.Pulse,85):
+                        Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
+                    GetComponent<GroundSkillContact>().Begin(move,release,direction,packet);
+                    if(kind==SkillKind.EmberStep)GetComponent<MeleeContact>().Begin(move,packet);
                 }
-                else if(slot==2)
-                {
-                    GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,Packet(rangedDamage*.45f*power,DamageType.Pulse,30));
-                }
-                else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Refract,direction,default);
             }
+            SkillBook.RecordUse(character,skill);
+            Debug.Log($"SKILL_OK {character} slot={slot+1}");Debug.Log($"SKILL_KIND {character} {skill.id} {kind} mastery={mastery}");return true;
+        }
+        /// <summary>Skills learned with level (D201) run on <see cref="HeroSkills"/>; the starting eight keep their contacts.</summary>
+        public static bool Learned(SkillKind kind)=>kind>=SkillKind.AnchorSlam;
+        /// <summary>The starting skill's original slot, which still decides its flight pose and recovery.</summary>
+        static int Slot(SkillKind kind)=>kind switch{SkillKind.ArcCleave or SkillKind.ThreadLance=>0,SkillKind.EmberStep or SkillKind.ScatterBloom=>1,SkillKind.PulseBurst or SkillKind.StaticNet=>2,_=>3};
+        /// <summary>Used by <see cref="HeroSkills"/> for its own poses.</summary>
+        internal void Perform(string clip,float duration,float recovery){BeginVisual(clip,duration);actionUntil=GameTime.Now+recovery;}
+        void ApplySkill(SkillKind kind,float power,Vector3 direction)
+        {
+            if(kind==SkillKind.ArcCleave)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Cleave,direction,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
+            else if(kind==SkillKind.EmberStep)
+            {
+                motor.Dash(direction,flight?10:6);var packet=Packet(damage*SkillBurst*power,DamageType.Plasma,40);
+                if(flight)GetComponent<FlightDashContact>().Begin(packet);else Pierce(direction,packet,6);
+            }
+            else if(kind==SkillKind.PulseBurst)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Pulse,direction,Packet(damage*1.1f*power,DamageType.Pulse,85));
+            else if(kind==SkillKind.Overdrive)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Overdrive,direction,default);
+            else if(kind==SkillKind.ThreadLance)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
+            else if(kind==SkillKind.ScatterBloom)
+            {
+                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=Packet(rangedDamage*.65f*power,DamageType.Plasma,18);
+                GetComponent<FlightEmitter>().Queue(direction,pellets[0],FlightEmitter.Pattern.Fan,pellets);
+            }
+            else if(kind==SkillKind.StaticNet)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,Packet(rangedDamage*.45f*power,DamageType.Pulse,30));
+            else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Refract,direction,default);
         }
         void Pierce(Vector3 direction,DamagePacket packet,float length)
         {

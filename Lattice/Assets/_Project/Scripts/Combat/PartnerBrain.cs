@@ -15,7 +15,7 @@ namespace Lattice.Combat
         FlightSeparation flightSeparation;
         SerpentSegments departingSerpent;
         FlightObstacles flightObstacles;
-        void OnEnable(){corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;}
+        void OnEnable(){nextSkill=GameTime.Now+3;corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;}
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
@@ -125,9 +125,32 @@ namespace Lattice.Combat
                     if(Dodge(evade))return;
                 }
                 var fromTarget=Planar(actor.target.transform.position-transform.position);
+                if(GameTime.Now>=nextSkill&&TrySkill(fromTarget.magnitude))nextSkill=GameTime.Now+Random.Range(6f,9f);
                 if(fromTarget.magnitude<(actor.flight||actor.character=="Sela"?14:3))actor.Attack();
             }
         }
+        float nextSkill;
+        /// <summary>Like a Ys partner, the companion spends Charge on its equipped skills when a target sits in that
+        /// skill's reach (D201), at most every six to nine seconds so the player's own skills still lead.</summary>
+        bool TrySkill(float distance)
+        {
+            int start=Random.Range(0,Lattice.Core.SkillBook.Slots);
+            for(int n=0;n<Lattice.Core.SkillBook.Slots;n++)
+            {
+                int slot=(start+n)%Lattice.Core.SkillBook.Slots;var skill=Lattice.Core.SkillBook.Equipped(actor.character,slot);
+                if(skill==null||actor.cooldowns[slot]>0||distance>Reach(skill.kind))continue;
+                if(actor.Skill(slot))return true;
+            }
+            return false;
+        }
+        static float Reach(Lattice.Data.SkillKind kind)=>kind switch
+        {
+            Lattice.Data.SkillKind.ArcCleave or Lattice.Data.SkillKind.ForgeSpiral=>3.2f,
+            Lattice.Data.SkillKind.PulseBurst or Lattice.Data.SkillKind.WaypointBlink=>3.8f,
+            Lattice.Data.SkillKind.EmberStep=>6f,Lattice.Data.SkillKind.AnchorSlam=>8f,Lattice.Data.SkillKind.Faultline=>9f,
+            Lattice.Data.SkillKind.TetherHook=>11f,Lattice.Data.SkillKind.Overdrive=>6f,Lattice.Data.SkillKind.Refract=>0f,
+            _=>12f,
+        };
         static bool Departing(SerpentSegments body)=>body!=null&&body.gameObject.activeInHierarchy&&
             body.TryGetComponent<CantorRelease>(out var release)&&release.Departing;
         bool Dodge(Vector3 direction)

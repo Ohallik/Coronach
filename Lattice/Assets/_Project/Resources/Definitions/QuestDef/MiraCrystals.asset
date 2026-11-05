@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: MiraCrystals
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: MiraCrystals
-  title: Six bright answers
-  description: 
+  title: Six Bright Answers
+  description: Mira will pay well for six Ridge Crystals from Sorrel's bright seams.
   steps:
   - kind: 3
     target: RidgeCrystal

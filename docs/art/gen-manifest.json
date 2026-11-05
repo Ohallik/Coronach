@@ -4475,5 +4475,960 @@
     "created_at": "2026-11-04T16:08:20+00:00",
     "status": "SUCCEEDED",
     "updated_at": "2026-11-04T16:09:22+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad97-5bad-7525-a23e-77e19672c7da",
+    "task_id": "01a1ad97-5bad-7525-a23e-77e19672c7da",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A heavy anchor-shaped blade plunging down into cracked ground, with a shockwave ring bursting outward.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A heavy anchor-shaped blade plunging down into cracked ground, with a shockwave ring bursting outward.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/anchor-slam.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:22:21+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:22:57+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad97-f16c-769e-bdd4-4b3560ff6d0d",
+    "task_id": "01a1ad97-f16c-769e-bdd4-4b3560ff6d0d",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A glowing barbed hook on a taut energy chain, whipping forward in a curve.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A glowing barbed hook on a taut energy chain, whipping forward in a curve.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/tether-hook.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:22:59+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:23:35+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad98-86e7-728c-b04c-8e9a9deeda1f",
+    "task_id": "01a1ad98-86e7-728c-b04c-8e9a9deeda1f",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A blade spinning in a fiery spiral vortex, two full rings of molten sparks.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A blade spinning in a fiery spiral vortex, two full rings of molten sparks.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/forge-spiral.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:23:37+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:24:14+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad99-1c20-72de-a2df-3f3b35894b69",
+    "task_id": "01a1ad99-1c20-72de-a2df-3f3b35894b69",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A straight line of ground rupturing ahead, jagged rock shards erupting in a row with molten light in the crack.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Warm amber, orange and gold energy (Taren's palette). A straight line of ground rupturing ahead, jagged rock shards erupting in a row with molten light in the crack.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/faultline.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:24:16+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:24:46+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad99-9960-70aa-b7e2-ffb0c25c4f33",
+    "task_id": "01a1ad99-9960-70aa-b7e2-ffb0c25c4f33",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A small hovering survey drone: a glowing orb core with two thin vanes, firing a thin needle beam.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A small hovering survey drone: a glowing orb core with two thin vanes, firing a thin needle beam.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/survey-drone.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:24:48+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:25:18+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad9a-16f7-7521-8328-f11957a645dd",
+    "task_id": "01a1ad9a-16f7-7521-8328-f11957a645dd",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A sleek figure-shaped afterimage blinking away, leaving behind a glowing diamond waypoint marker about to burst.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A sleek figure-shaped afterimage blinking away, leaving behind a glowing diamond waypoint marker about to burst.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/waypoint-blink.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:25:20+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:25:50+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad9a-950d-75fe-b87b-c97c8924d3dc",
+    "task_id": "01a1ad9a-950d-75fe-b87b-c97c8924d3dc",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A swirling violet gravity well, space folding inward into a bright singularity with debris spiralling in.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A swirling violet gravity well, space folding inward into a bright singularity with debris spiralling in.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/gravity-fold.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:25:52+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:26:28+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad9b-2a2e-7215-98d8-3bb720cb3626",
+    "task_id": "01a1ad9b-2a2e-7215-98d8-3bb720cb3626",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). Several vertical beams of light falling from above into a glowing marked circle on the ground.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). Several vertical beams of light falling from above into a glowing marked circle on the ground.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/starfall.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:26:30+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:27:07+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ad9b-da94-76fc-9f18-399bbcba9bf0",
+    "task_id": "01a1ad9b-da94-76fc-9f18-399bbcba9bf0",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A small hovering survey drone shaped like a glowing lens inside a single flat horizontal ring, like a planet with one ring, three short antenna spikes on top, firing a thin needle beam downward. No wings, no side panels.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Match the reference sheet's style exactly: a single glowing game skill icon, painted sci-fi energy shapes with dark metal accents, centred, filling about 70 percent of the frame, on a flat solid very dark navy background (#0B1220) with nothing else, no text, no border, no frame, no letters. Cool cyan, electric blue and violet energy (Sela's palette). A small hovering survey drone shaped like a glowing lens inside a single flat horizontal ring, like a planet with one ring, three short antenna spikes on top, firing a thin needle beam downward. No wings, no side panels.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2530016 sha256(base64)=b15a3a01b38fd0f5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-SkillIcons/refs/survey-drone-ring.png",
+    "batch": "C9-SkillIcons",
+    "created_at": "2026-11-05T21:27:15+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:27:46+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada1-f637-72a8-8c54-58645b44cd41",
+    "task_id": "01a1ada1-f637-72a8-8c54-58645b44cd41",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference boards: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Six separated concept cells in a 3x2 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) an ancient lantern tower, very tall and slender, carved from warm red-gold sandstone in stacked rounded drums with thin bronze bands, crowned by a large faceted crystal lantern in an open bronze cage, the crystal glowing pale amber; (2) a great carved gateway arch of the same sandstone, wide enough for a street, the arch face cut with simple concentric circle glyphs and two small crystal lamps set into its shoulders; (3) a small canyon dwelling carved into a block of sandstone, a round wooden door, one round window with warm amber light, a slanted wooden awning on carved brackets and a little hanging lamp; (4) a relay mirror: a waist-high carved sandstone pedestal holding a round crystal mirror disc in a tilting bronze ring, the crystal dark and unlit smoky blue; (5) a broken ancient column, sandstone drums with a band of circle glyphs, snapped off at two thirds height with a few fallen drum pieces resting at its foot; (6) a great relay lantern: a large faceted crystal the size of a person held in a bronze cage on a stepped round sandstone plinth, the crystal glowing pale amber with faint cyan circle patterns inside. Materials: red-gold sandstone #C98A52, darker sandstone #8E5A36, bronze #A7743A, warm wood #6B4A2E, amber crystal light #FFC46B, cyan glyph light #22F5FF, smoky blue unlit crystal #4E5D7A.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference boards: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Six separated concept cells in a 3x2 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) an ancient lantern tower, very tall and slender, carved from warm red-gold sandstone in stacked rounded drums with thin bronze bands, crowned by a large faceted crystal lantern in an open bronze cage, the crystal glowing pale amber; (2) a great carved gateway arch of the same sandstone, wide enough for a street, the arch face cut with simple concentric circle glyphs and two small crystal lamps set into its shoulders; (3) a small canyon dwelling carved into a block of sandstone, a round wooden door, one round window with warm amber light, a slanted wooden awning on carved brackets and a little hanging lamp; (4) a relay mirror: a waist-high carved sandstone pedestal holding a round crystal mirror disc in a tilting bronze ring, the crystal dark and unlit smoky blue; (5) a broken ancient column, sandstone drums with a band of circle glyphs, snapped off at two thirds height with a few fallen drum pieces resting at its foot; (6) a great relay lantern: a large faceted crystal the size of a person held in a bronze cage on a stepped round sandstone plinth, the crystal glowing pale amber with faint cyan circle patterns inside. Materials: red-gold sandstone #C98A52, darker sandstone #8E5A36, bronze #A7743A, warm wood #6B4A2E, amber crystal light #FFC46B, cyan glyph light #22F5FF, smoky blue unlit crystal #4E5D7A.",
+      "aspect_ratio": "3:2",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2349992 sha256(base64)=cfa834b99a08a028>",
+        "data:image/png;base64,<omitted chars=2657820 sha256(base64)=5194b8bcb3cf0513>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/lantern-kit-board.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:33:57+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:34:33+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada2-8f4e-7431-b9e2-78dcbe586dcb",
+    "task_id": "01a1ada2-8f4e-7431-b9e2-78dcbe586dcb",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference boards: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Six separated concept cells in a 3x2 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) a military ration crate of the Muster: an angular dark gunmetal box with riveted edges, rust-red painted corner plates and a simple red stencil stripe, no lettering; (2) a scavengers' lean-to shelter: a slanted dark canvas sheet on three angular black iron poles with guy ropes staked to the ground; (3) a scavenger cutting rig: a heavy black iron tripod holding a long cutting torch arm with a glowing red-orange tip and a hose coiled to a small fuel cylinder on the ground; (4) a small gnarled canyon orchard tree with a twisted pale trunk, round silver-green leaves and a few round pale-gold fruit; (5) a carved sandstone lamp post, chest high, holding a small amber crystal lamp in a bronze cup; (6) a fallen lantern crown fragment: a broken chunk of faceted crystal still partly held in a bent bronze cage, lying on its side, the crystal dark smoky blue. Materials: gunmetal #3D434D, rust red #9C3A2A, dark canvas #4A4237, black iron #23262B, red-orange torch light #FF5A2E, red-gold sandstone #C98A52, bronze #A7743A, silver-green leaves #8FAF8A, pale gold fruit #E8C46A, amber lamp #FFC46B, smoky blue crystal #4E5D7A.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "OPAQUE WHITE PAPER BACKGROUND, fully opaque RGB image with solid white #FFFFFF in every empty region. No transparency, gradient, vignette or halo. CORONACH production design board in EXACTLY the same art style, line weight, cel shading and materials as the reference boards: crisp cel-shaded anime game art, flat local colors, even unshadowed studio illumination. No gloss, specular highlights, reflections, rim light, cast shadows, ground shadows, ambient occlusion, bloom, scenery, floor, particles, text, letters, labels, logos, watermark or borders. Emissive parts are opaque saturated color, not illumination. Every part is visibly attached to its body; nothing floats, nothing loose. Six separated concept cells in a 3x2 grid, ONE isolated object per cell, three-quarter view from slightly above, substantial white gutters between cells, each object standing directly on the white ground: (1) a military ration crate of the Muster: an angular dark gunmetal box with riveted edges, rust-red painted corner plates and a simple red stencil stripe, no lettering; (2) a scavengers' lean-to shelter: a slanted dark canvas sheet on three angular black iron poles with guy ropes staked to the ground; (3) a scavenger cutting rig: a heavy black iron tripod holding a long cutting torch arm with a glowing red-orange tip and a hose coiled to a small fuel cylinder on the ground; (4) a small gnarled canyon orchard tree with a twisted pale trunk, round silver-green leaves and a few round pale-gold fruit; (5) a carved sandstone lamp post, chest high, holding a small amber crystal lamp in a bronze cup; (6) a fallen lantern crown fragment: a broken chunk of faceted crystal still partly held in a bent bronze cage, lying on its side, the crystal dark smoky blue. Materials: gunmetal #3D434D, rust red #9C3A2A, dark canvas #4A4237, black iron #23262B, red-orange torch light #FF5A2E, red-gold sandstone #C98A52, bronze #A7743A, silver-green leaves #8FAF8A, pale gold fruit #E8C46A, amber lamp #FFC46B, smoky blue crystal #4E5D7A.",
+      "aspect_ratio": "3:2",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2349992 sha256(base64)=cfa834b99a08a028>",
+        "data:image/png;base64,<omitted chars=2657820 sha256(base64)=5194b8bcb3cf0513>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/muster-camp-board.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:34:36+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:35:06+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada3-106f-70a1-956d-d6dd285ee0a5",
+    "task_id": "01a1ada3-106f-70a1-956d-d6dd285ee0a5",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Keeper Aumi of Lanternwick, a new older adult Vael woman, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Long narrow face with high cheek ridges and a few fine age lines, sharp watchful eyes with pale gold ring irises, very long silver-grey keratin fronds falling past the shoulders and gathered with a bronze ring, fine amber sync-lines at the temples, warm dusk-grey skin. A high-collared deep rust-red keeper's robe with a bronze lantern clasp and a smoky crystal pendant. Wary, exacting and protective; her warmth is rare and real. NATURAL civilian form.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Keeper Aumi of Lanternwick, a new older adult Vael woman, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Long narrow face with high cheek ridges and a few fine age lines, sharp watchful eyes with pale gold ring irises, very long silver-grey keratin fronds falling past the shoulders and gathered with a bronze ring, fine amber sync-lines at the temples, warm dusk-grey skin. A high-collared deep rust-red keeper's robe with a bronze lantern clasp and a smoky crystal pendant. Wary, exacting and protective; her warmth is rare and real. NATURAL civilian form.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=5575324 sha256(base64)=818d42d0476ddf62>",
+        "data:image/png;base64,<omitted chars=4903480 sha256(base64)=796f0975ff0a936c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/Aumi_Natural.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:35:11+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:35:53+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada3-c910-7663-a699-e89e4267c6a6",
+    "task_id": "01a1ada3-c910-7663-a699-e89e4267c6a6",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Pell, Aumi's apprentice lamp-keeper, a new young adult Vael, barely grown, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Round open face, big bright eyes with green ring irises, short springy sand-colored keratin fronds sticking up at the back, a smudge of lamp soot on one cheek, faint cyan sync-lines, light slate skin. A patched ochre work tunic with rolled sleeves and a small brass wick-trimmer hanging on a cord. Eager, talkative and restless. NATURAL civilian form.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Pell, Aumi's apprentice lamp-keeper, a new young adult Vael, barely grown, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Round open face, big bright eyes with green ring irises, short springy sand-colored keratin fronds sticking up at the back, a smudge of lamp soot on one cheek, faint cyan sync-lines, light slate skin. A patched ochre work tunic with rolled sleeves and a small brass wick-trimmer hanging on a cord. Eager, talkative and restless. NATURAL civilian form.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=5575324 sha256(base64)=818d42d0476ddf62>",
+        "data:image/png;base64,<omitted chars=4903480 sha256(base64)=796f0975ff0a936c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/Pell_Natural.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:35:58+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:36:40+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada4-7f6f-715c-87e1-632d1551e8a0",
+    "task_id": "01a1ada4-7f6f-715c-87e1-632d1551e8a0",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Ishen, Lanternwick's archivist, a new elderly Vael man, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Long gentle face with deep laugh lines, small round brass reading lenses perched low, pale blue ring irises, thin white keratin fronds combed neatly back, faded violet sync-lines, cool grey-blue skin. A layered sand-colored scholar's coat with many small pockets and a bundle of record slips tucked in the collar. Warm, precise and easily delighted. NATURAL civilian form.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Ishen, Lanternwick's archivist, a new elderly Vael man, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Long gentle face with deep laugh lines, small round brass reading lenses perched low, pale blue ring irises, thin white keratin fronds combed neatly back, faded violet sync-lines, cool grey-blue skin. A layered sand-colored scholar's coat with many small pockets and a bundle of record slips tucked in the collar. Warm, precise and easily delighted. NATURAL civilian form.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=5575324 sha256(base64)=818d42d0476ddf62>",
+        "data:image/png;base64,<omitted chars=4903480 sha256(base64)=796f0975ff0a936c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/Ishen_Natural.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:36:45+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:37:27+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada5-3922-7410-b0bf-beda98d9531c",
+    "task_id": "01a1ada5-3922-7410-b0bf-beda98d9531c",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Corra Vey, a trader at Lanternwick's arch market, a new adult Vael woman, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Strong square face, quick dark-bronze ring irises, thick copper-red keratin fronds tied up high with a green cloth, orange sync-lines along the jaw, warm umber skin. A practical dark green market vest over a cream shirt, a leather coin belt and a stub of chalk behind one frond. Brisk, shrewd and secretly soft-hearted. NATURAL civilian form.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vael alien, sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Matte skin, lighter face and throat, elongated swept-back cranium, flat broad keratin FRONDS rather than hair, no external ears or lobes, no human hair, no furry eyebrows. Expressiveness comes from eyes, fleshy brow ridges, cheeks and mouth. Sync markings remain thin saturated flat local colors, no bloom. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Corra Vey, a trader at Lanternwick's arch market, a new adult Vael woman, NOT any character in the references; only the art style, sheet layout and species anatomy come from them. Strong square face, quick dark-bronze ring irises, thick copper-red keratin fronds tied up high with a green cloth, orange sync-lines along the jaw, warm umber skin. A practical dark green market vest over a cream shirt, a leather coin belt and a stub of chalk behind one frond. Brisk, shrewd and secretly soft-hearted. NATURAL civilian form.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=5575324 sha256(base64)=818d42d0476ddf62>",
+        "data:image/png;base64,<omitted chars=4903480 sha256(base64)=796f0975ff0a936c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/Corra_Natural.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:37:32+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:38:20+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada6-084d-701a-b2a2-5c99da49f7e1",
+    "task_id": "01a1ada6-084d-701a-b2a2-5c99da49f7e1",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vaskar alien (a different species from the Vael in the references), sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Vaskar anatomy: a tall heavy-boned people with matte skin grown in large overlapping plates across the brow, cheeks, jaw and neck like layered armor, seams between plates slightly darker; two tall membranous crest-sails rising from the back of the skull like folded fans, ribbed, their edges flushing with color; deep-set eyes with dark grey sclera and bright amber ring irises; small slit nostrils, a wide mouth with a strong plated jaw; no hair, no external ears, no human nose. Expressiveness comes from eyes, brow plates, crest-sails and mouth. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Brekk Tamar, an Unsworn deserter from the Muster, a new adult Vaskar man, NOT any character in the references; only the art style and sheet layout come from them. Broad heavy face, weathered olive-grey plates with a long healed scar across one cheek plate, dark grey crest-sails edged with dull rust, tired amber eyes. A plain worn brown leather smith's apron over a coarse grey shirt, soot on his plates, no armor and no weapons. Quiet, ashamed and gentle. Civilian clothing.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vaskar alien (a different species from the Vael in the references), sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Vaskar anatomy: a tall heavy-boned people with matte skin grown in large overlapping plates across the brow, cheeks, jaw and neck like layered armor, seams between plates slightly darker; two tall membranous crest-sails rising from the back of the skull like folded fans, ribbed, their edges flushing with color; deep-set eyes with dark grey sclera and bright amber ring irises; small slit nostrils, a wide mouth with a strong plated jaw; no hair, no external ears, no human nose. Expressiveness comes from eyes, brow plates, crest-sails and mouth. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Brekk Tamar, an Unsworn deserter from the Muster, a new adult Vaskar man, NOT any character in the references; only the art style and sheet layout come from them. Broad heavy face, weathered olive-grey plates with a long healed scar across one cheek plate, dark grey crest-sails edged with dull rust, tired amber eyes. A plain worn brown leather smith's apron over a coarse grey shirt, soot on his plates, no armor and no weapons. Quiet, ashamed and gentle. Civilian clothing.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=5575324 sha256(base64)=818d42d0476ddf62>",
+        "data:image/png;base64,<omitted chars=4903480 sha256(base64)=796f0975ff0a936c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/Brekk_Natural.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:38:25+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:39:07+00:00"
+  },
+  {
+    "task": "c9-image2image-01a1ada6-bf69-7564-994f-8601e65ed43d",
+    "task_id": "01a1ada6-bf69-7564-994f-8601e65ed43d",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vaskar alien (a different species from the Vael in the references), sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Vaskar anatomy: a tall heavy-boned people with matte skin grown in large overlapping plates across the brow, cheeks, jaw and neck like layered armor, seams between plates slightly darker; two tall membranous crest-sails rising from the back of the skull like folded fans, ribbed, their edges flushing with color; deep-set eyes with dark grey sclera and bright amber ring irises; small slit nostrils, a wide mouth with a strong plated jaw; no hair, no external ears, no human nose. Expressiveness comes from eyes, brow plates, crest-sails and mouth. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Hessa Korl, a Muster scavenger captain, a new adult Vaskar woman, NOT any character in the references; only the art style and sheet layout come from them. Narrow fierce face, dusky rust-bronze plates with fine black seams, tall crimson crest-sails, bright hard amber eyes, a thin cut-glass earring hung from a crest spine. Dark gunmetal salvage armor collar with rust-red plates and a ragged crimson captain's sash across one shoulder. Proud, sardonic and dangerous.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. CORONACH dialogue portrait atlas. Produce exactly ONE square sheet containing FOUR equal-width columns and FOUR equal-height rows of head-and-shoulders portraits of the SAME adult Vaskar alien (a different species from the Vael in the references), sixteen separate cells total. Crisp professional cel-shaded anime line art, restrained flat colors, soft simple shading, no photorealism. Opaque pure white #FFFFFF background in every cell, no panel dividers, text, labels, numbers, borders, symbols, scenery, hands, extra figures or transparency. Each portrait is centered in its own quarter-width cell, complete crown and both shoulders within the cell, with 8-12 percent empty white margin all around. Faces all at matching scale, same character identity, same outfit and exact same head shape and markings. Vaskar anatomy: a tall heavy-boned people with matte skin grown in large overlapping plates across the brow, cheeks, jaw and neck like layered armor, seams between plates slightly darker; two tall membranous crest-sails rising from the back of the skull like folded fans, ribbed, their edges flushing with color; deep-set eyes with dark grey sclera and bright amber ring irises; small slit nostrils, a wide mouth with a strong plated jaw; no hair, no external ears, no human nose. Expressiveness comes from eyes, brow plates, crest-sails and mouth. Readable pale sclera and ring irises.\nRead cells left to right, top to bottom. The sixteen expressions MUST be in this exact order:\nRow 1: Neutral (calm closed mouth); Happy (warm open smile); Sad (downturned mouth and eyelids); Angry (knitted brows, clenched teeth).\nRow 2: Shocked (very wide eyes and clearly open round mouth); Worried (pinched raised inner brows, tight mouth); Intense (sharp fixed stare, serious mouth); Synced (serene concentration, eyes bright and markings vivid).\nRow 3: Amused (knowing half-smile); Smug (one raised brow, self-satisfied crooked grin); Curious (questioning head tilt, attentive eyes); Flustered (averted eyes, embarrassed uneven smile, subtle skin blush only).\nRow 4: Tender (soft affectionate eyes and gentle closed smile); Determined (firm jaw and focused brows); Playful (one eye wink, broad mischievous grin); Special (joyful uninhibited laugh, eyes squeezed closed).\nDo not rearrange or merge cells. No sweat drops, floating hearts, thought bubbles or decorative expression marks. Full square atlas 2048x2048 or largest native square.\n\nCharacter: Hessa Korl, a Muster scavenger captain, a new adult Vaskar woman, NOT any character in the references; only the art style and sheet layout come from them. Narrow fierce face, dusky rust-bronze plates with fine black seams, tall crimson crest-sails, bright hard amber eyes, a thin cut-glass earring hung from a crest spine. Dark gunmetal salvage armor collar with rust-red plates and a ragged crimson captain's sash across one shoulder. Proud, sardonic and dangerous.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=5575324 sha256(base64)=818d42d0476ddf62>",
+        "data:image/png;base64,<omitted chars=4903480 sha256(base64)=796f0975ff0a936c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/C9-Lantern/refs/Hessa_Natural.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:39:12+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:39:54+00:00"
+  },
+  {
+    "task": "c9-text2image-01a1ada7-758a-700c-b363-a24f9e2f0bbe",
+    "task_id": "01a1ada7-758a-700c-b363-a24f9e2f0bbe",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: a dry canyon floor of packed red-gold sand and flat worn sandstone slabs with fine cracks, a few small pale pebbles, soft hand-painted cel style with flat color regions, colors red-gold #C98A52, dusty rose #B07650 and pale sand #DDB98A, no shadows, no lighting, no objects, no text, perfectly tileable on all edges.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Seamless tileable game texture, exactly top-down orthographic, filling the entire square edge to edge: a dry canyon floor of packed red-gold sand and flat worn sandstone slabs with fine cracks, a few small pale pebbles, soft hand-painted cel style with flat color regions, colors red-gold #C98A52, dusty rose #B07650 and pale sand #DDB98A, no shadows, no lighting, no objects, no text, perfectly tileable on all edges.",
+      "aspect_ratio": "1:1"
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C9-Lantern/refs/canyon-floor.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:39:55+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:40:31+00:00"
+  },
+  {
+    "task": "c9-text2image-01a1ada8-06dc-71ac-b192-430fb526b6aa",
+    "task_id": "01a1ada8-06dc-71ac-b192-430fb526b6aa",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "Seamless tileable game texture, side view, filling the entire square edge to edge: layered sandstone cliff strata in horizontal bands of red-gold #C98A52, deep rust #8E5A36 and pale cream #E3C9A0, with worn vertical cracks, soft hand-painted cel style with flat color regions, no shadows, no lighting, no objects, no text, perfectly tileable on all edges.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Seamless tileable game texture, side view, filling the entire square edge to edge: layered sandstone cliff strata in horizontal bands of red-gold #C98A52, deep rust #8E5A36 and pale cream #E3C9A0, with worn vertical cracks, soft hand-painted cel style with flat color regions, no shadows, no lighting, no objects, no text, perfectly tileable on all edges.",
+      "aspect_ratio": "1:1"
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/C9-Lantern/refs/canyon-cliff.png",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:40:32+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:41:08+00:00"
+  },
+  {
+    "task": "c9-img3d-01a1adaa-78df-765e-aca4-1e3fea04855a",
+    "task_id": "01a1adaa-78df-765e-aca4-1e3fea04855a",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:LanternTower.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=452928 sha256(base64)=11e613f61b5de3d9>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/LanternTower.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:43:14+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-11-05T21:44:15+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/LanternTower.fbx",
+      "art-src/Generated/C9-Lantern/LanternTower_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adab-6e71-7257-83ad-700c65e37236",
+    "task_id": "01a1adab-6e71-7257-83ad-700c65e37236",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:AncelaneArch.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1014148 sha256(base64)=4af4430361e5cbcf>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/AncelaneArch.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:44:16+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-11-05T21:45:18+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/AncelaneArch.fbx",
+      "art-src/Generated/C9-Lantern/AncelaneArch_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adac-653b-772e-a2bf-d96ba8ca7f6e",
+    "task_id": "01a1adac-653b-772e-a2bf-d96ba8ca7f6e",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:CanyonHouse.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1125292 sha256(base64)=c8bb20deeecfe62f>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/CanyonHouse.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:45:19+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-11-05T21:46:33+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/CanyonHouse.fbx",
+      "art-src/Generated/C9-Lantern/CanyonHouse_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adad-8912-750c-b662-134fc4d8be3c",
+    "task_id": "01a1adad-8912-750c-b662-134fc4d8be3c",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:RelayMirror.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=738516 sha256(base64)=76d1d56147049705>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/RelayMirror.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:46:34+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:47:23+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/RelayMirror.fbx",
+      "art-src/Generated/C9-Lantern/RelayMirror_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adae-4ed2-7688-911b-44869b561261",
+    "task_id": "01a1adae-4ed2-7688-911b-44869b561261",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:AncelaneColumn.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=844304 sha256(base64)=1ddf15ce580decc3>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/AncelaneColumn.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:47:25+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:48:02+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/AncelaneColumn.fbx",
+      "art-src/Generated/C9-Lantern/AncelaneColumn_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adae-e58e-760f-a8cb-514773d4ef9f",
+    "task_id": "01a1adae-e58e-760f-a8cb-514773d4ef9f",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:GreatLantern.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=813952 sha256(base64)=8c01b29e1d2520f8>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 6000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/GreatLantern.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:48:03+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 6000
+    },
+    "updated_at": "2026-11-05T21:48:52+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/GreatLantern.fbx",
+      "art-src/Generated/C9-Lantern/GreatLantern_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adaf-aaa3-74b9-89d7-a52d290870f0",
+    "task_id": "01a1adaf-aaa3-74b9-89d7-a52d290870f0",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:MusterCrate.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=974208 sha256(base64)=a74b835c0492d48b>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/MusterCrate.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:48:54+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:49:43+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/MusterCrate.fbx",
+      "art-src/Generated/C9-Lantern/MusterCrate_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adb0-6fd6-753a-810f-beff1c50f64c",
+    "task_id": "01a1adb0-6fd6-753a-810f-beff1c50f64c",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:MusterLeanTo.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=694212 sha256(base64)=b4803bee7e9ae319>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/MusterLeanTo.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:49:44+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:50:21+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/MusterLeanTo.fbx",
+      "art-src/Generated/C9-Lantern/MusterLeanTo_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adb4-0466-72a2-8a51-c98ad2d6ae7b",
+    "task_id": "01a1adb4-0466-72a2-8a51-c98ad2d6ae7b",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:MusterCutterRig.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=734832 sha256(base64)=e3c7bb31e896430d>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/MusterCutterRig.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:53:39+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:54:04+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/MusterCutterRig.fbx",
+      "art-src/Generated/C9-Lantern/MusterCutterRig_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adb4-6afb-725f-b127-0ffbda7e46c6",
+    "task_id": "01a1adb4-6afb-725f-b127-0ffbda7e46c6",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:OrchardTree.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1131516 sha256(base64)=e1138f87be6c72ea>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/OrchardTree.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:54:05+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:54:30+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/OrchardTree.fbx",
+      "art-src/Generated/C9-Lantern/OrchardTree_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adb4-d2f6-72c3-ae41-e54dee8a9cfe",
+    "task_id": "01a1adb4-d2f6-72c3-ae41-e54dee8a9cfe",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:LampPost.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=631888 sha256(base64)=52880f54838b3890>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/LampPost.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:54:32+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:54:57+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/LampPost.fbx",
+      "art-src/Generated/C9-Lantern/LampPost_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-img3d-01a1adb5-3be5-7464-9e20-46422d141def",
+    "task_id": "01a1adb5-3be5-7464-9e20-46422d141def",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "image:LanternShard.png",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=972320 sha256(base64)=c47f165da3b02659>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 4000,
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/C9-Lantern/LanternShard.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:54:58+00:00",
+    "polycount_band": {
+      "min": 1000,
+      "max": 6000,
+      "target": 4000
+    },
+    "updated_at": "2026-11-05T21:55:36+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/LanternShard.fbx",
+      "art-src/Generated/C9-Lantern/LanternShard_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb5-d2ad-73e3-9ad0-3574a846dc0a",
+    "task_id": "01a1adb5-d2ad-73e3-9ad0-3574a846dc0a",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "night canyon grazer beast that hunts in darkness: soot-black and deep violet hide, pale bone-colored back plates, small glowing amber eyes, dusty paws; light-shy predator. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1023420 sha256(base64)=85864fe1566ade3a>",
+      "text_style_prompt": "night canyon grazer beast that hunts in darkness: soot-black and deep violet hide, pale bone-colored back plates, small glowing amber eyes, dusty paws; light-shy predator. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/Gloomgrazer.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:55:38+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:56:15+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/Gloomgrazer.fbx",
+      "art-src/Generated/C9-Lantern/Gloomgrazer_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb6-6d82-75b2-8512-5ee49948d08a",
+    "task_id": "01a1adb6-6d82-75b2-8512-5ee49948d08a",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Muster scavenger soldier of the Vaskar: rust-red and dark gunmetal salvage armor plates bolted over a dark leather harness, a narrow red visor slit, scraped and welded patches, small red warning lights. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=846504 sha256(base64)=36f0cf1b859cae84>",
+      "text_style_prompt": "Muster scavenger soldier of the Vaskar: rust-red and dark gunmetal salvage armor plates bolted over a dark leather harness, a narrow red visor slit, scraped and welded patches, small red warning lights. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/MusterScav.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:56:18+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:56:55+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/MusterScav.fbx",
+      "art-src/Generated/C9-Lantern/MusterScav_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb7-08c1-7404-9e67-ad56d91ab461",
+    "task_id": "01a1adb7-08c1-7404-9e67-ad56d91ab461",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Muster scavenger captain of the Vaskar: dark bronze and black lacquered armor plates with fine rust-red trim, a long ragged crimson captain's sash, a glowing amber crystal shard bound to the chest plate. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=846504 sha256(base64)=36f0cf1b859cae84>",
+      "text_style_prompt": "Muster scavenger captain of the Vaskar: dark bronze and black lacquered armor plates with fine rust-red trim, a long ragged crimson captain's sash, a glowing amber crystal shard bound to the chest plate. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/C9-Lantern/HessaKorl.fbx",
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:56:58+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-05T21:57:35+00:00",
+    "downloaded": [
+      "art-src/Generated/C9-Lantern/HessaKorl.fbx",
+      "art-src/Generated/C9-Lantern/HessaKorl_base_color.png"
+    ]
+  },
+  {
+    "task": "c9-retexture-01a1adb7-a572-73e9-aff4-22773facd484",
+    "task_id": "01a1adb7-a572-73e9-aff4-22773facd484",
+    "prompt_id": "C9",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Vaskar smith in civilian clothes: a plain worn brown leather apron over a coarse grey shirt and trousers, dull olive-grey skin plates, soot smudges, no armor, no weapons, no glowing parts. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=846504 sha256(base64)=36f0cf1b859cae84>",
+      "text_style_prompt": "Vaskar smith in civilian clothes: a plain worn brown leather apron over a coarse grey shirt and trousers, dull olive-grey skin plates, soot smudges, no armor, no weapons, no glowing parts. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": null,
+    "batch": "C9-Lantern",
+    "created_at": "2026-11-05T21:57:38+00:00",
+    "status": "IN_PROGRESS",
+    "updated_at": "2026-11-05T21:58:03+00:00"
   }
 ]

@@ -40,18 +40,19 @@ namespace Lattice.Combat
         public bool Engaged=>engaged>=0;
         /// <summary>Alive, awake and in the fight: the boss bar shows while the party is near.</summary>
         public bool Fighting=>isActiveAndEnabled&&health!=null&&health.Alive&&brain!=null&&brain.enabled&&!brain.Passive;
-        public string DisplayName=>health==null?"":health.id switch{"Burrower"=>"THE BURROWER","BellowsBelow"=>"THE BELLOWS BELOW","Cantor"=>"THE CANTOR",var id=>id.ToUpperInvariant()};
+        public string DisplayName=>health==null?"":health.id switch{"Burrower"=>"THE BURROWER","BellowsBelow"=>"THE BELLOWS BELOW","Cantor"=>"THE CANTOR","HessaKorl"=>"HESSA KORL",var id=>id.ToUpperInvariant()};
         public string Epithet=>health==null?"":health.id switch
         {
             "Burrower"=>"Sorrel's drill rig, chasing an evacuation signal",
             "BellowsBelow"=>"The breath that guards Hushwell's nursery",
             "Cantor"=>"A collared route-singer of the Gullet",
+            "HessaKorl"=>"Muster scavenger captain, stripping the relay's glass",
             _=>""
         };
         /// <summary>Integrity fractions at which the next phase begins (boss bar notches).</summary>
         public float[] Thresholds=>health==null?System.Array.Empty<float>():health.id switch
         {
-            "Burrower"=>new[]{.6f,.3f},"BellowsBelow"=>new[]{.5f,.3f},"Cantor"=>new[]{.66f,.33f},_=>new[]{.5f}
+            "Burrower"=>new[]{.6f,.3f},"BellowsBelow"=>new[]{.5f,.3f},"Cantor"=>new[]{.66f,.33f},"HessaKorl"=>new[]{.66f,.33f},_=>new[]{.5f}
         };
 
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
@@ -183,6 +184,7 @@ namespace Lattice.Combat
                 "Burrower"=>ChooseBurrower(hero),
                 "BellowsBelow"=>ChooseBellows(hero),
                 "Cantor"=>ChooseCantor(hero),
+                "HessaKorl"=>ChooseHessa(hero),
                 _=>("DrillCharge",DrillCharge(1))
             };
             if(routine!=null)Begin(move,routine);
@@ -196,6 +198,7 @@ namespace Lattice.Combat
                 "DrillCharge"=>DrillCharge(Phase>=2?2:1),"SpoilToss"=>SpoilToss(),"TailSweep"=>TailSweep(),"Burrow"=>Burrow(),"SeismicRings"=>SeismicRings(),
                 "Breath"=>BellowsBreath(),"RibStar"=>RibStar(),"Bubbles"=>Bubbles(),"Crossing"=>BellowsCrossing(),
                 "Choir"=>ChoirAttack(),"SongSpiral"=>SongSpiral(),"CoilLash"=>CoilLash(),"PhaseShift"=>PhaseShift(),
+                "HookLance"=>HookLance(Phase>=3?4:3),"GrappleChain"=>GrappleChain(),"Sidearm"=>Sidearm(),"SweepingCut"=>SweepingCut(),"Lampbreaker"=>Lampbreaker(),
                 _=>null
             };
             if(routine==null)return false;
@@ -307,6 +310,7 @@ namespace Lattice.Combat
             foreach(var actor in PartyController.Current.members)
                 if(actor.Health.Alive&&wave.Contains(actor.transform.position))StartCoroutine(Shove(actor,Flat(actor.transform.position-transform.position),3.2f));
             if(health.id=="Burrower")SummonMites(HealthPhase>=3?2:2);
+            if(health.id=="HessaKorl")CallCrew(2);
             Debug.Log($"BOSS_SHIFT {health.id} {HealthPhase}");
             yield return new WaitForSeconds(.7f);
             // Untouchable for the shift and not a moment after it.

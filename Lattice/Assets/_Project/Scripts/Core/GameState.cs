@@ -36,5 +36,9 @@ namespace Lattice.Core
         public List<string> gear=new();
         public Dictionary<GearSlot,string> equipped=new();
         public string module2;
+        /// <summary>Equipped skill ids for RB+A/B/X/Y; null or short means the character's starting four (D201).</summary>
+        public List<string> skillLoadout;
+        /// <summary>Releases per skill id: mastery rises with use, Ys style.</summary>
+        public Dictionary<string,int> skillUses;
     }
 }

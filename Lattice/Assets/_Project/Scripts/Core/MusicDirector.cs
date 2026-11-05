@@ -44,7 +44,13 @@ namespace Lattice.Core
                 zone == "Hub_Decks" || zone == "Hub_CinderHalo" || zone == "TallowDrift" ||
                 zone == "TallowApproach" || zone == "Sorrel_Ridges" ? "Hub Town Groove" :
                 zone == "Gullet_Tunnel" || zone == "Arena_Flight" ? "Starfight" :
-                zone == "Hushwell" ? "Moon Caverns" : null;
+                zone == "Hushwell" ? "Moon Caverns" :
+                // Chapter 2 (D202, per the atlas music map): the ancient town has its own theme; the Wick Reach is
+                // space combat; the gorge and the ruin under it are adventure ground.
+                zone == "Lanternwick" ? "Old Village" :
+                zone == "WickReach" ? "Starfight" :
+                zone == "LanternGorge" ? "Adventure Awaits" :
+                zone == "SunkenRelay" ? "Moon Caverns" : null;
             Current.Refresh();
         }
 

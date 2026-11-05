@@ -109085,7 +109085,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2bbdf2f4256b67a418e4d527a859b3e8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.RepairBay
-  prompt: "Repair & save \u2014 8 scrip per Sync level"
+  prompt: "Repair and save \u2014 8 scrip per Sync level"
   range: 3
   free: 0
   CompleteSlice: 0

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: ChargeCell
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ConsumableDef
   id: ChargeCell
-  displayName: Charge cell
+  displayName: Charge Cell
   icon: {fileID: 0}
   stack: 99
   heal: 0

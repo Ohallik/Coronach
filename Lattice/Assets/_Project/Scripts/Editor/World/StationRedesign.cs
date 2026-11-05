@@ -68,7 +68,7 @@ namespace Lattice.EditorTools
             for(int side=-1;side<=1;side+=2)for(int i=0;i<3;i++)Prop("DeckCrate",side*(5+i*1.4f),8,.85f);
             // Workshop has an open central repair stand and separate parts stores.
             var bench=Prop("LatticeAnvil",32,6,1.6f).AddComponent<Bench>();bench.prompt="Fabricate at Hal's bench";
-            var repair=Prop("DeckConsole",24,6,1.6f).AddComponent<RepairBay>();repair.prompt="Repair & save — 8 scrip per Sync level";
+            var repair=Prop("DeckConsole",24,6,1.6f).AddComponent<RepairBay>();repair.prompt="Repair and save — 8 scrip per Sync level";
             for(int i=0;i<3;i++)Prop("DeckCrate",33+i*1.3f,-10,1.1f);
             foreach(float x in new[]{21f,35f})foreach(float z in new[]{12f,16f})Prop("DeckCrate",x,z,1.3f);
             // Quiet cabin doors imply rooms inside the pressure envelope. The center aisle
@@ -124,7 +124,7 @@ namespace Lattice.EditorTools
                 WorldBuilder.Label(i==0?"ARRIVALS":i==1?"MARKET":"RECEIVING",new Vector3(x,5,-14),1.3f);
             }
             WorldBuilder.Spawn("Arrival",new Vector3(-28,1,-34));WorldBuilder.Spawn("Outer",new Vector3(0,1,140));WorldBuilder.Spawn("Moon",new Vector3(53,1,8));
-            WorldBuilder.Warp("Sorrel approach",new Vector3(65,1,8),"Sorrel_Ridges","met.Orrin");
+            WorldBuilder.Warp("Warp — Sorrel",new Vector3(65,1,8),"Sorrel_Ridges","met.Orrin");
             WorldBuilder.Warp("Outer warp — The Gullet",new Vector3(0,1,148),"Gullet_Tunnel");
             var neve=WorldBuilder.Npc("Neve",new Vector3(-5,1,-35));foreach(var renderer in neve.GetComponentsInChildren<Renderer>())renderer.enabled=false;neve.GetComponent<Collider>().enabled=false;
             WorldBuilder.Piece("Skiff",neve.transform.position-Vector3.up,new Vector3(4,1.5f,6),"Sela",false);

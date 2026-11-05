@@ -66,7 +66,8 @@ namespace Lattice.EditorTools
         });
         internal static void RegisterScenes()
         {
-            var names=new[]{"_Boot","Title","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","Arena_Ground","Arena_Flight"};
+            var names=new[]{"_Boot","Title","Hub_CinderHalo","Hub_Decks","Sorrel_Ridges","Hushwell","Gullet_Tunnel","TallowApproach","TallowDrift","Arena_Ground","Arena_Flight",
+                "WickReach","Lanternwick","LanternGorge","SunkenRelay"};
             EditorBuildSettings.scenes=names.Select(n=>new EditorBuildSettingsScene(Scenes+n+".unity",true)).ToArray();
         }
         public static void BuildWindowsPlayer()=>Build(false);

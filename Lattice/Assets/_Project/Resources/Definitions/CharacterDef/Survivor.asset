@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Survivor
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
   id: Survivor
-  displayName: Survivor
+  displayName: Dace
   speakerId: Survivor
   female: 0
   baseStats:

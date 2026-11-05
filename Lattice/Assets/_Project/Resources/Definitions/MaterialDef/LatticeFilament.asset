@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: LatticeFilament
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.MaterialDef
   id: LatticeFilament
-  displayName: LatticeFilament
+  displayName: Lattice Filament
   icon: {fileID: 0}
   stack: 999

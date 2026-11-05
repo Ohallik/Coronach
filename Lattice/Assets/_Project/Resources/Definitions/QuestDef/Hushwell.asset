@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: Hushwell
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: Hushwell
-  title: What the drill found
-  description: 
+  title: What the Drill Found
+  description: Something below Sorrel's drill is breathing, and the survey key's route runs straight through it.
   steps:
   - kind: 2
     target: BellowsBelow

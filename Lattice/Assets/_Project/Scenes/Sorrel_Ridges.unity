@@ -19437,7 +19437,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c030ce2f4cb3c1a44bad7d179bacd6df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.KeyPickup
-  prompt: Recover the warp key
+  prompt: Recover the survey key
   range: 3
   requiredFlag: bossdown.Burrower
   grantFlag: warpkey
@@ -109429,7 +109429,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b9bf7422fed819342bf04c5a5f77a8cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.Npc
-  prompt: Talk to Survivor
+  prompt: Talk to Dace
   range: 3.2
   speaker: Survivor
   firstNode: SurvivorFirst
@@ -118085,7 +118085,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: Survivor
+  m_text: Dace
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

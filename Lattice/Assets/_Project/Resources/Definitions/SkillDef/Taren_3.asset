@@ -26,3 +26,9 @@ MonoBehaviour:
   groundVariant: {fileID: 0}
   flightVariant: {fileID: 0}
   icon: {fileID: 0}
+  kind: 2
+  shortName: Pulse
+  description: 'A burst around you that breaks guards'
+  unlockLevel: 1
+  iconSheet: skill-icons
+  iconCell: 2

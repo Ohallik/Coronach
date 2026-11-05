@@ -21,9 +21,9 @@ namespace Lattice.UI
             if(dialogue==null||!dialogue.StartNode(point.dialogueNode,point.dialogueSpeaker,completed=>{if(point!=null)point.CompleteDialogue(completed);}))
                 point.CompleteDialogue(false);
         }
-        void Bench()=>GetComponent<PauseMenu>().Open(2,true);
+        void Bench()=>GetComponent<PauseMenu>().Open(PauseMenu.FabricatePage,true);
         void Shop(ShopInventory inventory)=>GetComponent<ShopUi>().Open(inventory);
-        void Request(string action){if(action=="bench")Bench();else if(action=="shop")Shop(null);else if(action=="repair")RepairBay.Repair();}
+        void Request(string action){if(action=="bench")Bench();else if(action=="shop")Shop(ZoneController.Current!=null?GameCatalog.Find<ShopInventory>(ZoneController.Current.definition.id):null);else if(action=="repair")RepairBay.Repair();}
         void Join(string id)
         {
             var party=PartyController.Current;float spacing=party.Active.flight?HeroCollision.ArrivalSpacing:2;

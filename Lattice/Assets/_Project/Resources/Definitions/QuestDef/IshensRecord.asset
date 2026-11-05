@@ -1,0 +1,34 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9aeb5bab2bec4164f82cf8bb548ba60c, type: 3}
+  m_Name: IshensRecord
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
+  id: IshensRecord
+  title: Ishen's Missing Record
+  description: Three record plates went missing in the Sunken Relay below Lantern
+    Gorge.
+  steps:
+  - kind: 4
+    target: RecordPlate
+    count: 3
+  - kind: 5
+    target: ishen.recordRestored
+    count: 1
+  rewardXp: 240
+  rewardScrip: 150
+  rewards:
+  - id: EmittersT2
+    count: 1
+  flagsOnComplete: []
+  stepText:
+  - Recover the record plates in the Sunken Relay
+  - Bring the plates to Ishen at the archive

@@ -67,6 +67,12 @@ namespace Lattice.Combat
             StopAllCoroutines();lunging=false;Telegraphing=false;strikeAt=attackAnimationUntil=0;
             if(warning!=null)warning.SetActive(false);
         }
+        /// <summary>Whether a skill may drag this body (Tether Hook, Gravity Fold): bosses, serpents and anchored mines
+        /// hold their ground (D201).</summary>
+        public bool CanBeMoved=>Health.Alive&&controller!=null&&controller.enabled&&GetComponent<BossController>()==null&&
+            definition!=null&&!definition.boss&&definition.archetype!=EnemyArchetype.Serpent&&definition.archetype!=EnemyArchetype.Mine;
+        /// <summary>Moves the body through its controller, so walls and floors still hold it.</summary>
+        public void Displace(Vector3 delta){if(!CanBeMoved)return;delta.y=0;controller.Move(delta);}
         public void RestoreAfterRecovery()
         {
             CancelAttack();ImpactStarted=float.NegativeInfinity;ImpactSequence=0;
@@ -82,11 +88,13 @@ namespace Lattice.Combat
             if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill();
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
-            bool disabledRig=definition.id=="Burrower",releasedAnimal=definition.id=="Cantor";
-            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig||releasedAnimal?"failure":"kill");
+            bool disabledRig=definition.id=="Burrower",releasedAnimal=definition.id=="Cantor",yielded=definition.id=="HessaKorl";
+            CombatVfx.Burst(transform.position+Vector3.up,Color.cyan,disabledRig||releasedAnimal||yielded?"failure":"kill");
             // Resolution can disable equipment or release an animal. Neither
             // outcome borrows the generic boss explosion.
             if(releasedAnimal)AudioManager.PlayAt("doorOpen_000",transform,transform.position+Vector3.up,.24f,AudioBus.SFX,70);
+            // A captain who yields drops her lance; she is arrested, not killed (D202).
+            else if(yielded)AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40,.06f,.7f);
             else if(disabledRig)CombatAudio.Death(transform,true);
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
             else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine);

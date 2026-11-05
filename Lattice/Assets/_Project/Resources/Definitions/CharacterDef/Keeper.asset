@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Keeper
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.CharacterDef
   id: Keeper
-  displayName: Keeper
+  displayName: Keeper Abri
   speakerId: Keeper
   female: 0
   baseStats:

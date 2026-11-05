@@ -40,7 +40,7 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator OldSliceCompletionDoesNotHideTheUnacknowledgedDiscovery()
         {
             GameServices.Current.Flags.SetBool("sliceComplete",true);GameServices.Current.Flags.SetBool("tallow.lineObserved",true);
-            yield return Load("TallowDrift");StringAssert.Contains("Tell the Keeper",Objective());StringAssert.Contains(" m",Objective());
+            yield return Load("TallowDrift");StringAssert.Contains("Tell Keeper Abri",Objective());StringAssert.Contains(" m",Objective());
             Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));Assert.IsFalse(GameServices.Current.Flags.GetBool("hushwell.nursery"));
         }
         [UnityTest] public IEnumerator FreeRepairStillSavesBeforeDirectingTheUnfinishedLineJob()
@@ -57,7 +57,10 @@ namespace Lattice.Tests.PlayMode
             // D199: the chapter's last beat (the Compact on the beacon band) comes between the drift talk and the end.
             yield return Load("TallowDrift");StringAssert.Contains("beacon band",Objective());Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));
             GameServices.Current.Flags.SetBool("compact.hailHeard",true);
-            yield return Load("TallowDrift");StringAssert.Contains("Tallow is underway",Objective());Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));
+            // D202: the hail leads straight into chapter 2's first conversation, and the chapter ends on its homecoming.
+            yield return Load("TallowDrift");StringAssert.Contains("route that waits",Objective());Assert.IsTrue(GameServices.Current.Flags.GetBool("sliceComplete"));
+            GameServices.Current.Flags.SetBool("lanternwick.chartGiven",true);GameServices.Current.Flags.SetBool("chapter2.homecoming",true);
+            yield return Load("TallowDrift");StringAssert.Contains("Xylos",Objective());
         }
     }
 }

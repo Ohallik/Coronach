@@ -40644,7 +40644,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 186048835e6f49e488b424eb09038859, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Lattice.World::Lattice.World.SalvageField
-  prompt: Neve's salvage cache
+  prompt: Open Neve's salvage cache
   range: 3
   cacheId: Neve
   requiredFlag: neve.cache

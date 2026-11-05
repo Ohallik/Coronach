@@ -86,7 +86,7 @@ namespace Lattice.Tests.PlayMode
                 Speaks("Shop",Named(Within(Within(shop,"Shop"),"ShopRow0"),"Label").text,device,prev,next);
                 shop.Close();yield return null;
 
-                pause.Open(5);yield return null;
+                pause.Open(PauseMenu.SettingsPage);yield return null;
                 Speaks("Pause sound settings",Named(Within(pause,"Menus"),"Note").text,device,prev,next);
                 pause.Close();yield return null;
             }

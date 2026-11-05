@@ -1,42 +1,42 @@
 title: NeveFirst
 ---
-Neve: Shapers in the lanes. I thought those were expensive warning lights. #emotion:Amused
-Taren: Only if we hit something. #emotion:Neutral
-Neve: The Choir has closed the Gullet's chambers. Kill the singers and the membranes loosen. Do not lean on the walls. #emotion:Worried
-Neve: I left a cache in the second chamber. Copper beacon, cracked casing. Tell it I sent you. #emotion:Determined
+Neve: Shapers in my lanes. I thought you were expensive warning lights. #emotion:Amused
+Taren: Only when we hit something. #emotion:Smug
+Neve: The Choir's sealed the Gullet's chambers. Take out the singers and the membranes loosen. And don't lean on the walls. #emotion:Worried
+Neve: I left a cache in the second chamber. Copper beacon, cracked casing. Tell it I sent you. #emotion:Playful
 <<setFlag neve.cache>>
 ===
 title: NeveRepeat
 ---
-Neve: The cache is yours. My advice costs more: brake before you turn. #emotion:Smug
+Neve: The cache is yours. My advice costs extra: brake before you turn. #emotion:Smug
 ===
 title: NevePost
 ---
-Neve: That key is humming. Either it works or it is very pleased with itself. #emotion:Curious
-Neve: The old survey runs into walls. Make sure Sela's chart agrees before you follow the beacon. Tallow is still answering. #emotion:Determined
+Neve: That key's humming. Either it works or it's very pleased with itself. #emotion:Curious
+Neve: The old survey runs you into walls. Check Sela's chart before you follow the beacon. Tallow's still answering. #emotion:Determined
 ===
 title: OdaFirst
 ---
-Oda: Mind the paint. Everything we own is in this hauler, and most of it is strapped to the outside. #emotion:Amused
-Oda: We filed for the Nacre transfer. One harbour, one berth, one departure every cycle. Nobody is left behind if everyone leaves together. #emotion:Neutral
-Taren: And if the berth has a bad day? #emotion:Neutral
-Oda: Then it is a very bad day for a lot of people at once. My mother says I am morbid. #emotion:Worried
+Oda: Mind the paint. Everything we own is in this hauler, and most of it's strapped to the outside. #emotion:Amused
+Oda: We've filed for the Nacre transfer. One harbour, one berth, one departure a cycle. Nobody's left behind if everyone leaves together. #emotion:Neutral
+Taren: And if the berth has a bad day? #emotion:Curious
+Oda: Then it's a very bad day for a lot of people at once. My mother says I'm morbid. #emotion:Worried
 ===
 title: OdaRepeat
 ---
-Oda: Next transfer window, we go. Everyone at Nacre goes. That is rather the point. #emotion:Neutral
+Oda: Next transfer window, we go. Everyone at Nacre goes. That's the whole point. #emotion:Neutral
 ===
 title: OdaPost
 ---
-Oda: They moved the transfer window up. Twice. Nobody at Nacre will say why. #emotion:Worried
+Oda: They've moved the transfer window up. Twice. Nobody at Nacre will say why. #emotion:Worried
 ===
 title: IloFirst
 ---
-Ilo: Anchor Compact survey. You are not in trouble. You are in a chart. #emotion:Amused
-Ilo: We are measuring which routes will still hold in a year. Director Venn publishes every figure, including the shelter corridor's capacity. #emotion:Neutral
+Ilo: Anchor Compact survey. You're not in trouble. You're in a chart. #emotion:Amused
+Ilo: We're measuring which routes will still hold a year from now. Director Venn publishes every figure, even the shelter corridor's capacity. #emotion:Neutral
 Ilo: Read that number twice. Then decide whether your household files for a berth. #emotion:Worried
-Taren: And the households that do not fit the number? #emotion:Neutral
-Ilo: They are in the footnotes. I did not write the footnotes. #emotion:Worried
+Taren: And the households that don't fit the number? #emotion:Neutral
+Ilo: They're in the footnotes. I didn't write the footnotes. #emotion:Worried
 ===
 title: IloRepeat
 ---
@@ -44,36 +44,36 @@ Ilo: The notice is posted at every dock. The capacity line is the short one. #em
 ===
 title: IloPost
 ---
-Ilo: You went toward the Gullet, did you not? Keep your own notes. Ours get revised. #emotion:Determined
+Ilo: You went out toward the Gullet, didn't you? Keep your own notes. Ours get revised. #emotion:Determined
 ===
 title: NeveParcelOffer
 ---
-Neve: Going back down to Sorrel? Good. I'm holding something of theirs. #emotion:Neutral
+Neve: Heading back down to Sorrel? Good. I'm holding something of theirs. #emotion:Neutral
 Neve: One of the three missed deliveries. Coffee, socks, and a letter somebody wrote twice. #emotion:Amused
 Taren: You kept it? #emotion:Curious
-Neve: The courier wouldn't land near the drill, and I wouldn't throw it away. Take it to whoever is still answering down there. #emotion:Determined
+Neve: The courier wouldn't land near the drill, and I wasn't going to space it. Take it to whoever's still answering down there. #emotion:Determined
 <<startQuest NeveParcel>>
 ===
 title: NeveParcelReturn
 ---
 Neve: Well? Did it arrive warm? #emotion:Curious
 Taren: The coffee did. They sent a reply. #emotion:Neutral
-Neve: "Received with thanks. Please stop sending socks." That's the kindest thing anyone has said to me all cycle. #emotion:Happy
-Neve: Keep these. Charge cells I was saving for an emergency, and you look like one. #emotion:Amused
+Neve: "Received with thanks. Please stop sending socks." That's the nicest thing anyone's said to me all cycle. #emotion:Happy
+Neve: Keep these. Charge cells I was saving for an emergency, and you two look like one. #emotion:Amused
 <<setFlag neve.parcelAnswered>>
 ===
 title: OdaBerthOffer
 ---
-Oda: You know the office on the Decks? Orrin's? #emotion:Neutral
-Oda: Our berth token for the Nacre transfer went to his desk for a stamp and never came back. Without it we're cargo. #emotion:Worried
-Oda: He likes you. Ask him for it before my mother walks over there herself. #emotion:Amused
+Oda: You know the dock office on the Decks? Orrin's? #emotion:Neutral
+Oda: Our berth token for the Nacre transfer went to his desk for a stamp and never came back. Without it, we're cargo. #emotion:Worried
+Oda: He likes you. Ask him for it before my mother marches over there herself. #emotion:Amused
 <<startQuest OdaBerth>>
 ===
 title: OdaBerthReturn
 ---
 Taren: One berth token, stamped. Orrin says he's sorry. #emotion:Neutral
 Oda: You read it. Everyone reads it. One harbour, one berth, our names on line nine hundred and four. #emotion:Neutral
-Oda: Nine hundred households ahead of us at the same door. Somebody planned it that way on purpose, I suppose. #emotion:Worried
+Oda: Nine hundred households ahead of us, all through the same door. Somebody thought that was a good idea. #emotion:Worried
 Taren: If that door jams, find me. #emotion:Determined
 Oda: I'll hold you to that. Here, for your trouble. Mother insisted. #emotion:Tender
 <<setFlag oda.tokenReturned>>

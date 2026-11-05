@@ -74,7 +74,7 @@ namespace Lattice.Tests.PlayMode
             var toast=Object.FindFirstObjectByType<QuestToast>();Assert.IsNotNull(toast,"no task announcements");
             yield return new WaitForSecondsRealtime(.3f);
             Assert.IsTrue(toast.Showing,"a new task is not announced once the conversation closes");
-            StringAssert.Contains("NEW TASK",toast.Heading);StringAssert.Contains("Survivor",toast.Body);
+            StringAssert.Contains("NEW QUEST",toast.Heading);StringAssert.Contains("Dace",toast.Body);
             // Meeting the Survivor for the first time does not tick the delivery.
             yield return Talk(survivor);
             Assert.AreEqual("SurvivorFirst",heard,"the parcel replaced the Survivor's first conversation");
@@ -125,8 +125,11 @@ namespace Lattice.Tests.PlayMode
             yield return Talk(keeper);
             Assert.AreEqual("CompactHail",heard,"the Compact never calls once Tallow knows it is moving");
             Assert.IsTrue(GameServices.Current.Flags.GetBool("compact.hailHeard"));
+            // D202: after the call, Abri's next words open chapter 2 (the lantern tale), never the call again.
             yield return Talk(keeper);
-            Assert.AreEqual("KeeperDriftRepeat",heard,"the Compact's call repeats");
+            Assert.AreEqual("AbriLanternTale",heard,"the Compact's call repeats instead of leading on to chapter 2");
+            yield return Talk(keeper);
+            Assert.AreEqual("AbriLanternRepeat",heard,"the lantern tale repeats");
         }
 
         [UnityTest] public IEnumerator SorrelsBeaconsWaitForTheJobGoDarkAndStayDark()

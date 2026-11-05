@@ -1,0 +1,28 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 156aeac18c8f5bf459154ec1e4bcd3aa, type: 3}
+  m_Name: Lanternwick
+  m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ShopInventory
+  parts:
+  - {fileID: 11400000, guid: 6318ffd7de05ee64f949626e80046aec, type: 2}
+  - {fileID: 11400000, guid: fad63f1c0ddbce045b950fa1641e9497, type: 2}
+  - {fileID: 11400000, guid: 5f52d7b3ab98669469a261ae0e26f13c, type: 2}
+  - {fileID: 11400000, guid: a0470ce48cfe92f4293d2b9c6bf3ffb5, type: 2}
+  - {fileID: 11400000, guid: 2cb7fb6a0d9d0fe4cb8e1c119efa48df, type: 2}
+  consumables:
+  - {fileID: 11400000, guid: bac2a6157cfaf6244a8b1c74a64674db, type: 2}
+  - {fileID: 11400000, guid: 10e4f9da52c201f4c9dc40543d8670ad, type: 2}
+  materials:
+  - {fileID: 11400000, guid: 0e78d0e562727b94ab14403673fbdbaf, type: 2}
+  - {fileID: 11400000, guid: a1c033a81255fe246bf628586bdc9ce0, type: 2}
+  - {fileID: 11400000, guid: e4a7e124c7f5f3940abe317c09945f32, type: 2}
+  prices: f0000000f000000004010000dc00000018010000160000001a0000000e000000100000001e000000

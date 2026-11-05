@@ -13,6 +13,6 @@ MonoBehaviour:
   m_Name: HuskCore
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.MaterialDef
   id: HuskCore
-  displayName: HuskCore
+  displayName: Husk Core
   icon: {fileID: 0}
   stack: 999

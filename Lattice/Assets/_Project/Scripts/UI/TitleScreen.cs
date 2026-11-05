@@ -85,11 +85,11 @@ namespace Lattice.UI
             foreach(string slot in new[]{"autosave","slot1","slot2","slot3"})
             {
                 var state=GameServices.Current.Saves.Load(slot);string id=slot;
-                var button=UiKit.Button(savePicker.transform,slot,state==null?slot+" — Empty":slot+" — "+state.zone.Replace('_',' ')+" — Sync "+state.party[0].level,()=>
+                var button=UiKit.Button(savePicker.transform,slot,state==null?SlotName(slot)+" — Empty":SlotName(slot)+" — "+DisplayNames.Zone(state.zone)+" — Sync "+state.party[0].level,()=>
                 {var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);canvas.gameObject.SetActive(false);});
                 button.interactable=state!=null;UiKit.Rect(button.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,180-row++*100),new(1200,72));if(button.interactable)buttons.Add(button);
             }
-            var back=UiKit.Button(savePicker.transform,"Back","B  Back",()=>{UiSounds.Cancel();Destroy(savePicker);savePicker=null;});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+            var back=UiKit.Button(savePicker.transform,"Back","Back",()=>{UiSounds.Cancel();Destroy(savePicker);savePicker=null;});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
         IEnumerator Capture()
         {
@@ -107,5 +107,6 @@ namespace Lattice.UI
             yield return new WaitForSecondsRealtime(6);
             Debug.Log("TITLE_SMOKE_OK"); Application.Quit();
         }
+            static string SlotName(string slot)=>slot=="autosave"?"Autosave":"Slot "+slot.Substring(4);
     }
 }

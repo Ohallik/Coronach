@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: SorrelBeacons
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: SorrelBeacons
-  title: Quiet ridges
+  title: Quiet Ridges
   description: 'The survey crew''s evacuation beacons still call machinery toward the outpost.'
   steps:
   - kind: 4
@@ -30,4 +30,4 @@ MonoBehaviour:
   flagsOnComplete: []
   stepText:
   - 'Silence the evacuation beacons on the west seam and east service trails'
-  - 'Tell the Survivor the ridges are quiet'
+  - 'Tell Dace the ridges are quiet'

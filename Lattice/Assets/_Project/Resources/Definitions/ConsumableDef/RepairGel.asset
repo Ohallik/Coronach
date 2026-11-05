@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: RepairGel
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ConsumableDef
   id: RepairGel
-  displayName: Repair gel
+  displayName: Repair Gel
   icon: {fileID: 0}
   stack: 99
   heal: 60

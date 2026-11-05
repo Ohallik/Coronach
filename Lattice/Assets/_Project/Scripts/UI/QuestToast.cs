@@ -29,7 +29,18 @@ namespace Lattice.UI
             body=UiKit.Text(frame.transform,"QuestToastBody","",22,UiKit.TextColor,TextAlignmentOptions.TopLeft);
             UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-70),new(510,64));
             frame.gameObject.SetActive(false);
+            Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;
         }
+        void OnDestroy(){Lattice.Rpg.Levels.LevelRaised-=OnLevel;SkillBook.MasteryRaised-=OnMastery;}
+        /// <summary>Level-ups and newly learned skills share the card (D201).</summary>
+        void OnLevel(MemberState member,int from,int to)
+        {
+            string who=DisplayNames.Speaker(member.id);var learned=SkillBook.LearnedBetween(member.id,from,to);
+            string text=learned.Length==0?$"{who} reached Sync {to}.":$"{who} learned {string.Join(" and ",System.Array.ConvertAll(learned,s=>s.displayName))}. Equip it from Skills.";
+            pending.Enqueue((learned.Length==0?$"SYNC {to}":$"SYNC {to}  ·  NEW SKILL",text));
+        }
+        void OnMastery(string character,SkillDef skill,int level)=>
+            pending.Enqueue(($"MASTERY {level}",$"{DisplayNames.Speaker(character)}'s {skill.displayName} hits harder and costs less Charge."));
         void Update()
         {
             var service=GameServices.Current;if(service==null||canvas==null)return;
@@ -59,14 +70,14 @@ namespace Lattice.UI
         {
             var quest=GameCatalog.Find<QuestDef>(id);if(quest==null)return;
             bool done=now>=quest.steps.Length;
-            string h=done?"TASK COMPLETE":was<0?"NEW TASK":"TASK UPDATED";
+            string h=done?"QUEST COMPLETE":was<0?"NEW QUEST":"QUEST UPDATED";
             string b=done?$"{quest.title}\n+{quest.rewardXp} XP   +{quest.rewardScrip} scrip"+Rewards(quest):$"{quest.title}\n{QuestText.Step(quest,now,GameServices.Current.State)}";
             pending.Enqueue((h,b));
         }
         static string Rewards(QuestDef quest)
         {
             if(quest.rewards==null||quest.rewards.Length==0)return "";
-            var parts=new List<string>();foreach(var reward in quest.rewards)parts.Add(reward.count>1?$"{QuestText.Readable(reward.id)} ×{reward.count}":QuestText.Readable(reward.id));
+            var parts=new List<string>();foreach(var reward in quest.rewards)parts.Add(reward.count>1?$"{DisplayNames.Item(reward.id)} ×{reward.count}":DisplayNames.Item(reward.id));
             return "   "+string.Join(", ",parts);
         }
     }

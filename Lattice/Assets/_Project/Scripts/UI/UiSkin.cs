@@ -36,6 +36,12 @@ namespace Lattice.UI
         }
         public static Sprite Skill(string character,int slot)
         {return Slice("skill-icons",new(slot/4f,character=="Taren"?.5f:0,.25f,.5f),character+slot,Vector4.zero,100);}
+        /// <summary>A skill's own icon: a 4x2 generated sheet, cells 0-3 on the top row and 4-7 below (D201).</summary>
+        public static Sprite Skill(Lattice.Data.SkillDef skill)
+        {
+            if(skill==null)return null;int cell=Mathf.Clamp(skill.iconCell,0,7);string sheet=string.IsNullOrEmpty(skill.iconSheet)?"skill-icons":skill.iconSheet;
+            return Slice(sheet,new((cell%4)/4f,cell<4?.5f:0,.25f,.5f),sheet+"#"+cell,Vector4.zero,100);
+        }
         static Sprite Slice(string atlas,Rect normalized,string id,Vector4 border,float ppu)
         {
             if(Cache.TryGetValue(id,out var sprite))return sprite;
