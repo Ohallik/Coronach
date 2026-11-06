@@ -20,7 +20,7 @@ namespace Lattice.Combat
             if(!combat||actor.target==null||!actor.target.Targetable||(actor.target.transform.position-transform.position).sqrMagnitude>900)
                 actor.TargetLocked=false;
             PromptService.FindInteraction(transform.position);
-            if(input.Pressed("Interact")&&PromptService.TryInteract()){attackRequestedUntil=-1;return;}
+            if(input.Pressed("Interact")&&!input.SkillMod&&PromptService.TryInteract()){attackRequestedUntil=-1;return;}
             Vector2 move=input.Move;
             var rotated=Quaternion.Euler(0,zone.definition.cameraProfile.yaw,0)*new Vector3(move.x,0,move.y);
             move=new Vector2(rotated.x,rotated.z);

@@ -30,7 +30,7 @@ namespace Lattice.Core
             foreach(var p in InteractionPrompt.Active)
             {
                 float d=(p.transform.position-position).sqrMagnitude;
-                if(p.Available&&d<p.range*p.range&&d<best){best=d;Interaction=p;}
+                if(d<p.range*p.range&&d<best&&p.Available){best=d;Interaction=p;}
             }
         }
         public static bool TryInteract()

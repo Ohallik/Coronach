@@ -16,9 +16,7 @@
     {
       "name": "select Continue",
       "seconds": 0.2,
-      "buttons": [
-        "DpadDown"
-      ],
+      "buttons": [],
       "expectedUi": "title",
       "expectedScene": "Title"
     },

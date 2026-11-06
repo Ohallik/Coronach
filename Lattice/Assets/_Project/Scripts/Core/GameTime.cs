@@ -18,6 +18,9 @@ namespace Lattice.Core
                 paused=value;Apply();PauseChanged?.Invoke(value);
             }
         }
+        /// <summary>Time stands still for combat: a menu, or a conversation or load holding the input. Enemies stand frozen
+        /// through these, so shots and lingering effects must too.</summary>
+        public static bool CombatHeld=>paused||GameServices.Current!=null&&GameServices.Current.Input.Blocked;
         public static void BeginFlash(){flashes++;Apply();}
         public static void EndFlash(){flashes=Mathf.Max(0,flashes-1);Apply();}
         public static void Reset(){flashes=0;paused=false;pausedAt=pausedTotal=0;Apply();}

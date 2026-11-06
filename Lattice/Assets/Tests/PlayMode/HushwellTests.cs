@@ -196,7 +196,7 @@ namespace Lattice.Tests.PlayMode
             yield return Load("Sorrel_Ridges","Hushwell");
             string node=null;void Heard(string n,string speaker,System.Action<bool> completed){if(speaker=="Survivor")node=n;}
             Npc.TalkRequested+=Heard;
-            try{GameServices.Current.Flags.SetBool("warpkey",true);Object.FindObjectsByType<Npc>(FindObjectsSortMode.None).Single(n=>n.speaker=="Survivor").Interact();}
+            try{GameServices.Current.Flags.SetBool("warpkey",true);GameServices.Current.Flags.SetBool("met.Survivor",true);Object.FindObjectsByType<Npc>(FindObjectsSortMode.None).Single(n=>n.speaker=="Survivor").Interact();}
             finally{Npc.TalkRequested-=Heard;}
             Assert.AreEqual("SurvivorNursery",node,"the Survivor does not acknowledge the nursery");
         }

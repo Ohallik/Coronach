@@ -27,6 +27,7 @@ namespace Lattice.UI
             gameObject.AddComponent<CombatVfx>();
             gameObject.AddComponent<ObjectiveHud>();
             gameObject.AddComponent<QuestToast>();
+            gameObject.AddComponent<PickupFeed>();
             if(DevArgs.Has("-smoketest")&&spawnArenaEnemies)gameObject.AddComponent<ArenaSmoke>();
             Lattice.Rpg.RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Reach,gameObject.scene.name);
             if(spawnArenaEnemies)foreach(var spawner in FindObjectsByType<Spawner>(FindObjectsSortMode.None))spawner.Spawn();

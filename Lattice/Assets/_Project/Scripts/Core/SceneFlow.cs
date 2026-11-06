@@ -23,6 +23,14 @@ namespace Lattice.Core
         {
             if(!Loading) StartCoroutine(Load(scene,spawn));
         }
+        /// <summary>Loads a save picked from the title: its arrival doesn't write over the newest autosave. Only the next real
+        /// dock, warp, repair or discovery does.</summary>
+        public void LoadSavedZone(string scene,string spawn)
+        {
+            if(Loading)return;
+            skipArrivalSave=true;StartCoroutine(Load(scene,spawn));
+        }
+        bool skipArrivalSave;
         public void LoadDockedZone(string scene,string spawn,System.Func<bool> departureReady)
         {
             if(!Loading)StartCoroutine(Load(scene,spawn,true,departureReady));
@@ -50,7 +58,8 @@ namespace Lattice.Core
             FadeChanged?.Invoke(0); Loading=false;DockArrival=false;
             if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;
             if(GameServices.Current!=null&&scene!="Title")BarkService.PlayArrival(GameServices.Current.State.party[GameServices.Current.State.activeMember].id);
-            if(GameServices.Current!=null&&scene!="Title"&&!scene.StartsWith("Arena_"))GameServices.Current.Saves.Save("autosave",GameServices.Current.State);
+            if(skipArrivalSave)skipArrivalSave=false;
+            else if(GameServices.Current!=null&&scene!="Title"&&!scene.StartsWith("Arena_"))GameServices.Current.Saves.Save("autosave",GameServices.Current.State);
         }
     }
 }

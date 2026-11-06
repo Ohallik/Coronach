@@ -17,9 +17,7 @@
       "name": "select Continue",
       "seconds": 0.2,
       "expectedScene": "Title",
-      "buttons": [
-        "DpadDown"
-      ]
+      "buttons": []
     },
     {
       "name": "release selection",

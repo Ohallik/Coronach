@@ -67,6 +67,18 @@ namespace Lattice.Combat
             StopAllCoroutines();lunging=false;Telegraphing=false;strikeAt=attackAnimationUntil=0;
             if(warning!=null)warning.SetActive(false);
         }
+        /// <summary>How close an awake enemy must be before quiet interactions (repair, bench, mining) wait for the fight.</summary>
+        public const float InteractionCalm=15;
+        public static bool AwakeNear(Vector3 point,float radius)
+        {
+            foreach(var health in Health.All)
+            {
+                if(health==null||health.friendly||!health.Alive)continue;
+                var offset=health.transform.position-point;offset.y=0;if(offset.sqrMagnitude>radius*radius)continue;
+                if(health.TryGetComponent<EnemyBrain>(out var brain)&&brain.enabled&&!brain.Passive)return true;
+            }
+            return false;
+        }
         /// <summary>Whether a skill may drag this body (Tether Hook, Gravity Fold): bosses, serpents and anchored mines
         /// hold their ground (D201).</summary>
         public bool CanBeMoved=>Health.Alive&&controller!=null&&controller.enabled&&GetComponent<BossController>()==null&&

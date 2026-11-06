@@ -24,6 +24,30 @@ namespace Lattice.Rpg
                 if(amount>0)Progress(definition,ObjectiveKind.Collect,goal.target,amount);
             }
         }
+        /// <summary>Moves every quest past steps already done: a loaded save can hold a quest stuck on a step that can no longer
+        /// happen, like a boss killed before the talk that asked for it.</summary>
+        public void Reconcile()
+        {
+            foreach(var d in definitions.Values)
+            {
+                if(!state.questSteps.TryGetValue(d.id,out var step)||step<0||step>=d.steps.Length)continue;
+                int caughtUp=CatchUp(d,step);if(caughtUp==step)continue;
+                state.questSteps[d.id]=caughtUp;if(caughtUp==d.steps.Length)Complete(d);Changed?.Invoke(d.id);
+            }
+        }
+        int CatchUp(QuestDef d,int step){while(step<d.steps.Length&&AlreadyDone(d.steps[step]))step++;return step;}
+        /// <summary>Steps the world already satisfies and will never report again. Counted interactions can't be known this way.</summary>
+        bool AlreadyDone(Objective goal)=>goal.kind switch
+        {
+            ObjectiveKind.Kill=>Flag("bossdown."+goal.target),
+            ObjectiveKind.TalkTo=>Flag("met."+goal.target),
+            ObjectiveKind.Flag=>Flag(goal.target),
+            ObjectiveKind.Reach=>state.zone==goal.target,
+            ObjectiveKind.Collect=>Math.Max(Held(state.collectedMaterials,goal.target),Held(state.materials,goal.target))>=Math.Max(1,goal.count),
+            _=>false
+        };
+        bool Flag(string key)=>state.flags.TryGetValue(key,out bool value)&&value;
+        static int Held(Dictionary<string,int> counts,string key)=>counts.TryGetValue(key,out int value)?value:0;
         public void Report(ObjectiveKind kind,string id,int amount=1)
         {
             if(amount<=0)return;
@@ -34,26 +58,20 @@ namespace Lattice.Rpg
                 if(!state.questSteps.TryGetValue(d.id,out var step)||step<0||step>=d.steps.Length)return;
                 var goal=d.steps[step];if(goal.kind!=kind||goal.target!=id)return;
                 string key=d.id+"/"+step;state.questCounts.TryGetValue(key,out int count);count+=amount;state.questCounts[key]=count;
-                if(count<Math.Max(1,goal.count))return;
-                state.questSteps[d.id]=++step;
-                if(step==d.steps.Length)
-                {
-                    state.flags["quest."+d.id+".complete"]=true;
-                    state.scrip+=d.rewardScrip;
-                    foreach(var member in state.party)Levels.Grant(member,d.rewardXp);
-                    var inv=new Inventory(state);
-                    // A reward goes where its kind lives (D199): gear to the parts list, consumables to the item bag,
-                    // everything else to materials. Materials alone used to receive parts and gels it could not use.
-                    foreach(var reward in d.rewards??Array.Empty<Ingredient>())
-                    {
-                        var part=GameCatalog.Find<TechPartDef>(reward.id);
-                        if(part!=null){for(int i=0;i<Math.Max(1,reward.count);i++)inv.GivePart(part);continue;}
-                        if(GameCatalog.Find<ConsumableDef>(reward.id)!=null){state.consumables.TryGetValue(reward.id,out int held);state.consumables[reward.id]=held+reward.count;continue;}
-                        inv.Give(reward.id,reward.count);
-                    }
-                    foreach(var flag in d.flagsOnComplete??Array.Empty<string>())state.flags[flag]=true;
-                }
+                if(count<Math.Max(1,goal.count)){Changed?.Invoke(d.id);return;}
+                step=CatchUp(d,step+1);state.questSteps[d.id]=step;
+                if(step==d.steps.Length)Complete(d);
                 Changed?.Invoke(d.id);
+        }
+        void Complete(QuestDef d)
+        {
+            state.flags["quest."+d.id+".complete"]=true;
+            state.scrip+=d.rewardScrip;
+            foreach(var member in state.party)Levels.Grant(member,d.rewardXp);
+            // A reward goes where its kind lives (D199); the quest card names it, so the pickup feed stays out of it.
+            var inv=new Inventory(state);
+            foreach(var reward in d.rewards??Array.Empty<Ingredient>())inv.Grant(reward.id,Math.Max(1,reward.count),false);
+            foreach(var flag in d.flagsOnComplete??Array.Empty<string>())state.flags[flag]=true;
         }
     }
 }

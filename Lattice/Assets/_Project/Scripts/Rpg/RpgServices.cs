@@ -8,7 +8,7 @@ namespace Lattice.Rpg
         static QuestService quests;
         public static QuestService Quests
         {
-            get{var state=GameServices.Current.State;if(bound!=state){bound=state;quests=new QuestService(state,GameCatalog.All<QuestDef>());}return quests;}
+            get{var state=GameServices.Current.State;if(bound!=state){bound=state;quests=new QuestService(state,GameCatalog.All<QuestDef>());quests.Reconcile();}return quests;}
         }
         public static Inventory Inventory=>new(GameServices.Current.State);
     }

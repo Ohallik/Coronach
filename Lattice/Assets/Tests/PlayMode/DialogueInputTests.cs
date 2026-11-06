@@ -101,6 +101,8 @@ namespace Lattice.Tests.PlayMode
                 {
                     // A real serialized reload before and after every implemented branch.
                     saves.Save("slot3",GameServices.Current.State);GameServices.Current.State=saves.Load("slot3");
+                    // A repair charges only when something needs repairing: give this one something to do.
+                    if(outcomes[choice]=="repair"){var hurt=PartyController.Current.Active.Health;hurt.integrity=Mathf.Max(1,hurt.integrity-5);yield return null;yield return null;}
                     int money=GameServices.Current.State.scrip;
                     dialogue.StartNode(node,speaker);yield return null;yield return null;
                     Assert.IsFalse(dialogue.AutoAdvance);Assert.IsTrue(dialogue.Running,node);

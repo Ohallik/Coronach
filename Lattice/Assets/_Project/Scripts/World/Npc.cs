@@ -39,9 +39,12 @@ namespace Lattice.World
                 TalkRequested.Invoke(story,speaker,_=>{if(this!=null&&asked==request)pending=false;});
                 return;
             }
-            bool final=!string.IsNullOrEmpty(finalFlag)&&!string.IsNullOrEmpty(finalNode)&&flags.GetBool(finalFlag);
-            string node=final?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:
-                flags.GetBool("met."+speaker)&&!string.IsNullOrEmpty(repeatNode)?repeatNode:firstNode;
+            // A first meeting comes first, whatever the story has moved on to: a later flag used to skip the introduction,
+            // and with it what the introduction gives (Hal's lesson, Neve's cache, Ilo explaining the Compact).
+            bool firstMeeting=!flags.GetBool("met."+speaker)&&!string.IsNullOrEmpty(firstNode);
+            bool final=!firstMeeting&&!string.IsNullOrEmpty(finalFlag)&&!string.IsNullOrEmpty(finalNode)&&flags.GetBool(finalFlag);
+            string node=firstMeeting?firstNode:final?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:
+                !string.IsNullOrEmpty(repeatNode)?repeatNode:firstNode;
             string completionFlag=final?finalCompletionFlag:null;
             if(final&&!string.IsNullOrEmpty(finalCompletionFlag)&&flags.GetBool(finalCompletionFlag)&&!string.IsNullOrEmpty(finalRepeatNode))
             {node=finalRepeatNode;completionFlag=null;}

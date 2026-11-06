@@ -9,11 +9,27 @@ namespace Lattice.Rpg
         readonly GameState state;
         public Inventory(GameState state){this.state=state;}
         public int Count(string id)=>state.materials.TryGetValue(id,out var value)?value:0;
+        /// <summary>An item arrived from the world: (id, amount), for the pickup feed.</summary>
+        public static event Action<string,int> Gained;
+        public static void Announce(string id,int amount){if(amount>0)Gained?.Invoke(id,amount);}
+        /// <summary>Gives anything by id, to where its kind lives: parts to gear, gels and cells to the item bag, the rest to
+        /// materials. Materials can't use a gel, and a looted gel used to vanish there (D199 fixed this for quest rewards only).</summary>
+        public void Grant(string id,int amount,bool announce=true)
+        {
+            if(amount<0)throw new ArgumentOutOfRangeException(nameof(amount));if(amount==0)return;
+            var part=GameCatalog.Find<TechPartDef>(id);
+            if(part!=null){for(int i=0;i<amount;i++)GivePart(part);}
+            else if(GameCatalog.Find<ConsumableDef>(id)!=null){state.consumables.TryGetValue(id,out int held);state.consumables[id]=held+amount;}
+            else Give(id,amount);
+            if(announce)Announce(id,amount);
+        }
         public void Give(string id,int amount)
         {
             if(amount<0)throw new ArgumentOutOfRangeException(nameof(amount));
             state.materials[id]=Count(id)+amount;
             state.collectedMaterials.TryGetValue(id,out int total);state.collectedMaterials[id]=total+amount;
+            // Every source counts toward a gathering quest: a crystal from the Bellows is as bright as one from a ridge.
+            if(GameServices.Current!=null&&ReferenceEquals(GameServices.Current.State,state))RpgServices.Quests.Report(ObjectiveKind.Collect,id,amount);
         }
         public bool Spend(Ingredient[] ingredients)
         {

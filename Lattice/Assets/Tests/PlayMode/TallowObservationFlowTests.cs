@@ -46,7 +46,7 @@ namespace Lattice.Tests.PlayMode
             yield return Finish();Assert.IsTrue(Observed);Assert.IsFalse(Point.Available);
             Assert.IsFalse(GameServices.Current.Flags.GetBool("tallow.driftDiscussed"));Assert.AreEqual(money,GameServices.Current.State.scrip);
             var saved=GameServices.Current.Saves.Load("autosave");Assert.IsNotNull(saved);Assert.IsTrue(new FlagService(saved.flags).GetBool("tallow.lineObserved"));
-            GameServices.Current.State=saved;yield return Load("TallowDrift");
+            saved.flags["met.Keeper"]=true;GameServices.Current.State=saved;yield return Load("TallowDrift");
             Object.FindObjectsByType<Npc>(FindObjectsSortMode.None).Single(n=>n.speaker=="Keeper").Interact();
             Assert.IsTrue(DialogueSystem.Current.Running);Assert.IsFalse(GameServices.Current.Flags.GetBool("tallow.driftDiscussed"));
             yield return Finish();Assert.IsTrue(GameServices.Current.Flags.GetBool("tallow.driftDiscussed"));

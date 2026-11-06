@@ -31,7 +31,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(Lattice.Core.GameTime.Paused)return;
+            if(Lattice.Core.GameTime.CombatHeld)return;
             var delta=velocity*Time.deltaTime;
             Hurtbox victim=null;float victimDistance=float.PositiveInfinity,coverDistance=float.PositiveInfinity;
             foreach(var hit in Physics.SphereCastAll(transform.position,.15f,velocity.normalized,delta.magnitude,~0,QueryTriggerInteraction.Collide))

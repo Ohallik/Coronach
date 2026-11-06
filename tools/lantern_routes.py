@@ -28,7 +28,7 @@ class Route:
     def resume(self, scene, flag=None, speed=CIVIL_SPEED, spawn=None, form=None, brake=False, picks=0):
         """Title, Continue, the newest autosave. `picks` moves down the save list."""
         self.add("read title", 1, expectedUi="title")
-        self.add("select Continue", 0.2, buttons=["DpadDown"], expectedUi="title")
+        self.add("select Continue", 0.2, buttons=[], expectedUi="title")
         self.add("release select Continue", 0.3)
         self.add("open save picker", 0.5, buttons=["South"], expectedUi="saves")
         self.add("release save picker", 0.3)

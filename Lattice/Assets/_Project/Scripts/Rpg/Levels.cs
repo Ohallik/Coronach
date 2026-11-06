@@ -19,7 +19,7 @@ namespace Lattice.Rpg
             if(gained>0){Debug.Log($"LEVEL_UP {member.id} {before}->{member.level}");LevelRaised?.Invoke(member,before,member.level);}
             return gained;
         }
-        public static float MaxIntegrity(int level)=>120+18*(Mathf.Clamp(level,1,Cap)-1);
+        public static float MaxIntegrity(int level)=>ChapterProgress.MaxIntegrity(level);
         public static Stats Calculate(CharacterDef character,int level)=>character.baseStats+character.growthPerLevel*(Mathf.Clamp(level,1,Cap)-1);
         public static Stats PartStats(TechPartDef part,PartInstance instance)=>part.baseStats*(1+Mathf.Clamp(instance.upgrade,0,5)*.08f);
     }

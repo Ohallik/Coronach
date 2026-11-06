@@ -61,7 +61,7 @@ namespace Lattice.Dialogue
                 finally {try{FinishPending(completed);}finally{dialogueActive=false;}}
             });
             Runner.AddCommandHandler("setFlag",(Action<string>)(key=>{GameServices.Current.Flags.SetBool(key,true);RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Flag,key);}));
-            Runner.AddCommandHandler("giveItem",(Action<string,int>)((id,count)=>RpgServices.Inventory.Give(id,count)));
+            Runner.AddCommandHandler("giveItem",(Action<string,int>)((id,count)=>RpgServices.Inventory.Grant(id,count)));
             Runner.AddCommandHandler("startQuest",(Action<string>)(id=>RpgServices.Quests.Start(id)));
             Runner.AddCommandHandler("shop",(Action)(()=>pendingUi="shop"));
             Runner.AddCommandHandler("repair",(Action)(()=>pendingUi="repair"));
@@ -115,6 +115,12 @@ namespace Lattice.Dialogue
             Speaker=speaker;Interrupted=false;pendingCompletion=completed;dialogueActive=true;GameServices.Current.Input.Blocked=true;
             using(StartNodeMarker.Auto())Runner.StartDialogue(node).Forget();
             return true;
+        }
+        /// <summary>Ends a running conversation without its completion taking effect.</summary>
+        public void Cancel()
+        {
+            if(!Running||Preparing)return;
+            Interrupted=true;if(Runner!=null&&Runner.IsDialogueRunning)Runner.Stop().Forget();
         }
         void FinishPending(bool completed)
         {var callback=pendingCompletion;pendingCompletion=null;callback?.Invoke(completed);}

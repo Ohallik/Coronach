@@ -24,7 +24,14 @@ namespace Lattice.World
                 return encounterId=="Gullet_Cantor"&&flags.GetBool("bossdown.Cantor");
             }
         }
-        void Start(){ready=true;PreparePreview();}
+        void Start()
+        {
+            ready=true;
+            // A cleared arena's seals reflect the save on every load, wherever the party arrives: a closed exit used to wait
+            // for someone to walk back into the trigger, while the objective pointed through it.
+            if(!Started&&SavedClear){FinishSaved();return;}
+            PreparePreview();
+        }
         void OnEnable(){if(ready)PreparePreview();}
         void OnDisable()=>CancelPreview();
         void PreparePreview()
@@ -69,6 +76,20 @@ namespace Lattice.World
             foreach(var spawner in spawners)foreach(var enemy in spawner.Spawn()){Remaining++;enemy.Health.Died+=OnDeath;}
         }
         void OnDeath(Health health,DamagePacket packet)
-        {Remaining--;if(Remaining==0){foreach(var membrane in membranes)membrane.SetOpen(true);if(!string.IsNullOrEmpty(encounterId))GameServices.Current.Flags.SetBool("clear."+encounterId,true);Debug.Log("ENCOUNTER_CLEAR "+name);}}
+        {
+            Remaining--;if(Remaining!=0)return;
+            foreach(var membrane in membranes)membrane.SetOpen(true);
+            if(!string.IsNullOrEmpty(encounterId))GameServices.Current.Flags.SetBool("clear."+encounterId,true);
+            Debug.Log("ENCOUNTER_CLEAR "+name);
+            if(isActiveAndEnabled&&!string.IsNullOrEmpty(encounterId))StartCoroutine(SaveCleared());
+        }
+        /// <summary>A won fight stays won: a defeat at the next one doesn't take back this one or its rewards. One frame later,
+        /// because the loot and XP of the last kill are paid by listeners that run after this one.</summary>
+        System.Collections.IEnumerator SaveCleared()
+        {
+            yield return null;
+            var services=GameServices.Current;if(services==null||SceneFlow.Current!=null&&SceneFlow.Current.Loading)yield break;
+            services.Saves.Save("autosave",services.State);
+        }
     }
 }

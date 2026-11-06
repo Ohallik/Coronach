@@ -36,7 +36,7 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(.3f);
         }
         bool Acknowledged=>GameServices.Current.Flags.GetBool("tallow.driftDiscussed");
-        void Observe(){GameServices.Current.Flags.SetBool("tallow.lineObserved",true);}
+        void Observe(){GameServices.Current.Flags.SetBool("met.Keeper",true);GameServices.Current.Flags.SetBool("tallow.lineObserved",true);}
         IEnumerator Finish()
         {
             dialogue.AutoAdvance=true;float until=Time.unscaledTime+12;

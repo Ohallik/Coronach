@@ -10,6 +10,23 @@ namespace Lattice.Core
         public static bool NeedsNursery(GameState state)=>!Has(state,"hushwell.nursery")&&!Has(state,LegacyAccess);
         public static bool CanEnterGullet(GameState state)=>Has(state,"warpkey")&&!NeedsNursery(state);
 
+        public static float MaxIntegrity(int level)=>120+18*(UnityEngine.Mathf.Clamp(level,1,40)-1);
+        static readonly System.Text.RegularExpressions.Regex PartId=new("^(Edges|Emitters|Frames|Drives|Modules)T[0-9]$");
+        /// <summary>Puts right what older builds wrote: gels, cells and parts stranded in materials where they can't be used,
+        /// and a party saved with nobody standing, which would load into an endless defeat.</summary>
+        public static void Repair(GameState state)
+        {
+            foreach(string id in new[]{"RepairGel","ChargeCell"})
+                if(state.materials.TryGetValue(id,out int count))
+                {state.consumables.TryGetValue(id,out int held);state.consumables[id]=held+count;state.materials.Remove(id);}
+            foreach(string id in new System.Collections.Generic.List<string>(state.materials.Keys))
+            {
+                if(!PartId.IsMatch(id))continue;
+                for(int i=0;i<state.materials[id];i++)state.parts.Add(new Lattice.Data.PartInstance{definitionId=id});
+                state.materials.Remove(id);
+            }
+            if(state.party.Count>0&&state.party.TrueForAll(m=>m.integrity<=0))foreach(var member in state.party)member.integrity=MaxIntegrity(member.level);
+        }
         public static bool Migrate(GameState state)
         {
             if(state==null||state.party==null||state.party.Count==0||state.flags==null)return false;

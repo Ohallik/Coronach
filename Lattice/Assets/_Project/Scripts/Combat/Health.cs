@@ -34,6 +34,8 @@ namespace Lattice.Combat
         public float Receive(DamagePacket packet,float multiplier=1)
         {
             if(!Alive||!Damageable||packet.source==this||packet.source!=null&&packet.source.friendly==friendly)return 0;
+            // Enemies stand frozen through a conversation or menu; nothing already in the air may land on a hero meanwhile.
+            if(friendly&&GameServices.Current!=null&&GameServices.Current.Input.Blocked)return 0;
             if(TryGetComponent<CombatActor>(out var actor)&&actor.Deflect(packet))return 0;
             if(GameTime.Now<InvulnerableUntil)return 0;
             var reaction=reactionOwner!=null?reactionOwner:this;

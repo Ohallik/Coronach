@@ -51,6 +51,17 @@ namespace Lattice.Tests.PlayMode
         {
             // The recorder must press the actual selected New Game button while
             // there is no party; no TitleScreen.StartGame or DevLoadout call.
+            // A first run has no saves (earlier tests leave some, and the title would then focus Continue and ask first).
+            if (Application.isBatchMode)
+            {
+                foreach (var slot in new[] { "autosave", "slot1", "slot2", "slot3" })
+                    foreach (var suffix in new[] { "", ".bak", ".tmp" })
+                    {
+                        var path = GameServices.Current.Saves.PathForSlot(slot) + suffix;
+                        if (System.IO.File.Exists(path)) System.IO.File.Delete(path);
+                    }
+            }
+            UnityEngine.EventSystems.EventSystem.current.SetSelectedGameObject(GameObject.Find("New Game"));
             Set(replay, "step", new QualityStep { name = "New Game", buttons = new[] { "South" } });
             float deadline = Time.unscaledTime + 2;
             while (!SceneFlow.Current.Loading && Time.unscaledTime < deadline)
