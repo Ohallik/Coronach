@@ -13,29 +13,27 @@ namespace Lattice.Core
         public InputActionMap Flight { get; }
         public InputActionMap Common { get; }
         public bool FlightMode { get; private set; }
-        bool blocked,resumeButtons;
-        int releaseFrame=-1;
+        bool blocked;
+        readonly System.Collections.Generic.HashSet<InputAction> carriedOver=new();
         public bool Blocked
         {
             get=>blocked;
-            set { if(blocked&&!value)resumeButtons=true;blocked=value; }
-        }
-        // The button dismissing a menu/dialogue belongs to that UI interaction.
-        // Require release before gameplay can interpret it as dodge, fire or interact.
-        // Continuous movement controls can remain held across UI; they must neither
-        // trap the release guard nor lose braking/thrust when gameplay resumes.
-        static bool ContinuousMovement(string name) => name=="Brake"||name=="Boost"||name=="Sprint";
-        bool ButtonsSuppressed
-        {
-            get
+            set
             {
-                if(resumeButtons)
-                {
-                    foreach(var action in Active)if(action.type==InputActionType.Button&&!ContinuousMovement(action.name)&&action.IsPressed())return true;
-                    resumeButtons=false;releaseFrame=Time.frameCount;
-                }
-                return Time.frameCount<=releaseFrame;
+                if(blocked&&!value){carriedOver.Clear();foreach(var action in Active)if(action.type==InputActionType.Button&&!ContinuousMovement(action.name)&&action.IsPressed())carriedOver.Add(action);}
+                blocked=value;
             }
+        }
+        // The button dismissing a menu/dialogue belongs to that UI interaction: it needs a release before gameplay
+        // can read it as dodge, fire or interact. Only that button waits. Every other one answers at once, or a swap
+        // pressed as A lets go is eaten. Continuous movement controls can remain held across UI; they must not lose
+        // braking/thrust when gameplay resumes.
+        static bool ContinuousMovement(string name) => name=="Brake"||name=="Boost"||name=="Sprint";
+        bool CarriedOver(InputAction action)
+        {
+            if(action==null||!carriedOver.Contains(action))return false;
+            if(action.IsPressed())return true;
+            carriedOver.Remove(action);return false;
         }
         public InputActionMap Active => FlightMode ? Flight : Ground;
         public Vector2 Move
@@ -53,7 +51,7 @@ namespace Lattice.Core
         public bool PadCycling => Gamepad.current!=null&&PadBridge.StickIsDpad(Gamepad.current)&&Gamepad.current.leftShoulder.isPressed;
         public int Cycle(string name)
         {
-            if(Blocked||ButtonsSuppressed)return 0;
+            if(Blocked)return 0;
             var action=Active[name];
             if(action.WasPerformedThisFrame())return (int)Mathf.Sign(action.ReadValue<float>());
             var pad=Gamepad.current;if(pad==null)return 0;
@@ -152,8 +150,8 @@ namespace Lattice.Core
             Ground.Disable(); Flight.Disable(); FlightMode=flight; Active.Enable(); PromptService.ForgetTags();
         }
         public InputAction Find(string name) => Active.FindAction(name) ?? Common.FindAction(name);
-        public bool Pressed(string name) => !Blocked && !ButtonsSuppressed && Find(name)?.WasPressedThisFrame()==true;
-        public bool Held(string name) => !Blocked && (ContinuousMovement(name)||!ButtonsSuppressed) && Find(name)?.IsPressed()==true;
+        public bool Pressed(string name) { if(Blocked)return false;var action=Find(name);return !CarriedOver(action)&&action?.WasPressedThisFrame()==true; }
+        public bool Held(string name) { if(Blocked)return false;var action=Find(name);return (ContinuousMovement(name)||!CarriedOver(action))&&action?.IsPressed()==true; }
         public void Dispose()
         {
             Asset.Disable();

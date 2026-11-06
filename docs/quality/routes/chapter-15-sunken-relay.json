@@ -1203,16 +1203,9 @@
     },
     {
       "name": "walk up until she speaks",
-      "seconds": 3.1,
-      "navigate": true,
-      "point": {
-        "x": 2,
-        "y": 0.1,
-        "z": 124
-      },
-      "tolerance": 0.6,
-      "until": "arrived",
-      "stopWhen": "ui:dialogue",
+      "seconds": 5,
+      "y": 1,
+      "until": "ui:dialogue",
       "expectedScene": "SunkenRelay"
     },
     {
@@ -1373,7 +1366,7 @@
     },
     {
       "name": "onto the Great Lantern's floor",
-      "seconds": 2.44,
+      "seconds": 3.38,
       "navigate": true,
       "point": {
         "x": 1,

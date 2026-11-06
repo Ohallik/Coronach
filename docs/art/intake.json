@@ -933,7 +933,8 @@
     "yaw": 0.0,
     "pitch": 0.0,
     "roll": 0.0,
-    "clips": []
+    "clips": [],
+    "emissionStrength": 0.5
   },
   {
     "id": "CrystalClusterB",
@@ -951,7 +952,8 @@
     "yaw": 0.0,
     "pitch": 0.0,
     "roll": 0.0,
-    "clips": []
+    "clips": [],
+    "emissionStrength": 0.5
   },
   {
     "id": "LatticeAnvil",

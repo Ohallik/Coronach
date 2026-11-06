@@ -18,6 +18,7 @@ namespace Lattice.EditorTools
         [Serializable]public sealed class Row
         {
             public string id,model,albedo,emission,emissionColor="#22F5FF",kind="static",fit="height",folder="Environment",character,form,enemy;
+            public float emissionStrength=1.5f;
             public float size=1.9f,yaw,pitch,roll;public ClipRow[] clips=Array.Empty<ClipRow>();
         }
         static readonly (string bone,string human)[] MeshyMap={
@@ -94,7 +95,7 @@ namespace Lattice.EditorTools
             if(albedo==null||Mathf.Max(albedo.width,albedo.height)>1024)throw new InvalidOperationException("Albedo intake failed: "+row.id);
             var mat=AssetDatabase.LoadAssetAtPath<Material>(Dir(row)+row.id+"_Toon.mat");
             if(mat==null||mat.GetTexture("_BaseMap")!=albedo)throw new InvalidOperationException("Importer did not bind the unique sibling albedo: "+row.id);
-            if(!string.IsNullOrEmpty(row.emission)){mat.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_emission.png"));ColorUtility.TryParseHtmlString(row.emissionColor,out var tint);mat.SetColor("_EmissionColor",tint*1.5f);EditorUtility.SetDirty(mat);}
+            if(!string.IsNullOrEmpty(row.emission)){mat.SetTexture("_EmissionMap",AssetDatabase.LoadAssetAtPath<Texture2D>(Dir(row)+row.id+"_emission.png"));ColorUtility.TryParseHtmlString(row.emissionColor,out var tint);mat.SetColor("_EmissionColor",tint*row.emissionStrength);EditorUtility.SetDirty(mat);}
             var root=new GameObject(row.id);var body=(GameObject)PrefabUtility.InstantiatePrefab(AssetDatabase.LoadAssetAtPath<GameObject>(Model(row)),root.transform);body.name="Body";
             // Imported model instances reject transform reparenting. Make the derived
             // Shaped hierarchy editable before attaching its generated vanes to bones.

@@ -75,6 +75,7 @@ namespace Lattice.Tests.PlayMode
                 foreach(char c in used)Assert.IsTrue(font.HasCharacter(c,true,false),font.name+" draws an empty box for '"+c+"'");
                 Assert.IsFalse(font.fallbackFontAssetTable.Any(f=>f==null),font.name+" has a broken fallback");
                 Assert.IsNotNull(font.material,font.name+" has no material");
+                Assert.AreEqual("TextMeshPro/Distance Field",font.material.shader.name,font.name+" draws no outline: the mobile shader ignores outlineWidth, and the HUD's unbacked words wash out on Sorrel's ground");
             }
         }
         [UnityTest] public IEnumerator TheTitleSitsInItsBox()
@@ -107,7 +108,25 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("Lanternwick");
             var signs=Object.FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None).Where(t=>t.name.StartsWith("Sign_")).ToArray();
             Assert.IsNotEmpty(signs,"nothing to check");
-            foreach(var sign in signs)Assert.AreEqual("Cinzel SDF",sign.font.name,sign.text+" is still in the engine's default font");
+            foreach(var sign in signs)
+            {
+                Assert.AreEqual("Cinzel SDF",sign.font.name,sign.text+" is still in the engine's default font");
+                Assert.Greater(sign.outlineWidth,0,sign.text+" has no edge: pale type on a bright planet or a sunlit floor can't be read");
+            }
+        }
+        [UnityTest] public IEnumerator RidgeCrystalsShowTheirFacets()
+        {
+            yield return Zone("Sorrel_Ridges");
+            int looked=0;
+            foreach(var node in Object.FindObjectsByType<Lattice.World.MineNode>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+                foreach(var renderer in node.GetComponentsInChildren<Renderer>(true))
+                {
+                    var material=renderer.sharedMaterial;if(material==null||!material.HasProperty("_EmissionColor"))continue;
+                    looked++;var glow=material.GetColor("_EmissionColor");
+                    Assert.Less(glow.maxColorComponent,.8f,material.name+" glows past its own lighting: at "+glow+" every face reads the same flat cyan, with no facets");
+                    Assert.Greater(glow.maxColorComponent,.2f,material.name+" stopped glowing: a crystal worth mining should still catch the eye");
+                }
+            Assert.Greater(looked,0,"fixture: Sorrel has crystals to mine");
         }
         [UnityTest] public IEnumerator TheSurveyDroneIsAMachineThatLooksWhereItShoots()
         {

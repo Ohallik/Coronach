@@ -37,7 +37,7 @@ namespace Lattice.UI
                 foreach(var sign in FindObjectsByType<TMPro.TextMeshPro>(FindObjectsSortMode.None))
                     if(sign.transform.parent==null&&sign.name.StartsWith("Sign_")&&sign.GetComponent<SignFade>()==null)sign.gameObject.AddComponent<SignFade>();
             foreach(var sign in FindObjectsByType<TMPro.TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None))
-                if(sign.name.StartsWith("Sign_"))sign.font=UiSkin.Display;
+                if(sign.name.StartsWith("Sign_")){sign.font=UiSkin.Display;sign.outlineWidth=.22f;sign.outlineColor=new Color32(5,12,22,255);}
             // A warp's sign is built at 1.5: 12 px tall under the flight camera. Sized here against this zone's own camera, so every builder's signs agree and no rebuild shrinks them.
             float readable=UiKit.WorldFontSize(WarpSignPixels);
             var warps=FindObjectsByType<Lattice.World.WarpBeacon>(FindObjectsInactive.Include,FindObjectsSortMode.None);

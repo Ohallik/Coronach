@@ -320,6 +320,30 @@ namespace Lattice.Tests.PlayMode
             yield return Pad(new GamepadState());
         }
 
+        [UnityTest] public IEnumerator AnotherButtonIsHeardTheMomentTheOneThatClosedTheMenuLetsGo()
+        {
+            var party=PartyController.Current;var hero=party.Active;hero.GetComponent<PlayerBrain>().AutoPilot=false;var input=GameServices.Current.Input;
+            Assert.Greater(party.members.Length,1,"fixture: someone to swap with");
+            // A closes a menu or finishes a load, and is still down when the game takes input back.
+            input.Blocked=true;yield return Pad(new GamepadState().WithButton(GamepadButton.South));
+            input.Blocked=false;yield return null;yield return null;
+            int swings=hero.AttackSequence,swaps=party.SwapCount;
+            yield return Pad(new GamepadState().WithButton(GamepadButton.South));
+            Assert.AreEqual(swings,hero.AttackSequence,"the press that closed the menu also swung");
+            // It lets go and Y goes down in the same moment.
+            yield return Pad(new GamepadState().WithButton(GamepadButton.North));
+            Assert.Greater(party.SwapCount,swaps,"a swap pressed as A let go was eaten: every button waits on every other");
+            yield return Pad(new GamepadState());
+            // A guard held through the close still has to be pressed again.
+            party.Active.GetComponent<PlayerBrain>().AutoPilot=false;
+            input.Blocked=true;yield return Pad(new GamepadState().WithButton(GamepadButton.West));
+            input.Blocked=false;yield return null;yield return null;
+            Assert.IsFalse(input.Held("Guard"),"a button held through the close acts before it has been let go");
+            yield return Pad(new GamepadState());yield return Pad(new GamepadState().WithButton(GamepadButton.West));
+            Assert.IsTrue(input.Held("Guard"),"a button let go and pressed again is dead");
+            yield return Pad(new GamepadState());
+        }
+
         // ------------------------------------------------------------------ ui229: the lessons
         [UnityTest] public IEnumerator TheFirstMarkedAttacksTeachTheFlashTimingOncePerSave()
         {

@@ -300,7 +300,8 @@ def relay():
     r.add("release cradle", 1)
     # She stands at (3,129): walking in past the open seal starts the talk with her in frame.
     r.walk("through the open seal", 0, 0.1, 120, tolerance=1)
-    r.walk("walk up until she speaks", 2, 0.1, 124, tolerance=0.6, stop="ui:dialogue")
+    # The hall's whole width starts the talk, so it's a walk with no point to reach: it ends when she speaks, and fails if she doesn't.
+    r.add("walk up until she speaks", 5, y=1, until="ui:dialogue")
     r.add("she speaks", 3, until="ui:dialogue", expectedUi="dialogue")
     r.read("the captain", 6, flag="relay.hessaConfronted")
     r.lead("Taren")
