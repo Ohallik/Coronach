@@ -526,8 +526,9 @@ namespace Lattice.UI
         void ValidateStep()
         {
             if (!string.IsNullOrEmpty(step.until) && !Condition(step.until)) failures.Add(step.name + ": condition timeout " + step.until);
-            // A chase that its outcome ended (the target fell first) has nothing left to reach.
-            if (step.navigate && !arrived && !(step.approachTarget && endedByCondition)) failures.Add(step.name + ": navigation checkpoint missed");
+            // A chase that its outcome ended (the target fell first), or a walk a stopWhen cut short (the party fell on the
+            // way), has nothing left to reach.
+            if (step.navigate && !arrived && !(endedByCondition && (step.approachTarget || !string.IsNullOrEmpty(step.stopWhen)))) failures.Add(step.name + ": navigation checkpoint missed");
             string expected = string.IsNullOrEmpty(step.expectedScene) ? route.scene : step.expectedScene;
             if (ActualScene != expected) failures.Add(step.name + ": scene " + ActualScene + " expected " + expected);
             if (!string.IsNullOrEmpty(step.expectedFlag) && !GameServices.Current.Flags.GetBool(step.expectedFlag)) failures.Add(step.name + ": missing flag " + step.expectedFlag);
@@ -547,6 +548,8 @@ namespace Lattice.UI
         {
             // The enemy locked when the step began has fallen.
             if (name == "targetDown") return stepTarget != null && !stepTarget.Alive;
+            // The step's navigation goal is reached: a walk takes as long as it takes.
+            if (name == "arrived") return arrived;
             if (name.StartsWith("flag:")) return GameServices.Current.Flags.GetBool(name.Substring(5));
             if (name.StartsWith("ui:")) return UiMatches(name.Substring(3), ObserveUi());
             if (name.StartsWith("scene:")) return !SceneFlow.Current.Loading && ActualScene == name.Substring(6);

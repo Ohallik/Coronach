@@ -16,6 +16,7 @@ p.add_argument("run")
 p.add_argument("--per-sheet", type=int, default=12)
 p.add_argument("--every", type=int, default=1)
 p.add_argument("--out", help="write sheets here instead of beside the run")
+p.add_argument("--min-seconds", type=float, default=0, help="keep only steps at least this long (skips button-release frames)")
 a = p.parse_args()
 run = Path(a.run)
 folder = next((f for f in [run, *sorted(run.glob("player*"))] if list(f.glob("[0-9][0-9][0-9].png"))), None)
@@ -23,7 +24,9 @@ if folder is None:
     raise SystemExit(f"no step screenshots under {run}")
 route = json.loads((folder / "route.json").read_text(encoding="utf-8-sig")) if (folder / "route.json").exists() else {}
 names = [s.get("name", "") for s in route.get("steps", [])]
-shots = sorted(folder.glob("[0-9][0-9][0-9].png"))[:: a.every]
+seconds = [s.get("seconds", 1) for s in route.get("steps", [])]
+shots = [shot for shot in sorted(folder.glob("[0-9][0-9][0-9].png"))
+         if int(shot.stem) >= len(seconds) or seconds[int(shot.stem)] >= a.min_seconds][:: a.every]
 cols, w, h = 4, 640, 360
 for page in range(0, len(shots), a.per_sheet):
     batch = shots[page:page + a.per_sheet]

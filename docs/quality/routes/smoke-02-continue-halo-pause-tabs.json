@@ -1,0 +1,268 @@
+{
+  "name": "smoke-02-continue-halo-pause-tabs",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "TEST_PLAN section 3 smoke, part 2: Continue, the Halo, a dock, every pause tab",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "expectedScene": "Title",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release open save picker",
+      "seconds": 1,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select slot 1",
+      "seconds": 0.2,
+      "expectedScene": "Title",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "saves"
+    },
+    {
+      "name": "release select slot 1",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load slot 1",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks",
+      "expectedUi": "world",
+      "expectedFlag": "met.Orrin",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "office launch control",
+      "seconds": 4,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -15.5
+      }
+    },
+    {
+      "name": "launch into the Halo",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_CinderHalo",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "Hub_CinderHalo"
+    },
+    {
+      "name": "clear the apron",
+      "seconds": 5,
+      "leftTrigger": 1,
+      "expectedScene": "Hub_CinderHalo",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -35
+      }
+    },
+    {
+      "name": "return to the office dock",
+      "seconds": 6,
+      "leftTrigger": 1,
+      "expectedScene": "Hub_CinderHalo",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -27
+      }
+    },
+    {
+      "name": "dock",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "Hub_Decks",
+      "expectedUi": "world",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "release dock",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "open pause: Party",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "Start"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release open pause",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "tab Skills",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "RightShoulder"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release tab Skills",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "tab Gear",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "RightShoulder"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release tab Gear",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "tab Fabricate",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "RightShoulder"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release tab Fabricate",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "tab Items",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "RightShoulder"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release tab Items",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "tab Quests",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "RightShoulder"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release tab Quests",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "tab Settings",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "RightShoulder"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release tab Settings",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "close pause",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release close pause",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "smoke part 2 done",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "expectedUi": "world"
+    }
+  ]
+}

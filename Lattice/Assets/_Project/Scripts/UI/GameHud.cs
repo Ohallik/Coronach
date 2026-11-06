@@ -57,6 +57,9 @@ namespace Lattice.UI
             prompt=Text("Interaction",new(960,205),new(1200,60),28);
             skills.outlineWidth=.2f;skills.outlineColor=new Color32(5,12,22,255);
             prompt.outlineWidth=.22f;prompt.outlineColor=new Color32(5,12,22,255);
+            target.outlineWidth=.2f;target.outlineColor=new Color32(5,12,22,255);
+            zone.outlineWidth=.2f;zone.outlineColor=new Color32(5,12,22,255);
+            TextPlate.Attach(prompt,"InteractionPlate");TextPlate.Attach(skills,"SkillsPlate",34,10);TextPlate.Attach(target,"TargetPlate",34,10);
             reticle=UiKit.Panel(canvas.transform,"TargetReticle",Color.white);reticle.sprite=UiSkin.Kit("reticle");reticle.raycastTarget=false;reticle.preserveAspect=true;
             UiKit.Rect(reticle.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(90,90));
             for(int i=0;i<4;i++)
@@ -133,11 +136,13 @@ namespace Lattice.UI
                 bool on=i<thresholds.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
                 if(on)bossNotches[i].rectTransform.anchoredPosition=new Vector2(BossBarWidth*thresholds[i],0);
             }
-            string state=boss.Shifting?"IT'S CHANGING":health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?"BELOW GROUND":"";
+            string state=boss.Shifting?"IT'S CHANGING":health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:"";
             if(bossState.text!=state)bossState.text=state;
             return true;
         }
         const float BarWidth=400;
+        /// <summary>A break threshold this high means the target can't be broken at all, so it gets no gauge (pressure organs).</summary>
+        const float Unbreakable=10000;
         TMP_Text Text(string name,Vector2 pos,Vector2 size,int font,TextAlignmentOptions align=TextAlignmentOptions.Center)
         {var t=UiKit.Text(canvas.transform,name,"",font,UiKit.TextColor,align);UiKit.Rect(t.gameObject,Vector2.zero,Vector2.zero,pos,size);return t;}
         Image Bar(string name,Vector2 pos,Color color)
@@ -174,8 +179,8 @@ namespace Lattice.UI
                 target.text=(a.TargetLocked?"LOCKED    ":"")+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
             else if(a.target!=null&&a.target.Alive)
                 target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
-                    (a.target.Broken?"BROKEN":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0"))+
-                    "    "+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
+                    (a.target.Broken?"BROKEN    ":a.target.breakThreshold>=Unbreakable?"":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0")+"    ")+
+                    PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
             else target.text="";
             reticle.enabled=a.target!=null&&a.target.Alive;
             if(reticle.enabled)

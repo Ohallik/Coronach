@@ -13,7 +13,7 @@ namespace Lattice.UI
     {
         Canvas canvas;
         GameObject settings,savePicker,mainMenu;
-        Button settingsButton;
+        Button settingsButton,continueButton;
         public bool SettingsOpen=>settings!=null;
         public bool SavesOpen=>savePicker!=null;
         TMPro.TMP_Text hint;
@@ -35,7 +35,7 @@ namespace Lattice.UI
             UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
             var buttons=new List<Selectable>();
             var play=MenuButton("New Game",0,()=>StartGame(false)); buttons.Add(play);
-            var cont=MenuButton("Continue",1,OpenSaves);
+            var cont=MenuButton("Continue",1,OpenSaves);continueButton=cont;
             cont.interactable=System.Array.Exists(new[]{"autosave","slot1","slot2","slot3"},GameServices.Current.Saves.Exists); if(cont.interactable)buttons.Add(cont);
             settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
             buttons.Add(MenuButton("Quit",3,Application.Quit)); UiKit.LinkVertical(buttons.ToArray());
@@ -64,7 +64,8 @@ namespace Lattice.UI
             UiKit.LinkVertical(controls.ToArray());EventSystem.current.SetSelectedGameObject(controls[0].gameObject);
         }
         public void CloseSettings(){if(settings==null)return;AudioMix.Current.Flush();Destroy(settings);settings=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(settingsButton.gameObject);}
-        void Update(){if(UiActions.Cancel.WasPressedThisFrame()){if(settings!=null||savePicker!=null)UiSounds.Cancel();if(settings!=null)CloseSettings();if(savePicker!=null){Destroy(savePicker);savePicker=null;}}}
+        void Update(){if(UiActions.Cancel.WasPressedThisFrame()){if(settings!=null||savePicker!=null)UiSounds.Cancel();if(settings!=null)CloseSettings();if(savePicker!=null)CloseSaves();}}
+        void CloseSaves(){if(savePicker==null)return;Destroy(savePicker);savePicker=null;mainMenu.SetActive(true);EventSystem.current.SetSelectedGameObject(continueButton.gameObject);}
         public void StartGame(bool resume)
         {
             if(resume) GameServices.Current.State=GameServices.Current.Saves.Load("autosave")??new GameState();
@@ -80,7 +81,7 @@ namespace Lattice.UI
         }
         void OpenSaves()
         {
-            savePicker=UiKit.Dim(canvas.transform,.96f).gameObject;var buttons=new List<Selectable>();int row=0;
+            mainMenu.SetActive(false);savePicker=UiKit.Dim(canvas.transform,.96f).gameObject;var buttons=new List<Selectable>();int row=0;
             var heading=UiKit.Heading(savePicker.transform,"LoadTitle","CONTINUE YOUR ROUTE",45,UiKit.TextColor);UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,330),new(1200,80));
             foreach(string slot in new[]{"autosave","slot1","slot2","slot3"})
             {
@@ -89,7 +90,7 @@ namespace Lattice.UI
                 {var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);canvas.gameObject.SetActive(false);});
                 button.interactable=state!=null;UiKit.Rect(button.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,180-row++*100),new(1200,72));if(button.interactable)buttons.Add(button);
             }
-            var back=UiKit.Button(savePicker.transform,"Back","Back",()=>{UiSounds.Cancel();Destroy(savePicker);savePicker=null;});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+            var back=UiKit.Button(savePicker.transform,"Back","Back",()=>{UiSounds.Cancel();CloseSaves();});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
         }
         IEnumerator Capture()
         {

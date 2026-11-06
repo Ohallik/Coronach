@@ -1,0 +1,275 @@
+{
+  "name": "smoke-01-new-game-orrin",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "TEST_PLAN section 3 smoke, part 1: Title, New Game, first repair, Orrin, a manual save",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedScene": "Title",
+      "expectedUi": "title"
+    },
+    {
+      "name": "choose New Game",
+      "seconds": 5,
+      "expectedScene": "Hub_CinderHalo",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedCharacter": "Taren",
+      "expectedForm": "CivilFlight"
+    },
+    {
+      "name": "approach office dock",
+      "seconds": 8,
+      "expectedScene": "Hub_CinderHalo",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -27
+      },
+      "leftTrigger": 1
+    },
+    {
+      "name": "dock office",
+      "seconds": 4,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural"
+    },
+    {
+      "name": "office promenade",
+      "seconds": 4,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      }
+    },
+    {
+      "name": "approach the walkway job",
+      "seconds": 6.5,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -16.2,
+        "y": 0,
+        "z": -3
+      }
+    },
+    {
+      "name": "watch Sela cross the market",
+      "seconds": 7,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "start the walkway repair",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release start repair",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "read the walkway repair",
+      "seconds": 30,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "opening.walkwayRepaired"
+    },
+    {
+      "name": "release after repair",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "back to the office promenade",
+      "seconds": 6.5,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": -3
+      }
+    },
+    {
+      "name": "office entrance",
+      "seconds": 3,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -28,
+        "y": 0,
+        "z": 3
+      }
+    },
+    {
+      "name": "approach Orrin",
+      "seconds": 3,
+      "expectedScene": "Hub_Decks",
+      "navigate": true,
+      "point": {
+        "x": -33,
+        "y": 0,
+        "z": 3.8
+      }
+    },
+    {
+      "name": "talk to Orrin",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release talk to Orrin",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "read Orrin and recruit Sela",
+      "seconds": 20,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "met.Orrin"
+    },
+    {
+      "name": "release after briefing",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks"
+    },
+    {
+      "name": "open pause",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "Start"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release open pause",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "select save slot 1, row 1",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release row 1",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "select save slot 1, row 2",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release row 2",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "select save slot 1, row 3",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release row 3",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "save to slot 1",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "pause",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release save",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "close pause",
+      "seconds": 0.5,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "release close pause",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "pause"
+    },
+    {
+      "name": "smoke part 1 done",
+      "seconds": 1,
+      "expectedScene": "Hub_Decks",
+      "expectedUi": "world",
+      "expectedFlag": "met.Orrin"
+    }
+  ]
+}

@@ -1,0 +1,1369 @@
+{
+  "name": "chapter-16-lantern-home",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 2: the side quests' returns, Aumi's chart, the road back, Abri",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "bossdown.HessaKorl",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "to Ishen",
+      "seconds": 3.28,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 0.2,
+        "z": 90
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "start Ishen's plates",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release start Ishen's plates",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Ishen's plates line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Ishen's plates line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Ishen's plates line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Ishen's plates line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Ishen's plates line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Ishen's plates line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Ishen's plates line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Ishen's plates line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Ishen's plates line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Ishen's plates line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Ishen's plates line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Ishen's plates line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Ishen's plates line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Ishen's plates line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Ishen's plates line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Ishen's plates line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Ishen's plates line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Ishen's plates line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "finish Ishen's plates",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "ishen.recordRestored",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release after Ishen's plates",
+      "seconds": 0.5,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 1/7",
+      "seconds": 18.91,
+      "navigate": true,
+      "point": {
+        "x": 5.6,
+        "y": 0.2,
+        "z": 42.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 2/7",
+      "seconds": 4.25,
+      "navigate": true,
+      "point": {
+        "x": 6.9,
+        "y": 0.2,
+        "z": 36.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 3/7",
+      "seconds": 7.28,
+      "navigate": true,
+      "point": {
+        "x": 17.1,
+        "y": 1,
+        "z": 25.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 4/7",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 18.9,
+        "y": 1.5,
+        "z": 25.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 5/7",
+      "seconds": 10.54,
+      "navigate": true,
+      "point": {
+        "x": 19.4,
+        "y": 3.2,
+        "z": 49.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 6/7",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 18.9,
+        "y": 3.1,
+        "z": 51.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down to the stair 7/7",
+      "seconds": 2.87,
+      "navigate": true,
+      "point": {
+        "x": 20,
+        "y": 3.1,
+        "z": 53.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "start Aumi's chart",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release start Aumi's chart",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 7",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 7",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 7",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 8",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 8",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 8",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Aumi's chart line 9",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Aumi's chart line 9",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Aumi's chart line 9",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "finish Aumi's chart",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "lanternwick.chartGiven",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release after Aumi's chart",
+      "seconds": 0.5,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down from the stair 1/5",
+      "seconds": 2.87,
+      "navigate": true,
+      "point": {
+        "x": 18.9,
+        "y": 3.1,
+        "z": 51.3
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down from the stair 2/5",
+      "seconds": 2.66,
+      "navigate": true,
+      "point": {
+        "x": 19.4,
+        "y": 3.2,
+        "z": 49.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down from the stair 3/5",
+      "seconds": 10.54,
+      "navigate": true,
+      "point": {
+        "x": 18.9,
+        "y": 1.5,
+        "z": 25.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down from the stair 4/5",
+      "seconds": 2.64,
+      "navigate": true,
+      "point": {
+        "x": 17.1,
+        "y": 1,
+        "z": 25.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "down from the stair 5/5",
+      "seconds": 7.18,
+      "navigate": true,
+      "point": {
+        "x": 7,
+        "y": 0.2,
+        "z": 36
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "start Pell's lamp back",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release start Pell's lamp back",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Pell's lamp back line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Pell's lamp back line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Pell's lamp back line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Pell's lamp back line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Pell's lamp back line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Pell's lamp back line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Pell's lamp back line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Pell's lamp back line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Pell's lamp back line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "finish Pell's lamp back",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "pell.lampReturned",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release after Pell's lamp back",
+      "seconds": 0.5,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "to the orchard shed 1/4",
+      "seconds": 8.54,
+      "navigate": true,
+      "point": {
+        "x": -5.5,
+        "y": 0.1,
+        "z": 49.5
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "to the orchard shed 2/4",
+      "seconds": 5.76,
+      "navigate": true,
+      "point": {
+        "x": -15.8,
+        "y": 0.2,
+        "z": 51.9
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "to the orchard shed 3/4",
+      "seconds": 4.34,
+      "navigate": true,
+      "point": {
+        "x": -21.5,
+        "y": 1.6,
+        "z": 55.2
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "to the orchard shed 4/4",
+      "seconds": 5.47,
+      "navigate": true,
+      "point": {
+        "x": -30,
+        "y": 1.5,
+        "z": 60
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "start Brekk's rations",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release start Brekk's rations",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Brekk's rations line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Brekk's rations line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Brekk's rations line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Brekk's rations line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Brekk's rations line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Brekk's rations line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Brekk's rations line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Brekk's rations line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Brekk's rations line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Brekk's rations line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Brekk's rations line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Brekk's rations line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Brekk's rations line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Brekk's rations line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Brekk's rations line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Brekk's rations line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "next Brekk's rations line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release Brekk's rations line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "finish Brekk's rations",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "unsworn.rationsDelivered",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release after Brekk's rations",
+      "seconds": 0.5,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "back to the market 1/6",
+      "seconds": 3.79,
+      "navigate": true,
+      "point": {
+        "x": -28.5,
+        "y": 1.5,
+        "z": 55.2
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "back to the market 2/6",
+      "seconds": 4.3,
+      "navigate": true,
+      "point": {
+        "x": -27.5,
+        "y": 1.5,
+        "z": 48.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "back to the market 3/6",
+      "seconds": 9.03,
+      "navigate": true,
+      "point": {
+        "x": -8.3,
+        "y": 0.2,
+        "z": 44.1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "back to the market 4/6",
+      "seconds": 4.26,
+      "navigate": true,
+      "point": {
+        "x": -5.5,
+        "y": 0.2,
+        "z": 38.4
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "back to the market 5/6",
+      "seconds": 5.92,
+      "navigate": true,
+      "point": {
+        "x": -2.5,
+        "y": 0.2,
+        "z": 27.8
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "back to the market 6/6",
+      "seconds": 5.88,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0.2,
+        "z": 17
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "start Corra's thanks",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release start Corra's thanks",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "read Corra's thanks",
+      "seconds": 1.9,
+      "stopWhen": "ui:shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "her shop opens",
+      "seconds": 12,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:shop",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "look over her stock",
+      "seconds": 1,
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "leave her stall",
+      "seconds": 0.5,
+      "buttons": [
+        "East"
+      ],
+      "expectedUi": "world",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release her stall",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "to the courier pad",
+      "seconds": 14.88,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.4,
+        "z": -19
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "launch from Lanternwick",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "down the reach",
+      "seconds": 20.04,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 150
+      },
+      "tolerance": 2,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "to the far end",
+      "seconds": 19.48,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 1,
+        "z": 30
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "toward Tallow's warp",
+      "seconds": 5.6,
+      "navigate": true,
+      "point": {
+        "x": -12,
+        "y": 1,
+        "z": 6
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "settle at Tallow's warp",
+      "seconds": 6.87,
+      "navigate": true,
+      "point": {
+        "x": -13,
+        "y": 1,
+        "z": 0
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "warp home",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "clear of the warp",
+      "seconds": 4.59,
+      "navigate": true,
+      "point": {
+        "x": 3,
+        "y": 1,
+        "z": -10
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "to Tallow's dock",
+      "seconds": 7.22,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": -4.2
+      },
+      "tolerance": 0.65,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "dock at Tallow Drift",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Natural",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release dock",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "through the pressure cabin",
+      "seconds": 5.91,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to Keeper Abri",
+      "seconds": 2.36,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "start Abri's homecoming",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release start Abri's homecoming",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's homecoming line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's homecoming line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's homecoming line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's homecoming line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's homecoming line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's homecoming line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's homecoming line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's homecoming line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's homecoming line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's homecoming line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's homecoming line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's homecoming line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's homecoming line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's homecoming line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's homecoming line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "read Abri's homecoming line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "next Abri's homecoming line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release Abri's homecoming line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "finish Abri's homecoming",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "chapter2.homecoming",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri's homecoming",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "chapter two closes",
+      "seconds": 3,
+      "expectedFlag": "chapter2.complete",
+      "expectedScene": "TallowDrift"
+    }
+  ]
+}

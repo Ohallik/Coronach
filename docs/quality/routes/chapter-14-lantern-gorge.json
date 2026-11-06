@@ -1,0 +1,2190 @@
+{
+  "name": "chapter-14-lantern-gorge",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 2: three relays, the den, the camp, the door",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "met.Aumi",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "into the gorge",
+      "seconds": 7.93,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0,
+        "z": 24
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "lock Gorge_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lock Gorge_0",
+      "seconds": 0.3,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 1a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 1b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_0 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_0 1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 2a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 2b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_0 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_0 2",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 3a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 3b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_0 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_0 3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 4a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_0 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_0 4b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_0 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_0 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_0 4",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Gorge_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gorge_0",
+      "expectedFlag": "clear.Gorge_0",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "reach the fallen hero after Gorge_0",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "both heroes ready after Gorge_0",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel after Gorge_0",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel after Gorge_0",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the first relay",
+      "seconds": 8.7,
+      "navigate": true,
+      "point": {
+        "x": 8.2,
+        "y": 0.2,
+        "z": 50.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "start first gorge relay",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release start first gorge relay",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "read first gorge relay line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "next first gorge relay line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release first gorge relay line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "read first gorge relay line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "next first gorge relay line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release first gorge relay line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "read first gorge relay line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "next first gorge relay line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release first gorge relay line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "finish first gorge relay",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "gorge.relay1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release after first gorge relay",
+      "seconds": 0.5,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "deeper into the dark",
+      "seconds": 7.32,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0,
+        "z": 72
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "lock Gorge_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lock Gorge_1",
+      "seconds": 0.3,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 1a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 1b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_1 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_1 1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 2a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 2b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_1 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_1 2",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 3a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 3b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_1 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_1 3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 4a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_1 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_1 4b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_1 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_1 4",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Gorge_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gorge_1",
+      "expectedFlag": "clear.Gorge_1",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "reach the fallen hero after Gorge_1",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "both heroes ready after Gorge_1",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel after Gorge_1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel after Gorge_1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the den's mouth",
+      "seconds": 8.01,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 92
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "into the den",
+      "seconds": 5.3,
+      "navigate": true,
+      "point": {
+        "x": -20,
+        "y": 0,
+        "z": 98
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "lock Gorge_Den",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lock Gorge_Den",
+      "seconds": 0.3,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Den 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Den 1a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Den 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Den 1b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Den round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Den",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Den 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Den 1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Den 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Den 2a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Den 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Den 2b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Den round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Den",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Den 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Den 2",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Den 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Den 3a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Den 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Den 3b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Den round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Den",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Den 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Den 3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Gorge_Den cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gorge_Den",
+      "expectedFlag": "clear.Gorge_Den",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "reach the fallen hero after Gorge_Den",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "both heroes ready after Gorge_Den",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel after Gorge_Den",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel after Gorge_Den",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to Pell's lamp",
+      "seconds": 3.17,
+      "navigate": true,
+      "point": {
+        "x": -24.5,
+        "y": 0,
+        "z": 99.5
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "pick up the chewed lamp",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "pell.lampFound",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lamp",
+      "seconds": 0.5,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "out of the den",
+      "seconds": 6.69,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0,
+        "z": 109
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "lock Gorge_Camp",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lock Gorge_Camp",
+      "seconds": 0.3,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 1a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 1b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Camp round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Camp 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Camp 1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 2a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 2b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Camp round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Camp 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Camp 2",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 3a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 3b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Camp round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Camp 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Camp 3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 4a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_Camp 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_Camp 4b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_Camp round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_Camp 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_Camp 4",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Gorge_Camp cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gorge_Camp",
+      "expectedFlag": "clear.Gorge_Camp",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "reach the fallen hero after Gorge_Camp",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "both heroes ready after Gorge_Camp",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel after Gorge_Camp",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel after Gorge_Camp",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "around the camp crates",
+      "seconds": 3.56,
+      "navigate": true,
+      "point": {
+        "x": -6,
+        "y": 0.2,
+        "z": 103
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the ration crate",
+      "seconds": 3.25,
+      "navigate": true,
+      "point": {
+        "x": -11,
+        "y": 0.3,
+        "z": 103.8
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "take a ration crate",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "unsworn.rationsFound",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release crate",
+      "seconds": 0.5,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the second relay",
+      "seconds": 6.66,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0.2,
+        "z": 122.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "relight the second relay",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "gorge.relay2",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release second relay",
+      "seconds": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "past the camp",
+      "seconds": 3.67,
+      "navigate": true,
+      "point": {
+        "x": -4,
+        "y": 0.2,
+        "z": 128
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "up the canyon",
+      "seconds": 8.09,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0.2,
+        "z": 152
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "lock Gorge_3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lock Gorge_3",
+      "seconds": 0.3,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 1a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 1b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_3 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_3 1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 2a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 2b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_3 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_3 2",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 3a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 3b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_3 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_3 3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 4a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_3 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_3 4b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_3 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_3",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_3 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_3 4",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Gorge_3 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gorge_3",
+      "expectedFlag": "clear.Gorge_3",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "reach the fallen hero after Gorge_3",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "both heroes ready after Gorge_3",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel after Gorge_3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel after Gorge_3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the third relay",
+      "seconds": 10.17,
+      "navigate": true,
+      "point": {
+        "x": 8.8,
+        "y": 0.4,
+        "z": 184.5
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "relight the third relay",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "gorge.relaysLit",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release third relay",
+      "seconds": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the last crew",
+      "seconds": 5.88,
+      "navigate": true,
+      "point": {
+        "x": 6,
+        "y": 0.4,
+        "z": 200
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "lock Gorge_4",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release lock Gorge_4",
+      "seconds": 0.3,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 1a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 1b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_4 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_4 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_4 1",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 2a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 2b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_4 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_4 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_4 2",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 3a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 3b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_4 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_4 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_4 3",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 4a",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "skill Gorge_4 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release skill Gorge_4 4b",
+      "seconds": 0.45,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "fight Gorge_4 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Gorge_4",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel Gorge_4 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel Gorge_4 4",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Gorge_4 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Gorge_4",
+      "expectedFlag": "clear.Gorge_4",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "reach the fallen hero after Gorge_4",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "both heroes ready after Gorge_4",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "repair gel after Gorge_4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "release gel after Gorge_4",
+      "seconds": 0.4,
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "to the buried door",
+      "seconds": 8.76,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.2,
+        "z": 226.8
+      },
+      "tolerance": 0.5,
+      "until": "arrived",
+      "expectedScene": "LanternGorge"
+    },
+    {
+      "name": "enter the Sunken Relay",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Shaped",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release relay door",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    }
+  ]
+}

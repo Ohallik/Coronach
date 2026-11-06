@@ -49,7 +49,7 @@ namespace Lattice.Core
             for(float t=0;t<0.3f;t+=Time.unscaledDeltaTime){FadeChanged?.Invoke(1-t/0.3f);yield return null;}
             FadeChanged?.Invoke(0); Loading=false;DockArrival=false;
             if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;
-            if(GameServices.Current!=null&&scene!="Title")BarkService.Play(GameServices.Current.State.party[GameServices.Current.State.activeMember].id,"zone",true);
+            if(GameServices.Current!=null&&scene!="Title")BarkService.PlayArrival(GameServices.Current.State.party[GameServices.Current.State.activeMember].id);
             if(GameServices.Current!=null&&scene!="Title"&&!scene.StartsWith("Arena_"))GameServices.Current.Saves.Save("autosave",GameServices.Current.State);
         }
     }

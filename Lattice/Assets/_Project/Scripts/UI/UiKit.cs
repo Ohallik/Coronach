@@ -13,6 +13,61 @@ namespace Lattice.UI
     /// skin (9-slice kit sprites + Cinzel/Nunito type, see UiSkin) propagates everywhere
     /// from here. All helpers degrade to the old flat-color look if the art is missing.
     /// </summary>
+    /// <summary>The focused control's words turn gold and a bright bar marks its edge: on a pad the selected row must be
+    /// unmistakable, and the frame tint alone barely showed (QA-010).</summary>
+    public sealed class SelectionMark : MonoBehaviour, UnityEngine.EventSystems.ISelectHandler, UnityEngine.EventSystems.IDeselectHandler
+    {
+        static readonly Color Selected = new(1f, .84f, .42f);
+        TMP_Text label; Color normal; Image bar;
+        void Start()
+        {
+            var system = UnityEngine.EventSystems.EventSystem.current;
+            if (system != null && system.currentSelectedGameObject == gameObject) Mark(true);
+        }
+        void Mark(bool on)
+        {
+            if (label == null) { label = GetComponentInChildren<TMP_Text>(); if (label == null) return; normal = label.color; }
+            label.color = on ? Selected : normal;
+            if (bar == null && on)
+            {
+                bar = UiKit.Panel(transform, "SelectionBar", Selected); bar.raycastTarget = false;
+                var rect = bar.rectTransform; rect.anchorMin = new Vector2(0, .22f); rect.anchorMax = new Vector2(0, .78f);
+                rect.pivot = new Vector2(0, .5f); rect.anchoredPosition = new Vector2(16, 0); rect.sizeDelta = new Vector2(6, 0);
+            }
+            if (bar != null) bar.enabled = on;
+        }
+        public void OnSelect(UnityEngine.EventSystems.BaseEventData eventData) => Mark(true);
+        public void OnDeselect(UnityEngine.EventSystems.BaseEventData eventData) => Mark(false);
+    }
+
+    /// <summary>A dark plate behind floating centre-aligned HUD text, sized to its words and hidden with them, so a prompt or
+    /// a line reads on the brightest floor (QA-002).</summary>
+    public sealed class TextPlate : MonoBehaviour
+    {
+        TMP_Text text; Image image; Vector2 padding; string shown;
+        public static TextPlate Attach(TMP_Text text, string name, float paddingX = 30, float paddingY = 14)
+        {
+            var image = UiKit.DarkFrame(text.transform.parent, name);
+            image.pixelsPerUnitMultiplier = 3; image.raycastTarget = false;
+            var from = text.rectTransform; var rect = image.rectTransform;
+            rect.anchorMin = from.anchorMin; rect.anchorMax = from.anchorMax; rect.pivot = from.pivot;
+            rect.anchoredPosition = from.anchoredPosition;
+            image.transform.SetSiblingIndex(text.transform.GetSiblingIndex());
+            var plate = image.gameObject.AddComponent<TextPlate>();
+            plate.text = text; plate.image = image; plate.padding = new Vector2(paddingX, paddingY); image.enabled = false;
+            return plate;
+        }
+        void LateUpdate()
+        {
+            bool visible = text != null && text.isActiveAndEnabled && !string.IsNullOrEmpty(text.text);
+            if (image.enabled != visible) image.enabled = visible;
+            if (!visible || text.text == shown) return;
+            shown = text.text;
+            var need = text.GetPreferredValues(shown, text.rectTransform.rect.width, 0);
+            image.rectTransform.sizeDelta = need + padding * 2;
+        }
+    }
+
     public static class UiKit
     {
         public static readonly Color PanelColor = new(0.06f, 0.09f, 0.14f, 0.92f);
@@ -179,6 +234,7 @@ namespace Lattice.UI
             button.transition = Selectable.Transition.ColorTint;
             var state=button.colors;state.normalColor=new Color(.72f,.8f,.88f);state.highlightedColor=Color.white;
             state.selectedColor=new Color(1.3f,1.15f,.8f);state.pressedColor=new Color(.6f,1,1);state.disabledColor=new Color(.35f,.35f,.35f,.65f);state.colorMultiplier=1.15f;button.colors=state;
+            button.gameObject.AddComponent<SelectionMark>();
         }
 
         public static Button Button(Transform parent, string name, string label, Action onClick)

@@ -1,0 +1,2045 @@
+{
+  "name": "chapter-15-sunken-relay",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 2: the plates, the checkpoint, Hessa Korl and the relay lift",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "gorge.relaysLit",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "into the entry hall",
+      "seconds": 4.22,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.1,
+        "z": 12
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "start the cut housings",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release start the cut housings",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the cut housings line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the cut housings line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the cut housings line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the cut housings line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the cut housings line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the cut housings line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the cut housings line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the cut housings line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the cut housings line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "finish the cut housings",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "relay.entered",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release after the cut housings",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the first plate",
+      "seconds": 3.45,
+      "navigate": true,
+      "point": {
+        "x": -5.2,
+        "y": 0.1,
+        "z": 14.8
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "take the first plate",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "relay.plate1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release first plate",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "into the cut corridor 1/2",
+      "seconds": 2.65,
+      "navigate": true,
+      "point": {
+        "x": -2.9,
+        "y": 0.1,
+        "z": 16.1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "into the cut corridor 2/2",
+      "seconds": 4.78,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.1,
+        "z": 27
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "lock Relay_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release lock Relay_0",
+      "seconds": 0.3,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_0 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_0 1a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_0 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_0 1b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_0 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_0 1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_0 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_0 2a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_0 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_0 2b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_0 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_0 2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_0 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_0 3a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_0 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_0 3b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_0",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_0 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_0 3",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Relay_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Relay_0",
+      "expectedFlag": "clear.Relay_0",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "reach the fallen hero after Relay_0",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "both heroes ready after Relay_0",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel after Relay_0",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel after Relay_0",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "into the flooded gallery",
+      "seconds": 8.89,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.1,
+        "z": 55
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "lock Relay_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release lock Relay_1",
+      "seconds": 0.3,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 1a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 1b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_1 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_1 1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 2a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 2b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_1 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_1 2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 3a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 3b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_1 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_1 3",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 4a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_1 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_1 4b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_1 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_1",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_1 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_1 4",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Relay_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Relay_1",
+      "expectedFlag": "clear.Relay_1",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "reach the fallen hero after Relay_1",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "both heroes ready after Relay_1",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel after Relay_1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel after Relay_1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the second plate",
+      "seconds": 7.62,
+      "navigate": true,
+      "point": {
+        "x": 11,
+        "y": 0.1,
+        "z": 75
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "take the second plate",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "relay.plate2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release second plate",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the lower vault 1/2",
+      "seconds": 2.91,
+      "navigate": true,
+      "point": {
+        "x": 8.4,
+        "y": 0.1,
+        "z": 77.6
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the lower vault 2/2",
+      "seconds": 6.32,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.1,
+        "z": 93
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "lock Relay_2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release lock Relay_2",
+      "seconds": 0.3,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 1a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 1a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 1b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 1b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_2 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_2 1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 2a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 2a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 2b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 2b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_2 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_2 2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 3a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 3a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 3b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 3b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_2 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_2 3",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 4a",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 4a",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "skill Relay_2 4b",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release skill Relay_2 4b",
+      "seconds": 0.45,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Relay_2 round 4",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Relay_2",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Relay_2 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Relay_2 4",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Relay_2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Relay_2",
+      "expectedFlag": "clear.Relay_2",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "reach the fallen hero after Relay_2",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "both heroes ready after Relay_2",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel after Relay_2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel after Relay_2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the third plate",
+      "seconds": 5.97,
+      "navigate": true,
+      "point": {
+        "x": -8,
+        "y": 0.1,
+        "z": 107
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "take the third plate",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "relay.plate3",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release third plate",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the relay cradle",
+      "seconds": 5.67,
+      "navigate": true,
+      "point": {
+        "x": 6.8,
+        "y": 0.1,
+        "z": 108.8
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair and save at the cradle",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release cradle",
+      "seconds": 1,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the sealed door",
+      "seconds": 4.27,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.1,
+        "z": 115
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "start the captain",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release start the captain",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the captain line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the captain line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the captain line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the captain line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the captain line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the captain line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the captain line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the captain line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the captain line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the captain line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the captain line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the captain line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the captain line 5",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the captain line 5",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the captain line 5",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read the captain line 6",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next the captain line 6",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release the captain line 6",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "finish the captain",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "relay.hessaConfronted",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release after the captain",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "onto the Great Lantern's floor",
+      "seconds": 7.17,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0.1,
+        "z": 136
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "lock Hessa",
+      "seconds": 0.2,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release lock Hessa",
+      "seconds": 0.3,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 1",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 1",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 1",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 1",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 1",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 2",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 2",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 2",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 2",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 2",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 3",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 3",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 3",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 3",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 3",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 3",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 3",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 4",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 4",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 4",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 4",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 4",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 4",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 4",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 5",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 5",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 5",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 5",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 5",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 5",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 5",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 6",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 6",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 6",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 6",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 6",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 6",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 6",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 7",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 7",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 7",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 7",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 7",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 7",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 7",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Hessa yields",
+      "seconds": 4,
+      "until": "flag:bossdown.HessaKorl",
+      "expectedFlag": "bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "reach the fallen hero after Hessa",
+      "seconds": 16,
+      "navigate": true,
+      "approachPartner": true,
+      "tolerance": 1.2,
+      "stopWhen": "partyAlive",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "both heroes ready after Hessa",
+      "seconds": 6,
+      "until": "partyAlive",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel after Hessa",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel after Hessa",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the captain under guard",
+      "seconds": 6.92,
+      "navigate": true,
+      "point": {
+        "x": 8,
+        "y": 0.1,
+        "z": 152
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "start Hessa under guard",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release start Hessa under guard",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read Hessa under guard line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next Hessa under guard line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Hessa under guard line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read Hessa under guard line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next Hessa under guard line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Hessa under guard line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read Hessa under guard line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next Hessa under guard line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Hessa under guard line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "read Hessa under guard line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "next Hessa under guard line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Hessa under guard line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "finish Hessa under guard",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "relay.hessaYielded",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release after Hessa under guard",
+      "seconds": 0.5,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the relay lift 1/2",
+      "seconds": 4.67,
+      "navigate": true,
+      "point": {
+        "x": -2.4,
+        "y": 0.1,
+        "z": 155.1
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "to the relay lift 2/2",
+      "seconds": 2.96,
+      "navigate": true,
+      "point": {
+        "x": -5,
+        "y": 0.1,
+        "z": 158
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "ride the relay lift",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release lift",
+      "seconds": 0.5,
+      "expectedScene": "Lanternwick"
+    }
+  ]
+}

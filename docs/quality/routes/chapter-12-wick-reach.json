@@ -1,0 +1,1080 @@
+{
+  "name": "chapter-12-wick-reach",
+  "scene": "Title",
+  "starterParty": false,
+  "settleSeconds": 5,
+  "frameCap": 60,
+  "screenshotInterval": 0,
+  "sourceRevision": "Chapter 2: the warp from Tallow, two relays, the gate, the dock",
+  "steps": [
+    {
+      "name": "read title",
+      "seconds": 1,
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "select Continue",
+      "seconds": 0.2,
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "title",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release select Continue",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "open save picker",
+      "seconds": 0.5,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "saves",
+      "expectedScene": "Title"
+    },
+    {
+      "name": "release save picker",
+      "seconds": 0.3,
+      "expectedScene": "Title"
+    },
+    {
+      "name": "load the autosave",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedFlag": "tallow.lineObserved",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "through the pressure cabin",
+      "seconds": 5.91,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 1
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "stand beside Keeper Abri",
+      "seconds": 2.36,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 2
+      },
+      "tolerance": 0.3,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "talk to Abri 1",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:lantern.routeKnown",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release talk 1",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "hear Abri out 1",
+      "seconds": 60,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri 1",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "talk to Abri 2",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:lantern.routeKnown",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release talk 2",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "hear Abri out 2",
+      "seconds": 60,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri 2",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "talk to Abri 3",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:lantern.routeKnown",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release talk 3",
+      "seconds": 0.3,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "hear Abri out 3",
+      "seconds": 60,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.55,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "release after Abri 3",
+      "seconds": 0.5,
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "the lantern route is known",
+      "seconds": 0.5,
+      "expectedFlag": "lantern.routeKnown",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "to the pressure lift",
+      "seconds": 6.27,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": -10
+      },
+      "tolerance": 0.8,
+      "until": "arrived",
+      "expectedScene": "TallowDrift"
+    },
+    {
+      "name": "launch from Tallow",
+      "seconds": 3,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "CivilFlight",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "release launch",
+      "seconds": 0.5,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "toward the Wick Reach warp",
+      "seconds": 4.51,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 1,
+        "z": -15
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "settle at the warp",
+      "seconds": 6.66,
+      "navigate": true,
+      "point": {
+        "x": 21,
+        "y": 1,
+        "z": -18
+      },
+      "tolerance": 1.5,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "TallowApproach"
+    },
+    {
+      "name": "take the warp",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedForm": "Flight",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release warp",
+      "seconds": 0.5,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "up the lane",
+      "seconds": 8.84,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 53
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "lock Wick_0",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release lock Wick_0",
+      "seconds": 0.3,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_0 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_0 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_0",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_0 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_0 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_0 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_0",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_0 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_0 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_0",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_0 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_0",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_0 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "Wick_0 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Wick_0",
+      "expectedFlag": "clear.Wick_0",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "past the first wreck",
+      "seconds": 11.45,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 118
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "lock Wick_1",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release lock Wick_1",
+      "seconds": 0.3,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_1 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_1 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_1",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_1 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_1 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_1 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_1",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_1 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_1 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_1",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_1 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_1",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_1 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "Wick_1 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Wick_1",
+      "expectedFlag": "clear.Wick_1",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "toward the first relay",
+      "seconds": 6.69,
+      "navigate": true,
+      "point": {
+        "x": -16,
+        "y": 1,
+        "z": 146
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "settle at the first relay",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": -21,
+        "y": 1,
+        "z": 150
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "start first relay",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "dialogue",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release start first relay",
+      "seconds": 0.3,
+      "expectedUi": "dialogue",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "read first relay line 1",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "next first relay line 1",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release first relay line 1",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "read first relay line 2",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "next first relay line 2",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release first relay line 2",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "read first relay line 3",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "next first relay line 3",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release first relay line 3",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "read first relay line 4",
+      "seconds": 1.9,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "next first relay line 4",
+      "seconds": 0.15,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release first relay line 4",
+      "seconds": 0.2,
+      "stopWhen": "ui:world",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "finish first relay",
+      "seconds": 40,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 1.0,
+      "until": "ui:world",
+      "expectedUi": "world",
+      "expectedFlag": "wick.relay1",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release after first relay",
+      "seconds": 0.5,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "back to the lane",
+      "seconds": 7.69,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 183
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "lock Wick_2",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release lock Wick_2",
+      "seconds": 0.3,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_2 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_2 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_2",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_2 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_2 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_2 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_2",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_2 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_2 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_2",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_2 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_2",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_2 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "Wick_2 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Wick_2",
+      "expectedFlag": "clear.Wick_2",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "toward the second relay",
+      "seconds": 8.4,
+      "navigate": true,
+      "point": {
+        "x": 16,
+        "y": 1,
+        "z": 224
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "settle at the second relay",
+      "seconds": 7.12,
+      "navigate": true,
+      "point": {
+        "x": 21,
+        "y": 1,
+        "z": 228
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "relight the second relay",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedFlag": "wick.relay2",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release second relay",
+      "seconds": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "toward the last raiders",
+      "seconds": 4.6,
+      "navigate": true,
+      "point": {
+        "x": 5,
+        "y": 1,
+        "z": 236
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "lock Wick_3",
+      "seconds": 0.18,
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release lock Wick_3",
+      "seconds": 0.3,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_3 round 1",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_3 round 1",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_3",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_3 round 1",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_3 round 2",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_3 round 2",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_3",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_3 round 2",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pursue Wick_3 round 3",
+      "seconds": 30,
+      "buttons": [
+        "South"
+      ],
+      "leftTrigger": 1,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 12,
+      "rangedTolerance": 12,
+      "evadeProjectiles": true,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:clear.Wick_3",
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 0
+      },
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "pulse Wick_3 round 3",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "stopWhen": "flag:clear.Wick_3",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "release pulse Wick_3 round 3",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "Wick_3 cleared",
+      "seconds": 3,
+      "until": "flag:clear.Wick_3",
+      "expectedFlag": "clear.Wick_3",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "the curtain falls",
+      "seconds": 1.5,
+      "expectedFlag": "wick.gateOpen",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "through the lantern gate",
+      "seconds": 7.29,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 272
+      },
+      "tolerance": 3,
+      "until": "arrived",
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "onto the courier approach",
+      "seconds": 10.0,
+      "navigate": true,
+      "point": {
+        "x": 0,
+        "y": 1,
+        "z": 282
+      },
+      "tolerance": 1,
+      "until": "arrived",
+      "leftTrigger": 1,
+      "expectedScene": "WickReach"
+    },
+    {
+      "name": "dock at Lanternwick",
+      "seconds": 4,
+      "buttons": [
+        "South"
+      ],
+      "expectedUi": "world",
+      "expectedForm": "Natural",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release dock",
+      "seconds": 0.5,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "first look at the town",
+      "seconds": 2,
+      "expectedScene": "Lanternwick"
+    }
+  ]
+}

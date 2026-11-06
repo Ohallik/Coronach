@@ -16,18 +16,19 @@ namespace Lattice.UI
         Canvas canvas;Image frame;TMP_Text heading,body;
         GameState watched;readonly Dictionary<string,int> seen=new();readonly Queue<(string heading,string body)> pending=new();
         float showing,next;
+        const float TextWidth=490;
         public string Heading=>heading!=null?heading.text:"";
         public string Body=>body!=null?body.text:"";
         public bool Showing=>frame!=null&&frame.gameObject.activeSelf;
         void Start()
         {
             canvas=UiKit.CreateCanvas("QuestToast",7,transform);
-            frame=UiKit.DarkFrame(canvas.transform,"QuestToastFrame");frame.raycastTarget=false;
-            UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-330),new(570,118));
+            frame=UiKit.DarkFrame(canvas.transform,"QuestToastFrame");frame.raycastTarget=false;frame.pixelsPerUnitMultiplier=2;
+            var box=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-272),new(570,118));box.pivot=new(.5f,1);box.anchoredPosition=new(-300,-272);
             heading=UiKit.Text(frame.transform,"QuestToastHeading","",21,new Color(1,.78f,.36f),TextAlignmentOptions.MidlineLeft);
-            UiKit.Rect(heading.gameObject,new(.5f,1),new(.5f,1),new(0,-24),new(510,30));
+            UiKit.Rect(heading.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
             body=UiKit.Text(frame.transform,"QuestToastBody","",22,UiKit.TextColor,TextAlignmentOptions.TopLeft);
-            UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-70),new(510,64));
+            var words=UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-58),new(TextWidth,30));words.pivot=new(.5f,1);words.anchoredPosition=new(0,-58);
             frame.gameObject.SetActive(false);
             Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;
         }
@@ -60,6 +61,9 @@ namespace Lattice.UI
             if(showing<=0&&pending.Count>0&&!blocked)
             {
                 var (h,b)=pending.Dequeue();heading.text=h;body.text=b;showing=4.5f;
+                // The frame grows with its words, so a long step or a double skill never crosses its edge (QA-005).
+                float high=body.GetPreferredValues(b,TextWidth,0).y;
+                body.rectTransform.sizeDelta=new(TextWidth,high);frame.rectTransform.sizeDelta=new(570,58+high+34);
                 AudioManager.Play("forceField_000",.08f);
             }
             if(showing>0&&!blocked)showing-=Time.unscaledDeltaTime;

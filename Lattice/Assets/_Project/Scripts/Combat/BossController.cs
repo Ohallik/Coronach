@@ -49,6 +49,8 @@ namespace Lattice.Combat
             "HessaKorl"=>"Muster scavenger captain, stripping the relay's glass",
             _=>""
         };
+        /// <summary>What the boss bar says while this boss can't be hurt: the thing the player has to deal with.</summary>
+        public string GuardedText=>collar!=null&&collar.Remaining>0?"THE COLLAR HOLDS  ·  CUT THE LINKS":burrowed?"BELOW GROUND":"PROTECTED";
         /// <summary>Integrity fractions at which the next phase begins (boss bar notches).</summary>
         public float[] Thresholds=>health==null?System.Array.Empty<float>():health.id switch
         {
@@ -137,7 +139,8 @@ namespace Lattice.Combat
         void RestoreBody()
         {
             if(visual!=null&&health!=null&&health.id!="BellowsBelow"){visual.localPosition=visualRest;visual.localRotation=visualRestRotation;}
-            if(health!=null)health.Damageable=true;
+            // Only a burrow sets this aside; the Cantor's body stays out of reach until its last link is cut (QA-013).
+            if(health!=null)health.Damageable=collar==null||collar.Remaining==0;
             var controller=GetComponent<CharacterController>();
             if(controller!=null&&health!=null&&health.Alive&&burrowed){controller.enabled=true;}
             burrowed=false;

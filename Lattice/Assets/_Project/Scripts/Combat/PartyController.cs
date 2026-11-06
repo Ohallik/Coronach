@@ -142,7 +142,8 @@ namespace Lattice.Combat
                 var ranged=Gear.Calculate(state,member,def,GearSlot.Emitter,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
                 actor.damage=melee.output;actor.rangedDamage=ranged.output;actor.plating=melee.plating;actor.resonance=melee.resonance;actor.response=melee.response;actor.fortune=melee.fortune;
                 actor.edgeType=Gear.WeaponType(state,member,GearSlot.Edge,DamageType.Kinetic);actor.emitterType=Gear.WeaponType(state,member,GearSlot.Emitter,DamageType.Beam);
-                float hp=Levels.MaxIntegrity(member.level);if(hp>actor.Health.maximum)actor.Health.integrity+=hp-actor.Health.maximum;actor.Health.maximum=hp;
+                // A level only feeds a living body: lifting a downed hero's integrity here would skip the revive and leave them frozen (QA-001).
+                float hp=Levels.MaxIntegrity(member.level);if(hp>actor.Health.maximum&&actor.Health.Alive)actor.Health.integrity+=hp-actor.Health.maximum;actor.Health.maximum=hp;
                 actor.GetComponent<GroundMotor>().speed=6.7f+Mathf.Max(0,melee.response-10)*.03f;
                 actor.GetComponent<FlightMotor>().maxSpeed=12+Mathf.Max(0,melee.response-10)*.08f;
             }

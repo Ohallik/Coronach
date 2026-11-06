@@ -22,12 +22,12 @@ namespace Lattice.UI
         Canvas canvas;
         GameObject panel;
         int page,offset,gearMode;
-        bool keyboardSettings;
+        bool keyboardSettings,leaveAsked;
         string feedback="";
         public bool IsOpen=>panel!=null;
         public bool AtBench;
         InputActionRebindingExtensions.RebindingOperation rebind;
-        public void Open(int selected=0,bool bench=false){page=selected;offset=0;skillSlot=-1;keyboardSettings=false;feedback="";AtBench=bench;GameServices.Current.Input.Blocked=true;GameTime.Paused=true;Rebuild(false);}
+        public void Open(int selected=0,bool bench=false){page=selected;offset=0;skillSlot=-1;keyboardSettings=false;leaveAsked=false;feedback="";AtBench=bench;GameServices.Current.Input.Blocked=true;GameTime.Paused=true;Rebuild(false);}
         public void Close(){if(AudioMix.Current!=null)AudioMix.Current.Flush();rebind?.Dispose();rebind=null;if(panel!=null)Destroy(panel);panel=null;if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;GameTime.Paused=false;}
         void Start(){canvas=UiKit.CreateCanvas("Menus",30,transform);PromptService.Changed+=Restate;}
         // A rebind listens for the very key that flips the device; never redraw under it.
@@ -40,8 +40,8 @@ namespace Lattice.UI
             if(!IsOpen){if(input.Blocked)return;if(pause)Open();else if(input.Find("Log").WasPressedThisFrame())Open(QuestsPage);return;}
             if(pause||UiActions.Cancel.WasPressedThisFrame()){UiSounds.Cancel();Close();return;}
             if((page==GearPage||page==SkillsPage)&&input.Find("Swap").WasPressedThisFrame()){PartyController.Current.Swap();skillSlot=-1;Rebuild();}
-            if(input.Find("MenuNext").WasPressedThisFrame()){page=(page+1)%tabs.Length;offset=0;skillSlot=-1;Rebuild(false);}
-            if(input.Find("MenuPrev").WasPressedThisFrame()){page=(page+tabs.Length-1)%tabs.Length;offset=0;skillSlot=-1;Rebuild(false);}
+            if(input.Find("MenuNext").WasPressedThisFrame()){page=(page+1)%tabs.Length;offset=0;skillSlot=-1;leaveAsked=false;Rebuild(false);}
+            if(input.Find("MenuPrev").WasPressedThisFrame()){page=(page+tabs.Length-1)%tabs.Length;offset=0;skillSlot=-1;leaveAsked=false;Rebuild(false);}
         }
         void Rebuild(bool rememberFocus=true)
         {
@@ -51,7 +51,7 @@ namespace Lattice.UI
             UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(-150,400),new(1100,75));
             var list=new List<Selectable>();var tabButtons=new List<Selectable>();
             for(int i=0;i<tabs.Length;i++)
-            {int n=i;var b=UiKit.Button(panel.transform,"Tab_"+tabs[i],tabs[i],()=>{page=n;offset=0;skillSlot=-1;Rebuild(false);});UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(-690,290-i*86),new(290,62));tabButtons.Add(b);}
+            {int n=i;var b=UiKit.Button(panel.transform,"Tab_"+tabs[i],tabs[i],()=>{page=n;offset=0;skillSlot=-1;leaveAsked=false;Rebuild(false);});UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(-690,290-i*86),new(290,62));tabButtons.Add(b);}
             var state=GameServices.Current.State;int row=0;
             void Add(string text,System.Action action=null,string icon=null)
             {
@@ -68,7 +68,11 @@ namespace Lattice.UI
             {
                 foreach(var m in state.party)Add($"{DisplayNames.Speaker(m.id)}   Sync {m.level}   XP {m.xp}/{Levels.RequiredXp(m.level)}   Integrity {m.integrity:0}");
                 Add("Swap active member",()=>{PartyController.Current.Swap();Rebuild();});
-                for(int i=1;i<=3;i++){string slot="slot"+i;Add("Save to slot "+i,()=>{GameServices.Current.Saves.Save(slot,state);Rebuild();});}
+                for(int i=1;i<=3;i++)
+                {
+                    int number=i;string slot="slot"+i;var saved=GameServices.Current.Saves.Load(slot);
+                    Add($"Save to slot {number}"+(saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}":"  ·  empty"),()=>{GameServices.Current.Saves.Save(slot,state);feedback=$"Saved to slot {number}.";Rebuild();});
+                }
                 Note($"{state.scrip} scrip  ·  The game autosaves when you dock, warp or repair");
             }
             else if(page==SkillsPage)
@@ -152,10 +156,18 @@ namespace Lattice.UI
             }
             else
             {
-                if(!keyboardSettings)
+                if(leaveAsked)
+                {
+                    Add("Stay",()=>{UiSounds.Cancel();leaveAsked=false;Rebuild(false);});
+                    Add("Return to title",()=>{Close();GameTime.Reset();GameServices.Current.Input.Blocked=false;SceneFlow.Current.LoadZone("Title");});
+                    Add("Quit to desktop",Application.Quit);
+                    Note("Progress since your last save is lost. The game autosaves when you dock, warp or repair.");
+                }
+                else if(!keyboardSettings)
                 {
                     AudioSettingsUi.Add(panel.transform,new Vector2(170,290),1150,68,list);row=5;
                     Add("Keyboard bindings",()=>{keyboardSettings=true;Rebuild(false);});
+                    Add("Leave the game",()=>{leaveAsked=true;Rebuild(false);});
                     Note(DeviceHints.AudioControls());
                 }
                 else

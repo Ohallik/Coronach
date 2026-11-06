@@ -36,6 +36,28 @@ namespace Lattice.Tests.PlayMode
         static void Place(CombatActor actor,Vector3 position)
         {var cc=actor.GetComponent<CharacterController>();cc.enabled=false;actor.transform.position=position;cc.enabled=true;Physics.SyncTransforms();}
 
+        /// <summary>QA-001. The killing blow can level the party while one hero is down. The raised maximum must not lift a
+        /// downed hero's integrity: they would read as alive with their collider off, frozen, and past the partner's revive.</summary>
+        [UnityTest] public IEnumerator ALevelUpLeavesADownedHeroDownAndRevivable()
+        {
+            var party=PartyController.Current;var downed=party.members[1];var state=GameServices.Current.State;
+            var member=state.party.Find(m=>m.id==downed.character);
+            downed.Health.Receive(new DamagePacket{amount=100000,type=DamageType.Pulse});
+            Assert.IsFalse(downed.Health.Alive,"fixture: the partner went down");
+            float before=downed.Health.maximum;
+            Lattice.Rpg.Levels.Grant(member,Lattice.Rpg.Levels.RequiredXp(member.level));
+            party.RefreshStats();yield return new WaitForSecondsRealtime(.7f);
+            Assert.Greater(downed.Health.maximum,before,"the level still raises the maximum");
+            Assert.IsFalse(downed.Health.Alive,"a level-up is not a revive");
+            Assert.AreEqual(0,member.integrity,.01f,"the saved state stays down too");
+            downed.Health.Heal(downed.Health.maximum*.35f);
+            yield return new WaitForSecondsRealtime(CombatActor.ReviveDuration+.3f);
+            Assert.IsTrue(downed.GetComponent<CharacterController>().enabled,"a real revive returns the body's collider");
+            var from=downed.transform.position;
+            for(int i=0;i<20;i++){downed.motor.Move(Vector2.right,false,false);yield return null;}
+            Assert.Greater(Vector3.Distance(from,downed.transform.position),.1f,"the revived hero moves");
+        }
+
         [UnityTest] public IEnumerator SentinelCorpseSettlesOnFlatAndSlopedFloorsWithoutMovingItsGameplayRoot()
         {
             yield return Load("Arena_Flight");
