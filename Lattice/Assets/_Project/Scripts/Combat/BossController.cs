@@ -27,7 +27,7 @@ namespace Lattice.Combat
         float nextSpecial,strikeAt,engaged=-1;bool busy;
         Transform inflated,body;Vector3 inflatedRest,bodyRest;int breaths;
         Transform visual;Vector3 visualRest;Quaternion visualRestRotation=Quaternion.identity;
-        bool shiftPending,shifting,bracedSaid;string lastMove;int moveCount;
+        bool shiftPending,shifting,bracedSaid,stallSaid;string lastMove;int moveCount;
         /// <summary>The signature move a phase shift promised, next after its rest.</summary>
         string queuedMove;
         /// <summary>Until when a deliberate opening runs. Hitting it is the point: it must not cut the boss's rest short.</summary>
@@ -62,7 +62,7 @@ namespace Lattice.Combat
         /// <summary>Integrity fractions at which the next phase begins (boss bar notches).</summary>
         public float[] Thresholds=>health==null?System.Array.Empty<float>():health.id switch
         {
-            "Burrower"=>new[]{.6f,.3f},"BellowsBelow"=>new[]{.5f,.3f},"Cantor"=>new[]{.66f,.33f},"HessaKorl"=>new[]{.66f,.33f},_=>new[]{.5f}
+            "Burrower"=>new[]{.6f,.3f},"BellowsBelow"=>new[]{.5f,.3f},"Cantor"=>new[]{.75f,.4f},"HessaKorl"=>new[]{.66f,.33f},_=>new[]{.5f}
         };
 
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
@@ -138,7 +138,7 @@ namespace Lattice.Combat
         public void RestoreAfterRecovery()
         {
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;engaged=-1;
-            Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;queuedMove=null;openingUntil=0;bracedSaid=false;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
+            Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;queuedMove=null;openingUntil=0;bracedSaid=stallSaid=false;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
             DismissSummons();
             MusicDirector.Encounter(this,"Alien Boss Battle",true);
         }
@@ -187,7 +187,8 @@ namespace Lattice.Combat
             brain.DamageScale=1+(Phase-1)*.18f;
             // The Bellows braces against the cave while any pressure organ pumps.
             if(health.id=="BellowsBelow"&&PressureOrgan.AnyPumping)health.ShieldUntil=Time.time+.25f;
-            if(body!=null&&inflated==null)body.localScale=bodyRest*(1+.035f*Mathf.Sin(Time.time*2.1f));
+            // A breath held through a spit's tell is the dome's wind-up.
+            if(body!=null&&inflated==null){float tell=brain.TellProgress;body.localScale=bodyRest*(1+.035f*Mathf.Sin(Time.time*2.1f)*(1-tell)+.12f*tell);}
             if(brain.Passive||busy||health.Broken||GameServices.Current.Input.Blocked||PartyController.Current==null)return;
             var hero=PartyController.Current.Active;
             if((hero.transform.position-transform.position).sqrMagnitude>900)return;
@@ -230,10 +231,11 @@ namespace Lattice.Combat
         /// anything, so punishing it never brings the boss back sooner than leaving it alone.</summary>
         IEnumerator Opening(float seconds,float rest)
         {
-            openingUntil=Time.time+seconds;health.Expose(seconds);
+            OpenFor(seconds);
             yield return new WaitForSeconds(seconds);
             openingUntil=0;Finish(rest);
         }
+        void OpenFor(float seconds){openingUntil=Time.time+seconds;health.Expose(seconds);}
         /// <summary>The boss's own line for this situation if it has one (Hessa is a person; the Cantor flies), else the shared one.</summary>
         string Situation(string situation)
         {
@@ -276,8 +278,9 @@ namespace Lattice.Combat
             foreach(var actor in PartyController.Current.members)
             {
                 if(!actor.Health.Alive||hit.Contains(actor.Health)||Flat(actor.transform.position-centre).sqrMagnitude>=radius*radius)continue;
-                // The moving body strikes only inside the lane it marked.
-                if(lane!=null&&!lane.Contains(actor.transform.position))continue;
+                // The moving body strikes only inside the lane it marked. A released marking destroys itself after .32 s and then reads as
+                // null, which dropped this test for the rest of the run: its shape is still good, so ask it.
+                if(!ReferenceEquals(lane,null)&&!lane.Contains(actor.transform.position))continue;
                 hit.Add(actor.Health);float dealt=actor.Health.Receive(Packet(amount,DamageType.Kinetic));
                 if(dealt>0&&stagger>0)actor.Stagger(stagger);
             }

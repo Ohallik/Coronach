@@ -11,6 +11,13 @@ namespace Lattice.Combat
             var go=GameObject.CreatePrimitive(type);go.name=name;go.transform.SetParent(parent,false);go.transform.localScale=scale;go.transform.localPosition=position;
             Object.Destroy(go.GetComponent<Collider>());go.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/"+material);return go;
         }
+        static readonly System.Collections.Generic.Dictionary<Color,Material> energy=new();
+        /// <summary>The material of a body made of energy, shared by everything of one colour.</summary>
+        public static Material Energy(Color rim)
+        {
+            if(energy.TryGetValue(rim,out var material)&&material!=null)return material;
+            material=new Material(Resources.Load<Shader>("Effects/EnergyBubble"));material.SetColor("_BaseColor",rim);energy[rim]=material;return material;
+        }
         public static CombatActor Hero(string id,Vector3 position)
         {
             var root=new GameObject(id);root.transform.position=position;
@@ -41,6 +48,8 @@ namespace Lattice.Combat
             if(definition.id=="Scrapmite"||definition.id.StartsWith("Chorister")||definition.id=="MusterSkiff"){var motion=visual.AddComponent<ProceduralMotion>();motion.motion=definition.id=="Scrapmite"?ProceduralMotion.Motion.Skitter:ProceduralMotion.Motion.Hover;}
             var enemy=root.AddComponent<EnemyBrain>();enemy.definition=definition;
             if(definition.archetype==EnemyArchetype.Sentinel)root.AddComponent<EnemyArmorPresentation>();
+            // Before DefeatPresentation: a death hands the body back unposed before that takes its measure.
+            root.AddComponent<EnemyTellPose>();
             root.AddComponent<LootDrop>().definition=definition;
             if(definition.boss)root.AddComponent<BossController>();if(definition.id=="Cantor")root.AddComponent<SerpentSegments>();
             root.AddComponent<DefeatPresentation>().visual=visual.transform;

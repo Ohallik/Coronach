@@ -42,6 +42,14 @@ namespace Lattice.Core
 
         public static string Zone(string id)=>string.IsNullOrEmpty(id)?"":zones.TryGetValue(id,out var name)?name:Readable(id);
 
+        /// <summary>When a save was made, on the player's own clock ("Nov 5, 9:41 PM"). Empty for a save too old to say.</summary>
+        public static string SavedAt(string savedAtUtc)
+        {
+            if(!System.DateTime.TryParse(savedAtUtc,System.Globalization.CultureInfo.InvariantCulture,System.Globalization.DateTimeStyles.RoundtripKind,out var at))return "";
+            at=at.ToLocalTime();
+            return at.ToString("MMM d",System.Globalization.CultureInfo.InvariantCulture)+", "+at.ToString("t",System.Globalization.CultureInfo.CurrentCulture);
+        }
+
         /// <summary>A Yarn speaker id as the character's own name ("Survivor" is Dace).</summary>
         public static string Speaker(string id)
         {

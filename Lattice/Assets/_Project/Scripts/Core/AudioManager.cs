@@ -39,7 +39,7 @@ namespace Lattice.Core
         AudioSource ambient;float pruneAt;readonly List<CueKey> expired=new();
         void Awake()
         {
-            Current=this;ambient=gameObject.AddComponent<AudioSource>();ambient.playOnAwake=false;ambient.loop=true;ambient.volume=.055f;
+            Current=this;ambient=gameObject.AddComponent<AudioSource>();ambient.playOnAwake=false;ambient.loop=true;ambient.volume=HumVolume;
             ambient.outputAudioMixerGroup=AudioMix.Group(AudioBus.Ambience);ambient.priority=160;
             GameTime.PauseChanged+=Pause;SceneManager.sceneUnloaded+=Unloaded;
             foreach(var clip in Resources.LoadAll<AudioClip>("Audio/Palette")){clip.LoadAudioData();clips[clip.name]=clip;}
@@ -55,6 +55,15 @@ namespace Lattice.Core
         {var key=new CueKey(emitter,family);if(!variations.TryGetValue(key,out var state)){state=new Variation{owner=emitter,bound=emitter!=null};variations[key]=state;}return state;}
         public static void Play(string key,float volume=.25f)=>PlayAt(key,null,Vector3.zero,volume);
         public static void PlayUi(string key,float volume=.4f)=>PlayAt(key,null,Vector3.zero,volume,AudioBus.UI,16,.035f);
+        /// <summary>A short sample of a bus for its volume slider. It plays through a pause, which holds back every other sound on these
+        /// buses, because the pause menu is where most players are on that page. A dragged slider asks for it every frame: four a second is enough.</summary>
+        public static void Sample(string key,AudioBus bus,float volume=.35f)
+        {
+            if(Current==null)return;
+            var state=Current.State(null,"sample/"+bus);if(Time.unscaledTime<state.next)return;state.next=Time.unscaledTime+.25f;
+            var voice=Current.Emit(key,null,Vector3.zero,volume,1,bus,64,false);
+            if(voice!=null&&voice.paused){voice.source.UnPause();voice.paused=false;}
+        }
         public static void PlayAt(string key,Transform emitter,Vector3 point,float volume=.4f,AudioBus bus=AudioBus.SFX,int priority=128,float interval=.06f,float pitch=1)
         {
             if(Current==null||GameTime.Paused&&bus!=AudioBus.UI)return;
@@ -125,9 +134,12 @@ namespace Lattice.Core
         }
         void Unloaded(Scene _)
         {foreach(var voice in voices)Release(voice);variations.Clear();if(ambient!=null){ambient.Stop();ambient.clip=null;}if(AudioMix.Current!=null)AudioMix.Current.SetCueDucking(false);}
-        public static void Zone(bool flight)
+        const float HumVolume=.055f;
+        /// <summary>A place with its own air plays that; a station keeps its room tone and space its engines.</summary>
+        public static void Zone(bool flight,AudioClip bed=null,float bedVolume=HumVolume)
         {
-            if(Current==null)return;var clip=Current.Clip(flight?"spaceEngineLow_000":"computerNoise_000");
+            if(Current==null)return;var clip=bed!=null?bed:Current.Clip(flight?"spaceEngineLow_000":"computerNoise_000");
+            Current.ambient.volume=bed!=null?bedVolume:HumVolume;
             if(Current.ambient.clip==clip&&Current.ambient.isPlaying)return;Current.ambient.clip=clip;if(clip!=null)Current.ambient.Play();
         }
         void OnDestroy()

@@ -18,7 +18,7 @@ namespace Lattice.Core
         public void SafePocket(bool inside){Kind=inside?ZoneKind.GroundSafe:definition.kind;Apply();}
         void Apply()
         {
-            GameServices.Current.Input.SetFlight(Flight);AudioManager.Zone(Flight);
+            GameServices.Current.Input.SetFlight(Flight);AudioManager.Zone(Flight,definition.ambientAudio,definition.ambientVolume);
             MusicDirector.SetLocation(definition.id,Combat);
             RenderSettings.skybox=definition.skybox;if(Camera.main!=null)Camera.main.clearFlags=definition.skybox!=null?CameraClearFlags.Skybox:CameraClearFlags.SolidColor;
             Changed?.Invoke();

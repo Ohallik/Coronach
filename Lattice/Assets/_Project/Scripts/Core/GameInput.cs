@@ -63,6 +63,24 @@ namespace Lattice.Core
             return pad.dpad.up.wasPressedThisFrame?1:pad.dpad.down.wasPressedThisFrame?-1:0;
         }
         public bool SkillMod => Held("SkillMod");
+        int lockPolled=-2;bool lockTap,lockToggled;
+        /// <summary>Whether lock-on toggles this frame. A Precision's LB is also its cycle modifier, and LB and a direction must not lock,
+        /// unlock or move anything on the way in, so on that pad a tap counts on its release, and only if no direction was pressed while
+        /// it was held. Keys and every other pad toggle on the press.</summary>
+        public bool LockOnToggled()
+        {
+            int frame=Time.frameCount;if(frame==lockPolled)return lockToggled;
+            // Only live play asks: a gap means a menu, a talk or a stagger took the rest of that press.
+            if(frame!=lockPolled+1)lockTap=false;
+            lockPolled=frame;
+            bool pressed=Pressed("LockOn");var pad=Gamepad.current;
+            if(pad==null||!PadBridge.StickIsDpad(pad)){lockTap=false;return lockToggled=pressed;}
+            var lb=pad.leftShoulder;
+            if(pressed&&lb.wasPressedThisFrame){lockTap=true;pressed=false;}
+            var d=pad.dpad;if(d.up.wasPressedThisFrame||d.down.wasPressedThisFrame||d.left.wasPressedThisFrame||d.right.wasPressedThisFrame)lockTap=false;
+            if(lockTap&&!lb.isPressed){lockTap=false;pressed=true;}
+            return lockToggled=pressed;
+        }
 
         public GameInput()
         {

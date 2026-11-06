@@ -125,7 +125,7 @@ namespace Lattice.Combat
                 yield return Windup(.32f,-4);
                 if(Interrupted)yield break;
                 line.Release();
-                Projectile.Fire(muzzle,hero-muzzle,Packet(16,DamageType.Plasma),20);
+                Projectile.Fire(muzzle,hero-muzzle,Packet(16,DamageType.Plasma),20,18);
                 CombatAudio.HostileShot(transform,muzzle);
             }
             Pose(0);Finish(HessaRest*.8f);

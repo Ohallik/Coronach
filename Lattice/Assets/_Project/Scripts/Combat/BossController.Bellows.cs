@@ -114,7 +114,7 @@ namespace Lattice.Combat
             for(int i=0;i<count;i++)
             {
                 var around=Quaternion.Euler(0,i*360f/count,0)*Vector3.forward*3.2f;var start=transform.position+around;
-                var view=ActorFactory.Visual("Pressure bubble",PrimitiveType.Sphere,null,Vector3.one*1.1f,start+Vector3.up*1.1f,"Threat");temporary.Add(view);
+                var view=ActorFactory.Visual("Pressure bubble",PrimitiveType.Sphere,null,Vector3.one*1.1f,start+Vector3.up*1.1f,"Threat");view.GetComponent<Renderer>().sharedMaterial=ActorFactory.Energy(new Color(1,.46f,.2f,.95f));view.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;temporary.Add(view);
                 bubbles.Add((view.transform,Mark(Telegraph.Circle(start,radius,fuse+i*.12f,Telegraph.Stagger))));
             }
             AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.18f,AudioBus.SFX,50);

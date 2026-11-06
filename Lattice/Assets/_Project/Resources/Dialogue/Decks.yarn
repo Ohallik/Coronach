@@ -48,7 +48,7 @@ Hal: Here's alloy and filament for a first part. Forge three edges on that bench
 <<setFlag hal.lesson>>
 -> Use the fabrication bench.
     <<bench>>
--> Repair and save.
+-> Repair and save (8 scrip per Sync level).
     <<repair>>
 -> Just visiting.
     Hal: Good. Do that more often. #emotion:Happy
@@ -56,7 +56,7 @@ Hal: Here's alloy and filament for a first part. Forge three edges on that bench
 title: HalRepeat
 ---
 Hal: I can mend a body. A hurry's harder to fix. #emotion:Neutral
--> Repair and save.
+-> Repair and save (8 scrip per Sync level).
     <<repair>>
 -> Use the bench.
     <<bench>>
@@ -66,7 +66,7 @@ Hal: I can mend a body. A hurry's harder to fix. #emotion:Neutral
 title: HalPost
 ---
 Hal: Orrin's board says the drill's quiet. So does your collar node. Thank you. #emotion:Happy
--> Repair and save.
+-> Repair and save (8 scrip per Sync level).
     <<repair>>
 -> Use the bench.
     <<bench>>

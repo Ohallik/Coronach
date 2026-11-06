@@ -15,6 +15,8 @@ namespace Lattice.Combat
         bool yields;
         /// <summary>A mine has no body left to lie down: it swells, bursts and is gone. The Bellows has no rig: its breath goes out of it.</summary>
         bool bursts,deflates;
+        /// <summary>The size a mine bursts from, as a share of its rest: what its tell had swollen it to.</summary>
+        float burstFrom=1;
         Vector3 visualScale,flatScale;
         bool Flier=>enemy!=null&&(enemy.definition.id.StartsWith("Chorister")||enemy.definition.id=="MusterSkiff");
         Health health;CombatActor actor;EnemyBrain enemy;
@@ -88,7 +90,7 @@ namespace Lattice.Combat
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
             if(visualScale==Vector3.zero)visualScale=visual.localScale;
-            if(bursts){terminal=origin;terminalRotation=originRotation;return;}
+            if(bursts){terminal=origin;terminalRotation=originRotation;burstFrom=visualScale.x>0?visual.localScale.x/visualScale.x:1;return;}
             bool airborne=actor!=null&&actor.flight||Flier;
             terminalRotation=originRotation*Quaternion.Euler(airborne?12:8,0,airborne?58:enemy!=null&&enemy.definition.boss?42:78);
             terminal=origin+Vector3.down*(airborne?.22f:.12f);
@@ -230,7 +232,7 @@ namespace Lattice.Combat
                 visual.localPosition=Vector3.Lerp(origin,terminal,t);visual.localRotation=Quaternion.Slerp(originRotation,terminalRotation,t);
                 SupportRigidBody();
                 if(deflates)visual.localScale=Vector3.Lerp(visualScale,flatScale,t);
-                else if(bursts)visual.localScale=visualScale*(elapsed<.12f?Mathf.Lerp(1,1.5f,elapsed/.12f):Mathf.Lerp(1.5f,.2f,(elapsed-.12f)/.48f));
+                else if(bursts)visual.localScale=visualScale*(elapsed<.12f?Mathf.Lerp(burstFrom,1.5f,elapsed/.12f):Mathf.Lerp(1.5f,.2f,(elapsed-.12f)/.48f));
             }
             if(sections!=null)
                 for(int i=0;i<sections.Length;i++)

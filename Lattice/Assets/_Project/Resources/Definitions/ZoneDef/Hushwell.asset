@@ -17,7 +17,8 @@ MonoBehaviour:
   kind: 1
   cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
   hd2dProfile: {fileID: 11400000, guid: 0b2f6bcfe3838df4f86105e3897558fe, type: 2}
-  ambientAudio: {fileID: 0}
+  ambientAudio: {fileID: 8300000, guid: ad036a12ad90cb149bb375bd1b067d0c, type: 3}
+  ambientVolume: 0.9
   musicId: Moon Caverns
   mapIcon: {fileID: 0}
   flightPlane: 1

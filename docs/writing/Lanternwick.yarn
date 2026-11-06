@@ -22,7 +22,7 @@ Sela: The chart answers every relay that's still lit. Tallow can follow its pass
 Keeper: A route that waits. Venn will hate how pretty it is. #emotion:Amused
 Taren: One of her three. Food and power are still on the list. #emotion:Worried
 Sela: Pell says the river towns on Xylos move their farms with the floods. #emotion:Curious
-Taren: Then food first. #emotion:Determined
+Taren: Food first. Xylos it is. #emotion:Determined
 <<setFlag chapter2.homecoming>>
 ===
 title: SelaWickRelays
@@ -100,12 +100,12 @@ Ishen: Visitors, and not the kind with cutting torches. Come in. Mind the record
 Ishen: I'm Ishen, archivist. I read walls for a living, and I'd like it noted that these are excellent walls. #emotion:Amused
 Taren: What's on the walls? #emotion:Curious
 Ishen: Passages. Four thousand and twelve of them, by lantern, and every one dark since the Muster started cutting the relays that feed them. #emotion:Sad
-Ishen: Three record plates went missing in the Sunken Relay below the gorge, and I've never read them. Bring back any you find. #emotion:Determined
+Ishen: Three record plates never came up from the Sunken Relay below the gorge, and I've never read them. They rest on the old mirror stands, each with a light on it. Bring back what you find. #emotion:Determined
 <<startQuest IshensRecord>>
 ===
 title: IshenRepeat
 ---
-Ishen: Three plates, palm-sized, cut with circles. If they look like coasters, they probably aren't coasters. #emotion:Amused
+Ishen: Three plates, wide as serving dishes and cut with circles, each resting on an old mirror stand with a light on it. If a stand is lit, it's holding something of mine. #emotion:Amused
 ===
 title: IshenRecordReturn
 ---
@@ -148,6 +148,7 @@ Corra: Bring one to the orchard shed. Someone out there can't eat our food, and 
 Taren: Someone? #emotion:Curious
 Corra: Walk up slowly. Don't stare. #emotion:Determined
 <<startQuest UnswornRations>>
+<<shop>>
 ===
 title: BrekkFirst
 ---
@@ -201,12 +202,24 @@ title: HessaYields
 Hessa: Enough. Enough! You've made your point, Shapers. #emotion:Angry
 Taren: Hands where I can see them. Aumi's keepers can walk you out. #emotion:Determined
 Hessa: You think one canyon matters? The Warmaster has a hundred crews like mine, and none of them lose sleep over lanterns. #emotion:Smug
-Sela: Then they'll lose it over something else. #emotion:Determined
+Sela: They can lose it over us instead. #emotion:Determined
 <<setFlag relay.hessaYielded>>
 ===
 title: HessaRepeat
 ---
 Hessa: I'm waiting on your keepers. Go and gloat somewhere with better light. #emotion:Smug
+===
+title: HessaYieldsLate
+---
+Hessa: Took you long enough. The whole canyon's lit up, and I've been sitting here with my hands empty. #emotion:Smug
+Taren: Stay that way. Aumi's keepers are on their way down. #emotion:Determined
+Hessa: You think one canyon matters? The Warmaster has a hundred crews like mine, and none of them lose sleep over lanterns. #emotion:Smug
+Sela: They can lose it over us instead. #emotion:Determined
+<<setFlag relay.hessaYielded>>
+===
+title: HessaGuarded
+---
+Hessa: Your keepers don't talk and they won't let me sit. Go and gloat somewhere with better light. #emotion:Smug
 ===
 title: AbriLanternWaiting
 ---

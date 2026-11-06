@@ -28,7 +28,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             age+=Time.deltaTime;float t=Mathf.Clamp01(age/.34f);
             var next=Vector3.Lerp(origin,destination,t)+Vector3.up*((flight?0:.8f)*4*t*(1-t));
             bool blocked=CombatCover.Sweep(transform.position,next,.12f,out var hit);

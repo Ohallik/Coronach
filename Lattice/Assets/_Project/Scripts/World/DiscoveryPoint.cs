@@ -27,8 +27,11 @@ namespace Lattice.World
         bool pending;
         GameState requestedState;
         bool Unlocked=>string.IsNullOrEmpty(requiredFlag)||GameServices.Current.Flags.GetBool(requiredFlag);
-        public override bool Available=>!pending&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&QuestReady&&Unlocked&&
-            (previewEncounter==null||!previewEncounter.Started);
+        /// <summary>With an enemy on the hero, A is an attack, so a thing to take waits for the fight. A point with nothing to take stays open
+        /// whatever is awake: relighting a relay mid-fight is what its pulse is for.</summary>
+        public override bool Available=>!pending&&Wanted&&(previewEncounter==null||!previewEncounter.Started)&&(visual==null||!EnemyBrain.AwakeNear(transform.position,EnemyBrain.ExitCalm));
+        /// <summary>Still to do, whatever is awake beside it: the objective doesn't forget a den because the den's grazers have woken.</summary>
+        public bool Wanted=>isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&QuestReady&&Unlocked;
         public override void Interact()
         {
             if(!Available)return;

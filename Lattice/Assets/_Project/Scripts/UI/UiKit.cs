@@ -80,6 +80,15 @@ namespace Lattice.UI
 
         public static TMP_FontAsset Font => TMP_Settings.defaultFontAsset;
 
+        /// <summary>The font size at which world-space text stands this many pixels tall on a 1080p screen, seen from the zone's camera.
+        /// A TextMeshPro point is a tenth of a metre, so a sign's size only means something against the camera's distance.</summary>
+        public static float WorldFontSize(float pixels)
+        {
+            var zone = Lattice.Core.ZoneController.Current;
+            var view = zone != null && zone.definition != null ? zone.definition.cameraProfile : null;
+            return view == null ? 0 : pixels / 1080f * 2 * view.distance * Mathf.Tan(view.fov * .5f * Mathf.Deg2Rad) * 10;
+        }
+
         public static Canvas CreateCanvas(string name, int sortingOrder, Transform parent = null)
         {
             var go = new GameObject(name, typeof(Canvas), typeof(CanvasScaler), typeof(GraphicRaycaster));

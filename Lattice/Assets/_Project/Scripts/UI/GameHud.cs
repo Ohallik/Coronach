@@ -47,7 +47,7 @@ namespace Lattice.UI
             canvas=UiKit.CreateCanvas("HUD",5,transform);
             // Every line reads at 16 px or more on a 1280x720 screen (24 units at the
             // 1080p reference): each label has its own row above its bar.
-            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");vitals=Corner(frame.gameObject,TopLeft,new(277,918),new(524,298));frame.raycastTarget=false;objective=GetComponent<ObjectiveHud>();
+            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");frame.pixelsPerUnitMultiplier=2;vitals=Corner(frame.gameObject,TopLeft,new(277,918),new(524,298));frame.raycastTarget=false;objective=GetComponent<ObjectiveHud>();
             status=Text("Status",TopLeft,new(297,1010),new(470,38),28,TextAlignmentOptions.Left);
             hpLabel=Text("IntegrityLabel",TopLeft,new(297,976),new(470,30),24,TextAlignmentOptions.Left);
             chargeLabel=Text("ChargeLabel",TopLeft,new(297,933),new(470,30),24,TextAlignmentOptions.Left);
@@ -57,7 +57,8 @@ namespace Lattice.UI
             thrust=Bar("Thrust",new(262,869),new Color(1,.65f,.2f));
             partner=Text("Partner",TopLeft,new(279,833),new(435,32),24,TextAlignmentOptions.Left);
             target=Text("Target",TopCentre,new(960,972),new(700,80),25);
-            zone=Text("Zone",TopRight,new(1635,1000),new(500,60),26,TextAlignmentOptions.Right);
+            // Centred between the objective frame's top edge (987.5) and the top of the screen: at 1000 its words sat on that edge.
+            zone=Text("Zone",TopRight,new(1635,1034),new(500,60),26,TextAlignmentOptions.Right);
             skills=Text("Skills",BottomLeft,new(625,50),new(1190,60),24);
             prompt=Text("Interaction",BottomCentre,new(960,205),new(1200,60),28);
             skills.outlineWidth=.2f;skills.outlineColor=new Color32(5,12,22,255);
@@ -177,16 +178,20 @@ namespace Lattice.UI
             hpLabel.text=$"INTEGRITY   {a.Health.integrity:0} / {a.Health.maximum:0}";
             chargeLabel.text=$"CHARGE   {a.charge:0} / 100";
             thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
+            // A roll refused for Thrust answers as a refused skill's icon does: a mash just stops, and the bar says why.
+            bool rollRefused=a.RollRefusedAt>0&&GameTime.Now-a.RollRefusedAt<.25f;
+            thrust.color=rollRefused?new Color(1,.3f,.25f):new Color(1,.65f,.2f);
+            if(rollRefused&&a.RollRefusedAt>refusedHeard){refusedHeard=a.RollRefusedAt;UiSounds.Error();}
             // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
             if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
             zone.text=DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
             if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
-                target.text=(a.TargetLocked?"LOCKED    ":"")+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
+                target.text=(a.TargetLocked?"LOCKED    ":"")+TargetKeys(a);
             else if(a.target!=null&&a.target.Alive)
                 target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
                     (a.target.Broken?"BROKEN    ":a.target.breakThreshold>=Unbreakable?"":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0")+"    ")+
-                    PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
+                    TargetKeys(a);
             else target.text="";
             reticle.enabled=a.target!=null&&a.target.Alive;
             if(reticle.enabled)
@@ -195,7 +200,7 @@ namespace Lattice.UI
                 var screen=Camera.main.WorldToScreenPoint(a.target.transform.position+Vector3.up);
                 RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,screen,null,out var point);reticle.rectTransform.anchoredPosition=point;
             }
-            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp?PromptService.Tag("Interact")+"  "+interaction.prompt:"";
+            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
             bool combat=ZoneController.Current.Combat;
             for(int i=0;i<4;i++)
             {
@@ -215,6 +220,7 @@ namespace Lattice.UI
                 Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
         }
+        static string TargetKeys(CombatActor a)=>PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK")+"    "+DeviceHints.CycleTarget()+"  SWITCH";
         /// <summary>The quick item and how many are left. None left reads as out of reach; a refused press flashes, as a refused skill's icon does.</summary>
         string QuickItem(GameState state)
         {

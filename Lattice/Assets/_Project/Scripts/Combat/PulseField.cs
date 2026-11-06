@@ -18,7 +18,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(Lattice.Core.GameTime.Paused)return;
+            if(Lattice.Core.GameTime.CombatHeld)return;
             life-=Time.deltaTime;if(life<=0){Destroy(gameObject);return;}
             if(Time.time<nextPulse)return;nextPulse=Time.time+1;
             foreach(var health in Health.All.ToArray())

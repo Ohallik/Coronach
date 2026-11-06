@@ -12,6 +12,12 @@ namespace Lattice.World
         /// <summary>A save that left before she spoke: she waits at her post until the party comes to her.</summary>
         const float HailRange=8;
         public Npc npc;public string bossId="HessaKorl",downFlag="bossdown.HessaKorl",heardFlag="relay.hessaYielded";
+        /// <summary>Aumi's keepers, and what she says with them standing over her. Decided once, as the scene loads, and only once Aumi has been told:
+        /// it is Taren's word to her that sends them, and a FlagGate would pop them in behind the very line saying they are on their way.</summary>
+        public GameObject[] guards=System.Array.Empty<GameObject>();public string guardedFlag="lanternwick.chartGiven",guardedNode="HessaGuarded";
+        /// <summary>The two bodies are Aumi's and Pell's models: a cool cast stops them reading as Aumi and Pell themselves, who are up in town.
+        /// Set here and not in the builder, because a property block isn't saved with a scene.</summary>
+        static readonly Color KeeperCast=new(.62f,.68f,.8f);
         bool standing,nearOnly,heard;float speakAt=-1;
         void OnEnable()=>DefeatPresentation.Yielded+=TakeOver;
         void OnDisable()=>DefeatPresentation.Yielded-=TakeOver;
@@ -19,6 +25,14 @@ namespace Lattice.World
         {
             if(npc==null||GameServices.Current==null)return;
             var flags=GameServices.Current.Flags;heard=flags.GetBool(heardFlag);
+            bool guarded=heard&&flags.GetBool(guardedFlag);var block=new MaterialPropertyBlock();
+            foreach(var guard in guards)
+            {
+                if(guard==null)continue;
+                guard.SetActive(guarded);if(!guarded)continue;
+                foreach(var part in guard.GetComponentsInChildren<Renderer>(true)){part.GetPropertyBlock(block);block.SetColor("_BaseColor",KeeperCast);part.SetPropertyBlock(block);}
+            }
+            if(guarded&&!string.IsNullOrEmpty(guardedNode))npc.firstNode=npc.repeatNode=guardedNode;
             bool down=flags.GetBool(downFlag);npc.gameObject.SetActive(down);
             if(down)StandAtPost();
         }

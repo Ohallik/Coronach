@@ -72,6 +72,20 @@ class Route:
         self.add(f"finish {name}", 40, buttons=["South"], pulseSeconds=1.0, until=closed, expectedUi="world", expectedFlag=flag)
         self.add(f"release after {name}", 0.5)
 
+    def talk_to_shop(self, name, lines):
+        """A conversation that ends at a stall: read it as talk() does, stop pressing the moment the stock opens (there the confirm button buys), then leave."""
+        opened = "ui:shop"
+        self.add("start " + name, 0.2, buttons=["South"], expectedUi="dialogue")
+        self.add("release start " + name, 0.3, expectedUi="dialogue")
+        for i in range(lines):
+            self.add(f"read {name} line {i + 1}", 1.9, stopWhen=opened)
+            self.add(f"next {name} line {i + 1}", 0.15, buttons=["South"], stopWhen=opened)
+            self.add(f"release {name} line {i + 1}", 0.2, stopWhen=opened)
+        self.add(f"finish {name}", 40, buttons=["South"], pulseSeconds=1.0, until=opened, expectedUi="shop")
+        self.add(f"look over the stock after {name}", 1, expectedUi="shop")
+        self.add(f"leave the stock after {name}", 0.5, buttons=["East"], expectedUi="world")
+        self.add(f"release the stall after {name}", 0.3)
+
     def wait(self, name, seconds, **kw):
         self.add(name, seconds, **kw)
 
@@ -207,7 +221,7 @@ def lanternwick():
     r.path("down the lantern stair", [(18.9, 3.1, 51.3), (19.4, 3.2, 49.5), (18.9, 1.5, 25.5), (17.1, 1, 25.5), (7, 0.2, 36)])
     r.talk("Pell's lamp", 4)
     r.path("back through the market", [(5, 0.3, 34.5), (-4, 0.2, 17)])
-    r.talk("Corra's request", 6)
+    r.talk_to_shop("Corra's request", 6)
     r.path("up the main street", [(-2.5, 0.2, 27.8), (3, 0.2, 90)])
     r.talk("Ishen", 5, flag="met.Ishen")
     r.path("to the orchard", [(-6, 0.1, 81), (-15.8, 0.1, 74.1), (-30, 1.5, 60)])

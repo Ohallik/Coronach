@@ -57,6 +57,8 @@ namespace Lattice.Tests.PlayMode
             var state=new GameState();
             state.questSteps["NeveParcel"]=0;
             Assert.IsNull(SideStories.NodeFor("Survivor",state),"the parcel would replace the Survivor's first conversation");
+            Assert.AreEqual("SurvivorFirstParcel",SideStories.FirstMeetingFor("Survivor",state),"with the parcel in hand the first meeting doesn't deliver it");
+            Assert.IsNull(SideStories.FirstMeetingFor("Survivor",new GameState()),"an ordinary first meeting doesn't play as written");
             state.flags["met.Survivor"]=true;
             Assert.AreEqual("SurvivorParcel",SideStories.NodeFor("Survivor",state));
             state.questSteps["OdaBerth"]=0;
@@ -75,12 +77,14 @@ namespace Lattice.Tests.PlayMode
             yield return new WaitForSecondsRealtime(.3f);
             Assert.IsTrue(toast.Showing,"a new task is not announced once the conversation closes");
             StringAssert.Contains("NEW QUEST",toast.Heading);StringAssert.Contains("Dace",toast.Body);
-            // Meeting the Survivor for the first time does not tick the delivery.
+            // Meeting the Survivor for the first time with the parcel in hand: his introduction, then the delivery, in one talk.
+            int said=DialogueSystem.Current.LinesPresented;
             yield return Talk(survivor);
-            Assert.AreEqual("SurvivorFirst",heard,"the parcel replaced the Survivor's first conversation");
-            Assert.AreEqual(0,Step("NeveParcel"),"an ordinary talk delivered the parcel");
+            Assert.AreEqual("SurvivorFirstParcel",heard,"the parcel replaced the Survivor's first conversation, or never came up in it");
+            Assert.GreaterOrEqual(DialogueSystem.Current.LinesPresented-said,6,"the one talk lost his introduction or the delivery");
+            Assert.AreEqual(1,Step("NeveParcel"),"a first talk with the parcel in hand did not deliver it");
             yield return Talk(survivor);
-            Assert.AreEqual("SurvivorParcel",heard);Assert.AreEqual(1,Step("NeveParcel"));
+            Assert.AreEqual("SurvivorRepeat",heard,"the parcel is delivered a second time");Assert.AreEqual(1,Step("NeveParcel"),"an ordinary talk moved the parcel on");
             int scrip=State.scrip;State.consumables.TryGetValue("ChargeCell",out int cells);
             yield return Talk(neve);
             Assert.AreEqual("NeveParcelReturn",heard);

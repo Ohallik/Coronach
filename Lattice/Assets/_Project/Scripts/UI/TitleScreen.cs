@@ -108,13 +108,15 @@ namespace Lattice.UI
             {
                 var state=GameServices.Current.Saves.Load(slot);string id=slot;
                 string empty=GameServices.Current.Saves.Damaged(slot)?" — Damaged":" — Empty";
-                var button=UiKit.Button(savePicker.transform,slot,state==null?SlotName(slot)+empty:SlotName(slot)+" — "+DisplayNames.Zone(state.zone)+" — Sync "+state.party[0].level+" — "+Played(state.playtime),()=>
+                var button=UiKit.Button(savePicker.transform,slot,state==null?SlotName(slot)+empty:SlotName(slot)+" — "+DisplayNames.Zone(state.zone)+" — Sync "+state.party[0].level+" — "+Played(state.playtime)+SavedWhen(state),()=>
                 {
                     if(SceneFlow.Current.Loading)return;
                     var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;
                     GameServices.Current.Saves.ResumeFrom(id);
                     if(id=="autosave")SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);else SceneFlow.Current.LoadSavedZone(loaded.zone,loaded.spawn);
                 });
+                // With its date a row runs past its 1200 at the button's 34.
+                button.GetComponentInChildren<TMP_Text>().fontSize=30;
                 button.interactable=state!=null;UiKit.Rect(button.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,180-row++*100),new(1200,72));if(button.interactable)buttons.Add(button);
             }
             var back=UiKit.Button(savePicker.transform,"Back","Back",()=>{UiSounds.Cancel();CloseSaves();});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
@@ -135,6 +137,7 @@ namespace Lattice.UI
             yield return new WaitForSecondsRealtime(6);
             Debug.Log("TITLE_SMOKE_OK"); Application.Quit();
         }
+        static string SavedWhen(GameState state){string at=DisplayNames.SavedAt(state.savedAtUtc);return at==""?"":" — "+at;}
         static string SlotName(string slot)=>slot=="autosave"?"Autosave":"Slot "+slot.Substring(4);
         static string Played(float seconds){int minutes=Mathf.FloorToInt(seconds/60);return minutes<60?$"{minutes} min":$"{minutes/60} h {minutes%60} min";}
     }

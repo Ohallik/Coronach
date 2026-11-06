@@ -160,6 +160,8 @@ namespace Lattice.Combat
             {
                 int slot=(start+n)%Lattice.Core.SkillBook.Slots;var skill=Lattice.Core.SkillBook.Equipped(actor.character,slot);
                 if(skill==null||actor.cooldowns[slot]>0||distance>Reach(skill.kind))continue;
+                // Short of Charge there's nothing to try: every refused Skill() stamps the slot, and a swap in that moment read it as the new lead's refused press.
+                if(actor.charge<Lattice.Core.SkillBook.Cost(actor.character,skill))continue;
                 if(GapCloser(skill.kind)&&(distance<2.5f||actor.Health.integrity<actor.Health.maximum*.3f))continue;
                 if(!Worthwhile(skill.kind))continue;
                 if(actor.Skill(slot))return true;
@@ -175,7 +177,7 @@ namespace Lattice.Combat
             if(actor.flight&&actor.target!=null)
             {
                 var line=Planar(actor.target.transform.position-transform.position);
-                float dash=kind==Lattice.Data.SkillKind.AnchorSlam?Mathf.Clamp(line.magnitude-2.5f,3,11):kind==Lattice.Data.SkillKind.EmberStep?10:kind==Lattice.Data.SkillKind.WaypointBlink?8:0;
+                float dash=kind==Lattice.Data.SkillKind.AnchorSlam?Mathf.Clamp(line.magnitude-2.5f,3,11):kind==Lattice.Data.SkillKind.EmberStep?10:kind==Lattice.Data.SkillKind.WaypointBlink?8:kind==Lattice.Data.SkillKind.TetherHook&&HookPullsHull(line.magnitude)?line.magnitude-2:0;
                 if(dash>0&&line.sqrMagnitude>.01f)
                 {
                     var hull=transform.position+Vector3.up*.8f;var along=(kind==Lattice.Data.SkillKind.WaypointBlink?-line:line).normalized;
@@ -185,9 +187,19 @@ namespace Lattice.Combat
             if(kind==Lattice.Data.SkillKind.Overdrive||kind==Lattice.Data.SkillKind.Refract||kind==Lattice.Data.SkillKind.SurveyDrone||kind==Lattice.Data.SkillKind.WaypointBlink)return true;
             if(actor.target==null)return false;
             var to=actor.target.transform.position-transform.position;to.y=0;
-            if(actor.flight&&Vector3.Angle(actor.motor.Facing,to)>30)return false;
+            // Aim only follows a target in front of the hero: past that a directional skill leaves along the heading, into empty space
+            // (retreating, following the lead, leaving a marking). On the ground a burst goes all round, and a Fold or a Starfall lands on the target itself.
+            bool placed=kind==Lattice.Data.SkillKind.GravityFold||kind==Lattice.Data.SkillKind.Starfall;
+            if(Vector3.Angle(actor.motor.Facing,to)>=(actor.flight?30:120)&&(actor.flight||kind!=Lattice.Data.SkillKind.PulseBurst&&!placed))return false;
             var from=transform.position+Vector3.up*(actor.flight?0:.9f);
             return CombatCover.Clear(from,from+to);
+        }
+        /// <summary>A hook on a body too heavy to reel (a boss, a collar link) pulls the hull instead, as TetherLine does it.</summary>
+        bool HookPullsHull(float gap)
+        {
+            if(gap<=2.4f)return false;
+            var brain=actor.target.GetComponent<EnemyBrain>();
+            return brain==null||!brain.Mine&&(!brain.CanBeMoved||brain.Heavy);
         }
         static float Reach(Lattice.Data.SkillKind kind)=>kind switch
         {

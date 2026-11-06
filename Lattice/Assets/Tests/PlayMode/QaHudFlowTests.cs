@@ -84,7 +84,7 @@ namespace Lattice.Tests.PlayMode
         {
             ("HUD","VitalsFrame",277,918,524,298),("HUD","Status",297,1010,470,38),("HUD","IntegrityLabel",297,976,470,30),("HUD","ChargeLabel",297,933,470,30),("HUD","ThrustLabel",297,890,470,30),
             ("HUD","IntegrityBack",262,955,400,14),("HUD","ChargeBack",262,912,400,14),("HUD","ThrustBack",262,869,400,14),("HUD","Partner",279,833,435,32),
-            ("HUD","Target",960,972,700,80),("HUD","Zone",1635,1000,500,60),("HUD","Skills",625,50,1190,60),("HUD","Interaction",960,205,1200,60),
+            ("HUD","Target",960,972,700,80),("HUD","Zone",1635,1034,500,60),("HUD","Skills",625,50,1190,60),("HUD","Interaction",960,205,1200,60),
             ("HUD","Skill0",1340,112,74,74),("HUD","Skill1",1490,112,74,74),("HUD","Skill2",1640,112,74,74),("HUD","Skill3",1790,112,74,74),
             ("HUD","SkillLabel0",1340,42,145,62),("HUD","SkillLabel1",1490,42,145,62),("HUD","SkillLabel2",1640,42,145,62),("HUD","SkillLabel3",1790,42,145,62),
             ("HUD","BossName",960,216,900,36),("HUD","BossEpithet",960,216,900,36),("HUD","BossIntegrityBack",960,186,900,20),("HUD","BossBreakBack",960,168,900,7),("HUD","BossState",960,140,900,36),

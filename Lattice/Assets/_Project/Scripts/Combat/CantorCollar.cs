@@ -13,6 +13,10 @@ namespace Lattice.Combat
         public static readonly List<CantorCollar> All=new();
         readonly Health[] links=new Health[3];
         readonly CollarBand[] bands=new CollarBand[4];
+        /// <summary>The head's and each link's share of the boss's integrity. Both sit behind x2 hurtboxes, so the replay party takes the same
+        /// rate off either: at a quarter each, the head's phases (where the spiral and the lash live) were 20 s of a 119 s fight. Now 49 s.</summary>
+        public const float HeadShare=.55f,LinkShare=(1-HeadShare)/3;
+        float slack;
         Health health;
         SerpentSegments body;
         DefeatPresentation presentation;
@@ -29,7 +33,7 @@ namespace Lattice.Combat
         {
             this.body=body;presentation=GetComponent<DefeatPresentation>();presentation.Recovered+=CompleteRecovery;
             health=GetComponent<Health>();body.Initialize(definition,health);
-            health.maximum=health.integrity=definition.integrity*.25f;health.Damageable=false;
+            health.maximum=health.integrity=definition.integrity*HeadShare;health.Damageable=false;
             GetComponent<Hurtbox>().multiplier=2;
             foreach(var part in body.Parts)
             {
@@ -41,7 +45,7 @@ namespace Lattice.Combat
             {
                 var node=new GameObject(names[i]);node.transform.SetParent(body.Parts[i*2],false);
                 var link=node.AddComponent<Health>();link.id="Cantor - "+names[i].ToLowerInvariant();
-                link.maximum=link.integrity=definition.integrity*.25f;link.weakness=health.weakness;link.resistance=health.resistance;
+                link.maximum=link.integrity=definition.integrity*LinkShare;link.weakness=health.weakness;link.resistance=health.resistance;
                 link.breakThreshold=definition.breakThreshold;
                 link.reactionOwner=health;links[i]=link;
                 var shape=node.AddComponent<CapsuleCollider>();shape.isTrigger=true;shape.radius=1.15f;shape.height=2.3f;
@@ -60,6 +64,12 @@ namespace Lattice.Combat
             CombatVfx.Burst(links[index].transform.position,new Color(1,.65f,.2f),"failure");
             AudioManager.PlayAt("doorOpen_000",links[index].transform,links[index].transform.position,.16f,AudioBus.SFX,60);
             Debug.Log($"CANTOR_LINK_CUT index={index} remaining={Remaining}");
+        }
+        /// <summary>The song spent, what's still on goes slack for a moment: the links take the punish while the head can't.</summary>
+        public void Stall()
+        {
+            foreach(var link in links)if(link!=null&&link.Alive)CombatVfx.Burst(link.transform.position,new Color(1,.7f,.25f),"hit");
+            AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.14f,AudioBus.SFX,60,.04f,.75f);
         }
         void Released(Health _,DamagePacket packet){health.Damageable=false;bands[3].Open();}
         void Rearmed(Health _)
@@ -80,7 +90,9 @@ namespace Lattice.Combat
         void LateUpdate()
         {
             if(GameTime.Paused)return;
-            foreach(var band in bands)band?.Advance();
+            // An opening, a break or a stall alike: the plates stand off the body while it lasts.
+            slack=Mathf.MoveTowards(slack,health!=null&&health.Alive&&health.Broken?1:0,7*Time.deltaTime);
+            foreach(var band in bands)band?.Advance(slack);
         }
         void OnDestroy()
         {
@@ -92,6 +104,7 @@ namespace Lattice.Combat
         sealed class CollarBand
         {
             static readonly Vector3 PlateScale=new Vector3(.85f,.3f,.45f);
+            const float SlackReach=.16f;
             readonly Transform[] plates=new Transform[8];
             readonly Vector3[] rest=new Vector3[8],positions=new Vector3[8],directions=new Vector3[8];
             readonly Quaternion[] rotations=new Quaternion[8],worldRotations=new Quaternion[8];
@@ -129,9 +142,15 @@ namespace Lattice.Combat
                     directions[i]=plates[i].parent.TransformDirection((rest[i]-(rest[0]+rest[4])*.5f).normalized);
                 }
             }
-            public void Advance()
+            public void Advance(float slack)
             {
-                if(float.IsPositiveInfinity(opened)){Follow();return;}float age=GameTime.Now-opened;
+                if(float.IsPositiveInfinity(opened))
+                {
+                    Follow();
+                    for(int i=0;i<plates.Length;i++)plates[i].localPosition=rest[i]*(1+SlackReach*slack);
+                    return;
+                }
+                float age=GameTime.Now-opened;
                 for(int i=0;i<plates.Length;i++)
                 {
                     plates[i].position=positions[i]+directions[i]*(1-Mathf.Exp(-5*age))*1.4f-Vector3.up*(1.8f*age*age);

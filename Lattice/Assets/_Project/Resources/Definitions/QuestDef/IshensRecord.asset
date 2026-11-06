@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.QuestDef
   id: IshensRecord
   title: Ishen's Missing Record
-  description: Three record plates went missing in the Sunken Relay below Lantern
+  description: Three record plates never came up from the Sunken Relay below Lantern
     Gorge.
   steps:
   - kind: 4
@@ -30,5 +30,5 @@ MonoBehaviour:
     count: 1
   flagsOnComplete: []
   stepText:
-  - Recover the record plates in the Sunken Relay
+  - Recover the record plates from the lit mirror stands in the Sunken Relay
   - Bring the plates to Ishen at the archive

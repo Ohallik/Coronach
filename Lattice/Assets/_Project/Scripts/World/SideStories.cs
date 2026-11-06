@@ -53,11 +53,29 @@ namespace Lattice.World
             new("Ishen","IshenRecordReturn",s=>Step(s,"IshensRecord")==1),
             // Unsworn rations (UnswornRations): Corra feeds a Muster deserter hiding in the orchard shed.
             new("Brekk","BrekkRations",s=>Step(s,"UnswornRations")==1),
-            // The captain's surrender: heard once, wherever she is standing (D202).
+            // The captain's surrender: heard once, wherever she is standing (D202). Once the chart is given the fight is long over,
+            // and she can't still be shouting as if it had just ended.
+            new("Hessa","HessaYieldsLate",s=>Flag(s,"bossdown.HessaKorl")&&!Flag(s,"relay.hessaYielded")&&Flag(s,"lanternwick.chartGiven")),
             new("Hessa","HessaYields",s=>Flag(s,"bossdown.HessaKorl")&&!Flag(s,"relay.hessaYielded")),
             new("Corra","CorraRationsOffer",s=>Step(s,"UnswornRations")<0&&Met(s,"Corra")&&Step(s,"LanternRoad")>=3),
         };
 
+        /// <summary>First meetings the story has overtaken. Dace's introduction has the Burrower still hunting and sends the party to a key
+        /// they may hold, and a parcel in hand used to wait for a second talk nothing asks for. The meeting keeps its place and marks him
+        /// met as any other does; only its words change. The parcel nodes play the meeting, then the delivery, as one talk.</summary>
+        static readonly Beat[] LateMeetings=
+        {
+            new("Survivor","SurvivorLateParcel",s=>Flag(s,"bossdown.Burrower")&&Step(s,"NeveParcel")==0),
+            new("Survivor","SurvivorLate",s=>Flag(s,"bossdown.Burrower")),
+            new("Survivor","SurvivorFirstParcel",s=>Step(s,"NeveParcel")==0),
+        };
+        /// <summary>The conversation that takes the place of this speaker's first node, or null for the one as written.</summary>
+        public static string FirstMeetingFor(string speaker,GameState state)
+        {
+            if(state==null||string.IsNullOrEmpty(speaker))return null;
+            foreach(var beat in LateMeetings)if(beat.speaker==speaker&&beat.when(state))return beat.node;
+            return null;
+        }
         /// <summary>The side-story conversation for this speaker now, or null for their ordinary tiers.</summary>
         public static string NodeFor(string speaker,GameState state)
         {

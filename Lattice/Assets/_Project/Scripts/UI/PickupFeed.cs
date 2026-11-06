@@ -21,7 +21,7 @@ namespace Lattice.UI
         void OnGained(string id,int amount)
         {
             if(canvas==null)return;
-            string name=id=="scrip"?"scrip":DisplayNames.Item(id);
+            string name=id=="scrip"?"scrip":id=="xp"?"XP":DisplayNames.Item(id);
             Add(id,name,amount);
         }
         void OnSaved(string slot){if(canvas!=null)Add("saved","Saved",0);}
@@ -33,7 +33,8 @@ namespace Lattice.UI
             {
                 if(lines.Count>=MaxLines){Destroy(lines[0].text.gameObject);lines.RemoveAt(0);}
                 line=new Line{id=id,name=name};
-                line.text=UiKit.Text(canvas.transform,"PickupLine","",24,amount>0?UiKit.GoldColor:UiKit.DimTextColor,TextAlignmentOptions.MidlineLeft);
+                // XP comes with every kill: it stays quiet beside what the player actually picked up.
+                line.text=UiKit.Text(canvas.transform,"PickupLine","",24,amount>0&&id!="xp"?UiKit.GoldColor:UiKit.DimTextColor,TextAlignmentOptions.MidlineLeft);
                 line.text.outlineWidth=.2f;line.text.outlineColor=new Color32(5,12,22,255);
                 UiKit.Rect(line.text.gameObject,new(0,1),new(0,1),Vector2.zero,new(420,32));
                 lines.Add(line);

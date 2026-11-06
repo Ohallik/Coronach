@@ -55,7 +55,7 @@ namespace Lattice.EditorTools
             AssetDatabase.Refresh(ImportAssetOptions.ForceSynchronousImport);
             AssetDatabase.ImportAsset("Assets/_Project/Resources/Dialogue/Lattice.yarnproject",ImportAssetOptions.ForceUpdate|ImportAssetOptions.ForceSynchronousImport);
             var yarn=AssetDatabase.LoadAssetAtPath<Yarn.Unity.YarnProject>("Assets/_Project/Resources/Dialogue/Lattice.yarnproject");
-            foreach(var node in new[]{"OrrinFirst","AbriLanternTale","AumiFirst","AumiReturn","SelaRelayLit","SelaWickRelays","HessaConfront","HessaYields","BrekkRations","IshenRecordReturn","PellLampOffer","CorraRationsOffer"})
+            foreach(var node in new[]{"OrrinFirst","AbriLanternTale","AumiFirst","AumiReturn","SelaRelayLit","SelaWickRelays","HessaConfront","HessaYields","HessaYieldsLate","HessaGuarded","SurvivorLate","SurvivorFirstParcel","SurvivorLateParcel","BrekkRations","IshenRecordReturn","PellLampOffer","CorraRationsOffer"})
                 if(yarn==null||!yarn.Program.Nodes.ContainsKey(node))throw new InvalidOperationException("Yarn project did not compile "+node);
             Debug.Log("YARN_NODES "+yarn.Program.Nodes.Count);
         }
@@ -113,7 +113,7 @@ namespace Lattice.EditorTools
 
             var bite=Find<AttackDef>("Bite");var volley=Find<AttackDef>("Volley");
             LootTable Loot(string id,params LootEntry[] entries)=>ArenaBuilder.Asset<LootTable>(id,t=>t.entries=entries);
-            ArenaBuilder.Asset<EnemyDef>("Gloomgrazer",e=>{e.id="Gloomgrazer";e.prefab=Body("Enemies","Gloomgrazer","Enemies","Ridgehound");e.integrity=170;e.breakThreshold=90;e.speed=3.7f;e.attacks=new[]{bite};
+            ArenaBuilder.Asset<EnemyDef>("Gloomgrazer",e=>{e.id="Gloomgrazer";e.prefab=Body("Enemies","Gloomgrazer","Enemies","Ridgehound");e.integrity=220;e.breakThreshold=90;e.speed=3.7f;e.attacks=new[]{bite};
                 e.weakness=DamageType.Beam;e.resistance=DamageType.Plasma;e.archetype=EnemyArchetype.PackHunter;e.xp=40;e.boss=false;e.lootTable=Loot("Gloomgrazer",new LootEntry{id="LatticeFilament",count=1,chance=.3f});});
             ArenaBuilder.Asset<EnemyDef>("MusterScav",e=>{e.id="MusterScav";e.prefab=Body("Enemies","MusterScav","Enemies","SentinelHusk");e.integrity=210;e.breakThreshold=90;e.speed=2.7f;e.attacks=new[]{volley};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Spitter;e.xp=45;e.boss=false;e.lootTable=Loot("MusterScav",new LootEntry{id="ScrapAlloy",count=2,chance=.5f},new LootEntry{id="ChargeCell",count=1,chance=.08f});});
@@ -137,9 +137,9 @@ namespace Lattice.EditorTools
                 q.stepText=new[]{"Search the grazer den under the fallen tower, west of the path before the second relay","Bring the lamp back to Pell"};
                 q.rewardXp=180;q.rewardScrip=120;q.rewards=new[]{new Ingredient{id="ChargeCell",count=2}};q.flagsOnComplete=Array.Empty<string>();});
             ArenaBuilder.Asset<QuestDef>("IshensRecord",q=>{q.id="IshensRecord";q.title="Ishen's Missing Record";
-                q.description="Three record plates went missing in the Sunken Relay below Lantern Gorge.";
+                q.description="Three record plates never came up from the Sunken Relay below Lantern Gorge.";
                 q.steps=new[]{Step(ObjectiveKind.Interact,"RecordPlate",3),Step(ObjectiveKind.Flag,"ishen.recordRestored")};
-                q.stepText=new[]{"Recover the record plates in the Sunken Relay","Bring the plates to Ishen at the archive"};
+                q.stepText=new[]{"Recover the record plates from the lit mirror stands in the Sunken Relay","Bring the plates to Ishen at the archive"};
                 q.rewardXp=240;q.rewardScrip=150;q.rewards=new[]{new Ingredient{id="EmittersT2",count=1}};q.flagsOnComplete=Array.Empty<string>();});
             ArenaBuilder.Asset<QuestDef>("UnswornRations",q=>{q.id="UnswornRations";q.title="Rations for the Unsworn";
                 q.description="Corra is feeding someone in the orchard shed who can't eat Lanternwick's food.";
@@ -167,12 +167,8 @@ namespace Lattice.EditorTools
 
         // ---------------------------------------------------------------- shared helpers
         static string Kit(string key,string fallback)=>Prefab("Environment",key)!=null?key:fallback;
-        /// <summary>A dead relay: its crystal unlit (the generated emission off), so relit relays stand out.</summary>
-        static GameObject Dark(GameObject go)
-        {
-            var block=new MaterialPropertyBlock();block.SetColor("_EmissionColor",Color.black);
-            foreach(var r in go.GetComponentsInChildren<Renderer>())r.SetPropertyBlock(block);return go;
-        }
+        /// <summary>A dead relay: its crystal unlit, so relit relays stand out. The component does it as the scene loads: a property block set here isn't saved with the scene.</summary>
+        static GameObject Dark(GameObject go){go.AddComponent<StaysDark>();return go;}
         static Material WorldMaterial(string name)=>AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Resources/WorldMaterials/"+name+".mat");
         /// <summary>The canyon ground and strata (generated textures) or, until they are staged, Sorrel's.</summary>
         static Material Canyon(bool cliff)=>WorldMaterial(cliff?"canyon-cliff":"canyon-ground")??WorldMaterial(cliff?"sorrel-rock":"sorrel-ground");
@@ -411,8 +407,10 @@ namespace Lattice.EditorTools
             var curtain=new MaterialPropertyBlock();curtain.SetColor("_BaseColor",new Color(1,.62f,.24f,.55f));curtain.SetColor("_EmissionColor",new Color(1.6f,.9f,.3f));
             foreach(var r in gate.GetComponentsInChildren<Renderer>())r.enabled=false;
             var beam=CurtainMaterial("WickReach");
+            // The door goes at once, so nothing waits on a fade to fly through; the strands are their own object and part with a moment.
+            var strands=new GameObject("Lantern gate strands",typeof(LightCurtain));strands.transform.position=gate.transform.position;
             for(float x=-54;x<=54;x+=4.5f)
-                Strand(gate.transform,new Vector3(x,-5,ReachLength-40),new Vector3(x,5,ReachLength-40),beam,.45f,new Color(1.6f,.85f,.3f,.15f),new Color(1.8f,1f,.4f,.85f));
+                Strand(strands.transform,new Vector3(x,-5,ReachLength-40),new Vector3(x,5,ReachLength-40),beam,.45f,new Color(1.6f,.85f,.3f,.15f),new Color(1.8f,1f,.4f,.85f));
             foreach(float x in new[]{-56f,-20f,20f,56f})Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,-9,ReachLength-40),10,x,false,false);
             var gateKeeper=new GameObject("Lantern gate light",typeof(FlagGate)).GetComponent<FlagGate>();gateKeeper.flag="wick.gateOpen";gateKeeper.showWhenSet=false;gateKeeper.targets=new[]{gate.gameObject};
             WorldBuilder.Label("LANTERN GATE",new Vector3(0,4,ReachLength-42),2.2f);
@@ -447,7 +445,7 @@ namespace Lattice.EditorTools
             Terrain("Lanternwick","Canyon terraces",-60,60,-50,125,1,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
             var dock=Prop("LandingPad",new Vector3(0,0,-22),5,0);dock.name="Courier pad";
-            var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — the Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
+            var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — The Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
             WorldBuilder.Label("COURIER DOCK",new Vector3(0,.1f,-17));
             // The arch market: the great arch spans the main street; stalls under and around it.
             // Low enough to read as a gateway, and it fades as the camera passes over: at 7 m it filled the screen around Corra's stall.
@@ -739,20 +737,34 @@ namespace Lattice.EditorTools
             duel.requiredFlag="relay.hessaConfronted";duel.checkpointSpawn="Vault";
             var viewpoint=new GameObject("Hessa preview");viewpoint.transform.position=new Vector3(0,0,124);duel.previewPoint=viewpoint.transform;duel.previewRadius=6;
             confront.previewEncounter=duel;
-            // After the duel: the captain under guard, and the lift home.
+            // After the duel: the captain, and the lift home. Once Aumi has been told, a later visit finds her under guard (YieldedCaptain decides as the scene loads).
             var hessa=Person("Hessa",new Vector3(9,0,154),-120,"",false);hessa.firstNode="HessaRepeat";hessa.repeatNode="HessaRepeat";
             var yielded=new GameObject("Hessa under guard",typeof(YieldedCaptain)).GetComponent<YieldedCaptain>();yielded.npc=hessa;hessa.gameObject.SetActive(false);
+            yielded.guards=new[]{Guard(hessa.transform,1.7f,"AumiBody","Neve"),Guard(hessa.transform,-1.7f,"PellBody","SurvivorNatural")};
             Gate("Ride the relay lift — Lanternwick",new Vector3(-6,0,160),"Lanternwick","Archive","relay.hessaYielded","The lift waits: hear the captain out first","AncelaneColumn",3);
             BakeNavigation("SunkenRelay",new Bounds(new Vector3(0,4,82),new Vector3(50,20,186)),new Vector3(0,0,3),
                 new[]{new Vector3(0,0,30),new Vector3(10,0,74),new Vector3(-8,0,108),new Vector3(0,0,118),new Vector3(0,0,140)});
             WorldBuilder.Save(scene,"SunkenRelay");Debug.Log("SUNKEN_RELAY_OK");
         }
 
-        /// <summary>A record plate: a round relay mirror on the floor, with its own small light, so it never reads as the rubble.</summary>
+        /// <summary>A Lanternwick keeper standing over a prisoner, turned toward her: a body with no name and nothing to say. Hidden until the scene decides, and tinted then.</summary>
+        static GameObject Guard(Transform prisoner,float side,string body,string fallback)
+        {
+            var at=prisoner.position+prisoner.right*side-prisoner.forward*.35f;at.y=height(new Vector2(at.x,at.z));
+            var guard=new GameObject("Keeper on guard");var toward=prisoner.position-at;toward.y=0;guard.transform.SetPositionAndRotation(at,Quaternion.LookRotation(toward));
+            var model=(GameObject)PrefabUtility.InstantiatePrefab(Body("Characters",body,"Characters",fallback));model.transform.SetParent(guard.transform,false);model.name="Generated civilian";
+            var solid=guard.AddComponent<CapsuleCollider>();solid.height=1.9f;solid.radius=.35f;solid.center=Vector3.up*.95f;
+            guard.SetActive(false);return guard;
+        }
+        /// <summary>An old relay mirror on its stand, there on every visit, and resting against it the round plate Ishen wants, under a small light of
+        /// its own so it never reads as the rubble. Only the plate and its light belong to the quest: taking it leaves the stand. It leans on the
+        /// camera's side, tipped toward the camera: lying flat on top, a disc this size is a sliver from up there.</summary>
         static GameObject RecordPlate(Vector3 at,float yaw)
         {
-            var plate=Prop(Kit("RelayMirror","LanternShard"),at,.9f,yaw,false);plate.name="Record plate body";
-            var light=new GameObject("Plate light",typeof(Light));light.transform.SetParent(plate.transform,false);light.transform.position=plate.transform.position+Vector3.up*1.2f;
+            var stand=Prop(Kit("RelayMirror","LanternShard"),at,.9f,yaw);stand.name="Record plate stand";var foot=ModelGeometry.BoundsOf(stand);
+            var plate=Prop("LandingPad",Vector3.zero,.56f,0,false,false);plate.name="Record plate body";plate.transform.rotation=Quaternion.Euler(-48,0,0);var lying=ModelGeometry.BoundsOf(plate);
+            plate.transform.position+=new Vector3(foot.center.x,foot.min.y+.01f,foot.min.z-.12f)-new Vector3(lying.center.x,lying.min.y,lying.center.z);
+            var light=new GameObject("Plate light",typeof(Light));light.transform.SetParent(plate.transform,false);light.transform.position=new Vector3(foot.center.x,foot.min.y+1.7f,foot.center.z-.3f);
             var l=light.GetComponent<Light>();l.type=LightType.Point;l.color=new Color(1,.8f,.5f);l.range=5;l.intensity=2;l.shadows=LightShadows.None;
             return plate;
         }

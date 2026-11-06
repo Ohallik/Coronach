@@ -1,6 +1,7 @@
 using System.Linq;
 using Lattice.Core;
 using Lattice.Combat;
+using Lattice.Data;
 using Lattice.World;
 using TMPro;
 using UnityEngine;
@@ -16,9 +17,11 @@ namespace Lattice.UI
         void Start()
         {
             canvas=UiKit.CreateCanvas("Objective",6,transform);var frame=UiKit.DarkFrame(canvas.transform,"ObjectiveFrame");frame.raycastTarget=false;
+            // At the weight of the card under it, and of the vitals in the other corner. The full border left this frame room for three lines of type, and it can need four.
+            frame.pixelsPerUnitMultiplier=2;
             Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
             text=UiKit.Text(frame.transform,"Objective","",24,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
-            UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,95));
+            UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,112));
         }
         void Update()
         {
@@ -108,7 +111,7 @@ namespace Lattice.UI
                 case "LanternGorge":
                 {
                     int lit=new[]{"gorge.relay1","gorge.relay2","gorge.relay3"}.Count(f=>flags.GetBool(f));
-                    if(flags.GetBool("bossdown.HessaKorl")){label="Climb back to Lanternwick and tell Keeper Aumi";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
+                    if(flags.GetBool("bossdown.HessaKorl")){label=flags.GetBool("lanternwick.chartGiven")?"Climb back to Lanternwick":"Climb back to Lanternwick and tell Keeper Aumi";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
                     else if(lit<3)
                     {
                         label=$"Relight the gorge relays ({lit}/3) for Keeper Aumi";
@@ -119,7 +122,7 @@ namespace Lattice.UI
                 }
                 case "SunkenRelay":
                     if(flags.GetBool("bossdown.HessaKorl")&&!flags.GetBool("relay.hessaYielded")){label="Hear Hessa out";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Hessa");}
-                    else if(flags.GetBool("bossdown.HessaKorl")){label="Ride the relay lift up to Lanternwick and tell Keeper Aumi";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
+                    else if(flags.GetBool("bossdown.HessaKorl")){label=flags.GetBool("lanternwick.chartGiven")?"Ride the relay lift up to Lanternwick":"Ride the relay lift up to Lanternwick and tell Keeper Aumi";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
                     else if(flags.GetBool("relay.hessaConfronted")){label="Stop Hessa Korl before she strips the relay";var boss=BossController.Focus(PartyController.Current.Active.transform.position,200);goal=boss!=null?boss.transform.position:new Vector3(3,0,129);}
                     else{label="Find who is stripping the relay";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag=="relay.hessaConfronted");}
                     break;
@@ -135,7 +138,33 @@ namespace Lattice.UI
                 var local=Quaternion.Euler(0,-ZoneController.Current.definition.cameraProfile.yaw,0)*delta;
                 direction=$"\n{delta.magnitude:0} m · "+(Mathf.Abs(local.x)>Mathf.Abs(local.z)?local.x>0?"right":"left":local.z>0?"ahead":"behind");
             }
-            text.text=label+direction;
+            text.text=label+direction+Also(state,PartyController.Current.Active.transform.position);
         }
+        /// <summary>The nearest thing an active side quest wants in this zone, as a dim line under the main objective, with its distance.
+        /// The den, the crate and the plates were otherwise found from the log's words alone. A boss fight has the player's whole attention.</summary>
+        static string Also(GameState state,Vector3 from)
+        {
+            if(BossController.Focus(from,45)!=null)return "";
+            QuestDef found=null;int step=0;float best=float.MaxValue;
+            foreach(var pair in state.questSteps)
+            {
+                if(System.Array.IndexOf(PauseMenu.MainQuests,pair.Key)>=0)continue;
+                var quest=GameCatalog.Find<QuestDef>(pair.Key);if(quest==null||pair.Value<0||pair.Value>=quest.steps.Length)continue;
+                foreach(var prompt in InteractionPrompt.Active)
+                {
+                    if(!Wants(quest,pair.Value,prompt))continue;
+                    var gap=prompt.transform.position-from;gap.y=0;
+                    if(gap.sqrMagnitude<best){best=gap.sqrMagnitude;found=quest;step=pair.Value;}
+                }
+            }
+            return found==null?"":$"\n<color=#{ColorUtility.ToHtmlStringRGB(UiKit.DimTextColor)}>Also: {QuestText.Brief(found,step,state)}  ·  {Mathf.Sqrt(best):0} m</color>";
+        }
+        static bool Wants(QuestDef quest,int step,InteractionPrompt prompt)=>prompt switch
+        {
+            DiscoveryPoint point=>point.requiredQuest==quest.id&&point.requiredStep==step&&point.Wanted,
+            MineNode node=>quest.steps[step].kind==ObjectiveKind.Collect&&node.material==quest.steps[step].target,
+            Npc npc=>QuestText.WaitsOn(quest,step)==npc.speaker,
+            _=>false,
+        };
     }
 }

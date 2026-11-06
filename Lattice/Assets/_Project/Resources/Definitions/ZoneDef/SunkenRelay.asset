@@ -17,7 +17,8 @@ MonoBehaviour:
   kind: 1
   cameraProfile: {fileID: 11400000, guid: b4469871c9e978c4bb99c11b3d14b12c, type: 2}
   hd2dProfile: {fileID: 11400000, guid: 0b2f6bcfe3838df4f86105e3897558fe, type: 2}
-  ambientAudio: {fileID: 0}
+  ambientAudio: {fileID: 8300000, guid: 85f8c2e6c6d39f14aa484cecee0943b9, type: 3}
+  ambientVolume: 0.288
   musicId: 
   mapIcon: {fileID: 0}
   flightPlane: 1

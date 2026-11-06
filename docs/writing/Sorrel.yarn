@@ -26,6 +26,22 @@ Survivor: Three cycles late. Socks, coffee, and my sister's letter, written twic
 Survivor: Tell Neve we got it. And tell her to stop sending socks. #emotion:Amused
 <<setFlag neve.parcelDelivered>>
 ===
+title: SurvivorLate
+---
+Survivor: Dace, outpost foreman. So that quiet is your doing. I thought I'd finally gone deaf. #emotion:Shocked
+Taren: Orrin told us to find you, then shut it down. We did it backwards. #emotion:Amused
+Survivor: Our own rig was homing in on every evacuation call, so we killed the transmitter and sat tight. Not any more. Thank you. #emotion:Tender
+===
+title: SurvivorFirstParcel
+---
+<<detour SurvivorFirst>>
+<<jump SurvivorParcel>>
+===
+title: SurvivorLateParcel
+---
+<<detour SurvivorLate>>
+<<jump SurvivorParcel>>
+===
 title: SurvivorBeaconsOffer
 ---
 Survivor: The drill's quiet, but my crew planted evacuation beacons along both side trails before we shut the transmitter. #emotion:Worried

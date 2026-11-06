@@ -20,7 +20,7 @@ namespace Lattice.UI
         /// <summary>Skill bindings name the active map's face actions (Fire/Roll/Lunge in flight).</summary>
         static bool InFlight=>ZoneController.Current!=null&&ZoneController.Current.Flight;
         /// <summary>The story's quests, in story order: the log leads with whichever is active.</summary>
-        static readonly string[] MainQuests={"Sorrel","Hushwell","LanternRoad"};
+        internal static readonly string[] MainQuests={"Sorrel","Hushwell","LanternRoad"};
         /// <summary>A rebind moves a role, not an action: each form has its own map, and flight calls the same buttons by other names.</summary>
         static readonly (string ground,string flight,string label)[] Roles=
         {
@@ -36,6 +36,8 @@ namespace Lattice.UI
         string feedback="",salvageAsked,listeningFor;
         PromptDevice feedbackDevice;
         float submitHeldUntil;
+        /// <summary>The Items page's rows by name, for the Swap button: what's under the cursor when it's pressed.</summary>
+        readonly Dictionary<string,string> itemRows=new();
         public bool IsOpen=>panel!=null;
         public bool AtBench;
         InputActionRebindingExtensions.RebindingOperation rebind;
@@ -87,6 +89,7 @@ namespace Lattice.UI
             if(UiActions.Cancel.WasPressedThisFrame()){StepBack();return;}
             if(pause){UiSounds.Cancel();Close();return;}
             if((page==GearPage||page==SkillsPage)&&input.Find("Swap").WasPressedThisFrame())TrySwap(skillSlot>=0?"Row_"+(skillSlot+1):null);
+            if(page==ItemsPage&&input.Find("Swap").WasPressedThisFrame())SetQuickItem();
             if(input.Find("MenuNext").WasPressedThisFrame())GoTo((page+1)%tabs.Length);
             if(input.Find("MenuPrev").WasPressedThisFrame())GoTo((page+tabs.Length-1)%tabs.Length);
         }
@@ -143,7 +146,7 @@ namespace Lattice.UI
                 for(int i=1;i<=3;i++)
                 {
                     int number=i;string slot="slot"+i;var saved=GameServices.Current.Saves.Load(slot);
-                    Add($"Save to slot {number}"+(saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}":"  ·  empty"),()=>{GameServices.Current.Saves.Save(slot,state);feedback=$"Saved to slot {number}.";Rebuild();});
+                    Add($"Save to slot {number}"+(saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty"),()=>{GameServices.Current.Saves.Save(slot,state);feedback=$"Saved to slot {number}.";Rebuild();});
                 }
                 Note($"{state.scrip} scrip  ·  The game autosaves when you dock, warp or repair");
             }
@@ -170,21 +173,25 @@ namespace Lattice.UI
                 else
                 {
                     var current=SkillBook.Equipped(member.id,skillSlot);
-                    Add("Back to "+who+"'s slots",StepBack);
+                    string choosing=$"Choosing for {Binding(skillSlot)} (now {current?.displayName}). A skill already in another slot trades places.";
+                    // The rows hold what decides between skills, as the slot rows do. What a skill does follows the focus: with mastery on the row as well it ran past the row's 1136.
+                    string Said(SkillDef of)=>$"{of.displayName}: {of.description}\n{choosing}";
+                    Add("Back to "+who+"'s slots",StepBack).gameObject.AddComponent<SelectNote>().selected=()=>note.text=choosing;
                     foreach(var skill in all.Skip(Window(all.Length,perPage)).Take(perPage))
                     {
                         var s=skill;bool known=SkillBook.Knows(member,s);int worn=SlotOf(s);
                         string mark=s==current?"In use · ":worn>=0?$"On {Binding(worn)} · ":"";
-                        Add(known?$"{mark}{s.displayName}  ·  {SkillBook.Cost(member.id,s):0} Charge  ·  {s.cooldown:0} s  ·  {s.description}":$"Locked  ·  {s.displayName}  ·  learned at Sync {s.unlockLevel}",
+                        var line=Add(known?$"{mark}{s.displayName}  ·  {SkillBook.Cost(member.id,s):0} Charge  ·  {MasteryLine(member.id,s)}  ·  {s.cooldown:0} s":$"Locked  ·  {s.displayName}  ·  learned at Sync {s.unlockLevel}",
                             known?()=>
                             {
                                 int slot=skillSlot;var displaced=SkillBook.Equipped(member.id,slot);int from=SlotOf(s);SkillBook.Equip(member,slot,s);
                                 feedback=$"{s.displayName} is on {Binding(slot)}."+(from>=0&&from!=slot&&displaced!=null?$" {displaced.displayName} moved to {Binding(from)}.":"");
                                 skillSlot=-1;offset=0;Rebuild(false,"Row_"+(slot+1));
                             }:null);
+                        line.gameObject.AddComponent<SelectNote>().selected=()=>note.text=Said(s);
                     }
                     Pager(all.Length,perPage);
-                    Note($"Choosing for {Binding(skillSlot)} (now {current?.displayName}). A skill already in another slot trades places.");
+                    Note(current!=null?Said(current):choosing);
                 }
             }
             else if(page==GearPage)
@@ -219,20 +226,21 @@ namespace Lattice.UI
                 }
                 Pager(recipes.Length,perPage);
                 string Trained(Discipline d){int level=fabricator.Level(d);return level>=10?$"{d} {level}":$"{d} {level} ({fabricator.Xp(d)%30}/30)";}
-                Note(string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>Trained(d)))+(AtBench?"\nLattice Anvil linked":"\nParts need a Lattice Anvil. Consumables can be made anywhere."));
+                Note(string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>Trained(d)))+(AtBench?"\nParts and consumables can both be made here.":"\nParts need a Lattice Anvil or Hal's bench. Consumables can be made anywhere."));
             }
             else if(page==ItemsPage)
             {
                 var hero=PartyController.Current.Active;string who=DisplayNames.Speaker(hero.character);var recipes=GameCatalog.All<RecipeDef>();
                 var entries=state.consumables.Where(p=>p.Value>0).Select(p=>p.Key).Concat(state.materials.Where(p=>p.Value>0).Select(p=>p.Key)).Distinct().ToArray();
-                const int perPage=8;
+                const int perPage=8;itemRows.Clear();
                 foreach(var id in entries.Skip(Window(entries.Length,perPage)).Take(perPage))
                 {
                     bool usable=state.consumables.TryGetValue(id,out int count)&&count>0;if(!usable)count=state.materials[id];
-                    Add($"{DisplayNames.Item(id)} ×{count}{ItemSays(id,recipes)}",usable?()=>UseItem(id):null,id);
+                    var line=Add($"{DisplayNames.Item(id)} ×{count}{ItemSays(id,recipes)}{(usable&&id==state.quickItem?"  ·  Quick item":"")}",usable?()=>UseItem(id):null,id);
+                    itemRows[line.name]=id;
                 }
                 Pager(entries.Length,perPage);
-                Note($"{who}  ·  Integrity {hero.Health.integrity:0}/{hero.Health.maximum:0}  ·  Charge {hero.charge:0}/100\nSelect a consumable to use it on {who}. Quick item: {DisplayNames.Item(state.quickItem)}. In a fight, {QuickItemHint()} changes it.");
+                Note($"{who}  ·  Integrity {hero.Health.integrity:0}/{hero.Health.maximum:0}  ·  Charge {hero.charge:0}/100\nSelect a consumable to use it on {who}. Press {PromptService.Tag("Swap")} on one to make it the quick item.\nQuick item: {DisplayNames.Item(state.quickItem)}. In a fight, {DeviceHints.CycleItem()} changes it.");
             }
             else if(page==QuestsPage)
             {
@@ -320,11 +328,18 @@ namespace Lattice.UI
             if(GameCatalog.Find<MaterialDef>(id)==null)return "";
             return recipes.Any(r=>r.inputs!=null&&r.inputs.Any(i=>i.id==id))?"  ·  used to fabricate":"  ·  keep this: no use yet";
         }
-        /// <summary>The quick item only cycles in a fight, and a Precision's sole directions need LB held for it.</summary>
-        static string QuickItemHint()
+        static string SavedWhen(GameState saved){string at=DisplayNames.SavedAt(saved.savedAtUtc);return at==""?"":"  ·  "+at;}
+        /// <summary>The Swap button on a consumable's row makes it the quick item. Cycling in a fight was the only way, one press at a time, blind.</summary>
+        void SetQuickItem()
         {
-            if(PromptService.Device!=PromptDevice.Gamepad)return PromptService.Label("CycleItem","Positive")+" / "+PromptService.Label("CycleItem","Negative");
-            var pad=Gamepad.current;return pad!=null&&PadBridge.StickIsDpad(pad)?PromptService.Tag("LockOn")+" + up/down":"D-pad up/down";
+            var state=GameServices.Current.State;var row=EventSystem.current.currentSelectedGameObject;
+            if(row==null||!itemRows.TryGetValue(row.name,out string id))return;
+            UiSounds.Run(()=>
+            {
+                if(GameCatalog.Find<ConsumableDef>(id)==null)Refuse("Only a consumable can be the quick item.");
+                else{state.quickItem=id;feedback=$"{DisplayNames.Item(id)} is now the quick item.";}
+            });
+            Rebuild();
         }
         void Refuse(string why){feedback=why;UiSounds.Error();}
         void UseItem(string id)
@@ -364,7 +379,7 @@ namespace Lattice.UI
             if(!fabricator.Craft(r,AtBench,UnityEngine.Random.value,out var made))
             {
                 Refuse(fabricator.Level(r.discipline)<r.unlockLevel?$"Needs {r.discipline} level {r.unlockLevel}. Each fabrication trains it.":
-                    r.output!=null&&!AtBench?"Parts can only be fabricated at a Lattice Anvil.":
+                    r.output!=null&&!AtBench?"Parts can only be fabricated at a Lattice Anvil or Hal's bench.":
                     "Not enough materials: "+string.Join(", ",r.inputs.Where(x=>inventory.Count(x.id)<x.count).Select(x=>$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}"))+".");
             }
             else if(made==null)feedback=$"Fabricated: {r.displayName}. You have {GameServices.Current.State.consumables[r.consumableOutput]}.";

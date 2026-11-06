@@ -34,6 +34,14 @@ namespace Lattice.Combat
         public Telegraph AttackMark{get;private set;}
         public bool Attacking=>lunging||Time.time<attackAnimationUntil;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
+        public float TellDuration{get;private set;}=1;
+        /// <summary>How far through its tell the attack is, 0 when there is none: what a body's wind-up follows.</summary>
+        public float TellProgress=>Telegraphing?Mathf.Clamp01(1-TelegraphRemaining/Mathf.Max(.01f,TellDuration)):0;
+        /// <summary>The first moment of the strike, for a body's follow-through.</summary>
+        public bool Striking=>Time.time<attackAnimationUntil-.38f;
+        /// <summary>How much of its Attack clip a rigged body has played when the strike lands. Measured: Fox-Attack rears up to 17% and pounces
+        /// by 30%, Sword_Attack winds up to 20% and swings by 33%. Any later and the body has already struck before the hit lands.</summary>
+        public const float TellShare=.2f;
         public bool Passive;
         public int ImpactSequence{get;private set;}
         public float ImpactStarted{get;private set;}=float.NegativeInfinity;
@@ -63,7 +71,8 @@ namespace Lattice.Combat
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
-            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit(amount/Mathf.Max(1,actor.character=="Sela"?actor.rangedDamage:actor.damage));
+            // A weak spot or a break hits harder but pays no more: on a x2 collar link plain shots used to out-earn a full loadout. A resisted hit still pays less.
+            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit(Mathf.Min(amount,packet.amount)/Mathf.Max(1,actor.character=="Sela"?actor.rangedDamage:actor.damage),packet.chargeCut);
             if(Health.Alive&&!Health.Broken&&amount>0)
             {
                 ImpactStarted=Time.time;ImpactSequence++;
@@ -94,7 +103,9 @@ namespace Lattice.Combat
         /// <summary>Too big to be reeled in: a hook pulls the hero to it instead.</summary>
         public bool Heavy=>definition!=null&&definition.archetype==EnemyArchetype.Sentinel;
         public const string SelfDetonation="selfDetonation";
-        const float MineBlast=3,LungeLength=4.5f+1.15f,LungeWidth=2.3f;
+        const float MineBlast=3,LungeTravel=4.5f,LungeSpeed=16,LungeAhead=.5f,LungeRadius=1.15f,LungeLength=LungeTravel+LungeAhead+LungeRadius,LungeWidth=LungeRadius*2;
+        /// <summary>Where a shot's marking ends and the shot with it: what is painted is what can be hit.</summary>
+        static float ShotReach(float range)=>Mathf.Max(13,range);
         /// <summary>Every ordinary attack marks the ground it will strike, in its true shape: a lunge its lane, a mine its blast, a
         /// bite its reach, a shot its line. A 3 m disc at the feet understated all of them.</summary>
         Telegraph MarkAttack(float tell,bool dive,bool ranged,float range)
@@ -102,8 +113,8 @@ namespace Lattice.Combat
             var at=transform.position;Telegraph mark;
             if(Mine)mark=Telegraph.Circle(at,MineBlast,tell,Telegraph.Heavy,true);
             else if(dive)mark=Telegraph.Line(at,aim,LungeLength,LungeWidth,tell,Telegraph.Threat,true);
-            else if(definition.id=="ChoristerDrifter"||collar!=null&&collar.VolleyAttached)mark=Telegraph.Cone(at,aim,12,32,tell,Telegraph.Threat,true);
-            else if(ranged)mark=Telegraph.Line(at,aim,13,1.1f,tell,Telegraph.Threat,true);
+            else if(definition.id=="ChoristerDrifter"||collar!=null&&collar.VolleyAttached)mark=Telegraph.Cone(at,aim,ShotReach(range),32,tell,Telegraph.Threat,true);
+            else if(ranged)mark=Telegraph.Line(at,aim,ShotReach(range),1.1f,tell,Telegraph.Threat,true);
             else mark=Telegraph.Circle(at+aim*1.1f,Mathf.Max(1,range*.7f),tell,Telegraph.Threat,true);
             mark.owner=this;return mark;
         }
@@ -192,14 +203,14 @@ namespace Lattice.Combat
                     var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10,deathAttack=Mine};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
-                    {packet.hullVolleyHits=new HashSet<Health>();packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
+                    {packet.hullVolleyHits=new HashSet<Health>();packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11,ShotReach(range));}
                     else if(ranged)
                     {
                         packet=ProjectileProvenance.Volley(packet);
                         CombatAudio.HostileShot(transform,transform.position+Vector3.up);
                         int fan=collar!=null&&collar.VolleyAttached?1:0;
                         if(collar!=null)packet.amount*=.55f;
-                        for(int i=-fan;i<=fan;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*12,0)*aim,packet,11);
+                        for(int i=-fan;i<=fan;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*12,0)*aim,packet,11,ShotReach(range));
                     }
                     else if(Mine)
                     {
@@ -215,7 +226,7 @@ namespace Lattice.Combat
             }
             if(distance<range&&Time.time>=nextAttack)
             {
-                float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;
+                float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;
                 aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
                 if(definition.archetype!=EnemyArchetype.Serpent&&boss==null)transform.rotation=Quaternion.LookRotation(aim);
                 AttackMark=MarkAttack(tell,dive,ranged,range);
@@ -244,12 +255,13 @@ namespace Lattice.Combat
         IEnumerator LungeAttack(DamagePacket packet)
         {
             lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;
-            for(float elapsed=0;elapsed<.28f&&Health.Alive&&!Health.Broken&&!Warded;)
+            // Exactly its travel, however long a frame runs: the lane is painted to the end of it.
+            for(float travelled=0;travelled<LungeTravel&&Health.Alive&&!Health.Broken&&!Warded;)
             {
                 if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
-                elapsed+=Time.deltaTime;
-                if(controller.enabled)controller.Move(direction*16*Time.deltaTime);
-                var hit=CombatActor.Strike(transform.position+Vector3.up*.7f+direction*.5f,1.15f,packet);hit.hit=victims;
+                float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled);travelled+=step;
+                if(controller.enabled)controller.Move(direction*step);
+                var hit=CombatActor.Strike(transform.position+Vector3.up*.7f+direction*LungeAhead,LungeRadius,packet);hit.hit=victims;
                 yield return null;
             }
             lunging=false;

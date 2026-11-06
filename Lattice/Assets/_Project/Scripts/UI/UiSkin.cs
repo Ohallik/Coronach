@@ -68,7 +68,7 @@ namespace Lattice.UI
 
         // ---------- fonts ----------
 
-        /// <summary>Body face (Nunito). Falls back to the TMP default (which IS Nunito once wired).</summary>
+        /// <summary>Body face (Nunito SDF, TMP's default font; its own fallback is Liberation).</summary>
         public static TMP_FontAsset Body => TMP_Settings.defaultFontAsset;
 
         /// <summary>Display face (Cinzel) for titles, headers, nameplates, banners.</summary>

@@ -10,7 +10,8 @@ namespace Lattice.Combat
     /// a song whose stagger the chorus link controls; the collar links still change both). Once its integrity falls it
     /// weaves bullet song between choirs, in the manner of a top-down shooter: rotating spiral arms with gaps to fly
     /// through, and, in the last phase, a lash along a marked lane with its whole coil. These new moves follow integrity
-    /// only, so cutting the collar never unlocks them early.
+    /// only, so cutting the collar never unlocks them early. Until they arrive, the end of its song is the opening: the head
+    /// can't be hurt yet, but an exposed head makes its links take half as much again, and nothing fires while it lasts.
     /// </summary>
     public sealed partial class BossController
     {
@@ -18,7 +19,8 @@ namespace Lattice.Combat
 
         (string,IEnumerator) ChooseCantor(CombatActor hero)
         {
-            if(HealthPhase>=2&&cantorRhythm%3==2)
+            // Every other pick once it is hurt: at every third, the last phase saw one of them before it was over.
+            if(HealthPhase>=2&&cantorRhythm%2==1)
             {
                 cantorRhythm++;
                 return HealthPhase>=3&&Random.value<.5f?("CoilLash",CoilLash()):("SongSpiral",SongSpiral());
@@ -34,17 +36,27 @@ namespace Lattice.Combat
             Debug.Log($"CANTOR_TELL song={song} radius={radius} stagger={song&&chorus}");
             var marking=Mark(Telegraph.Circle(transform.position,radius,tell,song?Telegraph.Stagger:Telegraph.Threat));
             yield return new WaitForSeconds(tell);
-            if(health.Alive&&!health.Broken)
+            bool sung=health.Alive&&!health.Broken;
+            if(sung)
             {
                 marking.Release();
                 foreach(var actor in PartyController.Current.members)
                     if(marking.Contains(actor.transform.position))
                     {
-                        float damage=actor.Health.Receive(Packet(song?(chorus?12:8):24,song?DamageType.Pulse:DamageType.Kinetic));
+                        float damage=actor.Health.Receive(Packet(song?(chorus?15:10):30,song?DamageType.Pulse:DamageType.Kinetic));
                         if(song&&chorus&&damage>0)actor.Stagger(.65f);
                     }
             }
+            if(sung&&HealthPhase<2)SongSpent();
             Finish(Phase==3?4:6);
+        }
+        /// <summary>The opening of the fight's first stages: the first 1.2 s of its rest, so the rhythm is unchanged and punishing it costs nothing.</summary>
+        void SongSpent()
+        {
+            OpenFor(1.2f);
+            if(collar==null||collar.Remaining==0)return;
+            collar.Stall();
+            if(!stallSaid){stallSaid=true;BarkService.Play(PartyController.Current.Active.character,Situation("bossopening"),true);}
         }
 
         IEnumerator SongSpiral()
@@ -95,7 +107,7 @@ namespace Lattice.Combat
                 if(controller!=null&&controller.enabled)controller.Move(direction*step);else{transform.position+=direction*step;}
                 travelled+=Mathf.Max(step*.25f,Flat(transform.position-before).magnitude);
                 transform.rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(direction),720*Time.deltaTime);
-                Contact(hit,transform.position,3f,22,.35f,lane);
+                Contact(hit,transform.position,3f,28,.35f,lane);
                 yield return null;
             }
             Collide(true);yield return Opening(1.5f,4);

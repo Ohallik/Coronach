@@ -107,7 +107,7 @@ namespace Lattice.Combat
             foreach(var point in targets)
             {
                 marks.Add(Mark(Telegraph.Circle(point,radius,tell,Telegraph.Threat)));
-                var clump=ActorFactory.Visual("Spoil clump",PrimitiveType.Sphere,null,Vector3.one*.75f,start,"Rock");temporary.Add(clump);clumps.Add(clump.transform);
+                var clump=Instantiate(Resources.Load<GameObject>("Effects/SpoilClump"),start,Quaternion.Euler(0,Random.Range(0,360f),0));clump.name="Spoil clump";temporary.Add(clump);clumps.Add(clump.transform);
             }
             AudioManager.PlayAt("explosionCrunch_000",transform,start,.12f,AudioBus.SFX,40);
             for(float t=0;t<tell;)

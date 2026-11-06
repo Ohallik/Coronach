@@ -14,6 +14,8 @@ namespace Lattice.Combat
         public bool isCrit;
         public bool deathAttack;
         public string tag;
+        /// <summary>How much of a landed hit's Charge this packet gives up: a skill landing many small hits can't repay itself on one target.</summary>
+        public float chargeCut;
         public ProjectileOrigin projectileOrigin;
         // Shared only by one hostile spread. Released shots retain this
         // bounded hit budget independently of capture or source lifetime.

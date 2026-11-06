@@ -96,7 +96,7 @@ namespace Lattice.Tests.PlayMode
                 string speaker=node=="ArenaGuide"?"Hal":node=="CacheFound"?"Neve":node=="CompactHail"||node.StartsWith("Abri")?"Keeper":node.StartsWith("Sela")?"Sela":
                     new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper","Oda","Ilo","Aumi","Pell","Ishen","Corra","Brekk","Hessa"}.Single(n=>node.StartsWith(n));
                 // Mira's holding line during the first morning (D197) points at the walkway job instead of opening her stock.
-                var outcomes=branches.TryGetValue(node,out var choices)?choices:new[]{node.StartsWith("Mira")&&node!="MiraOpening"||node=="CorraRepeat"||node=="CorraPost"?"shop":"world"};
+                var outcomes=branches.TryGetValue(node,out var choices)?choices:new[]{node.StartsWith("Mira")&&node!="MiraOpening"||node=="CorraRepeat"||node=="CorraPost"||node=="CorraRationsOffer"?"shop":"world"};
                 for(int choice=0;choice<outcomes.Length;choice++)
                 {
                     // A real serialized reload before and after every implemented branch.

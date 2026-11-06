@@ -2641,5 +2641,18 @@
       }
     ],
     "enemy": null
+  },
+  {
+    "id": "SurveyDrone",
+    "model": "art-src/Generated/QA-Drone/SurveyDrone_clean.fbx",
+    "albedo": "art-src/Generated/QA-Drone/SurveyDrone_albedo.png",
+    "emission": "art-src/Generated/QA-Drone/SurveyDrone_emission.png",
+    "emissionColor": "#46E6FF",
+    "kind": "static",
+    "folder": "Environment",
+    "size": 0.62,
+    "fit": "height",
+    "yaw": 0,
+    "clips": []
   }
 ]

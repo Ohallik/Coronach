@@ -115,15 +115,16 @@ interior) reverts to Natural.
 
 ### Shared core
 - **Integrity** (HP), **Charge** (skill resource, builds on hits, decays slowly), **Thrust** (boost
-  meter, flight only; also fuels ground sprint).
+  meter, flight only; also fuels ground sprint and pays for a mashed roll).
 - Four damage types: **Beam**, **Plasma**, **Kinetic**, **Pulse**. Every enemy has one weakness
   (×1.5 damage, double break) and one resistance (×0.5). Weapons have a type; skills have a type.
 - **Break**: enemies carry a break meter that fills on hits (weakness hits fill it twice as fast).
   Broken enemies stagger for 3 s and take ×1.5 from everything.
 - **Flash Move**: dodge in the 0.2 s before a hit lands → 1.5 s of world slow-mo, the dodger at
-  full speed, invulnerable.
+  full speed, invulnerable. A roll started within 0.45 s of the last one still evades but earns
+  none, and costs 30 Thrust; short of that it doesn't go.
 - **Flash Guard**: guard in the 0.2 s before a hit lands → no damage, Charge +25%, next attack
-  crits.
+  crits. A guard pressed within 0.45 s of the last press still blocks but earns none.
 - **Two-member party (Ys VIII).** One controlled, one AI partner at 60% damage, targets what the
   player targets, revives when the player stands over them for 2 s. **Swap** is instant and the
   incoming member enters with a swap strike.

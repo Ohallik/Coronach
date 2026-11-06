@@ -55,9 +55,9 @@ Every bug follows the loop in §5: reproduce, write a failing check, fix, rerun,
 
 ### 4.2 Controls and feel
 - [ ] Digital pad (Precision) and analog pad: walk, jog and sprint speeds match D197. Turning at speed keeps pace. Sprint in combat rests when Thrust runs out.
-- [ ] Attack, dodge, guard, swap, lock-on and quick item respond on the first press. Skills fire with RB plus a face button, or with the number keys.
-- [ ] With an enemy on the hero, A is an attack: no bench, crystal, repair bay, dock or warp answers it (`WithAnEnemyOnTheHeroAIsAnAttackNotAPrompt`). Story prompts stay open.
-- [ ] Flash Move triggers within its window and slows the world. Flash Guard gives Charge and a crit.
+- [ ] Attack, dodge, guard, swap, lock-on and quick item respond on the first press. Skills fire with RB plus a face button, or with the number keys. On a Precision, where LB is also the cycle modifier, lock-on answers LB's release, and only if no direction was pressed while it was held.
+- [ ] With an enemy on the hero, A is an attack: no bench, crystal, repair bay, cache, survey key, quest pick-up, dock or warp answers it (`WithAnEnemyOnTheHeroAIsAnAttackNotAPrompt`, `WithAnEnemyOnTheHeroACacheAndTheKeyWait`). Story prompts and relays stay open: relighting a relay mid-fight is designed.
+- [ ] Flash Move triggers within its window and slows the world. A roll started within .45 s of the last one still evades, but it costs 30 Thrust and earns no Flash; short of that Thrust it doesn't go, the Thrust bar flashes with the error sound, and the .45 s starts again from that press. Flash Guard gives Charge and a crit. A guard pressed within .45 s of the last press still blocks but isn't a Flash Guard.
 - [ ] The camera never hides the party behind a cliff or wall in Sorrel, the gorge, the relay or Lanternwick (`cameraClearsScenery`).
 - [ ] Flight: inertia, boost, brake, roll and lunge all respond; walls shove without trapping; docks are reachable from every approach.
 - [ ] Prompt glyphs follow the active device and change on swap; no hard-coded "B" or "Y" appears on keyboard.
@@ -100,7 +100,7 @@ Keep a pacing log during the chain: the time of each level-up, skill learned, bo
 | Phase shifts | Readable brace, push-back, then a new move |
 | Duration | 2–5 minutes at the expected level (Hessa: Sync 8–10) |
 | Retry | Defeat returns to the checkpoint just before the arena; a second attempt is shorter |
-| Hessa specifically | The last Hook Lance thrust is held a beat; a dodged Grapple Chain leaves her open; the Lampbreaker flash can be outrun or rolled through; she yields and stands under guard afterwards |
+| Hessa specifically | The last Hook Lance thrust is held a beat; a dodged Grapple Chain leaves her open; the Lampbreaker flash can be outrun or rolled through; she yields, and once Aumi has been told stands under guard |
 
 - [ ] **[Human]** Each boss feels hard but fair on the Precision pad.
 
@@ -116,10 +116,11 @@ For each zone (Decks, Halo, Sorrel, Hushwell, Gullet, Tallow Approach, Tallow Dr
 - [ ] **Density:** walk the main route and count the stretches over 30 s with nothing new on screen (target: none).
 - [ ] **Lanternwick:** every named NPC is where the story says and can be talked to; the shop is Corra's own stock; the lantern stair, archive and orchard are readable as places.
 - [ ] **Wick Reach:** two relays open the amber light curtain; the dock is reachable; the warp home works after the chart.
+- [ ] **Cinder Halo:** the Gullet warp's prompt and sign say it runs one way until you're through; a free repair waits beside it.
 - [ ] **Gorge and relay:**
   - The relay door stays shut until all three relays burn.
   - Pell's lamp and the ration crate appear only once their quests are given.
-  - The record plates only after Ishen's request.
+  - The record plates and their lights only after Ishen's request; the old mirror stands they rest on are always there, and stay when a plate is taken.
   - The checkpoint cradle is less than a minute from Hessa.
 
 ### 4.6 Story, dialogue and script
@@ -146,7 +147,7 @@ For each of the 10 quests (Silent Outpost, What the Drill Found, Six Bright Answ
 
 ### 4.8 UI and UX
 - [ ] All seven pause tabs (Party, Skills, Gear, Fabricate, Items, Quests, Settings) open, navigate by pad and mouse, and keep focus sensibly.
-- [ ] Skills page: four slots show the binding, cost and mastery; choosing a slot lists learned skills with descriptions and locked ones with their level; equipping one trades places with its old slot.
+- [ ] Skills page: four slots show the binding, cost and mastery; choosing a slot lists learned skills with their cost, mastery and cooldown, the focused skill's description in the note, and locked ones with their level; equipping one trades places with its old slot.
 - [ ] The HUD shows integrity, Charge, Thrust, partner state, target with break, skill icons and costs, and the zone name. The boss bar hides the interaction prompt.
 - [ ] Shops show names and prices, refuse unaffordable purchases with a reason, and sell back with confirmation text.
 - [ ] Item names are consistent everywhere ("Scrap Alloy", "Repair Gel").

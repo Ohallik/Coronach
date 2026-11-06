@@ -8,7 +8,7 @@ namespace Lattice.Combat
         DamagePacket packet;
         Vector3 velocity;
         float life;
-        bool counted,hasFaction,friendly;
+        bool counted,hasFaction,friendly,marked;
         public static int ActiveCount {get;private set;}
         /// <summary>Shots in the air, so AI can read incoming fire as a player does.</summary>
         public static readonly HashSet<Projectile> Live=new();
@@ -30,7 +30,8 @@ namespace Lattice.Combat
             }
             return hostile?hostileShot:friendlyShot;
         }
-        public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24)
+        /// <param name="reach">How far a marked shot flies: it ends where its marking ends. Unmarked shots fly their three seconds.</param>
+        public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24,float reach=0)
         {
             Projectile p=null;while(pool.Count>0&&p==null)p=pool.Pop();
             if(p==null)
@@ -44,7 +45,7 @@ namespace Lattice.Combat
             bool hostile=damage.source!=null&&!damage.source.friendly;
             p.transform.localScale=Vector3.one*(hostile?.36f:.18f);p.view.sharedMaterial=Shots(hostile);
             p.trail.Clear();p.trail.enabled=hostile;
-            p.transform.position=position;p.velocity=direction.normalized*speed;p.life=3;
+            p.transform.position=position;p.velocity=direction.normalized*speed;p.life=reach>0?reach/speed:3;p.marked=reach>0;
             damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;
             p.gameObject.SetActive(true);p.counted=true;ActiveCount++;Live.Add(p);
@@ -65,7 +66,9 @@ namespace Lattice.Combat
             // an earlier wall/body just because physics returned it first.
             if(!float.IsPositiveInfinity(coverDistance)&&coverDistance<=victimDistance){Recycle();return;}
             if(victim!=null){victim.Hit(packet);Recycle();return;}
-            transform.position+=delta;life-=Time.deltaTime;if(life<=0)Recycle();
+            transform.position+=delta;life-=Time.deltaTime;
+            // A marked shot ends at its marking's tip, on screen, and long after the paint has faded: it burns out rather than vanishing in a frame.
+            if(life<=0){if(marked)CombatVfx.Burst(transform.position,new Color(1,.45f,.15f),"spark");Recycle();}
         }
         void OnDisable(){Live.Remove(this);if(counted){counted=false;ActiveCount=Mathf.Max(0,ActiveCount-1);}}
         void Recycle(){gameObject.SetActive(false);pool.Push(this);}

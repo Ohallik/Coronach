@@ -37,12 +37,19 @@ namespace Lattice.Combat
         float nextDodge;
         /// <summary>A beat between dodges: back-to-back rolls were near-total immunity at no cost.</summary>
         public const float DodgeGap=.1f;
+        /// <summary>A roll or a guard pressed this soon after the last one still works, but it can't be a Flash Move or a Flash Guard: the reward is for timing, not mashing.</summary>
+        public const float FlashRhythm=.45f;
+        /// <summary>What a roll out of that rhythm costs in Thrust: free, a mash at the gap's floor kept i-frames up 71% of the time. A roll in its own time stays free.</summary>
+        public const float MashCost=30;
+        /// <summary>When the player's last roll was refused for Thrust, for the HUD's flash. A partner's doesn't count: it pressed nothing.</summary>
+        public float RollRefusedAt{get;private set;}
         /// <summary>When the last perfect guard showed itself.</summary>
         public float FlashGuardShownAt{get;private set;}
         float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil,lastComboAt=-99;
         /// <summary>What mastery has made of the last Overdrive and Refract: the card says they hit harder, and now they do.</summary>
         float overdriveBoost=1.2f,refractPower=1;
-        bool guarding,critical,flashConsumed;
+        bool guarding,critical,flashConsumed,flashEarned,guardEarned;
+        float guardPressAt=-99;
         float recoverUntil;
         public const float DownDuration=1.05f,ReviveDuration=1.15f;
         public bool Overdriving=>Health.Alive&&GameTime.Now<overdriveUntil;
@@ -54,6 +61,9 @@ namespace Lattice.Combat
         public bool ChangingForm=>TryGetComponent<FormController>(out var form)&&form.Shaping;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&!ChangingForm&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
         public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
+        /// <summary>The clock a hero's own pose runs on, the same real time as its recovery and animation: through someone else's Flash a
+        /// release counted on the slowed clock came four times late, or was cancelled by the next attack with its Charge spent.</summary>
+        public float ActionDelta=>GameTime.Paused?0:Time.unscaledDeltaTime;
         void Awake(){Health=GetComponent<Health>();Health.Died+=OnDown;Health.Revived+=OnRevive;SkillBook.LoadoutChanged+=OnLoadout;}
         void OnDestroy(){Health.Died-=OnDown;Health.Revived-=OnRevive;SkillBook.LoadoutChanged-=OnLoadout;}
         /// <summary>A cooldown belongs to the skill, not its slot: a trip to the menu used to reset a skill's timer and hand the
@@ -81,19 +91,28 @@ namespace Lattice.Combat
         {
             if(!Health.Alive||Recovering)return;
             if(GameTime.Now>=actionUntil&&State!=ActorState.Guard)State=motor!=null&&motor.Velocity.sqrMagnitude>.1f?ActorState.Move:ActorState.Idle;
+            // A conversation holds the fight, and its clocks with it: a cooldown used to run out during the lines.
+            if(GameTime.CombatHeld)return;
             charge=Mathf.Max(0,charge-Time.deltaTime*.4f);thrust=Mathf.Min(100,thrust+Time.deltaTime*17);
             for(int i=0;i<4;i++)cooldowns[i]=Mathf.Max(0,cooldowns[i]-Time.deltaTime);
         }
         public void Guard(bool held)
         {
             if(!Health.Alive||Recovering||ChangingForm){guarding=false;return;}
-            if(held&&!guarding){refractUntil=0;guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
+            if(held&&!guarding){refractUntil=0;guardEarned=GameTime.Now-guardPressAt>=FlashRhythm;guardPressAt=guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
             guarding=held&&!flight; if(guarding)State=ActorState.Guard;else if(State==ActorState.Guard)State=ActorState.Idle;
         }
         public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
         {
             if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger||GameTime.Now<nextDodge)return false;
+            flashEarned=GameTime.Now-dodgeAt>=FlashRhythm;
+            if(!flashEarned)
+            {
+                // Refused, the press still restarts the clock: otherwise an empty bar only spaces a mash out into free rolls that earn their Flash.
+                if(thrust<MashCost){dodgeAt=GameTime.Now;if(PartyController.Current==null||PartyController.Current.Active==this)RollRefusedAt=GameTime.Now;return false;}
+                thrust-=MashCost;
+            }
             refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;nextDodge=GameTime.Now+(flight?.3f:.25f)+DodgeGap;
             BeginVisual("Dodge",flight?.3f:.25f);
             CombatAudio.Dodge(this);
@@ -123,7 +142,7 @@ namespace Lattice.Combat
             }
             if(State==ActorState.Dodge&&GameTime.Now<actionUntil)
             {
-                if(!flashConsumed&&GameTime.Now-dodgeAt<=Mathf.Clamp(.2f+Mathf.Max(0,response-10)*.001f,.2f,.27f))
+                if(!flashConsumed&&flashEarned&&GameTime.Now-dodgeAt<=Mathf.Clamp(.2f+Mathf.Max(0,response-10)*.001f,.2f,.27f))
                 {
                     flashConsumed=true;FlashMoves++;Health.InvulnerableUntil=GameTime.Now+1.5f;
                     // Slowing the world is the player's reward: the AI partner dodges by design, and it used to put the
@@ -137,7 +156,7 @@ namespace Lattice.Combat
             }
             if(guarding)
             {
-                if(GameTime.Now-guardAt<=.2f)
+                if(guardEarned&&GameTime.Now-guardAt<=.2f)
                 {
                     FlashGuards++;critical=true;charge=Mathf.Min(100,charge+25);guardAt=-99;Debug.Log("FLASH_GUARD_OK");
                     // A perfect guard has to show itself: it used to be silent and invisible but for the Charge bar.
@@ -239,7 +258,7 @@ namespace Lattice.Combat
                     GetComponent<MeleeContact>().Begin(move,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
                 else if(kind==SkillKind.ThreadLance||kind==SkillKind.ScatterBloom)
                     GetComponent<RangedContact>().Begin(move,direction,
-                        Packet(rangedDamage*(kind==SkillKind.ThreadLance?SkillBurst:.65f)*power,kind==SkillKind.ThreadLance?DamageType.Beam:DamageType.Plasma,kind==SkillKind.ThreadLance?40:18),
+                        MultiHit(Packet(rangedDamage*(kind==SkillKind.ThreadLance?SkillBurst:.65f)*power,kind==SkillKind.ThreadLance?DamageType.Beam:DamageType.Plasma,kind==SkillKind.ThreadLance?40:18),kind==SkillKind.ScatterBloom),
                         kind==SkillKind.ThreadLance?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
                 else
                 {
@@ -248,11 +267,12 @@ namespace Lattice.Combat
                     var packet=kind==SkillKind.Overdrive||kind==SkillKind.Refract?default:
                         kind==SkillKind.EmberStep?Packet(damage*SkillBurst*power,DamageType.Plasma,40):
                         kind==SkillKind.PulseBurst?Packet(damage*1.1f*power,DamageType.Pulse,85):
-                        Packet(rangedDamage*.45f*power,DamageType.Pulse,30);
+                        MultiHit(Packet(rangedDamage*.45f*power,DamageType.Pulse,30));
                     GetComponent<GroundSkillContact>().Begin(move,release,direction,packet);
                     if(kind==SkillKind.EmberStep)GetComponent<MeleeContact>().Begin(move,packet);
                 }
             }
+            if(!flight&&Aimed(kind))StartCoroutine(TurnTo(direction));
             SkillBook.RecordUse(character,skill);
             Debug.Log($"SKILL_OK {character} slot={slot+1}");Debug.Log($"SKILL_KIND {character} {skill.id} {kind} mastery={mastery}");return true;
         }
@@ -260,6 +280,21 @@ namespace Lattice.Combat
         public static bool Learned(SkillKind kind)=>kind>=SkillKind.AnchorSlam;
         /// <summary>The starting skill's original slot, which still decides its flight pose and recovery.</summary>
         static int Slot(SkillKind kind)=>kind switch{SkillKind.ArcCleave or SkillKind.ThreadLance=>0,SkillKind.EmberStep or SkillKind.ScatterBloom=>1,SkillKind.PulseBurst or SkillKind.StaticNet=>2,_=>3};
+        /// <summary>A blink keeps looking where it was, a spiral steers itself, and a buff or a burst has no aim.</summary>
+        static bool Aimed(SkillKind kind)=>kind is not(SkillKind.WaypointBlink or SkillKind.ForgeSpiral or SkillKind.Overdrive or SkillKind.Refract or SkillKind.PulseBurst);
+        /// <summary>The body turns to what it releases, on the pose's clock: a slam, a hook or a lance used to leave from the hero's side or back.</summary>
+        IEnumerator TurnTo(Vector3 aim)
+        {
+            aim.y=0;if(aim.sqrMagnitude<.01f||motor is not GroundMotor ground)yield break;
+            aim.Normalize();ground.KeepFacing(aim);var goal=Quaternion.LookRotation(aim);
+            for(float t=0;t<.08f;t+=ActionDelta)
+            {
+                if(!Health.Alive)yield break;
+                // A lock already holds the body on the target.
+                if(!TargetLocked)transform.rotation=Quaternion.RotateTowards(transform.rotation,goal,1800*ActionDelta);
+                yield return null;
+            }
+        }
         /// <summary>Used by <see cref="HeroSkills"/> for its own poses.</summary>
         internal void Perform(string clip,float duration,float recovery){BeginVisual(clip,duration);actionUntil=GameTime.Now+recovery;}
         void ApplySkill(SkillKind kind,float power,Vector3 direction)
@@ -275,10 +310,10 @@ namespace Lattice.Combat
             else if(kind==SkillKind.ThreadLance)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
             else if(kind==SkillKind.ScatterBloom)
             {
-                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=Packet(rangedDamage*.65f*power,DamageType.Plasma,18);
+                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=MultiHit(Packet(rangedDamage*.65f*power,DamageType.Plasma,18));
                 GetComponent<FlightEmitter>().Queue(direction,pellets[0],FlightEmitter.Pattern.Fan,pellets);
             }
-            else if(kind==SkillKind.StaticNet)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,Packet(rangedDamage*.45f*power,DamageType.Pulse,30));
+            else if(kind==SkillKind.StaticNet)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,MultiHit(Packet(rangedDamage*.45f*power,DamageType.Pulse,30)));
             else GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Refract,direction,default);
         }
         void Pierce(Vector3 direction,DamagePacket packet,float length)
@@ -293,10 +328,14 @@ namespace Lattice.Combat
             var v=go.GetComponent<HitVolume>();v.radius=radius;v.packet=packet;v.BindOwner();
             return v;
         }
-        /// <summary>Charge for a landed hit, by how much of a full hit it was: a flat award let a drone's needles and a field's
-        /// ticks repay their skill several times over, so Charge never limited anything.</summary>
-        public void AwardHit(float weight=1){charge=Mathf.Min(100,charge+7*Mathf.Clamp01(weight)*(1+Mathf.Max(0,resonance-10)*.025f));}
+        /// <summary>Charge for a landed hit, by how much of a full hit it was, and for a kill. Set so swings alone can't keep a full
+        /// loadout on cooldown and a multi-hit skill can't repay itself on one target (TEST_PLAN 4.4), while the kills keep an ordinary
+        /// fight in Charge: at 7 a hit bosses paid for everything. The numbers are in the QA notes; feel is Nathan's to judge.</summary>
+        public const float HitCharge=4,KillCharge=6,MultiHitCut=.6f;
+        float ChargeGain=>1+Mathf.Max(0,resonance-10)*.025f;
+        internal static DamagePacket MultiHit(DamagePacket packet,bool multi=true){if(multi)packet.chargeCut=MultiHitCut;return packet;}
+        public void AwardHit(float weight=1,float cut=0){charge=Mathf.Min(100,charge+HitCharge*Mathf.Clamp01(weight)*(1-Mathf.Clamp01(cut))*ChargeGain);}
         // The defeated body now voices its own death at its position.
-        public void AwardKill(bool remark=true){Kills++;if(remark)BarkService.Play(character,"kill");}
+        public void AwardKill(bool remark=true){Kills++;charge=Mathf.Min(100,charge+KillCharge*ChargeGain);if(remark)BarkService.Play(character,"kill");}
     }
 }

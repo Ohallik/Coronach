@@ -318,13 +318,16 @@ namespace Lattice.Tests.PlayMode
             StringAssert.DoesNotContain("Spin forward",row[SkillKind.ForgeSpiral],"in flight Forge Spiral neither spins nor goes forward");
             StringAssert.StartsWith("At least",row[SkillKind.Overdrive],"mastery raises Overdrive past the twenty percent its row states");
             // The chooser's widest row, on a pad: a label has 1136 of the row's 1220 between its margins, and the row's height holds one line at 26.
-            var probe=UiKit.Text(Object.FindFirstObjectByType<GameHud>().transform,"Row probe","",26,Color.white);
+            // What a skill does follows the focus in the note, which gives it one line of 1220 at 24.
+            var probe=UiKit.Text(Object.FindFirstObjectByType<GameHud>().transform,"Row probe","",26,Color.white);var noteProbe=UiKit.Text(probe.transform.parent,"Note probe","",24,Color.white);
             foreach(var hero in new[]{"Taren","Sela"})foreach(var skill in SkillBook.All(hero))
             {
-                float width=probe.GetPreferredValues($"On RB+Y · {skill.displayName}  ·  {SkillBook.Cost(hero,skill):0} Charge  ·  {skill.cooldown:0} s  ·  {skill.description}").x;
+                float width=probe.GetPreferredValues($"On RB+Y · {skill.displayName}  ·  {SkillBook.Cost(hero,skill):0} Charge  ·  Mastery 4 (59/60)  ·  {skill.cooldown:0} s").x;
                 Assert.LessOrEqual(width,1136,$"{skill.displayName}'s row is {width:0} wide in a 1136 label: in the skill chooser its last word drops to a line the row has no height for");
+                float said=noteProbe.GetPreferredValues($"{skill.displayName}: {skill.description}").x;
+                Assert.LessOrEqual(said,1220,$"{skill.displayName}'s description is {said:0} wide on a 1220 line: in the skill chooser it takes the line its note needs for the trade rule");
             }
-            Object.Destroy(probe.gameObject);
+            Object.Destroy(probe.gameObject);Object.Destroy(noteProbe.gameObject);
         }
         [UnityTest] public IEnumerator MasteryMakesOverdriveAndRefractHitHarderAsTheCardSays()
         {

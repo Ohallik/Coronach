@@ -1,3 +1,4 @@
+using Lattice.Combat;
 using Lattice.Core;
 using Lattice.Data;
 using Lattice.Rpg;
@@ -7,7 +8,7 @@ namespace Lattice.World
     public sealed class KeyPickup:InteractionPrompt
     {
         public string requiredFlag="bossdown.Burrower",grantFlag="warpkey",item="WarpKey";
-        public override bool Available=>GameServices.Current.Flags.GetBool(requiredFlag)&&!GameServices.Current.Flags.GetBool(grantFlag);
+        public override bool Available=>GameServices.Current.Flags.GetBool(requiredFlag)&&!GameServices.Current.Flags.GetBool(grantFlag)&&!EnemyBrain.AwakeNear(transform.position,EnemyBrain.ExitCalm);
         void Start(){if(GameServices.Current.Flags.GetBool(grantFlag))gameObject.SetActive(false);}
         public override void Interact()
         {

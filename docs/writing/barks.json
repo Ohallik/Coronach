@@ -1,4 +1,8 @@
 {
+  "Orrin": {
+    "hail.outer": "Got the key? Good. Tallow's on the far side, and that warp doesn't run back until you're through.",
+    "hail.outer.after": "Finish what you owe around here first. The tender's free if you're dented. I'll keep the board."
+  },
   "Taren": {
     "swap": "My turn to be unreasonable.|I've got it. Breathe.|Stepping in.",
     "low": "The seams are getting warm.|That one got through.|I'm running out of plating.",
@@ -18,6 +22,7 @@
     "zone.flight": "Same body. Different problem.|Clear lanes. Stay sharp.|Let's see what's broken out here.",
     "bossphase.HessaKorl": "She's calling her crew. Watch the ground.",
     "bossopening.HessaKorl": "She overreached. Now!",
+    "bossopening.Cantor": "The collar's gone slack. Cut it!",
     "bossphase.Cantor": "It's changing its song. Watch the lanes."
   },
   "Sela": {
@@ -29,6 +34,7 @@
     "teach.guard": "Or guard right as it lands, Vosk. No damage, free Charge, and your next hit bites.",
     "boss": "Quiet again. I missed that.",
     "release": "It's turning. Follow the opening.",
+    "gate.open": "Curtain's coming down, Vosk. That door only opens for people who relight things.",
     "zone": "I vote we touch nothing. Yet.|Smells like old solder and bad decisions.|Nice place. Who broke it?|Nobody panic. That's my job.",
     "cover": "Hold still, Vosk. I'm covering you.",
     "discovery": "Note for the survey: not empty. Not even slightly.",
@@ -39,6 +45,7 @@
     "zone.flight": "I vote we touch nothing. Yet.|Pretty. That usually means trouble.|Nobody panic. That's my job.",
     "bossphase.HessaKorl": "She brought friends. Read the floor, Vosk.",
     "bossopening.HessaKorl": "There's your opening. Don't admire it.",
+    "bossopening.Cantor": "Its song's spent. Cut the collar, Vosk.",
     "bossphase.Cantor": "New rhythm. Read the current, Vosk."
   }
 }

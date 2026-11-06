@@ -20,6 +20,10 @@ namespace Lattice.UI
         static readonly Dictionary<string,int> seen=new(),seenCounts=new();
         static readonly List<(string heading,string body)> pending=new();
         float showing,next;
+        const string ChapterEnd="chapter2.homecoming",ChapterEndHeading="CHAPTER 2 COMPLETE",ChapterEndBody="The story stops here in this build, for today. Xylos comes next. Nothing closes behind you, so keep exploring.";
+        const float ChapterEndSeconds=9;
+        /// <summary>The chapter's last conversation has been heard. Read from the state on adoption, so a load says nothing.</summary>
+        static bool chapterEnded;
         const float TextWidth=490;
         public string Heading=>heading!=null?heading.text:"";
         public string Body=>body!=null?body.text:"";
@@ -64,30 +68,17 @@ namespace Lattice.UI
             var state=service.State;
             if(!ReferenceEquals(state,watched))
             {
-                watched=state;seen.Clear();seenCounts.Clear();pending.Clear();showing=0;
+                watched=state;seen.Clear();seenCounts.Clear();pending.Clear();showing=0;chapterEnded=state.flags.TryGetValue(ChapterEnd,out bool ended)&&ended;
                 foreach(var pair in state.questSteps)seen[pair.Key]=pair.Value;foreach(var pair in state.questCounts)seenCounts[pair.Key]=pair.Value;
                 frame.gameObject.SetActive(false);return;
             }
-            if(Time.unscaledTime>=next)
-            {
-                next=Time.unscaledTime+.2f;
-                foreach(var pair in state.questSteps)
-                {
-                    bool known=seen.TryGetValue(pair.Key,out int was);
-                    string counted=pair.Key+"/"+pair.Value;state.questCounts.TryGetValue(counted,out int count);seenCounts.TryGetValue(counted,out int counts);
-                    if(known&&was==pair.Value)
-                    {
-                        // A counted step moved without finishing: one plate of three.
-                        if(count>counts){seenCounts[counted]=count;Announce(pair.Key,pair.Value,pair.Value);}
-                        continue;
-                    }
-                    seen[pair.Key]=pair.Value;seenCounts[counted]=count;Announce(pair.Key,known?was:-1,pair.Value);
-                }
-            }
+            if(Time.unscaledTime>=next)Scan(state);
             bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked;
             if(showing<=0&&pending.Count>0&&!blocked)
             {
-                var (h,b)=pending[0];pending.RemoveAt(0);heading.text=h;body.text=b;showing=pending.Count>0?3.2f:4.5f;readable=h=="NEW QUEST"||h=="QUEST UPDATED";RefreshHint();
+                // A quest's level-up queues the moment it pays and the quest itself only shows up in the scan: look first, so QUEST COMPLETE goes ahead of its own SYNC card.
+                Scan(state);
+                var (h,b)=pending[0];pending.RemoveAt(0);heading.text=h;body.text=b;showing=h==ChapterEndHeading?ChapterEndSeconds:pending.Count>0?3.2f:4.5f;readable=h=="NEW QUEST"||h=="QUEST UPDATED";RefreshHint();
                 // The frame grows with its words, so a long step or a double skill never crosses its edge (QA-005).
                 float high=body.GetPreferredValues(b,TextWidth,0).y;
                 body.rectTransform.sizeDelta=new(TextWidth,high);frame.rectTransform.sizeDelta=new(570,58+high+34);
@@ -96,6 +87,24 @@ namespace Lattice.UI
             if(showing>0&&!blocked)showing-=Time.unscaledDeltaTime;
             bool visible=showing>0&&!blocked;
             if(frame.gameObject.activeSelf!=visible)frame.gameObject.SetActive(visible);
+        }
+        void Scan(GameState state)
+        {
+            next=Time.unscaledTime+.2f;
+            foreach(var pair in state.questSteps)
+            {
+                bool known=seen.TryGetValue(pair.Key,out int was);
+                string counted=pair.Key+"/"+pair.Value;state.questCounts.TryGetValue(counted,out int count);seenCounts.TryGetValue(counted,out int counts);
+                if(known&&was==pair.Value)
+                {
+                    // A counted step moved without finishing: one plate of three.
+                    if(count>counts){seenCounts[counted]=count;Announce(pair.Key,pair.Value,pair.Value);}
+                    continue;
+                }
+                seen[pair.Key]=pair.Value;seenCounts[counted]=count;Announce(pair.Key,known?was:-1,pair.Value);
+            }
+            // The chapter's last word: it follows whatever its conversation paid, and the conversation holds it until it closes.
+            if(!chapterEnded&&state.flags.TryGetValue(ChapterEnd,out bool ended)&&ended){chapterEnded=true;pending.Add((ChapterEndHeading,ChapterEndBody));}
         }
         void Announce(string id,int was,int now)
         {
@@ -121,14 +130,28 @@ namespace Lattice.UI
         {
             if(step>=quest.steps.Length)return "Complete";
             string text=quest.stepText!=null&&step<quest.stepText.Length&&!string.IsNullOrEmpty(quest.stepText[step])?quest.stepText[step]:$"Step {step+1} of {quest.steps.Length}";
-            int goal=quest.steps[step].count;
-            if(goal>1)
-            {
-                int count=0;state?.questCounts.TryGetValue(quest.id+"/"+step,out count);
-                text+=$" ({Mathf.Min(count,goal)}/{goal})";
-            }
-            return text;
+            return text+Count(quest,step,state);
         }
+        static string Count(QuestDef quest,int step,GameState state)
+        {
+            int goal=quest.steps[step].count;if(goal<=1)return "";
+            int count=0;state?.questCounts.TryGetValue(quest.id+"/"+step,out count);
+            return $" ({Mathf.Min(count,goal)}/{goal})";
+        }
+        /// <summary>A side quest's step in the few words the objective panel has a line for, and who it waits on when that's a person. The
+        /// log keeps the directions: a step runs to 87 characters and the panel's line holds about 40.</summary>
+        static readonly Dictionary<string,(string words,string speaker)> Briefs=new()
+        {
+            {"PellsLamp/0",("Search the grazer den",null)},{"PellsLamp/1",("Bring the lamp to Pell","Pell")},
+            {"IshensRecord/0",("Recover the plates",null)},{"IshensRecord/1",("Bring the plates to Ishen","Ishen")},
+            {"UnswornRations/0",("Take a ration crate",null)},{"UnswornRations/1",("Bring rations to the shed","Brekk")},
+            {"SorrelBeacons/0",("Silence the beacons",null)},{"SorrelBeacons/1",("Tell Dace it's quiet","Survivor")},
+            {"MiraCrystals/0",("Mine Ridge Crystals",null)},
+            {"NeveParcel/0",("Take the parcel to Dace","Survivor")},{"NeveParcel/1",("Bring the reply to Neve","Neve")},
+            {"OdaBerth/0",("Ask Orrin for the token","Orrin")},{"OdaBerth/1",("Bring the token to Oda","Oda")},
+        };
+        public static string Brief(QuestDef quest,int step,GameState state=null)=>Briefs.TryGetValue(quest.id+"/"+step,out var brief)?brief.words+Count(quest,step,state):Step(quest,step,state);
+        public static string WaitsOn(QuestDef quest,int step)=>Briefs.TryGetValue(quest.id+"/"+step,out var brief)?brief.speaker:null;
         public static string Readable(string value)=>System.Text.RegularExpressions.Regex.Replace(value??"","(?<=[a-z0-9])(?=[A-Z])"," ");
     }
 }

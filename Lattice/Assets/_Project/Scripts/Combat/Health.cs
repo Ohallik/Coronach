@@ -86,7 +86,7 @@ namespace Lattice.Combat
         public void Expose(float seconds)
         {
             var reaction=reactionOwner!=null?reactionOwner:this;
-            reaction.BrokenUntil=Mathf.Max(reaction.BrokenUntil,Time.time+Mathf.Max(0,seconds));reaction.BreakMeter=0;
+            reaction.BrokenUntil=Mathf.Max(reaction.BrokenUntil,Time.time+Mathf.Max(0,seconds));
             Debug.Log("EXPOSED "+reaction.id);
         }
         public void ResetFull(){Heal(maximum);BreakMeter=0;BrokenUntil=SlowUntil=ShieldUntil=0;}

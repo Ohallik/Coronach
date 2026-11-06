@@ -29,22 +29,8 @@ namespace Lattice.Combat
         /// <summary>A skill's strike on the world: it stops at walls, as its ring does, and it outlives the caster's next action.</summary>
         internal static HitVolume Land(Vector3 center,float radius,DamagePacket packet)
         {var strike=CombatActor.Strike(center,radius,packet);strike.ThroughWalls=false;strike.Detach();return strike;}
-        /// <summary>The body turns to what it releases: a slam or hook used to leave from Taren's side or back.</summary>
-        void Face(Vector3 aim)
-        {
-            aim.y=0;if(aim.sqrMagnitude<.01f||actor.flight)return;
-            StartCoroutine(TurnTo(aim.normalized));
-        }
-        IEnumerator TurnTo(Vector3 aim)
-        {
-            var goal=Quaternion.LookRotation(aim);
-            for(float t=0;t<.08f;t+=actor.MotorDelta)
-            {
-                if(!actor.Health.Alive)yield break;
-                if(!actor.TargetLocked)transform.rotation=Quaternion.RotateTowards(transform.rotation,goal,1800*actor.MotorDelta);
-                yield return null;
-            }
-        }
+        /// <summary>Where a thrown thing leaves her hand: never past a wall she stands at. Started inside one it was lost, or came out the far side.</summary>
+        Vector3 Hand(Vector3 aim)=>Body+aim*(CombatCover.Sweep(Body,Body+aim*.6f,.12f,out var wall)?Mathf.Max(0,wall.distance-.05f):.6f);
         float Melee(float k,float power)=>actor.damage*k*power;
         float Ranged(float k,float power)=>actor.rangedDamage*k*power;
         Vector3 Body=>transform.position+Vector3.up*(actor.flight?0:.9f);
@@ -59,15 +45,14 @@ namespace Lattice.Combat
             {
                 if(actor.AttackSequence!=sequence||!actor.Health.Alive||actor.Recovering)yield break;
                 // The hero's own clock: during a Flash the world crawls but the pose doesn't, and the skill must release on the
-                // pose's beat, not four times late or never.
-                t+=actor.MotorDelta;yield return null;
+                // pose's beat, not four times late or never, whoever's Flash it is.
+                t+=actor.ActionDelta;yield return null;
             }
             if(actor.AttackSequence==sequence&&actor.Health.Alive)release();
         }
 
         public void Ground(SkillKind kind,float power,Vector3 aim)
         {
-            if(kind!=SkillKind.WaypointBlink&&kind!=SkillKind.ForgeSpiral)Face(aim);
             switch(kind)
             {
                 case SkillKind.AnchorSlam:
@@ -81,7 +66,7 @@ namespace Lattice.Combat
                 }
                 case SkillKind.TetherHook:
                     actor.Perform("Pulse",.55f,.45f);
-                    After(.2f,()=>TetherLine.Cast(actor,Body+aim*.6f,aim,12,Hit(Melee(1.2f,power),DamageType.Pulse,45)));
+                    After(.2f,()=>TetherLine.Cast(actor,Hand(aim),aim,12,Hit(Melee(1.2f,power),DamageType.Pulse,45)));
                     break;
                 case SkillKind.ForgeSpiral:
                     actor.Perform("Cleave",1f,.9f);
@@ -100,7 +85,7 @@ namespace Lattice.Combat
                     break;
                 case SkillKind.GravityFold:
                     actor.Perform("Pulse",.65f,.56f);
-                    After(.255f,()=>GravityWell.Throw(actor,Body+aim*.6f,Destination(aim,7),false,power));
+                    After(.255f,()=>GravityWell.Throw(actor,Hand(aim),Destination(aim,7),false,power));
                     break;
                 case SkillKind.Starfall:
                     actor.Perform("Buff",.6f,.5f);
@@ -125,7 +110,7 @@ namespace Lattice.Combat
                     break;
                 case SkillKind.ForgeSpiral:
                     actor.Perform("Pulse",.7f,.5f);
-                    for(int i=0;i<3;i++)After(i*.22f,()=>{FlightWave.Release(transform.position+Vector3.up*.8f,actor.motor.Facing,Hit(Melee(.9f,power),DamageType.Plasma,25),false);Sound("impactMetal_000",.16f,1.15f);});
+                    for(int i=0;i<3;i++)After(i*.22f,()=>{FlightWave.Release(transform.position+Vector3.up*.8f,actor.motor.Facing,CombatActor.MultiHit(Hit(Melee(.9f,power),DamageType.Plasma,25)),false);Sound("impactMetal_000",.16f,1.15f);});
                     break;
                 case SkillKind.Faultline:
                     actor.Perform("Pulse",.5f,.24f);
@@ -151,9 +136,14 @@ namespace Lattice.Combat
         public const float ThrownRange=14;
         Vector3 Destination(Vector3 aim,float fallback)
         {
-            var at=actor.target!=null&&actor.target.Alive?actor.target.transform.position:transform.position+aim*fallback;at.y=transform.position.y;
-            var delta=at-transform.position;
-            if(delta.magnitude>ThrownRange)at=transform.position+delta.normalized*ThrownRange;
+            bool aimed=actor.target!=null&&actor.target.Alive;
+            var at=aimed?actor.target.transform.position:transform.position+aim*fallback;
+            // Range is measured on the map and height comes from what it is thrown at: a line kept flat ran into a gentle rise about 4 m out,
+            // short of an uphill target. A flight plane stays flat.
+            if(actor.flight)at.y=transform.position.y;
+            var delta=at-transform.position;float flat=Planar(delta).magnitude;
+            if(flat>ThrownRange)at=transform.position+delta*(ThrownRange/flat);
+            if(!aimed&&!actor.flight)at=CombatCover.Ground(at+Vector3.up*2.5f);
             // Stop at the last clear point: a Starfall can't land behind a wall the party can't see past.
             var from=Body;var to=at+(from-transform.position);
             if(CombatCover.Sweep(from,to,.12f,out var wall)){float reach=Mathf.Max(0,wall.distance-.4f);at=transform.position+(to-from).normalized*reach;}
@@ -180,13 +170,13 @@ namespace Lattice.Combat
                     if(actor.AttackSequence!=sequence||!actor.Health.Alive||actor.Recovering)yield break;
                     if(!GameTime.Paused)
                     {
-                        float dt=actor.MotorDelta;elapsed+=dt;
+                        float dt=actor.ActionDelta;elapsed+=dt;
                         if(visual!=null)visual.localRotation=rest*Quaternion.Euler(0,720*Mathf.Clamp01(elapsed/.86f),0);
                         if(actor.motor is GroundMotor ground)ground.MoveAction(aim*(2.2f*dt),aim);
                         while(ticks<5&&elapsed>=.15f*(ticks+1)-.05f)
                         {
                             ticks++;
-                            Land(Body,2.9f,Hit(Melee(.75f,power),DamageType.Plasma,22));
+                            Land(Body,2.9f,CombatActor.MultiHit(Hit(Melee(.75f,power),DamageType.Plasma,22)));
                             SkillRing.Expand(transform.position,2.9f,new Color(1.5f,.5f,.15f),.18f,false);
                             Sound("impactMetal_000",.16f,1.1f+ticks*.06f);
                         }
@@ -353,22 +343,21 @@ namespace Lattice.Combat
     public sealed class SurveyDrone:MonoBehaviour
     {
         public const float Lifetime=9,Interval=.45f,Range=14;
+        /// <summary>It fires on its own for nine seconds: the drone is what it pays for, not a Charge income of its own.</summary>
+        public const float ChargeCut=.9f;
         static SurveyDrone current;
-        CombatActor owner;float power,age,nextShot;Transform body;float spin;
+        CombatActor owner;float power,age,nextShot;Health aimedAt;
         public int Shots{get;private set;}
         public static SurveyDrone Current=>current;
+        /// <summary>Where its lens points.</summary>
+        public Vector3 Facing=>transform.forward;
         public static SurveyDrone Deploy(CombatActor owner,float power)
         {
             if(current!=null)Destroy(current.gameObject);
             var go=new GameObject("Survey drone",typeof(SurveyDrone));go.transform.position=owner.transform.position+Vector3.up*(owner.flight?1.2f:2.1f);
             var d=go.GetComponent<SurveyDrone>();d.owner=owner;d.power=power;d.nextShot=.3f;current=d;
-            var core=GameObject.CreatePrimitive(PrimitiveType.Sphere);Destroy(core.GetComponent<Collider>());core.name="Drone core";
-            core.transform.SetParent(go.transform,false);core.transform.localScale=Vector3.one*.32f;
-            core.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Emission");
-            var ringA=GameObject.CreatePrimitive(PrimitiveType.Cylinder);Destroy(ringA.GetComponent<Collider>());ringA.name="Drone vane";
-            ringA.transform.SetParent(core.transform,false);ringA.transform.localScale=new Vector3(2.3f,.04f,2.3f);ringA.transform.localRotation=Quaternion.Euler(14,0,0);
-            ringA.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Sela");
-            d.body=core.transform;
+            var core=Instantiate(Resources.Load<GameObject>("Effects/SurveyDrone"),go.transform,false);core.name="Drone body";
+            go.transform.rotation=Quaternion.LookRotation(owner.motor.Facing);
             CombatVfx.Burst(go.transform.position,new Color(.3f,1,1.6f),"shot");HeroSkills.Sound(owner,go.transform.position,"forceField_000",.2f,1.5f);
             return d;
         }
@@ -383,7 +372,9 @@ namespace Lattice.Combat
             var chest=owner.transform.position+Vector3.up*(owner.flight?1.2f:1.6f);
             if(CombatCover.Sweep(chest,hover,.2f,out var cover))hover=chest+(hover-chest).normalized*Mathf.Max(0,cover.distance-.25f);
             transform.position=Vector3.Lerp(transform.position,hover,1-Mathf.Exp(-8*Time.deltaTime));
-            spin+=Time.deltaTime*240;if(body!=null)body.localRotation=Quaternion.Euler(0,spin,0);
+            // It looks where it means to shoot, and otherwise where she's going: a lens has a front, so it no longer spins.
+            var look=aimedAt!=null&&aimedAt.Targetable?aimedAt.transform.position+Vector3.up*(owner.flight?0:.8f)-transform.position:owner.motor.Facing;
+            if(look.sqrMagnitude>.01f)transform.rotation=Quaternion.Slerp(transform.rotation,Quaternion.LookRotation(look),1-Mathf.Exp(-10*Time.deltaTime));
             nextShot-=Time.deltaTime;if(nextShot>0)return;
             Health best=null;float bestDistance=Range;
             foreach(var health in Health.All)
@@ -392,10 +383,11 @@ namespace Lattice.Combat
                 var aimPoint=health.transform.position+Vector3.up*(owner.flight?0:.8f);float d=Vector3.Distance(transform.position,aimPoint);
                 if(d<bestDistance&&CombatCover.Clear(transform.position,aimPoint)){best=health;bestDistance=d;}
             }
+            aimedAt=best;
             if(best==null){nextShot=.15f;return;}
             nextShot=Interval;Shots++;
             var target=best.transform.position+Vector3.up*(owner.flight?0:.8f);
-            var packet=new DamagePacket{source=owner.Health,amount=owner.rangedDamage*.32f*power*owner.damageScale,type=DamageType.Beam,breakPower=6};
+            var packet=new DamagePacket{source=owner.Health,amount=owner.rangedDamage*.32f*power*owner.damageScale,type=DamageType.Beam,breakPower=6,chargeCut=ChargeCut};
             Projectile.Fire(transform.position,target-transform.position,packet,30);
             HeroSkills.Sound(owner,transform.position,"laserSmall_000",.1f,1.6f);
         }
@@ -438,7 +430,7 @@ namespace Lattice.Combat
             w.destination=flight?destination:CombatCover.Ground(destination+Vector3.up*2)+Vector3.up*.1f;
             var core=GameObject.CreatePrimitive(PrimitiveType.Sphere);Destroy(core.GetComponent<Collider>());core.name="Fold core";
             core.transform.SetParent(go.transform,false);core.transform.localScale=Vector3.one*.4f;
-            core.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Emission");
+            var seed=core.GetComponent<Renderer>();seed.sharedMaterial=ActorFactory.Energy(new Color(.7f,.42f,1.4f,.95f));seed.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             HeroSkills.Sound(owner,origin,"laserSmall_000",.2f,.6f);
             return w;
         }
@@ -485,7 +477,7 @@ namespace Lattice.Combat
                 Destroy(gameObject);
             }
         }
-        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Pulse,breakPower=breakPower};
+        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Pulse,breakPower=breakPower,chargeCut=CombatActor.MultiHitCut};
     }
 
     /// <summary>Starfall: marks a circle, then beams fall into it from above, finishing with a heavy centre strike.</summary>
@@ -510,7 +502,7 @@ namespace Lattice.Combat
             float beamAge=age-Warning;
             while(fired<Beams&&beamAge>=fired*.085f)
             {
-                var offset=UnityEngine.Random.insideUnitCircle*(Radius-.6f);var point=transform.position+new Vector3(offset.x,0,offset.y);
+                var point=BeamPoint();
                 Beam(point);
                 HeroSkills.Land(point+Vector3.up*(flight?0:.8f),1.5f,Packet(.85f,14)).life=.08f;
                 fired++;
@@ -524,6 +516,18 @@ namespace Lattice.Combat
                 Destroy(gameObject);
             }
         }
+        /// <summary>A beam lands in the circle on the circle's side of any wall, on the ground it finds there: the ring ends at the wall, so the damage does too.</summary>
+        Vector3 BeamPoint()
+        {
+            var lift=Vector3.up*(flight?0:.8f);
+            for(int tries=0;tries<6;tries++)
+            {
+                var offset=UnityEngine.Random.insideUnitCircle*(Radius-.6f);var point=transform.position+new Vector3(offset.x,0,offset.y);
+                if(!flight)point=CombatCover.Ground(point+Vector3.up*2.5f);
+                if(CombatCover.Clear(transform.position+lift,point+lift))return point;
+            }
+            return transform.position;
+        }
         void Beam(Vector3 point)
         {
             var go=new GameObject("Starfall beam");var line=go.AddComponent<LineRenderer>();line.positionCount=2;line.useWorldSpace=true;
@@ -533,6 +537,6 @@ namespace Lattice.Combat
             Destroy(go,.14f);Destroy(material,.15f);
             CombatVfx.Burst(point+Vector3.up*(flight?0:.2f),new Color(.3f,1,1.6f),"hit");HeroSkills.Sound(owner,point,"laserSmall_000",.14f,1.9f);
         }
-        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Beam,breakPower=breakPower};
+        DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Beam,breakPower=breakPower,chargeCut=CombatActor.MultiHitCut};
     }
 }

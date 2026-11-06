@@ -46,10 +46,11 @@ namespace Lattice.World
                 return;
             }
             // A first meeting comes first, whatever the story has moved on to: a later flag used to skip the introduction,
-            // and with it what the introduction gives (Hal's lesson, Neve's cache, Ilo explaining the Compact).
+            // and with it what the introduction gives (Hal's lesson, Neve's cache, Ilo explaining the Compact). One the story has
+            // overtaken keeps its place and changes its words.
             bool firstMeeting=!flags.GetBool("met."+speaker)&&!string.IsNullOrEmpty(firstNode);
             bool final=!firstMeeting&&!string.IsNullOrEmpty(finalFlag)&&!string.IsNullOrEmpty(finalNode)&&flags.GetBool(finalFlag);
-            string node=firstMeeting?firstNode:final?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:
+            string node=firstMeeting?SideStories.FirstMeetingFor(speaker,state)??firstNode:final?finalNode:flags.GetBool(postFlag)&&!string.IsNullOrEmpty(postNode)?postNode:
                 !string.IsNullOrEmpty(repeatNode)?repeatNode:firstNode;
             string completionFlag=final?finalCompletionFlag:null;
             if(final&&!string.IsNullOrEmpty(finalCompletionFlag)&&flags.GetBool(finalCompletionFlag)&&!string.IsNullOrEmpty(finalRepeatNode))

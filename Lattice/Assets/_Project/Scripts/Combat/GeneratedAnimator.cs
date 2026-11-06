@@ -94,6 +94,18 @@ namespace Lattice.Combat
                     if(state==wanted&&!animator.IsInTransition(0)&&animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=.25f)rate=0;
                 }
                 else if(enemy.Attacking)wanted="Attack";
+                else if(enemy.Telegraphing&&animator.HasState(0,Animator.StringToHash("Attack")))
+                {
+                    // The tell is the clip's wind-up, drawn out over the marking: the swing carries straight on from there at the strike.
+                    wanted="Attack";
+                    if(!lengths.TryGetValue(wanted,out float length))
+                    {
+                        // A clip keeps its take's name (Armature|...|Sword_Attack), whatever the state that plays it is called.
+                        foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name.EndsWith("Attack")){length=clip.length;break;}
+                        if(length>0)lengths[wanted]=length;
+                    }
+                    rate=GameTime.CombatHeld?0:length>0?length*EnemyBrain.TellShare/Mathf.Max(.1f,enemy.TellDuration):1;
+                }
             }
             bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive&&!enemy.definition.yieldsOnDefeat;
             if(enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat){wanted="Idle";rate=1;}

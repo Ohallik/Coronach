@@ -12,11 +12,13 @@ namespace Lattice.World
         /// <summary>Whose it is, for the card; and what it says, once any fight around it is over.</summary>
         public string owner="Neve's cache",dialogueNode,dialogueSpeaker="Neve";
         bool speechWaiting;
-        public override bool Available=>GameServices.Current.Flags.GetBool(requiredFlag)&&!GameServices.Current.Flags.GetBool("cache."+cacheId);
+        bool Takeable=>GameServices.Current.Flags.GetBool(requiredFlag)&&!GameServices.Current.Flags.GetBool("cache."+cacheId);
+        /// <summary>With an enemy on the hero, A is an attack. Flying or walking into the crate still takes it, whatever is awake.</summary>
+        public override bool Available=>Takeable&&!EnemyBrain.AwakeNear(transform.position,EnemyBrain.ExitCalm);
         void Start(){if(GameServices.Current.Flags.GetBool("cache."+cacheId))gameObject.SetActive(false);}
         public override void Interact()
         {
-            if(!Available)return;var inventory=RpgServices.Inventory;
+            if(!Takeable)return;var inventory=RpgServices.Inventory;
             inventory.Grant("ChoirResin",4);inventory.Grant("ScrapAlloy",12);inventory.Grant("RepairGel",3);
             Notices.Post("CACHE RECOVERED",owner+": Choir Resin ×4, Scrap Alloy ×12, Repair Gel ×3");AudioManager.Play("doorOpen_000",.2f);
             GameServices.Current.Flags.SetBool("cache."+cacheId,true);Debug.Log("SALVAGE_OK "+cacheId);
