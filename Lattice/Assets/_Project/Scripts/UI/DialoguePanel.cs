@@ -15,7 +15,7 @@ namespace Lattice.UI
         TMP_Text body,speaker,hint;
         Image portrait;
         bool clicked;
-        int shownFrame,lastQueuedFrame=-1;
+        int shownFrame,lastQueuedFrame=-1,optionsFrame;
         public bool IsVisible=>panel!=null&&panel.activeInHierarchy;
         public bool OptionsVisible=>options!=null&&options.activeInHierarchy;
         public bool AdvanceRequested
@@ -35,12 +35,18 @@ namespace Lattice.UI
             DialogueSystem.Current.View=this;panel.SetActive(false);PromptService.Changed+=RefreshHint;
         }
         void OnDestroy(){PromptService.Changed-=RefreshHint;}
-        void RefreshHint(){if(hint!=null)hint.text=DeviceHints.Continue();}
+        void RefreshHint(){if(hint!=null)hint.text=OptionsVisible?DeviceHints.Choose():DeviceHints.Continue();}
         void Update()
         {
-            if(panel!=null&&panel.activeSelf&&Time.frameCount>shownFrame&&(UiActions.Submit.WasPressedThisFrame()||GameServices.Current.Input.Find("Interact").WasPressedThisFrame()))QueueAdvance();
+            if(panel==null||!panel.activeSelf||Time.frameCount<=shownFrame)return;
+            bool submit=UiActions.Submit.WasPressedThisFrame(),interact=GameServices.Current.Input.Find("Interact").WasPressedThisFrame();
+            if(!OptionsVisible){if(submit||interact)QueueAdvance();return;}
+            // A choice isn't a line to advance. Submit reaches the selected button through the EventSystem; the world's Interact key has to be handed to it.
+            if(!interact||submit||Time.frameCount<=optionsFrame)return;
+            var chosen=EventSystem.current!=null?EventSystem.current.currentSelectedGameObject:null;
+            if(chosen!=null&&chosen.transform.IsChildOf(options.transform)&&chosen.TryGetComponent<Button>(out var button))button.onClick.Invoke();
         }
-        void QueueAdvance(){if(Time.frameCount<=shownFrame||lastQueuedFrame==Time.frameCount)return;lastQueuedFrame=Time.frameCount;clicked=true;UiSounds.Advance();}
+        void QueueAdvance(){if(OptionsVisible||Time.frameCount<=shownFrame||lastQueuedFrame==Time.frameCount)return;lastQueuedFrame=Time.frameCount;clicked=true;UiSounds.Advance();}
         public void Show(string name,PortraitEmotion emotion,Sprite sprite,string text)
         {shownFrame=Time.frameCount;clicked=false;panel.SetActive(true);RefreshHint();speaker.text=name;body.text=text;body.maxVisibleCharacters=0;portrait.sprite=sprite;portrait.gameObject.SetActive(sprite!=null);}
         public void SetVisibleCharacters(int count){body.maxVisibleCharacters=count;}
@@ -49,8 +55,8 @@ namespace Lattice.UI
         {
             ClearOptions();options=new GameObject("Options",typeof(RectTransform));options.transform.SetParent(canvas.transform,false);var buttons=new List<Selectable>();
             for(int i=0;i<labels.Count;i++){int n=i;var b=UiKit.Button(options.transform,"Option_"+i,labels[i],()=>selected(n));UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(200,100-i*85),new(920,65));buttons.Add(b);}
-            UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+            UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);optionsFrame=Time.frameCount;RefreshHint();
         }
-        public void ClearOptions(){if(options!=null)Destroy(options);options=null;}
+        public void ClearOptions(){if(options!=null)Destroy(options);options=null;RefreshHint();}
     }
 }

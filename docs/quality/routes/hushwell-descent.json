@@ -720,6 +720,228 @@
       "seconds": 0.45
     },
     {
+      "name": "chase and melee the Bellows 6",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 6",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 6",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 6",
+      "seconds": 0.18,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "gel release Bellows 6",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 7",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 7",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 7",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 7",
+      "seconds": 0.18,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "gel release Bellows 7",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 8",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 8",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 8",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 8",
+      "seconds": 0.18,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "gel release Bellows 8",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 9",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 9",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 9",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 9",
+      "seconds": 0.18,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "gel release Bellows 9",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 10",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 10",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 10",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 10",
+      "seconds": 0.18,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "gel release Bellows 10",
+      "seconds": 0.45
+    },
+    {
+      "name": "chase and melee the Bellows 11",
+      "evadeTelegraphs": true,
+      "seconds": 16,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow",
+      "rangedTolerance": 12
+    },
+    {
+      "name": "Pulse Burst on the Bellows 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "Pulse release 11",
+      "seconds": 0.45
+    },
+    {
+      "name": "gel during the Bellows 11",
+      "seconds": 0.18,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.BellowsBelow"
+    },
+    {
+      "name": "gel release Bellows 11",
+      "seconds": 0.45
+    },
+    {
       "name": "the Bellows falls",
       "seconds": 4,
       "expectedFlag": "bossdown.BellowsBelow"

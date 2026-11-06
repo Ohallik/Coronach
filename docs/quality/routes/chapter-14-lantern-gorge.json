@@ -483,12 +483,12 @@
     },
     {
       "name": "deeper into the dark",
-      "seconds": 7.32,
+      "seconds": 3.92,
       "navigate": true,
       "point": {
         "x": 6,
         "y": 0,
-        "z": 72
+        "z": 58
       },
       "tolerance": 0.8,
       "until": "arrived",
@@ -801,7 +801,7 @@
     },
     {
       "name": "to the den's mouth",
-      "seconds": 8.01,
+      "seconds": 11.05,
       "navigate": true,
       "point": {
         "x": -8,

@@ -145,7 +145,7 @@ def gullet():
     nav('enter the collar chamber', route_x(755), 755, 32)
     nav('engage the Cantor inside its coil', route_x(784), 784, 19, True)
     tap('lock Cantor', ['LeftShoulder'], leftTrigger=1)
-    for n in range(10):
+    for n in range(14):
         action(f'Cantor emitter pursuit {n + 1}', 18, navigate=True, approachTarget=True,
                tolerance=17, rangedTolerance=17, leftTrigger=1, buttons=['South'],
                stopWhen='flag:bossdown.Cantor')

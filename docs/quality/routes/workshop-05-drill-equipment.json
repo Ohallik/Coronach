@@ -603,6 +603,22 @@
       "pauseUi": "bench"
     },
     {
+      "name": "select next gear page 7",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select next gear page 7",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
       "name": "view new crafted equipment",
       "seconds": 0.2,
       "expectedScene": "Sorrel_Ridges",
@@ -623,7 +639,7 @@
       "seconds": 0.2,
       "expectedScene": "Sorrel_Ridges",
       "buttons": [
-        "DpadDown"
+        "DpadUp"
       ],
       "expectedUi": "bench",
       "pauseUi": "bench"
@@ -639,13 +655,29 @@
       "seconds": 0.2,
       "expectedScene": "Sorrel_Ridges",
       "buttons": [
-        "DpadDown"
+        "DpadUp"
       ],
       "expectedUi": "bench",
       "pauseUi": "bench"
     },
     {
       "name": "release select refined edge 2",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select refined edge 3",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "DpadUp"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select refined edge 3",
       "seconds": 0.3,
       "expectedScene": "Sorrel_Ridges",
       "pauseUi": "bench"
@@ -662,198 +694,6 @@
     },
     {
       "name": "release equip refined edge on Taren",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select first frame 1",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select first frame 1",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "equip frame on Taren",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release equip frame on Taren",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "switch equipment to Sela",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "North"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release switch equipment to Sela",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select second frame 1",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select second frame 1",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "equip frame on Sela",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release equip frame on Sela",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select first gear page 1",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select first gear page 1",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "return to purchased equipment",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release return to purchased equipment",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select purchased emitter 1",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "DpadUp"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select purchased emitter 1",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select purchased emitter 2",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "DpadUp"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select purchased emitter 2",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select purchased emitter 3",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "DpadUp"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select purchased emitter 3",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "give emitter to Sela",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release give emitter to Sela",
-      "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "return active hero to Taren",
-      "seconds": 0.2,
-      "expectedScene": "Sorrel_Ridges",
-      "buttons": [
-        "North"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release return active hero to Taren",
       "seconds": 0.3,
       "expectedScene": "Sorrel_Ridges",
       "pauseUi": "bench"

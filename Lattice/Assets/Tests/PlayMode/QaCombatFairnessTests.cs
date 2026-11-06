@@ -340,6 +340,37 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual("PhaseShift",moves[0]);Assert.AreEqual("SweepingCut",moves.Count>1?moves[1]:"none","a phase shift promises change, and the next move was an ordinary pick");
             boss.GetComponent<EnemyBrain>().Passive=true;Object.Destroy(boss.gameObject);
         }
+        [UnityTest] public IEnumerator EveryMoveOnOfferComesRoundWithinAFewPicks()
+        {
+            var taren=Taren;Place(Sela,new Vector3(70,0,70));
+            var boss=Boss("Burrower",new Vector3(30,0,30));Place(taren,new Vector3(30,0,39));yield return Frames(1);
+            boss.GetComponent<EnemyBrain>().Passive=true;
+            const System.Reflection.BindingFlags Private=System.Reflection.BindingFlags.NonPublic|System.Reflection.BindingFlags.Instance;
+            var type=typeof(BossController);var pick=type.GetMethod("Pick",Private);var count=type.GetField("moveCount",Private);var last=type.GetField("lastMove",Private);
+            var used=(Dictionary<string,int>)type.GetField("lastUsed",Private).GetValue(boss);
+            var offer=new (string move,float weight)[]{("DrillCharge",2.2f),("SpoilToss",1.8f),("TailSweep",0f),("Burrow",1.5f),("SeismicRings",1.6f)};
+            for(int fight=0;fight<300;fight++)
+            {
+                used.Clear();count.SetValue(boss,0);last.SetValue(boss,null);var seen=new HashSet<string>();
+                for(int n=1;n<=6;n++)
+                {
+                    string move=(string)pick.Invoke(boss,new object[]{offer});
+                    seen.Add(move);count.SetValue(boss,n);last.SetValue(boss,move);used[move]=n;
+                }
+                Assert.IsFalse(seen.Contains("TailSweep"),"a move with nothing to offer right now was played");
+                Assert.AreEqual(4,seen.Count,"six picks went by and the player never saw part of the boss's set: "+string.Join(",",seen));
+            }
+            // A move the boss is steered away from up close stays rare: the rule must not make her throw a chain at someone she could stab.
+            var close=new (string move,float weight)[]{("HookLance",2.2f),("GrappleChain",.4f)};int chains=0;
+            used.Clear();count.SetValue(boss,0);last.SetValue(boss,null);
+            for(int n=1;n<=400;n++)
+            {
+                string move=(string)pick.Invoke(boss,new object[]{close});
+                if(move=="GrappleChain")chains++;
+                count.SetValue(boss,n);last.SetValue(boss,move);used[move]=n;
+            }
+            Assert.Less(chains,160,"the lance's reach is where she fights, and the chain took over anyway");
+        }
         [UnityTest] public IEnumerator ABossDoesNotBackAwayFromMelee()
         {
             var taren=Taren;Place(Sela,new Vector3(70,0,70));

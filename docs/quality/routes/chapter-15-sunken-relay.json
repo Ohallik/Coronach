@@ -1832,6 +1832,192 @@
       "expectedScene": "SunkenRelay"
     },
     {
+      "name": "Cleave Hessa round 8",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 8",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 8",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 8",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 8",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 8",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 8",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 9",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 9",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 9",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 9",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 9",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 9",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 9",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Cleave Hessa round 10",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Cleave Hessa round 10",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "Pulse Hessa round 10",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release Pulse Hessa round 10",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "fight Hessa round 10",
+      "seconds": 35,
+      "buttons": [
+        "South"
+      ],
+      "pulseSeconds": 0.46,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 2.3,
+      "rangedTolerance": 12,
+      "evadeTelegraphs": true,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "point": {
+        "x": 0,
+        "y": 0,
+        "z": 0
+      },
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel Hessa 10",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "stopWhen": "flag:bossdown.HessaKorl",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel Hessa 10",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
       "name": "Hessa yields",
       "seconds": 4,
       "until": "flag:bossdown.HessaKorl",

@@ -117,15 +117,21 @@ namespace Lattice.Core
         static InputAction Button(InputActionMap map,string name,string key,string pad)
         {
             var a=map.AddAction(name,InputActionType.Button);
-            if(key!=null) a.AddBinding("<Keyboard>/"+key);
+            // A saved rebind finds its binding by id: an id generated fresh on every launch finds nothing, and the key goes back.
+            if(key!=null) a.AddBinding(new InputBinding{path="<Keyboard>/"+key,id=StableId(map.name+"/"+name)});
             if(pad!=null) a.AddBinding("<Gamepad>/"+pad);
             return a;
+        }
+        static Guid StableId(string text)
+        {
+            using var md5=System.Security.Cryptography.MD5.Create();
+            return new Guid(md5.ComputeHash(System.Text.Encoding.UTF8.GetBytes(text)));
         }
         public void SetFlight(bool flight)
         {
             // Crossing a safe pocket re-applies the zone with nothing changed: re-enabling the map drops every held button.
             if(FlightMode==flight&&Active.enabled)return;
-            Ground.Disable(); Flight.Disable(); FlightMode=flight; Active.Enable();
+            Ground.Disable(); Flight.Disable(); FlightMode=flight; Active.Enable(); PromptService.ForgetTags();
         }
         public InputAction Find(string name) => Active.FindAction(name) ?? Common.FindAction(name);
         public bool Pressed(string name) => !Blocked && !ButtonsSuppressed && Find(name)?.WasPressedThisFrame()==true;

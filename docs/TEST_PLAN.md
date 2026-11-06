@@ -56,6 +56,7 @@ Every bug follows the loop in §5: reproduce, write a failing check, fix, rerun,
 ### 4.2 Controls and feel
 - [ ] Digital pad (Precision) and analog pad: walk, jog and sprint speeds match D197. Turning at speed keeps pace. Sprint in combat rests when Thrust runs out.
 - [ ] Attack, dodge, guard, swap, lock-on and quick item respond on the first press. Skills fire with RB plus a face button, or with the number keys.
+- [ ] With an enemy on the hero, A is an attack: no bench, crystal, repair bay, dock or warp answers it (`WithAnEnemyOnTheHeroAIsAnAttackNotAPrompt`). Story prompts stay open.
 - [ ] Flash Move triggers within its window and slows the world. Flash Guard gives Charge and a crit.
 - [ ] The camera never hides the party behind a cliff or wall in Sorrel, the gorge, the relay or Lanternwick (`cameraClearsScenery`).
 - [ ] Flight: inertia, boost, brake, roll and lunge all respond; walls shove without trapping; docks are reachable from every approach.
@@ -75,7 +76,7 @@ Keep a pacing log during the chain: the time of each level-up, skill learned, bo
   - Anchor Slam closes distance.
   - Tether Hook reels in small enemies and pulls Taren to big ones.
   - Forge Spiral hits several times.
-  - Faultline reaches 8 m and stops at walls.
+  - Faultline reaches 10 m and stops at walls.
   - Survey Drone keeps firing after Sela moves.
   - Waypoint Blink escapes and its charge bursts.
   - Gravity Fold gathers enemies.
@@ -87,7 +88,7 @@ Keep a pacing log during the chain: the time of each level-up, skill learned, bo
 - [ ] Its tell is visible before it attacks.
 - [ ] Its weakness and resistance show on hit.
 - [ ] It dies with a fitting presentation.
-- [ ] Grazers slow inside a lit relay's light.
+- [ ] Grazers slow and back out of a lit relay's light; a ring on the ground shows where it ends.
 
 **Bosses.** For each of the Burrower, the Bellows Below, the Cantor and Hessa Korl:
 
@@ -176,7 +177,7 @@ For each of the 10 quests (Silent Outpost, What the Drill Found, Six Bright Answ
 
 ### 4.12 Accessibility
 - [ ] Markings are shaped (circle, ring, cone, lane) as well as coloured; the Choir rule holds (every audio cue has a visual one).
-- [ ] Text never renders below 18 px at 1280×720 (`ReadableTypeTests`).
+- [ ] Text never renders below 16 px at 1280×720, which is 24 units at the 1080p reference (`ReadableTypeTests`).
 - [ ] Keyboard rebinding works for the core actions.
 - [ ] **Idea:** a difficulty option and a "hold to repeat attack" option.
 

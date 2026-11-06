@@ -62,7 +62,7 @@ namespace Lattice.Combat
                     var before=transform.position;
                     if(controller.enabled)controller.Move(direction*step);
                     travelled+=Flat(transform.position-before).magnitude;
-                    Contact(hit,transform.position,2.3f,24,.45f,lane);
+                    Contact(hit,transform.position,2.3f,20,.45f,lane);
                     yield return null;
                 }
                 strikeAt=0;Collide(true);Pose(0);
@@ -126,7 +126,7 @@ namespace Lattice.Combat
                 yield return null;
             }
             var once=new HashSet<Health>();
-            foreach(var marking in marks){Strike(marking,15,DamageType.Kinetic,.3f,0,once);CombatVfx.Burst(marking.Origin+Vector3.up*.3f,new Color(.55f,.45f,.35f),"kill");}
+            foreach(var marking in marks){Strike(marking,12,DamageType.Kinetic,.3f,0,once);CombatVfx.Burst(marking.Origin+Vector3.up*.3f,new Color(.55f,.45f,.35f),"kill");}
             Tremor(.25f,.06f);ClearTemporary();Pose(0);
             Finish(BurrowerRest);
         }
@@ -140,7 +140,7 @@ namespace Lattice.Combat
             yield return Windup(tell,5,0,.06f);
             Pose(0);
             if(Interrupted)yield break;
-            Strike(arc,22,DamageType.Kinetic,.4f,2.6f);
+            Strike(arc,18,DamageType.Kinetic,.4f,2.6f);
             AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.22f,AudioBus.SFX,50);
             var rest=transform.rotation;
             for(float t=0;t<.3f&&!Interrupted;){if(!GameTime.Paused)t+=Time.deltaTime;transform.rotation=rest*Quaternion.Euler(0,360*Mathf.SmoothStep(0,1,t/.3f),0);yield return null;}
@@ -181,7 +181,7 @@ namespace Lattice.Combat
             transform.position=surface+Vector3.up*.05f;Physics.SyncTransforms();
             controller.enabled=true;burrowed=false;health.Damageable=true;
             if(visual!=null)visual.localPosition=visualRest;
-            Strike(eruption,24,DamageType.Kinetic,.6f,3f);strikeAt=0;
+            Strike(eruption,20,DamageType.Kinetic,.6f,3f);strikeAt=0;
             Tremor(.5f,.13f);CombatVfx.Burst(surface+Vector3.up,new Color(.65f,.52f,.4f),"kill");
             AudioManager.PlayAt("explosionCrunch_000",transform,surface,.3f,AudioBus.SFX,60);
             yield return Opening(1.4f,BurrowerRest);
@@ -194,7 +194,7 @@ namespace Lattice.Combat
             yield return Windup(windup,-6,.9f,.04f);
             if(Interrupted)yield break;
             Pose(4);
-            Strike(slam,20,DamageType.Kinetic,.4f,2.4f);Tremor(.6f,.12f);Pose(0);
+            Strike(slam,16,DamageType.Kinetic,.4f,2.4f);Tremor(.6f,.12f);Pose(0);
             AudioManager.PlayAt("explosionCrunch_000",transform,transform.position,.28f,AudioBus.SFX,60);
             const float band=1.5f,speed=8f,reach=17f,spacing=.55f;
             var centre=transform.position;var rings=new List<(Telegraph mark,float born,HashSet<Health> hit)>();
@@ -220,7 +220,7 @@ namespace Lattice.Combat
                         if(!actor.Health.Alive||hit.Contains(actor.Health))continue;
                         float d=Flat(actor.transform.position-centre).magnitude;
                         if(d>=outer-band-Telegraph.BodyAllowance&&d<=outer+Telegraph.BodyAllowance)
-                        {hit.Add(actor.Health);float dealt=actor.Health.Receive(Packet(16,DamageType.Pulse));if(dealt>0)actor.Stagger(.3f);}
+                        {hit.Add(actor.Health);float dealt=actor.Health.Receive(Packet(13,DamageType.Pulse));if(dealt>0)actor.Stagger(.3f);}
                     }
                     float heroDistance=Flat(hero-centre).magnitude;
                     if(heroDistance>outer)soonest=Mathf.Min(soonest,(heroDistance-outer)/speed);

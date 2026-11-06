@@ -92,9 +92,9 @@ namespace Lattice.EditorTools
             var spit=ArenaBuilder.Asset<AttackDef>("BellowsSpit",a=>{a.damage=16;a.range=14;a.telegraph=.9f;a.cooldown=2.2f;a.projectile=true;a.type=DamageType.Kinetic;});
             var loot=ArenaBuilder.Asset<LootTable>("BellowsBelow",l=>l.entries=new[]{new LootEntry{id="HuskCore",count=2,chance=1},new LootEntry{id="RidgeCrystal",count=3,chance=1}});
             ArenaBuilder.Asset<EnemyDef>("BellowsBelow",e=>{e.id="BellowsBelow";e.archetype=EnemyArchetype.Spitter;e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.boss=true;
-                e.integrity=12000;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
+                e.integrity=16000;e.breakThreshold=600;e.xp=260;e.speed=2.2f;e.attacks=new[]{spit};e.lootTable=loot;});
             // The cave starts its chapter quest on entry; Bellows and the nursery finish it.
-            ArenaBuilder.Asset<QuestDef>("Hushwell",q=>{q.id="Hushwell";q.title="What the drill found";
+            ArenaBuilder.Asset<QuestDef>("Hushwell",q=>{q.id="Hushwell";q.title="What the Drill Found";
                 q.steps=new[]{new Objective{kind=ObjectiveKind.Kill,target="BellowsBelow",count=1},new Objective{kind=ObjectiveKind.Interact,target="HushwellNursery",count=1}};
                 q.rewardXp=220;q.rewardScrip=150;q.flagsOnComplete=new string[0];});
             AssetDatabase.SaveAssets();return zone;

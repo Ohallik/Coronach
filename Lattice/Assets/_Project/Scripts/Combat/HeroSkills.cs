@@ -81,7 +81,7 @@ namespace Lattice.Combat
                 }
                 case SkillKind.TetherHook:
                     actor.Perform("Pulse",.55f,.45f);
-                    After(.2f,()=>TetherLine.Cast(actor,Body+aim*.6f,aim,12,Hit(Melee(.9f,power),DamageType.Pulse,45)));
+                    After(.2f,()=>TetherLine.Cast(actor,Body+aim*.6f,aim,12,Hit(Melee(1.2f,power),DamageType.Pulse,45)));
                     break;
                 case SkillKind.ForgeSpiral:
                     actor.Perform("Cleave",1f,.9f);
@@ -89,7 +89,7 @@ namespace Lattice.Combat
                     break;
                 case SkillKind.Faultline:
                     actor.Perform("Attack3",.55f,.5f);
-                    After(.3f,()=>FaultlineWave.Release(actor,transform.position,aim,false,()=>Hit(Melee(1.3f,power),DamageType.Kinetic,40)));
+                    After(.3f,()=>FaultlineWave.Release(actor,transform.position,aim,false,()=>Hit(Melee(2f,power),DamageType.Kinetic,40)));
                     break;
                 case SkillKind.SurveyDrone:
                     actor.Perform("Buff",.5f,.42f);
@@ -121,15 +121,15 @@ namespace Lattice.Combat
                     break;
                 case SkillKind.TetherHook:
                     actor.Perform("Shoot",.4f,.16f);
-                    TetherLine.Cast(actor,transform.position+Vector3.up*.8f+aim,aim,14,Hit(Melee(.9f,power),DamageType.Pulse,45));
+                    TetherLine.Cast(actor,transform.position+Vector3.up*.8f+aim,aim,14,Hit(Melee(1.2f,power),DamageType.Pulse,45));
                     break;
                 case SkillKind.ForgeSpiral:
                     actor.Perform("Pulse",.7f,.5f);
-                    for(int i=0;i<3;i++)After(i*.22f,()=>FlightWave.Release(transform.position+Vector3.up*.8f,actor.motor.Facing,Hit(Melee(.9f,power),DamageType.Plasma,25),false));
+                    for(int i=0;i<3;i++)After(i*.22f,()=>{FlightWave.Release(transform.position+Vector3.up*.8f,actor.motor.Facing,Hit(Melee(.9f,power),DamageType.Plasma,25),false);Sound("impactMetal_000",.16f,1.15f);});
                     break;
                 case SkillKind.Faultline:
                     actor.Perform("Pulse",.5f,.24f);
-                    FaultlineWave.Release(actor,transform.position+Vector3.up*.8f,aim,true,()=>Hit(Melee(1.3f,power),DamageType.Kinetic,40));
+                    FaultlineWave.Release(actor,transform.position+Vector3.up*.8f,aim,true,()=>Hit(Melee(2f,power),DamageType.Kinetic,40));
                     break;
                 case SkillKind.SurveyDrone:
                     actor.Perform("Buff",.4f,.16f);SurveyDrone.Deploy(actor,power);
@@ -210,7 +210,7 @@ namespace Lattice.Combat
             var facing=actor.motor.Facing;
             if(flight)
             {
-                actor.motor.Dash(actor.MoveIntent.sqrMagnitude>.05f?Planar(actor.MoveIntent).normalized:aim,8);
+                actor.motor.Dash(away,8);GetComponent<FlightMotor>().KeepFacing(facing);
                 GetComponent<FlightDashContact>().Begin(Hit(Ranged(.8f,power),DamageType.Pulse,20));
             }
             else{actor.motor.Dash(away,5.5f);GetComponent<GroundMotor>().KeepFacing(facing);}
@@ -218,7 +218,12 @@ namespace Lattice.Combat
             WaypointCharge.Leave(actor,origin,flight,Hit(Ranged(1.7f,power),DamageType.Pulse,55));
         }
 
-        internal static void Sound(string key,float volume,float pitch)=>AudioManager.PlayAt(key,null,Vector3.zero,volume,AudioBus.SFX,128,.04f,pitch);
+        /// <summary>Skills share the bodies' rule: a cue comes from its caster, so a partner's slam is over there, and none is louder
+        /// than a boss's own (Anchor Slam was .38 against a lance at .2 and a rammed wall at .35).</summary>
+        public const float CueCeiling=.26f;
+        void Sound(string key,float volume,float pitch)=>Sound(actor,transform.position+Vector3.up,key,volume,pitch);
+        internal static void Sound(CombatActor caster,Vector3 point,string key,float volume,float pitch)=>
+            AudioManager.PlayAt(key,caster!=null?caster.transform:null,point,Mathf.Min(volume,CueCeiling),AudioBus.SFX,128,.04f,pitch);
     }
 
     /// <summary>An expanding marker on the ground (or the flight plane) for a skill's reach.</summary>
@@ -258,7 +263,7 @@ namespace Lattice.Combat
             t.material=new Material(Resources.Load<Material>("Effects/flare_01"));t.material.SetTexture("_BaseMap",Texture2D.whiteTexture);
             t.line.sharedMaterial=t.material;t.line.startColor=new Color(1,.5f,.15f,.6f);t.line.endColor=new Color(1.6f,.9f,.3f,1);
             t.line.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
-            HeroSkills.Sound("laserSmall_000",.24f,.7f);
+            HeroSkills.Sound(owner,origin,"laserSmall_000",.24f,.7f);
         }
         Vector3 Hand=>owner!=null?owner.transform.position+Vector3.up*(owner.flight?.8f:1.1f):transform.position;
         void Update()
@@ -268,6 +273,8 @@ namespace Lattice.Combat
             if(!reeling)
             {
                 float step=45*Time.deltaTime;var next=tip+direction*step;
+                // The tip rides the ground at body height: a gentle rise isn't a wall (it stopped the hook about 5 m out), a cliff still is.
+                if(!owner.flight){float rise=CombatCover.Ground(next+Vector3.up*2.5f).y+.9f-next.y;if(Mathf.Abs(rise)<=step*.8f)next.y+=rise;}
                 if(CombatCover.Sweep(tip,next,.1f,out var wall)){tip+=direction*Mathf.Max(0,wall.distance-.05f);Draw();CombatVfx.Burst(tip,new Color(1,.6f,.2f),"hit");Destroy(gameObject,.08f);enabled=false;return;}
                 tip=next;travelled+=step;
                 foreach(var health in Health.All.ToArray())
@@ -279,7 +286,7 @@ namespace Lattice.Combat
                 }
                 if(caught!=null)
                 {
-                    caught.Receive(packet);CombatVfx.Burst(tip,new Color(1,.6f,.2f),"hit");HeroSkills.Sound("impactMetal_000",.3f,.9f);
+                    caught.Receive(packet);CombatVfx.Burst(tip,new Color(1,.6f,.2f),"hit");HeroSkills.Sound(owner,tip,"impactMetal_000",.3f,.9f);
                     var brain=caught.GetComponent<EnemyBrain>();
                     // A hook that kills, or that catches a mine, moves nobody: the line just finishes.
                     if(!caught.Alive||brain!=null&&brain.Mine){Destroy(gameObject,.12f);enabled=false;}
@@ -318,7 +325,7 @@ namespace Lattice.Combat
         {
             var go=new GameObject("Faultline",typeof(FaultlineWave));
             var f=go.GetComponent<FaultlineWave>();f.owner=owner;f.origin=origin;f.direction=direction.normalized;f.flight=flight;f.packet=packet;
-            HeroSkills.Sound("explosionCrunch_000",.3f,1.15f);
+            HeroSkills.Sound(owner,origin,"explosionCrunch_000",.3f,1.15f);
         }
         void Update()
         {
@@ -362,7 +369,7 @@ namespace Lattice.Combat
             ringA.transform.SetParent(core.transform,false);ringA.transform.localScale=new Vector3(2.3f,.04f,2.3f);ringA.transform.localRotation=Quaternion.Euler(14,0,0);
             ringA.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Sela");
             d.body=core.transform;
-            CombatVfx.Burst(go.transform.position,new Color(.3f,1,1.6f),"shot");HeroSkills.Sound("forceField_000",.2f,1.5f);
+            CombatVfx.Burst(go.transform.position,new Color(.3f,1,1.6f),"shot");HeroSkills.Sound(owner,go.transform.position,"forceField_000",.2f,1.5f);
             return d;
         }
         void Update()
@@ -390,7 +397,7 @@ namespace Lattice.Combat
             var target=best.transform.position+Vector3.up*(owner.flight?0:.8f);
             var packet=new DamagePacket{source=owner.Health,amount=owner.rangedDamage*.32f*power*owner.damageScale,type=DamageType.Beam,breakPower=6};
             Projectile.Fire(transform.position,target-transform.position,packet,30);
-            HeroSkills.Sound("laserSmall_000",.1f,1.6f);
+            HeroSkills.Sound(owner,transform.position,"laserSmall_000",.1f,1.6f);
         }
         void OnDestroy(){if(current==this)current=null;}
     }
@@ -398,12 +405,12 @@ namespace Lattice.Combat
     /// <summary>Waypoint Blink's charge: left where Sela stood, it detonates a moment later.</summary>
     public sealed class WaypointCharge:MonoBehaviour
     {
-        DamagePacket packet;float age;bool flight;
+        CombatActor owner;DamagePacket packet;float age;bool flight;
         public const float Fuse=.6f,Radius=3.2f;
         public static void Leave(CombatActor owner,Vector3 at,bool flight,DamagePacket packet)
         {
             var go=new GameObject("Waypoint charge",typeof(WaypointCharge));go.transform.position=at;
-            var c=go.GetComponent<WaypointCharge>();c.packet=packet;c.flight=flight;
+            var c=go.GetComponent<WaypointCharge>();c.owner=owner;c.packet=packet;c.flight=flight;
             SkillRing.Expand(flight?at:CombatCover.Ground(at+Vector3.up*2),Radius,new Color(.3f,1,1.6f,.7f),Fuse,flight,true,.4f);
         }
         void Update()
@@ -413,7 +420,7 @@ namespace Lattice.Combat
             var center=transform.position+Vector3.up*(flight?0:.9f);
             HeroSkills.Land(center,Radius,packet).life=.12f;
             SkillRing.Expand(flight?transform.position:CombatCover.Ground(transform.position+Vector3.up*2),Radius,new Color(.4f,1.2f,1.8f),.3f,flight);
-            CombatVfx.Burst(center,new Color(.3f,1,1.6f),"hit");HeroSkills.Sound("explosionCrunch_000",.28f,1.3f);
+            CombatVfx.Burst(center,new Color(.3f,1,1.6f),"hit");HeroSkills.Sound(owner,center,"explosionCrunch_000",.28f,1.3f);
             Destroy(gameObject);
         }
     }
@@ -432,7 +439,7 @@ namespace Lattice.Combat
             var core=GameObject.CreatePrimitive(PrimitiveType.Sphere);Destroy(core.GetComponent<Collider>());core.name="Fold core";
             core.transform.SetParent(go.transform,false);core.transform.localScale=Vector3.one*.4f;
             core.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Emission");
-            HeroSkills.Sound("laserSmall_000",.2f,.6f);
+            HeroSkills.Sound(owner,origin,"laserSmall_000",.2f,.6f);
             return w;
         }
         void Update()
@@ -449,8 +456,10 @@ namespace Lattice.Combat
                 transform.position=next;
                 if(t<1&&!blocked)return;
                 landed=true;age=0;nextTick=.4f;
+                // Stopped short by a wall it still opens on the floor: its ring used to float over everyone's heads.
+                if(!flight)transform.position=CombatCover.Ground(transform.position+Vector3.up*.1f)+Vector3.up*.1f;
                 SkillRing.Expand(transform.position,PullRadius*.15f,new Color(.7f,.4f,1.5f,.8f),Duration,flight,true,PullRadius);
-                HeroSkills.Sound("forceField_000",.26f,.55f);return;
+                HeroSkills.Sound(owner,transform.position,"forceField_000",.26f,.55f);return;
             }
             float spin=age*540;transform.rotation=Quaternion.Euler(0,spin,0);transform.localScale=Vector3.one*(1+.25f*Mathf.Sin(age*12));
             foreach(var health in Health.All.ToArray())
@@ -472,7 +481,7 @@ namespace Lattice.Combat
             {
                 HeroSkills.Land(transform.position+Vector3.up*(flight?0:.8f),ImplodeRadius,Packet(1.4f,45)).life=.12f;
                 SkillRing.Expand(transform.position,ImplodeRadius,new Color(.9f,.5f,1.8f),.35f,flight);
-                CombatVfx.Burst(transform.position+Vector3.up*(flight?0:.6f),new Color(.7f,.4f,1.5f),"hit");HeroSkills.Sound("explosionCrunch_000",.3f,.7f);
+                CombatVfx.Burst(transform.position+Vector3.up*(flight?0:.6f),new Color(.7f,.4f,1.5f),"hit");HeroSkills.Sound(owner,transform.position,"explosionCrunch_000",.3f,.7f);
                 Destroy(gameObject);
             }
         }
@@ -490,7 +499,7 @@ namespace Lattice.Combat
             var go=new GameObject("Starfall",typeof(StarfallStrike));go.transform.position=flight?at:CombatCover.Ground(at+Vector3.up*2);
             var s=go.GetComponent<StarfallStrike>();s.owner=owner;s.flight=flight;s.power=power;
             SkillRing.Expand(go.transform.position,Radius,new Color(.3f,1,1.6f,.85f),Warning,flight,true,Radius);
-            HeroSkills.Sound("forceField_000",.22f,1.7f);
+            HeroSkills.Sound(owner,go.transform.position,"forceField_000",.22f,1.7f);
             return s;
         }
         void Update()
@@ -511,7 +520,7 @@ namespace Lattice.Combat
                 Beam(transform.position);
                 var strike=HeroSkills.Land(transform.position+Vector3.up*(flight?0:.8f),2.2f,Packet(1.5f,40));strike.hit=centre;strike.life=.1f;
                 SkillRing.Expand(transform.position,Radius,new Color(.4f,1.2f,1.8f),.3f,flight);
-                HeroSkills.Sound("explosionCrunch_000",.3f,1.45f);
+                HeroSkills.Sound(owner,transform.position,"explosionCrunch_000",.3f,1.45f);
                 Destroy(gameObject);
             }
         }
@@ -522,7 +531,7 @@ namespace Lattice.Combat
             line.sharedMaterial=material;line.startColor=new Color(.5f,1.4f,2,0);line.endColor=new Color(.6f,1.6f,2.2f,1);
             line.SetPosition(0,point+Vector3.up*14);line.SetPosition(1,point);line.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
             Destroy(go,.14f);Destroy(material,.15f);
-            CombatVfx.Burst(point+Vector3.up*(flight?0:.2f),new Color(.3f,1,1.6f),"hit");HeroSkills.Sound("laserSmall_000",.14f,1.9f);
+            CombatVfx.Burst(point+Vector3.up*(flight?0:.2f),new Color(.3f,1,1.6f),"hit");HeroSkills.Sound(owner,point,"laserSmall_000",.14f,1.9f);
         }
         DamagePacket Packet(float k,float breakPower)=>new(){source=owner.Health,amount=owner.rangedDamage*k*power*owner.damageScale,type=DamageType.Beam,breakPower=breakPower};
     }

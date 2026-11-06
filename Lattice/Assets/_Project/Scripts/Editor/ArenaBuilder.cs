@@ -70,8 +70,8 @@ namespace Lattice.EditorTools
             EnemyArchetype[] ai={EnemyArchetype.PackHunter,EnemyArchetype.Swarm,EnemyArchetype.Sentinel,EnemyArchetype.Spitter,EnemyArchetype.Swarm,EnemyArchetype.Spitter,EnemyArchetype.Mine,EnemyArchetype.Serpent};
             DamageType[] weak={DamageType.Plasma,DamageType.Pulse,DamageType.Kinetic,DamageType.Beam,DamageType.Beam,DamageType.Pulse,DamageType.Kinetic,DamageType.Plasma};
             DamageType[] resist={DamageType.Kinetic,DamageType.Beam,DamageType.Plasma,DamageType.Pulse,DamageType.Pulse,DamageType.Beam,DamageType.Plasma,DamageType.Kinetic};
-            for(int i=0;i<names.Length;i++){int n=i;Asset<EnemyDef>(names[i],e=>{e.id=names[n];e.archetype=ai[n];e.weakness=weak[n];e.resistance=resist[n];e.boss=n==3||n==7;e.integrity=e.boss?(n==3?14000:22000):n==2?240:n==1||n==4?40:100;e.breakThreshold=e.boss?(n==3?600:900):80;e.xp=e.boss?240:24;e.speed=n==2?2:3.2f;e.attacks=new[]{n==3||n==5||n==7?ranged:n==1?nip:basic};});}
-            foreach(string mat in new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal","HuskCore","ChoirResin","CantorPearl"})Asset<MaterialDef>(mat,m=>m.id=m.displayName=mat);
+            for(int i=0;i<names.Length;i++){int n=i;Asset<EnemyDef>(names[i],e=>{e.id=names[n];e.archetype=ai[n];e.weakness=weak[n];e.resistance=resist[n];e.boss=n==3||n==7;e.integrity=e.boss?(n==3?24000:34000):n==2?240:n==1||n==4?40:100;e.breakThreshold=e.boss?(n==3?600:900):80;e.xp=e.boss?240:24;e.speed=n==2?2:3.2f;e.attacks=new[]{n==3||n==5||n==7?ranged:n==1?nip:basic};});}
+            foreach(string mat in new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal","HuskCore","ChoirResin","CantorPearl"})Asset<MaterialDef>(mat,m=>{m.id=mat;m.displayName=QuestText.Readable(mat);});
             foreach(string name in names)
             {
                 var loot=Asset<LootTable>(name,l=>l.entries=name=="Cantor"?new[]{new LootEntry{id="CantorPearl",count=1,chance=1},new LootEntry{id="ChoirResin",count=6,chance=1}}:
@@ -79,7 +79,7 @@ namespace Lattice.EditorTools
                     name.StartsWith("Chorister")?new[]{new LootEntry{id="ChoirResin",count=1,chance=.35f}}:new[]{new LootEntry{id="LatticeFilament",count=1,chance=.25f}});
                 Asset<EnemyDef>(name,e=>e.lootTable=loot);
             }
-            Asset<ConsumableDef>("RepairGel",d=>{d.id="RepairGel";d.displayName="Repair gel";d.heal=60;});
+            Asset<ConsumableDef>("RepairGel",d=>{d.id="RepairGel";d.displayName="Repair Gel";d.heal=60;});
             var affix=Asset<AffixDef>("Resonant",a=>{a.id=a.displayName="Resonant";a.bonus=new Stats{resonance=4};});
             foreach(Discipline discipline in Enum.GetValues(typeof(Discipline)))
             {
@@ -91,9 +91,9 @@ namespace Lattice.EditorTools
                     Asset<RecipeDef>(id,r=>{r.id=id;r.displayName=part.displayName;r.discipline=discipline;r.tier=t;r.unlockLevel=t;r.output=part;r.inputs=t==1?new[]{new Ingredient{id="ScrapAlloy",count=3}}:new[]{new Ingredient{id="ScrapAlloy",count=6},new Ingredient{id="RidgeCrystal",count=2}};});
                 }
             }
-            Asset<RecipeDef>("RepairGel",r=>{r.id="RepairGel";r.displayName="Repair gel";r.consumableOutput="RepairGel";r.inputs=new[]{new Ingredient{id="ScrapAlloy",count=2}};});
-            Asset<QuestDef>("Sorrel",q=>{q.id="Sorrel";q.title="The silent outpost";q.steps=new[]{new Objective{kind=ObjectiveKind.Reach,target="Sorrel_Ridges",count=1},new Objective{kind=ObjectiveKind.TalkTo,target="Survivor",count=1},new Objective{kind=ObjectiveKind.Kill,target="Burrower",count=1},new Objective{kind=ObjectiveKind.Collect,target="WarpKey",count=1}};q.rewardXp=160;q.rewardScrip=200;q.flagsOnComplete=new[]{"warpkey"};});
-            Asset<QuestDef>("MiraCrystals",q=>{q.id="MiraCrystals";q.title="Six bright answers";q.steps=new[]{new Objective{kind=ObjectiveKind.Collect,target="RidgeCrystal",count=6}};q.rewardXp=80;q.rewardScrip=100;});
+            Asset<RecipeDef>("RepairGel",r=>{r.id="RepairGel";r.displayName="Repair Gel";r.consumableOutput="RepairGel";r.inputs=new[]{new Ingredient{id="ScrapAlloy",count=2}};});
+            Asset<QuestDef>("Sorrel",q=>{q.id="Sorrel";q.title="The Silent Outpost";q.steps=new[]{new Objective{kind=ObjectiveKind.Reach,target="Sorrel_Ridges",count=1},new Objective{kind=ObjectiveKind.TalkTo,target="Survivor",count=1},new Objective{kind=ObjectiveKind.Kill,target="Burrower",count=1},new Objective{kind=ObjectiveKind.Collect,target="WarpKey",count=1}};q.rewardXp=160;q.rewardScrip=200;q.flagsOnComplete=new[]{"warpkey"};});
+            Asset<QuestDef>("MiraCrystals",q=>{q.id="MiraCrystals";q.title="Six Bright Answers";q.steps=new[]{new Objective{kind=ObjectiveKind.Collect,target="RidgeCrystal",count=6}};q.rewardXp=80;q.rewardScrip=100;});
         }
         public static void Materials()
         {

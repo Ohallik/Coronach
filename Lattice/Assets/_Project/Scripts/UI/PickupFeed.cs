@@ -15,9 +15,9 @@ namespace Lattice.UI
         void Start()
         {
             canvas=UiKit.CreateCanvas("PickupFeed",6,transform);
-            Lattice.Rpg.Inventory.Gained+=OnGained;SaveSystem.Written+=OnSaved;
+            Lattice.Rpg.Inventory.Gained+=OnGained;SaveSystem.Written+=OnSaved;Lattice.Combat.PlayerBrain.QuickItemRefused+=OnRefused;
         }
-        void OnDestroy(){Lattice.Rpg.Inventory.Gained-=OnGained;SaveSystem.Written-=OnSaved;}
+        void OnDestroy(){Lattice.Rpg.Inventory.Gained-=OnGained;SaveSystem.Written-=OnSaved;Lattice.Combat.PlayerBrain.QuickItemRefused-=OnRefused;}
         void OnGained(string id,int amount)
         {
             if(canvas==null)return;
@@ -25,6 +25,7 @@ namespace Lattice.UI
             Add(id,name,amount);
         }
         void OnSaved(string slot){if(canvas!=null)Add("saved","Saved",0);}
+        void OnRefused(string why){if(canvas!=null)Add("refused",why,0);}
         void Add(string id,string name,int amount)
         {
             var line=lines.Find(l=>l.id==id&&l.age<Life);
@@ -41,7 +42,7 @@ namespace Lattice.UI
             line.text.text=amount==0&&line.amount==0?name:$"+{line.amount} {name}";
             Layout();
         }
-        void Layout(){for(int i=0;i<lines.Count;i++)lines[i].text.rectTransform.anchoredPosition=new(250,-318-(lines.Count-1-i)*32);}
+        void Layout(){for(int i=0;i<lines.Count;i++)lines[i].text.rectTransform.anchoredPosition=new(250,-330-(lines.Count-1-i)*32);}
         void Update()
         {
             if(canvas==null)return;

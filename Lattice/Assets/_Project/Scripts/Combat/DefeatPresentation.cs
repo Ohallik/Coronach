@@ -13,6 +13,10 @@ namespace Lattice.Combat
         /// <summary>A body that gave up rather than died has stopped being a fighter here: id, where, facing.</summary>
         public static event System.Action<string,Vector3,Quaternion> Yielded;
         bool yields;
+        /// <summary>A mine has no body left to lie down: it swells, bursts and is gone. The Bellows has no rig: its breath goes out of it.</summary>
+        bool bursts,deflates;
+        Vector3 visualScale,flatScale;
+        bool Flier=>enemy!=null&&(enemy.definition.id.StartsWith("Chorister")||enemy.definition.id=="MusterSkiff");
         Health health;CombatActor actor;EnemyBrain enemy;
         Collider[] colliders;bool[] collisionEnabled;
         bool down,recovering,rigid;
@@ -32,18 +36,20 @@ namespace Lattice.Combat
             health=GetComponent<Health>();actor=GetComponent<CombatActor>();enemy=GetComponent<EnemyBrain>();
             health.Died+=BeginDown;health.Revived+=BeginRecovery;
         }
-        void Start(){if(!health.Alive)BeginDown(health,default);}
+        void Start(){if(visual!=null)visualScale=visual.localScale;if(!health.Alive)BeginDown(health,default);}
         void OnDestroy(){if(health!=null){health.Died-=BeginDown;health.Revived-=BeginRecovery;}}
         void BeginDown(Health _,DamagePacket packet)
         {
             if(down)return;
             down=true;recovering=false;started=GameTime.Now;
-            bool flier=enemy!=null&&enemy.definition.id.StartsWith("Chorister");
+            bool flier=Flier;
             duration=actor!=null?CombatActor.DownDuration:enemy.definition.boss?1.5f:
                 enemy.definition.id=="SentinelHusk"||enemy.definition.id.StartsWith("Muster")&&enemy.definition.id!="MusterSkiff"?1.15f:enemy.definition.id=="Ridgehound"||enemy.definition.id=="Gloomgrazer"?.9f:flier?1.1f:.75f;
             hold=enemy!=null&&enemy.definition.boss?1.65f:flier?.6f:1.15f;
             yields=enemy!=null&&enemy.definition.yieldsOnDefeat;
             if(yields){duration=.35f;hold=.75f;}
+            bursts=enemy!=null&&enemy.Mine;deflates=enemy!=null&&enemy.definition.id=="BellowsBelow";
+            if(bursts){duration=.62f;hold=0;}
             colliders=GetComponentsInChildren<Collider>(true);collisionEnabled=new bool[colliders.Length];
             for(int i=0;i<colliders.Length;i++)
             {
@@ -81,9 +87,12 @@ namespace Lattice.Combat
             }
             if(!rigid||visual==null)return;
             origin=visual.localPosition;originRotation=visual.localRotation;
-            bool airborne=actor!=null&&actor.flight||enemy!=null&&enemy.definition.id.StartsWith("Chorister");
+            if(visualScale==Vector3.zero)visualScale=visual.localScale;
+            if(bursts){terminal=origin;terminalRotation=originRotation;return;}
+            bool airborne=actor!=null&&actor.flight||Flier;
             terminalRotation=originRotation*Quaternion.Euler(airborne?12:8,0,airborne?58:enemy!=null&&enemy.definition.boss?42:78);
             terminal=origin+Vector3.down*(airborne?.22f:.12f);
+            if(deflates){terminalRotation=originRotation;flatScale=new Vector3(visualScale.x*1.18f,visualScale.y*.24f,visualScale.z*1.18f);}
             if(enemy!=null&&airborne)
             {
                 // A killed flier loses lift: it tumbles and falls away below the
@@ -116,10 +125,10 @@ namespace Lattice.Combat
                 // trusting the inflated bounds of the grafted animal skeleton.
                 float surface=transform.position.y;
                 if(Physics.Raycast(transform.position+Vector3.up*2,Vector3.down,out var ground,6,~0,QueryTriggerInteraction.Ignore))surface=ground.point.y;
-                visual.localRotation=terminalRotation;visual.localPosition=terminal;
+                visual.localRotation=terminalRotation;visual.localPosition=terminal;if(deflates)visual.localScale=flatScale;
                 float bottom=MinimumY(visual);
                 if(!float.IsInfinity(bottom))terminal+=visual.parent.InverseTransformVector(Vector3.up*(surface+.025f-bottom));
-                visual.localPosition=origin;visual.localRotation=originRotation;
+                visual.localPosition=origin;visual.localRotation=originRotation;if(deflates)visual.localScale=visualScale;
             }
         }
         bool CaptureSupport()
@@ -205,6 +214,7 @@ namespace Lattice.Combat
                 {
                     float t=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/CombatActor.ReviveDuration));
                     visual.localPosition=Vector3.Lerp(terminal,origin,t);visual.localRotation=Quaternion.Slerp(terminalRotation,originRotation,t);
+                    if(deflates)visual.localScale=Vector3.Lerp(flatScale,visualScale,t);else if(bursts)visual.localScale=visualScale;
                 }
                 if(elapsed>=CombatActor.ReviveDuration)
                 {
@@ -219,6 +229,8 @@ namespace Lattice.Combat
                 float t=Mathf.SmoothStep(0,1,Mathf.Clamp01(elapsed/duration));
                 visual.localPosition=Vector3.Lerp(origin,terminal,t);visual.localRotation=Quaternion.Slerp(originRotation,terminalRotation,t);
                 SupportRigidBody();
+                if(deflates)visual.localScale=Vector3.Lerp(visualScale,flatScale,t);
+                else if(bursts)visual.localScale=visualScale*(elapsed<.12f?Mathf.Lerp(1,1.5f,elapsed/.12f):Mathf.Lerp(1.5f,.2f,(elapsed-.12f)/.48f));
             }
             if(sections!=null)
                 for(int i=0;i<sections.Length;i++)

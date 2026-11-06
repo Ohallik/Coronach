@@ -8,8 +8,8 @@ namespace Lattice.World
     {
         public string scene="Hub_Decks",spawn="Arrival";
         /// <summary>No launching out of a boss fight (D198): the attack button also interacts, and a pad within reach of
-        /// the fight sent the party away mid-swing.</summary>
-        public override bool Available=>!BossController.AnyFightUnderway;
+        /// the fight sent the party away mid-swing. An enemy on the party does the same in an ordinary fight.</summary>
+        public override bool Available=>!BossController.AnyFightUnderway&&!EnemyBrain.AwakeNear(transform.position,EnemyBrain.ExitCalm);
         public override void Interact()
         {
             var flow=SceneFlow.Current;if(flow==null||flow.Loading)return;

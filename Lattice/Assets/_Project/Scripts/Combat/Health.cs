@@ -28,7 +28,7 @@ namespace Lattice.Combat
         public event Action<Health,DamagePacket,float> Damaged;
         public event Action<Health,DamagePacket> Died;
         public event Action<Health> Revived;
-        public static event Action<Health,float,bool> DamageNumber;
+        public static event Action<Health,float,HitKind> DamageNumber;
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
         void OnDisable(){All.Remove(this);}
         public float Receive(DamagePacket packet,float multiplier=1)
@@ -58,7 +58,7 @@ namespace Lattice.Combat
             bool armored=actor!=null&&(actor.flight||actor.GuardDamageMultiplier<1)||
                 !friendly&&(Time.time<reaction.ShieldUntil&&!reaction.Broken||packet.type==resistance);
             if(damage>0)CombatAudio.Impact(this,armored);
-            DamageNumber?.Invoke(this,damage,packet.type==weakness&&!friendly);
+            DamageNumber?.Invoke(this,damage,KindOf(packet,reaction,multiplier));
             Damaged?.Invoke(this,packet,damage);
             if(reaction!=this)
             {
@@ -67,6 +67,14 @@ namespace Lattice.Combat
             }
             if(!Alive)Died?.Invoke(this,packet);
             return damage;
+        }
+        /// <summary>Resisted hits used to look like any other, so nobody learned why a blade hit for half; a shielded body counts,
+        /// which is the braced Bellows. A weak spot doubled the damage with no sign at all; a resisted type on one nets plain damage, so it stays grey.</summary>
+        HitKind KindOf(DamagePacket packet,Health reaction,float multiplier)
+        {
+            if(friendly)return HitKind.Normal;
+            if(Time.time<reaction.ShieldUntil&&!reaction.Broken)return HitKind.Resisted;
+            return packet.type==resistance?HitKind.Resisted:multiplier>1?HitKind.WeakSpot:packet.type==weakness?HitKind.Weak:HitKind.Normal;
         }
         public void Heal(float amount)
         {

@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 1
   shortName: Ember
-  description: 'Dash through a target, burning it'
+  description: 'Dash into a target with a plasma strike'
   unlockLevel: 1
   iconSheet: skill-icons
   iconCell: 1

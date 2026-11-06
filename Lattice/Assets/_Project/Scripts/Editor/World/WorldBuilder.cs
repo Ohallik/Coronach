@@ -38,8 +38,8 @@ namespace Lattice.EditorTools
             foreach(var name in new[]{"Orrin","Mira","Hal","Neve","Survivor","Keeper"})ArenaBuilder.Asset<CharacterDef>(name,c=>{c.id=c.speakerId=name;if(string.IsNullOrEmpty(c.displayName))c.displayName=name;});
             // Generated intake and portrait intake bind each speaker's own
             // identity. Definition setup must not restore the retired aliases.
-            ArenaBuilder.Asset<ConsumableDef>("ChargeCell",d=>{d.id="ChargeCell";d.displayName="Charge cell";d.heal=0;d.charge=50;});
-            ArenaBuilder.Asset<RecipeDef>("ChargeCell",r=>{r.id=r.displayName="ChargeCell";r.consumableOutput="ChargeCell";r.inputs=new[]{new Ingredient{id="LatticeFilament",count=2}};});
+            ArenaBuilder.Asset<ConsumableDef>("ChargeCell",d=>{d.id="ChargeCell";d.displayName="Charge Cell";d.heal=0;d.charge=50;});
+            ArenaBuilder.Asset<RecipeDef>("ChargeCell",r=>{r.id="ChargeCell";r.displayName="Charge Cell";r.consumableOutput="ChargeCell";r.inputs=new[]{new Ingredient{id="LatticeFilament",count=2}};});
             AssetDatabase.Refresh();
             ParticleIntake.Prepare();
             WorldArt.Prepare();

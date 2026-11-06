@@ -40,6 +40,8 @@ namespace Lattice.Combat
         /// <summary>When the last perfect guard showed itself.</summary>
         public float FlashGuardShownAt{get;private set;}
         float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil,lastComboAt=-99;
+        /// <summary>What mastery has made of the last Overdrive and Refract: the card says they hit harder, and now they do.</summary>
+        float overdriveBoost=1.2f,refractPower=1;
         bool guarding,critical,flashConsumed;
         float recoverUntil;
         public const float DownDuration=1.05f,ReviveDuration=1.15f;
@@ -103,7 +105,7 @@ namespace Lattice.Combat
             if(GameTime.Now<refractUntil)
             {
                 refractUntil=0;critical=true;CombatAudio.Deflect(this);
-                var direction=Aim();var counter=Packet(rangedDamage*2,DamageType.Beam,60);
+                var direction=BackAt(packet.source);var counter=Packet(rangedDamage*2*refractPower,DamageType.Beam,60);
                 if(flight)
                 {
                     State=ActorState.Attack;BeginVisual("Shoot",.22f);actionUntil=GameTime.Now+.08f;
@@ -112,6 +114,7 @@ namespace Lattice.Combat
                 else
                 {
                     var move=GroundMove.Counter;State=ActorState.Skill;guarding=false;
+                    if(!TargetLocked)transform.rotation=Quaternion.LookRotation(direction);
                     BeginVisual(move.clip,move.duration);actionUntil=GameTime.Now+move.recoveryEnd;
                     GetComponent<RangedContact>().Begin(move,direction,counter,RangedContact.Pattern.Counter);
                     GetComponent<HeroBuffPresentation>().Intercept();
@@ -157,13 +160,19 @@ namespace Lattice.Combat
         public DamagePacket Packet(float amount,DamageType type,float breakPower,string tag=null)
         {
             bool crit=critical||UnityEngine.Random.value<Mathf.Clamp(.04f+Mathf.Max(0,response-10)*.003f,.04f,.25f);
-            var p=new DamagePacket{source=Health,amount=amount*damageScale*(GameTime.Now<overdriveUntil?1.2f:1)*(crit?1+Mathf.Max(0,fortune)*.01f:1),type=type,breakPower=breakPower,isCrit=crit,tag=tag};
+            var p=new DamagePacket{source=Health,amount=amount*damageScale*(GameTime.Now<overdriveUntil?overdriveBoost:1)*(crit?1+Mathf.Max(0,fortune)*.01f:1),type=type,breakPower=breakPower,isCrit=crit,tag=tag};
             critical=false;return p;
         }
         Vector3 Aim()
         {
-            if(target!=null&&target.Alive){var d=target.transform.position-transform.position;d.y=0;if(Vector3.Angle(motor.Facing,d)<(flight?30:120))return d.normalized;}
+            if(target!=null&&target.Alive){var d=target.transform.position-transform.position;d.y=0;if(d.sqrMagnitude>.01f&&Vector3.Angle(motor.Facing,d)<(flight?30:120))return d.normalized;}
             return motor.Facing;
+        }
+        /// <summary>A deflected hit goes back where it came from, not to whatever happens to be selected.</summary>
+        Vector3 BackAt(Health attacker)
+        {
+            if(attacker!=null&&attacker.Alive){var d=attacker.transform.position-transform.position;d.y=0;if(d.sqrMagnitude>.01f)return d.normalized;}
+            return Aim();
         }
         public bool Attack()
         {
@@ -191,7 +200,7 @@ namespace Lattice.Combat
             State=ActorState.Attack;nextAttack=GameTime.Now+.7f;actionUntil=GameTime.Now+.2f;
             BeginVisual("Dash",.42f);
             var direction=target!=null&&target.Alive?(target.transform.position-transform.position).normalized:motor.Facing;
-            direction.y=0;motor.Dash(direction,8);
+            direction.y=0;motor.Dash(direction,8);CombatAudio.Launch(this);
             GetComponent<FlightDashContact>().Begin(Packet(damage,edgeType,28,"lunge"));return true;
         }
         /// <summary>Single-target burst skills (Arc Cleave, Ember Dash, Lance) in multiples of the actor's output. At 1.7-1.8
@@ -209,6 +218,7 @@ namespace Lattice.Combat
             charge-=cost;cooldowns[slot]=skill.cooldown;State=ActorState.Skill;
             float power=(1+Mathf.Max(0,resonance-10)*.025f)*SkillBook.Power(mastery);Vector3 direction=Aim();
             var kind=skill.kind;
+            if(kind==SkillKind.Overdrive)overdriveBoost=1+.2f*SkillBook.Power(mastery);else if(kind==SkillKind.Refract)refractPower=power;
             if(flight)
             {
                 if(Learned(kind))GetComponent<HeroSkills>().Flight(kind,power,direction);
@@ -258,7 +268,7 @@ namespace Lattice.Combat
             else if(kind==SkillKind.EmberStep)
             {
                 motor.Dash(direction,flight?10:6);var packet=Packet(damage*SkillBurst*power,DamageType.Plasma,40);
-                if(flight)GetComponent<FlightDashContact>().Begin(packet);else Pierce(direction,packet,6);
+                if(flight){GetComponent<FlightDashContact>().Begin(packet);CombatAudio.Launch(this);}else Pierce(direction,packet,6);
             }
             else if(kind==SkillKind.PulseBurst)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Pulse,direction,Packet(damage*1.1f*power,DamageType.Pulse,85));
             else if(kind==SkillKind.Overdrive)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Overdrive,direction,default);

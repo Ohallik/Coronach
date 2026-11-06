@@ -508,6 +508,177 @@
       "seconds": 0.4
     },
     {
+      "name": "Cleave boss round 6",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 6",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 6",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 6",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 6",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 6",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 6",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 7",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 7",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 7",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 7",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 7",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 7",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 7",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Cleave boss round 8",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "South"
+      ]
+    },
+    {
+      "name": "release Cleave round 8",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "Pulse boss round 8",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ]
+    },
+    {
+      "name": "release Pulse round 8",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
+      "name": "fight Burrower round 8",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 35.0,
+      "navigate": true,
+      "approachTarget": true,
+      "rangedTolerance": 12.0,
+      "evadeTelegraphs": true,
+      "tolerance": 2.3,
+      "pulseSeconds": 0.46,
+      "buttons": [
+        "South"
+      ]
+    },
+    {
+      "name": "repair gel boss round 8",
+      "expectedScene": "Sorrel_Ridges",
+      "stopWhen": "flag:bossdown.Burrower",
+      "seconds": 0.2,
+      "leftTrigger": 1.0
+    },
+    {
+      "name": "release boss gel 8",
+      "expectedScene": "Sorrel_Ridges",
+      "seconds": 0.4
+    },
+    {
       "name": "Burrower defeated",
       "expectedScene": "Sorrel_Ridges",
       "expectedFlag": "bossdown.Burrower",

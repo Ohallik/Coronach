@@ -33,6 +33,17 @@ namespace Lattice.Core
         }
         void Update(){PromptService.Poll();State.playtime+=Time.unscaledDeltaTime;}
         void OnDestroy(){if(Current==this){Input?.Dispose();Current=null;}}
-        public void NewGame(){State=new GameState(); Debug.Log("NEW_GAME_OK");}
+        public void NewGame(){State=new GameState();GiveStartingGear(State,State.party[0]); Debug.Log("NEW_GAME_OK");}
+        /// <summary>A hero arrives wearing what their definition says, by a new game or by joining. Fixtures don't come through
+        /// here (DevLoadout builds its own party), so their numbers stand.</summary>
+        public static void GiveStartingGear(GameState state,MemberState member)
+        {
+            var character=GameCatalog.Find<Lattice.Data.CharacterDef>(member.id);if(character==null||character.startingGear==null)return;
+            foreach(var part in character.startingGear)
+            {
+                if(part==null)continue;
+                var item=new Lattice.Data.PartInstance{definitionId=part.id};state.parts.Add(item);member.equipped[part.slot]=item.instanceId;
+            }
+        }
     }
 }

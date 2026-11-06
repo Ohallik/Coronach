@@ -72,8 +72,8 @@ namespace Lattice.Combat
             bool guardHeld=input.Held("Guard");if(!guardHeld)guardLatched=false;guardHeld&=!guardLatched;
             if(!actor.flight&&guardHeld)attackRequestedUntil=-1;
             if(!actor.flight)actor.Guard(guardHeld);
-            if(!actor.flight&&input.Pressed("QuickItem"))UseItem();
-            if(actor.target==null||!actor.target.Targetable)actor.target=FindTarget();
+            if(!actor.flight&&input.Pressed("QuickItem"))QuickItem();
+            if(actor.target==null||!actor.target.Targetable&&!(diving&&actor.TargetLocked))actor.target=FindTarget();
         }
         /// <summary>Thrust that must refill before a spent ground sprint resumes. Without it an empty bar flickered the sprint
         /// on and off every few frames, which averaged out near walking pace while the button was still held.</summary>
@@ -97,6 +97,16 @@ namespace Lattice.Combat
             return sprint;
         }
         public bool Winded=>winded;
+        /// <summary>The quick item's press always answers: a use is heard, and a refusal reaches the HUD with its reason (Combat can't see UI).</summary>
+        public static event System.Action<string> QuickItemRefused;
+        void QuickItem()
+        {
+            var state=GameServices.Current.State;string id=state.quickItem??"";
+            state.consumables.TryGetValue(id,out int before);UseItem();state.consumables.TryGetValue(id,out int after);
+            if(after<before){AudioManager.PlayAt("ui_confirm",transform,transform.position+Vector3.up,.3f);return;}
+            var def=GameCatalog.Find<Lattice.Data.ConsumableDef>(id);
+            QuickItemRefused?.Invoke(before<=0||def==null?$"No {DisplayNames.Item(id)} left.":def.heal>0?"Integrity is already full.":"Charge is already full.");
+        }
         void OnDisable()
         {
             lungeRequestedUntil=attackRequestedUntil=-1;System.Array.Clear(skillRequestedUntil,0,4);guardLatched=false;
@@ -121,12 +131,16 @@ namespace Lattice.Combat
             targets.Sort((a,b)=>Vector3.SignedAngle(transform.forward,a.transform.position-transform.position,Vector3.up).CompareTo(Vector3.SignedAngle(transform.forward,b.transform.position-transform.position,Vector3.up)));
             if(targets.Count>0){actor.target=targets[(targets.IndexOf(actor.target)+direction+targets.Count)%targets.Count];actor.TargetLocked=true;}
         }
-        public void UseItem(string id=null)
+        /// <summary>Uses a consumable on this hero and says what happened, in words for the player. A refusal spends nothing.</summary>
+        public (bool used,string message) UseItem(string id=null)
         {
             var state=GameServices.Current.State;
-            id??=state.quickItem;var def=GameCatalog.Find<Lattice.Data.ConsumableDef>(id);if(def==null)return;
-            if(state.consumables.TryGetValue(id,out var n)&&n>0&&(def.heal>0&&actor.Health.integrity<actor.Health.maximum||def.charge>0&&actor.charge<100))
+            id??=state.quickItem;var def=GameCatalog.Find<Lattice.Data.ConsumableDef>(id);if(def==null)return (false,"That can't be used.");
+            if(!state.consumables.TryGetValue(id,out var n)||n<=0)return (false,$"No {def.displayName} left.");
+            if(def.heal>0&&actor.Health.integrity<actor.Health.maximum||def.charge>0&&actor.charge<100)
             {state.consumables[id]=n-1;actor.Health.Heal(def.heal);actor.charge=Mathf.Min(100,actor.charge+def.charge);}
+            else return (false,def.heal>0?"Integrity is already full.":"Charge is already full.");
+            return (true,$"Used {def.displayName} on {DisplayNames.Speaker(actor.character)}.");
         }
     }
 }

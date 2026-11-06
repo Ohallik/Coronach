@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 10
   shortName: Spiral
-  description: 'Spin forward, striking all around you'
+  description: 'Strike all around you, again and again'
   unlockLevel: 8
   iconSheet: skill-icons-2
   iconCell: 2

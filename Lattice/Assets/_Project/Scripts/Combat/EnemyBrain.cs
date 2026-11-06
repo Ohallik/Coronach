@@ -45,6 +45,11 @@ namespace Lattice.Combat
         float nextAttack,strikeAt,attackAnimationUntil;
         bool lunging;
         public float DamageScale=1;
+        float wardedUntil;Vector3 wardFrom;
+        /// <summary>Touched by a lit relay's light. It keeps clear for a moment after, so a pack paces the ward's edge instead of
+        /// shuddering on it.</summary>
+        public void Ward(Vector3 from){wardedUntil=Time.time+1;wardFrom=from;}
+        public bool Warded=>Time.time<wardedUntil;
         BossController boss;
         CantorCollar collar;
         void Awake(){Health=GetComponent<Health>();controller=GetComponent<CharacterController>();home=transform.position;}
@@ -104,6 +109,8 @@ namespace Lattice.Combat
         }
         /// <summary>How close an awake enemy must be before quiet interactions (repair, bench, mining) wait for the fight.</summary>
         public const float InteractionCalm=15;
+        /// <summary>The same for a way out of the zone (dock, warp): only what is on the party holds it, so they can still run for it.</summary>
+        public const float ExitCalm=6;
         public static bool AwakeNear(Vector3 point,float radius)
         {
             foreach(var health in Health.All)
@@ -144,7 +151,7 @@ namespace Lattice.Combat
             else if(yielded)AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40,.06f,.7f);
             else if(disabledRig)CombatAudio.Death(transform,true);
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
-            else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine);
+            else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine||definition.id=="MusterSkiff");
             CancelAttack();
             if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
             controller.enabled=false;enabled=false;
@@ -161,6 +168,8 @@ namespace Lattice.Combat
             if(Health.Broken&&Telegraphing){CancelAttack();nextAttack=Mathf.Max(nextAttack,Health.BrokenUntil);}
             if(GameTime.Paused||Passive||lunging||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
             if(boss!=null&&boss.Busy){if(Telegraphing)CancelAttack();return;}
+            // Light-shy: inside a ward it drops its lunge and backs out toward the dark, at the pace the light allows.
+            if(Warded){if(Telegraphing)CancelAttack();Move(transform.position-wardFrom,definition.speed);return;}
             var victim=PartyController.Current.Active;if(!victim.Health.Alive)return;
             // A hero inside a safe pocket can't fight back, so nothing follows them in: they go home and wait.
             if(ZoneController.Current!=null&&ZoneController.Current.InSafePocket)
@@ -210,6 +219,7 @@ namespace Lattice.Combat
                 aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
                 if(definition.archetype!=EnemyArchetype.Serpent&&boss==null)transform.rotation=Quaternion.LookRotation(aim);
                 AttackMark=MarkAttack(tell,dive,ranged,range);
+                if(boss==null)FlashLessons.MarkedAttack(victim,distance);
                 AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.07f,AudioBus.SFX,128,.1f,1.7f);return;
             }
             if(definition.archetype==EnemyArchetype.Mine)return;
@@ -234,7 +244,7 @@ namespace Lattice.Combat
         IEnumerator LungeAttack(DamagePacket packet)
         {
             lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;
-            for(float elapsed=0;elapsed<.28f&&Health.Alive&&!Health.Broken;)
+            for(float elapsed=0;elapsed<.28f&&Health.Alive&&!Health.Broken&&!Warded;)
             {
                 if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
                 elapsed+=Time.deltaTime;

@@ -21,6 +21,9 @@ namespace Lattice.Combat
         {
             var party=PartyController.Current;if(GameTime.Paused||party==null||party.Active==actor||!actor.Health.Alive||actor.Recovering||actor.motor==null||GameServices.Current.Input.Blocked)return;
             var active=party.Active;actor.target=active.target;
+            // The lead's lock waits out a dive, but a buried rig is nothing to fight: take what stands open, or follow. Burrowed rather
+            // than !Targetable: a collared Cantor can't be hurt either, and it is still what the partner flies at.
+            if(actor.target!=null&&actor.target.TryGetComponent<BossController>(out var dive)&&dive.Burrowed)actor.target=GetComponent<PlayerBrain>().FindTarget();
             var selectedCarrier=actor.target!=null?(actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target):null;
             var serpent=actor.flight&&selectedCarrier!=null&&selectedCarrier.Alive?selectedCarrier.GetComponent<SerpentSegments>():null;
             // Lethal resolution clears the lock before the full-size animal
@@ -167,6 +170,18 @@ namespace Lattice.Combat
         /// <summary>Charge isn't spent on a directional skill with a wall in the way or, in flight, with the nose off the target.</summary>
         bool Worthwhile(Lattice.Data.SkillKind kind)
         {
+            // A dash in flight goes its full length with nothing steering it, and a clear line to the target isn't a clear path for
+            // the hull: a wall costs 12 integrity and the skill.
+            if(actor.flight&&actor.target!=null)
+            {
+                var line=Planar(actor.target.transform.position-transform.position);
+                float dash=kind==Lattice.Data.SkillKind.AnchorSlam?Mathf.Clamp(line.magnitude-2.5f,3,11):kind==Lattice.Data.SkillKind.EmberStep?10:kind==Lattice.Data.SkillKind.WaypointBlink?8:0;
+                if(dash>0&&line.sqrMagnitude>.01f)
+                {
+                    var hull=transform.position+Vector3.up*.8f;var along=(kind==Lattice.Data.SkillKind.WaypointBlink?-line:line).normalized;
+                    if(CombatCover.Sweep(hull,hull+along*dash,HeroCollision.HullRadius(actor.character),out _))return false;
+                }
+            }
             if(kind==Lattice.Data.SkillKind.Overdrive||kind==Lattice.Data.SkillKind.Refract||kind==Lattice.Data.SkillKind.SurveyDrone||kind==Lattice.Data.SkillKind.WaypointBlink)return true;
             if(actor.target==null)return false;
             var to=actor.target.transform.position-transform.position;to.y=0;
@@ -188,6 +203,8 @@ namespace Lattice.Combat
         bool Dodge(Vector3 direction)
         {
             if(direction.sqrMagnitude<.01f)return false;
+            // Committed, as a player is: a roll would throw away the skill it has just spent Charge on.
+            if(actor.State==Lattice.Data.ActorState.Skill)return false;
             if(!actor.flight)return actor.Dodge(direction);
             for(int i=0;i<8;i++)
             {

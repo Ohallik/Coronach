@@ -27,7 +27,7 @@ namespace Lattice.Combat
         float nextSpecial,strikeAt,engaged=-1;bool busy;
         Transform inflated,body;Vector3 inflatedRest,bodyRest;int breaths;
         Transform visual;Vector3 visualRest;Quaternion visualRestRotation=Quaternion.identity;
-        bool shiftPending,shifting;string lastMove;int moveCount;
+        bool shiftPending,shifting,bracedSaid;string lastMove;int moveCount;
         /// <summary>The signature move a phase shift promised, next after its rest.</summary>
         string queuedMove;
         /// <summary>Until when a deliberate opening runs. Hitting it is the point: it must not cut the boss's rest short.</summary>
@@ -127,6 +127,9 @@ namespace Lattice.Combat
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
             if(engaged<0&&amount>0)engaged=Time.realtimeSinceStartup;
+            // The bar says BRACED; somebody has to say why the numbers just went grey.
+            if(!bracedSaid&&amount>0&&health.id=="BellowsBelow"&&PressureOrgan.AnyPumping)
+            {bracedSaid=true;BarkService.Play(PartyController.Current.Active.character,"bossbraced",true);}
             if(!health.Broken||Time.time<openingUntil)return;
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;
             nextSpecial=Mathf.Max(nextSpecial,health.BrokenUntil+.5f);
@@ -135,7 +138,7 @@ namespace Lattice.Combat
         public void RestoreAfterRecovery()
         {
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;engaged=-1;
-            Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;queuedMove=null;openingUntil=0;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
+            Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;queuedMove=null;openingUntil=0;bracedSaid=false;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
             DismissSummons();
             MusicDirector.Encounter(this,"Alien Boss Battle",true);
         }
@@ -210,7 +213,7 @@ namespace Lattice.Combat
                 "DrillCharge"=>DrillCharge(Phase>=2?2:1),"SpoilToss"=>SpoilToss(),"TailSweep"=>TailSweep(),"Burrow"=>Burrow(),"SeismicRings"=>SeismicRings(),
                 "Breath"=>BellowsBreath(),"RibStar"=>RibStar(),"Bubbles"=>Bubbles(),"Crossing"=>BellowsCrossing(),
                 "Choir"=>ChoirAttack(),"SongSpiral"=>SongSpiral(),"CoilLash"=>CoilLash(),"PhaseShift"=>PhaseShift(),
-                "HookLance"=>HookLance(Phase>=3?4:3),"GrappleChain"=>GrappleChain(),"Sidearm"=>Sidearm(),"SweepingCut"=>SweepingCut(),"Lampbreaker"=>Lampbreaker(),
+                "HookLance"=>HookLance(Phase>=3?4:3),"Advance"=>Advance(),"GrappleChain"=>GrappleChain(),"Sidearm"=>Sidearm(),"SweepingCut"=>SweepingCut(),"Lampbreaker"=>Lampbreaker(),
                 _=>null
             };
             if(routine==null)return false;
@@ -315,18 +318,26 @@ namespace Lattice.Combat
             strikeAt=float.IsPositiveInfinity(soonest)?0:Time.time+soonest;
         }
         readonly Dictionary<string,int> lastUsed=new();
+        const float FullOffer=.5f;const int MostPicksWaited=3;
         string Pick(params (string move,float weight)[] options)
         {
+            // Nothing properly on offer waits more than three picks: on weights alone, a wounded Burrower could go seven moves without
+            // its rings. What the weights steer a boss away from (a chain at lance range) stays rare.
+            int longest=0;
+            foreach(var option in options)if(option.weight>=FullOffer)longest=Mathf.Max(longest,Waited(option.move));
             float total=0;
             foreach(var option in options)total+=Weight(option);
             float roll=Random.value*total;
             foreach(var option in options){roll-=Weight(option);if(roll<=0&&Weight(option)>0)return option.move;}
             foreach(var option in options)if(option.weight>0)return option.move;
             return options[0].move;
+            int Waited(string move){lastUsed.TryGetValue(move,out int used);return moveCount-used;}
             float Weight((string move,float weight) option)
             {
-                if(option.weight<=0)return 0;if(option.move==lastMove)return option.weight*.25f;
-                lastUsed.TryGetValue(option.move,out int used);return option.weight*(1+.6f*(moveCount-used));
+                if(option.weight<=0)return 0;
+                if(longest>=MostPicksWaited)return option.weight>=FullOffer&&Waited(option.move)==longest?option.weight:0;
+                if(option.move==lastMove)return option.weight*.25f;
+                return option.weight*(1+.6f*Waited(option.move));
             }
         }
         static CameraRig rig;

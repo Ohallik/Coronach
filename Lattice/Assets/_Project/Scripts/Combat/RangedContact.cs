@@ -26,7 +26,7 @@ namespace Lattice.Combat
             if(aimedTarget!=null)
             {
                 var offset=aimedTarget.transform.position-transform.position;offset.y=0;
-                if(!aimedTarget.Alive||Vector3.Angle(aim,offset)>1)aimedTarget=null;
+                if(!aimedTarget.Targetable||Vector3.Angle(aim,offset)>1)aimedTarget=null;
             }
         }
         void OnDisable(){pending=false;}

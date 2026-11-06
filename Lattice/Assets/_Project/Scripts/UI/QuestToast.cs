@@ -15,7 +15,7 @@ namespace Lattice.UI
     /// </summary>
     public sealed class QuestToast:MonoBehaviour
     {
-        Canvas canvas;Image frame;TMP_Text heading,body;
+        Canvas canvas;Image frame;TMP_Text heading,body,readHint;bool readable;
         static GameState watched;
         static readonly Dictionary<string,int> seen=new(),seenCounts=new();
         static readonly List<(string heading,string body)> pending=new();
@@ -34,9 +34,13 @@ namespace Lattice.UI
             body=UiKit.Text(frame.transform,"QuestToastBody","",24,UiKit.TextColor,TextAlignmentOptions.TopLeft);
             var words=UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-58),new(TextWidth,30));words.pivot=new(.5f,1);words.anchoredPosition=new(0,-58);
             frame.gameObject.SetActive(false);
-            Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;Notices.Posted+=OnNotice;
+            readHint=UiKit.Text(frame.transform,"QuestToastHint","",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineRight);
+            UiKit.Rect(readHint.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
+            Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;Notices.Posted+=OnNotice;PromptService.Changed+=RefreshHint;
         }
-        void OnDestroy(){Lattice.Rpg.Levels.LevelRaised-=OnLevel;SkillBook.MasteryRaised-=OnMastery;Notices.Posted-=OnNotice;}
+        void OnDestroy(){Lattice.Rpg.Levels.LevelRaised-=OnLevel;SkillBook.MasteryRaised-=OnMastery;Notices.Posted-=OnNotice;PromptService.Changed-=RefreshHint;}
+        /// <summary>A card about a quest says which button opens the log, on the device in the player's hand.</summary>
+        void RefreshHint(){if(readHint!=null)readHint.text=readable?PromptService.Tag("Log")+"  TO READ":"";}
         /// <summary>Level-ups and newly learned skills share the card (D201). Heroes rise together, so one level is one card.</summary>
         void OnLevel(MemberState member,int from,int to)
         {
@@ -83,7 +87,7 @@ namespace Lattice.UI
             bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked;
             if(showing<=0&&pending.Count>0&&!blocked)
             {
-                var (h,b)=pending[0];pending.RemoveAt(0);heading.text=h;body.text=b;showing=pending.Count>0?3.2f:4.5f;
+                var (h,b)=pending[0];pending.RemoveAt(0);heading.text=h;body.text=b;showing=pending.Count>0?3.2f:4.5f;readable=h=="NEW QUEST"||h=="QUEST UPDATED";RefreshHint();
                 // The frame grows with its words, so a long step or a double skill never crosses its edge (QA-005).
                 float high=body.GetPreferredValues(b,TextWidth,0).y;
                 body.rectTransform.sizeDelta=new(TextWidth,high);frame.rectTransform.sizeDelta=new(570,58+high+34);

@@ -25,6 +25,7 @@ namespace Lattice.Dialogue
         public int LinesPresented{get;internal set;}
         public string Speaker{get;private set;}
         public bool Running=>dialogueActive||Runner!=null&&Runner.IsDialogueRunning;
+        public const float InteractHoldOff=.35f;
         string pendingUi;
         Action<bool> pendingCompletion;
         bool leaving,preparationComplete,dialogueActive;
@@ -46,13 +47,13 @@ namespace Lattice.Dialogue
                 {
                 if(leaving||GameServices.Current==null)return;
                 if(Preparing){preparationComplete=true;return;}
-                View?.Hide();GameServices.Current.Input.Blocked=false;
+                View?.Hide();GameServices.Current.Input.Blocked=false;PromptService.HoldOffInteract(InteractHoldOff);
                 if(Interrupted){pendingJoins.Clear();pendingUi=null;Debug.Log("DIALOGUE_CANCELLED "+Speaker);return;}
                 Debug.Log("DIALOGUE_OK "+Speaker);RpgServices.Quests.Report(ObjectiveKind.TalkTo,Speaker);
                 foreach(string id in pendingJoins)
                 {
                     var state=GameServices.Current.State;if(state.party.Exists(m=>m.id==id))continue;
-                    int level=state.party[0].level;state.party.Add(new MemberState{id=id,level=level,integrity=Levels.MaxIntegrity(level)});MemberJoined?.Invoke(id);Debug.Log("PARTY_JOIN "+id);
+                    int level=state.party[0].level;var joined=new MemberState{id=id,level=level,integrity=Levels.MaxIntegrity(level)};state.party.Add(joined);GameServices.GiveStartingGear(state,joined);MemberJoined?.Invoke(id);Debug.Log("PARTY_JOIN "+id);
                 }
                 pendingJoins.Clear();
                 if(pendingUi!=null){string action=pendingUi;pendingUi=null;UiRequested?.Invoke(action);}

@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 11
   shortName: Faultline
-  description: 'Split the ground in a line ahead'
+  description: 'Send a line of bursts ahead that stops at walls'
   unlockLevel: 12
   iconSheet: skill-icons-2
   iconCell: 3

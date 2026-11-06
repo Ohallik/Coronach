@@ -45,7 +45,7 @@ namespace Lattice.Combat
             if(release==Release.Overdrive||release==Release.Refract)
             {
                 if(release==Release.Overdrive)actor.ArmOverdrive();else actor.ArmRefract();
-                AudioManager.Play("forceField_000",.18f);
+                AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.18f);
             }
             else if(release==Release.Net)
             {
@@ -66,7 +66,7 @@ namespace Lattice.Combat
             {
                 PulseWave.Release(transform.position,packet);
                 CombatVfx.Burst(rig.GetBoneTransform(HumanBodyBones.LeftHand).position,new Color(1,.65f,.2f),"shot");
-                AudioManager.Play("forceField_000",.2f);
+                AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.2f);
             }
         }
     }

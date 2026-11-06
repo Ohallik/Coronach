@@ -51,7 +51,7 @@ namespace Lattice.Combat
             Health target=Active.target;bool locked=Active.TargetLocked;index=next;Active.target=target;Apply();Active.TargetLocked=locked&&target!=null&&target.Alive;
             GameServices.Current.State.activeMember=index;SwapCount++;
             bool strike=ZoneController.Current.Combat&&!GameTime.Paused&&GameTime.Now>=nextSwapStrike;
-            if(strike){nextSwapStrike=GameTime.Now+SwapStrikeCooldown;CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35));}
+            if(strike){nextSwapStrike=GameTime.Now+SwapStrikeCooldown;CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35));CombatAudio.SwapStrike(Active);}
             bool banter=!forced&&Time.unscaledTime>=nextSwapBanter;if(banter)nextSwapBanter=Time.unscaledTime+SwapStrikeCooldown;
             BarkService.Play(Active.character,forced?"cover":"swap",forced||banter);Debug.Log("SWAP_OK");return true;
         }

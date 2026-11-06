@@ -124,7 +124,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var (w,h) in Screens)
             {
                 float m=scaler.matchWidthOrHeight;var reference=scaler.referenceResolution;
-                float scale=Mathf.Pow(2,Mathf.Lerp(Mathf.Log(w/reference.x,2),Mathf.Log(h/reference.y,2),m));
+                float scale=scaler.screenMatchMode==UnityEngine.UI.CanvasScaler.ScreenMatchMode.Expand?Mathf.Min(w/reference.x,h/reference.y):Mathf.Pow(2,Mathf.Lerp(Mathf.Log(w/reference.x,2),Mathf.Log(h/reference.y,2),m));
                 root.sizeDelta=new Vector2(w/scale,h/scale);
                 foreach(int count in new[]{widest.labels.Count,5})
                 {

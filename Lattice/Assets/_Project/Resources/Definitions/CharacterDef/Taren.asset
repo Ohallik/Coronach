@@ -43,5 +43,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: ef05ee417a0549feb96d7914d5ddfac6, type: 2}
   - {fileID: 11400000, guid: 67d7b915db35406ea47f449e7f368f56, type: 2}
   - {fileID: 11400000, guid: a14f5a008a454ec3beeee9e24c2eb5f2, type: 2}
-  startingGear: []
+  startingGear:
+  - {fileID: 11400000, guid: ae34c55c6c0cbc54194419f72259799e, type: 2}
   syncHue: {r: 1, g: 0.65, b: 0.12, a: 1}

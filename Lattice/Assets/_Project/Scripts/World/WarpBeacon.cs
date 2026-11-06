@@ -5,8 +5,8 @@ namespace Lattice.World
     public sealed class WarpBeacon:InteractionPrompt
     {
         public string requiredFlag="warpkey",scene="Gullet_Tunnel",spawn="Arrival",lockedPrompt="Warp locked — recover Sorrel's survey key";
-        /// <summary>Like a launch pad, a warp waits for any boss fight under way to end (D198).</summary>
-        public override bool Available=>!BossController.AnyFightUnderway;
+        /// <summary>Like a launch pad, a warp waits for any boss fight under way to end (D198) and for an enemy on the party.</summary>
+        public override bool Available=>!BossController.AnyFightUnderway&&!EnemyBrain.AwakeNear(transform.position,EnemyBrain.ExitCalm);
         string openPrompt;
         bool Locked=>!string.IsNullOrEmpty(requiredFlag)&&!GameServices.Current.Flags.GetBool(requiredFlag)||
             scene=="Gullet_Tunnel"&&!ChapterProgress.CanEnterGullet(GameServices.Current.State);

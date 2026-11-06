@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 13
   shortName: Blink
-  description: 'Blink away, leaving a charge that bursts'
+  description: 'Blink away, leaving a mine that bursts'
   unlockLevel: 5
   iconSheet: skill-icons-2
   iconCell: 5

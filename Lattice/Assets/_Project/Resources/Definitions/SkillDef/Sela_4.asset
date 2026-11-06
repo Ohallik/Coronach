@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 7
   shortName: Refract
-  description: 'Deflect the next hit back as a beam'
+  description: 'For a moment, the next hit deflects back as a beam'
   unlockLevel: 1
   iconSheet: skill-icons
   iconCell: 7

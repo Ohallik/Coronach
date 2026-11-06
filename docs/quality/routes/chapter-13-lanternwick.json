@@ -127,20 +127,6 @@
       "expectedScene": "Lanternwick"
     },
     {
-      "name": "first offer",
-      "seconds": 0.2,
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "shop",
-      "expectedScene": "Lanternwick"
-    },
-    {
-      "name": "release first offer",
-      "seconds": 0.3,
-      "expectedScene": "Lanternwick"
-    },
-    {
       "name": "read the Refined parts",
       "seconds": 1.2,
       "expectedUi": "shop",

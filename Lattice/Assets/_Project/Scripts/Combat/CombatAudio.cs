@@ -50,9 +50,17 @@ namespace Lattice.Combat
         // Ground dodges are a body moving; flight rolls keep the thruster burst.
         public static void Dodge(CombatActor actor)
         {
-            if(actor.flight)AudioManager.Play("thrusterFire_000",.16f);
+            if(actor.flight)AudioManager.PlayAt("thrusterFire_000",actor.transform,actor.transform.position,.16f);
             else AudioManager.Family("dodge",3,actor.transform,actor.transform.position+Vector3.up*.9f,.18f,110,.1f);
         }
+
+        // A flight dash leaves on the roll's thruster, so one that misses isn't silent.
+        public static void Launch(CombatActor actor)=>
+            AudioManager.PlayAt("thrusterFire_000",actor.transform,actor.transform.position,.18f,AudioBus.SFX,110,.1f,1.2f);
+
+        // The tag-in strike: a short push of Pulse from the hero arriving.
+        public static void SwapStrike(CombatActor actor)=>
+            AudioManager.PlayAt("forceField_000",actor.transform,actor.transform.position+Vector3.up,.2f,AudioBus.SFX,100,.1f,1.25f);
 
         public static void Deflect(CombatActor actor)=>
             AudioManager.Family("deflect",2,actor.transform,actor.transform.position+Vector3.up*1.1f,.26f,60,.1f);

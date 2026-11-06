@@ -195,7 +195,6 @@ def lanternwick():
     r.add("release before her stock", 0.5)
     r.add("look at the stock", 1.5, buttons=["South"], expectedUi="shop")
     r.add("release stock", 0.5)
-    r.press("first offer", "DpadDown", 0.2, expectedUi="shop")
     r.wait("read the Refined parts", 1.2, expectedUi="shop")
     r.press("buy a Refined part", "South", 0.3, expectedUi="shop")
     r.wait("read the receipt", 1.2, expectedUi="shop")
@@ -228,7 +227,8 @@ def gorge():
     r.fight_ground("Gorge_0")
     r.walk("to the first relay", 8.2, 0.2, 50.5, tolerance=0.5)
     r.talk("first gorge relay", 3, flag="gorge.relay1")
-    r.walk("deeper into the dark", 6, 0, 72)
+    # Gorge_1 sits in the first relay's reach now: the pack waits at the ward's edge, so the walk stops inside it, in clear ground.
+    r.walk("deeper into the dark", 6, 0, 58)
     r.fight_ground("Gorge_1")
     r.walk("to the den's mouth", -8, 0, 92)
     r.walk("into the den", -20, 0, 98)
@@ -293,7 +293,7 @@ def relay():
     r.walk("onto the Great Lantern's floor", 1, 0.1, 125.5, tolerance=1.5)
     r.press("lock Hessa", "LeftShoulder", 0.2)
     stop = "flag:bossdown.HessaKorl"
-    for i in range(7):
+    for i in range(10):
         r.add(f"Cleave Hessa round {i + 1}", 0.2, buttons=["RightShoulder", "South"], stopWhen=stop)
         r.add(f"release Cleave Hessa round {i + 1}", 0.4)
         r.add(f"Pulse Hessa round {i + 1}", 0.2, buttons=["RightShoulder", "West"], stopWhen=stop)

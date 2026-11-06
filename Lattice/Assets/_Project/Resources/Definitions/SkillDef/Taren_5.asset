@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 8
   shortName: Anchor
-  description: 'Leap at a target and slam the ground'
+  description: 'Lunge at a target and strike with a shockwave'
   unlockLevel: 3
   iconSheet: skill-icons-2
   iconCell: 0

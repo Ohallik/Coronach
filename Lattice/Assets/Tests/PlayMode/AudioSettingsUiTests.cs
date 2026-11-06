@@ -1,4 +1,4 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Linq;
 using Lattice.Core;
 using Lattice.UI;
@@ -61,7 +61,15 @@ namespace Lattice.Tests.PlayMode
             var binding=menu.GetComponentsInChildren<Button>().Single(b=>b.GetComponentInChildren<TMP_Text>().text=="Keyboard bindings");EventSystem.current.SetSelectedGameObject(binding.gameObject);binding.onClick.Invoke();yield return null;
             Assert.AreEqual("Back to sound controls",EventSystem.current.currentSelectedGameObject.GetComponentInChildren<TMP_Text>().text,"subpage inherited a different indexed row's focus");
             Assert.AreEqual(0,menu.GetComponentsInChildren<Slider>().Length);
-            Assert.AreEqual(6,menu.GetComponentsInChildren<Button>().Count(b=>b.GetComponentInChildren<TMP_Text>().text.StartsWith("Rebind keyboard:")));
+            // Every role, on foot and in flight, each row naming its key: two pages of seven where six rows named none.
+            var bound=new System.Collections.Generic.List<string>();
+            for(int bindingsPage=0;bindingsPage<2;bindingsPage++)
+            {
+                bound.AddRange(menu.GetComponentsInChildren<Button>().Where(b=>b.name.StartsWith("Row_")).Select(b=>b.GetComponentInChildren<TMP_Text>().text).Where(t=>t.Contains("  ·  ")));
+                menu.GetComponentsInChildren<Button>().Single(b=>b.name=="Pager").onClick.Invoke();yield return null;
+            }
+            Assert.AreEqual(14,bound.Count,string.Join(" | ",bound));
+            foreach(string role in new[]{"Attack / Fire","Dodge / Roll","Guard / Lunge","Swap","Interact","Pause"})Assert.IsTrue(bound.Any(r=>r.StartsWith(role+"  ·  ")),role+" can't be rebound");
             menu.GetComponentsInChildren<Button>().Single(b=>b.GetComponentInChildren<TMP_Text>().text=="Back to sound controls").onClick.Invoke();yield return null;
             Assert.AreEqual(5,menu.GetComponentsInChildren<Slider>().Length);menu.Close();Assert.IsFalse(GameTime.Paused);
         }

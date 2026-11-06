@@ -28,7 +28,7 @@ MonoBehaviour:
   icon: {fileID: 0}
   kind: 3
   shortName: Overdrive
-  description: 'Twenty percent more damage for ten seconds'
+  description: 'At least 20% more damage for ten seconds'
   unlockLevel: 1
   iconSheet: skill-icons
   iconCell: 3

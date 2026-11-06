@@ -22,6 +22,6 @@ MonoBehaviour:
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
-  enemyThreat: 1.3
+  enemyThreat: 1.6
   cameraClearsScenery: 1
   skybox: {fileID: 2100000, guid: 3dfa06876a929784fbe9c19c6d1f9114, type: 2}

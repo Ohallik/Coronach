@@ -68,6 +68,8 @@ namespace Lattice.Combat
             if(Facing.sqrMagnitude>.01f)transform.rotation=Quaternion.LookRotation(Facing);
             if(controller.enabled)controller.Move(displacement+Vector3.up*(plane-transform.position.y));
         }
+        /// <summary>For a dash that doesn't turn the ship: the nose stays on what it was looking at.</summary>
+        public void KeepFacing(Vector3 facing){if(facing.sqrMagnitude<.01f)return;Facing=facing.normalized;transform.rotation=Quaternion.LookRotation(Facing);}
         public void Dash(Vector3 direction,float distance){DashSequence++;Facing=direction.normalized;dashVelocity=Facing*distance/.16f;dashRemaining=.16f;thrustFrame=Time.frameCount;engineDrive=2.3f;transform.rotation=Quaternion.LookRotation(Facing);}
         // A companion can brake into a firing position, then turn its actual
         // nose toward the link. Player thrust/aim rules are unchanged.

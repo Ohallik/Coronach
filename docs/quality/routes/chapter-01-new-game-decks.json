@@ -257,20 +257,6 @@
       "expectedScene": "Hub_Decks"
     },
     {
-      "name": "select first offer",
-      "seconds": 0.2,
-      "expectedScene": "Hub_Decks",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "shop"
-    },
-    {
-      "name": "release select first offer",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks"
-    },
-    {
       "name": "buy Scrap Emitter",
       "seconds": 0.3,
       "expectedScene": "Hub_Decks",
@@ -518,7 +504,7 @@
       "pauseUi": "bench"
     },
     {
-      "name": "select purchased emitter 1",
+      "name": "select spare edge 1",
       "seconds": 0.2,
       "expectedScene": "Hub_Decks",
       "buttons": [
@@ -528,13 +514,13 @@
       "pauseUi": "bench"
     },
     {
-      "name": "release select purchased emitter 1",
+      "name": "release select spare edge 1",
       "seconds": 0.3,
       "expectedScene": "Hub_Decks",
       "pauseUi": "bench"
     },
     {
-      "name": "select purchased emitter 2",
+      "name": "select spare edge 2",
       "seconds": 0.2,
       "expectedScene": "Hub_Decks",
       "buttons": [
@@ -544,13 +530,61 @@
       "pauseUi": "bench"
     },
     {
-      "name": "release select purchased emitter 2",
+      "name": "release select spare edge 2",
       "seconds": 0.3,
       "expectedScene": "Hub_Decks",
       "pauseUi": "bench"
     },
     {
-      "name": "equip purchased emitter",
+      "name": "select spare edge 3",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select spare edge 3",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select spare edge 4",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select spare edge 4",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "select spare edge 5",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "DpadDown"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release select spare edge 5",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "equip spare edge",
       "seconds": 0.2,
       "expectedScene": "Hub_Decks",
       "buttons": [
@@ -560,39 +594,7 @@
       "pauseUi": "bench"
     },
     {
-      "name": "release equip purchased emitter",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select crafted edge",
-      "seconds": 0.2,
-      "expectedScene": "Hub_Decks",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select crafted edge",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "equip crafted edge",
-      "seconds": 0.2,
-      "expectedScene": "Hub_Decks",
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release equip crafted edge",
+      "name": "release equip spare edge",
       "seconds": 0.3,
       "expectedScene": "Hub_Decks",
       "pauseUi": "bench"

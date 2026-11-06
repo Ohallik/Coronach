@@ -9,7 +9,9 @@ namespace Lattice.Rpg
         public const int Cap=40;
         /// <summary>A member reached a new level: (member, previous level, new level).</summary>
         public static event System.Action<MemberState,int,int> LevelRaised;
-        public static int RequiredXp(int level)=>Mathf.Max(1,level)*110;
+        /// <summary>XP from one Sync level to the next. At 125 per level the ledger lands on the plan: chapter 1 ends near Sync 7,
+        /// Hessa at 9 (10 with the side content), chapter 2 at 10 (11), with Sync 12 and the last two skills in chapter 3. At 110 it ran a level or two over.</summary>
+        public static int RequiredXp(int level)=>Mathf.Max(1,level)*125;
         public static int Grant(MemberState member,int xp)
         {
             if(xp<0)throw new System.ArgumentOutOfRangeException(nameof(xp));

@@ -8,11 +8,15 @@ namespace Lattice.UI
 {
     public sealed class ObjectiveHud:MonoBehaviour
     {
+        /// <summary>What the panel asks of the player now, without its distance line: the quest log falls back on it.</summary>
+        public static string CurrentLabel{get{var hud=FindFirstObjectByType<ObjectiveHud>();return hud!=null&&hud.text!=null?hud.text.text.Split('\n')[0]:"";}}
         TMP_Text text;float next;Canvas canvas;
+        /// <summary>What floating numbers keep clear of.</summary>
+        public RectTransform Frame{get;private set;}
         void Start()
         {
             canvas=UiKit.CreateCanvas("Objective",6,transform);var frame=UiKit.DarkFrame(canvas.transform,"ObjectiveFrame");frame.raycastTarget=false;
-            UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
+            Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
             text=UiKit.Text(frame.transform,"Objective","",24,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
             UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,95));
         }

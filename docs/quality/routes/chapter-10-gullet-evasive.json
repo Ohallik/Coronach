@@ -1667,6 +1667,198 @@
       "expectedScene": "Gullet_Tunnel"
     },
     {
+      "name": "Cantor emitter pursuit 11",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel",
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true
+    },
+    {
+      "name": "Cantor Pulse 11",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 11 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 11",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 12",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel",
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true
+    },
+    {
+      "name": "Cantor Pulse 12",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 12 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 12",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 13",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel",
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true
+    },
+    {
+      "name": "Cantor Pulse 13",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 13 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 13",
+      "seconds": 0.18,
+      "x": 1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor emitter pursuit 14",
+      "seconds": 18,
+      "navigate": true,
+      "approachTarget": true,
+      "tolerance": 17,
+      "rangedTolerance": 17,
+      "leftTrigger": 1,
+      "buttons": [
+        "South"
+      ],
+      "stopWhen": "flag:bossdown.Cantor",
+      "expectedScene": "Gullet_Tunnel",
+      "evadeTelegraphs": true,
+      "evadeProjectiles": true
+    },
+    {
+      "name": "Cantor Pulse 14",
+      "seconds": 0.18,
+      "buttons": [
+        "RightShoulder",
+        "West"
+      ],
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor Pulse 14 release",
+      "seconds": 0.45,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "Cantor evasive roll 14",
+      "seconds": 0.18,
+      "x": -1,
+      "leftTrigger": 1,
+      "buttons": [
+        "East"
+      ],
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
+      "name": "brake after roll",
+      "seconds": 0.6,
+      "leftTrigger": 1,
+      "expectedScene": "Gullet_Tunnel"
+    },
+    {
       "name": "Cantor releases the exit",
       "seconds": 3,
       "expectedFlag": "bossdown.Cantor",

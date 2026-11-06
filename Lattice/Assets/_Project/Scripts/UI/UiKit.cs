@@ -91,6 +91,9 @@ namespace Lattice.UI
             var scaler = go.GetComponent<CanvasScaler>();
             scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
             scaler.referenceResolution = new Vector2(1920f, 1080f);
+            // Expand: the canvas only ever grows past 1920x1080, so what is clear at 16:9 stays clear at 16:10, 21:9 or 5:4, and any
+            // 16:9 screen is the same layout it always was.
+            scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
             scaler.matchWidthOrHeight = 0.5f;
             return canvas;
         }

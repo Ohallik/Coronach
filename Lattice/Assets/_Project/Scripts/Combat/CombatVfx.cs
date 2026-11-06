@@ -13,7 +13,12 @@ namespace Lattice.Combat
             Health.DamageNumber+=OnHit;
         }
         void OnDestroy(){Health.DamageNumber-=OnHit;if(current==this)current=null;}
-        void OnHit(Health victim,float amount,bool weak){if(amount>0)Burst(victim.transform.position+Vector3.up*.9f,weak?new Color(1,.6f,.15f):Color.cyan,"hit");}
+        void OnHit(Health victim,float amount,HitKind kind)
+        {
+            if(amount<=0)return;
+            var color=kind==HitKind.Weak?new Color(1,.6f,.15f):kind==HitKind.WeakSpot?new Color(1,.9f,.4f):kind==HitKind.Resisted?new Color(.6f,.62f,.66f):Color.cyan;
+            Burst(victim.transform.position+Vector3.up*.9f,color,kind==HitKind.Resisted?"spark":"hit");
+        }
         public static void Burst(Vector3 position,Color color,string kind)
         {
             if(current==null||current.flare==null)return;current.Emit(position,color,kind);
@@ -32,11 +37,11 @@ namespace Lattice.Combat
                 var fade=ps.colorOverLifetime;fade.enabled=true;var gradient=new Gradient();gradient.SetKeys(new[]{new GradientColorKey(Color.white,0),new GradientColorKey(Color.white,1)},new[]{new GradientAlphaKey(1,0),new GradientAlphaKey(0,1)});fade.color=gradient;
             }
             ps.transform.position=position;var settings=ps.main;
-            settings.startLifetime=kind=="failure"?.28f:kind=="form"?.13f:kind=="shape"?.6f:kind=="kill"?.45f:.24f;
+            settings.startLifetime=kind=="spark"?.16f:kind=="failure"?.28f:kind=="form"?.13f:kind=="shape"?.6f:kind=="kill"?.45f:.24f;
             settings.startSpeed=kind=="failure"?.6f:kind=="form"?1:kind=="kill"?6:kind=="shape"?3:kind=="boost"?1:3;
-            settings.startSize=kind=="failure"?.09f:kind=="form"?2.4f:kind=="shape"?.45f:kind=="lunge"?.7f:.3f;settings.startColor=color;
+            settings.startSize=kind=="spark"?.12f:kind=="failure"?.09f:kind=="form"?2.4f:kind=="shape"?.45f:kind=="lunge"?.7f:.3f;settings.startColor=color;
             ps.GetComponent<ParticleSystemRenderer>().sharedMaterial=kind=="lunge"?slash:kind=="shape"?circle:flare;
-            ps.Play();ps.Emit(kind=="failure"?6:kind=="form"?3:kind=="kill"?30:kind=="shape"?40:kind=="boost"?3:10);
+            ps.Play();ps.Emit(kind=="spark"?5:kind=="failure"?6:kind=="form"?3:kind=="kill"?30:kind=="shape"?40:kind=="boost"?3:10);
         }
     }
 }

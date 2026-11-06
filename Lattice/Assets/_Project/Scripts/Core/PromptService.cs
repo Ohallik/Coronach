@@ -33,9 +33,13 @@ namespace Lattice.Core
                 if(d<p.range*p.range&&d<best&&p.Available){best=d;Interaction=p;}
             }
         }
+        static float interactFrom;
+        /// <summary>A conversation just closed: a thumb still tapping through it must not start it again. Only Interact waits; Attack
+        /// and Dodge are on the same thumb and stay live.</summary>
+        public static void HoldOffInteract(float seconds)=>interactFrom=Time.unscaledTime+seconds;
         public static bool TryInteract()
         {
-            if(Interaction==null||AConsumed)return false;
+            if(Interaction==null||AConsumed||Time.unscaledTime<interactFrom)return false;
             consumedFrame=Time.frameCount;Interaction.Interact();return true;
         }
         public static PromptDevice Device { get; private set; } = PromptDevice.Keyboard;
@@ -113,6 +117,9 @@ namespace Lattice.Core
         /// <summary>KeyRebind / reset-to-defaults: bindings moved — re-render everything.</summary>
         public static void NotifyBindingsChanged() => RaiseChanged();
 
+        /// <summary>The action map changed: a tag cached for the other map can name a key this one doesn't answer to.</summary>
+        public static void ForgetTags() => TagCache.Clear();
+
         static void RaiseChanged()
         {
             TagCache.Clear();
@@ -176,6 +183,10 @@ namespace Lattice.Core
         /// <summary>The rebind listen line's cancel key — always the literal Esc keycap
         /// (the listen is keyboard-only by design).</summary>
         public static string EscTag() => SheetTag("key_esc", "Esc");
+
+        /// <summary>The button that backs out of a menu (UiActions.Cancel, not rebindable).</summary>
+        public static string CancelTagFor(PromptDevice device) =>
+            device == PromptDevice.Gamepad ? SheetTag("pad_b", "B") : SheetTag("key_esc", "Esc");
 
         /// <summary>Standalone glyph sprite (HUD chip keycap, Help page rows). Null when
         /// the binding has no sheet glyph — callers fall back to <see cref="Label"/>.</summary>
@@ -368,7 +379,7 @@ namespace Lattice.Core
         /// <summary>Editor/tests teardown safety — drop caches and any device pin.</summary>
         public static void Reset()
         {
-            Interaction=null;consumedFrame=-1;
+            Interaction=null;consumedFrame=-1;interactFrom=0;
             _forced = null;
             Device = PromptDevice.Keyboard;
             SpriteCache.Clear();

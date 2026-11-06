@@ -155,11 +155,11 @@ namespace Lattice.Tests.PlayMode
             Assert.GreaterOrEqual(hits,3,"the spin landed "+hits+" hits");
         }
 
-        [UnityTest] public IEnumerator FaultlineReachesAnEnemyEightMetresAway()
+        [UnityTest] public IEnumerator FaultlineReachesAnEnemyTenMetresAway()
         {
-            yield return Ground();victim.transform.position=new Vector3(200,0,8);Physics.SyncTransforms();
+            yield return Ground();victim.transform.position=new Vector3(200,0,10);Physics.SyncTransforms();
             yield return Release(taren,SkillKind.Faultline,1.2f);
-            Assert.Less(victim.Health.integrity,5000,"Faultline did not reach eight metres");
+            Assert.Less(victim.Health.integrity,5000,"Faultline did not reach ten metres");
         }
 
         [UnityTest] public IEnumerator SurveyDroneKeepsFiringAfterSelaMovesOn()
@@ -207,7 +207,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var (hero,kind) in new[]{(taren,SkillKind.AnchorSlam),(taren,SkillKind.TetherHook),(taren,SkillKind.ForgeSpiral),(taren,SkillKind.Faultline),
                 (sela,SkillKind.SurveyDrone),(sela,SkillKind.WaypointBlink),(sela,SkillKind.GravityFold),(sela,SkillKind.Starfall)})
             {
-                Place(hero,new Vector3(200,1,0));victim.transform.position=new Vector3(200,1,5);victim.Health.ResetFull();Physics.SyncTransforms();
+                Place(hero,new Vector3(200,1,0));victim.transform.position=new Vector3(200,1,kind==SkillKind.WaypointBlink?2.5f:5);victim.Health.ResetFull();Physics.SyncTransforms();
                 hero.target=victim.Health;
                 yield return Release(hero,kind,kind==SkillKind.SurveyDrone?2.5f:kind==SkillKind.GravityFold?2.9f:1.6f);
                 Assert.Less(victim.Health.integrity,5000,kind+" did nothing in flight");

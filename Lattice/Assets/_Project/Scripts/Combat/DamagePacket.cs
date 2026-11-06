@@ -3,6 +3,8 @@ using Lattice.Data;
 using UnityEngine;
 namespace Lattice.Combat
 {
+    /// <summary>What a hit's number and spark say about it.</summary>
+    public enum HitKind{Normal,Weak,Resisted,WeakSpot}
     public struct DamagePacket
     {
         public float amount,breakPower;

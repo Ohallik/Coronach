@@ -15,6 +15,10 @@ namespace Lattice.UI
         public static string Continue() =>
             (Pad ? PromptService.SubmitTag() : PromptService.Tag("Interact") + " / " + PromptService.SubmitTag()) + "   CONTINUE";
 
+        /// <summary>At a choice the same buttons pick the selected option.</summary>
+        public static string Choose() =>
+            (Pad ? PromptService.SubmitTag() : PromptService.Tag("Interact") + " / " + PromptService.SubmitTag()) + "   CHOOSE";
+
         // Bound keys by name, separated: the prompt sheet is absent, so adjacent key
         // tags would otherwise run together as plain labels ("WS").
         static string Keys(string action, string a, string b) => PromptService.Label(action, a) + " / " + PromptService.Label(action, b);
