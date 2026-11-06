@@ -28,6 +28,17 @@ namespace Lattice.Combat
         public string VisualAction{get;private set;}="Idle";
         public float VisualDuration{get;private set;}
         public readonly float[] cooldowns=new float[4];
+        /// <summary>When each slot last refused a press for Charge or cooldown, for the HUD's flash.</summary>
+        public readonly float[] SkillRefusedAt=new float[4];
+        /// <summary>Where the player is steering, for skills that take a direction (Waypoint Blink).</summary>
+        public Vector3 MoveIntent;
+        /// <summary>Remaining cooldowns of skills out of their slots, as when each comes ready.</summary>
+        readonly System.Collections.Generic.Dictionary<string,float> benchedReady=new();
+        float nextDodge;
+        /// <summary>A beat between dodges: back-to-back rolls were near-total immunity at no cost.</summary>
+        public const float DodgeGap=.1f;
+        /// <summary>When the last perfect guard showed itself.</summary>
+        public float FlashGuardShownAt{get;private set;}
         float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil,lastComboAt=-99;
         bool guarding,critical,flashConsumed;
         float recoverUntil;
@@ -41,8 +52,16 @@ namespace Lattice.Combat
         public bool ChangingForm=>TryGetComponent<FormController>(out var form)&&form.Shaping;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&!ChangingForm&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
         public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
-        void Awake(){Health=GetComponent<Health>();Health.Died+=OnDown;Health.Revived+=OnRevive;}
-        void OnDestroy(){Health.Died-=OnDown;Health.Revived-=OnRevive;}
+        void Awake(){Health=GetComponent<Health>();Health.Died+=OnDown;Health.Revived+=OnRevive;SkillBook.LoadoutChanged+=OnLoadout;}
+        void OnDestroy(){Health.Died-=OnDown;Health.Revived-=OnRevive;SkillBook.LoadoutChanged-=OnLoadout;}
+        /// <summary>A cooldown belongs to the skill, not its slot: a trip to the menu used to reset a skill's timer and hand the
+        /// other skill one it never earned.</summary>
+        void OnLoadout(string who,System.Collections.Generic.IReadOnlyList<string> before,System.Collections.Generic.IReadOnlyList<string> after)
+        {
+            if(who!=character)return;
+            for(int i=0;i<before.Count&&i<4;i++)if(before[i]!=null)benchedReady[before[i]]=GameTime.Now+cooldowns[i];
+            for(int i=0;i<after.Count&&i<4;i++)cooldowns[i]=after[i]!=null&&benchedReady.TryGetValue(after[i],out float ready)?Mathf.Max(0,ready-GameTime.Now):0;
+        }
         void CancelAction()
         {AttackSequence++;VisualAttackUntil=0;guarding=false;refractUntil=0;critical=false;combo=0;}
         internal void BeginFormChange(){CancelAction();Halt();if(Health.Alive&&!Recovering)State=ActorState.Idle;}
@@ -72,8 +91,8 @@ namespace Lattice.Combat
         public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
         {
-            if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger)return false;
-            refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;
+            if(GameTime.Paused||!Health.Alive||Recovering||ChangingForm||State==ActorState.Dodge||State==ActorState.Down||State==ActorState.Stagger||GameTime.Now<nextDodge)return false;
+            refractUntil=0;State=ActorState.Dodge;dodgeAt=GameTime.Now;flashConsumed=false;nextDodge=GameTime.Now+(flight?.3f:.25f)+DodgeGap;
             BeginVisual("Dodge",flight?.3f:.25f);
             CombatAudio.Dodge(this);
             actionUntil=GameTime.Now+(flight?.3f:.25f);motor.Dash(direction.sqrMagnitude>.01f?direction:motor.Facing,flight?4:3.3f);
@@ -104,15 +123,26 @@ namespace Lattice.Combat
                 if(!flashConsumed&&GameTime.Now-dodgeAt<=Mathf.Clamp(.2f+Mathf.Max(0,response-10)*.001f,.2f,.27f))
                 {
                     flashConsumed=true;FlashMoves++;Health.InvulnerableUntil=GameTime.Now+1.5f;
-                    StartCoroutine(FlashTime());Debug.Log("FLASH_MOVE_OK");
-                    AudioManager.Play("forceField_000",.3f);BarkService.Play(character,"flash");
+                    // Slowing the world is the player's reward: the AI partner dodges by design, and it used to put the
+                    // player's own hero in slow motion, unearned, in every marked fight.
+                    bool controlled=PartyController.Current==null||PartyController.Current.Active==this;
+                    if(controlled){StartCoroutine(FlashTime());AudioManager.Play("forceField_000",.3f);}
+                    Debug.Log("FLASH_MOVE_OK");BarkService.Play(character,"flash");
                     if(flight){critical=true;charge=Mathf.Min(100,charge+25);}
                 }
                 return true;
             }
             if(guarding)
             {
-                if(GameTime.Now-guardAt<=.2f){FlashGuards++;critical=true;charge=Mathf.Min(100,charge+25);guardAt=-99;Debug.Log("FLASH_GUARD_OK");return true;}
+                if(GameTime.Now-guardAt<=.2f)
+                {
+                    FlashGuards++;critical=true;charge=Mathf.Min(100,charge+25);guardAt=-99;Debug.Log("FLASH_GUARD_OK");
+                    // A perfect guard has to show itself: it used to be silent and invisible but for the Charge bar.
+                    FlashGuardShownAt=GameTime.Now;CombatAudio.Deflect(this);
+                    CombatVfx.Burst(transform.position+Vector3.up*1.2f+motor.Facing*.5f,new Color(1.5f,1.2f,.5f),"hit");
+                    BarkService.Play(character,"flash");
+                    return true;
+                }
             }
             return false;
         }
@@ -170,10 +200,12 @@ namespace Lattice.Combat
         public const float SkillBurst=2.6f;
         public bool Skill(int slot)
         {
-            if(!CanAct||slot<0||slot>3||cooldowns[slot]>0)return false;
+            if(slot<0||slot>3)return false;
             var skill=SkillBook.Equipped(character,slot);if(skill==null)return false;
             int mastery=SkillBook.Mastery(character,skill.id);
-            float cost=SkillBook.Cost(skill,mastery);if(charge<cost)return false;
+            float cost=SkillBook.Cost(skill,mastery);
+            if(!CanAct)return false;
+            if(cooldowns[slot]>0||charge<cost){SkillRefusedAt[slot]=GameTime.Now;return false;}
             charge-=cost;cooldowns[slot]=skill.cooldown;State=ActorState.Skill;
             float power=(1+Mathf.Max(0,resonance-10)*.025f)*SkillBook.Power(mastery);Vector3 direction=Aim();
             var kind=skill.kind;
@@ -251,7 +283,9 @@ namespace Lattice.Combat
             var v=go.GetComponent<HitVolume>();v.radius=radius;v.packet=packet;v.BindOwner();
             return v;
         }
-        public void AwardHit(){charge=Mathf.Min(100,charge+7*(1+Mathf.Max(0,resonance-10)*.025f));}
+        /// <summary>Charge for a landed hit, by how much of a full hit it was: a flat award let a drone's needles and a field's
+        /// ticks repay their skill several times over, so Charge never limited anything.</summary>
+        public void AwardHit(float weight=1){charge=Mathf.Min(100,charge+7*Mathf.Clamp01(weight)*(1+Mathf.Max(0,resonance-10)*.025f));}
         // The defeated body now voices its own death at its position.
         public void AwardKill(){Kills++;BarkService.Play(character,"kill");}
     }

@@ -33,7 +33,7 @@ namespace Lattice.Combat
                 crowded=near>=2;
             }
             if(crowded&&lastMove!="SweepingCut")return("SweepingCut",SweepingCut());
-            string move=Pick(("HookLance",distance<7?2.2f:.6f),("GrappleChain",distance>5?1.8f:.4f),("Sidearm",distance>8?1.2f:.5f),
+            string move=Pick(("HookLance",distance<8?2.2f:0),("GrappleChain",distance>5?1.8f:.4f),("Sidearm",distance>8?1.2f:.5f),
                 ("Lampbreaker",Phase>=3?1.4f:0),("SweepingCut",Phase>=2&&distance<4?.8f:0));
             return move switch
             {
@@ -54,13 +54,14 @@ namespace Lattice.Combat
                 bool last=n==thrusts-1;
                 // The finisher holds a beat longer than the rhythm promises.
                 float tell=last?.85f:n==0?.55f:.36f;
-                var cone=Mark(Telegraph.Cone(transform.position,direction,4.4f,last?110:80,tell,last?Telegraph.Heavy:Telegraph.Threat));
+                // Painted from where she will stand when it lands: what the player sees is what is struck.
+                var cone=Mark(Telegraph.Cone(transform.position+direction*1.6f,direction,4.4f,last?110:80,tell,last?Telegraph.Heavy:Telegraph.Threat));
                 strikeAt=Time.time+tell;
                 yield return Windup(tell,last?-14:-7,0,last?.04f:0);
                 if(Interrupted)yield break;
                 // Step into the thrust.
                 for(float t=0;t<.12f&&!Interrupted;){if(GameTime.Paused){yield return null;continue;}float dt=Time.deltaTime;t+=dt;if(controller!=null&&controller.enabled)controller.Move(direction*(1.6f/.12f)*dt);yield return null;}
-                cone.MoveTo(transform.position);Pose(10);
+                Pose(10);
                 Strike(cone,last?26:16,DamageType.Kinetic,last?.35f:0,last?2.2f:0);
                 AudioManager.PlayAt(last?"impactMetal_000":"laserSmall_000",transform,transform.position+Vector3.up,.2f,AudioBus.SFX,50,.04f,last?.8f:1.3f);
                 yield return Windup(.12f,0);
@@ -84,7 +85,7 @@ namespace Lattice.Combat
             if(caught==null)
             {
                 // Overextended: a dodged chain is the opening.
-                health.Expose(1.3f);BarkService.Play(PartyController.Current.Active.character,"bossopening",true);Debug.Log("HESSA_OPEN");
+                health.Expose(1.3f);BarkService.Play(PartyController.Current.Active.character,Situation("bossopening"),true);Debug.Log("HESSA_OPEN");
                 Finish(HessaRest+.6f);yield break;
             }
             var body=caught.GetComponent<CharacterController>();
@@ -112,10 +113,13 @@ namespace Lattice.Combat
             for(int shot=0;shot<3&&!Interrupted;shot++)
             {
                 var hero=PartyController.Current.Active.transform.position+Vector3.up;var muzzle=transform.position+Vector3.up*1.5f;
-                transform.rotation=Quaternion.LookRotation(Toward(hero));
+                var aim=Toward(hero);transform.rotation=Quaternion.LookRotation(aim);
+                // The aim is fixed when the line appears: step off it.
+                var line=Mark(Telegraph.Line(transform.position,aim,18,1.3f,.32f,Telegraph.Threat));
                 strikeAt=Time.time+.32f;
                 yield return Windup(.32f,-4);
                 if(Interrupted)yield break;
+                line.Release();
                 Projectile.Fire(muzzle,hero-muzzle,Packet(12,DamageType.Plasma),20);
                 CombatAudio.HostileShot(transform,muzzle);
             }
@@ -158,8 +162,7 @@ namespace Lattice.Combat
             for(int i=0;i<count&&summoned.Count<3;i++)
             {
                 var offset=Quaternion.Euler(0,transform.eulerAngles.y+(i==0?-110:110),0)*Vector3.forward*6f;
-                var point=transform.position+offset;
-                if(Physics.Raycast(point+Vector3.up*4,Vector3.down,out var ground,10,~0,QueryTriggerInteraction.Ignore))point=ground.point;
+                var point=SummonPoint(offset);
                 var scav=ActorFactory.Enemy(definition,point+Vector3.up*.05f);summoned.Add(scav);
                 CombatVfx.Burst(point+Vector3.up*.8f,new Color(.9f,.35f,.25f),"shot");
             }

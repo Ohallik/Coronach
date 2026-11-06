@@ -21,6 +21,10 @@ namespace Lattice.Combat
         public float ReviveProgress=>reviveTarget!=null?Mathf.Clamp01(revive/2):0;
         public CombatActor ReviveTarget=>reviveTarget;
         public int SwapCount{get;private set;}
+        /// <summary>The tag-in strike is a reward for a timely swap, not free damage: mashing Y out-broke every other source and
+        /// stun-locked bosses, and swaps in a paused menu queued strikes that all landed on resume (QA).</summary>
+        public const float SwapStrikeCooldown=4;
+        float nextSwapStrike,nextSwapBanter;
         void Awake(){Current=this;}
         void Start(){Apply();ZoneController.Current.Changed+=Apply;}
         public void Apply()
@@ -46,8 +50,10 @@ namespace Lattice.Combat
             int next=(index+1)%members.Length;if(next==index||!members[next].Health.Alive)return false;
             Health target=Active.target;bool locked=Active.TargetLocked;index=next;Active.target=target;Apply();Active.TargetLocked=locked&&target!=null&&target.Alive;
             GameServices.Current.State.activeMember=index;SwapCount++;
-            if(ZoneController.Current.Combat)CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35));
-            BarkService.Play(Active.character,forced?"cover":"swap",true);Debug.Log("SWAP_OK");return true;
+            bool strike=ZoneController.Current.Combat&&!GameTime.Paused&&GameTime.Now>=nextSwapStrike;
+            if(strike){nextSwapStrike=GameTime.Now+SwapStrikeCooldown;CombatActor.Strike(Active.transform.position+Vector3.up,3,Active.Packet(45,DamageType.Pulse,35));}
+            bool banter=!forced&&Time.unscaledTime>=nextSwapBanter;if(banter)nextSwapBanter=Time.unscaledTime+SwapStrikeCooldown;
+            BarkService.Play(Active.character,forced?"cover":"swap",forced||banter);Debug.Log("SWAP_OK");return true;
         }
         void Update()
         {

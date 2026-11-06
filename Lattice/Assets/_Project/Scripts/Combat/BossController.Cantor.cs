@@ -75,7 +75,7 @@ namespace Lattice.Combat
                 }
                 yield return null;
             }
-            Finish(4);
+            yield return Opening(1.2f,4);
         }
 
         IEnumerator CoilLash()
@@ -95,10 +95,10 @@ namespace Lattice.Combat
                 if(controller!=null&&controller.enabled)controller.Move(direction*step);else{transform.position+=direction*step;}
                 travelled+=Mathf.Max(step*.25f,Flat(transform.position-before).magnitude);
                 transform.rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(direction),720*Time.deltaTime);
-                Contact(hit,transform.position,3f,22,.35f);
+                Contact(hit,transform.position,3f,22,.35f,lane);
                 yield return null;
             }
-            Collide(true);Finish(4);
+            Collide(true);yield return Opening(1.5f,4);
         }
     }
 }

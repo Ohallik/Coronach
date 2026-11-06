@@ -16,6 +16,8 @@ namespace Lattice.Core
         public static readonly int[] MasteryUses={6,18,36,60};
         public const float PowerPerMastery=.1f,CostPerMastery=2,MinimumCost=8;
         public static event Action<string,SkillDef,int> MasteryRaised;
+        /// <summary>A loadout changed: (character, ids before, ids after).</summary>
+        public static event Action<string,IReadOnlyList<string>,IReadOnlyList<string>> LoadoutChanged;
 
         static MemberState Member(string character)=>GameServices.Current?.State?.party?.Find(m=>m.id==character);
 
@@ -46,9 +48,10 @@ namespace Lattice.Core
         {
             if(member==null||skill==null||slot<0||slot>=Slots||!Knows(member,skill))return false;
             var current=new List<string>();for(int i=0;i<Slots;i++)current.Add(Equipped(member.id,i)?.id);
+            var before=new List<string>(current);
             int previous=current.IndexOf(skill.id);
             if(previous>=0&&previous!=slot)current[previous]=current[slot];
-            current[slot]=skill.id;member.skillLoadout=current;return true;
+            current[slot]=skill.id;member.skillLoadout=current;LoadoutChanged?.Invoke(member.id,before,current);return true;
         }
 
         public static int Uses(string character,string skill){var member=Member(character);return member?.skillUses!=null&&member.skillUses.TryGetValue(skill,out int n)?n:0;}

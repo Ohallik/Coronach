@@ -43,19 +43,21 @@ namespace Lattice.Combat
         static readonly int FillId=Shader.PropertyToID("_Fill"),FlashId=Shader.PropertyToID("_Flash"),FadeId=Shader.PropertyToID("_Fade"),
             ColorId=Shader.PropertyToID("_BaseColor"),SidesId=Shader.PropertyToID("_SideEdges"),InnerId=Shader.PropertyToID("_InnerEdge");
 
-        public static Telegraph Circle(Vector3 center,float radius,float duration,Color color)=>
-            Create(Kind.Circle,center,Vector3.forward,radius,0,360,0,0,duration,color);
+        /// <summary>A light marking uses fewer ground samples: a swarm of ordinary attacks must not cost a frame.</summary>
+        public static Telegraph Circle(Vector3 center,float radius,float duration,Color color,bool light=false)=>
+            Create(Kind.Circle,center,Vector3.forward,radius,0,360,0,0,duration,color,light);
         public static Telegraph Ring(Vector3 center,float inner,float outer,float duration,Color color)=>
             Create(Kind.Ring,center,Vector3.forward,outer,inner,360,0,0,duration,color);
-        public static Telegraph Cone(Vector3 origin,Vector3 forward,float radius,float angle,float duration,Color color)=>
-            Create(Kind.Cone,origin,forward,radius,0,Mathf.Clamp(angle,5,360),0,0,duration,color);
-        public static Telegraph Line(Vector3 origin,Vector3 direction,float length,float width,float duration,Color color)=>
-            Create(Kind.Line,origin,direction,0,0,0,length,width,duration,color);
+        public static Telegraph Cone(Vector3 origin,Vector3 forward,float radius,float angle,float duration,Color color,bool light=false)=>
+            Create(Kind.Cone,origin,forward,radius,0,Mathf.Clamp(angle,5,360),0,0,duration,color,light);
+        public static Telegraph Line(Vector3 origin,Vector3 direction,float length,float width,float duration,Color color,bool light=false)=>
+            Create(Kind.Line,origin,direction,0,0,0,length,width,duration,color,light);
 
-        static Telegraph Create(Kind kind,Vector3 origin,Vector3 forward,float radius,float inner,float angle,float length,float width,float duration,Color color)
+        bool light;
+        static Telegraph Create(Kind kind,Vector3 origin,Vector3 forward,float radius,float inner,float angle,float length,float width,float duration,Color color,bool light=false)
         {
             var go=new GameObject("Telegraph "+kind);
-            var marking=go.AddComponent<Telegraph>();
+            var marking=go.AddComponent<Telegraph>();marking.light=light;
             forward.y=0;if(forward.sqrMagnitude<1e-4f)forward=Vector3.forward;
             marking.Shape=kind;marking.Origin=origin;marking.Forward=forward.normalized;marking.Radius=radius;marking.Inner=inner;marking.Angle=angle;
             marking.Length=length;marking.Width=width;marking.Duration=Mathf.Max(.01f,duration);marking.color=color;
@@ -84,6 +86,18 @@ namespace Lattice.Combat
             }
         }
 
+        /// <summary>The shortest way out of the marking from a point inside it.</summary>
+        public Vector3 WayOut(Vector3 point)
+        {
+            var offset=point-Origin;offset.y=0;
+            if(Shape==Kind.Line)
+            {
+                var across=Vector3.Cross(Vector3.up,Forward);float side=Vector3.Dot(offset,across);
+                return side>=0?across:-across;
+            }
+            if(Shape==Kind.Ring&&offset.magnitude-Inner<Radius-offset.magnitude&&offset.sqrMagnitude>.01f)return -offset.normalized;
+            return offset.sqrMagnitude>.01f?offset.normalized:Vector3.right;
+        }
         /// <summary>Move the marking (a trail following a hero) and lay it on the ground again.</summary>
         public void MoveTo(Vector3 origin){Origin=origin;Build();}
         /// <summary>Reshape an expanding band.</summary>
@@ -101,7 +115,7 @@ namespace Lattice.Combat
 
         void Update()
         {
-            if(!GameTime.Paused)Elapsed+=Time.deltaTime;
+            if(!GameTime.CombatHeld)Elapsed+=Time.deltaTime;
             float fill=Steady?1:Mathf.Clamp01(Elapsed/Duration),flash=0,fade=1;
             if(releasedAt>=0)
             {
@@ -142,7 +156,7 @@ namespace Lattice.Combat
             {
                 case Kind.Line:
                 {
-                    rows=Mathf.Clamp(Mathf.CeilToInt(Length/1.2f),2,40);columns=3;
+                    rows=light?Mathf.Clamp(Mathf.CeilToInt(Length/3),1,8):Mathf.Clamp(Mathf.CeilToInt(Length/1.2f),2,40);columns=light?1:3;
                     var right=Vector3.Cross(Vector3.up,Forward);
                     for(int r=0;r<=rows;r++)for(int c=0;c<=columns;c++)
                     {
@@ -156,8 +170,8 @@ namespace Lattice.Combat
                     float sweep=Shape==Kind.Cone?Angle:360;
                     float outer=Radius,inner=Shape==Kind.Ring?Inner:0;
                     // About 0.6 m of arc per segment: a small trail stays light, a wide breath stays round.
-                    columns=Mathf.Clamp(Mathf.CeilToInt(sweep*Mathf.Deg2Rad*outer/.6f),Shape==Kind.Cone?6:16,64);
-                    rows=Mathf.Clamp(Mathf.CeilToInt((outer-inner)/1.4f),1,12);
+                    columns=light?Mathf.Clamp(Mathf.CeilToInt(sweep*Mathf.Deg2Rad*outer/1.2f),Shape==Kind.Cone?4:12,24):Mathf.Clamp(Mathf.CeilToInt(sweep*Mathf.Deg2Rad*outer/.6f),Shape==Kind.Cone?6:16,64);
+                    rows=light?1:Mathf.Clamp(Mathf.CeilToInt((outer-inner)/1.4f),1,12);
                     float start=-sweep*.5f;
                     for(int r=0;r<=rows;r++)for(int c=0;c<=columns;c++)
                     {

@@ -68,6 +68,13 @@ namespace Lattice.Combat
                     goal+=across*(6*flankSide);goal.y=transform.position.y;flanking=true;
                 }
             }
+            // Read the ground as a player does: out of any marking a boss has laid, by the shortest way, rolling if it is about to land.
+            bool escaping=MarkedEscape(out var escape,out float landing);
+            if(escaping)
+            {
+                goal=transform.position+escape*5;flanking=false;
+                if(landing<.14f*Time.timeScale&&Dodge(escape))return;
+            }
             bool avoiding=false,avoidanceBrake=false;
             if(flightSeparation!=null)goal=flightSeparation.Guide(transform.position,goal,flanking?actor.target:null,out avoiding,out avoidanceBrake);
             bool wallAdjusted=false;
@@ -83,6 +90,7 @@ namespace Lattice.Combat
             // stand-off relied on the removed oversized invisible hit sphere.
             float distance=d.magnitude,stop=fighting?(actor.flight?2.2f:actor.character=="Sela"?7.5f:1.35f):1.5f;
             if(flanking||wallAdjusted)stop=.6f;
+            if(escaping)stop=.3f;
             if(avoiding)stop=.45f;
             if(!actor.flight&&GroundNavigation.Current!=null&&!fighting)
             {
@@ -129,6 +137,16 @@ namespace Lattice.Combat
                 if(fromTarget.magnitude<(actor.flight||actor.character=="Sela"?14:3))actor.Attack();
             }
         }
+        bool MarkedEscape(out Vector3 escape,out float landing)
+        {
+            escape=default;landing=float.PositiveInfinity;
+            foreach(var marking in Telegraph.Live)
+            {
+                if(marking==null||marking.Released||!(marking.owner is BossController)||!marking.Contains(transform.position))continue;
+                if(marking.Remaining<landing){landing=marking.Remaining;escape=marking.WayOut(transform.position);}
+            }
+            return !float.IsPositiveInfinity(landing);
+        }
         float nextSkill;
         /// <summary>Like a Ys partner, the companion spends Charge on its equipped skills when a target sits in that
         /// skill's reach (D201), at most every six to nine seconds so the player's own skills still lead.</summary>
@@ -139,12 +157,26 @@ namespace Lattice.Combat
             {
                 int slot=(start+n)%Lattice.Core.SkillBook.Slots;var skill=Lattice.Core.SkillBook.Equipped(actor.character,slot);
                 if(skill==null||actor.cooldowns[slot]>0||distance>Reach(skill.kind))continue;
+                if(GapCloser(skill.kind)&&(distance<2.5f||actor.Health.integrity<actor.Health.maximum*.3f))continue;
+                if(!Worthwhile(skill.kind))continue;
                 if(actor.Skill(slot))return true;
             }
             return false;
         }
+        static bool GapCloser(Lattice.Data.SkillKind kind)=>kind==Lattice.Data.SkillKind.AnchorSlam||kind==Lattice.Data.SkillKind.TetherHook||kind==Lattice.Data.SkillKind.EmberStep;
+        /// <summary>Charge isn't spent on a directional skill with a wall in the way or, in flight, with the nose off the target.</summary>
+        bool Worthwhile(Lattice.Data.SkillKind kind)
+        {
+            if(kind==Lattice.Data.SkillKind.Overdrive||kind==Lattice.Data.SkillKind.Refract||kind==Lattice.Data.SkillKind.SurveyDrone||kind==Lattice.Data.SkillKind.WaypointBlink)return true;
+            if(actor.target==null)return false;
+            var to=actor.target.transform.position-transform.position;to.y=0;
+            if(actor.flight&&Vector3.Angle(actor.motor.Facing,to)>30)return false;
+            var from=transform.position+Vector3.up*(actor.flight?0:.9f);
+            return CombatCover.Clear(from,from+to);
+        }
         static float Reach(Lattice.Data.SkillKind kind)=>kind switch
         {
+            Lattice.Data.SkillKind.ScatterBloom=>5f,Lattice.Data.SkillKind.StaticNet=>9f,
             Lattice.Data.SkillKind.ArcCleave or Lattice.Data.SkillKind.ForgeSpiral=>3.2f,
             Lattice.Data.SkillKind.PulseBurst or Lattice.Data.SkillKind.WaypointBlink=>3.8f,
             Lattice.Data.SkillKind.EmberStep=>6f,Lattice.Data.SkillKind.AnchorSlam=>8f,Lattice.Data.SkillKind.Faultline=>9f,

@@ -79,7 +79,7 @@ namespace Lattice.UI
             bossRoot=new GameObject("BossBar",typeof(RectTransform));bossRoot.transform.SetParent(canvas.transform,false);
             var root=(RectTransform)bossRoot.transform;root.anchorMin=root.anchorMax=Vector2.zero;root.pivot=Vector2.zero;root.anchoredPosition=Vector2.zero;root.sizeDelta=Vector2.zero;
             bossName=BossText("BossName",new(960,216),28,TextAlignmentOptions.Left);
-            bossEpithet=BossText("BossEpithet",new(960,216),20,TextAlignmentOptions.Right);
+            bossEpithet=BossText("BossEpithet",new(960,216),24,TextAlignmentOptions.Right);
             bossBack=UiKit.Panel(bossRoot.transform,"BossIntegrityBack",new Color(.025f,.045f,.065f,.9f));bossBack.raycastTarget=false;
             UiKit.Rect(bossBack.gameObject,Vector2.zero,Vector2.zero,new(960,186),new(BossBarWidth,20));
             bossChip=BossFill(bossBack.transform,"BossIntegrityChip",new Color(1,.9f,.72f,.8f),20);
@@ -87,7 +87,7 @@ namespace Lattice.UI
             var breakBack=UiKit.Panel(bossRoot.transform,"BossBreakBack",new Color(.025f,.045f,.065f,.9f));breakBack.raycastTarget=false;
             UiKit.Rect(breakBack.gameObject,Vector2.zero,Vector2.zero,new(960,168),new(BossBarWidth,7));
             bossBreak=BossFill(breakBack.transform,"BossBreak",new Color(1,.62f,.2f,.85f),7);
-            bossState=BossText("BossState",new(960,140),22,TextAlignmentOptions.Center);
+            bossState=BossText("BossState",new(960,140),24,TextAlignmentOptions.Center);
             for(int i=0;i<3;i++)
             {
                 var notch=UiKit.Panel(bossBack.transform,"BossNotch"+i,new Color(.95f,.95f,1,.95f));notch.raycastTarget=false;
@@ -136,11 +136,12 @@ namespace Lattice.UI
                 bool on=i<thresholds.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
                 if(on)bossNotches[i].rectTransform.anchoredPosition=new Vector2(BossBarWidth*thresholds[i],0);
             }
-            string state=boss.Shifting?"IT'S CHANGING":health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:"";
+            string state=boss.Shifting?boss.ShiftText:health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:boss.StatusText;
             if(bossState.text!=state)bossState.text=state;
             return true;
         }
         const float BarWidth=400;
+        float refusedHeard;
         /// <summary>A break threshold this high means the target can't be broken at all, so it gets no gauge (pressure organs).</summary>
         const float Unbreakable=10000;
         TMP_Text Text(string name,Vector2 pos,Vector2 size,int font,TextAlignmentOptions align=TextAlignmentOptions.Center)
@@ -197,7 +198,10 @@ namespace Lattice.UI
                 float cost=SkillBook.Cost(a.character,skill);
                 skillIcons[i].enabled=combat&&skill!=null;skillLabels[i].enabled=combat&&skill!=null;if(skill==null)continue;
                 skillIcons[i].sprite=UiSkin.Skill(skill);
-                skillIcons[i].color=a.cooldowns[i]>0||a.charge<cost?new Color(.4f,.46f,.53f):Color.white;
+                // A refused press answers: the icon flashes, and the press itself gets a sound below.
+                bool refused=a.SkillRefusedAt[i]>0&&GameTime.Now-a.SkillRefusedAt[i]<.25f;
+                skillIcons[i].color=refused?new Color(1,.3f,.25f):a.cooldowns[i]>0||a.charge<cost?new Color(.4f,.46f,.53f):Color.white;
+                if(refused&&a.SkillRefusedAt[i]>refusedHeard){refusedHeard=a.SkillRefusedAt[i];UiSounds.Error();}
                 skillLabels[i].text=(a.cooldowns[i]>0?a.cooldowns[i].ToString("0.0")+"s":SkillBinding(i,a.flight)+" · "+cost.ToString("0")+"C")+"\n"+(string.IsNullOrEmpty(skill.shortName)?skill.displayName:skill.shortName);
             }
             string Hint(string action,string label)=>PromptService.Tag(action)+"  "+label;
@@ -211,7 +215,7 @@ namespace Lattice.UI
         {
             if(PromptService.Device!=PromptDevice.Gamepad)return PromptService.Tag("Skill"+(slot+1));
             string[] faces=flight?new[]{"Fire","Roll","Lunge","Swap"}:new[]{"Attack","Dodge","Guard","Swap"};
-            return PromptService.Tag("SkillMod")+PromptService.Tag(faces[slot]);
+            return PromptService.Tag("SkillMod")+"+"+PromptService.Tag(faces[slot]);
         }
         static string Readable(string value)=>System.Text.RegularExpressions.Regex.Replace(value??"","(?<=[a-z])(?=[A-Z])"," ");
         void Damage(Health health,float amount,bool weak){if(canvas!=null)StartCoroutine(Number(health.transform.position+Vector3.up*1.9f,amount,weak));}

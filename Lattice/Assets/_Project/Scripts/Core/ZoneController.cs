@@ -9,6 +9,8 @@ namespace Lattice.Core
         public ZoneKind Kind {get;private set;}
         public bool Flight=>Kind==ZoneKind.SpaceCombat||Kind==ZoneKind.SpaceSafe;
         public bool Combat=>Kind==ZoneKind.GroundCombat||Kind==ZoneKind.SpaceCombat;
+        /// <summary>The party has stepped into a sheltered place in a combat zone, where it can't fight.</summary>
+        public bool InSafePocket=>definition!=null&&Kind!=definition.kind;
         public BodyForm Form=>Kind switch{ZoneKind.GroundSafe=>BodyForm.Natural,ZoneKind.GroundCombat=>BodyForm.Shaped,ZoneKind.SpaceSafe=>BodyForm.CivilFlight,_=>BodyForm.Flight};
         public event System.Action Changed;
         void Awake(){Current=this;Kind=definition.kind;}

@@ -15,15 +15,35 @@ namespace Lattice.Combat
         public Vector3 Velocity=>velocity;
         /// <summary>Would this shot harm a body on the given side?</summary>
         public bool Threatens(bool friendlySide)=>hasFaction&&friendly!=friendlySide;
+        Renderer view;TrailRenderer trail;
+        static Material friendlyShot,hostileShot;
+        static Material Shots(bool hostile)
+        {
+            friendlyShot??=Resources.Load<Material>("Blockout/Emission");
+            if(hostileShot==null&&friendlyShot!=null)
+            {
+                hostileShot=new Material(friendlyShot){name="hostile shot (runtime)"};
+                var hot=new Color(1,.34f,.12f);
+                if(hostileShot.HasProperty("_BaseColor"))hostileShot.SetColor("_BaseColor",hot);
+                if(hostileShot.HasProperty("_Color"))hostileShot.SetColor("_Color",hot);
+                if(hostileShot.HasProperty("_EmissionColor"))hostileShot.SetColor("_EmissionColor",hot*2.4f);
+            }
+            return hostile?hostileShot:friendlyShot;
+        }
         public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24)
         {
             Projectile p=null;while(pool.Count>0&&p==null)p=pool.Pop();
             if(p==null)
             {
                 var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Projectile";Destroy(go.GetComponent<Collider>());
-                go.transform.localScale=Vector3.one*.18f;p=go.AddComponent<Projectile>();
-                go.GetComponent<Renderer>().sharedMaterial=Resources.Load<Material>("Blockout/Emission");
+                p=go.AddComponent<Projectile>();p.view=go.GetComponent<Renderer>();p.view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+                p.trail=go.AddComponent<TrailRenderer>();p.trail.time=.12f;p.trail.startWidth=.26f;p.trail.endWidth=0;p.trail.minVertexDistance=.2f;
+                p.trail.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;p.trail.sharedMaterial=Shots(true);
             }
+            // Their shots read as theirs: bigger, hot and trailing, against the party's small cyan needles.
+            bool hostile=damage.source!=null&&!damage.source.friendly;
+            p.transform.localScale=Vector3.one*(hostile?.36f:.18f);p.view.sharedMaterial=Shots(hostile);
+            p.trail.Clear();p.trail.enabled=hostile;
             p.transform.position=position;p.velocity=direction.normalized*speed;p.life=3;
             damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;

@@ -5,11 +5,33 @@ using Lattice.Data;
 using UnityEngine;
 namespace Lattice.Combat
 {
+    /// <summary>A dying Scrapmite's burst: marked on the ground, with a short fuse, and striking only inside its marking. It
+    /// used to go off on the next frame with no tell, so a partner's kill blew up on the player.</summary>
+    public sealed class DeathBlast:MonoBehaviour
+    {
+        public const float Fuse=.45f,Radius=2.5f;
+        Telegraph mark;DamagePacket packet;Vector3 at;
+        public static void Arm(Vector3 at,DamagePacket packet)
+        {
+            var blast=new GameObject("Death blast").AddComponent<DeathBlast>();blast.at=at;blast.packet=packet;
+            blast.mark=Telegraph.Circle(at,Radius,Fuse,Telegraph.Threat,true);blast.mark.owner=blast;
+        }
+        void Update()
+        {
+            if(GameTime.CombatHeld||mark==null)return;if(!mark.Charged)return;
+            mark.Release();CombatVfx.Burst(at+Vector3.up*.6f,new Color(1.3f,.55f,.2f),"kill");
+            var party=PartyController.Current;
+            if(party!=null)foreach(var hero in party.members)if(hero.Health.Alive&&mark.Contains(hero.transform.position))hero.Health.Receive(packet);
+            Destroy(gameObject);
+        }
+    }
     public sealed class EnemyBrain:MonoBehaviour
     {
         public EnemyDef definition;
         public Health Health{get;private set;}
         public bool Telegraphing{get;private set;}
+        /// <summary>The ground marking of the attack being told, if any.</summary>
+        public Telegraph AttackMark{get;private set;}
         public bool Attacking=>lunging||Time.time<attackAnimationUntil;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
         public bool Passive;
@@ -18,7 +40,6 @@ namespace Lattice.Combat
         public bool ArmoredImpact{get;private set;}
         public const float ImpactDuration=.36f;
         CharacterController controller;
-        GameObject warning;
         Vector3 home;
         Vector3 aim;
         float nextAttack,strikeAt,attackAnimationUntil;
@@ -33,16 +54,11 @@ namespace Lattice.Combat
             boss=GetComponent<BossController>();
             collar=GetComponent<CantorCollar>();
             Health.Died+=OnDeath;
-            warning=ActorFactory.Visual("Telegraph",PrimitiveType.Quad,transform,new Vector3(3,3,1),Vector3.up*.04f,"Threat");
-            warning.transform.localRotation=Quaternion.Euler(90,0,0);
-            var renderer=warning.GetComponent<Renderer>();renderer.sharedMaterial=Resources.Load<Material>("Effects/circle_02");
-            var tint=new MaterialPropertyBlock();tint.SetColor("_BaseColor",new Color(1,.32f,.09f,.9f));renderer.SetPropertyBlock(tint);
-            renderer.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;warning.SetActive(false);
             nextAttack=Time.time+.6f;
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
-            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit();
+            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit(amount/Mathf.Max(1,actor.character=="Sela"?actor.rangedDamage:actor.damage));
             if(Health.Alive&&!Health.Broken&&amount>0)
             {
                 ImpactStarted=Time.time;ImpactSequence++;
@@ -65,7 +81,26 @@ namespace Lattice.Combat
         void CancelAttack()
         {
             StopAllCoroutines();lunging=false;Telegraphing=false;strikeAt=attackAnimationUntil=0;
-            if(warning!=null)warning.SetActive(false);
+            if(AttackMark!=null){AttackMark.Cancel();AttackMark=null;}
+        }
+        /// <summary>Something took this enemy out of its attack (a hook's reel): it starts over, no expired strike waiting.</summary>
+        public void Interrupt(){CancelAttack();nextAttack=Mathf.Max(nextAttack,Time.time+.6f);}
+        public bool Mine=>definition!=null&&definition.archetype==EnemyArchetype.Mine;
+        /// <summary>Too big to be reeled in: a hook pulls the hero to it instead.</summary>
+        public bool Heavy=>definition!=null&&definition.archetype==EnemyArchetype.Sentinel;
+        public const string SelfDetonation="selfDetonation";
+        const float MineBlast=3,LungeLength=4.5f+1.15f,LungeWidth=2.3f;
+        /// <summary>Every ordinary attack marks the ground it will strike, in its true shape: a lunge its lane, a mine its blast, a
+        /// bite its reach, a shot its line. A 3 m disc at the feet understated all of them.</summary>
+        Telegraph MarkAttack(float tell,bool dive,bool ranged,float range)
+        {
+            var at=transform.position;Telegraph mark;
+            if(Mine)mark=Telegraph.Circle(at,MineBlast,tell,Telegraph.Heavy,true);
+            else if(dive)mark=Telegraph.Line(at,aim,LungeLength,LungeWidth,tell,Telegraph.Threat,true);
+            else if(definition.id=="ChoristerDrifter"||collar!=null&&collar.VolleyAttached)mark=Telegraph.Cone(at,aim,12,32,tell,Telegraph.Threat,true);
+            else if(ranged)mark=Telegraph.Line(at,aim,13,1.1f,tell,Telegraph.Threat,true);
+            else mark=Telegraph.Circle(at+aim*1.1f,Mathf.Max(1,range*.7f),tell,Telegraph.Threat,true);
+            mark.owner=this;return mark;
         }
         /// <summary>How close an awake enemy must be before quiet interactions (repair, bench, mining) wait for the fight.</summary>
         public const float InteractionCalm=15;
@@ -111,8 +146,8 @@ namespace Lattice.Combat
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
             else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine);
             CancelAttack();
-            if(definition.id=="Scrapmite")CombatActor.Strike(transform.position+Vector3.up*.6f,2.5f,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
-            if(warning!=null)warning.SetActive(false);controller.enabled=false;enabled=false;
+            if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
+            controller.enabled=false;enabled=false;
         }
         void Update()
         {
@@ -120,9 +155,20 @@ namespace Lattice.Combat
             // cannot depend on the AI choosing to chase again afterward.
             if(!GameTime.Paused&&Health.Alive&&controller.enabled&&ZoneController.Current!=null&&!ZoneController.Current.Flight&&!GameServices.Current.Input.Blocked)
                 controller.Move(Vector3.down*6*Time.deltaTime);
+            // A conversation or load stops the clock on what it interrupted: no strike the instant it ends.
+            if(GameServices.Current.Input.Blocked&&!GameTime.Paused){strikeAt+=Time.deltaTime;nextAttack+=Time.deltaTime;}
+            // A stun takes the enemy out of its attack: it used to hold its tell and strike the moment it recovered.
+            if(Health.Broken&&Telegraphing){CancelAttack();nextAttack=Mathf.Max(nextAttack,Health.BrokenUntil);}
             if(GameTime.Paused||Passive||lunging||!Health.Alive||Health.Broken||PartyController.Current==null||GameServices.Current.Input.Blocked)return;
-            if(boss!=null&&boss.Busy){if(warning!=null)warning.SetActive(false);Telegraphing=false;return;}
+            if(boss!=null&&boss.Busy){if(Telegraphing)CancelAttack();return;}
             var victim=PartyController.Current.Active;if(!victim.Health.Alive)return;
+            // A hero inside a safe pocket can't fight back, so nothing follows them in: they go home and wait.
+            if(ZoneController.Current!=null&&ZoneController.Current.InSafePocket)
+            {
+                if(Telegraphing)CancelAttack();
+                if(!Mine&&(home-transform.position).sqrMagnitude>1)Move(home-transform.position,definition.speed);
+                return;
+            }
             Vector3 d=victim.transform.position-transform.position;d.y=0;float distance=d.magnitude;
             var attack=definition.attacks?.Length>0?definition.attacks[0]:null;
             float range=attack!=null?attack.range:2.6f;
@@ -133,8 +179,8 @@ namespace Lattice.Combat
             {
                 if(Time.time>=strikeAt)
                 {
-                    Telegraphing=false;warning.SetActive(false);attackAnimationUntil=Time.time+.55f;
-                    var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10};
+                    Telegraphing=false;if(AttackMark!=null){AttackMark.Release();AttackMark=null;}attackAnimationUntil=Time.time+.55f;
+                    var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10,deathAttack=Mine};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
                     {packet.hullVolleyHits=new HashSet<Health>();packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11);}
@@ -146,31 +192,45 @@ namespace Lattice.Combat
                         if(collar!=null)packet.amount*=.55f;
                         for(int i=-fan;i<=fan;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*12,0)*aim,packet,11);
                     }
-                    else CombatActor.Strike(transform.position+aim*1.1f+Vector3.up*.7f,definition.archetype==EnemyArchetype.Mine?3:range*.7f,packet);
-                    if(definition.archetype==EnemyArchetype.Mine)Health.Receive(new DamagePacket{amount=Health.maximum*3,type=DamageType.Pulse,source=victim.Health});
+                    else if(Mine)
+                    {
+                        // The blast and the body's end, in that order, and the blast outlives the body. Going off pays nobody.
+                        CombatActor.Strike(transform.position+Vector3.up*.7f,MineBlast,packet);
+                        CombatVfx.Burst(transform.position+Vector3.up,new Color(1.4f,.5f,.2f),"kill");
+                        Health.Receive(new DamagePacket{amount=Health.maximum*3,type=DamageType.Pulse,tag=SelfDetonation});
+                    }
+                    else CombatActor.Strike(transform.position+aim*1.1f+Vector3.up*.7f,Mathf.Max(1,range*.7f),packet);
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);
                 }
                 return;
             }
             if(distance<range&&Time.time>=nextAttack)
             {
-                Telegraphing=true;strikeAt=Time.time+(attack!=null?attack.telegraph:.65f);
+                float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;
                 aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
-                if(definition.archetype!=EnemyArchetype.Serpent)transform.rotation=Quaternion.LookRotation(aim);
-                warning.SetActive(true);AudioManager.Play("computerNoise_000",.08f);return;
+                if(definition.archetype!=EnemyArchetype.Serpent&&boss==null)transform.rotation=Quaternion.LookRotation(aim);
+                AttackMark=MarkAttack(tell,dive,ranged,range);
+                AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.07f,AudioBus.SFX,128,.1f,1.7f);return;
             }
             if(definition.archetype==EnemyArchetype.Mine)return;
             if(distance>35){Move(home-transform.position,definition.speed);return;}
             if(ranged)
-            {if(distance>range*.85f)Move(d,definition.speed);else if(distance<range*.4f)Move(-d,definition.speed);}
+            {
+                if(distance>range*.85f)Move(d,definition.speed);
+                // A boss's rest is the time to close: a heavy brawler doesn't back-pedal from melee.
+                else if(distance<range*.4f&&boss==null)Move(-d,definition.speed);
+            }
             else if(distance>range*.7f)
             {
                 Vector3 approach=d.normalized;
                 if(definition.archetype==EnemyArchetype.PackHunter)approach+=Vector3.Cross(Vector3.up,approach)*Mathf.Sin(Time.time+GetInstanceID())*.35f;
                 Move(approach,definition.speed);
             }
-            if(d.sqrMagnitude>.01f&&definition.archetype!=EnemyArchetype.Serpent)transform.rotation=Quaternion.LookRotation(d);
+            // A boss turns at a heavy body's pace, so "behind it" is a place a player can get to.
+            if(d.sqrMagnitude>.01f&&definition.archetype!=EnemyArchetype.Serpent)
+                transform.rotation=boss!=null?Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(d),BossTurnRate*Time.deltaTime):Quaternion.LookRotation(d);
         }
+        const float BossTurnRate=120;
         IEnumerator LungeAttack(DamagePacket packet)
         {
             lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;

@@ -26,6 +26,25 @@ namespace Lattice.Combat
         static readonly Color Amber=new(1.4f,.62f,.18f),Cyan=new(.25f,1.1f,1.6f),Violet=new(.75f,.45f,1.6f);
 
         DamagePacket Hit(float amount,DamageType type,float breakPower)=>actor.Packet(amount,type,breakPower);
+        /// <summary>A skill's strike on the world: it stops at walls, as its ring does, and it outlives the caster's next action.</summary>
+        internal static HitVolume Land(Vector3 center,float radius,DamagePacket packet)
+        {var strike=CombatActor.Strike(center,radius,packet);strike.ThroughWalls=false;strike.Detach();return strike;}
+        /// <summary>The body turns to what it releases: a slam or hook used to leave from Taren's side or back.</summary>
+        void Face(Vector3 aim)
+        {
+            aim.y=0;if(aim.sqrMagnitude<.01f||actor.flight)return;
+            StartCoroutine(TurnTo(aim.normalized));
+        }
+        IEnumerator TurnTo(Vector3 aim)
+        {
+            var goal=Quaternion.LookRotation(aim);
+            for(float t=0;t<.08f;t+=actor.MotorDelta)
+            {
+                if(!actor.Health.Alive)yield break;
+                if(!actor.TargetLocked)transform.rotation=Quaternion.RotateTowards(transform.rotation,goal,1800*actor.MotorDelta);
+                yield return null;
+            }
+        }
         float Melee(float k,float power)=>actor.damage*k*power;
         float Ranged(float k,float power)=>actor.rangedDamage*k*power;
         Vector3 Body=>transform.position+Vector3.up*(actor.flight?0:.9f);
@@ -39,13 +58,16 @@ namespace Lattice.Combat
             for(float t=0;t<seconds;)
             {
                 if(actor.AttackSequence!=sequence||!actor.Health.Alive||actor.Recovering)yield break;
-                if(!GameTime.Paused)t+=Time.deltaTime;yield return null;
+                // The hero's own clock: during a Flash the world crawls but the pose doesn't, and the skill must release on the
+                // pose's beat, not four times late or never.
+                t+=actor.MotorDelta;yield return null;
             }
             if(actor.AttackSequence==sequence&&actor.Health.Alive)release();
         }
 
         public void Ground(SkillKind kind,float power,Vector3 aim)
         {
+            if(kind!=SkillKind.WaypointBlink&&kind!=SkillKind.ForgeSpiral)Face(aim);
             switch(kind)
             {
                 case SkillKind.AnchorSlam:
@@ -92,7 +114,8 @@ namespace Lattice.Combat
             switch(kind)
             {
                 case SkillKind.AnchorSlam:
-                    actor.Perform("Dash",.4f,.2f);actor.motor.Dash(aim,11);
+                    actor.Perform("Dash",.4f,.24f);actor.motor.Dash(aim,Mathf.Clamp(TargetDistance(11)-2.5f,3,11));
+                    actor.Health.InvulnerableUntil=Mathf.Max(actor.Health.InvulnerableUntil,GameTime.Now+.35f);
                     GetComponent<FlightDashContact>().Begin(Hit(Melee(2.2f,power),DamageType.Kinetic,70));
                     After(.2f,()=>{FlightWave.Release(transform.position+Vector3.up*.8f,aim,Hit(Melee(.9f,power),DamageType.Kinetic,30),false);Sound("explosionCrunch_000",.32f,.8f);});
                     break;
@@ -101,7 +124,7 @@ namespace Lattice.Combat
                     TetherLine.Cast(actor,transform.position+Vector3.up*.8f+aim,aim,14,Hit(Melee(.9f,power),DamageType.Pulse,45));
                     break;
                 case SkillKind.ForgeSpiral:
-                    actor.Perform("Pulse",.7f,.3f);
+                    actor.Perform("Pulse",.7f,.5f);
                     for(int i=0;i<3;i++)After(i*.22f,()=>FlightWave.Release(transform.position+Vector3.up*.8f,actor.motor.Facing,Hit(Melee(.9f,power),DamageType.Plasma,25),false));
                     break;
                 case SkillKind.Faultline:
@@ -125,16 +148,22 @@ namespace Lattice.Combat
             }
         }
 
+        public const float ThrownRange=14;
         Vector3 Destination(Vector3 aim,float fallback)
         {
-            if(actor.target!=null&&actor.target.Alive){var at=actor.target.transform.position;at.y=transform.position.y;return at;}
-            return transform.position+aim*fallback;
+            var at=actor.target!=null&&actor.target.Alive?actor.target.transform.position:transform.position+aim*fallback;at.y=transform.position.y;
+            var delta=at-transform.position;
+            if(delta.magnitude>ThrownRange)at=transform.position+delta.normalized*ThrownRange;
+            // Stop at the last clear point: a Starfall can't land behind a wall the party can't see past.
+            var from=Body;var to=at+(from-transform.position);
+            if(CombatCover.Sweep(from,to,.12f,out var wall)){float reach=Mathf.Max(0,wall.distance-.4f);at=transform.position+(to-from).normalized*reach;}
+            return at;
         }
 
         void Slam(Vector3 point,float radius,DamagePacket packet)
         {
             if(CombatCover.Sweep(Body,point+Vector3.up*.9f,.2f,out var wall))point=Body+(point+Vector3.up*.9f-Body).normalized*Mathf.Max(0,wall.distance-.2f)-Vector3.up*.9f;
-            CombatActor.Strike(point+Vector3.up*.9f,radius,packet).life=.14f;
+            Land(point+Vector3.up*.9f,radius,packet).life=.14f;
             SkillRing.Expand(point,radius,Amber,.35f,false);CombatVfx.Burst(point+Vector3.up*.3f,new Color(1,.6f,.2f),"hit");
             Sound("explosionCrunch_000",.38f,.85f);
         }
@@ -151,13 +180,13 @@ namespace Lattice.Combat
                     if(actor.AttackSequence!=sequence||!actor.Health.Alive||actor.Recovering)yield break;
                     if(!GameTime.Paused)
                     {
-                        float dt=Time.deltaTime;elapsed+=dt;
+                        float dt=actor.MotorDelta;elapsed+=dt;
                         if(visual!=null)visual.localRotation=rest*Quaternion.Euler(0,720*Mathf.Clamp01(elapsed/.86f),0);
                         if(actor.motor is GroundMotor ground)ground.MoveAction(aim*(2.2f*dt),aim);
                         while(ticks<5&&elapsed>=.15f*(ticks+1)-.05f)
                         {
                             ticks++;
-                            CombatActor.Strike(Body,2.9f,Hit(Melee(.75f,power),DamageType.Plasma,22));
+                            Land(Body,2.9f,Hit(Melee(.75f,power),DamageType.Plasma,22));
                             SkillRing.Expand(transform.position,2.9f,new Color(1.5f,.5f,.15f),.18f,false);
                             Sound("impactMetal_000",.16f,1.1f+ticks*.06f);
                         }
@@ -171,13 +200,20 @@ namespace Lattice.Combat
         void Blink(float power,Vector3 aim,bool flight)
         {
             var origin=transform.position+(flight?Vector3.up*.8f:Vector3.zero);
-            Vector3 away=actor.target!=null&&actor.target.Alive?-Planar(actor.target.transform.position-transform.position).normalized:-actor.motor.Facing;
+            // The stick says where to escape to; otherwise straight back from the target.
+            Vector3 away=actor.MoveIntent.sqrMagnitude>.05f?Planar(actor.MoveIntent).normalized:
+                actor.target!=null&&actor.target.Alive?-Planar(actor.target.transform.position-transform.position).normalized:-actor.motor.Facing;
             if(away.sqrMagnitude<.01f)away=-aim;
             actor.Perform("Dodge",flight?.3f:.35f,flight?.18f:.3f);
             actor.Health.InvulnerableUntil=Mathf.Max(actor.Health.InvulnerableUntil,GameTime.Now+.4f);
+            // She keeps looking where she was: the shot after a blink must still go at the enemy.
             var facing=actor.motor.Facing;
-            if(flight){actor.motor.Dash(aim,8);GetComponent<FlightDashContact>().Begin(Hit(Ranged(.8f,power),DamageType.Pulse,20));}
-            else actor.motor.Dash(away,5.5f);
+            if(flight)
+            {
+                actor.motor.Dash(actor.MoveIntent.sqrMagnitude>.05f?Planar(actor.MoveIntent).normalized:aim,8);
+                GetComponent<FlightDashContact>().Begin(Hit(Ranged(.8f,power),DamageType.Pulse,20));
+            }
+            else{actor.motor.Dash(away,5.5f);GetComponent<GroundMotor>().KeepFacing(facing);}
             CombatVfx.Burst(origin+(flight?Vector3.zero:Vector3.up*.9f),Cyan,"shot");Sound("forceField_000",.22f,1.35f);
             WaypointCharge.Leave(actor,origin,flight,Hit(Ranged(1.7f,power),DamageType.Pulse,55));
         }
@@ -199,7 +235,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             age+=Time.deltaTime;float t=Mathf.Clamp01(age/life);
             float r=shrink?Mathf.Lerp(from,radius,t):radius*Mathf.Clamp01(age/(life*.7f));
             var c=color;c.a=Mathf.Clamp01((1-t)*1.6f);
@@ -227,7 +263,7 @@ namespace Lattice.Combat
         Vector3 Hand=>owner!=null?owner.transform.position+Vector3.up*(owner.flight?.8f:1.1f):transform.position;
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             if(owner==null||!owner.Health.Alive){Destroy(gameObject);return;}
             if(!reeling)
             {
@@ -245,7 +281,9 @@ namespace Lattice.Combat
                 {
                     caught.Receive(packet);CombatVfx.Burst(tip,new Color(1,.6f,.2f),"hit");HeroSkills.Sound("impactMetal_000",.3f,.9f);
                     var brain=caught.GetComponent<EnemyBrain>();
-                    if(brain!=null&&brain.CanBeMoved&&caught.Alive){reeling=true;}
+                    // A hook that kills, or that catches a mine, moves nobody: the line just finishes.
+                    if(!caught.Alive||brain!=null&&brain.Mine){Destroy(gameObject,.12f);enabled=false;}
+                    else if(brain!=null&&brain.CanBeMoved&&!brain.Heavy){reeling=true;brain.Interrupt();}
                     else
                     {
                         // A body too heavy to move pulls the hero to it instead.
@@ -274,7 +312,7 @@ namespace Lattice.Combat
     /// <summary>Faultline: the ground (or the flight plane) ruptures in a line of bursts that stop at cover.</summary>
     public sealed class FaultlineWave:MonoBehaviour
     {
-        CombatActor owner;Func<DamagePacket> packet;Vector3 origin,direction;bool flight;int burst;float age;
+        CombatActor owner;Func<DamagePacket> packet;Vector3 origin,direction,last;bool flight;int burst;float age;
         readonly HashSet<Health> victims=new();
         public static void Release(CombatActor owner,Vector3 origin,Vector3 direction,bool flight,Func<DamagePacket> packet)
         {
@@ -284,14 +322,17 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             age+=Time.deltaTime;
             while(burst<5&&age>=burst*.07f)
             {
                 float distance=2+burst*2;var point=origin+direction*distance;
-                var from=origin+Vector3.up*(flight?0:.9f);var to=point+Vector3.up*(flight?0:.9f);
+                // Each burst sits on the ground it reaches: a gentle rise isn't a wall, and a descent doesn't leave it in the air.
+                if(!flight)point=CombatCover.Ground(point+Vector3.up*2.5f);
+                var from=(burst==0?origin:last)+Vector3.up*(flight?0:.9f);var to=point+Vector3.up*(flight?0:.9f);
                 if(!CombatCover.Clear(from,to)){Destroy(gameObject);return;}
-                var strike=CombatActor.Strike(to,1.7f,packet());strike.hit=victims;strike.life=.1f;
+                last=point;
+                var strike=HeroSkills.Land(to,1.7f,packet());strike.hit=victims;strike.life=.1f;
                 SkillRing.Expand(point,1.7f,new Color(1.4f,.55f,.15f),.3f,flight);
                 CombatVfx.Burst(point+Vector3.up*(flight?0:.25f),new Color(1,.55f,.2f),"hit");
                 burst++;
@@ -326,11 +367,14 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             if(owner==null||!owner.Health.Alive){Destroy(gameObject);return;}
             age+=Time.deltaTime;if(age>=Lifetime){CombatVfx.Burst(transform.position,new Color(.3f,1,1.6f),"hit");Destroy(gameObject);return;}
             var side=Vector3.Cross(Vector3.up,owner.motor.Facing).normalized;
             var hover=owner.transform.position+Vector3.up*(owner.flight?1.2f:2.1f)-side*1.1f-owner.motor.Facing*.4f+Vector3.up*Mathf.Sin(age*3)*.12f;
+            // It stays on Sela's side of a wall: no clipping through it, no firing from beyond it.
+            var chest=owner.transform.position+Vector3.up*(owner.flight?1.2f:1.6f);
+            if(CombatCover.Sweep(chest,hover,.2f,out var cover))hover=chest+(hover-chest).normalized*Mathf.Max(0,cover.distance-.25f);
             transform.position=Vector3.Lerp(transform.position,hover,1-Mathf.Exp(-8*Time.deltaTime));
             spin+=Time.deltaTime*240;if(body!=null)body.localRotation=Quaternion.Euler(0,spin,0);
             nextShot-=Time.deltaTime;if(nextShot>0)return;
@@ -364,10 +408,10 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             age+=Time.deltaTime;if(age<Fuse)return;
             var center=transform.position+Vector3.up*(flight?0:.9f);
-            CombatActor.Strike(center,Radius,packet).life=.12f;
+            HeroSkills.Land(center,Radius,packet).life=.12f;
             SkillRing.Expand(flight?transform.position:CombatCover.Ground(transform.position+Vector3.up*2),Radius,new Color(.4f,1.2f,1.8f),.3f,flight);
             CombatVfx.Burst(center,new Color(.3f,1,1.6f),"hit");HeroSkills.Sound("explosionCrunch_000",.28f,1.3f);
             Destroy(gameObject);
@@ -393,7 +437,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             if(owner==null){Destroy(gameObject);return;}
             age+=Time.deltaTime;
             if(!landed)
@@ -414,6 +458,7 @@ namespace Lattice.Combat
                 if(health==null||!health.Alive||health.friendly)continue;
                 var offset=transform.position-health.transform.position;offset.y=0;float distance=offset.magnitude;
                 if(distance>PullRadius||distance<.6f)continue;
+                if(!CombatCover.Clear(transform.position+Vector3.up*.3f,health.transform.position+Vector3.up*.3f))continue;
                 if(health.TryGetComponent<EnemyBrain>(out var brain)&&brain.CanBeMoved)brain.Displace(offset.normalized*Mathf.Min(distance-.6f,PullSpeed*Time.deltaTime));
                 health.SlowUntil=Mathf.Max(health.SlowUntil,Time.time+.3f);
             }
@@ -421,11 +466,11 @@ namespace Lattice.Combat
             if(nextTick<=0&&age<Duration)
             {
                 nextTick=.4f;
-                CombatActor.Strike(transform.position+Vector3.up*(flight?0:.8f),TickRadius,Packet(.25f,12)).life=.08f;
+                HeroSkills.Land(transform.position+Vector3.up*(flight?0:.8f),TickRadius,Packet(.25f,12)).life=.08f;
             }
             if(age>=Duration)
             {
-                CombatActor.Strike(transform.position+Vector3.up*(flight?0:.8f),ImplodeRadius,Packet(1.4f,45)).life=.12f;
+                HeroSkills.Land(transform.position+Vector3.up*(flight?0:.8f),ImplodeRadius,Packet(1.4f,45)).life=.12f;
                 SkillRing.Expand(transform.position,ImplodeRadius,new Color(.9f,.5f,1.8f),.35f,flight);
                 CombatVfx.Burst(transform.position+Vector3.up*(flight?0:.6f),new Color(.7f,.4f,1.5f),"hit");HeroSkills.Sound("explosionCrunch_000",.3f,.7f);
                 Destroy(gameObject);
@@ -450,7 +495,7 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.Paused)return;
+            if(GameTime.CombatHeld)return;
             if(owner==null){Destroy(gameObject);return;}
             age+=Time.deltaTime;if(age<Warning)return;
             float beamAge=age-Warning;
@@ -458,13 +503,13 @@ namespace Lattice.Combat
             {
                 var offset=UnityEngine.Random.insideUnitCircle*(Radius-.6f);var point=transform.position+new Vector3(offset.x,0,offset.y);
                 Beam(point);
-                CombatActor.Strike(point+Vector3.up*(flight?0:.8f),1.5f,Packet(.85f,14)).life=.08f;
+                HeroSkills.Land(point+Vector3.up*(flight?0:.8f),1.5f,Packet(.85f,14)).life=.08f;
                 fired++;
             }
             if(fired>=Beams&&beamAge>=Beams*.085f+.1f)
             {
                 Beam(transform.position);
-                var strike=CombatActor.Strike(transform.position+Vector3.up*(flight?0:.8f),2.2f,Packet(1.5f,40));strike.hit=centre;strike.life=.1f;
+                var strike=HeroSkills.Land(transform.position+Vector3.up*(flight?0:.8f),2.2f,Packet(1.5f,40));strike.hit=centre;strike.life=.1f;
                 SkillRing.Expand(transform.position,Radius,new Color(.4f,1.2f,1.8f),.3f,flight);
                 HeroSkills.Sound("explosionCrunch_000",.3f,1.45f);
                 Destroy(gameObject);

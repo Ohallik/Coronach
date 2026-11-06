@@ -162,7 +162,7 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsTrue(enemy.Health.Broken,id+" break stimulus failed");
                 yield return null;
                 if(enemy.Telegraphing)failures.Add(id+" retained the pre-break attack tell");
-                if(enemy.transform.Find("Telegraph").gameObject.activeSelf)failures.Add(id+" retained the visible pre-break warning");
+                if(enemy.AttackMark!=null)failures.Add(id+" retained the visible pre-break warning");
                 float before=actor.Health.integrity,breakEnds=enemy.Health.BrokenUntil;
                 while(Time.time<breakEnds)yield return null;
                 bool newTell=false;float firstNewTell=-1,firstHit=-1;

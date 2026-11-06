@@ -8,6 +8,12 @@ namespace Lattice.Combat
         CombatActor actor;
         float lungeRequestedUntil=-1;
         float attackRequestedUntil=-1;
+        /// <summary>A skill press during a swing fires when the swing ends, as an attack press does.</summary>
+        const float SkillBuffer=.3f;
+        readonly float[] skillRequestedUntil=new float[4];
+        /// <summary>X is also a skill's face button: held across RB's release it must not become a Guard, which cancels the pose
+        /// the Charge has already paid for. It waits for a fresh press.</summary>
+        bool guardLatched;
         public bool AutoPilot;
         void Awake(){actor=GetComponent<CombatActor>();}
         void Update()
@@ -17,13 +23,19 @@ namespace Lattice.Combat
             if(GameTime.Paused)return;
             if(actor.State==Lattice.Data.ActorState.Stagger){lungeRequestedUntil=attackRequestedUntil=-1;actor.motor.Move(Vector2.zero,false,true);return;}
             var zone=ZoneController.Current;bool combat=zone!=null&&zone.Combat;
-            if(!combat||actor.target==null||!actor.target.Targetable||(actor.target.transform.position-transform.position).sqrMagnitude>900)
+            // A boss that dives is still the fight: the lock waits for it to surface and its opening.
+            bool diving=actor.target!=null&&actor.target.Alive&&actor.target.TryGetComponent<BossController>(out var diver)&&diver.Burrowed;
+            if(!diving&&(!combat||actor.target==null||!actor.target.Targetable||(actor.target.transform.position-transform.position).sqrMagnitude>900))
+            {
                 actor.TargetLocked=false;
+                // The target line and reticle don't outlive the fight.
+                if(actor.target!=null&&(!combat||(actor.target.transform.position-transform.position).sqrMagnitude>900))actor.target=null;
+            }
             PromptService.FindInteraction(transform.position);
             if(input.Pressed("Interact")&&!input.SkillMod&&PromptService.TryInteract()){attackRequestedUntil=-1;return;}
             Vector2 move=input.Move;
             var rotated=Quaternion.Euler(0,zone.definition.cameraProfile.yaw,0)*new Vector3(move.x,0,move.y);
-            move=new Vector2(rotated.x,rotated.z);
+            move=new Vector2(rotated.x,rotated.z);actor.MoveIntent=rotated;
             bool boost=SprintRequested(input.Held(actor.flight?"Boost":"Sprint"),move);
             actor.motor.Move(move,boost,actor.flight&&input.Held("Brake"));
             if(input.Pressed("Swap")&&!input.SkillMod)PartyController.Current.Swap();
@@ -39,9 +51,15 @@ namespace Lattice.Combat
                 var state=GameServices.Current.State;var items=new System.Collections.Generic.List<string>(state.consumables.Keys);
                 if(items.Count>0)state.quickItem=items[(items.IndexOf(state.quickItem)+itemCycle+items.Count)%items.Count];
             }
-            if(input.SkillMod)
-            {lungeRequestedUntil=attackRequestedUntil=-1;for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1)))actor.Skill(i);return;}
-            for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1)))actor.Skill(i);
+            for(int i=0;i<4;i++)if(input.Pressed("Skill"+(i+1)))skillRequestedUntil[i]=GameTime.Now+SkillBuffer;
+            for(int i=0;i<4;i++)
+            {
+                if(skillRequestedUntil[i]<=0)continue;
+                if(GameTime.Now>skillRequestedUntil[i]){skillRequestedUntil[i]=0;continue;}
+                // Still mid-swing: keep it. Refused for Charge or cooldown: Skill() has said so.
+                if(actor.Skill(i)||actor.CanAct)skillRequestedUntil[i]=0;
+            }
+            if(input.SkillMod){lungeRequestedUntil=attackRequestedUntil=-1;if(input.Held("Guard"))guardLatched=true;return;}
             // A short lunge tap during emitter recovery should fire as soon as recovery ends.
             // Give it priority over held fire so continuous shooting cannot starve the request.
             if(actor.flight&&input.Pressed("Lunge"))lungeRequestedUntil=GameTime.Now+.2f;
@@ -51,8 +69,9 @@ namespace Lattice.Combat
             if(!actor.flight&&!PromptService.AConsumed&&input.Pressed("Attack"))attackRequestedUntil=GameTime.Now+.24f;
             if(!actor.flight&&GameTime.Now<=attackRequestedUntil&&actor.Attack())attackRequestedUntil=-1;
             if(input.Pressed(actor.flight?"Roll":"Dodge")){attackRequestedUntil=-1;actor.Dodge(new Vector3(move.x,0,move.y));}
-            if(!actor.flight&&input.Held("Guard"))attackRequestedUntil=-1;
-            if(!actor.flight)actor.Guard(input.Held("Guard"));
+            bool guardHeld=input.Held("Guard");if(!guardHeld)guardLatched=false;guardHeld&=!guardLatched;
+            if(!actor.flight&&guardHeld)attackRequestedUntil=-1;
+            if(!actor.flight)actor.Guard(guardHeld);
             if(!actor.flight&&input.Pressed("QuickItem"))UseItem();
             if(actor.target==null||!actor.target.Targetable)actor.target=FindTarget();
         }
@@ -78,7 +97,12 @@ namespace Lattice.Combat
             return sprint;
         }
         public bool Winded=>winded;
-        void OnDisable(){lungeRequestedUntil=attackRequestedUntil=-1;if(actor!=null)actor.TargetLocked=false;}
+        void OnDisable()
+        {
+            lungeRequestedUntil=attackRequestedUntil=-1;System.Array.Clear(skillRequestedUntil,0,4);guardLatched=false;
+            // Nobody else ever releases a guard: a hero swapped out mid-guard stayed slow, posed and at 35% damage.
+            if(actor!=null){actor.TargetLocked=false;actor.MoveIntent=Vector3.zero;if(actor.Health!=null&&actor.Health.Alive)actor.Guard(false);}
+        }
         public Health FindTarget()
         {
             Health nearest=null;float best=30*30;

@@ -123,6 +123,8 @@ namespace Lattice.Core
         }
         public void SetFlight(bool flight)
         {
+            // Crossing a safe pocket re-applies the zone with nothing changed: re-enabling the map drops every held button.
+            if(FlightMode==flight&&Active.enabled)return;
             Ground.Disable(); Flight.Disable(); FlightMode=flight; Active.Enable();
         }
         public InputAction Find(string name) => Active.FindAction(name) ?? Common.FindAction(name);

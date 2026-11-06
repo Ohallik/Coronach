@@ -89,6 +89,8 @@ namespace Lattice.Combat
             return heading*Mathf.MoveTowards(have,want,maxSpeedChange);
         }
         public void Dash(Vector3 direction,float distance){dash=direction.normalized*distance/.16f;dashTime=.16f;Facing=direction.normalized;}
+        /// <summary>For a dash that doesn't turn the hero: the aim stays on what she was looking at.</summary>
+        public void KeepFacing(Vector3 facing){if(facing.sqrMagnitude>.01f)Facing=facing.normalized;}
         // Authored action travel is evaluated from the posed clip, then passed
         // through the same controller as ordinary movement. Never damage along
         // an intended path which collision prevented the body from travelling.

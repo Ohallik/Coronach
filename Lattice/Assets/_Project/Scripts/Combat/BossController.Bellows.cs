@@ -62,6 +62,7 @@ namespace Lattice.Combat
                 yield return null;
             }
             Deflate();
+            bool collapsed=health.Alive&&!health.Broken;
             if(health.Alive&&!health.Broken)
             {
                 CombatVfx.Burst(transform.position+Vector3.up,new Color(.85f,.72f,.55f),"shape");
@@ -74,7 +75,8 @@ namespace Lattice.Combat
                         if(damage>0)actor.Stagger(.5f);
                     }
             }
-            Finish(BellowsRest);
+            // The breath spent, the dome sags: this is the fight's rhythm, and its window.
+            if(collapsed)yield return Opening(1.3f,BellowsRest);else Finish(BellowsRest);
         }
         IEnumerator RibStar()
         {
@@ -95,9 +97,10 @@ namespace Lattice.Combat
                 ThreatFrom(marks);yield return null;
             }
             Deflate();
+            var once=new HashSet<Health>();
             foreach(var marking in marks)
             {
-                Strike(marking,20,DamageType.Kinetic,.45f);
+                Strike(marking,20,DamageType.Kinetic,.45f,0,once);
                 for(int s=1;s<=3;s++)CombatVfx.Burst(marking.Origin+marking.Forward*(s*4.5f)+Vector3.up*.3f,new Color(.8f,.68f,.52f),"shape");
             }
             Tremor(.35f,.09f);AudioManager.PlayAt("explosionCrunch_000",transform,transform.position,.2f,AudioBus.SFX,60);
@@ -152,18 +155,18 @@ namespace Lattice.Combat
             yield return new WaitForSeconds(.9f);
             if(Interrupted)yield break;
             lane.Release();
-            var hit=new HashSet<Health>();var controller=GetComponent<CharacterController>();
+            var hit=new HashSet<Health>();var controller=GetComponent<CharacterController>();Collide(false);
             for(float t=0;t<1.8f&&health.Alive&&!health.Broken;)
             {
                 if(GameTime.Paused){yield return null;continue;}
                 t+=Time.deltaTime;var left=goal-transform.position;left.y=0;if(left.magnitude<.6f)break;
                 if(controller.enabled)controller.Move(left.normalized*Mathf.Min(16*Time.deltaTime,left.magnitude));
                 foreach(var actor in PartyController.Current.members)
-                    if(actor.Health.Alive&&!hit.Contains(actor.Health)&&(actor.transform.position-transform.position).sqrMagnitude<9)
+                    if(actor.Health.Alive&&!hit.Contains(actor.Health)&&lane.Contains(actor.transform.position)&&(actor.transform.position-transform.position).sqrMagnitude<9)
                     {hit.Add(actor.Health);float damage=actor.Health.Receive(Packet(24,DamageType.Kinetic));if(damage>0)actor.Stagger(.5f);}
                 yield return null;
             }
-            strikeAt=0;
+            strikeAt=0;Collide(true);
             if(health.Alive&&!health.Broken)yield return BellowsBreath();
             else Finish(BellowsRest);
         }

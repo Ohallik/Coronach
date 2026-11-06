@@ -228,13 +228,13 @@ namespace Lattice.Tests.PlayMode
         }
         IEnumerator WaitForSpecial(bool song)
         {
-            var boss=enemy.GetComponent<BossController>();float deadline=Time.unscaledTime+15;
+            var boss=enemy.GetComponent<BossController>();float deadline=Time.unscaledTime+40;
             do
             {
                 while(!boss.Telegraphing&&Time.unscaledTime<deadline)yield return null;
                 Assert.IsTrue(boss.Telegraphing,"boss never supplied the required real tell");
                 bool observedSong=boss.TelegraphRemaining>.9f;
-                if(observedSong==song)yield break;
+                if(boss.CurrentMove=="Choir"&&observedSong==song)yield break;
                 while(boss.Busy&&Time.unscaledTime<deadline)yield return null;
             }while(Time.unscaledTime<deadline);
             Assert.Fail("required attack type never arrived");
@@ -248,7 +248,7 @@ namespace Lattice.Tests.PlayMode
             {
                 Place(actor,new Vector3(30,1,6));actor.Health.maximum=actor.Health.integrity=10000;actor.Health.InvulnerableUntil=Time.time+30;
                 if(cut)Cut(0);enemy.Passive=false;enemy.GetComponent<CharacterController>().enabled=false;
-                yield return WaitForSpecial(false);QuietShots();actor.Health.InvulnerableUntil=0;float before=actor.Health.integrity;
+                yield return WaitForSpecial(false);QuietShots();Place(actor,enemy.transform.position+Vector3.forward*6);actor.Health.InvulnerableUntil=0;float before=actor.Health.integrity;
                 var boss=enemy.GetComponent<BossController>();while(boss.Busy)yield return null;
                 float damage=before-actor.Health.integrity;Debug.Log($"COLLAR_SWEEP cut={cut} damageAtSixMetres={damage:R}");
                 if(cut)Assert.AreEqual(0,damage,"cut sweep still reaches its old outer ring");else Assert.Greater(damage,0,"attached sweep never hits its marked ring");
@@ -263,7 +263,7 @@ namespace Lattice.Tests.PlayMode
                 Place(actor,new Vector3(30,1,6));actor.Health.maximum=actor.Health.integrity=10000;actor.Health.InvulnerableUntil=Time.time+40;
                 if(cut)Cut(1);enemy.Health.integrity=enemy.Health.maximum*.25f;
                 enemy.Passive=false;enemy.GetComponent<CharacterController>().enabled=false;
-                yield return WaitForSpecial(true);QuietShots();actor.Health.InvulnerableUntil=0;float before=actor.Health.integrity;
+                yield return WaitForSpecial(true);QuietShots();Place(actor,enemy.transform.position+Vector3.forward*6);actor.Health.InvulnerableUntil=0;float before=actor.Health.integrity;
                 var boss=enemy.GetComponent<BossController>();while(boss.Busy)yield return null;
                 Assert.Less(actor.Health.integrity,before,"both versions must release a real song hit");
                 Debug.Log($"COLLAR_SONG cut={cut} actorState={actor.State}");

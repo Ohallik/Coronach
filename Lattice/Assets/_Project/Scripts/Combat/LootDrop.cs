@@ -10,6 +10,8 @@ namespace Lattice.Combat
         void Start(){GetComponent<Health>().Died+=Drop;}
         void Drop(Health _,DamagePacket packet)
         {
+            // A mine that went off by itself was no victory: no XP for flying close to it.
+            if(packet.tag==EnemyBrain.SelfDetonation)return;
             var state=GameServices.Current.State;
             foreach(var member in state.party)Levels.Grant(member,definition.xp);
             int scrip=definition.boss?150:8;state.scrip+=scrip;Inventory.Announce("scrip",scrip);

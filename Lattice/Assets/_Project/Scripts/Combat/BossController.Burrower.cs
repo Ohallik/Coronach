@@ -23,7 +23,7 @@ namespace Lattice.Combat
             var offset=Flat(hero.transform.position-transform.position);float distance=offset.magnitude;
             bool behind=distance<6&&Vector3.Angle(transform.forward,offset)>75;
             if(behind&&lastMove!="TailSweep")return("TailSweep",TailSweep());
-            string move=Pick(("DrillCharge",distance>4?2.2f:.8f),("SpoilToss",distance>7?1.8f:.5f),("TailSweep",distance<4.5f?1f:0),
+            string move=Pick(("DrillCharge",distance>4?2.2f:.8f),("SpoilToss",distance>7?1.8f:.5f),("TailSweep",behind?1f:0),
                 ("Burrow",Phase>=2?1.5f:0),("SeismicRings",Phase>=3?1.6f:0));
             return move switch
             {
@@ -62,7 +62,7 @@ namespace Lattice.Combat
                     var before=transform.position;
                     if(controller.enabled)controller.Move(direction*step);
                     travelled+=Flat(transform.position-before).magnitude;
-                    Contact(hit,transform.position,2.3f,24,.45f);
+                    Contact(hit,transform.position,2.3f,24,.45f,lane);
                     yield return null;
                 }
                 strikeAt=0;Collide(true);Pose(0);
@@ -91,10 +91,8 @@ namespace Lattice.Combat
             Tremor(.45f,.12f);AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up*1.4f,.35f,AudioBus.SFX,60);
             for(int i=0;i<3;i++)CombatVfx.Burst(transform.position+direction*1.6f+Vector3.up*(.6f+i*.5f),new Color(.75f,.6f,.45f),"kill");
             Debug.Log("BURROWER_STUCK");
-            health.Expose(seconds);
-            BarkService.Play(PartyController.Current.Active.character,"bossopening",true);
-            yield return new WaitForSeconds(seconds);
-            Finish(1.4f);
+            BarkService.Play(PartyController.Current.Active.character,Situation("bossopening"),true);
+            yield return Opening(seconds,1.4f);
         }
 
         IEnumerator SpoilToss()
@@ -127,7 +125,8 @@ namespace Lattice.Combat
                 ThreatFrom(marks);
                 yield return null;
             }
-            foreach(var marking in marks){Strike(marking,15,DamageType.Kinetic,.3f);CombatVfx.Burst(marking.Origin+Vector3.up*.3f,new Color(.55f,.45f,.35f),"kill");}
+            var once=new HashSet<Health>();
+            foreach(var marking in marks){Strike(marking,15,DamageType.Kinetic,.3f,0,once);CombatVfx.Burst(marking.Origin+Vector3.up*.3f,new Color(.55f,.45f,.35f),"kill");}
             Tremor(.25f,.06f);ClearTemporary();Pose(0);
             Finish(BurrowerRest);
         }
@@ -178,16 +177,14 @@ namespace Lattice.Combat
             yield return new WaitForSeconds(.75f);
             if(!health.Alive)yield break;
             // Surface at the marked point, on the ground beneath it.
-            var surface=at;if(Physics.Raycast(at+Vector3.up*4,Vector3.down,out var ground,10,~0,QueryTriggerInteraction.Ignore))surface=ground.point;
+            var surface=CombatCover.Ground(at+Vector3.up*4);
             transform.position=surface+Vector3.up*.05f;Physics.SyncTransforms();
             controller.enabled=true;burrowed=false;health.Damageable=true;
             if(visual!=null)visual.localPosition=visualRest;
             Strike(eruption,24,DamageType.Kinetic,.6f,3f);strikeAt=0;
             Tremor(.5f,.13f);CombatVfx.Burst(surface+Vector3.up,new Color(.65f,.52f,.4f),"kill");
             AudioManager.PlayAt("explosionCrunch_000",transform,surface,.3f,AudioBus.SFX,60);
-            health.Expose(1.4f);
-            yield return new WaitForSeconds(1.4f);
-            Finish(BurrowerRest);
+            yield return Opening(1.4f,BurrowerRest);
         }
 
         IEnumerator SeismicRings()
@@ -201,6 +198,8 @@ namespace Lattice.Combat
             AudioManager.PlayAt("explosionCrunch_000",transform,transform.position,.28f,AudioBus.SFX,60);
             const float band=1.5f,speed=8f,reach=17f,spacing=.55f;
             var centre=transform.position;var rings=new List<(Telegraph mark,float born,HashSet<Health> hit)>();
+            // One cast, one hit: bands .55 s apart with a .3 s stagger chained a hero from 60 to 0 in a second.
+            var struck=new HashSet<Health>();
             float started=Time.time;int launched=0;
             while(health.Alive&&(launched<3||rings.Count>0))
             {
@@ -208,7 +207,7 @@ namespace Lattice.Combat
                 if(launched<3&&Time.time-started>=launched*spacing)
                 {
                     var ring=Mark(Telegraph.Ring(centre,.5f,.5f+band,99,Telegraph.Threat));ring.Steady=true;
-                    rings.Add((ring,Time.time,new HashSet<Health>()));launched++;
+                    rings.Add((ring,Time.time,struck));launched++;
                 }
                 float soonest=float.PositiveInfinity;var hero=PartyController.Current.Active.transform.position;
                 for(int i=rings.Count-1;i>=0;i--)
@@ -232,15 +231,24 @@ namespace Lattice.Combat
             Finish(BurrowerRest);
         }
 
+        /// <summary>Open ground for a summoned add: next to a cliff, step back toward the boss rather than land on or under it.</summary>
+        Vector3 SummonPoint(Vector3 offset)
+        {
+            for(float k=1;k>.2f;k-=.3f)
+            {
+                var ground=CombatCover.Ground(transform.position+offset*k+Vector3.up*6);
+                if(Mathf.Abs(ground.y-transform.position.y)<1.2f)return ground;
+            }
+            return transform.position;
+        }
         void SummonMites(int count)
         {
             var definition=GameCatalog.Find<EnemyDef>("Scrapmite");if(definition==null)return;
             summoned.RemoveAll(s=>s==null||!s.Health.Alive);
-            for(int i=0;i<count&&summoned.Count<3;i++)
+            for(int i=0;i<count&&summoned.Count<2;i++)
             {
                 var offset=Quaternion.Euler(0,transform.eulerAngles.y+(i==0?-70:70),0)*Vector3.forward*4.5f;
-                var point=transform.position+offset;
-                if(Physics.Raycast(point+Vector3.up*4,Vector3.down,out var ground,10,~0,QueryTriggerInteraction.Ignore))point=ground.point;
+                var point=SummonPoint(offset);
                 var mite=ActorFactory.Enemy(definition,point+Vector3.up*.05f);summoned.Add(mite);
                 CombatVfx.Burst(point+Vector3.up*.4f,new Color(.6f,.5f,.38f),"kill");
             }

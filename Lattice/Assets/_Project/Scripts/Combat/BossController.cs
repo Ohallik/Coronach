@@ -28,9 +28,14 @@ namespace Lattice.Combat
         Transform inflated,body;Vector3 inflatedRest,bodyRest;int breaths;
         Transform visual;Vector3 visualRest;Quaternion visualRestRotation=Quaternion.identity;
         bool shiftPending,shifting;string lastMove;int moveCount;
+        /// <summary>The signature move a phase shift promised, next after its rest.</summary>
+        string queuedMove;
+        /// <summary>Until when a deliberate opening runs. Hitting it is the point: it must not cut the boss's rest short.</summary>
+        float openingUntil;
         readonly List<GameObject> temporary=new();
         readonly List<EnemyBrain> summoned=new();
         public bool Busy=>busy;
+        public float NextSpecialAt=>nextSpecial;
         public bool Telegraphing=>busy&&Time.time<strikeAt;
         public float TelegraphRemaining=>Mathf.Max(0,strikeAt-Time.time);
         public bool Shifting=>shifting;
@@ -50,6 +55,9 @@ namespace Lattice.Combat
             _=>""
         };
         /// <summary>What the boss bar says while this boss can't be hurt: the thing the player has to deal with.</summary>
+        /// <summary>The fight's state beyond integrity: what the player should know right now.</summary>
+        public string StatusText=>health==null?"":health.id=="BellowsBelow"&&PressureOrgan.AnyPumping?"BRACED ON ITS ORGANS  ·  BREAK THEM":"";
+        public string ShiftText=>health!=null&&health.id=="HessaKorl"?"SHE'S SHIFTING  ·  BRACE":"SHIFTING  ·  BRACE";
         public string GuardedText=>collar!=null&&collar.Remaining>0?"THE COLLAR HOLDS  ·  CUT THE LINKS":burrowed?"BELOW GROUND":"PROTECTED";
         /// <summary>Integrity fractions at which the next phase begins (boss bar notches).</summary>
         public float[] Thresholds=>health==null?System.Array.Empty<float>():health.id switch
@@ -119,7 +127,7 @@ namespace Lattice.Combat
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
             if(engaged<0&&amount>0)engaged=Time.realtimeSinceStartup;
-            if(!health.Broken)return;
+            if(!health.Broken||Time.time<openingUntil)return;
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;
             nextSpecial=Mathf.Max(nextSpecial,health.BrokenUntil+.5f);
         }
@@ -127,7 +135,7 @@ namespace Lattice.Combat
         public void RestoreAfterRecovery()
         {
             StopAllCoroutines();Interrupt();busy=false;strikeAt=0;engaged=-1;
-            Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
+            Phase=1;HealthPhase=1;cantorSpecials=0;moveCount=0;lastMove=null;shiftPending=false;queuedMove=null;openingUntil=0;brain.DamageScale=1;nextSpecial=Time.time+5;enabled=true;
             DismissSummons();
             MusicDirector.Encounter(this,"Alien Boss Battle",true);
         }
@@ -182,6 +190,7 @@ namespace Lattice.Combat
             if((hero.transform.position-transform.position).sqrMagnitude>900)return;
             if(shiftPending){shiftPending=false;Begin("PhaseShift",PhaseShift());return;}
             if(Time.time<nextSpecial)return;
+            if(queuedMove!=null){var promised=queuedMove;queuedMove=null;if(Perform(promised))return;}
             var (move,routine)=health.id switch
             {
                 "Burrower"=>ChooseBurrower(hero),
@@ -209,11 +218,33 @@ namespace Lattice.Combat
         }
         void Begin(string move,IEnumerator routine)
         {
-            busy=true;strikeAt=0;CurrentMove=move;lastMove=move;moveCount++;
+            busy=true;strikeAt=0;CurrentMove=move;lastMove=move;moveCount++;lastUsed[move]=moveCount;
             Debug.Log($"BOSS_MOVE {health.id} {move} phase={Phase}");MoveStarted?.Invoke(this,move);
             StartCoroutine(routine);
         }
         void Finish(float cooldown){busy=false;strikeAt=0;CurrentMove="";nextSpecial=Time.time+cooldown;}
+        /// <summary>A deliberate punish window: the boss is exposed, then takes its rest. Landing hits in it doesn't interrupt
+        /// anything, so punishing it never brings the boss back sooner than leaving it alone.</summary>
+        IEnumerator Opening(float seconds,float rest)
+        {
+            openingUntil=Time.time+seconds;health.Expose(seconds);
+            yield return new WaitForSeconds(seconds);
+            openingUntil=0;Finish(rest);
+        }
+        /// <summary>The boss's own line for this situation if it has one (Hessa is a person; the Cantor flies), else the shared one.</summary>
+        string Situation(string situation)
+        {
+            string own=situation+"."+health.id;
+            return BarkService.Line(PartyController.Current.Active.character,own)!=null?own:situation;
+        }
+        string SignatureMove(int phase)=>(health.id,phase) switch
+        {
+            ("Burrower",2)=>"Burrow",("Burrower",>=3)=>"SeismicRings",
+            ("BellowsBelow",2)=>"Bubbles",("BellowsBelow",>=3)=>"Crossing",
+            ("Cantor",2)=>"SongSpiral",("Cantor",>=3)=>"CoilLash",
+            ("HessaKorl",2)=>"SweepingCut",("HessaKorl",>=3)=>"Lampbreaker",
+            _=>null
+        };
 
         // ---------- shared pieces ----------
         Telegraph Mark(Telegraph marking){marking.owner=this;return marking;}
@@ -221,13 +252,15 @@ namespace Lattice.Combat
         static Vector3 Flat(Vector3 v){v.y=0;return v;}
         Vector3 Toward(Vector3 point){var d=Flat(point-transform.position);return d.sqrMagnitude>.0001f?d.normalized:transform.forward;}
         bool Interrupted=>!health.Alive||health.Broken;
-        /// <summary>The marking lands: everyone inside it is struck once (a dodge still evades), outside it nobody.</summary>
-        void Strike(Telegraph marking,float amount,DamageType type,float stagger=0,float shove=0)
+        /// <summary>The marking lands: everyone inside it is struck once (a dodge still evades), outside it nobody. Several
+        /// markings of one cast share <paramref name="once"/>: overlapping ones used to land together in one frame.</summary>
+        void Strike(Telegraph marking,float amount,DamageType type,float stagger=0,float shove=0,HashSet<Health> once=null)
         {
             marking.Release();
             foreach(var actor in PartyController.Current.members)
             {
                 if(!actor.Health.Alive||!marking.Contains(actor.transform.position))continue;
+                if(once!=null&&!once.Add(actor.Health))continue;
                 float dealt=actor.Health.Receive(Packet(amount,type));
                 if(dealt<=0)continue;
                 if(stagger>0)actor.Stagger(stagger);
@@ -235,11 +268,13 @@ namespace Lattice.Combat
             }
         }
         /// <summary>A moving body striking whoever it touches, once each.</summary>
-        void Contact(HashSet<Health> hit,Vector3 centre,float radius,float amount,float stagger)
+        void Contact(HashSet<Health> hit,Vector3 centre,float radius,float amount,float stagger,Telegraph lane)
         {
             foreach(var actor in PartyController.Current.members)
             {
                 if(!actor.Health.Alive||hit.Contains(actor.Health)||Flat(actor.transform.position-centre).sqrMagnitude>=radius*radius)continue;
+                // The moving body strikes only inside the lane it marked.
+                if(lane!=null&&!lane.Contains(actor.transform.position))continue;
                 hit.Add(actor.Health);float dealt=actor.Health.Receive(Packet(amount,DamageType.Kinetic));
                 if(dealt>0&&stagger>0)actor.Stagger(stagger);
             }
@@ -279,6 +314,7 @@ namespace Lattice.Combat
             foreach(var marking in markings)if(marking!=null&&!marking.Released&&marking.Contains(hero))soonest=Mathf.Min(soonest,marking.Remaining);
             strikeAt=float.IsPositiveInfinity(soonest)?0:Time.time+soonest;
         }
+        readonly Dictionary<string,int> lastUsed=new();
         string Pick(params (string move,float weight)[] options)
         {
             float total=0;
@@ -287,7 +323,11 @@ namespace Lattice.Combat
             foreach(var option in options){roll-=Weight(option);if(roll<=0&&Weight(option)>0)return option.move;}
             foreach(var option in options)if(option.weight>0)return option.move;
             return options[0].move;
-            float Weight((string move,float weight) option)=>option.weight<=0?0:option.move==lastMove?option.weight*.25f:option.weight;
+            float Weight((string move,float weight) option)
+            {
+                if(option.weight<=0)return 0;if(option.move==lastMove)return option.weight*.25f;
+                lastUsed.TryGetValue(option.move,out int used);return option.weight*(1+.6f*(moveCount-used));
+            }
         }
         static CameraRig rig;
         static void Tremor(float seconds,float amplitude)
@@ -305,16 +345,17 @@ namespace Lattice.Combat
             Tremor(.9f,.09f);
             AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.2f,AudioBus.SFX,60);
             CombatVfx.Burst(transform.position+Vector3.up*1.5f,new Color(.75f,.45f,1f),"kill");
-            BarkService.Play(PartyController.Current.Active.character,"bossphase",true);
+            BarkService.Play(PartyController.Current.Active.character,Situation("bossphase"),true);
             var wave=Mark(Telegraph.Circle(transform.position,collar!=null?9:7,.7f,Telegraph.Stagger));
             strikeAt=Time.time+.7f;
-            yield return new WaitForSeconds(.7f);
+            yield return Windup(.7f,-8,.2f,.06f);Pose(0);
             wave.Release();strikeAt=0;
             foreach(var actor in PartyController.Current.members)
                 if(actor.Health.Alive&&wave.Contains(actor.transform.position))StartCoroutine(Shove(actor,Flat(actor.transform.position-transform.position),3.2f));
             if(health.id=="Burrower")SummonMites(HealthPhase>=3?2:2);
             if(health.id=="HessaKorl")CallCrew(2);
             Debug.Log($"BOSS_SHIFT {health.id} {HealthPhase}");
+            queuedMove=SignatureMove(HealthPhase);
             yield return new WaitForSeconds(.7f);
             // Untouchable for the shift and not a moment after it.
             health.InvulnerableUntil=Mathf.Min(health.InvulnerableUntil,GameTime.Now);
