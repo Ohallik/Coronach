@@ -13,6 +13,8 @@ namespace Lattice.World
         public static readonly List<RelayLantern> All=new();
         public string flag;public float radius=10;public Renderer[] crystals=System.Array.Empty<Renderer>();public Light glow;
         public Color litColor=new(1.6f,1.05f,.45f);
+        /// <summary>Lit from the first frame, with no ceremony: a lantern nobody ever let go out.</summary>
+        public bool alwaysLit;
         public bool Lit{get;private set;}
         bool initialized;MaterialPropertyBlock block;
         void OnEnable(){if(!All.Contains(this))All.Add(this);}
@@ -30,7 +32,7 @@ namespace Lattice.World
         void Update()
         {
             if(GameServices.Current==null)return;
-            bool lit=!string.IsNullOrEmpty(flag)&&GameServices.Current.Flags.GetBool(flag);
+            bool lit=alwaysLit||!string.IsNullOrEmpty(flag)&&GameServices.Current.Flags.GetBool(flag);
             if(lit!=Lit||!initialized){bool relit=initialized&&lit&&!Lit;Lit=lit;initialized=true;Present(relit);}
             if(!Lit)return;
             foreach(var health in Health.All)

@@ -10,6 +10,9 @@ namespace Lattice.Combat
     {
         public Transform visual;
         public event System.Action Recovered;
+        /// <summary>A body that gave up rather than died has stopped being a fighter here: id, where, facing.</summary>
+        public static event System.Action<string,Vector3,Quaternion> Yielded;
+        bool yields;
         Health health;CombatActor actor;EnemyBrain enemy;
         Collider[] colliders;bool[] collisionEnabled;
         bool down,recovering,rigid;
@@ -39,6 +42,8 @@ namespace Lattice.Combat
             duration=actor!=null?CombatActor.DownDuration:enemy.definition.boss?1.5f:
                 enemy.definition.id=="SentinelHusk"||enemy.definition.id.StartsWith("Muster")&&enemy.definition.id!="MusterSkiff"?1.15f:enemy.definition.id=="Ridgehound"||enemy.definition.id=="Gloomgrazer"?.9f:flier?1.1f:.75f;
             hold=enemy!=null&&enemy.definition.boss?1.65f:flier?.6f:1.15f;
+            yields=enemy!=null&&enemy.definition.yieldsOnDefeat;
+            if(yields){duration=.35f;hold=.75f;}
             colliders=GetComponentsInChildren<Collider>(true);collisionEnabled=new bool[colliders.Length];
             for(int i=0;i<colliders.Length;i++)
             {
@@ -57,7 +62,7 @@ namespace Lattice.Combat
                 {sections[i]=segments.Parts[i];if(sections[i]!=null){sectionOrigins[i]=sections[i].localPosition;sectionRotations[i]=sections[i].localRotation;}}
             }
             var animator=GetComponentInChildren<Animator>();
-            rigid=animator==null||!animator.isHuman||actor!=null&&actor.flight;
+            rigid=!yields&&(animator==null||!animator.isHuman||actor!=null&&actor.flight);
             if(animator!=null)
             {
                 animator.updateMode=AnimatorUpdateMode.UnscaledTime;
@@ -223,6 +228,12 @@ namespace Lattice.Combat
                     sections[i].localPosition=sectionOrigins[i]+Vector3.down*(.65f*t);
                     sections[i].localRotation=sectionRotations[i]*Quaternion.Euler(8*t,0,(38+i*5)*t);
                 }
+            if(yields&&elapsed>=duration+hold)
+            {
+                // One body: she never drops or shrinks, and the person she is now stands exactly here from this frame on.
+                CombatVfx.Burst(transform.position+Vector3.up,new Color(.62f,.72f,.8f),"hit");
+                Yielded?.Invoke(enemy.definition.id,transform.position,transform.rotation);Destroy(gameObject);return;
+            }
             if(enemy!=null&&elapsed>=duration+hold)
             {
                 // The whole root, so separate serpent sections leave with the body.

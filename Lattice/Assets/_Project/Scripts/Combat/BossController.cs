@@ -49,8 +49,8 @@ namespace Lattice.Combat
         public string Epithet=>health==null?"":health.id switch
         {
             "Burrower"=>"Sorrel's drill rig, chasing an evacuation signal",
-            "BellowsBelow"=>"The breath that guards Hushwell's nursery",
-            "Cantor"=>"A collared route-singer of the Gullet",
+            "BellowsBelow"=>"The breath at the bottom of Hushwell",
+            "Cantor"=>"A route-singer collared to the old survey line",
             "HessaKorl"=>"Muster scavenger captain, stripping the relay's glass",
             _=>""
         };

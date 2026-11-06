@@ -20,7 +20,7 @@ namespace Lattice.Tests.PlayMode
         [UnitySetUp] public IEnumerator Boot()
         {
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
-            GameServices.Current.State=new GameState();DevLoadout.Apply("starter");yield return Load("TallowApproach");
+            GameServices.Current.State=new GameState();DevLoadout.Apply("starter");GameServices.Current.Flags.SetBool("met.Keeper",true);yield return Load("TallowApproach");
         }
         [UnityTearDown] public IEnumerator Cleanup()
         {GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.3f);}

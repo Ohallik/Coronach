@@ -106,7 +106,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("SERVICE / STORES",new Vector3(16,.12f,22),1);
             if(!grey)StationPressureEntries.Cinder();
             StationNavigationBake.Bake("Hub_Decks");
-            WorldBuilder.Save(scene,"Hub_Decks");
+            ChapterOneStaging.Decks();WorldBuilder.Save(scene,"Hub_Decks");
         }
         public static void BuildExterior(bool grey=false)
         {
@@ -145,7 +145,7 @@ namespace Lattice.EditorTools
                 var lane=root.GetComponent<TrafficLane>();lane.speed=4+laneIndex;
                 for(int j=0;j<2;j++){var ship=WorldBuilder.Piece(j==0?"Hauler":"PatrolCutter",Vector3.zero,new Vector3(4,1.5f,j==0?8:5),"Rock",false);ship.isStatic=false;var mover=ship.AddComponent<TrafficShip>();mover.lane=lane;mover.phase=j*.5f+laneIndex*.2f;ship.transform.SetPositionAndRotation(lane.Position(mover.phase),Quaternion.LookRotation(lane.Tangent(mover.phase)));}
             }
-            WorldBuilder.Save(scene,"Hub_CinderHalo");
+            ChapterOneStaging.Halo();WorldBuilder.Save(scene,"Hub_CinderHalo");
         }
         static void Resident(string id,string ship,Vector3 at,Vector3 size,float yaw)
         {

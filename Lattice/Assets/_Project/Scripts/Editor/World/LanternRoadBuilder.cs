@@ -122,7 +122,7 @@ namespace Lattice.EditorTools
             ArenaBuilder.Asset<EnemyDef>("MusterSkiff",e=>{e.id="MusterSkiff";e.prefab=Body("Enemies","MusterSkiff","Enemies","ChoristerDrifter");e.integrity=170;e.breakThreshold=80;e.speed=4.2f;e.attacks=new[]{volley};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Spitter;e.xp=40;e.boss=false;e.lootTable=Loot("MusterSkiff",new LootEntry{id="ScrapAlloy",count=2,chance=.45f});});
             ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=20000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
-                e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.xp=420;e.boss=true;e.lootTable=Loot("HessaKorl",new LootEntry{id="ChoirResin",count=3,chance=1},new LootEntry{id="RepairGel",count=2,chance=1});});
+                e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.xp=420;e.boss=true;e.yieldsOnDefeat=true;e.lootTable=Loot("HessaKorl",new LootEntry{id="ChoirResin",count=3,chance=1},new LootEntry{id="RepairGel",count=2,chance=1});});
 
             ArenaBuilder.Asset<QuestDef>("LanternRoad",q=>{q.id="LanternRoad";q.title="The Lantern Road";
                 q.description="Venn wants a route that waits for a moving town. Lanternwick's lanterns once guided stations like Tallow.";
@@ -134,7 +134,7 @@ namespace Lattice.EditorTools
             ArenaBuilder.Asset<QuestDef>("PellsLamp",q=>{q.id="PellsLamp";q.title="Light for a Lamp-Keeper";
                 q.description="Pell lost her mother's lamp to a grazer in Lantern Gorge and hasn't told Aumi.";
                 q.steps=new[]{Step(ObjectiveKind.Interact,"PellsLamp"),Step(ObjectiveKind.Flag,"pell.lampReturned")};
-                q.stepText=new[]{"Search the grazer den under the fallen tower in Lantern Gorge","Bring the lamp back to Pell"};
+                q.stepText=new[]{"Search the grazer den under the fallen tower, west of the path before the second relay","Bring the lamp back to Pell"};
                 q.rewardXp=180;q.rewardScrip=120;q.rewards=new[]{new Ingredient{id="ChargeCell",count=2}};q.flagsOnComplete=Array.Empty<string>();});
             ArenaBuilder.Asset<QuestDef>("IshensRecord",q=>{q.id="IshensRecord";q.title="Ishen's Missing Record";
                 q.description="Three record plates went missing in the Sunken Relay below Lantern Gorge.";
@@ -148,7 +148,7 @@ namespace Lattice.EditorTools
                 q.rewardXp=200;q.rewardScrip=100;q.rewards=new[]{new Ingredient{id="EdgesT2",count=1}};q.flagsOnComplete=Array.Empty<string>();});
 
             void Person(string id,string display,bool female,string bodyId,string fallbackFolder,string fallback)
-                =>ArenaBuilder.Asset<CharacterDef>(id,c=>{c.id=c.speakerId=id;c.displayName=display;c.female=female;c.natural=Body("Characters",bodyId,fallbackFolder,fallback)??Prefab("Enemies",bodyId);});
+                =>ArenaBuilder.Asset<CharacterDef>(id,c=>{c.id=c.speakerId=id;c.displayName=display;c.female=female;c.natural=Prefab("Characters",bodyId)??Prefab("Enemies",bodyId)??Prefab(fallbackFolder,fallback);});
             Person("Aumi","Keeper Aumi",true,"AumiBody","Characters","Neve");
             Person("Pell","Pell",true,"PellBody","Characters","SurvivorNatural");
             Person("Ishen","Ishen",false,"IshenBody","Characters","Hal");
@@ -157,6 +157,7 @@ namespace Lattice.EditorTools
             Person("Hessa","Hessa Korl",true,"HessaKorl","Enemies","SentinelHusk");
             ArenaBuilder.Asset<ShopInventory>("Lanternwick",s=>
             {
+                s.title="ARCH MARKET";
                 s.parts=new[]{"EdgesT2","EmittersT2","FramesT2","DrivesT2","ModulesT2"}.Select(Find<TechPartDef>).Where(p=>p!=null).ToArray();
                 s.consumables=new[]{"RepairGel","ChargeCell"}.Select(Find<ConsumableDef>).Where(c=>c!=null).ToArray();
                 s.materials=new[]{"ScrapAlloy","LatticeFilament","RidgeCrystal"}.Select(Find<MaterialDef>).Where(m=>m!=null).ToArray();
@@ -190,7 +191,20 @@ namespace Lattice.EditorTools
             go.transform.position+=new Vector3(at.x,y+.01f,at.z)-new Vector3(bounds.center.x,bounds.min.y,bounds.center.z);
             if(!solid)foreach(var c in go.GetComponentsInChildren<Collider>())UnityEngine.Object.DestroyImmediate(c);
             go.isStatic=solid;foreach(var t in go.GetComponentsInChildren<Transform>())t.gameObject.isStatic=solid;
+            if(fadeTall&&bounds.size.y>=TallEnoughToBlock)Fadeable(go);
             return go;
+        }
+        /// <summary>Ground zones: the camera flies over the town. Anything this tall can come between it and the hero.</summary>
+        static bool fadeTall;
+        const float TallEnoughToBlock=2.5f;
+        static void Fadeable(GameObject go)
+        {
+            foreach(var renderer in go.GetComponentsInChildren<Renderer>())foreach(var material in renderer.sharedMaterials)
+            {
+                if(material==null||!material.HasProperty("_OccFade")||material.IsKeywordEnabled("_OCCFADE_ON"))continue;
+                material.EnableKeyword("_OCCFADE_ON");material.SetFloat("_OccFadeToggle",1);material.SetFloat("_OccFade",0);EditorUtility.SetDirty(material);
+            }
+            if(go.GetComponent<SceneryOcclusion>()==null)go.AddComponent<SceneryOcclusion>();
         }
         static Mesh SaveMesh(Mesh mesh,string path)
         {
@@ -253,20 +267,37 @@ namespace Lattice.EditorTools
             point.dialogueNode=node??"";point.dialogueSpeaker=speaker;point.requiredQuest=quest??"";point.requiredStep=step;point.range=range;
             return point;
         }
-        static RelayLantern Relay(string name,Vector3 at,string flag,float size,float yaw=0,bool grounded=true)
+        static RelayLantern Relay(string name,Vector3 at,string flag,float size,float yaw=0,bool grounded=true,bool solid=true)
         {
-            var tower=Prop(Kit("LanternTower","HushwellColumn"),at,size,yaw,true,grounded);tower.name=name;
-            var lantern=tower.AddComponent<RelayLantern>();lantern.flag=flag;lantern.radius=10;
-            lantern.crystals=tower.GetComponentsInChildren<Renderer>();
-            var light=new GameObject("Relay light",typeof(Light));light.transform.SetParent(tower.transform,false);
-            light.transform.position=tower.transform.position+Vector3.up*size*.85f;var l=light.GetComponent<Light>();
+            var tower=Prop(Kit("LanternTower","HushwellColumn"),at,size,yaw,solid,grounded);tower.name=name;
+            return Lantern(tower,flag,size);
+        }
+        static RelayLantern Lantern(GameObject body,string flag,float size)
+        {
+            var lantern=body.AddComponent<RelayLantern>();lantern.flag=flag;lantern.radius=10;
+            lantern.crystals=body.GetComponentsInChildren<Renderer>();
+            var light=new GameObject("Relay light",typeof(Light));light.transform.SetParent(body.transform,false);
+            light.transform.position=body.transform.position+Vector3.up*size*.85f;var l=light.GetComponent<Light>();
             l.type=LightType.Point;l.color=new Color(1,.78f,.45f);l.range=18;l.intensity=2.4f;l.shadows=LightShadows.None;l.enabled=false;lantern.glow=l;
             return lantern;
+        }
+        /// <summary>Strands of relay light: the Wick's lantern curtain and the door the relay's captain seals, never Choir tissue.</summary>
+        static Material CurtainMaterial(string zone)
+        {
+            var beam=new Material(Resources.Load<Material>("Effects/flare_01"));beam.SetTexture("_BaseMap",Texture2D.whiteTexture);
+            AssetDatabase.CreateAsset(beam,"Assets/_Project/Scenes/"+zone+"-Curtain.mat");return beam;
+        }
+        static void Strand(Transform parent,Vector3 from,Vector3 to,Material beam,float width,Color bottom,Color top)
+        {
+            var line=new GameObject("Curtain strand",typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(parent,true);
+            line.useWorldSpace=false;line.positionCount=2;line.SetPosition(0,line.transform.InverseTransformPoint(from));line.SetPosition(1,line.transform.InverseTransformPoint(to));
+            line.startWidth=line.endWidth=width;line.sharedMaterial=beam;line.startColor=bottom;line.endColor=top;line.shadowCastingMode=ShadowCastingMode.Off;
         }
         static WarpBeacon Gate(string label,Vector3 at,string scene,string spawn,string flag,string locked,string key="WarpBeacon",float size=3)
         {
             var prop=Prop(Kit(key,"WarpBeacon"),at,size);prop.name=label;
             var warp=prop.AddComponent<WarpBeacon>();warp.prompt=label;warp.range=3.6f;warp.scene=scene;warp.spawn=spawn;warp.requiredFlag=flag??"";warp.lockedPrompt=locked??"";
+            WorldBuilder.Label(label,new Vector3(at.x,height(new Vector2(at.x,at.z))+size+.8f,at.z),2.2f).transform.SetParent(prop.transform,true);
             return warp;
         }
         static void Lamp(Vector3 at,float range=9,float intensity=1.6f)
@@ -338,7 +369,7 @@ namespace Lattice.EditorTools
         const float ReachLength=300;
         static void WickReach()
         {
-            height=_=>0;
+            height=_=>0;fadeTall=false;
             var scene=WorldBuilder.Begin("WickReach");
             WorldBuilder.Spawn("Arrival",new Vector3(0,1,6));WorldBuilder.Spawn("Lanternwick",new Vector3(0,1,ReachLength-26));WorldBuilder.Spawn("Home",new Vector3(0,1,10));
             WorldArt.Planet("Wick",new Vector3(-150,-90,240),130);
@@ -369,24 +400,19 @@ namespace Lattice.EditorTools
             Fight("Wick_2",0,190,new[]{("MusterSkiff",3),("ChoristerDrifter",2)});
             Fight("Wick_3",0,245,new[]{("MusterSkiff",4),("Shellmine",2)});
             // Two lantern relays light the gate; the first introduces the chain.
-            var first=Relay("Wick relay 1",new Vector3(-26,-7,150),"wick.relay1",8,0,false);
+            // Backdrop below the flight plane: flying to the objective must not cost a collision with a tower that reads as passable.
+            var first=Relay("Wick relay 1",new Vector3(-26,-7,150),"wick.relay1",8,0,false,false);
             Discovery("Relight the first lantern relay",new Vector3(-26,1,150),"Relight the lantern relay","wick.relay1","","SelaWickRelays","Sela",null,0,6.5f);
-            Relay("Wick relay 2",new Vector3(26,-7,228),"wick.relay2",8,0,false);
+            Relay("Wick relay 2",new Vector3(26,-7,228),"wick.relay2",8,0,false,false);
             Discovery("Relight the second lantern relay",new Vector3(26,1,228),"Relight the lantern relay","wick.relay2","",null,"Sela",null,0,6.5f);
             var count=new GameObject("Lantern gate count",typeof(FlagAll)).GetComponent<FlagAll>();count.flags=new[]{"wick.relay1","wick.relay2"};count.result="wick.gateOpen";
             var gate=WorldBuilder.Membrane("Lantern gate",new Vector3(0,1,ReachLength-40),110,false,8);
             // Not the Choir's tissue: a curtain of relay light, amber, strung between lantern towers.
             var curtain=new MaterialPropertyBlock();curtain.SetColor("_BaseColor",new Color(1,.62f,.24f,.55f));curtain.SetColor("_EmissionColor",new Color(1.6f,.9f,.3f));
             foreach(var r in gate.GetComponentsInChildren<Renderer>())r.enabled=false;
-            var beam=new Material(Resources.Load<Material>("Effects/flare_01"));beam.SetTexture("_BaseMap",Texture2D.whiteTexture);
-            AssetDatabase.CreateAsset(beam,"Assets/_Project/Scenes/WickReach-Curtain.mat");
+            var beam=CurtainMaterial("WickReach");
             for(float x=-54;x<=54;x+=4.5f)
-            {
-                var line=new GameObject("Curtain strand",typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(gate.transform,true);
-                line.useWorldSpace=false;line.positionCount=2;line.SetPosition(0,line.transform.InverseTransformPoint(new Vector3(x,-5,ReachLength-40)));
-                line.SetPosition(1,line.transform.InverseTransformPoint(new Vector3(x,5,ReachLength-40)));line.startWidth=line.endWidth=.45f;
-                line.sharedMaterial=beam;line.startColor=new Color(1.6f,.85f,.3f,.15f);line.endColor=new Color(1.8f,1f,.4f,.85f);line.shadowCastingMode=ShadowCastingMode.Off;
-            }
+                Strand(gate.transform,new Vector3(x,-5,ReachLength-40),new Vector3(x,5,ReachLength-40),beam,.45f,new Color(1.6f,.85f,.3f,.15f),new Color(1.8f,1f,.4f,.85f));
             foreach(float x in new[]{-56f,-20f,20f,56f})Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,-9,ReachLength-40),10,x,false,false);
             var gateKeeper=new GameObject("Lantern gate light",typeof(FlagGate)).GetComponent<FlagGate>();gateKeeper.flag="wick.gateOpen";gateKeeper.showWhenSet=false;gateKeeper.targets=new[]{gate.gameObject};
             WorldBuilder.Label("LANTERN GATE",new Vector3(0,4,ReachLength-42),2.2f);
@@ -416,7 +442,7 @@ namespace Lattice.EditorTools
         }
         static void Lanternwick()
         {
-            height=TownHeight;CliffTop=3.6f;
+            height=TownHeight;CliffTop=3.6f;fadeTall=true;
             var scene=WorldBuilder.Begin("Lanternwick");
             Terrain("Lanternwick","Canyon terraces",-60,60,-50,125,1,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
@@ -424,11 +450,12 @@ namespace Lattice.EditorTools
             var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — the Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
             WorldBuilder.Label("COURIER DOCK",new Vector3(0,.1f,-17));
             // The arch market: the great arch spans the main street; stalls under and around it.
-            Prop(Kit("AncelaneArch","HushwellColumn"),new Vector3(0,0,4),7,0,false);
+            // Low enough to read as a gateway, and it fades as the camera passes over: at 7 m it filled the screen around Corra's stall.
+            Prop(Kit("AncelaneArch","HushwellColumn"),new Vector3(0,0,4),6,0,false).name="Market arch";
             foreach(var (x,z,yaw) in new[]{(-8f,14f,90f),(8f,14f,-90f),(-9f,22f,80f),(9f,23f,-100f)})Prop("DressMarketStall",new Vector3(x,0,z),2.6f,yaw);
             Prop("DressKiosk",new Vector3(-4,0,27),2.2f,10);Prop("DressWaterBarrels",new Vector3(12,0,10),1.2f,40);Prop("DressCargoPallet",new Vector3(-12,0,8),1.1f,20);
             WorldBuilder.Label("ARCH MARKET",new Vector3(0,.1f,12));
-            var bench=Prop("LatticeAnvil",new Vector3(13,0,18),1.8f,-90).AddComponent<Bench>();bench.prompt="Link to the market's Lattice Anvil";
+            var bench=Prop("LatticeAnvil",new Vector3(13,0,18),1.8f,-90).AddComponent<Bench>();bench.prompt="Fabricate — Lattice Anvil";
             // The Wick House: rooms above the market, a repair cradle and a bed.
             Prop(Kit("CanyonHouse","OutpostHab"),new Vector3(-17,0,31),6,90);
             var repair=Prop("DeckConsole",new Vector3(-12,0,30),1.4f,90).AddComponent<RepairBay>();repair.prompt="Wick House — repair and save";repair.saveSpawn="Arrival";
@@ -446,21 +473,24 @@ namespace Lattice.EditorTools
                  return !walk&&TownHeight(p)<3.6f&&street<31;},
                 ("DressPlanter",1f,true),("DressWaterBarrels",1.1f,true),("DressFanShrub",1.3f,false),("DressSucculent",1f,false),("DeckCrate",1f,true),("DressCargoPallet",1f,true),("HushwellRubble",.9f,false));
             // The lantern stair: three towers on the east terrace, the keeper below the tallest.
-            Relay("Lantern tower south",new Vector3(28,0,40),"lanternwick.lit",14,0);
-            Relay("Lantern tower",new Vector3(31,0,64),"lanternwick.lit",18,15);
-            Relay("Lantern tower north",new Vector3(27,0,88),"lanternwick.lit",13,-10);
-            var always=new GameObject("Town lanterns burn",typeof(FlagAll)).GetComponent<FlagAll>();always.flags=new[]{"met.Aumi"};always.result="lanternwick.lit";
+            // Lanternwick never let these go out: "kept the lanterns lit for anyone who came back".
+            Relay("Lantern tower south",new Vector3(28,0,40),"",14,0).alwaysLit=true;
+            Relay("Lantern tower",new Vector3(31,0,64),"",18,15).alwaysLit=true;
+            Relay("Lantern tower north",new Vector3(27,0,88),"",13,-10).alwaysLit=true;
             WorldBuilder.Label("LANTERN STAIR",new Vector3(24,3.2f,33));
             // The archive: a carved facade in the north wall.
             Prop(Kit("AncelaneArch","HushwellColumn"),new Vector3(0,0,104),8,180,false);
             foreach(float x in new[]{-7f,7f})Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,100),5.5f,0);
-            Prop(Kit("GreatLantern","CrystalClusterA"),new Vector3(0,0,97),3,0);
+            // Dark until Ishen has the record back ("the archive's lit again"); the wall of light patterns answers the relays' captain.
+            Lantern(Prop(Kit("GreatLantern","CrystalClusterA"),new Vector3(0,0,97),3,0),"ishen.recordRestored",3);
+            var wall=ArchiveWall(new Vector3(0,.8f,102.6f));
+            var wallLit=new GameObject("The archive wall lights",typeof(FlagGate)).GetComponent<FlagGate>();wallLit.flag="bossdown.HessaKorl";wallLit.targets=new[]{wall};wall.SetActive(false);
             WorldBuilder.Label("ARCHIVE",new Vector3(0,.1f,94));
             // The orchard terrace and the shed someone is hiding in.
             foreach(var (x,z) in new[]{(-25f,50f),(-31f,56f),(-24f,62f),(-30f,70f),(-25f,76f),(-34f,46f)})Prop(Kit("OrchardTree","DressFanShrub"),new Vector3(x,0,z),3.2f,x*z);
             Prop(Kit("CanyonHouse","OutpostHab"),new Vector3(-36,0,64),4.2f,90);
             WorldBuilder.Label("ORCHARD",new Vector3(-26,1.5f,44));
-            Gate("Orchard gate — Lantern Gorge",new Vector3(-34,0,84),"LanternGorge","Arrival","met.Aumi","Talk to the lantern-keeper first","AncelaneColumn",4);
+            Gate("Orchard gate — Lantern Gorge",new Vector3(-34,0,84),"LanternGorge","Arrival","met.Aumi","Talk to Keeper Aumi on the lantern stair first","AncelaneColumn",4);
             // Lamps and lamp posts along the walk.
             foreach(var (x,z) in new[]{(-4f,-8f),(4f,-8f),(-5f,30f),(5f,40f),(-6f,55f),(6f,70f),(-5f,85f),(18f,26f)})
             {Prop(Kit("LampPost","DressLightBollard"),new Vector3(x,0,z),1.6f,0);Lamp(new Vector3(x,1.6f,z));}
@@ -476,7 +506,8 @@ namespace Lattice.EditorTools
             CliffFoot(townCliffs,11);
             // People.
             Person("Aumi",new Vector3(22,0,52),-110,"bossdown.HessaKorl",true,"lanternwick.chartGiven","AumiFinal").postNode="AumiReturn";
-            Person("Pell",new Vector3(6,0,34),200,"lanternwick.chartGiven");
+            var townPell=Person("Pell",new Vector3(6,0,34),200,"lanternwick.chartGiven");
+            var gone=new GameObject("Pell has gone to Tallow",typeof(FlagGate)).GetComponent<FlagGate>();gone.flag="pell.aboard";gone.showWhenSet=false;gone.targets=new[]{townPell.gameObject};
             Person("Ishen",new Vector3(4,0,92),170,"ishen.recordRestored");
             var corra=Person("Corra",new Vector3(-6,0,17),110,"unsworn.rationsDelivered");
             Person("Brekk",new Vector3(-32,0,60),90,"unsworn.rationsDelivered");
@@ -487,6 +518,30 @@ namespace Lattice.EditorTools
             BakeNavigation("Lanternwick",new Bounds(new Vector3(0,6,40),new Vector3(96,30,160)),new Vector3(0,0,-14),
                 new[]{new Vector3(-6,0,17),new Vector3(22,3,50),new Vector3(6,0,34),new Vector3(4,0,90),new Vector3(-30,1.4f,60),new Vector3(-33,1.4f,80),new Vector3(-11,0,28),new Vector3(13,0,15)});
             WorldBuilder.Save(scene,"Lanternwick");Debug.Log("LANTERNWICK_OK");
+        }
+
+        /// <summary>The wall of light patterns: passages recorded by lantern, bending side by side, each with the small steady
+        /// lights of towns travelling beside it. Lines of relay light on the archive's face; no art to wait for.</summary>
+        static GameObject ArchiveWall(Vector3 at)
+        {
+            var wall=new GameObject("Archive light wall");wall.transform.position=at;
+            var beam=CurtainMaterial("Lanternwick");var rng=new System.Random(71);const float Half=6.5f,Tall=6.5f;
+            for(int passage=0;passage<8;passage++)
+            {
+                float rise=(passage+.5f)/8*Tall,sway=.25f+(float)rng.NextDouble()*.45f,phase=(float)rng.NextDouble()*6.28f,bends=.5f+(float)rng.NextDouble()*.5f;
+                var line=new GameObject("Passage pattern",typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(wall.transform,false);
+                const int Points=28;line.useWorldSpace=false;line.positionCount=Points;
+                for(int i=0;i<Points;i++){float x=-Half+2*Half*i/(Points-1);line.SetPosition(i,new Vector3(x,rise+Mathf.Sin(x*bends+phase)*sway,0));}
+                line.startWidth=line.endWidth=.09f;line.sharedMaterial=beam;line.shadowCastingMode=ShadowCastingMode.Off;
+                var tone=passage%3==0?new Color(1.9f,1.3f,.55f,.95f):new Color(1.6f,.95f,.35f,.8f);line.startColor=tone;line.endColor=tone;
+                for(int town=0;town<3;town++)
+                {
+                    float x=-Half+.8f+(float)rng.NextDouble()*(2*Half-1.6f);var center=new Vector3(x,rise+Mathf.Sin(x*bends+phase)*sway+.28f,0);
+                    Strand(wall.transform,wall.transform.TransformPoint(center-Vector3.right*.13f),wall.transform.TransformPoint(center+Vector3.right*.13f),beam,.16f,new Color(2,1.7f,1,1),new Color(2,1.7f,1,1));
+                }
+            }
+            var glow=wall.AddComponent<Light>();glow.type=LightType.Point;glow.color=new Color(1,.78f,.45f);glow.range=14;glow.intensity=1.8f;glow.shadows=LightShadows.None;
+            return wall;
         }
 
         // ---------------------------------------------------------------- Lantern Gorge (open ground combat)
@@ -504,7 +559,7 @@ namespace Lattice.EditorTools
         }
         static void Gorge()
         {
-            height=GorgeHeight;CliffTop=2.5f;
+            height=GorgeHeight;CliffTop=2.5f;fadeTall=true;
             var scene=WorldBuilder.Begin("LanternGorge");
             Terrain("LanternGorge","Lantern Gorge",-60,60,-24,250,1,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,0));WorldBuilder.Spawn("Relay",new Vector3(0,0,220));
@@ -569,16 +624,21 @@ namespace Lattice.EditorTools
             Prop(Kit("MusterCutterRig","DressWorkLamp"),new Vector3(-6,0,128),2.2f,-30);
             foreach(var (x,z) in new[]{(-12f,106f),(-11f,108f),(-3f,116f)})Prop(Kit("MusterCrate","DeckCrate"),new Vector3(x,0,z),1.1f,x*7);
             Lamp(new Vector3(-10,1.2f,110),10,1.8f);
-            Discovery("Muster ration crate",new Vector3(-12,0,104),"Take a Muster ration crate","unsworn.rationsFound","MusterRations",null,"Sela","UnswornRations",0);
+            var rations=Discovery("Muster ration crate",new Vector3(-12,0,104),"Take a Muster ration crate","unsworn.rationsFound","MusterRations",null,"Sela","UnswornRations",0);
+            rations.visual=Prop(Kit("MusterCrate","DeckCrate"),new Vector3(-12.6f,0,103.4f),.9f,25,false);rations.visual.SetActive(false);
             // The grazer den under the fallen tower holds Pell's lamp.
-            Discovery("Pell's lamp",Den.x*Vector3.right+Den.y*Vector3.forward,"Pick up the chewed lamp","pell.lampFound","PellsLamp",null,"Sela","PellsLamp",0);
-            Prop(Kit("LampPost","DressLightBollard"),new Vector3(Den.x+.8f,0,Den.y+.5f),1f,80,false);
+            var lamp=Discovery("Pell's lamp",Den.x*Vector3.right+Den.y*Vector3.forward,"Pick up the chewed lamp","pell.lampFound","PellsLamp",null,"Sela","PellsLamp",0);
+            lamp.visual=Prop(Kit("LampPost","DressLightBollard"),new Vector3(Den.x+.8f,0,Den.y+.5f),1f,80,false);lamp.visual.SetActive(false);
             WorldBuilder.Label("SCAVENGER CAMP",new Vector3(-8,.2f,100));
             // The Sunken Relay's door at the head of the gorge opens once the three relays burn.
             WorldBuilder.Spawn("Relay",new Vector3(0,0,220));
             Prop(Kit("AncelaneArch","HushwellColumn"),new Vector3(0,0,233),8,0,false);
             Gate("Enter the Sunken Relay",new Vector3(0,0,229),"SunkenRelay","Arrival","gorge.relaysLit","The relay door is dark: relight the gorge relays","AncelaneColumn",3.5f);
-            var anvil=Prop("LatticeAnvil",new Vector3(-6,0,212),1.8f,40).AddComponent<Bench>();anvil.prompt="Link to the Lattice Anvil";
+            // The door is dark until the relays burn: it says so without a word.
+            var doorLight=new GameObject("Relay door lamp",typeof(Light));doorLight.transform.position=new Vector3(0,height(new Vector2(0,229))+3.5f,227);
+            var doorGlow=doorLight.GetComponent<Light>();doorGlow.type=LightType.Point;doorGlow.color=new Color(1,.78f,.45f);doorGlow.range=14;doorGlow.intensity=3;doorGlow.shadows=LightShadows.None;
+            var doorLit=new GameObject("The relay door lights",typeof(FlagGate)).GetComponent<FlagGate>();doorLit.flag="gorge.relaysLit";doorLit.targets=new[]{doorLight};doorLight.SetActive(false);
+            var anvil=Prop("LatticeAnvil",new Vector3(-6,0,212),1.8f,40).AddComponent<Bench>();anvil.prompt="Fabricate — Lattice Anvil";
             WorldBuilder.Label("SUNKEN RELAY",new Vector3(0,.2f,224));
             WorldBuilder.Boundary("South gorge limit",new Vector3(0,8,-16),new Vector3(120,20,2));
             WorldBuilder.Boundary("North gorge limit",new Vector3(0,8,238),new Vector3(120,20,2));
@@ -591,31 +651,34 @@ namespace Lattice.EditorTools
         /// <summary>The relay's halls, carved out of the canyon's rock: (centre, size) of each chamber along +z.</summary>
         static readonly (Vector2 centre,Vector2 size,string label)[] RelayHalls=
         {
-            (new(0,10),new(18,20),"ENTRY HALL"),(new(0,32),new(8,24),"CUT CORRIDOR"),(new(0,64),new(30,40),"FLOODED GALLERY"),
+            // The entry hall runs well south of the door, so the fixed camera opens on the room and not on a wall behind the hero.
+            (new(0,6),new(18,28),"ENTRY HALL"),(new(0,32),new(8,24),"CUT CORRIDOR"),(new(0,64),new(30,40),"FALLEN GALLERY"),
             (new(0,100),new(22,32),"LOWER VAULT"),(new(0,140),new(38,48),"GREAT LANTERN"),
         };
         static float RelayHeight(Vector2 p)
         {
-            float inside=float.PositiveInfinity;
+            float inside=float.PositiveInfinity;bool cameraSide=false;
             foreach(var (centre,size,_) in RelayHalls)
             {
                 var d=new Vector2(Mathf.Abs(p.x-centre.x)-size.x*.5f,Mathf.Abs(p.y-centre.y)-size.y*.5f);
                 // Rounded rectangles: the outside distance, softened at the corners.
                 float box=Mathf.Max(d.x,d.y)<0?Mathf.Max(d.x,d.y):new Vector2(Mathf.Max(d.x,0),Mathf.Max(d.y,0)).magnitude;
-                inside=Mathf.Min(inside,box);
+                if(box<inside){inside=box;cameraSide=p.y<centre.y-size.y*.5f;}
             }
-            float rock=Smooth(-.2f,1.3f,inside)*(5.2f+1.4f*Mathf.PerlinNoise(p.x*.08f+4,p.y*.08f));
+            // Rock between a hall and the camera stays low, or the camera slides in to a close-up of the hero's knees.
+            float rock=Smooth(-.2f,1.3f,inside)*(5.2f+1.4f*Mathf.PerlinNoise(p.x*.08f+4,p.y*.08f))*(cameraSide?.45f:1);
             return rock+.06f*Mathf.PerlinNoise(p.x*.3f,p.y*.3f);
         }
         static void Relay()
         {
-            height=RelayHeight;CliffTop=3f;
+            height=RelayHeight;CliffTop=2.4f;fadeTall=true;
             var scene=WorldBuilder.Begin("SunkenRelay");
             Terrain("SunkenRelay","Relay halls",-36,36,-14,180,.5f,Canyon(false));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,3));
-            foreach(var (centre,size,label) in RelayHalls)WorldBuilder.Label(label,new Vector3(centre.x,.1f,centre.y-size.y*.5f+2.5f),1.6f);
+            foreach(var (centre,size,label) in RelayHalls)WorldBuilder.Label(label,new Vector3(centre.x,.1f,Mathf.Max(8,centre.y-size.y*.5f+2.5f)),1.6f);
             Gate("Climb out — Lantern Gorge",new Vector3(0,0,1),"LanternGorge","Relay",null,null,"AncelaneColumn",3);
             Discovery("Cut lantern housings",new Vector3(0,0,14),"Look at the cut lantern housings","relay.entered","","SelaSunkenRelay","Taren");
+            Prop(Kit("MusterCutterRig","DressWorkLamp"),new Vector3(4.5f,0,15.5f),1.8f,150);
             foreach(var (x,z) in new[]{(-6f,18f),(6f,18f),(-12f,50f),(12f,50f),(-12f,78f),(12f,78f),(-8f,90f),(8f,90f)})
             {Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,z),4.2f,x*z);}
             foreach(var (x,z) in new[]{(-6f,6f),(6f,26f),(-10f,60f),(10f,68f),(0f,96f),(-8f,128f),(8f,128f)})Lamp(new Vector3(x,2.6f,z),11,1.7f);
@@ -628,8 +691,8 @@ namespace Lattice.EditorTools
             var plates=new[]{new Vector3(-7,0,16),new Vector3(12,0,76),new Vector3(-9,0,108)};
             for(int i=0;i<plates.Length;i++)
             {
-                Prop(Kit("LanternShard","CrystalClusterA"),plates[i]+new Vector3(.9f,0,.6f),.9f,i*70,false);
-                Discovery("Record plate "+(i+1),plates[i],"Take the record plate","relay.plate"+(i+1),"RecordPlate",null,"Sela","IshensRecord",0);
+                var plate=Discovery("Record plate "+(i+1),plates[i],"Take the record plate","relay.plate"+(i+1),"RecordPlate",null,"Sela","IshensRecord",0);
+                plate.visual=RecordPlate(plates[i]+new Vector3(.9f,0,.6f),i*70);plate.visual.SetActive(false);
             }
             // The scavengers' work crews.
             void Fight(string id,Vector3 at,string enemy,int count,string second=null,int secondCount=0)
@@ -649,23 +712,48 @@ namespace Lattice.EditorTools
             // The checkpoint before the captain: under a minute from her floor.
             var cradle=Prop("DeckConsole",new Vector3(8,0,110),1.4f,-90).AddComponent<RepairBay>();cradle.free=true;cradle.saveSpawn="Vault";cradle.prompt="Relay cradle — repair and save";
             WorldBuilder.Spawn("Vault",new Vector3(4,0,108));
-            var anvil=Prop("LatticeAnvil",new Vector3(-8,0,112),1.8f,90).AddComponent<Bench>();anvil.prompt="Link to the Lattice Anvil";
+            WorldBuilder.Label("RELAY CRADLE",new Vector3(8,.1f,106.5f),1.6f);
+            var anvil=Prop("LatticeAnvil",new Vector3(-8,0,112),1.8f,90).AddComponent<Bench>();anvil.prompt="Fabricate — Lattice Anvil";
             // The Great Lantern chamber: four columns survive every phase as cover against the flash.
             Prop(Kit("GreatLantern","CrystalClusterA"),new Vector3(0,0,158),5,0);
             foreach(var (x,z) in new[]{(-10f,132f),(10f,132f),(-10f,150f),(10f,150f)})Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,z),4.5f,x+z);
             Lamp(new Vector3(0,4,150),18,2.2f);
-            Discovery("Confront the scavenger captain",new Vector3(0,0,118),"Confront the scavenger captain","relay.hessaConfronted","","HessaConfront","Hessa",null,0,4);
-            var entry=WorldBuilder.Membrane("Great Lantern seal",new Vector3(0,.3f,117),7,true,4.5f);
-            var duel=WorldBuilder.Encounter("Relay_Hessa",new Vector3(0,1,138),new Vector3(30,5,28),"HessaKorl",1,new[]{entry});
-            duel.GetComponentInChildren<Spawner>().transform.position=new Vector3(0,0,148);
-            var arm=new GameObject("Duel waits for the confrontation",typeof(FlagGate)).GetComponent<FlagGate>();arm.flag="relay.hessaConfronted";arm.showWhenSet=true;arm.targets=new[]{duel.gameObject};
+            // The fixed camera sees about 7 m ahead of the hero: the talk starts just past the seal, with her in front of it, however
+            // wide the party comes in. The trigger spans the whole hall; the talk is the checkpoint.
+            var confront=Discovery("Confront the scavenger captain",new Vector3(0,0,124),"Confront the scavenger captain","relay.hessaConfronted","","HessaConfront","Hessa",null,0,2);
+            confront.saveSpawn="Vault";confront.startsOnCrossing=true;
+            var mouth=confront.gameObject.AddComponent<BoxCollider>();mouth.isTrigger=true;mouth.size=new Vector3(40,5,3);mouth.center=Vector3.up*1.5f;
+            // The seal shuts the whole mouth, in relay light: strands across a solid, invisible door.
+            var entry=WorldBuilder.Membrane("Great Lantern seal",new Vector3(0,1.5f,116.5f),23,true,6);
+            var door=entry.GetComponent<BoxCollider>();
+            foreach(var filter in entry.GetComponentsInChildren<MeshFilter>())UnityEngine.Object.DestroyImmediate(filter);
+            foreach(var view in entry.GetComponentsInChildren<Renderer>())UnityEngine.Object.DestroyImmediate(view);
+            var sealObstacle=entry.gameObject.AddComponent<NavMeshObstacle>();sealObstacle.shape=NavMeshObstacleShape.Box;sealObstacle.center=door.center;sealObstacle.size=door.size;sealObstacle.carving=true;sealObstacle.carveOnlyStationary=false;sealObstacle.enabled=false;
+            var sealBeam=CurtainMaterial("SunkenRelay");
+            for(float x=-11;x<=11;x+=1.1f)Strand(entry.transform,new Vector3(x,0,116.5f),new Vector3(x,4.4f,116.5f),sealBeam,.2f,new Color(1.6f,.85f,.3f,.2f),new Color(1.8f,1f,.4f,.9f));
+            foreach(var strand in entry.GetComponentsInChildren<LineRenderer>())strand.enabled=false;
+            var duel=WorldBuilder.Encounter("Relay_Hessa",new Vector3(0,1,138),new Vector3(38,5,28),"HessaKorl",1,new[]{entry});
+            // She is in the room for her own confrontation, at her work, and turns when the fight starts.
+            var post=duel.GetComponentInChildren<Spawner>();post.transform.position=new Vector3(3,0,129);post.transform.rotation=Quaternion.Euler(0,180,0);post.faceAsPlaced=true;
+            duel.requiredFlag="relay.hessaConfronted";duel.checkpointSpawn="Vault";
+            var viewpoint=new GameObject("Hessa preview");viewpoint.transform.position=new Vector3(0,0,124);duel.previewPoint=viewpoint.transform;duel.previewRadius=6;
+            confront.previewEncounter=duel;
             // After the duel: the captain under guard, and the lift home.
-            var hessa=Person("Hessa",new Vector3(9,0,154),-120,"",false);hessa.firstNode="HessaYields";hessa.repeatNode="HessaRepeat";
-            var yielded=new GameObject("Hessa under guard",typeof(FlagGate)).GetComponent<FlagGate>();yielded.flag="bossdown.HessaKorl";yielded.showWhenSet=true;yielded.targets=new[]{hessa.gameObject};
-            Gate("Ride the relay lift — Lanternwick",new Vector3(-6,0,160),"Lanternwick","Archive","bossdown.HessaKorl","The lift won't run while the scavengers hold the chamber","AncelaneColumn",3);
-            BakeNavigation("SunkenRelay",new Bounds(new Vector3(0,4,85),new Vector3(50,20,180)),new Vector3(0,0,3),
+            var hessa=Person("Hessa",new Vector3(9,0,154),-120,"",false);hessa.firstNode="HessaRepeat";hessa.repeatNode="HessaRepeat";
+            var yielded=new GameObject("Hessa under guard",typeof(YieldedCaptain)).GetComponent<YieldedCaptain>();yielded.npc=hessa;hessa.gameObject.SetActive(false);
+            Gate("Ride the relay lift — Lanternwick",new Vector3(-6,0,160),"Lanternwick","Archive","relay.hessaYielded","The lift waits: hear the captain out first","AncelaneColumn",3);
+            BakeNavigation("SunkenRelay",new Bounds(new Vector3(0,4,82),new Vector3(50,20,186)),new Vector3(0,0,3),
                 new[]{new Vector3(0,0,30),new Vector3(10,0,74),new Vector3(-8,0,108),new Vector3(0,0,118),new Vector3(0,0,140)});
             WorldBuilder.Save(scene,"SunkenRelay");Debug.Log("SUNKEN_RELAY_OK");
+        }
+
+        /// <summary>A record plate: a round relay mirror on the floor, with its own small light, so it never reads as the rubble.</summary>
+        static GameObject RecordPlate(Vector3 at,float yaw)
+        {
+            var plate=Prop(Kit("RelayMirror","LanternShard"),at,.9f,yaw,false);plate.name="Record plate body";
+            var light=new GameObject("Plate light",typeof(Light));light.transform.SetParent(plate.transform,false);light.transform.position=plate.transform.position+Vector3.up*1.2f;
+            var l=light.GetComponent<Light>();l.type=LightType.Point;l.color=new Color(1,.8f,.5f);l.range=5;l.intensity=2;l.shadows=LightShadows.None;
+            return plate;
         }
 
         // ---------------------------------------------------------------- Tallow approach: the warp out
@@ -674,9 +762,11 @@ namespace Lattice.EditorTools
             var approach=EditorSceneManager.OpenScene("Assets/_Project/Scenes/TallowApproach.unity");
             foreach(var old in UnityEngine.Object.FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).Where(w=>w.scene=="WickReach").ToArray())UnityEngine.Object.DestroyImmediate(old.gameObject);
             foreach(var old in UnityEngine.Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None).Where(s=>s.id=="Wick").ToArray())UnityEngine.Object.DestroyImmediate(old.gameObject);
+            ChapterOneStaging.ClearSigns("Warp — The Wick Reach");
             var warp=WorldBuilder.Warp("Warp — The Wick Reach",new Vector3(24,1,-18),"WickReach","lantern.routeKnown","Arrival");
-            warp.lockedPrompt="No course plotted beyond the approach";
+            warp.lockedPrompt="No course plotted. Keeper Abri holds Tallow's old routes.";
             WorldBuilder.Spawn("Wick",new Vector3(17,1,-21));
+            ChapterOneStaging.Approach();
             EditorSceneManager.MarkSceneDirty(approach);EditorSceneManager.SaveScene(approach);Debug.Log("TALLOW_APPROACH_WARP_OK");
         }
     }

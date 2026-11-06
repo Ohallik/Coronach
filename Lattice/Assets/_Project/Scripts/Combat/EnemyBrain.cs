@@ -132,7 +132,7 @@ namespace Lattice.Combat
         }
         void OnDeath(Health _,DamagePacket packet)
         {
-            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill();
+            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardKill(!definition.boss);// A boss gets its own line, never "One less."
             if(packet.tag=="lunge")Debug.Log("LUNGE_KILL");
             Debug.Log("COMBAT_KILL "+definition.id);
             bool disabledRig=definition.id=="Burrower",releasedAnimal=definition.id=="Cantor",yielded=definition.id=="HessaKorl";

@@ -20,7 +20,7 @@ namespace Lattice.Tests.PlayMode
         {
             Assert.AreNotEqual(UnityEngine.Rendering.GraphicsDeviceType.Null,SystemInfo.graphicsDeviceType,"Tallow reading fixture requires -Graphics before allocating its rendered camera/UI target");
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
-            GameServices.Current.State=new GameState();DevLoadout.Apply("starter");SceneFlow.Current.LoadZone("TallowApproach");float until=Time.unscaledTime+10;
+            GameServices.Current.State=new GameState();DevLoadout.Apply("starter");GameServices.Current.Flags.SetBool("met.Keeper",true);SceneFlow.Current.LoadZone("TallowApproach");float until=Time.unscaledTime+10;
             while(SceneFlow.Current.Loading&&Time.unscaledTime<until)yield return null;Assert.IsFalse(SceneFlow.Current.Loading);
             // Hidden editor windows default to 640x480. Render the actual camera
             // and UI into an explicit player-sized target; no pose/profile edit.

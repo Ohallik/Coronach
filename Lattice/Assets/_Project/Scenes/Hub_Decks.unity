@@ -26725,8 +26725,8 @@ MonoBehaviour:
   repeatNode: OrrinRepeat
   postNode: OrrinPost
   postFlag: warpkey
-  finalNode: 
-  finalFlag: 
+  finalNode: OrrinAfterCantor
+  finalFlag: bossdown.Cantor
   finalCompletionFlag: 
   finalRepeatNode: 
   hideWhenJoined: 
@@ -36058,6 +36058,12 @@ MonoBehaviour:
   dialogueNode: SelaWalkwayRepair
   dialogueSpeaker: Sela
   previewEncounter: {fileID: 0}
+  requiredQuest: 
+  requiredStep: 0
+  visual: {fileID: 0}
+  saveSpawn: 
+  requiredFlag: 
+  startsOnCrossing: 0
 --- !u!4 &555614746
 Transform:
   m_ObjectHideFlags: 0

@@ -1,8 +1,8 @@
 title: SurvivorFirst
 ---
-Survivor: Dace, outpost foreman. We shut the transmitter down. The Burrower homes in on evacuation calls. #emotion:Worried
+Survivor: Dace, outpost foreman. We shut the transmitter down. Our drill rig, the Burrower, homes in on evacuation calls now. #emotion:Worried
 Taren: So every rescue call led it straight back to you. #emotion:Worried
-Survivor: The survey key's in the control cradle past the drill. Its route has gaps. Check the bore before you trust that chart. #emotion:Determined
+Survivor: The survey key's in the control cradle past the drill. Its route has gaps. Go down the bore and see why. #emotion:Determined
 ===
 title: SurvivorRepeat
 ---
@@ -12,7 +12,7 @@ title: SurvivorPost
 ---
 Survivor: Quiet. I'd forgotten what that sounds like. #emotion:Tender
 Survivor: The bore opens under the control cradle. Those curves on your survey key? They're cut into the cave walls too. #emotion:Worried
-Survivor: The old survey calls that cave empty, but something down there is breathing. Maybe that's what your chart is missing. #emotion:Worried
+Survivor: The old survey calls that cave empty, but something down there is breathing. Maybe that's the gap in your survey key. #emotion:Worried
 ===
 title: SurvivorNursery
 ---
@@ -39,4 +39,13 @@ title: SurvivorBeaconsDone
 Survivor: Four lights out. I can hear the wind again. #emotion:Tender
 Survivor: Take the frame plating from our stores. It was meant for whoever came to get us out. Close enough. #emotion:Happy
 <<setFlag sorrel.beaconsReported>>
+===
+title: SurvivorPostNursery
+---
+Survivor: The drill stays off. Whatever's growing under my bunk can have the quiet. #emotion:Tender
+===
+title: SurvivorAfterParcel
+---
+Survivor: My sister's written back already. Neve says the courier flew it in himself. I think she's getting soft. #emotion:Happy
+<<setFlag sorrel.afterParcel>>
 ===

@@ -12,10 +12,12 @@ namespace Lattice.Core
         static readonly Dictionary<string,string> zones=new()
         {
             {"Hub_CinderHalo","Cinder Halo"},{"Hub_Decks","The Decks"},{"Sorrel_Ridges","Sorrel Ridges"},{"Hushwell","Hushwell"},
-            {"Gullet_Tunnel","The Gullet"},{"TallowApproach","Tallow Drift Approach"},{"TallowDrift","Tallow Drift"},
+            {"Gullet_Tunnel","The Gullet"},{"TallowApproach","Tallow Approach"},{"TallowDrift","Tallow Drift"},
             {"Arena_Ground","Proving Yard"},{"Arena_Flight","Proving Berth"},
             {"WickReach","The Wick Reach"},{"Lanternwick","Lanternwick"},{"LanternGorge","Lantern Gorge"},{"SunkenRelay","The Sunken Relay"},
         };
+        /// <summary>Enemies whose id is a shorthand no character ever says.</summary>
+        static readonly Dictionary<string,string> targets=new(){{"MusterScav","Muster Scavenger"}};
         static readonly Dictionary<string,string> special=new()
         {
             {"WarpKey","Survey Key"},{"FramesT2","Refined Frame"},
@@ -51,6 +53,6 @@ namespace Lattice.Core
         }
 
         /// <summary>A combat target's id ("SentinelHusk", "Cantor - sweep link") as a label.</summary>
-        public static string Target(string id)=>Readable((id??"").Replace(" - "," — "));
+        public static string Target(string id)=>id!=null&&targets.TryGetValue(id,out var name)?name:Readable((id??"").Replace(" - "," — "));
     }
 }

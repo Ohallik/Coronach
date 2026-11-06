@@ -29,6 +29,10 @@ namespace Lattice.UI
             gameObject.AddComponent<QuestToast>();
             gameObject.AddComponent<PickupFeed>();
             if(DevArgs.Has("-smoketest")&&spawnArenaEnemies)gameObject.AddComponent<ArenaSmoke>();
+            // Floor signs in ground zones; name labels stay on their people and flight signs hang in space.
+            if(ZoneController.Current==null||!ZoneController.Current.Flight)
+                foreach(var sign in FindObjectsByType<TMPro.TextMeshPro>(FindObjectsSortMode.None))
+                    if(sign.transform.parent==null&&sign.name.StartsWith("Sign_")&&sign.GetComponent<SignFade>()==null)sign.gameObject.AddComponent<SignFade>();
             Lattice.Rpg.RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Reach,gameObject.scene.name);
             if(spawnArenaEnemies)foreach(var spawner in FindObjectsByType<Spawner>(FindObjectsSortMode.None))spawner.Spawn();
         }

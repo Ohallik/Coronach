@@ -30,5 +30,6 @@ MonoBehaviour:
     count: 2
   flagsOnComplete: []
   stepText:
-  - Search the grazer den under the fallen tower in Lantern Gorge
+  - Search the grazer den under the fallen tower, west of the path before the second
+    relay
   - Bring the lamp back to Pell

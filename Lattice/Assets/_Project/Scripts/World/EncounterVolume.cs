@@ -12,6 +12,10 @@ namespace Lattice.World
         public string encounterId;
         public Transform previewPoint;
         public float previewRadius=6;
+        /// <summary>Stays asleep until this flag is set (empty: wakes on entry).</summary>
+        public string requiredFlag;
+        /// <summary>A boss door: starting this fight moves the respawn to this spawn point and saves there.</summary>
+        public string checkpointSpawn;
         bool ready;
         public bool Cleared=>Started&&Remaining==0;
         bool SavedClear
@@ -50,6 +54,7 @@ namespace Lattice.World
             // Unity still sends trigger callbacks to disabled behaviours.
             // Suspending an encounter must also suspend automatic entry.
             if(!isActiveAndEnabled||Started||!other.TryGetComponent<Health>(out var h)||!h.friendly)return;
+            if(!string.IsNullOrEmpty(requiredFlag)&&!GameServices.Current.Flags.GetBool(requiredFlag))return;
             var party=PartyController.Current;
             // An open gate is an entrance. Wait until every body has crossed it
             // before sealing; a downed companion outside still needs rescuing.
@@ -72,8 +77,16 @@ namespace Lattice.World
         {
             if(Started)return;Started=true;
             if(SavedClear){FinishSaved();return;}
+            Checkpoint();
             foreach(var membrane in membranes)membrane.SetOpen(false);
             foreach(var spawner in spawners)foreach(var enemy in spawner.Spawn()){Remaining++;enemy.Health.Died+=OnDeath;}
+        }
+        /// <summary>A defeat costs at most a walk from the door: the bar is two minutes, and a boss used to send the party back
+        /// through the whole zone.</summary>
+        void Checkpoint()
+        {
+            if(string.IsNullOrEmpty(checkpointSpawn))return;
+            var services=GameServices.Current;services.State.spawn=checkpointSpawn;services.Saves.Save("autosave",services.State);
         }
         void OnDeath(Health health,DamagePacket packet)
         {

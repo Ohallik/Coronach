@@ -79,7 +79,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Boundary("South cave limit",new Vector3(0,0,-26),new Vector3(134,60,2));
             WorldBuilder.Boundary("North cave limit",new Vector3(0,0,366),new Vector3(134,60,2));
             BakeNavigation();
-            WorldBuilder.Save(scene,"Hushwell");
+            ChapterOneStaging.Hushwell();WorldBuilder.Save(scene,"Hushwell");
             BatchTools.RegisterScenes();
         }
 
@@ -199,7 +199,7 @@ namespace Lattice.EditorTools
             look.dialogueNode="SelaNursery";look.dialogueSpeaker="Sela";
             look.prompt="Look at the eggs";look.range=9;look.flag="hushwell.nursery";
             var lift=Prop("HushwellLift",n.x+13,n.y+6,4,-90).AddComponent<WarpBeacon>();
-            lift.prompt="Ride the drill-shaft lift — Sorrel";lift.lockedPrompt="The lift is dead until you look around";lift.range=4;lift.scene="Sorrel_Ridges";lift.spawn="Hushwell";lift.requiredFlag="hushwell.nursery";
+            lift.prompt="Ride the drill-shaft lift — Sorrel";lift.lockedPrompt="The lift is dead. Look at what the Bellows was guarding first.";lift.range=4;lift.scene="Sorrel_Ridges";lift.spawn="Hushwell";lift.requiredFlag="hushwell.nursery";
             Light("Nursery glow",HushwellLayout.OnFloor(n)+Vector3.up*3,new Color(.45f,.5f,1),3,14);
             Light("Lift lamp",HushwellLayout.OnFloor(new Vector2(n.x+13,n.y+6))+Vector3.up*3,new Color(1,.82f,.55f),1.6f,8);
             Safe("Nursery",new Vector3(n.x,HushwellLayout.Lower+1,n.y),new Vector3(34,5,26));

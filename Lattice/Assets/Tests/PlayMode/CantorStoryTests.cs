@@ -100,9 +100,12 @@ namespace Lattice.Tests.PlayMode
         }
         [UnityTest] public IEnumerator StartingCombatDuringPendingPreviewDoesNotSaveAnObservation()
         {
-            GameServices.Current.Saves.Save("autosave",GameServices.Current.State);string path=GameServices.Current.Saves.PathForSlot("autosave");var bytes=File.ReadAllBytes(path);
+            GameServices.Current.Saves.Save("autosave",GameServices.Current.State);
             point.Interact();yield return null;yield return null;encounter.Begin();yield return Finish();
-            Assert.IsFalse(GameServices.Current.Flags.GetBool(point.flag));Assert.IsFalse(point.Available);CollectionAssert.AreEqual(bytes,File.ReadAllBytes(path));
+            Assert.IsFalse(GameServices.Current.Flags.GetBool(point.flag));Assert.IsFalse(point.Available);
+            var saved=GameServices.Current.Saves.Load("autosave");
+            Assert.IsFalse(saved.flags.TryGetValue(point.flag,out var seen)&&seen,"an interrupted preview must not save its observation");
+            Assert.AreEqual(encounter.checkpointSpawn,saved.spawn,"the door is still the checkpoint");
         }
         [UnityTest] public IEnumerator CompletedEncountersDoNotOfferAnAbsentAnimalConversation()
         {

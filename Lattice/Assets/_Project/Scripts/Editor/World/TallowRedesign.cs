@@ -100,7 +100,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("SERVICE / REST CABINS",new Vector3(0,.12f,7.5f),.9f);
             if(!grey)StationPressureEntries.Tallow();
             StationNavigationBake.Bake("TallowDrift");
-            WorldBuilder.Save(scene,"TallowDrift");
+            ChapterOneStaging.Drift();WorldBuilder.Save(scene,"TallowDrift");
         }
         static GameObject Piece(string key,Vector3 position,Vector3 size,bool solid=true)
         {

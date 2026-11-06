@@ -5,6 +5,12 @@ namespace Lattice.World
     public sealed class Npc:InteractionPrompt
     {
         public static event Action<string,string,Action<bool>> TalkRequested;
+        /// <summary>A conversation nobody is standing there for: a recorded message left in a crate.</summary>
+        public static bool Say(string node,string speaker,Action<bool> done=null)
+        {
+            if(TalkRequested==null)return false;
+            TalkRequested.Invoke(node,speaker,done??(_=>{}));return true;
+        }
         public string speaker,firstNode,repeatNode,postNode,postFlag="warpkey";
         public string finalNode,finalFlag;
         // Optional completion-owned acknowledgement after the final tier.

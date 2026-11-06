@@ -30,7 +30,8 @@ namespace Lattice.UI
             string focus=EventSystem.current.currentSelectedGameObject!=null?EventSystem.current.currentSelectedGameObject.name:null;
             if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,.95f).gameObject;
             var state=GameServices.Current.State;
-            var heading=UiKit.Heading(panel.transform,"Heading",(page==0?"OUTFITTER · BUY":"OUTFITTER · SELL")+"   "+state.scrip+" SCRIP",42,UiKit.TextColor);
+            string trade=inventory!=null&&!string.IsNullOrEmpty(inventory.title)?inventory.title:"OUTFITTER";
+            var heading=UiKit.Heading(panel.transform,"Heading",trade+(page==0?" · BUY":" · SELL")+"   "+state.scrip+" SCRIP",42,UiKit.TextColor);
             UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,390),new(1400,80));
             var buttons=new List<Selectable>();int row=0;
             void Add(string label,System.Action action){var b=UiKit.Button(panel.transform,"ShopRow"+row,label,action);UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,260-row++*76),new(1180,62));buttons.Add(b);}

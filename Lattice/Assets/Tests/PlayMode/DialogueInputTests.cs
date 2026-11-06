@@ -83,7 +83,7 @@ namespace Lattice.Tests.PlayMode
             var branches=new Dictionary<string,string[]>
             {
                 ["MiraFirst"]=new[]{"shop","world"},["HalFirst"]=new[]{"bench","repair","world"},
-                ["HalRepeat"]=new[]{"repair","bench","world"},["HalPost"]=new[]{"repair","bench"},
+                ["HalRepeat"]=new[]{"repair","bench","world"},["HalPost"]=new[]{"repair","bench","world"},
                 ["ArenaGuide"]=new[]{"bench","world"},
                 // Chapter 2 (D202): Corra keeps Lanternwick's own stock.
                 ["CorraFirst"]=new[]{"shop","world"}

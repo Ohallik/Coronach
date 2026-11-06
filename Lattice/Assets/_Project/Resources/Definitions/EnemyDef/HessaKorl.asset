@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: HessaKorl
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 1
   collarPlate: {fileID: 0}
   id: HessaKorl
   prefab: {fileID: 4328696755841274204, guid: 82333fb5fcfca3246bd6a3c6e801ce02, type: 3}

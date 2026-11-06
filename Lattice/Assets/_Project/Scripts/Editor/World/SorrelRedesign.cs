@@ -97,7 +97,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Boundary("East distant terrain limit",new Vector3(106,15,90),new Vector3(2,40,340));
             WorldBuilder.Boundary("South distant terrain limit",new Vector3(0,15,-61),new Vector3(212,40,2));
             WorldBuilder.Boundary("North distant terrain limit",new Vector3(0,15,258),new Vector3(212,40,2));
-            BakeNavigation();WorldBuilder.Save(scene,"Sorrel_Ridges");
+            BakeNavigation();ChapterOneStaging.Sorrel();WorldBuilder.Save(scene,"Sorrel_Ridges");
         }
         static GameObject Prop(string key,float x,float z,float height,float yaw=0,bool solid=true)
         {

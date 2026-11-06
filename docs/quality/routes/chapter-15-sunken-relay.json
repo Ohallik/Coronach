@@ -1189,30 +1189,36 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "to the sealed door",
-      "seconds": 4.27,
+      "name": "through the open seal",
+      "seconds": 5.23,
       "navigate": true,
       "point": {
         "x": 0,
         "y": 0.1,
-        "z": 115
+        "z": 120
       },
       "tolerance": 1,
       "until": "arrived",
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "start the captain",
-      "seconds": 0.2,
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "dialogue",
+      "name": "walk up until she speaks",
+      "seconds": 3.1,
+      "navigate": true,
+      "point": {
+        "x": 2,
+        "y": 0.1,
+        "z": 124
+      },
+      "tolerance": 0.6,
+      "until": "arrived",
+      "stopWhen": "ui:dialogue",
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "release start the captain",
-      "seconds": 0.3,
+      "name": "she speaks",
+      "seconds": 3,
+      "until": "ui:dialogue",
       "expectedUi": "dialogue",
       "expectedScene": "SunkenRelay"
     },
@@ -1367,12 +1373,12 @@
     },
     {
       "name": "onto the Great Lantern's floor",
-      "seconds": 7.17,
+      "seconds": 2.44,
       "navigate": true,
       "point": {
-        "x": 0,
+        "x": 1,
         "y": 0.1,
-        "z": 136
+        "z": 125.5
       },
       "tolerance": 1.5,
       "until": "arrived",
@@ -1853,47 +1859,9 @@
       "expectedScene": "SunkenRelay"
     },
     {
-      "name": "Taren leads",
-      "seconds": 1.2,
-      "ensureCharacter": "Taren",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "repair gel after Hessa",
-      "seconds": 0.2,
-      "leftTrigger": 1,
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release gel after Hessa",
-      "seconds": 0.4,
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "to the captain under guard",
-      "seconds": 6.92,
-      "navigate": true,
-      "point": {
-        "x": 8,
-        "y": 0.1,
-        "z": 152
-      },
-      "tolerance": 1,
-      "until": "arrived",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "start Hessa under guard",
-      "seconds": 0.2,
-      "buttons": [
-        "South"
-      ],
-      "expectedUi": "dialogue",
-      "expectedScene": "SunkenRelay"
-    },
-    {
-      "name": "release start Hessa under guard",
-      "seconds": 0.3,
+      "name": "Hessa speaks",
+      "seconds": 10,
+      "until": "ui:dialogue",
       "expectedUi": "dialogue",
       "expectedScene": "SunkenRelay"
     },
@@ -1999,8 +1967,25 @@
       "expectedScene": "SunkenRelay"
     },
     {
+      "name": "Taren leads",
+      "seconds": 1.2,
+      "ensureCharacter": "Taren",
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "repair gel after Hessa",
+      "seconds": 0.2,
+      "leftTrigger": 1,
+      "expectedScene": "SunkenRelay"
+    },
+    {
+      "name": "release gel after Hessa",
+      "seconds": 0.4,
+      "expectedScene": "SunkenRelay"
+    },
+    {
       "name": "to the relay lift 1/2",
-      "seconds": 4.67,
+      "seconds": 6.92,
       "navigate": true,
       "point": {
         "x": -2.4,

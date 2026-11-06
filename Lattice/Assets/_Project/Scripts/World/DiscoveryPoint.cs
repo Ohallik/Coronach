@@ -19,10 +19,15 @@ namespace Lattice.World
         public GameObject visual;
         /// <summary>A checkpoint: reaching this point moves the respawn here.</summary>
         public string saveSpawn;
+        /// <summary>Not offered until this flag is set (empty: always).</summary>
+        public string requiredFlag;
+        /// <summary>Walking through this object's trigger starts it, for a moment the party can't be allowed to walk around.</summary>
+        public bool startsOnCrossing;
         bool QuestReady=>string.IsNullOrEmpty(requiredQuest)||GameServices.Current.State.questSteps.TryGetValue(requiredQuest,out var step)&&step==requiredStep;
         bool pending;
         GameState requestedState;
-        public override bool Available=>!pending&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&QuestReady&&
+        bool Unlocked=>string.IsNullOrEmpty(requiredFlag)||GameServices.Current.Flags.GetBool(requiredFlag);
+        public override bool Available=>!pending&&isActiveAndEnabled&&!GameServices.Current.Flags.GetBool(flag)&&QuestReady&&Unlocked&&
             (previewEncounter==null||!previewEncounter.Started);
         public override void Interact()
         {
@@ -51,6 +56,14 @@ namespace Lattice.World
         {
             if(!string.IsNullOrEmpty(saveSpawn))GameServices.Current.State.spawn=saveSpawn;
             GameServices.Current.Saves.Save("autosave",GameServices.Current.State);
+        }
+        void OnTriggerEnter(Collider other)=>Crossed(other);
+        void OnTriggerStay(Collider other)=>Crossed(other);
+        void Crossed(Collider other)
+        {
+            if(!startsOnCrossing||!isActiveAndEnabled||GameServices.Current==null||GameServices.Current.Input.Blocked||!Available)return;
+            if(PartyController.Current==null||PartyController.Current.Active==null||other.gameObject!=PartyController.Current.Active.gameObject)return;
+            Interact();
         }
         void Update()
         {

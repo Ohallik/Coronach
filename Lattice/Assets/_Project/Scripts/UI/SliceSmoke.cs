@@ -36,7 +36,7 @@ namespace Lattice.UI
             yield return Travel(new Vector3(46,1,-34),3);
             yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.scene=="Sorrel_Ridges"));
             yield return Zone("Sorrel_Ridges");yield return Talk("Survivor");
-            yield return Use(FindFirstObjectByType<RepairBay>());yield return Capture("Sorrel_Ridges");
+            yield return Use(FindObjectsByType<RepairBay>(FindObjectsSortMode.None).First(r=>r.saveSpawn=="Outpost"));yield return Capture("Sorrel_Ridges");
             // The redesigned basin's haul road bends between ridge strata; walk its
             // actual bends to the drill and the Burrower's excavation.
             foreach(var p in new[]{new Vector2(9,39),new Vector2(4,58),new Vector2(-8,75),new Vector2(-5,94),new Vector2(9,111),new Vector2(16,129),new Vector2(7,145),new Vector2(0,164),new Vector2(3,181)})
@@ -71,7 +71,7 @@ namespace Lattice.UI
             yield return Zone("Sorrel_Ridges");
             yield return Use(FindObjectsByType<DockingPad>(FindObjectsSortMode.None).First(p=>p.spawn=="Outer"));
             yield return Zone("Hub_CinderHalo");yield return Use(FindObjectsByType<WarpBeacon>(FindObjectsSortMode.None).First(w=>w.scene=="Gullet_Tunnel"));
-            yield return Zone("Gullet_Tunnel");
+            yield return Zone("Gullet_Tunnel");DialogueSystem.Current.AutoAdvance=true;
             for(float z=35;z<=875&&!failed;z+=25)
             {
                 float x=GulletProfile.RouteX(z);yield return Travel(new Vector3(x,1,z),4);

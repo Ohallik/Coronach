@@ -26,9 +26,10 @@ namespace Lattice.UI
             switch(state.zone)
             {
                 case "Hub_CinderHalo":
-                    if(!flags.GetBool("met.Orrin")){label="Dock at Orrin's office";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Office");}
-                    else if(ChapterProgress.CanEnterGullet(state)){label="Enter the Gullet";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Gullet_Tunnel");}
-                    else{label=flags.GetBool("warpkey")?"Explore Hushwell beneath Sorrel":"Land on Sorrel";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Sorrel_Ridges");}
+                    if(!flags.GetBool("met.Orrin")){label="Dock at Orrin's office: Sorrel has gone quiet";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Office");}
+                    else if(flags.GetBool("bossdown.Cantor")){label="Warp to Tallow Approach: Keeper Abri is waiting";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="TallowApproach");}
+                    else if(ChapterProgress.CanEnterGullet(state)){label="Enter the Gullet: Tallow Drift still answers beyond it";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Gullet_Tunnel");}
+                    else{label=flags.GetBool("warpkey")?"Explore Hushwell beneath Sorrel: the key's route has gaps":"Land on Sorrel and find out why it went quiet";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Sorrel_Ridges");}
                     break;
                 case "Hub_Decks":
                     if(flags.GetBool(OpeningMarketSequence.Requested)&&!flags.GetBool(OpeningMarketSequence.Repaired))
@@ -37,11 +38,11 @@ namespace Lattice.UI
                     else{label="Return to the Halo";target=prompts.OfType<DockingPad>().OrderBy(p=>(p.transform.position-PartyController.Current.Active.transform.position).sqrMagnitude).FirstOrDefault();}
                     break;
                 case "Sorrel_Ridges":
-                    if(!flags.GetBool("met.Survivor")){label="Find the outpost crew";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Survivor");}
-                    else if(!flags.GetBool("bossdown.Burrower")){label="Follow the ridges to the drill";goal=new Vector3(0,0,164);}
-                    else if(!flags.GetBool("warpkey")){label="Recover the survey key";target=prompts.OfType<KeyPickup>().FirstOrDefault();}
-                    else if(ChapterProgress.NeedsNursery(state)){label="Descend the bore into Hushwell";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Hushwell");}
-                    else{label="Return to the Halo";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Outer");}
+                    if(!flags.GetBool("met.Survivor")){label="Find the outpost crew: why did they stop answering?";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Survivor");}
+                    else if(!flags.GetBool("bossdown.Burrower")){label="Follow the ridges to the drill and stop the Burrower";goal=new Vector3(0,0,164);}
+                    else if(!flags.GetBool("warpkey")){label="Recover the survey key from the drill's cradle";target=prompts.OfType<KeyPickup>().FirstOrDefault();}
+                    else if(ChapterProgress.NeedsNursery(state)){label="Descend the bore into Hushwell: the key's route has gaps";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Hushwell");}
+                    else{label=flags.GetBool("bossdown.Cantor")?"Return to the Halo":"Return to the Halo: the Gullet warp can read your route now";target=prompts.OfType<DockingPad>().FirstOrDefault(p=>p.spawn=="Outer");}
                     break;
                 case "Hushwell":
                     if(!flags.GetBool("bossdown.BellowsBelow")){label="Follow the breathing down to the Bellows";goal=new Vector3(HushwellLayout.Bellows.x,HushwellLayout.Middle,HushwellLayout.Bellows.y);}
@@ -65,25 +66,24 @@ namespace Lattice.UI
                             break;
                         }
                     }
-                    else{label="Warp to Tallow Drift";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
+                    else{label="Warp to Tallow Drift: the way past the Cantor is open";target=prompts.OfType<WarpBeacon>().FirstOrDefault();}
                     break;
                 case "TallowApproach":
                     if(Lantern(state)>=0&&!flags.GetBool("lanternwick.chartGiven"))
                     {label="Take the warp to the Wick Reach";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="WickReach");}
                     else if(flags.GetBool("met.Keeper")&&!flags.GetBool("tallow.lineObserved"))
                     {label="Inspect the port docking line";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag=="tallow.lineObserved");}
-                    else{label="Dock at Tallow Drift";target=prompts.OfType<DockingPad>().FirstOrDefault();}
+                    else{label=flags.GetBool("met.Keeper")?"Dock at Tallow Drift":"Dock at Tallow Drift: it's still answering";target=prompts.OfType<DockingPad>().FirstOrDefault();}
                     break;
                 case "TallowDrift":
                     if(flags.GetBool("tallow.lineObserved")&&!flags.GetBool("tallow.driftDiscussed"))
                     {label="Tell Keeper Abri what you found";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(!flags.GetBool("met.Keeper")){label="Talk to Tallow's keeper";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
-                    else if(!flags.GetBool("sliceComplete")){label="Repair and save at Tallow Drift";target=prompts.OfType<RepairBay>().FirstOrDefault();}
-                    else if(!flags.GetBool("tallow.lineObserved")){label="Launch to inspect the port line";target=prompts.OfType<DockingPad>().FirstOrDefault();}
+                    else if(!flags.GetBool("sliceComplete")){label="Repair and save at Tallow Drift, then see to Abri's line";target=prompts.OfType<RepairBay>().FirstOrDefault();}
+                    else if(!flags.GetBool("tallow.lineObserved")){label="Launch to inspect the port docking line for Keeper Abri";target=prompts.OfType<DockingPad>().FirstOrDefault();}
                     else if(!flags.GetBool("compact.hailHeard")){label="The beacon band is crackling: see Keeper Abri";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(Lantern(state)<0&&!flags.GetBool("lanternwick.chartGiven")){label="Ask Keeper Abri about a route that waits";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
                     else if(flags.GetBool("lanternwick.chartGiven")&&!flags.GetBool("chapter2.homecoming")){label="Bring Lanternwick's chart to Keeper Abri";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Keeper");}
-                    else if(flags.GetBool("chapter2.homecoming"))label="Tallow follows the lantern route. Next: food from Xylos";
                     else{label="Launch for the Wick Reach warp";target=prompts.OfType<DockingPad>().FirstOrDefault();}
                     break;
                 case "WickReach":
@@ -96,31 +96,33 @@ namespace Lattice.UI
                     break;
                 }
                 case "Lanternwick":
-                    if(!flags.GetBool("met.Aumi")){label="Find Lanternwick's lantern-keeper";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Aumi");}
+                    if(!flags.GetBool("met.Aumi")){label="Find Lanternwick's lantern-keeper on the lantern stair";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Aumi");}
                     else if(flags.GetBool("lanternwick.chartGiven")){label="Launch for home: the Wick Reach and Tallow";target=prompts.OfType<DockingPad>().FirstOrDefault();}
                     else if(flags.GetBool("bossdown.HessaKorl")){label="Tell Keeper Aumi the gorge is clear";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Aumi");}
-                    else{label="Take the orchard gate down to Lantern Gorge";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="LanternGorge");}
+                    else{label="Take the orchard gate down to Lantern Gorge: Aumi wants its relays lit";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="LanternGorge");}
                     break;
                 case "LanternGorge":
                 {
                     int lit=new[]{"gorge.relay1","gorge.relay2","gorge.relay3"}.Count(f=>flags.GetBool(f));
-                    if(flags.GetBool("bossdown.HessaKorl")){label="Climb back to Lanternwick";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
+                    if(flags.GetBool("bossdown.HessaKorl")){label="Climb back to Lanternwick and tell Keeper Aumi";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
                     else if(lit<3)
                     {
-                        label=$"Relight the gorge relays ({lit}/3)";
+                        label=$"Relight the gorge relays ({lit}/3) for Keeper Aumi";
                         target=prompts.OfType<DiscoveryPoint>().Where(p=>p.flag.StartsWith("gorge.relay")&&p.Available).OrderBy(p=>(p.transform.position-PartyController.Current.Active.transform.position).sqrMagnitude).FirstOrDefault();
                     }
-                    else{label="Enter the Sunken Relay";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="SunkenRelay");}
+                    else{label="Enter the Sunken Relay: the scavengers are still inside";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="SunkenRelay");}
                     break;
                 }
                 case "SunkenRelay":
-                    if(flags.GetBool("bossdown.HessaKorl")){label="Ride the relay lift up to Lanternwick";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
-                    else if(flags.GetBool("relay.hessaConfronted"))label="Stop Hessa Korl";
+                    if(flags.GetBool("bossdown.HessaKorl")&&!flags.GetBool("relay.hessaYielded")){label="Hear Hessa out";target=prompts.OfType<Npc>().FirstOrDefault(p=>p.speaker=="Hessa");}
+                    else if(flags.GetBool("bossdown.HessaKorl")){label="Ride the relay lift up to Lanternwick and tell Keeper Aumi";target=prompts.OfType<WarpBeacon>().FirstOrDefault(p=>p.scene=="Lanternwick");}
+                    else if(flags.GetBool("relay.hessaConfronted")){label="Stop Hessa Korl before she strips the relay";var boss=BossController.Focus(PartyController.Current.Active.transform.position,200);goal=boss!=null?boss.transform.position:new Vector3(3,0,129);}
                     else{label="Find who is stripping the relay";target=prompts.OfType<DiscoveryPoint>().FirstOrDefault(p=>p.flag=="relay.hessaConfronted");}
                     break;
                 default:label="Practice attacks, dodges and swaps";break;
             }
             if(target!=null)goal=target.transform.position;
+            if(flags.GetBool("chapter2.homecoming")){label="Chapter 2 complete. Xylos's river towns are next, but their route isn't charted yet.";goal=null;}
             static int Lantern(GameState state)=>state.questSteps.TryGetValue("LanternRoad",out var step)?step:-1;
             string direction="";
             if(goal.HasValue)

@@ -3,28 +3,36 @@
     "swap": "My turn to be unreasonable.|I've got it. Breathe.|Stepping in.",
     "low": "The seams are getting warm.|That one got through.|I'm running out of plating.",
     "kill": "That answers that.|One less.|Stay down.|Next.",
-    "flash": "Just a little early.",
+    "flash": "Just a little late.",
     "boss": "We can stop shouting now.",
     "release": "Lock's open. Give it room.",
     "zone": "Same body. Different problem.|New ground. Same job.|Let's see what's broken here.|Stay close. I mean it.",
     "cover": "Stay down a second. I've got this.",
-    "discovery": "Eggs. The whole cave is a nest.",
+    "discovery": "A nursery for routes. Orrin's going to want that in writing.",
     "bossphase": "It's changing its mind. Watch the ground.",
     "bossopening": "It's wedged. Now!",
-    "beacon": "One less voice calling it here."
+    "beacon": "One less voice calling them in.",
+    "zone.flight": "Same body. Different problem.|Clear lanes. Stay sharp.|Let's see what's broken out here.",
+    "bossphase.HessaKorl": "She's calling her crew. Watch the ground.",
+    "bossopening.HessaKorl": "She overreached. Now!",
+    "bossphase.Cantor": "It's changing its song. Watch the lanes."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.|My turn. Watch and learn.|Move over. I'm bored.",
     "low": "That was a load-bearing piece!|Ow. Rude.|I'd like a refund on this plating.",
-    "kill": "Beautifully uncooperative.|Noted and deleted.|That one won't be filing a complaint.|You're welcome, Vosk.",
+    "kill": "Beautifully uncomplicated.|Noted and deleted.|That one won't be filing a complaint.|You're welcome, Vosk.",
     "flash": "You missed. I noticed.",
-    "boss": "I liked it better quiet.",
+    "boss": "Quiet again. I missed that.",
     "release": "It's turning. Follow the opening.",
     "zone": "I vote we touch nothing. Yet.|Smells like old solder and bad decisions.|Nice place. Who broke it?|Nobody panic. That's my job.",
     "cover": "Hold still, Vosk. I'm covering you.",
-    "discovery": "The grooves curl to hold them. Something grew this cave on purpose.",
+    "discovery": "Note for the survey: not empty. Not even slightly.",
     "bossphase": "New rhythm. Read the floor, Vosk.",
     "bossopening": "There's your opening. Don't admire it.",
-    "beacon": "Quiet. That one won't call anything else in."
+    "beacon": "Quiet. That one won't call anything else in.",
+    "zone.flight": "I vote we touch nothing. Yet.|Pretty. That usually means trouble.|Nobody panic. That's my job.",
+    "bossphase.HessaKorl": "She brought friends. Read the floor, Vosk.",
+    "bossopening.HessaKorl": "There's your opening. Don't admire it.",
+    "bossphase.Cantor": "New rhythm. Read the current, Vosk."
   }
 }

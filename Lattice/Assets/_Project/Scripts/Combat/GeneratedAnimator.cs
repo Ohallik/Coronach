@@ -95,7 +95,8 @@ namespace Lattice.Combat
                 }
                 else if(enemy.Attacking)wanted="Attack";
             }
-            bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive;
+            bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive&&!enemy.definition.yieldsOnDefeat;
+            if(enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat){wanted="Idle";rate=1;}
             bool gettingUp=actor!=null&&actor.Recovering;
             if(down||gettingUp)
             {

@@ -51,112 +51,29 @@
       "expectedCharacter": "Taren"
     },
     {
-      "name": "top up charge before excavation",
-      "seconds": 5,
-      "expectedScene": "Sorrel_Ridges",
+      "name": "to the drill site cradle",
+      "seconds": 8,
       "navigate": true,
       "point": {
-        "x": -8,
+        "x": -1.2,
         "y": 0,
-        "z": 7
-      }
+        "z": 142
+      },
+      "tolerance": 0.8,
+      "expectedScene": "Sorrel_Ridges"
     },
     {
-      "name": "use outpost repair",
+      "name": "use the drill site cradle",
       "seconds": 0.3,
-      "expectedScene": "Sorrel_Ridges",
       "buttons": [
         "South"
-      ]
+      ],
+      "expectedScene": "Sorrel_Ridges"
     },
     {
       "name": "release repair input",
       "seconds": 0.4,
       "expectedScene": "Sorrel_Ridges"
-    },
-    {
-      "name": "leave outpost",
-      "seconds": 9,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": 0,
-        "y": 0,
-        "z": 25
-      },
-      "tolerance": 0.65
-    },
-    {
-      "name": "cleared lower haul",
-      "seconds": 8,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": 9,
-        "y": 0,
-        "z": 39
-      },
-      "tolerance": 0.65
-    },
-    {
-      "name": "cleared strata",
-      "seconds": 10,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": 4,
-        "y": 0,
-        "z": 58
-      },
-      "tolerance": 0.65
-    },
-    {
-      "name": "cleared west bend",
-      "seconds": 10,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": -8,
-        "y": 0,
-        "z": 75
-      },
-      "tolerance": 0.65
-    },
-    {
-      "name": "cleared wash",
-      "seconds": 12,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": -5,
-        "y": 0,
-        "z": 98
-      },
-      "tolerance": 0.65
-    },
-    {
-      "name": "upper haul",
-      "seconds": 10,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": 9,
-        "y": 0,
-        "z": 111
-      },
-      "tolerance": 0.65
-    },
-    {
-      "name": "excavation approach",
-      "seconds": 10,
-      "expectedScene": "Sorrel_Ridges",
-      "navigate": true,
-      "point": {
-        "x": 16,
-        "y": 0,
-        "z": 129
-      },
-      "tolerance": 0.65
     },
     {
       "name": "bench operator path",

@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e727748292456fc4980f3a0f7f77147a, type: 3}
   m_Name: Gloomgrazer
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.EnemyDef
+  yieldsOnDefeat: 0
   collarPlate: {fileID: 0}
   id: Gloomgrazer
   prefab: {fileID: 7209843501315994859, guid: 26e5136d4d79af2438ad0507c246145d, type: 3}

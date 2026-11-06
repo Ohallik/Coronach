@@ -2,8 +2,8 @@ title: NeveFirst
 ---
 Neve: Shapers in my lanes. I thought you were expensive warning lights. #emotion:Amused
 Taren: Only when we hit something. #emotion:Smug
-Neve: The Choir's sealed the Gullet's chambers. Take out the singers and the membranes loosen. And don't lean on the walls. #emotion:Worried
-Neve: I left a cache in the second chamber. Copper beacon, cracked casing. Tell it I sent you. #emotion:Playful
+Neve: The Choir seals the Gullet's chambers. Take out the singers and the membranes loosen. And don't lean on the walls. #emotion:Worried
+Neve: I left a cache in the second chamber. Crate in the right-hand pocket, by the wreck. Tell it I sent you. #emotion:Playful
 <<setFlag neve.cache>>
 ===
 title: NeveRepeat
@@ -13,7 +13,7 @@ Neve: The cache is yours. My advice costs extra: brake before you turn. #emotion
 title: NevePost
 ---
 Neve: That key's humming. Either it works or it's very pleased with itself. #emotion:Curious
-Neve: The old survey runs you into walls. Check Sela's chart before you follow the beacon. Tallow's still answering. #emotion:Determined
+Neve: The old survey runs you into walls. Ask Sela's chart, then take the outer warp. Tallow's still answering. #emotion:Determined
 ===
 title: OdaFirst
 ---
@@ -48,10 +48,10 @@ Ilo: You went out toward the Gullet, didn't you? Keep your own notes. Ours get r
 ===
 title: NeveParcelOffer
 ---
-Neve: Heading back down to Sorrel? Good. I'm holding something of theirs. #emotion:Neutral
+Neve: Heading down to Sorrel? Good. I'm holding something of theirs. #emotion:Neutral
 Neve: One of the three missed deliveries. Coffee, socks, and a letter somebody wrote twice. #emotion:Amused
 Taren: You kept it? #emotion:Curious
-Neve: The courier wouldn't land near the drill, and I wasn't going to space it. Take it to whoever's still answering down there. #emotion:Determined
+Neve: The courier wouldn't land near the drill, and I wasn't going to space it. Take it to whoever's still down there. #emotion:Determined
 <<startQuest NeveParcel>>
 ===
 title: NeveParcelReturn
@@ -77,4 +77,18 @@ Oda: Nine hundred households ahead of us, all through the same door. Somebody th
 Taren: If that door jams, find me. #emotion:Determined
 Oda: I'll hold you to that. Here, for your trouble. Mother insisted. #emotion:Tender
 <<setFlag oda.tokenReturned>>
+===
+title: NeveAfterParcel
+---
+Neve: Dace sent socks back. A full crate. I've decided that's a love letter. #emotion:Amused
+<<setFlag neve.afterParcel>>
+===
+title: NeveAfterCantor
+---
+Neve: You flew out past the Cantor and came back with all your vanes. I'm revising my prices. #emotion:Amused
+===
+title: OdaAfterBerth
+---
+Oda: Line nine hundred and four. Mother's had it framed. She says if the door jams, at least it'll jam with style. #emotion:Amused
+<<setFlag oda.afterBerth>>
 ===

@@ -13,14 +13,14 @@ Sela: One impossible thing at a time, Vosk. #emotion:Playful
 ===
 title: AbriLanternRepeat
 ---
-Keeper: The Wick Reach warp is off the approach, past the port marker. Bring me back a lantern story with a happy ending. #emotion:Tender
+Keeper: The Wick Reach warp is off the approach, starboard of the dock. Bring me back a lantern story with a happy ending. #emotion:Tender
 ===
 title: AbriLanternHome
 ---
-Keeper: You brought back a lantern-keeper. Well, an apprentice. That's how it starts. #emotion:Happy
+Keeper: Aumi's apprentice is already over there, fussing with my lamps. Grandmother would call that a happy ending. #emotion:Happy
 Sela: The chart answers every relay that's still lit. Tallow can follow its passage now. #emotion:Determined
 Keeper: A route that waits. Venn will hate how pretty it is. #emotion:Amused
-Taren: That's one of her three. Food and power are still on the list. #emotion:Worried
+Taren: One of her three. Food and power are still on the list. #emotion:Worried
 Sela: Pell says the river towns on Xylos move their farms with the floods. #emotion:Curious
 Taren: Then food first. #emotion:Determined
 <<setFlag chapter2.homecoming>>
@@ -30,14 +30,14 @@ title: SelaWickRelays
 Sela: Those towers are relays. Old ones. And every one of them has been cut open. #emotion:Worried
 Taren: Cut for what? #emotion:Curious
 Sela: The glass in the crown. Somebody wants it badly enough to strip a whole chain. #emotion:Intense
-Taren: Then somebody's still out here. Stay close. #emotion:Determined
+Taren: This one still has its glass. Light it before those skiffs come back for it. #emotion:Determined
 ===
 title: AumiFirst
 ---
 Aumi: That's close enough. The last crew that docked here left with three of my relays in their hold. #emotion:Angry
 Taren: We're from Tallow Drift. We came for help, not glass. #emotion:Neutral
 Aumi: Everyone comes for help. Then they come back for the glass. #emotion:Worried
-Sela: Tallow is moving with its passage. Your relays used to guide stations like that. We need a way to follow it. #emotion:Determined
+Sela: Tallow is moving with its passage. Your relays used to guide stations like that. We need a route that waits. #emotion:Determined
 Aumi: Used to. The gorge relays are dark, and Muster scavengers are working in the dark beside them. #emotion:Intense
 Aumi: Relight the three gorge relays and drive the scavengers out. Then I'll believe you came to give something back. #emotion:Determined
 Taren: Where's the way down? #emotion:Curious
@@ -45,19 +45,19 @@ Aumi: Orchard gate, west terrace. Grazers hate light, and so do the Muster. Use 
 ===
 title: AumiRepeat
 ---
-Aumi: Three relays. The gorge gate is past the orchard. Light first, then glass. That's the order here. #emotion:Neutral
+Aumi: The orchard gate's past the last trees. I want the relays lit and the cutting stopped. I'll see the light from the stair. #emotion:Neutral
 ===
 title: AumiReturn
 ---
 Aumi: The gorge is lit. I could see it from the stair. #emotion:Shocked
-Taren: Their captain is under guard at the relay. Your keepers have her. #emotion:Neutral
-Aumi: Then you've done what the last three visitors only promised. #emotion:Tender
-Aumi: Ishen opened the archive while you were down there. Read the wall. It's been waiting longer than any of us. #emotion:Determined
-Sela: Those light patterns are passages. Moving ones. And there are towns travelling beside them. #emotion:Shocked
+Taren: Their captain's sitting in your relay with her hands empty. Send your keepers down. #emotion:Neutral
+Aumi: I said I'd believe you once the gorge was lit. I believe you. #emotion:Tender
+Aumi: Ishen copied this off the archive wall while you were below. Look at it before you tell me what it's worth. #emotion:Determined
+Sela: These light patterns are my chart. The same bends, moving. And there are towns travelling beside them. #emotion:Shocked
 Aumi: When the roads last left, most of our ancestors went with them. The rest kept the lanterns lit for anyone who came back. #emotion:Tender
-Aumi: Take this chart. Every relay that still burns will answer it. A route that waits, as your director put it. #emotion:Determined
+Aumi: Keep the chart. Every relay that still burns will answer it. A route that waits, as you put it. #emotion:Determined
 <<setFlag lanternwick.chartGiven>>
-Aumi: And take Pell. Someone should keep a lantern lit on that station of yours. #emotion:Amused
+Aumi: And take Pell, my apprentice. She'll keep your lantern lit, and tell you all about Xylos whether you ask or not. #emotion:Amused
 ===
 title: AumiFinal
 ---
@@ -67,7 +67,7 @@ title: PellFirst
 ---
 Pell: You flew in? Actually flew? Not in a ship, as the ship? #emotion:Shocked
 Sela: As the ship. Mind the vanes. #emotion:Playful
-Pell: I'm Pell. I keep the lamps on the lower stair, which means I climb the lower stair forty times a day. #emotion:Happy
+Pell: I'm Pell! I do the lower stair lamps, forty climbs a day. If you ever need to know anything about stairs, ask me. #emotion:Happy
 Pell: Don't let Aumi scare you off. She's only like that with people. #emotion:Amused
 ===
 title: PellRepeat
@@ -76,9 +76,9 @@ Pell: If you see a lamp out on the stair, tell me. If you see a grazer, don't te
 ===
 title: PellLampOffer
 ---
-Pell: Are you going back down the gorge? Can I ask you something? Quietly? #emotion:Worried
-Pell: I dropped my lamp down there. Not dropped. A grazer took it, and I ran, and the lamp didn't. #emotion:Flustered
-Pell: It was my mother's. Aumi doesn't know it's gone. There's a den under the fallen tower, past the second relay. #emotion:Worried
+Pell: Before you go anywhere, can I ask you something? Quietly? #emotion:Worried
+Pell: I dropped my lamp down in the gorge. Not dropped. A grazer took it, and I ran, and the lamp didn't. #emotion:Flustered
+Pell: It was my mother's. Aumi doesn't know it's gone. There's a den under the fallen tower, past the first relay. #emotion:Worried
 Taren: We'll look for it. #emotion:Tender
 <<startQuest PellsLamp>>
 ===
@@ -86,21 +86,21 @@ title: PellLampReturn
 ---
 Taren: One lamp. Slightly chewed. #emotion:Amused
 Pell: You found it! It still lights. Look at that, it still lights. #emotion:Happy
-Pell: Don't tell Aumi. Actually, do tell her. Tell her I'm the one who sent you. #emotion:Playful
+Pell: Take these cells, they were for the lamp. And don't tell Aumi. Actually, do. Tell her I'm the one who sent you. #emotion:Playful
 <<setFlag pell.lampReturned>>
 ===
 title: PellPost
 ---
 Pell: Aumi says I'm going with you. To Tallow. On a station that moves. #emotion:Shocked
-Pell: I've packed four times. I keep unpacking the lamp to check it still works. #emotion:Happy
+Pell: I've packed four times. Nobody can tell me what you pack for a station that moves, so it's mostly lamps. #emotion:Happy
 ===
 title: IshenFirst
 ---
 Ishen: Visitors, and not the kind with cutting torches. Come in. Mind the record. #emotion:Happy
-Ishen: I'm Ishen. I keep the archive, which means I keep the light patterns, which means I read walls for a living. #emotion:Amused
+Ishen: I'm Ishen, archivist. I read walls for a living, and I'd like it noted that these are excellent walls. #emotion:Amused
 Taren: What's on the walls? #emotion:Curious
-Ishen: Passages. Thousands of them, recorded by lantern over more years than this canyon has names for. #emotion:Tender
-Ishen: Three record plates went missing in the Sunken Relay below the gorge. If you go down there, bring back any you find. #emotion:Determined
+Ishen: Passages. Four thousand and twelve of them, by lantern, and every one dark since the Muster started cutting the relays that feed them. #emotion:Sad
+Ishen: Three record plates went missing in the Sunken Relay below the gorge, and I've never read them. Bring back any you find. #emotion:Determined
 <<startQuest IshensRecord>>
 ===
 title: IshenRepeat
@@ -111,18 +111,18 @@ title: IshenRecordReturn
 ---
 Ishen: All three. You have no idea what you're holding. Well, neither do I yet. Give me a moment. #emotion:Shocked
 Ishen: These came from Oriel, a world that tried to hold a passage still the last time the roads left. #emotion:Worried
-Ishen: It says the passage fought the cage. It says the world broke around it. #emotion:Sad
+Ishen: The record says the passage fought the cage. It says the world broke around it. #emotion:Sad
 Sela: The Muster were stripping relay glass down there. Do they know about this? #emotion:Worried
-Ishen: I hope not. I'll keep these where nobody with a torch can find them. #emotion:Determined
+Ishen: I hope not. I'll keep these where nobody with a torch can find them. Take this emitter. It was a lens once, and it's wasted on walls. #emotion:Determined
 <<setFlag ishen.recordRestored>>
 ===
 title: IshenPost
 ---
-Ishen: The archive's lit again. Come back when you've seen something worth writing down. #emotion:Tender
+Ishen: The Great Lantern's lit again. I've read the Oriel plates eleven times, and they don't improve. Tell me if you see anything worth writing down. #emotion:Amused
 ===
 title: CorraFirst
 ---
-Corra: Fresh faces, fresh scrip. Corra Vey, arch market. I sell lamp oil, parts and advice, and the advice is free. #emotion:Happy
+Corra: Fresh faces, fresh scrip. Corra Vey, arch market. I sell gel, parts and advice, and the advice is free. #emotion:Happy
 Corra: Here's some: don't argue with Aumi before breakfast. #emotion:Amused
 -> Show us what you have.
     <<shop>>
@@ -131,7 +131,7 @@ Corra: Here's some: don't argue with Aumi before breakfast. #emotion:Amused
 ===
 title: CorraRepeat
 ---
-Corra: Light, parts, and more light. What do you need? #emotion:Happy
+Corra: Gel, cells, parts. What do you need? #emotion:Happy
 <<shop>>
 ===
 title: CorraPost
@@ -141,19 +141,19 @@ Corra: Brekk ate. Then he fixed my awning without asking. I might keep him. #emo
 ===
 title: CorraRationsOffer
 ---
-Corra: You've been down the gorge. Did you see the scavengers' camp? #emotion:Worried
-Taren: We saw it. #emotion:Neutral
+Corra: There's a scavengers' camp in the gorge, by the second relay. You've seen it, or you will. #emotion:Worried
+Taren: What about it? #emotion:Neutral
 Corra: They keep ration crates by the fire. Muster rations. Ugly, but they keep. #emotion:Neutral
-Corra: Bring one to the orchard shed. Someone in there can't eat our food, and he's too proud to steal theirs. #emotion:Worried
+Corra: Bring one to the orchard shed. Someone out there can't eat our food, and he's too proud to steal theirs. #emotion:Worried
 Taren: Someone? #emotion:Curious
-Corra: Knock twice. Don't stare. #emotion:Determined
+Corra: Walk up slowly. Don't stare. #emotion:Determined
 <<startQuest UnswornRations>>
 ===
 title: BrekkFirst
 ---
 Brekk: You're not Muster. Good. Then you didn't see me. #emotion:Worried
 Taren: We're not looking for anyone. #emotion:Neutral
-Brekk: Everyone who comes up that canyon is looking for someone. Close the door on your way out. #emotion:Neutral
+Brekk: People who aren't looking don't come up that canyon. Keep walking. #emotion:Neutral
 ===
 title: BrekkRepeat
 ---
@@ -163,10 +163,11 @@ title: BrekkRations
 ---
 Taren: From Corra, by way of the scavengers' camp. #emotion:Neutral
 Brekk: Muster rations. I swore I'd never eat these again. #emotion:Sad
-Brekk: I was a smith at the Bridle works. I made cages for a living until I couldn't stand it. Then I walked. #emotion:Worried
+Brekk: I was a smith at the Bridle works. I made cages for a living until I couldn't stand it. Then I walked. #emotion:Sad
 Sela: Cages for what? #emotion:Curious
-Brekk: For roads. For the creatures you fly through. The Muster wants to leash them like beasts and own every world they reach. #emotion:Intense
-Brekk: Thank Corra for me. And if you meet the people I left behind, tell them some of us stopped. #emotion:Tender
+Brekk: For roads. The creatures you fly through. We made the leashes, and whoever holds one owns every world past it. #emotion:Sad
+Brekk: Thank Corra for me. The ones who walk out call themselves Unsworn. If you meet the rest, tell them some of us stopped. This edge was the last good thing I made there. Take it. #emotion:Tender
+<<setFlag met.Brekk>>
 <<setFlag unsworn.rationsDelivered>>
 ===
 title: BrekkPost
@@ -175,15 +176,15 @@ Brekk: Corra has me fixing awnings. First honest metal I've touched in years. #e
 ===
 title: SelaRelayLit
 ---
-Sela: It's taking the charge. Look, the glass remembers its pattern. #emotion:Shocked
-Taren: The grazers are backing off. #emotion:Curious
-Sela: Light first. Aumi wasn't being poetic. #emotion:Amused
+Sela: Hold it steady. The charge is catching. If the glass remembers its pattern, it'll light on its own. #emotion:Curious
+Taren: Any grazer near this thing is about to have a bad evening. #emotion:Amused
+Sela: Grazers hate light. Aumi did say to use that. #emotion:Playful
 ===
 title: SelaSunkenRelay
 ---
 Taren: This was a relay station. A whole station, under the canyon. #emotion:Curious
 Sela: Fresh cuts on the lantern housings. They're still down here, Vosk. #emotion:Worried
-Taren: Then let's be quieter than they are. #emotion:Determined
+Taren: Good. Saves us looking. #emotion:Determined
 ===
 title: HessaConfront
 ---
@@ -198,12 +199,28 @@ Hessa: That's a no. #emotion:Angry
 title: HessaYields
 ---
 Hessa: Enough. Enough! You've made your point, Shapers. #emotion:Angry
-Taren: Keep your hands where the keepers can see them. #emotion:Determined
+Taren: Hands where I can see them. Aumi's keepers can walk you out. #emotion:Determined
 Hessa: You think one canyon matters? The Warmaster has a hundred crews like mine, and none of them lose sleep over lanterns. #emotion:Smug
 Sela: Then they'll lose it over something else. #emotion:Determined
 <<setFlag relay.hessaYielded>>
 ===
 title: HessaRepeat
 ---
-Hessa: The keepers have me. Go and gloat somewhere with better light. #emotion:Smug
+Hessa: I'm waiting on your keepers. Go and gloat somewhere with better light. #emotion:Smug
+===
+title: AbriLanternWaiting
+---
+Keeper: I did the cabins while you were out. Half of them want to turn back, and the rest want a window seat. I tell them you'll be back with the end of the story. #emotion:Tender
+===
+title: AbriLanternAfter
+---
+Keeper: Xylos won't come to us, and nobody's charted the way there yet. Meanwhile the cabins have started asking about dinner. #emotion:Amused
+===
+title: PellLampAfter
+---
+Pell: It's on the stair, where she kept it. Aumi walked past it twice and said nothing, which from Aumi is a parade. #emotion:Happy
+===
+title: PellTallow
+---
+Pell: Nobody told me stations hum. I've relit your corridor lamp twice. It wasn't out. #emotion:Happy
 ===

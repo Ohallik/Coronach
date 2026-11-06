@@ -18,7 +18,9 @@ namespace Lattice.Core
         public static void PlayArrival(string character)
         {
             if(Time.unscaledTime<nextArrival)return;
-            nextArrival=Time.unscaledTime+ArrivalGap;Play(character,"zone",true);
+            nextArrival=Time.unscaledTime+ArrivalGap;
+            bool flying=ZoneController.Current!=null&&ZoneController.Current.Flight&&Pool(character,"zone.flight")!=null;
+            Play(character,flying?"zone.flight":"zone",true);
         }
         public static void Play(string character,string situation,bool priority=false)
         {

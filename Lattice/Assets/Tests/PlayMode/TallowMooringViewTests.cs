@@ -16,7 +16,7 @@ namespace Lattice.Tests.PlayMode
         [UnitySetUp] public IEnumerator Boot()
         {
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;yield return new WaitForSecondsRealtime(.5f);
-            GameServices.Current.State=new GameState();DevLoadout.Apply("starter");SceneFlow.Current.LoadZone("TallowApproach");float until=Time.unscaledTime+10;
+            GameServices.Current.State=new GameState();DevLoadout.Apply("starter");GameServices.Current.Flags.SetBool("met.Keeper",true);SceneFlow.Current.LoadZone("TallowApproach");float until=Time.unscaledTime+10;
             while(SceneFlow.Current.Loading&&Time.unscaledTime<until)yield return null;Assert.IsFalse(SceneFlow.Current.Loading);
         }
         [UnityTearDown] public IEnumerator Cleanup()

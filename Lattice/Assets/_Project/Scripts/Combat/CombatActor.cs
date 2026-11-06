@@ -287,6 +287,6 @@ namespace Lattice.Combat
         /// ticks repay their skill several times over, so Charge never limited anything.</summary>
         public void AwardHit(float weight=1){charge=Mathf.Min(100,charge+7*Mathf.Clamp01(weight)*(1+Mathf.Max(0,resonance-10)*.025f));}
         // The defeated body now voices its own death at its position.
-        public void AwardKill(){Kills++;BarkService.Play(character,"kill");}
+        public void AwardKill(bool remark=true){Kills++;if(remark)BarkService.Play(character,"kill");}
     }
 }

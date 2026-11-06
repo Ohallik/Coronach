@@ -1,13 +1,13 @@
 title: OrrinFirst
 ---
-Orrin: Sorrel's missed three deliveries. Their last telemetry says the drill is still turning. #emotion:Worried
+Orrin: Sorrel's missed three deliveries, Vosk. Their last telemetry says the drill is still turning. #emotion:Worried
 Taren: A drill that runs for three cycles and never orders a part. Somebody down there is busy. #emotion:Curious
 Orrin: Find the outpost crew. Whatever's keeping them from answering, shut it down. #emotion:Determined
 <<startQuest Sorrel>>
 Sela: "Whatever." Very thorough briefing. I'm coming. #emotion:Amused
 Taren: I'd already counted you in. #emotion:Happy
 <<joinParty Sela>>
-Orrin: Launch from any airlock; Sorrel's east of the ring. And bring back the drill's survey key. Ours doesn't match the Gullet anymore. #emotion:Neutral
+Orrin: Launch from any airlock. Sorrel's east of the ring. Grab the drill's survey key too. Ours doesn't match the Gullet anymore, and that's the only road to Tallow. #emotion:Neutral
 ===
 title: OrrinRepeat
 ---
@@ -16,7 +16,7 @@ Orrin: Outpost first, then the drill. And if Sela ever goes quiet, run. #emotion
 title: OrrinPost
 ---
 Orrin: The drill's gone quiet. First time in a month that silence counts as good news. #emotion:Tender
-Orrin: That key reads like a route, but routes have been moving. Check it against Sela's chart before you trust it. #emotion:Worried
+Orrin: That key reads like a route, but routes have been moving. Don't fly it to Tallow until Sela's had a look. #emotion:Worried
 ===
 title: MiraFirst
 ---
@@ -70,6 +70,8 @@ Hal: Orrin's board says the drill's quiet. So does your collar node. Thank you. 
     <<repair>>
 -> Use the bench.
     <<bench>>
+-> Leave.
+    Hal: Easy on the landing. #emotion:Tender
 ===
 title: SelaWaiting
 ---
@@ -82,10 +84,10 @@ Mira: It did stop. Then the pears needed room. #emotion:Smug
 Taren: And I need room to close this cover without pinching the conduit. #emotion:Determined
 Sela: Does your repair come with a ship? I've got a receipt for one that left an hour ago. #emotion:Worried
 Mira: Well, the receipt was on time. #emotion:Amused
-Sela: I found the right dock. Eventually. Here, I'll hold this side. #emotion:Playful
+Sela: I chart routes for a living. Docks are harder. Here, I'll hold this side. #emotion:Playful
 Taren: Keep the hinge clear. There. Now it'll sit flush. #emotion:Determined
 <<stationShift>>
-Mira: Did the bridge just move? #emotion:Shocked
+Mira: Did the walkway just move? #emotion:Shocked
 Taren: A little. I hadn't tightened that joint yet. #emotion:Worried
 Sela: Both sides moved. Together. #emotion:Curious
 Mira: Then my stall's still on its side of the line. Open the walkway before the pears bruise. #emotion:Amused
@@ -99,11 +101,11 @@ Orrin: Close the cover and open the gates. Then come and see me about Sorrel. #e
 title: MiraOpening
 ---
 Mira: The stall isn't on your line. Your line is under my stall. Different thing. #emotion:Smug
-Mira: Shut that cover so I can open. The pears keep a schedule, even if your bridge doesn't. #emotion:Amused
+Mira: Shut that cover so I can open. The pears keep a schedule, even if your walkway doesn't. #emotion:Amused
 ===
 title: SelaOpening
 ---
-Sela: Is this bridge closed, or just resting? #emotion:Curious
+Sela: Is this walkway closed, or just resting? #emotion:Curious
 Taren: Closed until I finish the cover. Give me a minute. #emotion:Neutral
 ===
 title: OrrinBerth
@@ -113,4 +115,8 @@ Orrin: Stamped. One family, one berth, one harbour. The Compact likes things it 
 Taren: You don't sound sure. #emotion:Curious
 Orrin: I'm sure of the arithmetic. Take it to her. #emotion:Neutral
 <<setFlag oda.tokenCollected>>
+===
+title: OrrinAfterCantor
+---
+Orrin: Back from Tallow? Then the Gullet's a road again. I'll put that on the board, and nobody will believe it. #emotion:Amused
 ===

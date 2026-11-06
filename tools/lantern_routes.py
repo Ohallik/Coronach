@@ -59,6 +59,9 @@ class Route:
         """Start a conversation with the confirm button and read it. Each line is held long enough to read, as a person would."""
         self.add("start " + name, 0.2, buttons=["South"], expectedUi="dialogue")
         self.add("release start " + name, 0.3, expectedUi="dialogue")
+        self.read(name, lines, flag, capture)
+
+    def read(self, name, lines, flag=None, capture=True):
         # Hold each line as a person would, then press once. A long line may still be typing (that press completes it) and a
         # short one is already done (that press moves on), so line counts can't drift; nothing is pressed once it closes.
         closed = "ui:world"
@@ -281,10 +284,13 @@ def relay():
     r.walk("to the relay cradle", 6.8, 0.1, 108.8, tolerance=1)
     r.add("repair and save at the cradle", 0.3, buttons=["South"])
     r.add("release cradle", 1)
-    r.walk("to the sealed door", 0, 0.1, 115, tolerance=1)
-    r.talk("the captain", 6, flag="relay.hessaConfronted")
+    # She stands at (3,129): walking in past the open seal starts the talk with her in frame.
+    r.walk("through the open seal", 0, 0.1, 120, tolerance=1)
+    r.walk("walk up until she speaks", 2, 0.1, 124, tolerance=0.6, stop="ui:dialogue")
+    r.add("she speaks", 3, until="ui:dialogue", expectedUi="dialogue")
+    r.read("the captain", 6, flag="relay.hessaConfronted")
     r.lead("Taren")
-    r.walk("onto the Great Lantern's floor", 0, 0.1, 136, tolerance=1.5)
+    r.walk("onto the Great Lantern's floor", 1, 0.1, 125.5, tolerance=1.5)
     r.press("lock Hessa", "LeftShoulder", 0.2)
     stop = "flag:bossdown.HessaKorl"
     for i in range(7):
@@ -296,10 +302,15 @@ def relay():
               evadeTelegraphs=True, stopWhen=stop, point=dict(x=0, y=0, z=0))
         r.gel(f"Hessa {i + 1}", stop)
     r.add("Hessa yields", 4, until=stop, expectedFlag="bossdown.HessaKorl")
-    r.recover("Hessa")
+    # She waits for the party to get up, then says her piece unasked: the same body, where she stopped fighting.
+    r.add("reach the fallen hero after Hessa", 16, navigate=True, approachPartner=True, tolerance=1.2, stopWhen="partyAlive", point=dict(x=0, y=0, z=0))
+    r.add("both heroes ready after Hessa", 6, until="partyAlive")
+    r.add("Hessa speaks", 10, until="ui:dialogue", expectedUi="dialogue")
+    r.read("Hessa under guard", 4, flag="relay.hessaYielded")
+    r.lead("Taren")
+    r.add("repair gel after Hessa", 0.2, leftTrigger=1)
+    r.add("release gel after Hessa", 0.4)
     r.at = None
-    r.walk("to the captain under guard", 8, 0.1, 152, tolerance=1)
-    r.talk("Hessa under guard", 4, flag="relay.hessaYielded")
     r.path("to the relay lift", [(-2.4, 0.1, 155.1), (-5, 0.1, 158)], tolerance=1)
     r.scene = "Lanternwick"
     r.add("ride the relay lift", 4, buttons=["South"], expectedUi="world", expectedForm="Natural")

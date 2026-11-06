@@ -87,7 +87,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("THE CANTOR'S COIL",new(0,-1,GulletProfile.CantorZ-50));
             WorldBuilder.Warp("Exit warp — Tallow Drift",new(GulletProfile.Center(GulletProfile.ExitZ),1,GulletProfile.ExitZ),"TallowApproach","bossdown.Cantor");
             VerifyWalls();
-            WorldBuilder.Save(scene,"Gullet_Tunnel");
+            ChapterOneStaging.Gullet();WorldBuilder.Save(scene,"Gullet_Tunnel");
         }
         static void Cluster(float z,int side,int count,float low,float high)
         {for(int i=0;i<count;i++)Pod(z+Range(-4,4),side,Range(low,high),Range(.6f,2.4f));}

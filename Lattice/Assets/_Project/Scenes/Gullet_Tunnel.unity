@@ -16539,6 +16539,51 @@ Transform:
   - {fileID: 1963653660}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &631132801
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 631132803}
+  - component: {fileID: 631132802}
+  m_Layer: 0
+  m_Name: Spawn_Collar
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &631132802
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631132801}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56bf9610b1d4bcb4b91ab0e8e84e6164, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Lattice.Core::Lattice.Core.SpawnPoint
+  id: Collar
+--- !u!4 &631132803
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 631132801}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 23, y: 1, z: 768}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &632036981
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -18177,6 +18222,8 @@ MonoBehaviour:
   encounterId: Gullet_Chamber_1
   previewPoint: {fileID: 0}
   previewRadius: 6
+  requiredFlag: 
+  checkpointSpawn: 
 --- !u!65 &684533240
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -19864,6 +19911,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 8f660c9130fa3884982e078eb8305e72, type: 2}
   count: 2
   radius: 9
+  faceAsPlaced: 0
 --- !u!4 &742217119
 Transform:
   m_ObjectHideFlags: 0
@@ -21571,6 +21619,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: e3decf2d575b22749abbf376d7ba14df, type: 2}
   count: 6
   radius: 3
+  faceAsPlaced: 0
 --- !u!4 &801332445
 Transform:
   m_ObjectHideFlags: 0
@@ -22439,6 +22488,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: e3decf2d575b22749abbf376d7ba14df, type: 2}
   count: 6
   radius: 3
+  faceAsPlaced: 0
 --- !u!4 &853090962
 Transform:
   m_ObjectHideFlags: 0
@@ -27741,6 +27791,8 @@ MonoBehaviour:
   encounterId: Gullet_Chamber_0
   previewPoint: {fileID: 0}
   previewRadius: 6
+  requiredFlag: 
+  checkpointSpawn: 
 --- !u!65 &1044384901
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -31097,6 +31149,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 610cad0605715864d89df4a05b1fb5d9, type: 2}
   count: 1
   radius: 0
+  faceAsPlaced: 0
 --- !u!4 &1180824146
 Transform:
   m_ObjectHideFlags: 0
@@ -33406,6 +33459,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 6187b14225fd8dd4a9d8c80b497328d9, type: 2}
   count: 4
   radius: 6
+  faceAsPlaced: 0
 --- !u!4 &1283555011
 Transform:
   m_ObjectHideFlags: 0
@@ -33453,6 +33507,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 8f660c9130fa3884982e078eb8305e72, type: 2}
   count: 2
   radius: 9
+  faceAsPlaced: 0
 --- !u!4 &1283803777
 Transform:
   m_ObjectHideFlags: 0
@@ -34538,6 +34593,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 8f660c9130fa3884982e078eb8305e72, type: 2}
   count: 2
   radius: 9
+  faceAsPlaced: 0
 --- !u!4 &1349524651
 Transform:
   m_ObjectHideFlags: 0
@@ -36741,6 +36797,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 6187b14225fd8dd4a9d8c80b497328d9, type: 2}
   count: 4
   radius: 6
+  faceAsPlaced: 0
 --- !u!4 &1428724474
 Transform:
   m_ObjectHideFlags: 0
@@ -37156,6 +37213,8 @@ MonoBehaviour:
   encounterId: Gullet_Cantor
   previewPoint: {fileID: 1704404836}
   previewRadius: 3.5
+  requiredFlag: 
+  checkpointSpawn: Collar
 --- !u!65 &1454564472
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -40648,6 +40707,9 @@ MonoBehaviour:
   range: 3
   cacheId: Neve
   requiredFlag: neve.cache
+  owner: Neve's cache
+  dialogueNode: CacheFound
+  dialogueSpeaker: Neve
 --- !u!65 &1573045972
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -43335,7 +43397,7 @@ MonoBehaviour:
   requiredFlag: bossdown.Cantor
   scene: TallowApproach
   spawn: Arrival
-  lockedPrompt: "Warp locked \u2014 recover the Sorrel key"
+  lockedPrompt: "Warp locked \u2014 free the Cantor first"
 --- !u!65 &1674116554
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -44080,6 +44142,12 @@ MonoBehaviour:
   dialogueNode: SelaCantorPreview
   dialogueSpeaker: Sela
   previewEncounter: {fileID: 1454564471}
+  requiredQuest: 
+  requiredStep: 0
+  visual: {fileID: 0}
+  saveSpawn: Collar
+  requiredFlag: 
+  startsOnCrossing: 0
 --- !u!1001 &1708295877
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -44851,6 +44919,8 @@ MonoBehaviour:
   encounterId: Gullet_Chamber_2
   previewPoint: {fileID: 0}
   previewRadius: 6
+  requiredFlag: 
+  checkpointSpawn: 
 --- !u!65 &1728242336
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -47031,6 +47101,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: e3decf2d575b22749abbf376d7ba14df, type: 2}
   count: 6
   radius: 3
+  faceAsPlaced: 0
 --- !u!4 &1809770096
 Transform:
   m_ObjectHideFlags: 0
@@ -53485,6 +53556,7 @@ MonoBehaviour:
   definition: {fileID: 11400000, guid: 6187b14225fd8dd4a9d8c80b497328d9, type: 2}
   count: 4
   radius: 6
+  faceAsPlaced: 0
 --- !u!4 &2039866388
 Transform:
   m_ObjectHideFlags: 0
@@ -56589,3 +56661,4 @@ SceneRoots:
   - {fileID: 1704404836}
   - {fileID: 1845631649}
   - {fileID: 1395008971}
+  - {fileID: 631132803}

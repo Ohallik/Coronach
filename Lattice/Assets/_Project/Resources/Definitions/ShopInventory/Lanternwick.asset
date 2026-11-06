@@ -12,6 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 156aeac18c8f5bf459154ec1e4bcd3aa, type: 3}
   m_Name: Lanternwick
   m_EditorClassIdentifier: Lattice.Data::Lattice.Data.ShopInventory
+  title: ARCH MARKET
   parts:
   - {fileID: 11400000, guid: 6318ffd7de05ee64f949626e80046aec, type: 2}
   - {fileID: 11400000, guid: fad63f1c0ddbce045b950fa1641e9497, type: 2}

@@ -174,7 +174,7 @@ namespace Lattice.UI
             thrustLabel.text=$"THRUST   {a.thrust:0} / 100";
             // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
             if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
-            zone.text=ZoneController.Current.definition.id=="TallowApproach"?"TALLOW DRIFT · APPROACH":DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
+            zone.text=DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
             if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
                 target.text=(a.TargetLocked?"LOCKED    ":"")+PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK");
