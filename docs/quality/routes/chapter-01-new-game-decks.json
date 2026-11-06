@@ -598,6 +598,22 @@
       "pauseUi": "bench"
     },
     {
+      "name": "pass the Skills tab",
+      "seconds": 0.2,
+      "expectedScene": "Hub_Decks",
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release pass the Skills tab",
+      "seconds": 0.3,
+      "expectedScene": "Hub_Decks",
+      "pauseUi": "bench"
+    },
+    {
       "name": "open Party tab",
       "seconds": 0.2,
       "expectedScene": "Hub_Decks",

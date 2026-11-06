@@ -1,11 +1,13 @@
-# Coronach - continuation prompt (November 4, 2026, after the feel, boss and side-story batch)
+# Coronach - continuation prompt (November 5, 2026, after the script pass, the skill system and chapter 2)
+
+> **For a QA pass, use [TESTER_PROMPT.md](TESTER_PROMPT.md) instead.** It hands the game to a tester session that plays through the replay driver and fixes what it finds, following [TEST_PLAN.md](TEST_PLAN.md).
 
 You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md`.
 
 ## Read first
 
-1. `docs/PROGRESS.md`, newest entry first (November 4 evening: feel fixes, boss move sets, side stories), then `docs/WORKSHOP_NOV04B.md`, `docs/validation/C8-nov04b-bosses-sides.md`, `docs/validation/C7-nov04b-chain.md`, `docs/validation/C2-nov04-feel.md` and `docs/validation/C2-uphill-fold.md`.
-2. `docs/DECISIONS.md` D197 (civil gait, sprint, the opening answers), D198 (boss move sets, markings, phase shifts, boss bar), D199 (side stories), then D186-D196 (D191 room dressing and `SightlineAudit`, D192 detail layer, D193 Hushwell/Gullet dressing, D194 skills and zone threat, D195 the first morning, D196 exteriors, coil, reel) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
+1. `docs/PROGRESS.md`, newest entry first (November 5: script pass, skills, chapter 2), then `docs/WORKSHOP_NOV05.md`, `docs/CONTENT_AUDIT_NOV05.md`, `docs/TEST_PLAN.md`, `docs/validation/C7-nov05-chain.md`; older context in `docs/WORKSHOP_NOV04B.md` and `docs/validation/C8-nov04b-bosses-sides.md`.
+2. `docs/DECISIONS.md` D200 (script and display names), D201 (skills learned by level, loadout, mastery), D202 (chapter 2, the Lantern Road), D197-D199 (gait, bosses, side stories), then D186-D196 (D191 room dressing and `SightlineAudit`, D192 detail layer, D193 Hushwell/Gullet dressing, D194 skills and zone threat, D195 the first morning, D196 exteriors, coil, reel) (and D060 no-blur, D119 fixed-camera sightline rule, D127/D131 paid packs, D154 display-off stall).
 3. `docs/PRODUCTION_PLAN.md`: milestones C1-C10, evidence rules, MAP_EYE_TEST.
 4. As needed: `docs/STORY_CAMPAIGN.md`, `docs/WORLD_ATLAS.md`, `docs/maps/*.md`, `docs/validation/*.md`. The previous, much longer prompt is in git history if you need older detail.
 
@@ -17,12 +19,15 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 
 ## Where things stand
 
-- The playable chapter runs Title → the first morning on the Decks → Sorrel → Hushwell → Halo → Gullet → Tallow.
-- The New Game → Tallow chain passes in 43:51 with the displays awake (`docs/validation/C7-nov04b-chain.md`); one frame over 33 ms outside loads (45 ms entering the Scrapmite wash).
-  - Hold the displays awake for timing runs with a display-required execution state (a small PowerShell `SetThreadExecutionState(0x80000003)` loop; stop it afterwards).
-- **194 EditMode / 494 PlayMode** pass.
-- **Nathan's current build:** `Builds/Workshop-Nov04b/Play Coronach.cmd` (source `a2929dd`, own profile).
-  - `Workshop-Nov04` (`f931c48`), `Nov03d`, `Nov03c`, `Nov03b`, `Nov03` and the frozen `Builds/Workshop-Chapter` (`a3aaad6`) must stay byte-identical to their `player-manifest.json` (hashes are of the files under `Player/`).
+- The playable game runs Title → the first morning on the Decks → Sorrel → Hushwell → Halo → Gullet → Tallow (chapter 1), then Abri's lantern tale → the Wick Reach → Lanternwick → Lantern Gorge → the Sunken Relay (Hessa Korl) → Aumi's chart → home to Abri (chapter 2, D202).
+- **Chapter 2 has no replay routes yet** (`chapter-12` … `chapter-16` are planned in TEST_PLAN §5). Its zones are built by the isolated `Lattice.EditorTools.LanternRoadBuilder` (`Build` for all four plus the Tallow approach warp and dialogue refresh; `BuildZones -lantern-zones Lanternwick,...`; `Dialogue` after any new `.yarn`), then `ZoneLook.Apply -look-zones WickReach,Lanternwick,LanternGorge,SunkenRelay`. Generated pieces come from `tools/meshy/c9_lantern_batch.py` and `tools/c9_intake.py`, staged with `GenIntake.BuildPrefix`.
+- **Skills (D201).** `SkillBook` (Core) owns learned skills, the four-slot loadout (`MemberState.skillLoadout`) and mastery (`skillUses`); `CombatActor.Skill` dispatches on `SkillDef.kind`; the eight learned kinds live in `HeroSkills` (Combat). The pause menu's page constants are `PauseMenu.PartyPage` … `SettingsPage`.
+- **Names (D200).** `DisplayNames` turns speaker, item, zone and target ids into words; never print a raw id.
+- The New Game → Tallow chain passes in 44:51 with the displays awake (`docs/validation/C7-nov05-chain.md`); no frame over 33 ms outside loads.
+  - Hold the displays awake for timing runs with a display-required execution state (a small PowerShell `SetThreadExecutionState(0x80000003)` loop; stop it afterwards). It cannot wake displays that are already off: frames alternating 2/265 ms mean they are; a one-pixel `SendInput` mouse move wakes them (November 5).
+- **194 EditMode / 516 PlayMode** pass (November 5).
+- **Nathan's current build:** `Builds/Workshop-Nov05/Play Coronach.cmd` (source `009018d`, own profile).
+  - `Workshop-Nov04b` (`a2929dd`), `Nov04` (`f931c48`), `Nov03d`, `Nov03c`, `Nov03b`, `Nov03` and the frozen `Builds/Workshop-Chapter` (`a3aaad6`) must stay byte-identical to their `player-manifest.json` (hashes are of the files under `Player/`).
 - **Feel (D197).** Civil movement: jog 4.5 m/s at full tilt, walk 1.5 under half tilt, sprint 6.6 without Thrust (`GroundMotor.Natural*`). `GroundMotor.Steer` carries pace around turns. `GroundStrideProfile.RunCadence` shortens the jog's step instead of slowing it. Gait threshold `GeneratedAnimator.RunAbove` is 2.5 m/s. The walking bend reserve fades on steep support. `GroundFeet.Lean` leans and banks free running.
 - **The opening answers (D197).** `Npc.holdNode` gives Orrin, Mira and Sela holding lines until the walkway is repaired. The repair is offered once Sela sets off (`ScriptedWalk.walkThroughDialogue`).
 - **Bosses (D198).**
@@ -49,12 +54,14 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
   - Hushwell's floor material uses 6 toon ramp steps (the rock 3).
 - **Actors.** The dormant Cantor rests coiled (`SerpentSegments.Rest`). Tallow's line is a generated rope (`TallowMooringStaging.RefreshCable`) that reels in after `tallow.lineObserved` (`TallowLineReel`).
 - **Balance (D194).** Burst skills deal 2.6× output (`CombatActor.SkillBurst`). `ZoneDef.enemyThreat`: Gullet 1.2, Sorrel and Hushwell 1. At 1.25 in Hushwell, Taren fell in the chain.
-- Meshy live balance 3,142.
+- Meshy live balance 2,635 (November 5).
 - Paid Staggart water and grass stay a private, ignored layer with public fallbacks (D131).
 
 ## What to do next, in order
 
-0. **Watch for Nathan's verdict on Workshop-Nov04b** (gait, Precision feel, boss difficulty: the replay driver lost Taren once in the Burrower's last phase). Tune from his words before adding more.
+0. **Watch for Nathan's verdict on Workshop-Nov05** (chapter 2, Hessa's difficulty, the new skills, the rewritten lines) and on Nov04b's gait and Precision feel. Tune from his words before adding more.
+0a. **QA pass ([TESTER_PROMPT.md](TESTER_PROMPT.md)).** Write the chapter 2 replay routes, then work TEST_PLAN §4 and fix what it finds. The Burrower's last phase wiped the replay party once on November 5 (`Builds/quality/C7/nov05/s06`, kept); `BossFightTests.TheWoundedBurrowerFightsWithItsWholeSet` is random and failed once.
+0b. **Chapter 2 polish.** Ordinary Lanternwick residents; an Ys-style EXTRA move; Hessa's own animation; a second look at Lanternwick's market density once a person has walked it.
 1. **Bosses, next layer.** Boss animation is still staged with existing bodies (the Burrower rears and lunges procedurally). Consider an optional chapter-1 boss reusing generated art (for example, a Scrapmite matriarch) and Bellows/Cantor in-player eye tests like the Burrower's three.
 2. **Sela's uphill fold (both heroes fold).**
    - Re-pose uphill walking in `GroundFeet` in the gravity frame: an upright torso, slope-aware foot targets, and a trailing heel that lifts at toe-off.
@@ -71,7 +78,7 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
    - C1's remaining evidence: release first/warm laps, development stability, uncapped headroom, a person watching the motion.
    - Check that the displays are awake before timing runs (D154).
 6. After a meaningful batch: full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, commit and push.
-7. Then C9A (Xylos / Many Hands) per the atlas, with blockouts before art. The chapter now ends on the Compact's call, which leads straight into Act II.
+7. Then chapter 3: Xylos and Many Hands (food, Venn's first condition), per the atlas, with blockouts before art. Chapter 2 ends with Abri pointing there.
 
 **Evidence proportionality.** Keep the hard rules: prove a new check fails on the broken state first, never loosen an assertion, keep failed evidence, and never claim unobserved quality (human play, controller feel, listening, continuous motion). But keep validation notes short, and spend time on what a player sees and feels. Earlier sessions spent whole days on single props and evidence bookkeeping while the maps stayed empty.
 

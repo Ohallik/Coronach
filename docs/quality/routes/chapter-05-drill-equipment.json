@@ -861,6 +861,22 @@
       "pauseUi": "bench"
     },
     {
+      "name": "pass the Skills tab",
+      "seconds": 0.2,
+      "expectedScene": "Sorrel_Ridges",
+      "buttons": [
+        "LeftShoulder"
+      ],
+      "expectedUi": "bench",
+      "pauseUi": "bench"
+    },
+    {
+      "name": "release pass the Skills tab",
+      "seconds": 0.3,
+      "expectedScene": "Sorrel_Ridges",
+      "pauseUi": "bench"
+    },
+    {
       "name": "open Party",
       "seconds": 0.2,
       "expectedScene": "Sorrel_Ridges",

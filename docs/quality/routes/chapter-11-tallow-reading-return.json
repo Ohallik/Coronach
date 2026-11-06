@@ -1043,6 +1043,22 @@
       "expectedUi": "world"
     },
     {
+      "name": "ask Keeper Abri about a route that waits",
+      "seconds": 0.3,
+      "buttons": [
+        "South"
+      ],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
+      "name": "release the question",
+      "seconds": 0.3,
+      "buttons": [],
+      "expectedScene": "TallowDrift",
+      "expectedUi": "dialogue"
+    },
+    {
       "name": "hear Abri's lantern tale (chapter 2 begins)",
       "seconds": 45,
       "buttons": [

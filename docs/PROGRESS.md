@@ -1,6 +1,43 @@
 # CORONACH slice progress
 
-## Feel fixes, boss move sets and side stories - November 4, evening (latest)
+## Script pass, skills learned by level, and chapter 2: the Lantern Road - November 5 (latest)
+
+**New playable candidate: `Builds/Workshop-Nov05/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV05.md)), built from `009018d`.
+- **194 EditMode / 516 PlayMode** pass with graphics, zero skipped. The random Burrower move-set check failed once in an earlier full run and passed on rerun and in the final run.
+- **The New Game → Tallow chain passes in 44:51 with the displays awake**, with no frame over 33 ms outside loads ([chain](validation/C7-nov05-chain.md)).
+- Four routes changed:
+  - the Skills tab sits between Party and Gear;
+  - the companion now fights with skills, so the undefended defeat walks further;
+  - the Tallow ending reads Abri's lantern tale.
+
+**Nathan's request: verify and expand ([audit](CONTENT_AUDIT_NOV05.md)).**
+- **Script (D200).** Every chapter 1 node was rewritten in its speaker's voice, with the same nodes, flags, options and line counts.
+  - The foreman is Dace; Tallow's keeper is Keeper Abri.
+  - Every screen uses readable names and device glyphs, with one term per thing.
+  - A locked warp's prompt now recovers once the route opens.
+- **Skills (D201).**
+  - 16 skills, four more per hero at Sync 3, 5, 8 and 12, each with a ground and a flight variant:
+    - Taren: Anchor Slam, Tether Hook, Forge Spiral, Faultline.
+    - Sela: Survey Drone, Waypoint Blink, Gravity Fold, Starfall.
+  - A four-slot loadout on a new Skills page, Ys-style mastery, and the companion spending Charge on its skills.
+  - The Sync cap is 40. Generated icon sheet.
+- **Chapter 2 (D202).**
+  - Zones: the Wick Reach (space combat, relays and a light curtain), Lanternwick (canyon town), Lantern Gorge (open ground, light-shy grazers, a Muster camp) and the Sunken Relay (a dungeon carved from rock).
+  - Boss: Hessa Korl, a Muster captain who duels.
+  - Six new people with generated 16-expression portraits; three side quests.
+  - Art: 12 generated kit pieces, 10 reskinned bodies and 2 canyon textures. With the skill icons, this batch spent 507 Meshy credits (live balance 2,635).
+- **QA handoff.** [TEST_PLAN.md](TEST_PLAN.md) and [TESTER_PROMPT.md](TESTER_PROMPT.md). Chapter 2 has no replay routes yet; writing them is the QA pass's first task.
+
+**Found and fixed on the way.**
+- Scene components sharing one file loaded as missing scripts. The relay test passed vacuously, so it now counts the components.
+- A new `.yarn` file was absent from the compiled program until the Yarn project reimported (`LanternRoadBuilder.Dialogue`).
+- Husk reskins failed lifecycle calibration.
+- Skill glyphs read "?" in flight zones.
+- A broad `exec.ps1` marker ended a portrait import early.
+
+**Not judged by a person:** chapter 2 in play, Hessa's difficulty, the new skills' feel, the rewritten lines in context.
+
+## Feel fixes, boss move sets and side stories - November 4, evening
 
 **New playable candidate: `Builds/Workshop-Nov04b/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV04B.md)), built from `a2929dd`.
 - All six earlier packages re-verified against their manifests.
