@@ -201,6 +201,7 @@ namespace Lattice.Combat
             if(attacker!=null&&attacker.Alive){var d=attacker.transform.position-transform.position;d.y=0;if(d.sqrMagnitude>.01f)return d.normalized;}
             return Aim();
         }
+        const float SwingTurnReach=3.2f;
         public bool Attack()
         {
             if(!CanAct||GameTime.Now<nextAttack)return false;
@@ -209,6 +210,12 @@ namespace Lattice.Combat
             State=ActorState.Attack;float duration=flight?.17f:character=="Sela"?GroundMove.Needle.duration:cut.duration;
             nextAttack=GameTime.Now+duration;actionUntil=GameTime.Now+(flight?.08f:character=="Taren"?cut.recoveryEnd:GroundMove.Needle.recoveryEnd);
             Vector3 aim=Aim();BeginVisual(flight||character=="Sela"?"Shoot":"Attack"+(stage+1),duration);
+            // The marked body a stride away, with the stick at rest: a roll left him facing the wall, and he swung at the rock with a scavenger at his elbow. A stick steering away still decides.
+            if(!flight&&!TargetLocked&&character=="Taren"&&target!=null&&target.Alive)
+            {
+                var toTarget=target.transform.position-transform.position;toTarget.y=0;
+                if(toTarget.sqrMagnitude<SwingTurnReach*SwingTurnReach&&(MoveIntent.sqrMagnitude<.04f||Vector3.Angle(motor.Facing,toTarget)<120))StartCoroutine(TurnTo(toTarget));
+            }
             if(flight)
             {
                 GetComponent<FlightEmitter>().Queue(aim,Packet(rangedDamage*.38f,emitterType,12));

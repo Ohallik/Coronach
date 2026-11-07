@@ -364,6 +364,9 @@ namespace Lattice.UI
                         if ((clock.Elapsed.TotalSeconds - stepStart) % .24 < .12) held = held.WithButton(GamepadButton.DpadDown);
                     }
                 }
+                // Nothing to chase after a kill: a person presses lock and looks for the next one, where this stood idle while the last scavenger shot at it.
+                if (step.approachTarget && party != null && party.Active != null && (party.Active.target == null || !party.Active.target.Alive) && (clock.Elapsed.TotalSeconds - stepStart) % 1 < .12)
+                    held = held.WithButton(GamepadButton.LeftShoulder);
                 if (!evading && press && inReach && step.buttons != null) foreach (var button in step.buttons)
                 {
                     if (!Enum.TryParse<GamepadButton>(button, true, out var parsed)) throw new InvalidOperationException("Invalid replay button " + button);

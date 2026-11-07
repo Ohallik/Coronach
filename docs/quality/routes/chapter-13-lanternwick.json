@@ -154,6 +154,104 @@
       "expectedScene": "Lanternwick"
     },
     {
+      "name": "find the repair gel",
+      "seconds": 3,
+      "pickRow": "Repair Gel",
+      "until": "row:Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 1",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 1",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 2",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 2",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 3",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 3",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 4",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 4",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 5",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 5",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 6",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 6",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
       "name": "leave the stall",
       "seconds": 0.5,
       "buttons": [

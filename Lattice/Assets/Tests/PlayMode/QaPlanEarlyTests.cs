@@ -944,7 +944,8 @@ namespace Lattice.Tests.PlayMode
                 Physics.SyncTransforms();Put(hero,home);yield return Frames(2);
                 float lowest=0;
                 yield return Send(Moving(Vector2.up,true));
-                for(float end=Time.unscaledTime+1.5f;Time.unscaledTime<end;){lowest=Mathf.Min(lowest,hero.motor.Velocity.z);yield return null;}
+                // It takes as long as the hull takes to get there on a slow frame, then stays pressed a moment: a flat 1.5 s of wall clock could end before it touched.
+                float until=Time.unscaledTime+4;for(float settled=-1;Time.unscaledTime<until&&(settled<0||Time.unscaledTime<settled);){lowest=Mathf.Min(lowest,hero.motor.Velocity.z);if(lowest<0&&settled<0)settled=Time.unscaledTime+.6f;yield return null;}
                 var pressed=hero.transform.position;
                 Assert.Less(pressed.z,apex.z,$"a hull boosted into {what} goes through it");
                 Assert.Less(lowest,0,$"a hull boosted into {what} never gets shoved back");

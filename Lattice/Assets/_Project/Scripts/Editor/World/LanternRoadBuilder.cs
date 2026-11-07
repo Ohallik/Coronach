@@ -135,7 +135,7 @@ namespace Lattice.EditorTools
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Sentinel;e.xp=95;e.boss=false;e.lootTable=Loot("MusterSergeant",new LootEntry{id="ScrapAlloy",count=4,chance=1},new LootEntry{id="RepairGel",count=1,chance=.35f});});
             ArenaBuilder.Asset<EnemyDef>("MusterSkiff",e=>{e.id="MusterSkiff";e.prefab=Body("Enemies","MusterSkiff","Enemies","ChoristerDrifter");e.integrity=170;e.breakThreshold=80;e.speed=4.2f;e.attacks=new[]{volley};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Spitter;e.xp=40;e.boss=false;e.lootTable=Loot("MusterSkiff",new LootEntry{id="ScrapAlloy",count=2,chance=.45f});});
-            ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=56000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
+            ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=48000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.xp=420;e.boss=true;e.yieldsOnDefeat=true;e.lootTable=Loot("HessaKorl",new LootEntry{id="ChoirResin",count=3,chance=1},new LootEntry{id="RepairGel",count=2,chance=1});});
 
             ArenaBuilder.Asset<QuestDef>("LanternRoad",q=>{q.id="LanternRoad";q.title="The Lantern Road";
@@ -616,7 +616,7 @@ namespace Lattice.EditorTools
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
             var dock=Prop("LandingPad",new Vector3(0,0,-22),5,0);dock.name="Courier pad";
             var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — The Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
-            WorldBuilder.Label("COURIER DOCK",new Vector3(7,.1f,-14.4f));
+            WorldBuilder.Label("COURIER DOCK",new Vector3(11,.1f,-13.4f));
             // The great arch stands over the courier square and frames the party as it arrives: the camera sees about 9 m ahead of the hero and 6 m behind, so the way to
             // show a gate is to stand the party just through it. It stays well south of the market: with the camera this far back, anything tall over the street passes
             // under the lens at the stalls, and an arch fading out at Corra's stall read as a rendering fault. This size and spot show both of the party through its opening,
@@ -932,7 +932,7 @@ namespace Lattice.EditorTools
             {Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,z),4.2f,x*z);}
             // Underground the light comes from what the scavengers brought in and what the station has left, so every pool has its lamp on the floor. A lamp's light falls off fast:
             // a source this high and this strong lays a wide pool with no edge, where a low weak one was a coin at its foot.
-            var lamps=new[]{("DressWorkLamp",5.4f,.5f,1.35f),("DressWorkLamp",-7.4f,9.5f,1.35f),("DressWorkLamp",3.3f,24.5f,1.35f),("DressWorkLamp",-3.3f,37f,1.35f),("LampPost",-13f,52f,2f),("LampPost",13.4f,68f,2f),
+            var lamps=new[]{("DressWorkLamp",5.4f,.5f,1.35f),("DressWorkLamp",-7.4f,9.5f,1.35f),("DressWorkLamp",3.3f,24.5f,1.35f),("DressWorkLamp",-3.3f,37f,1.35f),("LampPost",-14.3f,52f,2f),("LampPost",14.3f,68f,2f),
                 ("DressWorkLamp",9.8f,94.5f,1.35f),("DressWorkLamp",-9.8f,102f,1.35f),("DressWorkLamp",10f,107.6f,1.35f),("LampPost",-8f,128f,2f),("LampPost",8f,128f,2f),("LampPost",-15f,141f,2f),("LampPost",15f,143f,2f)};
             foreach(var (key,x,z,size) in lamps){Prop(Kit(key,"DressLightBollard"),new Vector3(x,0,z),size,0,false);Lamp(new Vector3(x,3,z),14,6.5f);}
             // Each hall has a trade of its own. Nothing solid: all of it stands against the walls, off every route.

@@ -225,6 +225,7 @@ namespace Lattice.Combat
             }
             if(line!=null){temporary.Remove(line.gameObject);Destroy(line.gameObject);}
         }
+        public const float CalledCrewScale=1.2f;
         void CallCrew(int count)
         {
             var definition=GameCatalog.Find<EnemyDef>("MusterScav");if(definition==null)return;
@@ -234,8 +235,8 @@ namespace Lattice.Combat
                 var offset=Quaternion.Euler(0,transform.eulerAngles.y+(i==0?-110:110),0)*Vector3.forward*6f;
                 var point=SummonPoint(offset);
                 var scav=ActorFactory.Enemy(definition,point+Vector3.up*.05f);summoned.Add(scav);
-                // The zone's threat, as the crew already in the room have it from their spawner: called in by hand they hit at 1 where those hit at 1.7.
-                var zone=ZoneController.Current;if(zone!=null&&zone.definition!=null)scav.DamageScale=Mathf.Max(.1f,zone.definition.enemyThreat);
+                // Lighter than the room's crew on purpose: they arrive in the middle of her fight, and at the room's 1.7 their beams out-hit the captain herself (D206).
+                scav.DamageScale=CalledCrewScale;
                 CombatVfx.Burst(point+Vector3.up*.8f,new Color(.9f,.35f,.25f),"shot");
             }
             Debug.Log("BOSS_SUMMON "+health.id+" "+summoned.Count);

@@ -94,6 +94,33 @@ namespace Lattice.Tests.PlayMode
             for(int swing=0;swing<3&&landed<=0;swing++){Assert.IsTrue(taren.Attack(),"fixture: the swing");yield return new WaitForSecondsRealtime(.7f);}
             Assert.Greater(landed,0,"fixture: with the wall gone the swing reaches, or the line above proves nothing");
         }
+        /// <summary>A chain's fight stalled here for two minutes in the Lower Vault: a roll left Taren facing the wall, his lock had gone with the Sergeant, and with the stick at rest he swung at the
+        /// rock while a scavenger shot him from a metre away.</summary>
+        [UnityTest] public IEnumerator ASwingWithTheStickAtRestTurnsToTheBodyWithinReach()
+        {
+            yield return Zone("SunkenRelay");
+            foreach(var volume in Object.FindObjectsByType<EncounterVolume>(FindObjectsInactive.Include,FindObjectsSortMode.None))volume.enabled=false;
+            var taren=Lead("Taren");Place(Sela,new Vector3(0,.2f,75));
+            var spot=new Vector3(5,.2f,97);var failed=new System.Collections.Generic.List<string>();int tried=0;
+            foreach(int off in new[]{90,-90,150,-150,180})
+            {
+                var along=Vector3.forward;var at=spot+along*1.5f;
+                Place(taren,spot);var body=Dummy("MusterScav",at);yield return Frames(3);
+                var faces=Quaternion.Euler(0,off,0)*along;taren.GetComponent<GroundMotor>().KeepFacing(faces);taren.transform.rotation=Quaternion.LookRotation(faces);
+                taren.target=body.Health;taren.TargetLocked=false;float landed=0;body.Health.Damaged+=(_,packet,amount)=>{if(packet.source==taren.Health)landed+=amount;};
+                for(int swing=0;swing<3&&landed<=0;swing++){Assert.IsTrue(taren.Attack(),"fixture: the swing");yield return new WaitForSecondsRealtime(.7f);}
+                tried++;if(landed<=0)failed.Add($"{off} degrees off");
+                Object.Destroy(body.gameObject);yield return Frames(2);
+            }
+            Assert.AreEqual(5,tried);
+            Assert.IsEmpty(failed,"the target is marked, it's a stride away, the stick's at rest, and the swing goes the way the last roll left him: "+string.Join(", ",failed));
+            // The stick still decides where a moving hero cuts: someone steering away isn't swung round.
+            Place(taren,spot);var ahead=Dummy("MusterScav",spot+Vector3.forward*1.5f);var aside=Dummy("MusterScav",spot+Vector3.back*1.5f);yield return Frames(3);
+            taren.GetComponent<GroundMotor>().KeepFacing(Vector3.back);taren.transform.rotation=Quaternion.LookRotation(Vector3.back);taren.MoveIntent=Vector3.back;taren.target=ahead.Health;taren.TargetLocked=false;
+            Assert.IsTrue(taren.Attack(),"fixture: the swing");yield return new WaitForSecondsRealtime(.25f);taren.MoveIntent=Vector3.zero;
+            Assert.Greater(Vector3.Dot(taren.transform.forward,Vector3.back),.7f,"a hero steering one way is swung round to a target behind him");
+            Object.Destroy(ahead.gameObject);Object.Destroy(aside.gameObject);
+        }
         [UnityTest] public IEnumerator TheSwapStrikeStopsAtAWall()
         {
             yield return Zone("Arena_Ground");Arena();var taren=Lead("Taren");Place(taren,new Vector3(203,0,-2));Place(Sela,new Vector3(200,0,0));
@@ -266,7 +293,7 @@ namespace Lattice.Tests.PlayMode
             for(float end=cast+5.8f;Time.unscaledTime<end;){partner.charge=100;lead.target=body.Health;yield return null;}
             Assert.IsFalse(Cast(),"swapping out and back lets the companion cast again inside its six seconds: the player's own skills are meant to lead");
         }
-        [UnityTest] public IEnumerator WhatHessaCallsHitsAsHardAsTheCrewInTheRoom()
+        [UnityTest] public IEnumerator WhatHessaCallsHitsLighterThanTheRoomBecauseShesTheFight()
         {
             float threat=GameCatalog.Find<ZoneDef>("SunkenRelay").enemyThreat;Assert.Greater(threat,1,"fixture: the relay's ordinary enemies hit above scale");
             yield return Zone("SunkenRelay");
@@ -279,7 +306,7 @@ namespace Lattice.Tests.PlayMode
             EnemyBrain[] Crew()=>Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Where(e=>e.definition.id=="MusterScav"&&!room.Contains(e)).ToArray();
             for(float end=Time.unscaledTime+3;Crew().Length==0&&Time.unscaledTime<end;)yield return null;
             var crew=Crew();Assert.IsNotEmpty(crew,"fixture: her shift called the crew");
-            foreach(var scav in crew){scav.Passive=true;Assert.AreEqual(threat,scav.DamageScale,.01f,$"what she calls hits at {scav.DamageScale:0.0} where the crew already in the room hit at {threat:0.0}");}
+            foreach(var scav in crew){scav.Passive=true;Assert.AreEqual(BossController.CalledCrewScale,scav.DamageScale,.01f,$"what she calls hits at {scav.DamageScale:0.0}, not the {BossController.CalledCrewScale} decided, lighter than the room's {threat:0.0}");}
         }
         [UnityTest] public IEnumerator ASwingThatCutsAirKeepsAFlashGuardsCrit()
         {
