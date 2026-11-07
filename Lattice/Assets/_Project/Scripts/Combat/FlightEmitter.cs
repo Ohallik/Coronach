@@ -41,7 +41,7 @@ namespace Lattice.Combat
                     direction=(center-origin).normalized;
                 }
             }
-            CombatVfx.Burst(origin,actor.character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"shot");
+            CombatVfx.Burst(origin,actor.character=="Taren"?GroundRing.Friendly:Color.cyan,"shot");
             if(pattern==Pattern.Beam||pattern==Pattern.Counter)
             {
                 if(beam==null)beam=gameObject.AddComponent<EmitterBeam>();

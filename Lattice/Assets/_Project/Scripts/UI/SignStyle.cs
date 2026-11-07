@@ -22,7 +22,12 @@ namespace Lattice.UI
         public const string PlateName="Sign plate";
         /// <summary>Ships fly here: anything below it in a flight zone is lying on the floor under them.</summary>
         const float FlightPlane=1,Feather=.22f,MostOverLaid=.45f;
-        static Material face,paint;
+        /// <summary>Sunlit ground. A plate made for the Decks' dark floors is a dirty brown rectangle here, with tyre tracks running through it. On these it's lighter and warmer, and feathered so wide that it has no edge: a soft shade under words that hold by their own outline.</summary>
+        static readonly HashSet<string> BrightFloors=new(){"Sorrel_Ridges","Lanternwick","LanternGorge"};
+        const float WideFeather=.95f,WideInset=.3f;
+        /// <summary>How far a lying sign's plane runs on below its lower edge before the floor cuts it: its .03 m rest, down the plane at 72 degrees. A plate that feathered on past this was sliced by the floor in a hard straight line at about two thirds strength, so on bright ground its lower rim stops here, at nothing.</summary>
+        const float DownToTheFloor=.09f;
+        static Material face,paint,paleGround;
         static readonly Dictionary<long,Mesh> plates=new();
         static readonly RaycastHit[] hits=new RaycastHit[16];
 
@@ -44,9 +49,19 @@ namespace Lattice.UI
                 return paint;
             }
         }
+        static Material PaleGround
+        {
+            get
+            {
+                if(paleGround!=null)return paleGround;
+                paleGround=new Material(Paint){name="sign plate on bright ground (runtime)"};paleGround.SetColor("_BaseColor",new Color(.1f,.07f,.05f,.42f));
+                return paleGround;
+            }
+        }
         public static void Apply()
         {
             var zone=ZoneController.Current;bool flight=zone!=null&&zone.Flight;
+            bool bright=!flight&&zone!=null&&zone.definition!=null&&BrightFloors.Contains(zone.definition.id);
             var view=zone!=null&&zone.definition!=null?zone.definition.cameraProfile:null;
             float yaw=view!=null?view.yaw:0;
             float slide=view!=null?Mathf.Sin(view.pitch*Mathf.Deg2Rad)/Mathf.Max(1,view.distance):0;
@@ -72,8 +87,8 @@ namespace Lattice.UI
                 sign.transform.rotation=Quaternion.Euler(lying?FloorTilt:HangingTilt,yaw,0);
                 if(lying)Settle(sign,size,flight);
                 var tone=sign.color;sign.color=new Color(.96f,.98f,1,tone.a);
-                AddPlate(sign,size);
-                var fade=sign.gameObject.AddComponent<SignFade>();fade.bossOnly=!lying||flight;
+                AddPlate(sign,size,bright&&lying);
+                var fade=sign.gameObject.AddComponent<SignFade>();fade.bossOnly=!lying||flight||Overhead(sign.transform.position);
             }
         }
         static bool IsWarp(string text,WarpBeacon[] warps)
@@ -110,19 +125,34 @@ namespace Lattice.UI
             }
             return found;
         }
-        static void AddPlate(TextMeshPro sign,Vector2 size)
+        /// <summary>Resting on a door's lintel or the like, with a floor a long way under it: nobody stands on it, so no hero thins it out. A floor with another deck under it is still a floor: the Decks' floor tiles have one 3 m down. What sets a lintel apart is that it's narrow.</summary>
+        static bool Overhead(Vector3 at)
+        {
+            float high=float.NegativeInfinity,low=float.PositiveInfinity;bool narrow=false;
+            int count=Physics.RaycastNonAlloc(at+Vector3.up*.5f,Vector3.down,hits,6,~0,QueryTriggerInteraction.Ignore);
+            for(int i=0;i<count;i++)
+            {
+                if(hits[i].normal.y<.6f||hits[i].collider is CharacterController)continue;
+                float y=hits[i].point.y;var extent=hits[i].collider.bounds.size;bool slim=Mathf.Min(extent.x,extent.z)<1;
+                if(y>high+.01f){high=y;narrow=slim;}else if(y>high-.01f)narrow&=slim;
+                low=Mathf.Min(low,y);
+            }
+            return narrow&&high-low>2;
+        }
+        static void AddPlate(TextMeshPro sign,Vector2 size,bool wide)
         {
             var plate=new GameObject(PlateName,typeof(MeshFilter),typeof(MeshRenderer));plate.layer=sign.gameObject.layer;
             plate.transform.SetParent(sign.transform,false);plate.transform.localPosition=Vector3.forward*.01f;
-            plate.GetComponent<MeshFilter>().sharedMesh=PlateMesh(size);
-            var view=plate.GetComponent<MeshRenderer>();view.sharedMaterial=Paint;view.receiveShadows=false;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
+            plate.GetComponent<MeshFilter>().sharedMesh=PlateMesh(size,wide);
+            var view=plate.GetComponent<MeshRenderer>();view.sharedMaterial=wide?PaleGround:Paint;view.receiveShadows=false;view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         /// <summary>A flat plate whose paint feathers out to nothing at its rim. Plates of one size share a mesh for the life of the game.</summary>
-        static Mesh PlateMesh(Vector2 size)
+        static Mesh PlateMesh(Vector2 size,bool wide)
         {
-            long key=Mathf.RoundToInt(size.x*10)*100000L+Mathf.RoundToInt(size.y*10);
+            long key=Mathf.RoundToInt(size.x*10)*100000L+Mathf.RoundToInt(size.y*10)+(wide?50000:0);
             if(plates.TryGetValue(key,out var mesh)&&mesh!=null)return mesh;
-            float x=size.x*.5f,y=size.y*.5f;float[] xs={-x-Feather,-x,x,x+Feather},ys={-y-Feather,-y,y,y+Feather};
+            float x=size.x*.5f,y=size.y*.5f,reach=wide?WideFeather:Feather,inX=wide?Mathf.Max(.2f,x-WideInset):x,inY=wide?Mathf.Max(.05f,y-WideInset):y;
+            float[] xs={-x-reach,-inX,inX,x+reach},ys={wide?-y-DownToTheFloor:-y-reach,-inY,inY,y+reach};
             var vertices=new Vector3[16];var colors=new Color32[16];var triangles=new int[54];int t=0;
             for(int j=0;j<4;j++)for(int i=0;i<4;i++)
             {

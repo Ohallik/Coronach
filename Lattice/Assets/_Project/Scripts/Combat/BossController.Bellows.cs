@@ -14,6 +14,9 @@ namespace Lattice.Combat
     public sealed partial class BossController
     {
         float BellowsRest=>Phase>=3?3.2f:Phase>=2?3.8f:4.6f;
+        /// <summary>The colour of the markings they burst in. In hot orange, against the ribs, they read as a fireball or a weak spot on the boss.</summary>
+        static readonly Color BubbleColour=new(.72f,.4f,1f,.95f);
+        const float BubbleGathers=3.2f,BubbleSpread=1.2f,BubbleRise=1.9f;
 
         (string,IEnumerator) ChooseBellows(CombatActor hero)
         {
@@ -43,19 +46,21 @@ namespace Lattice.Combat
         }
         IEnumerator BellowsBreath()
         {
-            // Inhale: the body and its organs swell inside a marked ring and pull the party in; one pumping organ, in turn,
-            // marks its half of the chamber. Exhale: everything inside the ring or that half is struck and staggered.
-            busy=true;float radius=Phase>=2?13:9.5f,inhale=Phase>=2?1.25f:1.05f;strikeAt=Time.time+inhale;
+            // Inhale: the body and its organs swell and pull the party in. One pumping organ, in turn, marks its half of the chamber, or with none left the dome marks a ring.
+            // Exhale: everything inside what's marked is struck and staggered.
+            busy=true;float radius=Phase>=2?13:9.5f,inhale=Phase>=2?1.25f:1.05f;
             PressureOrgan blast=null;int pumping=0;foreach(var organ in PressureOrgan.All)if(organ.Pumping)pumping++;
             if(pumping>0){int turn=breaths++%pumping;foreach(var organ in PressureOrgan.All)if(organ.Pumping&&turn--==0){blast=organ;break;}}
-            Telegraph half=null;
+            // One thing to read at a time. While an organ pumps the breath goes out through it, across its half and no further: with the ring round the dome on top of that nothing on screen was
+            // safe, and breaking an organ made nothing safe either. The ring comes back when no organ is left to blast. The hit reads who's really under it, so a hero on the safe side isn't told to roll.
+            Telegraph half=null,ring=null;var marks=new List<Telegraph>(1);
             if(blast!=null)
             {
                 var mid=PressureOrgan.Middle;var side=Flat(blast.transform.position-mid);
-                half=Mark(Telegraph.Cone(mid,side,24,180,inhale,Telegraph.Stagger));
+                half=Mark(Telegraph.Cone(mid,side,24,180,inhale,Telegraph.Stagger));marks.Add(half);
             }
-            var ring=Mark(Telegraph.Circle(transform.position,radius,inhale,Telegraph.Threat));
-            inflated=body;inflatedRest=bodyRest;
+            else{ring=Mark(Telegraph.Circle(transform.position,radius,inhale,Telegraph.Threat));marks.Add(ring);}
+            inflated=body;inflatedRest=bodyRest;ThreatFrom(marks);
             float pull=Phase>=2?3f:2.2f;
             for(float t=0;t<inhale;)
             {
@@ -72,6 +77,7 @@ namespace Lattice.Combat
                     var controller=actor.GetComponent<CharacterController>();
                     if(controller!=null&&controller.enabled)controller.Move(toward/d*(pull*(1-d/18f)*Time.deltaTime));
                 }
+                ThreatFrom(marks);
                 yield return null;
             }
             Deflate();
@@ -80,9 +86,9 @@ namespace Lattice.Combat
             {
                 CombatVfx.Burst(transform.position+Vector3.up,new Color(.85f,.72f,.55f),"shape");
                 Tremor(.3f,.07f);
-                ring.Release();if(half!=null&&blast.Pumping)half.Release();else if(half!=null)half.Cancel();
+                if(ring!=null)ring.Release();if(half!=null&&blast.Pumping)half.Release();else if(half!=null)half.Cancel();
                 foreach(var actor in PartyController.Current.members)
-                    if(actor.Health.Alive&&(ring.Contains(actor.transform.position)||half!=null&&blast.Pumping&&half.Contains(actor.transform.position)))
+                    if(actor.Health.Alive&&(ring!=null&&ring.Contains(actor.transform.position)||half!=null&&blast.Pumping&&half.Contains(actor.transform.position)))
                     {
                         float damage=actor.Health.Receive(Packet(22,DamageType.Kinetic));
                         if(damage>0)actor.Stagger(.5f);
@@ -127,13 +133,14 @@ namespace Lattice.Combat
             for(int i=0;i<count;i++)
             {
                 var around=Quaternion.Euler(0,i*360f/count,0)*Vector3.forward*3.2f;var start=transform.position+around;
-                var view=ActorFactory.Visual("Pressure bubble",PrimitiveType.Sphere,null,Vector3.one*1.1f,start+Vector3.up*1.1f,"Threat");view.GetComponent<Renderer>().sharedMaterial=ActorFactory.Energy(new Color(1,.46f,.2f,.95f));view.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;temporary.Add(view);
+                var view=ActorFactory.Visual("Pressure bubble",PrimitiveType.Sphere,null,Vector3.one*1.1f,start+Vector3.up*1.1f,"Threat");view.GetComponent<Renderer>().sharedMaterial=ActorFactory.Energy(BubbleColour);view.GetComponent<Renderer>().shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;temporary.Add(view);
                 bubbles.Add((view.transform,Mark(Telegraph.Circle(start,radius,fuse+i*.12f,Telegraph.Stagger))));
             }
             AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.18f,AudioBus.SFX,50);
             var marks=new List<Telegraph>();foreach(var b in bubbles)marks.Add(b.mark);
             // One volley, one hit: they burst .12 s apart, and the first one's .25 s stagger held a standing hero for the rest, 40% of him with no way to roll.
             var once=new HashSet<Health>();
+            var lens=Camera.main;float nearSide=(lens!=null?lens.transform.eulerAngles.y:0)+180;
             while(true)
             {
                 if(GameTime.Paused){yield return null;continue;}
@@ -144,12 +151,19 @@ namespace Lattice.Combat
                     var (view,mark)=bubbles[i];if(view==null)continue;
                     if(mark.Charged)
                     {
-                        Strike(mark,14,DamageType.Pulse,.25f,0,once,true);CombatVfx.Burst(view.position,new Color(.7f,.45f,1f),"shape");
+                        mark.Hide(false);Strike(mark,14,DamageType.Pulse,.25f,0,once,true);CombatVfx.Burst(view.position,new Color(.7f,.45f,1f),"shape");
                         temporary.Remove(view.gameObject);Destroy(view.gameObject);bubbles[i]=(null,mark);continue;
                     }
                     waiting=true;
                     var at=Vector3.MoveTowards(Flat(mark.Origin),Flat(goal),speed*Time.deltaTime)+Vector3.up*mark.Origin.y;
-                    mark.MoveTo(at);view.position=at+Vector3.up*(1.1f+.15f*Mathf.Sin(Time.time*4+i));
+                    mark.MoveTo(at);
+                    // The markings close on him as one, and that's the hit. What's drawn rises over him and spreads as it comes, the gap on the camera's side. All at chest height on the one spot,
+                    // five of them were a glowing ball with the hero a thin shape inside it, and against the ribs the door showed it through its dots.
+                    float close=1-Mathf.Clamp01(Flat(at-goal).magnitude/BubbleGathers);
+                    view.position=at+Quaternion.Euler(0,nearSide+(i+.5f)*360f/bubbles.Count,0)*Vector3.forward*(BubbleSpread*close)+Vector3.up*(1.1f+BubbleRise*close+.15f*Mathf.Sin(Time.time*4+i));
+                    // Rings on one spot are one ring, however many: five of them were a glaring disc.
+                    bool under=false;for(int j=0;j<i&&!under;j++)under=bubbles[j].view!=null&&Flat(bubbles[j].mark.Origin-at).sqrMagnitude<.09f;
+                    mark.Hide(under);
                 }
                 ThreatFrom(marks);
                 if(!waiting)break;

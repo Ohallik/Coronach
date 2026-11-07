@@ -54,7 +54,7 @@ namespace Lattice.Combat
             Projectile p=null;while(pool.Count>0&&p==null)p=pool.Pop();
             if(p==null)
             {
-                var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Projectile";Destroy(go.GetComponent<Collider>());
+                var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Projectile";go.transform.position=position;Destroy(go.GetComponent<Collider>());
                 p=go.AddComponent<Projectile>();p.view=go.GetComponent<Renderer>();p.view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
                 p.trail=go.AddComponent<TrailRenderer>();p.trail.time=.12f;p.trail.startWidth=.26f;p.trail.endWidth=0;p.trail.minVertexDistance=.2f;
                 p.trail.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;p.trail.sharedMaterial=Shots(true);
@@ -64,11 +64,14 @@ namespace Lattice.Combat
             p.transform.localScale=Vector3.one*(hostile?.36f:.18f);p.view.sharedMaterial=Shots(hostile);
             // Theirs a hot trail, the party's a thin cyan streak: a shot says whose it is.
             p.trail.sharedMaterial=p.view.sharedMaterial;p.trail.startWidth=hostile?.26f:.12f;
-            p.trail.Clear();p.trail.enabled=true;
+            p.trail.enabled=true;
             p.transform.position=position;p.velocity=direction.normalized*speed;p.life=reach>0?reach/speed:3;p.marked=reach>0;
             damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;
             p.gameObject.SetActive(true);p.counted=true;ActiveCount++;Live.Add(p);
+            // Only now, where it is and awake. Cleared before it moved, the trail kept the last spot it stood on, the world's origin for a new shot or where the last one died, and for its .12 s a
+            // long bright line ran from there to the muzzle: the brightest thing on screen, through the shooter and off the edge of it, kinked where the real trail began.
+            p.trail.Clear();
         }
         void Update()
         {

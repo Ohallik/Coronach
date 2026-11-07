@@ -8,7 +8,8 @@ on the ORIGINAL rigged model (the retexture output may lose its skeleton); the r
   python tools/c9_intake.py            # every finished piece
   python tools/c9_intake.py --only LanternTower,Gloomgrazer
   python tools/c9_intake.py --batch QA-Cast --only BrekkBody,HessaKorl,IshenBody,PellBody   # the November retextures
-  python tools/c9_intake.py --batch QA-Hessa --only HessaKorl,BrekkBody,CorraBody,IshenBody   # and the whole new bodies
+  python tools/c9_intake.py --batch QA-Hessa --only HessaKorl,BrekkBody,CorraBody,IshenBody,PellBody   # and the whole new bodies
+  python tools/c9_intake.py --batch QA-Cast --only Burrower   # a new coat on an old shape
 """
 from __future__ import annotations
 
@@ -50,7 +51,9 @@ RESKIN = {
 }
 # Whole new bodies from tools/meshy/qa_body_batch.py, on the ids the game already uses: id: (file stem, size override).
 # The row keeps its clips and folder; only the mesh, the textures and the height change.
-BODY = {"HessaKorl": ("Hessa", 2.6), "BrekkBody": ("Brekk", 2.1), "CorraBody": ("Corra", 1.9), "IshenBody": ("Ishen", 1.88)}
+BODY = {"HessaKorl": ("Hessa", 2.6), "BrekkBody": ("Brekk", 2.1), "CorraBody": ("Corra", 1.9), "IshenBody": ("Ishen", 1.88), "PellBody": ("Pell", 1.78)}
+# A new coat on a model that keeps its shape, clips and glow mask.
+REPAINT = ("Burrower",)
 TEXTURE_OF = {"MusterSergeant": "MusterScav"}
 # Gamma under 1 lifts a texture that came back too dark to read in its zone's light.
 LIFT = {"BrekkBody": .72}
@@ -126,9 +129,13 @@ def main() -> int:
         image.save(tex)
         row = dict(by_id[name])
         row.update(model=rel(clean), albedo=rel(tex), emission=rel(emission(f"{stem}Body", tex, None)), size=size)
-        # She yields on the way down: the getting-up clip passes through the low, spent pose no other clip has.
-        if name == "HessaKorl" and not any(c["state"] == "Revive" for c in row["clips"]):
-            row["clips"] = row["clips"] + [{"state": "Revive", "path": "Assets/_Project/Art/Animation/HeroRevive.fbx", "name": "Revive"}]
+        by_id[name] = row
+        done.append(name)
+    for name in REPAINT:
+        if (only and name not in only) or not (GEN / f"{name}_base_color.png").is_file():
+            continue
+        row = dict(by_id[name])
+        row["albedo"] = rel(albedo(name))
         by_id[name] = row
         done.append(name)
     for name, (source_id, folder, enemy, size, key) in RESKIN.items():

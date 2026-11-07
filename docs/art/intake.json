@@ -544,7 +544,7 @@
   {
     "id": "Burrower",
     "model": "art-src/Generated/P3-Burrower/Burrower_clean.fbx",
-    "albedo": "art-src/Generated/P3-Burrower/Burrower_base_color.png",
+    "albedo": "art-src/Generated/QA-Cast/Burrower_albedo.png",
     "emission": "art-src/Generated/P3-Burrower/Burrower_emission.png",
     "emissionColor": "#22F5FF",
     "kind": "static",
@@ -2455,11 +2455,6 @@
         "state": "Stagger",
         "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
         "name": "Stagger"
-      },
-      {
-        "state": "Revive",
-        "path": "Assets/_Project/Art/Animation/HeroRevive.fbx",
-        "name": "Revive"
       }
     ]
   },
@@ -2619,12 +2614,12 @@
   },
   {
     "id": "PellBody",
-    "model": "art-src/Generated/P44-NPCBodies/SurvivorNatural_clean.fbx",
-    "albedo": "art-src/Generated/QA-Cast/PellBody_albedo.png",
-    "emission": "art-src/Generated/QA-Cast/PellBody_emission.png",
+    "model": "art-src/Generated/QA-Hessa/PellBody_clean.fbx",
+    "albedo": "art-src/Generated/QA-Hessa/PellBody_albedo.png",
+    "emission": "art-src/Generated/QA-Hessa/PellBody_emission.png",
     "kind": "biped",
     "folder": "Characters",
-    "size": 1.7,
+    "size": 1.78,
     "fit": "height",
     "emissionColor": "#FF8046",
     "yaw": 0,

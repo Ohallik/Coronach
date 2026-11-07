@@ -70,6 +70,15 @@ BODIES = {
         "outfit naturally: cream sleeves rolled to the elbow, bare umber forearms with orange lines, a broad brown leather "
         "coin belt with small pouches, sturdy warm tan trousers, soft brown boots. Warm and bright, easy to read in sunlight.",
         1.8, "Corra Vey, Vael alien market trader woman, umber skin, copper-red keratin fronds tied with green cloth, dark green vest, cream shirt, tan trousers, T pose"),
+    "Pell": ("Pell_Natural", "Pell_Body",
+        "Pell, a young adult Vael alien lamp apprentice, barely grown, slight and quick. Keep the exact head from the portrait: a round "
+        "open youthful face of light slate-blue skin, big bright green ring irises, a smudge of lamp soot on one cheek, faint cyan "
+        "sync-lines on the cheeks and throat, a crown of short springy sand-coloured flat keratin fronds sticking up and back, large "
+        "and clearly visible; no human hair. Keep the patched ochre work tunic with green and brown cloth patches at the shoulders "
+        "and the small brass wick-trimmer hanging on a cord at the chest. Extend the outfit naturally: sleeves rolled to the elbow "
+        "over slim slate-blue forearms, a simple rope belt, tan-brown work trousers patched at one knee, soft brown boots. Warm and "
+        "light-coloured, easy to read on an orange canyon floor, and clearly young.",
+        1.72, "Pell, young Vael alien apprentice, slate-blue skin, crown of sand-coloured keratin fronds, patched ochre tunic, tan trousers, T pose"),
     "Ishen": ("Ishen_Natural", "Ishen_Body",
         "Ishen, an elderly Vael alien man, a gentle slender archivist. Keep his exact head from the portrait: long gentle face "
         "of cool pale grey-blue skin with deep laugh lines and faded violet sync-lines at the temples and down the throat, "

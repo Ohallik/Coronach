@@ -140,6 +140,23 @@ namespace Lattice.EditorTools
             Physics.SyncTransforms();return made;
         }
 
+        /// <summary>Sixteen short plates, each laid on the hull by itself: its stripes jumped where they met, and where the hull's rim falls away a plate's middle went under the surface, leaving a dashed sliver of stripes.
+        /// One band, each row laid on the hull and clear of it, its stripes running on all the way round. A hole in the hull, under its roof cover, would drop a ray ten metres: a row there keeps its neighbour's height.</summary>
+        static void DockRing(Vector3 dock)
+        {
+            const int Rows=96,Across=2;const float Radius=5.6f,Width=.45f,Lift=.12f,Tile=.9f;
+            int repeats=Mathf.RoundToInt(2*Mathf.PI*Radius/Tile);
+            var verts=new Vector3[(Rows+1)*(Across+1)];var uvs=new Vector2[verts.Length];float last=float.NaN;
+            for(int j=0;j<=Rows;j++)for(int i=0;i<=Across;i++)
+            {
+                float a=j%Rows*Mathf.PI*2/Rows,reach=Radius+Width*(i/(float)Across-.5f);
+                float x=dock.x+Mathf.Cos(a)*reach,z=dock.z+Mathf.Sin(a)*reach,y=Surface(x,z);
+                if(float.IsNaN(y)||!float.IsNaN(last)&&Mathf.Abs(y-last)>.8f)y=float.IsNaN(last)?FlightCeiling-.5f:last;
+                last=y;int k=j*(Across+1)+i;verts[k]=new Vector3(x,y+Lift,z);uvs[k]=new Vector2(Width/Tile*i/Across,repeats*(float)j/Rows);
+            }
+            Append("DecalHazard",dock.x,dock.z,verts,uvs,Across,Rows);
+        }
+
         static void TallowRefuge()
         {
             var random=new System.Random(5309);int count=0;
@@ -162,8 +179,7 @@ namespace Lattice.EditorTools
             var dock=Object.FindObjectsByType<InteractionPrompt>(FindObjectsSortMode.None).Where(p=>p.name.ToLowerInvariant().Contains("dock")).Select(p=>p.transform.position).ToArray();
             foreach(var d in dock)
             {
-                const int segments=16;const float radius=5.6f;float arc=2*Mathf.PI*radius/segments+.05f;
-                for(int i=0;i<segments;i++){float a=i/(float)segments*Mathf.PI*2;if(Detail("DecalHazard",d.x+Mathf.Cos(a)*radius,d.z+Mathf.Sin(a)*radius,.45f,arc,-a*Mathf.Rad2Deg,.025f,true,.9f))count++;}
+                DockRing(d);count++;
                 if(Detail("PictoDock",d.x-7.6f,d.z-2,1.8f,1.8f,0,.025f))count++;
             }
             Debug.Log($"DRESSING_TALLOW_DECK details={count} docks={dock.Length} hull={b}");

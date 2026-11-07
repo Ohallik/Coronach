@@ -37,6 +37,12 @@ RESKINS = {
         "elderly Vael archivist man: cool pale grey-blue skin with faded violet lines at the temples, thin white combed-back "
         "hair, small round brass reading glasses low on the nose, pale blue eyes; a layered pale sand-coloured scholar's coat "
         "with many small pockets over cream trousers, soft pale cloth shoes, a bundle of paper slips at the collar"),
+    # Chapter 1's first boss is a drill rig, and it read as a giant tan grub in the floor's own colour.
+    "Burrower": ("art-src/Generated/P3-Burrower/Burrower_clean.fbx",
+        "Massive mining drill machine, a burrowing rig gone rogue: heavy segmented armor plates of weathered dark gunmetal steel, "
+        "chipped faded hazard-yellow paint and black warning chevrons along the plate edges, bold black panel lines and rows of rivets, "
+        "oil streaks and scorched soot, exposed hydraulic joints between the segments, a drill nose of worn bright steel with spiral "
+        "ridges, a glowing cyan core deep in its maw. Hard-edged industrial machine, nothing organic, not tan, not a worm"),
     # Not a person: the first enemy of chapter 2 read as soft clay on a dark sky. Hard paint and hull lines, warm for hostile as the other flight enemies are.
     "MusterSkiff": ("art-src/Generated/P3-PatrolCutter/PatrolCutter_clean.fbx",
         "Muster raider skiff, a hostile salvage gunship: hard-edged burnt-orange and rust-red painted hull plates separated by bold "
@@ -60,7 +66,7 @@ def main() -> int:
         if (GEN / f"{name}.fbx").exists():
             print("QA_CAST_SKIP", name, flush=True)
             continue
-        subprocess.run(MESHY + ["retexture", "--model", str(ROOT / model), "--prompt", prompt + (HULL_TAIL if name == "MusterSkiff" else TAIL), "--name", name,
+        subprocess.run(MESHY + ["retexture", "--model", str(ROOT / model), "--prompt", prompt + (HULL_TAIL if name in ("MusterSkiff", "Burrower") else TAIL), "--name", name,
                                 "--batch", BATCH, "--prompt-id", "QA-Cast"], check=True, cwd=ROOT)
     print("QA_CAST_OK", flush=True)
     return 0

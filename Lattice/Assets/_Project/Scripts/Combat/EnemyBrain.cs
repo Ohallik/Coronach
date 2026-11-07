@@ -83,6 +83,16 @@ namespace Lattice.Combat
             }
             return any;
         }
+        /// <summary>Is anything awake within reach of a fight here: the few bodies awake are all it walks, with nothing allocated.</summary>
+        public static bool FightNear(Vector3 at)
+        {
+            foreach(var enemy in crowd)
+            {
+                if(enemy.Passive||!enemy.Health.Alive)continue;
+                var offset=enemy.transform.position-at;offset.y=0;if(offset.sqrMagnitude<InteractionCalm*InteractionCalm)return true;
+            }
+            return false;
+        }
         float bodyRadius=.5f;bool crowded;
         void OnEnable(){if(!crowd.Contains(this))crowd.Add(this);}
         void OnDisable(){crowd.Remove(this);}

@@ -13,6 +13,10 @@ namespace Lattice.UI
         sealed class Line{public string id,name;public int amount;public float age;public TMP_Text text;}
         readonly List<Line> lines=new();
         Canvas canvas;Image band;
+        /// <summary>The feed's plate while it's up: a sign keeps out from under it.</summary>
+        public RectTransform Band=>band!=null&&band.enabled?band.rectTransform:null;
+        /// <summary>How far down from the top of the screen the feed reaches: the bottom of the vitals over it, with nothing up.</summary>
+        public float Reach=>band!=null&&band.enabled?306+band.rectTransform.rect.height:311;
         void Start()
         {
             canvas=UiKit.CreateCanvas("PickupFeed",6,transform);

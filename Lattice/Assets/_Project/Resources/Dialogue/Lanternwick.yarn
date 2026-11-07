@@ -24,6 +24,7 @@ Taren: One of her three. Food and power are still on the list. #emotion:Worried
 Sela: Pell says the river towns on Xylos move their farms with the floods. #emotion:Curious
 Taren: Food first. Xylos it is. #emotion:Determined
 <<setFlag chapter2.homecoming>>
+<<setFlag pell.aboard>>
 ===
 title: SelaWickRelays
 ---

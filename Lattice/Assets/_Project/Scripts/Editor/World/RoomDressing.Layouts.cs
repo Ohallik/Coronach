@@ -102,6 +102,8 @@ namespace Lattice.EditorTools
         /// generated across the basin, and ground colour that follows use and formation.</summary>
         static void Sorrel()
         {
+            // The basin's north-east shoulder: a hero in this corner stood behind the rock from every distance the lens can take, with nothing on the screen but rock. A boulder fills the corner.
+            Put("DressBoulders",14.8f,200.6f,35,1.6f,true,false,.15f);
             SorrelGround();
             // Habs: equipment in front of each hab, where the hab itself is what lies behind it.
             Put("DressFuelTank",16f,12.2f,0);Put("DressCommsMast",12.9f,11.9f,0);Put("DressSolarArray",21.6f,16f,90);Put("DressWaterBarrels",19f,20.6f,0,.8f);
@@ -139,8 +141,8 @@ namespace Lattice.EditorTools
                         var p=a+d*(along/length)+normal*side*(half+.5f+(float)random.NextDouble()*2f);
                         if(p.y<28||p.y>150)continue; // outpost and excavation have their own dressing
                         int pick=random.Next(5);float yaw=(float)random.NextDouble()*360;
-                        if(pick==0)Put("DressStrataOutcrop",p.x,p.y,yaw,.42f+(float)random.NextDouble()*.12f,true,true,.15f);
-                        // Boulders, half sunk. A strata ledge laid along the road was a curved row of bright blocks: somebody's garden kerb on a wild ridge. The draw stays, so what follows stands where it stood.
+                        // Boulders, half sunk, both ways. A strata ledge laid along the road was a curved row of bright blocks, somebody's garden kerb on a wild ridge, and an outcrop beside it a stack of mortared bricks. The draws stay, so what follows stands where it stood.
+                        if(pick==0)Put("DressBoulders",p.x,p.y,yaw,.42f+(float)random.NextDouble()*.12f,true,true,.12f);
                         else if(pick==1)Put("DressBoulders",p.x,p.y,yaw,.5f+(float)random.NextDouble()*.3f,true,true,.12f);
                         else if(pick==2)Put("HushwellRubble",p.x,p.y,yaw,.9f+(float)random.NextDouble()*.4f,true,true,.1f);
                         else if(pick==3)Put("DressSpoilHeap",p.x,p.y,yaw,.5f+(float)random.NextDouble()*.3f,true,true,.1f);
@@ -158,7 +160,7 @@ namespace Lattice.EditorTools
             Debug.Log("DRESSING_VERGES_PLACED "+count);
         }
 
-        /// <summary>Nearer a road than this a strata ledge isn't a far slope's contour: it's a curved row of bright blocks on a low shoulder at the party's feet (the reader's kerb, at (-1.1, 112.2)).</summary>
+        /// <summary>Nearer a road than this a strata piece isn't a far slope's contour: a ledge is a curved row of bright blocks on a low shoulder at the party's feet (the reader's kerb, at (-1.1, 112.2)), and an outcrop a stack of orange bricks in the open (above the key's cradle, at (2.6, 207.2)).</summary>
         const float LedgeFromRoad=18;
         static void Scatter()
         {
@@ -180,7 +182,7 @@ namespace Lattice.EditorTools
                     string key=pick<3?"DressStrataLedge":pick<5?"DressStrataOutcrop":"RidgeRock"+(1+random.Next(3));
                     float scale=key=="DressStrataLedge"?.8f+(float)random.NextDouble()*.5f:.7f+(float)random.NextDouble()*.4f;
                     // Boulders there, half sunk and low enough for any sightline. Its draws are all behind it, so what follows stands where it stood.
-                    if(key=="DressStrataLedge"&&RoadDistance(p)<LedgeFromRoad)Put("DressBoulders",p.x,p.y,yaw,scale*.6f,true,true,.12f);
+                    if((key=="DressStrataLedge"||key=="DressStrataOutcrop")&&RoadDistance(p)<LedgeFromRoad)Put("DressBoulders",p.x,p.y,yaw,scale*.6f,true,true,.12f);
                     else Put(key,p.x,p.y,yaw,scale,true,true,Nominal[key].y*scale*.3f);
                     kept.Add(p);ledges++;
                     continue;

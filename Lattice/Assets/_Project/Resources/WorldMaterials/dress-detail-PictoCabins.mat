@@ -49,6 +49,7 @@ Material:
     - _LightFloor: 0
     - _OccFade: 0
     - _OccFadeDepth: 0.82
+    - _OccFadeSoft: 0
     - _OccFadeToggle: 0
     - _RampSteps: 3
     - _ReceiveShadows: 1

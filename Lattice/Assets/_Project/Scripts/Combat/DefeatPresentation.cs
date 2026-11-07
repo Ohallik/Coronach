@@ -94,7 +94,9 @@ namespace Lattice.Combat
             bool airborne=actor!=null&&actor.flight||Flier;
             terminalRotation=originRotation*Quaternion.Euler(airborne?12:8,0,airborne?58:enemy!=null&&enemy.definition.boss?42:78);
             terminal=origin+Vector3.down*(airborne?.22f:.12f);
-            if(deflates){terminalRotation=originRotation;flatScale=new Vector3(visualScale.x*1.18f,visualScale.y*.24f,visualScale.z*1.18f);}
+            // It draws in as it empties. Spread wider than it lived, it swallowed whoever had been fighting beside it, and they stood in its ribs for as long as it lay there: its body is 2.6 m out
+            // where its capsule stops a hero at 1.75 m. At this width someone at the capsule stands on the rim, and anyone a little further stands clear.
+            if(deflates){terminalRotation=originRotation;flatScale=new Vector3(visualScale.x*.72f,visualScale.y*.24f,visualScale.z*.72f);}
             if(enemy!=null&&airborne)
             {
                 // A killed flier loses lift: it tumbles and falls away below the

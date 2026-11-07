@@ -21,6 +21,9 @@ namespace Lattice.Combat
         /// <summary>The steepest ground a marking follows, rise over run, and the most any one step may rise. Sorrel's floor ends in a wall that rises 5 m for every metre: following
         /// the foot of it broke a marking into spikes. Under this it's a slope anyone could walk; past it the marking stops at the wall's foot and goes on, flat, under the hill.</summary>
         const float FollowedGrade=.7f,FollowedStep=2.2f;
+        /// <summary>How far under the ground a lane's vertex can be pulled to stay with its neighbours before that side of the lane counts as having left the floor, and how many rows off it in a row
+        /// end that column. Fewer is a rock or a bump it goes under, with floor past it that's struck all the same.</summary>
+        const float LeftTheFloor=.2f;const int RowsOffTheFloor=2;
         /// <summary>Sides a whole circle needs per square root of its radius so its straight edges stay under about 1.2 cm: a pixel from the ground camera.</summary>
         const float RoundSides=20.3f;
 
@@ -47,6 +50,8 @@ namespace Lattice.Combat
         static readonly List<Vector3> Vertices=new(),Scales=new();static readonly List<Vector2> Uvs=new();static readonly List<int> Triangles=new();static readonly List<float> OnFloor=new();
         /// <summary>The row being laid, and the one inside it on the way out from the origin.</summary>
         static List<float> Heights=new(),Before=new();
+        /// <summary>A lane's heights as they were found and as they were laid, whether each vertex is on the floor, and the row each of its columns ends at.</summary>
+        static readonly List<float> Raised=new(),Laid=new();static readonly List<bool> Floored=new();static readonly List<int> Ends=new();
         static readonly int FillId=Shader.PropertyToID("_Fill"),FlashId=Shader.PropertyToID("_Flash"),FadeId=Shader.PropertyToID("_Fade"),
             ColorId=Shader.PropertyToID("_BaseColor"),SidesId=Shader.PropertyToID("_SideEdges"),InnerId=Shader.PropertyToID("_InnerEdge"),ThroughId=Shader.PropertyToID("_Through"),HatchId=Shader.PropertyToID("_Hatch");
 
@@ -122,10 +127,11 @@ namespace Lattice.Combat
                 case Kind.Ring:return distance-Inner<Radius-distance?point-outward*Mathf.Max(0,distance-Inner):point+outward*Mathf.Max(0,Radius-distance);
                 case Kind.Cone when Angle<359:
                 {
-                    // A side of the fan can be nearer than its far edge: half a chamber's nearest way out is the line across it.
+                    // A side of the fan can be nearer than its far edge: half a chamber's nearest way out is the line across it. Its far edge is 24 m out, in the rock past the wall for a hero
+                    // at an organ, so it has to be well nearer to count. On even terms the view drew back to frame rock, and swung from one to the other as he stepped about at the organ.
                     float off=Vector3.SignedAngle(Forward,offset,Vector3.up),sign=off<0?-1:1,inside=Angle*.5f-Mathf.Abs(off);
                     float toSide=inside<90?distance*Mathf.Sin(inside*Mathf.Deg2Rad):distance;
-                    if(toSide<Radius-distance)return point+Vector3.Cross(Vector3.up,Quaternion.Euler(0,sign*Angle*.5f,0)*Forward)*(sign*Mathf.Max(0,toSide));
+                    if(toSide<(Radius-distance)*2)return point+Vector3.Cross(Vector3.up,Quaternion.Euler(0,sign*Angle*.5f,0)*Forward)*(sign*Mathf.Max(0,toSide));
                     return point+outward*Mathf.Max(0,Radius-distance);
                 }
                 default:return point+outward*Mathf.Max(0,Radius-distance);
@@ -142,6 +148,8 @@ namespace Lattice.Combat
         public void Cancel(){if(cancelledAt>=0)return;cancelledAt=Time.unscaledTime;}
         /// <summary>Gone in this frame: a fight that has ended doesn't fade its threats out across the screen that pays out the win.</summary>
         public void Clear(){cancelledAt=Time.unscaledTime;if(view!=null)view.enabled=false;Destroy(gameObject);}
+        /// <summary>Not drawn, and still everything else it is: a marking lying exactly on another.</summary>
+        public void Hide(bool hidden){if(view!=null)view.enabled=!hidden;}
 
         public static void CancelAll(Object owner)
         {
@@ -200,19 +208,37 @@ namespace Lattice.Combat
             {
                 case Kind.Line:
                 {
-                    rows=light?Mathf.Clamp(Mathf.CeilToInt(Length/3),1,8):Mathf.Clamp(Mathf.CeilToInt(Length/1.2f),2,40);columns=light?1:3;
-                    var right=Vector3.Cross(Vector3.up,Forward);
+                    // Finer along than it was: its sides are what a lane is read by, where a ring's rim has a sample every .6 m.
+                    rows=light?Mathf.Clamp(Mathf.CeilToInt(Length/1.5f),2,14):Mathf.Clamp(Mathf.CeilToInt(Length),2,40);columns=light?1:3;
+                    var right=Vector3.Cross(Vector3.up,Forward);float run=Length/rows;
+                    Laid.Clear();Floored.Clear();
                     for(int r=0;r<=rows;r++)
                     {
                         float u=r/(float)rows;
                         NewRow();
-                        for(int c=0;c<=columns;c++)Ground(Origin+Forward*(u*Length)+right*((c/(float)columns-.5f)*Width),c,r==0,Length/rows,flight);
+                        for(int c=0;c<=columns;c++)Ground(Origin+Forward*(u*Length)+right*((c/(float)columns-.5f)*Width),c,r==0,run,flight);
+                        Raised.Clear();Raised.AddRange(Heights);
                         Settle(Width/columns,false);
-                        for(int c=0;c<=columns;c++)
-                        {
-                            float v=c/(float)columns;var point=Origin+Forward*(u*Length)+right*((v-.5f)*Width);point.y=Heights[c]+Lift;
-                            vertices.Add(point);uv.Add(new Vector2(u,v));scale.Add(new Vector3(Length,Width,OnFloor[c]));
-                        }
+                        for(int c=0;c<=columns;c++){Laid.Add(Heights[c]);Floored.Add(OnFloor[c]>=1&&Raised[c]-Heights[c]<=LeftTheFloor);}
+                    }
+                    // Its paint ends in a rim on the last floor it has, column by column. Run on flat under the hill it stopped with no edge at all: the hatch's lines ending in a saw-tooth at the
+                    // terrain's contour, and a thin rim beyond on whichever side got further.
+                    Ends.Clear();
+                    for(int c=0;c<=columns;c++)
+                    {
+                        int last=0,off=0;
+                        for(int r=1;r<=rows&&off<=RowsOffTheFloor;r++){if(Floored[r*(columns+1)+c]){last=r;off=0;}else off++;}
+                        Ends.Add(last);
+                    }
+                    // One column running on past every neighbour is a spike. A column that ends early takes nothing with it: one side of a lane caught on a wall's foot can't end the floor the rest of it
+                    // is still on, where the boss still charges. Dragging its neighbours down with it, a 20 m lane on open floor could be painted for 6 m.
+                    int reach=Mathf.CeilToInt(Width/columns/Mathf.Max(run,.1f))+1;
+                    for(int c=0,inside=-1;c<=columns;c++){int own=Ends[c];Ends[c]=Mathf.Min(own,Mathf.Max(inside,c<columns?Ends[c+1]:-1)+reach);inside=own;}
+                    for(int r=0;r<=rows;r++)for(int c=0;c<=columns;c++)
+                    {
+                        float v=c/(float)columns;int end=Mathf.Max(1,Ends[c]),laid=r*(columns+1)+c;
+                        var point=Origin+Forward*(r/(float)rows*Length)+right*((v-.5f)*Width);point.y=Laid[laid]+Lift;
+                        vertices.Add(point);uv.Add(new Vector2(r/(float)end,v));scale.Add(new Vector3(end*run,Width,r<=Ends[c]&&Floored[laid]?1:0));
                     }
                     break;
                 }
@@ -254,14 +280,16 @@ namespace Lattice.Combat
         }
 
         /// <summary>The hatch says marked and the rim says where it ends. Square across a lane its lines were the rungs of a ladder, so there they cross it at a slant; on anything else they run
-        /// corner to corner on the fixed camera's screen, where lines at 45 degrees in the world lay almost flat and read as planks. The bigger the area the wider and fainter:
-        /// a ring as wide as the chamber was a floor of stripes with a scrap of rim at its edge.</summary>
+        /// corner to corner on the fixed camera's screen, where lines at 45 degrees in the world lay almost flat and read as planks. The bigger the area the wider and fainter, until on a mark past
+        /// the size of the screen they've all but gone: a rim and a faint wash, where even thinned they were a floor of planks with no safe side. A shot's line has no room for a hatch either:
+        /// two rails and the rungs between them, and where three land together a lattice over the hero.</summary>
         Vector4 Hatch()
         {
             var across=Shape==Kind.Line?Quaternion.Euler(0,45,0)*Forward:new Vector3(-.607f,0,.795f);
             float size=Shape==Kind.Line?Mathf.Sqrt(Length*Width):Shape==Kind.Ring?10:Mathf.Sqrt(Mathf.PI*Radius*Radius*Angle/360);
-            float thin=Mathf.InverseLerp(8,24,size);
-            return new Vector4(across.x,across.z,Mathf.Lerp(.62f,1.6f,thin),Mathf.Lerp(1,.45f,thin));
+            float thin=Mathf.InverseLerp(8,22,size),strength=Mathf.Lerp(1,.08f,thin);
+            if(Shape==Kind.Line&&Width<1.5f)strength*=.4f;
+            return new Vector4(across.x,across.z,Mathf.Lerp(.62f,1.6f,thin),strength);
         }
         static void NewRow(){var swap=Before;Before=Heights;Heights=swap;Heights.Clear();OnFloor.Clear();}
         /// <summary>The ground under one point of a row. Each asks from the height of the point inside it on the way out from the origin, so a marking climbs a real slope however high it goes,

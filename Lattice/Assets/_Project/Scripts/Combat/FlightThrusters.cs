@@ -40,7 +40,8 @@ namespace Lattice.Combat
             if(GameTime.Paused)return;
             if(flames==null)Prepare();
             drive=Mathf.MoveTowards(drive,motor.EngineDrive,Time.deltaTime*14);
-            Color color=actor.character=="Taren"?new Color(1,.48f,.12f,1):new Color(.12f,.8f,1,1);
+            // Pale cream, as his rings are: orange trailing off a ship is the colour of what's about to hit it.
+            Color color=actor.character=="Taren"?new Color(1,.86f,.66f,1):new Color(.12f,.8f,1,1);
             float shimmer=1+Mathf.Sin(GameTime.Now*39)*.035f;
             for(int i=0;i<flames.Length;i++)
             {

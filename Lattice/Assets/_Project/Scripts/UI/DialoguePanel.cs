@@ -29,16 +29,12 @@ namespace Lattice.UI
         {
             canvas=UiKit.CreateCanvas("Dialogue",25,transform);
             // The sheet's opening is 254 of 255 solid and the canvas blends in linear, so on a plate this dark a bright floor sign read through it as ghost letters. Solid under the opening, and short of the frame's cut corners.
-            var under=UiKit.Panel(canvas.transform,"DialogueBacking",new Color32(6,18,38,255));under.raycastTarget=false;backing=under.gameObject;UiKit.Rect(backing,new(.5f,0),new(.5f,0),new(0,205),new(1712,282));
+            var under=UiKit.Panel(canvas.transform,"DialogueBacking",UiKit.PlateColor);under.raycastTarget=false;backing=under.gameObject;UiKit.Rect(backing,new(.5f,0),new(.5f,0),new(0,205),new(1712,282));
             panel=UiKit.DarkFrame(canvas.transform,"DialoguePanel").gameObject;
             UiKit.Rect(panel,new(.5f,0),new(.5f,0),new(0,205),new(1760,330));
             var click=panel.AddComponent<Button>();click.onClick.AddListener(QueueAdvance);
-            // The bust rises from behind the frame's inner bevel: a sheet's cell stops up to 57 px short of its bottom, and many run into its sides, so the seat clips both cuts out of sight.
-            // Its sides fade rather than stop: a straight cut down a shoulder read as a pasted rectangle on every line. UI/Default spreads softness over half its value, so 100 is about 50 units in from each side.
-            // Its top stands 4 under the picture's: the sheet's next row up bleeds over a cell's top edge when it's scaled down, and floated over the head as a thin broken line.
-            var seat=new GameObject("PortraitSeat",typeof(RectTransform),typeof(RectMask2D)).GetComponent<RectMask2D>();seat.transform.SetParent(panel.transform,false);
-            UiKit.Rect(seat.gameObject,Vector2.zero,Vector2.zero,new(185,189.75f),new(302,319.5f));seat.softness=new Vector2Int(100,0);
-            portrait=UiKit.Panel(seat.transform,"Portrait",Color.white);UiKit.Rect(portrait.gameObject,Vector2.zero,Vector2.zero,new(152,143.5f),new(360,360));portrait.preserveAspect=true;portrait.raycastTarget=false;
+            // Its sides fade rather than stop: a straight cut down a shoulder read as a pasted rectangle on every line.
+            portrait=UiKit.Bust(panel.transform,"Portrait",Vector2.zero,new(34,30),360);
             speaker=UiKit.Heading(panel.transform,"Speaker","",32,UiKit.GoldColor,TextAlignmentOptions.Left);UiKit.Rect(speaker.gameObject,new(0,1),new(0,1),new(980,-59),new(1280,55));
             body=UiKit.Text(panel.transform,"Body","",30,UiKit.TextColor,TextAlignmentOptions.TopLeft);UiKit.Rect(body.gameObject,new(0,.5f),new(0,.5f),new(980,-25),new(1280,185));
             hint=UiKit.Text(panel.transform,"Continue",DeviceHints.Continue(),25,UiKit.DimTextColor,TextAlignmentOptions.Right);UiKit.Rect(hint.gameObject,new(1,0),new(1,0),new(-300,68),new(470,40));

@@ -167,6 +167,9 @@ Shader "Lattice/Toon"
         _OccFadeEllipse("Occluder Avatar Ellipse", Vector) = (0.5, 0.5, 0.08, 0.14)
         // How far the screen-door opens at full fade. A boss keeps more of its body than scenery does (BossOcclusion).
         _OccFadeDepth("Occluder Fade Depth", Range(0, 1)) = 0.82
+        // 1 for a boss, which keeps its look through the door: the edge dissolves over most of the ellipse, through a fine grain instead of a lattice, and what stays keeps its own colour.
+        // 0 for scenery, whose door is unchanged.
+        _OccFadeSoft("Occluder Fade Softness", Range(0, 1)) = 0
 
         // ---- POLISH-01: material-driven pass state (defaults == the old hardcoded state) ----
         [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull", Float) = 2
@@ -228,6 +231,7 @@ Shader "Lattice/Toon"
             half _OccFade;
             float4 _OccFadeEllipse;
             half _OccFadeDepth;
+            half _OccFadeSoft;
             float4 _WindParams;
             half _ScatterPebbleRerole;
         CBUFFER_END
@@ -317,6 +321,12 @@ Shader "Lattice/Toon"
             return m[idx];
         }
 
+        // What a door's clip is measured against. Interleaved gradient noise has no lattice for the eye to read a screen door in, and it grades smoothly.
+        half FbOccThreshold(float2 pixel)
+        {
+            return _OccFadeSoft > 0.5h ? (half)frac(52.9829189 * frac(dot(pixel, float2(0.06711056, 0.00583715)))) : FbBayer4(pixel);
+        }
+
         // bug-20260820-144100 / -144131: the old renderer-wide clip could ghost a
         // whole cottage or erase a whole tree just because one AABB sightline touched
         // the player. Preserve the blocker everywhere except this compact avatar-sized
@@ -328,7 +338,7 @@ Shader "Lattice/Toon"
             float2 radius = max(_OccFadeEllipse.zw, float2(0.0001, 0.0001));
             float2 ellipse = (screenUv - _OccFadeEllipse.xy) / radius;
             half distanceSq = dot(ellipse, ellipse);
-            return 1.0h - smoothstep(0.64h, 1.0h, distanceSq);
+            return 1.0h - smoothstep(lerp(0.64h, 0.3h, _OccFadeSoft), 1.0h, distanceSq);
         }
 
         // Distance (world units) from this fragment to the mesh's soft edge.
@@ -507,7 +517,7 @@ Shader "Lattice/Toon"
                 #endif
 
                 #if defined(_OCCFADE_ON)
-                clip(FbBayer4(input.positionCS.xy)
+                clip(FbOccThreshold(input.positionCS.xy)
                      - _OccFade * _OccFadeDepth * FbOccFadeMask(input.positionCS));
                 #endif
 
@@ -866,7 +876,7 @@ Shader "Lattice/Toon"
                 // blocker stays readable as a ghost.
                 {
                     half occGhost = saturate(_OccFade) * saturate(_OccFadeDepth * 1.66h - 0.58h)
-                                    * FbOccFadeMask(input.positionCS);
+                                    * FbOccFadeMask(input.positionCS) * (1.0h - _OccFadeSoft);
                     half3 ghostHaze = _FbAerialDist.z > 0.0001
                         ? _FbAerialNear.rgb
                         : lerp(color, dot(color, half3(0.299h, 0.587h, 0.114h)).xxx, 0.85h);
@@ -1007,7 +1017,7 @@ Shader "Lattice/Toon"
                 clip(alpha - _Cutoff);
                 #endif
                 #if defined(_OCCFADE_ON)
-                clip(FbBayer4(input.positionCS.xy)
+                clip(FbOccThreshold(input.positionCS.xy)
                      - _OccFade * _OccFadeDepth * FbOccFadeMask(input.positionCS));
                 #endif
                 return 0;
@@ -1065,7 +1075,7 @@ Shader "Lattice/Toon"
                 clip(alpha - _Cutoff);
                 #endif
                 #if defined(_OCCFADE_ON)
-                clip(FbBayer4(input.positionCS.xy)
+                clip(FbOccThreshold(input.positionCS.xy)
                      - _OccFade * _OccFadeDepth * FbOccFadeMask(input.positionCS));
                 #endif
                 return half4(normalize(input.normalWS), 0);

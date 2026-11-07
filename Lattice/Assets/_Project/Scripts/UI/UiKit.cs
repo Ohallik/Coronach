@@ -45,7 +45,7 @@ namespace Lattice.UI
     [DefaultExecutionOrder(906)]
     public sealed class TextPlate : MonoBehaviour
     {
-        TMP_Text text; Image image; Vector2 padding; string shown; Vector2 shownAt;
+        TMP_Text text; Image image; Vector2 padding, inkCentre; string shown; Vector2 shownAt;
         /// <summary>The plate's picture: what a fade watches, and what numbers keep clear of.</summary>
         public Image Frame => image;
         public static TextPlate Attach(TMP_Text text, string name, float paddingX = 30, float paddingY = 16)
@@ -66,12 +66,17 @@ namespace Lattice.UI
             if (image.enabled != visible) image.enabled = visible;
             if (!visible) return;
             var from = text.rectTransform;
-            if (text.text == shown && from.anchoredPosition == shownAt) return;
+            if (text.text == shown)
+            {
+                // The same words, moved: a bark sliding along its column moves every frame it slides, and its letters needn't be measured for that.
+                if (from.anchoredPosition != shownAt) { shownAt = from.anchoredPosition; image.rectTransform.anchoredPosition = shownAt + inkCentre; }
+                return;
+            }
             shown = text.text; shownAt = from.anchoredPosition;
-            var ink = UiKit.Ink(text);
+            var ink = UiKit.Ink(text); inkCentre = ink.center;
             float wide = text.GetPreferredValues(shown, from.rect.width, 0).x;
             image.rectTransform.sizeDelta = new Vector2(wide + padding.x * 2, ink.height + padding.y * 2);
-            image.rectTransform.anchoredPosition = shownAt + ink.center;
+            image.rectTransform.anchoredPosition = shownAt + inkCentre;
         }
     }
 
@@ -86,6 +91,10 @@ namespace Lattice.UI
         public static readonly Color ButtonHighlight = new(0.24f, 0.38f, 0.55f, 1f);
         /// <summary>Words with no frame behind them: the panels' pale lavender is too dim for an orange floor.</summary>
         public static readonly Color LooseTextColor = new(0.97f, 0.98f, 1f);
+        /// <summary>A framed plate's dark as it's drawn, for what stands solid under one or has to melt into it.</summary>
+        public static readonly Color32 PlateColor = new(6, 18, 38, 255);
+        /// <summary>How far a menu dims the world behind its panel. Signs and names leave for a menu on their own (SignFade), so what showed through as ghost letters has gone, and the place stays on the screen: flat black from edge to edge looked like a debug list after a lit scene.</summary>
+        public const float MenuDim = .8f;
 
         public static TMP_FontAsset Font => TMP_Settings.defaultFontAsset;
 
@@ -214,6 +223,27 @@ namespace Lattice.UI
         /// <summary>The more opaque frame for text-heavy panels (dialogue, message box).</summary>
         public static Image DarkFrame(Transform parent, string name = "Panel") =>
             Nine(parent, name, "panel_dark");
+
+        /// <summary>The game's frame with nothing showing through its opening: the sheet's opening is 254 of 255 solid and the canvas blends in light, so on a plate this dark a bright sign read through it as ghost letters. Solid under the opening, and short of the frame's cut corners.</summary>
+        public static Image SolidFrame(Transform parent, string name, Vector2 anchor, Vector2 centre, Vector2 size)
+        {
+            var under = Panel(parent, name + "Backing", PlateColor); under.raycastTarget = false; Rect(under.gameObject, anchor, anchor, centre, size - Vector2.one * 48);
+            var frame = DarkFrame(parent, name); frame.raycastTarget = false; Rect(frame.gameObject, anchor, anchor, centre, size);
+            return frame;
+        }
+
+        /// <summary>A speaker's bust, seated in a frame, at any size: 360 is the dialogue box's. It rises from behind the frame's inner bevel: a sheet's cell stops up to 57 px short of its bottom, and many run into its sides, so the seat clips both cuts out of sight.
+        /// Its top stands 4 under the picture's: the sheet's next row up bleeds over a cell's top edge when it's scaled down, and floated over the head as a thin broken line. UI/Default spreads the seat's softness over half its value, and its sides dissolve from there; BustFade finishes the job on the right, where the box's dark is what shows next to it.</summary>
+        public static Image Bust(Transform parent, string name, Vector2 anchor, Vector2 seatLeftBottom, float size)
+        {
+            float k = size / 360;
+            var seat = new GameObject(name + "Seat", typeof(RectTransform), typeof(RectMask2D)).GetComponent<RectMask2D>(); seat.transform.SetParent(parent, false);
+            Rect(seat.gameObject, anchor, anchor, seatLeftBottom + new Vector2(151, 159.75f) * k, new Vector2(302, 319.5f) * k); seat.softness = new Vector2Int(Mathf.RoundToInt(100 * k), 0);
+            var picture = Panel(seat.transform, name, Color.white); Rect(picture.gameObject, Vector2.zero, Vector2.zero, new Vector2(152, 143.5f) * k, Vector2.one * 360 * k); picture.preserveAspect = true; picture.raycastTarget = false;
+            var fade = Panel(parent, name + "Fade", PlateColor); fade.sprite = UiSkin.BustFade(); fade.raycastTarget = false;
+            Rect(fade.gameObject, anchor, anchor, seatLeftBottom + new Vector2(257, 115) * k, new Vector2(90, 230) * k);
+            return picture;
+        }
 
         /// <summary>Full-screen dim + soft vignette (menus over the world).</summary>
         public static Image Dim(Transform parent, float strength = 0.55f)

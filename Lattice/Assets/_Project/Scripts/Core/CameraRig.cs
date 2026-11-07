@@ -47,17 +47,23 @@ namespace Lattice.Core
         }
         // A ground fight or a conversation keeps the fixed angle and only moves what it looks at and how far back it stands. A one-frame lease, as above;
         // a conversation outranks a fight. Nothing moves until someone in frame would leave their part of the screen, so a close fight or a one-line talk stays where it is.
-        Bounds groundSubject,groundFirst;Rect groundSubjectArea,groundHeroArea;
-        bool groundHasFirst;
+        Bounds groundSubject,groundFirst,groundBeside;Rect groundSubjectArea,groundHeroArea,groundBesideArea;
+        bool groundHasFirst,groundHasBeside;
+        /// <summary>Where the hero stays when it's only the partner asking: he isn't pushed to the edge of the screen for her.</summary>
+        static readonly Rect BesideHeroArea=Rect.MinMaxRect(.25f,.3f,.75f,.76f);
+        /// <summary>How quickly a framing lets go: it draws back at 2.2 a second, and on the way in at that speed the view breathed with every step a partner took.</summary>
+        const float FramingLetsGo=.9f,BesideGivesUp=8;
         float groundFarthest,framedDistance=-1;
         int groundLease=-10,groundRank;
         bool GroundFramed=>Time.frameCount-groundLease<=1;
         /// <param name="first">What the hero is sent at when it isn't the subject itself (an organ the bar says to break): it stays in frame before the subject does.</param>
-        public void FrameGround(Bounds subject,Rect subjectArea,Rect heroArea,float farthest,int rank=0,Bounds? first=null)
+        /// <param name="beside">Who else is worth seeing, the partner, last of all: she gets what room is left, up to the farthest the view may go, and never at anyone else's cost.</param>
+        public void FrameGround(Bounds subject,Rect subjectArea,Rect heroArea,float farthest,int rank=0,Bounds? first=null,Bounds? beside=null,Rect besideArea=default)
         {
             if(groundLease==Time.frameCount&&rank<groundRank)return;
             groundSubject=subject;groundSubjectArea=subjectArea;groundHeroArea=heroArea;groundFarthest=farthest;groundRank=rank;groundLease=Time.frameCount;
             groundHasFirst=first.HasValue;if(first.HasValue)groundFirst=first.Value;
+            groundHasBeside=beside.HasValue;if(beside.HasValue){groundBeside=beside.Value;groundBesideArea=besideArea;}
         }
         /// <summary>What a set of points asks of the camera, in the camera's own axes: where it may stand for all of them to sit inside an area of the screen.</summary>
         struct GroundReach
@@ -80,16 +86,19 @@ namespace Lattice.Core
             public float MinY(float depth)=>highY+top*depth;
             public float MaxY(float depth)=>lowY+bottom*depth;
         }
-        void MeasureGround(Quaternion inverse,out GroundReach hero,out GroundReach subject,out GroundReach first)
+        void MeasureGround(Quaternion inverse,out GroundReach hero,out GroundReach subject,out GroundReach first,out GroundReach beside,out GroundReach easy)
         {
             float tan=Mathf.Tan(profile.fov*.5f*Mathf.Deg2Rad),aspect=Camera.main!=null?Camera.main.aspect:16f/9;
             hero=new GroundReach(groundHeroArea,tan,aspect);subject=new GroundReach(groundSubjectArea,tan,aspect);first=new GroundReach(groundSubjectArea,tan,aspect);
+            beside=new GroundReach(groundBesideArea,tan,aspect);easy=new GroundReach(BesideHeroArea,tan,aspect);
             hero.Add(inverse*target.position);hero.Add(inverse*(target.position+Vector3.up*1.9f));
+            easy.Add(inverse*target.position);easy.Add(inverse*(target.position+Vector3.up*1.9f));
             for(int corner=0;corner<8;corner++)
             {
                 var sign=new Vector3((corner&1)==0?-1:1,(corner&2)==0?-1:1,(corner&4)==0?-1:1);
                 subject.Add(inverse*(groundSubject.center+Vector3.Scale(groundSubject.extents,sign)));
                 if(groundHasFirst)first.Add(inverse*(groundFirst.center+Vector3.Scale(groundFirst.extents,sign)));
+                if(groundHasBeside)beside.Add(inverse*(groundBeside.center+Vector3.Scale(groundBeside.extents,sign)));
             }
         }
         static float Needed(in GroundReach a,in GroundReach b)=>Mathf.Min(a.Fit(a),Mathf.Min(a.Fit(b),Mathf.Min(b.Fit(a),b.Fit(b))));
@@ -98,12 +107,6 @@ namespace Lattice.Core
         {
             float from=Mathf.Max(low,min),to=Mathf.Min(high,max);
             if(from<=to){low=from;high=to;}else low=high=Mathf.Clamp((min+max)*.5f,low,high);
-        }
-        /// <summary>The view stays where it is if it can; if both can't fit, the hero's part of the screen wins and the subject gets as near as that allows.</summary>
-        static float GroundSlide(float rest,float heroMin,float heroMax,float subjectMin,float subjectMax)
-        {
-            float low=Mathf.Max(heroMin,subjectMin),high=Mathf.Min(heroMax,subjectMax);
-            return low<=high?Mathf.Clamp(rest,low,high):Mathf.Clamp((subjectMin+subjectMax)*.5f,heroMin,heroMax);
         }
         float cameraDistance,groundDistance=-1;
         static readonly RaycastHit[] Occluders=new RaycastHit[8];
@@ -121,7 +124,13 @@ namespace Lattice.Core
         const float PullEaseIn=5;
         /// <summary>How old the encounter is, and how much of its usual speed the view has: the middle of the view eases with the pull. On its own quick clock it reached the encounter's
         /// middle long before the pull had made room, and with a target 30 m up the screen the ship fell off the bottom for half a second.</summary>
-        float pullAge,pullShare=1;
+        float pullAge,pullShare=1,lastRequired;
+        /// <summary>A step in what the view has to hold mid-fight, in metres in one frame, past anything flying can ask of it: a new target, or the partner coming inside the range that frames her.
+        /// It's a first target again and the ease starts over. At full speed the view went from 28 m to 80 in a fifth of a second.</summary>
+        const float PullStep=6;
+        /// <summary>The top speed of the pull back, and how it comes in with the fight still on: at 6 a second it went from 85 m to 40 in a third of a second, straight after a whip out, with the same
+        /// enemies on screen. CantorCollarTests' 1.3 s to frame a Cantor from the ordinary view is what stops the pull back going any slower.</summary>
+        const float MostPull=50,MostComeIn=28,ComeIn=2.4f;
         // Combat supplies geometry through this generic bridge; Core owns no actors.
         public void FrameEncounter(Bounds? bounds)
         {
@@ -166,9 +175,9 @@ namespace Lattice.Core
                 int count=Physics.SphereCastNonAlloc(from+Vector3.up*1.2f,.4f,back,Occluders,wanted,~0,QueryTriggerInteraction.Ignore);
                 for(int i=0;i<count;i++)if(Occluders[i].distance>0&&Scenery(Occluders[i].collider))
                     clear=Mathf.Min(clear,Mathf.Max(NearestGroundDistance,Occluders[i].distance-.6f));
-                // At its nearest the lens can still stand just above a rim, with the lip between it and the hero (twice on Sorrel's south rim). A little further in it goes
-                // under the plateau, where one-sided terrain draws nothing and he's in plain view.
-                if(clear<=NearestGroundDistance&&target!=null)
+                // The lens can still stand just above a rim with the lip between it and the hero (twice on Sorrel's south rim), at its nearest or further back, where a sphere starting inside
+                // one-sided terrain finds nothing to stop at. A little further in it goes under the plateau, where one-sided terrain draws nothing and he's in plain view.
+                if(target!=null)
                     for(var chest=target.position+Vector3.up*1.2f;clear>LastGroundDistance&&!Sees(center-viewOffset+back*clear,chest);)clear-=.5f;
             }
             if(groundDistance<0||dt<=0&&groundDistance>clear)groundDistance=clear;
@@ -255,26 +264,36 @@ namespace Lattice.Core
                 // Keep pause protection through the filter's settling tail.
                 if(returnAge>=2)returning=false;
             }
-            GroundReach groundHero=default,groundSubjectReach=default,groundFirstReach=default;var fromWorld=Quaternion.Inverse(rotation);
+            GroundReach groundHero=default,groundSubjectReach=default,groundFirstReach=default,groundBesideReach=default,groundEasyReach=default;var fromWorld=Quaternion.Inverse(rotation);
             if(!isFlight)
             {
                 float wanted=profile.distance;
                 if(groundFramed)
                 {
-                    MeasureGround(fromWorld,out groundHero,out groundSubjectReach,out groundFirstReach);
+                    MeasureGround(fromWorld,out groundHero,out groundSubjectReach,out groundFirstReach,out groundBesideReach,out groundEasyReach);
                     float depth=Needed(groundHero,groundSubjectReach);
                     if(groundHasFirst)depth=Mathf.Min(depth,Mathf.Min(Needed(groundHero,groundFirstReach),Needed(groundFirstReach,groundSubjectReach)));
-                    wanted=Mathf.Clamp((fromWorld*center).z-depth,profile.distance,Mathf.Max(profile.distance,groundFarthest));
+                    float from=(fromWorld*center).z,limit=Mathf.Max(profile.distance,groundFarthest);
+                    wanted=Mathf.Clamp(from-depth,profile.distance,limit);
+                    if(groundHasBeside)
+                    {
+                        float withHer=Mathf.Min(depth,Mathf.Min(Needed(groundEasyReach,groundBesideReach),Needed(groundSubjectReach,groundBesideReach)));
+                        if(groundHasFirst)withHer=Mathf.Min(withHer,Needed(groundFirstReach,groundBesideReach));
+                        // If she fits. Past the limit the ask fades out, so the view doesn't draw back for someone it still can't show, or jump as she crosses the line.
+                        float need=from-withHer;
+                        wanted=Mathf.Max(wanted,Mathf.Min(limit,Mathf.Lerp(need,wanted,Mathf.InverseLerp(limit,limit+BesideGivesUp,need))));
+                    }
                 }
-                framedDistance=framedDistance<0?wanted:Mathf.Lerp(framedDistance,wanted,1-Mathf.Exp(-2.2f*dt));
+                framedDistance=framedDistance<0?wanted:Mathf.Lerp(framedDistance,wanted,1-Mathf.Exp(-(wanted<framedDistance?FramingLetsGo:2.2f)*dt));
             }
-            float chase=6;
+            float chase=6,most=1e5f;
             if(isFlight&&encounterBounds.HasValue)
             {
-                pullAge+=dt;if(required>cameraDistance)chase=Mathf.Min(chase,PullEaseIn*pullAge);
-                pullShare=chase/6;
+                pullAge+=dt;if(required-lastRequired>PullStep+40*dt)pullAge=0;lastRequired=required;
+                if(required>cameraDistance){chase=Mathf.Min(chase,PullEaseIn*pullAge);most=MostPull;pullShare=chase/6;}
+                else{chase=ComeIn;most=MostComeIn;pullShare=1;}
             }
-            cameraDistance=isFlight?Mathf.Lerp(cameraDistance,required,1-Mathf.Exp(-chase*dt)):GroundDistance(rotation,dt);
+            cameraDistance=isFlight?Mathf.MoveTowards(cameraDistance,Mathf.Lerp(cameraDistance,required,1-Mathf.Exp(-chase*dt)),most*dt):GroundDistance(rotation,dt);
             Vector3 requestedOffset=Vector3.zero;
             if(groundFramed)
             {
@@ -282,8 +301,13 @@ namespace Lattice.Core
                 var anchor=fromWorld*center;float depth=anchor.z-cameraDistance;
                 float lowX=groundHero.MinX(depth),highX=groundHero.MaxX(depth),lowY=groundHero.MinY(depth),highY=groundHero.MaxY(depth);
                 if(groundHasFirst){Narrow(ref lowX,ref highX,groundFirstReach.MinX(depth),groundFirstReach.MaxX(depth));Narrow(ref lowY,ref highY,groundFirstReach.MinY(depth),groundFirstReach.MaxY(depth));}
-                float x=GroundSlide(anchor.x,lowX,highX,groundSubjectReach.MinX(depth),groundSubjectReach.MaxX(depth));
-                float y=GroundSlide(anchor.y,lowY,highY,groundSubjectReach.MinY(depth),groundSubjectReach.MaxY(depth));
+                Narrow(ref lowX,ref highX,groundSubjectReach.MinX(depth),groundSubjectReach.MaxX(depth));Narrow(ref lowY,ref highY,groundSubjectReach.MinY(depth),groundSubjectReach.MaxY(depth));
+                if(groundHasBeside)
+                {
+                    Narrow(ref lowX,ref highX,groundEasyReach.MinX(depth),groundEasyReach.MaxX(depth));Narrow(ref lowY,ref highY,groundEasyReach.MinY(depth),groundEasyReach.MaxY(depth));
+                    Narrow(ref lowX,ref highX,groundBesideReach.MinX(depth),groundBesideReach.MaxX(depth));Narrow(ref lowY,ref highY,groundBesideReach.MinY(depth),groundBesideReach.MaxY(depth));
+                }
+                float x=Mathf.Clamp(anchor.x,lowX,highX),y=Mathf.Clamp(anchor.y,lowY,highY);
                 requestedOffset=rotation*new Vector3(anchor.x-x,anchor.y-y,0);
             }
             if(sceneFraming)

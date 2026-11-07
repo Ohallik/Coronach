@@ -9,7 +9,8 @@ namespace Lattice.World
     /// the curtain and the view pulls back to show it going. A save that already has it open loads with nothing there.</summary>
     public sealed class LightCurtain:MonoBehaviour
     {
-        const float Parting=3.2f,BurstSpacing=24,SweepTime=.7f;
+        /// <summary>Each strand takes this long to go, and the last starts as the first is nearly through. The view shows the stretch nearest the ship, so what a player sees is a strand's own time, not the whole curtain's: at half this it was gone before Sela had finished saying so.</summary>
+        const float EachStrand=2.6f,Parting=3.6f,BurstSpacing=24,SweepTime=.7f;
         /// <summary>From further south than this the curtain is too far off to frame with the ship: there the beam shows which way it went.</summary>
         const float FramedWithin=70;
         static readonly Rect FramedIn=new(.06f,.18f,.88f,.74f);
@@ -28,7 +29,7 @@ namespace Lattice.World
                 bottoms[i]=strands[i].startColor;tops[i]=strands[i].endColor;
                 delays[i]=Mathf.Abs(strands[i].transform.TransformPoint(strands[i].GetPosition(0)).x-transform.position.x);widest=Mathf.Max(widest,delays[i]);
             }
-            for(int i=0;i<strands.Length;i++)delays[i]=widest>0?delays[i]/widest*Parting*.5f:0;
+            for(int i=0;i<strands.Length;i++)delays[i]=widest>0?delays[i]/widest*(Parting-EachStrand):0;
         }
         void Update()
         {
@@ -42,7 +43,7 @@ namespace Lattice.World
             elapsed+=Time.deltaTime;
             for(int i=0;i<strands.Length;i++)
             {
-                float left=1-Mathf.Clamp01((elapsed-delays[i])/(Parting*.5f));
+                float left=1-Mathf.Clamp01((elapsed-delays[i])/EachStrand);
                 strands[i].startColor=bottoms[i]*left;strands[i].endColor=tops[i]*left;
             }
             Frame();

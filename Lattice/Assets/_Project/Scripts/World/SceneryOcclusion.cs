@@ -28,6 +28,8 @@ namespace Lattice.World
         /// <summary>A gateway's way through, in its own space. A hero seen through it isn't behind anything: going by the arch's whole box bit a hole in the arch around someone
         /// standing in plain view in its opening.</summary>
         public Bounds opening;
+        /// <summary>What's really there, as filled cells in its own space, measured when the zone was built: the box round a fruit tree has nothing in its corners, and a hero beside its foot wore a cloud of dots in a crown that hid nobody. Nothing measured falls back on the box.</summary>
+        public byte[] shape;public Vector3 shapeLow;public float shapeCell;public int shapeX,shapeY,shapeZ;
         void Awake()
         {
             bodies=GetComponentsInChildren<Renderer>(true);bounds=new Bounds(transform.position,Vector3.zero);
@@ -50,7 +52,7 @@ namespace Lattice.World
         void Refresh(bool active,Vector3 eye,Ray ray,float distance,Vector4 ellipse,float step)
         {
             bool under=active&&bounds.max.y>eye.y-LensClearance&&bounds.SqrDistance(eye)<UnderLens*UnderLens;
-            bool between=active&&!under&&bounds.IntersectRay(ray,out float entry)&&entry<distance-.15f&&!SeenThroughOpening(eye,ray.GetPoint(distance));
+            bool between=active&&!under&&bounds.IntersectRay(ray,out float entry)&&entry<distance-.15f&&!SeenThroughOpening(eye,ray.GetPoint(distance))&&Crossed(eye,ray.GetPoint(distance-.15f));
             float target=under||between?1:0;
             if(amount==0&&target==0)return;
             // The mask eases too: swapping from the whole body to the hero's hole mid-fade popped the rest solid in one frame.
@@ -59,6 +61,29 @@ namespace Lattice.World
             else if(between)whole=Mathf.MoveTowards(whole,0,step);
             amount=Mathf.MoveTowards(amount,target,target<amount?step*ComeBack:step);
             Write(Vector4.Lerp(ellipse,WholeScreen,whole*whole));
+        }
+        /// <summary>Does the line to the chest really cross it, or only the box round it? A few lookups, and only for what the box already says is in the way.</summary>
+        bool Crossed(Vector3 eye,Vector3 chest)
+        {
+            if(shape==null||shape.Length==0)return true;
+            Vector3 from=transform.InverseTransformPoint(eye)-shapeLow,along=transform.InverseTransformPoint(chest)-shapeLow-from;
+            float enter=0,leave=1;
+            for(int axis=0;axis<3;axis++)
+            {
+                float size=shapeCell*(axis==0?shapeX:axis==1?shapeY:shapeZ);
+                if(Mathf.Abs(along[axis])<1e-5f){if(from[axis]<0||from[axis]>size)return false;continue;}
+                float a=-from[axis]/along[axis],b=(size-from[axis])/along[axis];
+                enter=Mathf.Max(enter,Mathf.Min(a,b));leave=Mathf.Min(leave,Mathf.Max(a,b));
+                if(enter>leave)return false;
+            }
+            float stride=shapeCell*.5f/Mathf.Max(along.magnitude,1e-4f);
+            for(float t=enter;t<=leave;t+=stride)
+            {
+                var p=from+along*t;
+                int bit=(Mathf.Clamp((int)(p.z/shapeCell),0,shapeZ-1)*shapeY+Mathf.Clamp((int)(p.y/shapeCell),0,shapeY-1))*shapeX+Mathf.Clamp((int)(p.x/shapeCell),0,shapeX-1);
+                if((shape[bit>>3]&(1<<(bit&7)))!=0)return true;
+            }
+            return false;
         }
         bool SeenThroughOpening(Vector3 eye,Vector3 hero)
         {

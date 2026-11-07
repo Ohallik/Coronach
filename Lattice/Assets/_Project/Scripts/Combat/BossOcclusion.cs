@@ -17,11 +17,13 @@ namespace Lattice.Combat
         static readonly int Fade = Shader.PropertyToID("_OccFade");
         static readonly int Ellipse = Shader.PropertyToID("_OccFadeEllipse");
         static readonly int Depth = Shader.PropertyToID("_OccFadeDepth");
-        // The hero's real size on screen (1.9 m seen from 40 degrees, a little wider with the arms), not a 2 by 3 m bite out of the boss.
-        const float HalfWidth = .65f, HalfHeight = 1f;
-        // How far the screen-door opens at full fade: 10 of its 16 cells, against 13 for scenery. It has to read as seeing through,
+        static readonly int Soft = Shader.PropertyToID("_OccFadeSoft");
+        // The hero's real size on screen (1.9 m seen from 40 degrees, a little wider with the arms), not a 2 by 3 m bite out of the boss. It's a little over him because it's open in
+        // full only over him: from there it dissolves to nothing at this edge (_OccFadeSoft). A hard round patch of washed dots read as a hole or a sticker on the boss.
+        const float HalfWidth = .68f, HalfHeight = 1.08f;
+        // How far it opens over him: nearly two pixels in three, against four in five for scenery. It has to read as seeing through,
         // so more of the body and its weak spot stay. The hero shows in his own colours: a tinted copy over him read as a cyan glitch.
-        const float OpenShare = .6f;
+        const float OpenShare = .64f;
 
         void LateUpdate() => RefreshView(Camera.main, PartyController.Current != null ? PartyController.Current.Active : null, Time.unscaledDeltaTime);
 
@@ -87,7 +89,7 @@ namespace Lattice.Combat
             foreach (var body in bodies)
             {
                 if (body == null || body is not MeshRenderer && body is not SkinnedMeshRenderer) continue;
-                body.GetPropertyBlock(block); block.SetFloat(Fade, amount); block.SetFloat(Depth, OpenShare);
+                body.GetPropertyBlock(block); block.SetFloat(Fade, amount); block.SetFloat(Depth, OpenShare); block.SetFloat(Soft, 1);
                 block.SetVector(Ellipse, ellipse); body.SetPropertyBlock(block);
             }
         }

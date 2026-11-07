@@ -15,7 +15,9 @@ namespace Lattice.UI
     /// </summary>
     public sealed class QuestToast:MonoBehaviour
     {
-        Canvas canvas;Image frame;TMP_Text heading,body,readHint;bool readable;
+        Canvas canvas;Image frame;RectTransform box;ObjectiveHud objective;TMP_Text heading,body,readHint;bool readable;
+        /// <summary>The chapter's card is up: signs and the prompt clear for it, as they do for a conversation.</summary>
+        public static bool CardUp{get;private set;}
         static GameState watched;
         static readonly Dictionary<string,int> seen=new(),seenCounts=new();
         static readonly List<(string heading,string body)> pending=new();
@@ -35,7 +37,7 @@ namespace Lattice.UI
         {
             canvas=UiKit.CreateCanvas("QuestToast",7,transform);
             frame=UiKit.DarkFrame(canvas.transform,"QuestToastFrame");frame.raycastTarget=false;frame.pixelsPerUnitMultiplier=2;
-            var box=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-272),new(570,118));box.pivot=new(.5f,1);box.anchoredPosition=new(-300,-272);
+            box=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-272),new(570,118));box.pivot=new(.5f,1);box.anchoredPosition=new(-300,-272);objective=GetComponent<ObjectiveHud>();
             // Its plate steps aside, so what it says has to hold on the floor without it.
             heading=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastHeading","",24,new Color(1,.78f,.36f),TextAlignmentOptions.MidlineLeft));
             UiKit.Rect(heading.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
@@ -48,20 +50,21 @@ namespace Lattice.UI
             BuildChapterCard();
             Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;Notices.Posted+=OnNotice;PromptService.Changed+=RefreshHint;
         }
-        /// <summary>The end of a chapter gets the middle of the screen, in the boss card's style: the small card in the corner said it like any other task.</summary>
+        /// <summary>The end of a chapter gets a card of its own, in the boss card's style: the small card in the corner said it like any other task. It stands on a real plate, where the dialogue box stands and over the hint bar, so nothing is under it that the chapter's last talk didn't just leave:
+        /// across the middle of the screen both heroes stood behind its words. Its words take two lines at this width.</summary>
         void BuildChapterCard()
         {
             chapterCard=new GameObject("ChapterCard",typeof(RectTransform),typeof(CanvasGroup));chapterCard.transform.SetParent(canvas.transform,false);
-            var holder=UiKit.Rect(chapterCard,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(1,1));
+            var holder=UiKit.Rect(chapterCard,new(.5f,0),new(.5f,0),new(0,252),new(1,1));
             chapterGroup=chapterCard.GetComponent<CanvasGroup>();chapterGroup.blocksRaycasts=false;chapterGroup.interactable=false;
-            var band=UiKit.SoftBand(holder,"ChapterCardBand",new Color(.01f,.02f,.04f,.8f));UiKit.Rect(band.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(1500,420));
-            cardHeading=UiKit.Legible(UiKit.Heading(holder,"ChapterCardHeading","",64,new Color(1,.93f,.8f)));UiKit.Rect(cardHeading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,115),new(1300,90));
-            var title=UiKit.Legible(UiKit.Heading(holder,"ChapterCardTitle",ChapterEndTitle,32,UiKit.GoldColor));UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,50),new(1300,50));
-            var rule=UiKit.Panel(holder,"ChapterCardRule",UiKit.GoldColor);rule.raycastTarget=false;UiKit.Rect(rule.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,18),new(620,3));
-            cardBody=UiKit.Legible(UiKit.Text(holder,"ChapterCardBody","",30,UiKit.LooseTextColor));UiKit.Rect(cardBody.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-65),new(1180,130));
+            UiKit.SolidFrame(holder,"ChapterCardFrame",new(.5f,.5f),Vector2.zero,new(1560,300));
+            cardHeading=UiKit.Legible(UiKit.Heading(holder,"ChapterCardHeading","",64,new Color(1,.93f,.8f)));UiKit.Rect(cardHeading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,76),new(1300,78));
+            var title=UiKit.Legible(UiKit.Heading(holder,"ChapterCardTitle",ChapterEndTitle,32,UiKit.GoldColor));UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,14),new(1300,44));
+            var rule=UiKit.Panel(holder,"ChapterCardRule",UiKit.GoldColor);rule.raycastTarget=false;UiKit.Rect(rule.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-14),new(620,3));
+            cardBody=UiKit.Legible(UiKit.Text(holder,"ChapterCardBody","",30,UiKit.LooseTextColor));UiKit.Rect(cardBody.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-66),new(1440,80));
             chapterCard.SetActive(false);
         }
-        void OnDestroy(){Lattice.Rpg.Levels.LevelRaised-=OnLevel;SkillBook.MasteryRaised-=OnMastery;Notices.Posted-=OnNotice;PromptService.Changed-=RefreshHint;}
+        void OnDestroy(){CardUp=false;Lattice.Rpg.Levels.LevelRaised-=OnLevel;SkillBook.MasteryRaised-=OnMastery;Notices.Posted-=OnNotice;PromptService.Changed-=RefreshHint;}
         /// <summary>A card about a quest says which button opens the log, on the device in the player's hand.</summary>
         void RefreshHint(){if(readHint!=null)readHint.text=readable?PromptService.Tag("Log")+"  TO READ":"";}
         /// <summary>Level-ups and newly learned skills share the card (D201). Heroes rise together, so one level is one card.</summary>
@@ -85,11 +88,13 @@ namespace Lattice.UI
         {
             var service=GameServices.Current;if(service==null||canvas==null)return;
             var state=service.State;
+            // It hangs under the objective, whose frame is as tall as what it says.
+            if(objective!=null&&objective.Frame!=null){float under=-ObjectiveHud.FrameTop-objective.Frame.rect.height-14.5f;if(box.anchoredPosition.y!=under)box.anchoredPosition=new(box.anchoredPosition.x,under);}
             if(!ReferenceEquals(state,watched))
             {
                 watched=state;seen.Clear();seenCounts.Clear();pending.Clear();showing=0;chapterEnded=state.flags.TryGetValue(ChapterEnd,out bool ended)&&ended;
                 foreach(var pair in state.questSteps)seen[pair.Key]=pair.Value;foreach(var pair in state.questCounts)seenCounts[pair.Key]=pair.Value;
-                frame.gameObject.SetActive(false);chapterCard.SetActive(false);chapterUp=false;return;
+                frame.gameObject.SetActive(false);chapterCard.SetActive(false);chapterUp=false;CardUp=false;return;
             }
             if(Time.unscaledTime>=next)Scan(state);
             bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked;
@@ -111,6 +116,7 @@ namespace Lattice.UI
             bool visible=showing>0&&!blocked,corner=visible&&!chapterUp,middle=visible&&chapterUp;
             if(frame.gameObject.activeSelf!=corner)frame.gameObject.SetActive(corner);
             if(chapterCard.activeSelf!=middle)chapterCard.SetActive(middle);
+            CardUp=middle;
             if(middle){cardAge+=Time.unscaledDeltaTime;chapterGroup.alpha=Mathf.Min(Mathf.Clamp01(cardAge/.8f),Mathf.Clamp01(showing/1.2f));}
         }
         void Scan(GameState state)

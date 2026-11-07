@@ -53,11 +53,10 @@ namespace Lattice.World
         void Beaten()
         {
             var rig=npc.GetComponentInChildren<Animator>();if(rig==null)return;
-            bool low=rig.HasState(0,Animator.StringToHash(GeneratedAnimator.YieldState));
-            if(low||rig.HasState(0,Animator.StringToHash("Stagger")))
+            if(rig.HasState(0,Animator.StringToHash(GeneratedAnimator.YieldState)))
             {
                 var driver=npc.GetComponentInChildren<GeneratedAnimator>();if(driver!=null)driver.HoldBeaten();
-                rig.Play(low?GeneratedAnimator.YieldState:"Stagger",0,low?GeneratedAnimator.YieldPhase:.25f);rig.speed=0;
+                rig.Play(GeneratedAnimator.YieldState,0,GeneratedAnimator.YieldPhase);rig.speed=0;
             }
             rig.Update(0);
         }

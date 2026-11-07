@@ -122,14 +122,14 @@ namespace Lattice.UI
         {
             var selected=EventSystem.current.currentSelectedGameObject;
             string focus=want??(rememberFocus&&selected!=null?selected.name:null);
-            // Solid: at .95 a bright sign showed through as a dim footer under every page.
-            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,1).gameObject;
+            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,UiKit.MenuDim).gameObject;
+            UiKit.SolidFrame(panel.transform,"MenuPanel",new(.5f,.5f),new(-5,-13),new(1660,980));
             var title=UiKit.Heading(panel.transform,"Heading",tabs[page].ToUpperInvariant(),46,UiKit.TextColor,TextAlignmentOptions.Left);
             UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(-150,400),new(1100,75));
             var list=new List<Selectable>();var tabButtons=new List<Selectable>();
             for(int i=0;i<tabs.Length;i++)
             {
-                int n=i;var b=UiKit.Button(panel.transform,"Tab_"+tabs[i],tabs[i],()=>GoTo(n));UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(-690,290-i*86),new(290,62));tabButtons.Add(b);
+                int n=i;var b=UiKit.Button(panel.transform,"Tab_"+tabs[i],tabs[i],()=>GoTo(n));UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(-645,290-i*86),new(290,62));tabButtons.Add(b);
                 if(i==page)MarkOpenTab(b);
             }
             var state=GameServices.Current.State;int row=0,rowFont=26;

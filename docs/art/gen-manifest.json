@@ -6117,5 +6117,115 @@
     "created_at": "2026-11-07T10:53:12+00:00",
     "status": "SUCCEEDED",
     "updated_at": "2026-11-07T10:53:37+00:00"
+  },
+  {
+    "task": "qa-cast-image2image-01a1b653-731b-74ee-9ef1-ef3a915aecf6",
+    "task_id": "01a1b653-731b-74ee-9ef1-ef3a915aecf6",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Pell, a young adult Vael alien lamp apprentice, barely grown, slight and quick. Keep the exact head from the portrait: a round open youthful face of light slate-blue skin, big bright green ring irises, a smudge of lamp soot on one cheek, faint cyan sync-lines on the cheeks and throat, a crown of short springy sand-coloured flat keratin fronds sticking up and back, large and clearly visible; no human hair. Keep the patched ochre work tunic with green and brown cloth patches at the shoulders and the small brass wick-trimmer hanging on a cord at the chest. Extend the outfit naturally: sleeves rolled to the elbow over slim slate-blue forearms, a simple rope belt, tan-brown work trousers patched at one knee, soft brown boots. Warm and light-coloured, easy to read on an orange canyon floor, and clearly young. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Pell, a young adult Vael alien lamp apprentice, barely grown, slight and quick. Keep the exact head from the portrait: a round open youthful face of light slate-blue skin, big bright green ring irises, a smudge of lamp soot on one cheek, faint cyan sync-lines on the cheeks and throat, a crown of short springy sand-coloured flat keratin fronds sticking up and back, large and clearly visible; no human hair. Keep the patched ochre work tunic with green and brown cloth patches at the shoulders and the small brass wick-trimmer hanging on a cord at the chest. Extend the outfit naturally: sleeves rolled to the elbow over slim slate-blue forearms, a simple rope belt, tan-brown work trousers patched at one knee, soft brown boots. Warm and light-coloured, easy to read on an orange canyon floor, and clearly young. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=1818380 sha256(base64)=b8cf27911d9a1431>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/QA-Hessa/refs/Pell_Body.png",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T14:04:45+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T14:05:15+00:00"
+  },
+  {
+    "task": "qa-cast-img3d-01a1b653-f024-7708-9106-7d5e3f9b8528",
+    "task_id": "01a1b653-f024-7708-9106-7d5e3f9b8528",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Pell, young Vael alien apprentice, slate-blue skin, crown of sand-coloured keratin fronds, patched ochre tunic, tan trousers, T pose",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1161192 sha256(base64)=31dda11a55597722>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/QA-Hessa/PellBody_Meshy.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T14:05:17+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-11-07T14:06:45+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/PellBody_Meshy.fbx",
+      "art-src/Generated/QA-Hessa/PellBody_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-rig-01a1b655-4c2d-74f9-b984-413c9e9fd2a3",
+    "task_id": "01a1b655-4c2d-74f9-b984-413c9e9fd2a3",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.72,
+      "input_task_id": "01a1b653-f024-7708-9106-7d5e3f9b8528"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/QA-Hessa/PellBody_Rigged.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T14:06:48+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T14:07:02+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/PellBody_Rigged.fbx",
+      "art-src/Generated/QA-Hessa/PellBody_Rigged_walking_fbx.fbx",
+      "art-src/Generated/QA-Hessa/PellBody_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b655-8eb8-7705-bce8-a70b27cda53f",
+    "task_id": "01a1b655-8eb8-7705-bce8-a70b27cda53f",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Massive mining drill machine, a burrowing rig gone rogue: heavy segmented armor plates of weathered dark gunmetal steel, chipped faded hazard-yellow paint and black warning chevrons along the plate edges, bold black panel lines and rows of rivets, oil streaks and scorched soot, exposed hydraulic joints between the segments, a drill nose of worn bright steel with spiral ridges, a glowing cyan core deep in its maw. Hard-edged industrial machine, nothing organic, not tan, not a worm. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=610192 sha256(base64)=9e22e0467ef1a04c>",
+      "text_style_prompt": "Massive mining drill machine, a burrowing rig gone rogue: heavy segmented armor plates of weathered dark gunmetal steel, chipped faded hazard-yellow paint and black warning chevrons along the plate edges, bold black panel lines and rows of rivets, oil streaks and scorched soot, exposed hydraulic joints between the segments, a drill nose of worn bright steel with spiral ridges, a glowing cyan core deep in its maw. Hard-edged industrial machine, nothing organic, not tan, not a worm. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/Burrower.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-07T14:07:05+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T14:07:54+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/Burrower.fbx",
+      "art-src/Generated/QA-Cast/Burrower_base_color.png"
+    ]
   }
 ]

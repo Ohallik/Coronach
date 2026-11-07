@@ -21,6 +21,10 @@ namespace Lattice.Combat
         /// <summary>A ground boss stays in frame. The hero keeps clear of the screen's corners and its bars; the boss's body may run closer to the edge. Past this far back the hero
         /// would be too small to play, and a boss that still can't fit gets the HUD's edge mark instead.</summary>
         static readonly Rect FightBossArea=Rect.MinMaxRect(.03f,.13f,.97f,.93f),FightHeroArea=Rect.MinMaxRect(.14f,.24f,.86f,.84f);
+        /// <summary>Clear of the bars and the panels: a partner with her legs under the hint strip, or behind the skill icons, isn't on the screen in any way that helps.</summary>
+        static readonly Rect FightPartnerArea=Rect.MinMaxRect(.08f,.22f,.92f,.86f);
+        /// <summary>A partner this near counts in full, and she fades out of it by this far: past that she can't share a view with the hero, and at a hard line she'd pop the view back as she crossed it.</summary>
+        const float PartnerFramedWithin=20,PartnerFramedTo=26;
         const float FarthestFight=36,BigMarking=7;
         /// <summary>Ordinary fights draw back less far for a shooter than a boss fight does: they're smaller, and there's more of them to see.</summary>
         const float FarthestShot=28;
@@ -97,12 +101,16 @@ namespace Lattice.Combat
         {
             if(cameraRig==null||Active.flight)return;
             var at=Active.transform.position;var boss=BossController.Focus(at);
+            // After the hero, what he's after and the boss, the partner if she fits. Framing only those first left her under the bars or off the screen, with her bolts coming in from nowhere
+            // and the longest danger lines on screen aimed at someone nobody could see. Down, she's what the hero has to get to, fight or no fight.
+            var beside=PartnerBody(at,out bool down);
             if(boss==null)
             {
                 framedBoss=null;
                 // Long danger lines came in from figures with only their legs on screen. Only those firing right now, and they're as gentle as a boss's framing.
                 var shooters=default(Bounds);
-                if(EnemyBrain.ShootingAt(at,ref shooters))cameraRig.FrameGround(shooters,FightBossArea,FightHeroArea,FarthestShot);
+                if(EnemyBrain.ShootingAt(at,ref shooters))cameraRig.FrameGround(shooters,FightBossArea,FightHeroArea,FarthestShot,0,null,beside,FightPartnerArea);
+                else if(beside.HasValue&&(down||EnemyBrain.FightNear(at)))cameraRig.FrameGround(new Bounds(at+Vector3.up*.95f,new Vector3(1,1.9f,1)),FightBossArea,FightHeroArea,FarthestShot,0,null,beside,FightPartnerArea);
                 return;
             }
             if(framedBoss!=boss)
@@ -114,18 +122,35 @@ namespace Lattice.Combat
                 framedBossReach=reach*.8f;framedBossHeight=top-boss.transform.position.y;
             }
             var subject=new Bounds(boss.transform.position+Vector3.up*(framedBossHeight*.5f),new Vector3(framedBossReach*2,framedBossHeight,framedBossReach*2));
-            // Standing in a marking too wide for the usual view, the way out of it has to be on screen as well.
+            // Standing in a marking too wide for the usual view, the way out of it has to be on screen, ahead of the boss: it's the next thing he has to do.
+            Bounds? first=null;
             foreach(var marking in Telegraph.Live)
-                if(marking!=null&&!marking.Released&&marking.owner is BossController&&marking.Span>=BigMarking&&marking.Contains(at))subject.Encapsulate(marking.EdgeFrom(at));
+                if(marking!=null&&!marking.Released&&marking.owner is BossController&&marking.Span>=BigMarking&&marking.Contains(at))Include(ref first,new Bounds(marking.EdgeFrom(at),Vector3.zero));
             // The bar sends the hero at an organ and the plate says locked: that and the hero stay in frame, then the boss if it fits. Held on the boss alone, the organ fell off the left edge
             // with its health going down. Crew and mites the same: what he's fighting comes first.
-            var aimed=Active.target;Bounds? first=null;
+            var aimed=Active.target;
             if(aimed!=null&&aimed.Targetable&&aimed!=boss.Health&&aimed.reactionOwner!=boss.Health&&(Active.TargetLocked||(aimed.transform.position-at).sqrMagnitude<TargetFramedWithin*TargetFramedWithin))
             {
                 if(framedBodyOf!=aimed){framedBodyOf=aimed;framedBody=aimed.GetComponent<Collider>();}
-                first=framedBody!=null&&framedBody.enabled?framedBody.bounds:new Bounds(aimed.transform.position+Vector3.up,Vector3.one*2);
+                Include(ref first,framedBody!=null&&framedBody.enabled?framedBody.bounds:new Bounds(aimed.transform.position+Vector3.up,Vector3.one*2));
             }
-            cameraRig.FrameGround(subject,FightBossArea,FightHeroArea,FarthestFight,0,first);
+            cameraRig.FrameGround(subject,FightBossArea,FightHeroArea,FarthestFight,0,first,beside,FightPartnerArea);
+        }
+        static void Include(ref Bounds? box,Bounds more)
+        {
+            if(box.HasValue){var both=box.Value;both.Encapsulate(more);box=both;}else box=more;
+        }
+        Bounds? PartnerBody(Vector3 at,out bool down)
+        {
+            down=false;
+            foreach(var member in members)
+            {
+                if(member==Active||!member.gameObject.activeInHierarchy)continue;
+                var body=member.transform.position;var offset=body-at;offset.y=0;float apart=offset.magnitude;if(apart>=PartnerFramedTo)continue;
+                down=!member.Health.Alive;body=Vector3.Lerp(at,body,Mathf.InverseLerp(PartnerFramedTo,PartnerFramedWithin,apart));
+                return new Bounds(body+Vector3.up*.95f,new Vector3(.9f,1.9f,.9f));
+            }
+            return null;
         }
         void FrameFlightEncounter()
         {

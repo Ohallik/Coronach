@@ -31,15 +31,14 @@ namespace Lattice.Combat
         const float CalmAfter=.6f;
         /// <summary>The retargeted idle holds a person's arms out from the sides. In idle only each upper arm is turned toward hanging, by this much, easing in and out so walking and swinging are untouched.</summary>
         const float ArmHang=.85f,ArmEaseSeconds=.2f,ArmLetGoSeconds=.06f;
-        Transform leftArm,rightArm,leftFore,rightFore,neck,head,hips,thigh,shin,sole;
+        Transform leftArm,rightArm,leftFore,rightFore,neck,head;
         readonly Transform[] back=new Transform[3];
         float armHang,slump;
-        bool beaten,yieldsLow;
-        /// <summary>The frame of her getting-up clip a captain gives up in: down on bent legs with her weight off her hands, a pose no clip has of its own (tools/blender/clip_poses.py).</summary>
-        public const string YieldState="Revive";public const float YieldPhase=.75f;
-        /// <summary>How long the fighter's body takes to sink into it.</summary>
-        const float YieldSink=.35f;
-        /// <summary>How far a beaten body bows at each joint, degrees, from the hips up, on a rig with no low pose to hold.</summary>
+        bool beaten;
+        /// <summary>The frame a captain gives up in: the first buckle of her fall, knees bent and both feet down, which reads from every side a talk can turn her to. No clip has a kneel of its own
+        /// (tools/blender/clip_poses.py). The slump laid over it does the rest.</summary>
+        public const string YieldState="Down";public const float YieldPhase=.29f;
+        /// <summary>How far a beaten body bows at each joint, degrees, from the hips up.</summary>
         static readonly float[] BackBow={12,16,10};
         const float NeckBow=12,HeadBow=22;
         readonly Dictionary<string, float> lengths = new();
@@ -74,7 +73,6 @@ namespace Lattice.Combat
                 feet.Initialize(animator,actor.transform,strideProfile);
             }
             if(animator!=null)hasCalm=animator.HasState(0,Animator.StringToHash(CalmState));
-            yieldsLow=animator!=null&&(beaten||enemy!=null&&enemy.definition.yieldsOnDefeat)&&animator.HasState(0,Animator.StringToHash(YieldState));
             // People: heroes, townsfolk and whoever gives up in the end. A Husk's arms were built to stand off its body.
             if(animator!=null&&animator.isHuman&&(enemy==null||enemy.definition.yieldsOnDefeat))
             {
@@ -82,11 +80,10 @@ namespace Lattice.Combat
                 leftFore=animator.GetBoneTransform(HumanBodyBones.LeftLowerArm);rightFore=animator.GetBoneTransform(HumanBodyBones.RightLowerArm);
                 back[0]=animator.GetBoneTransform(HumanBodyBones.Spine);back[1]=animator.GetBoneTransform(HumanBodyBones.Chest);back[2]=animator.GetBoneTransform(HumanBodyBones.UpperChest);
                 neck=animator.GetBoneTransform(HumanBodyBones.Neck);head=animator.GetBoneTransform(HumanBodyBones.Head);
-                hips=animator.GetBoneTransform(HumanBodyBones.Hips);thigh=animator.GetBoneTransform(HumanBodyBones.LeftUpperLeg);shin=animator.GetBoneTransform(HumanBodyBones.LeftLowerLeg);sole=animator.GetBoneTransform(HumanBodyBones.LeftFoot);
             }
         }
         /// <summary>The person who takes over from a fighter who gave up: the caller holds the recoil, this lays the slump over it from the first frame on.</summary>
-        public void HoldBeaten(){beaten=true;slump=1;yieldsLow=animator!=null&&animator.HasState(0,Animator.StringToHash(YieldState));}
+        public void HoldBeaten(){beaten=true;slump=1;}
         bool Calm()
         {
             // A body with no party around it is a fixture holding its stance; the stride tests are all of those.
@@ -105,7 +102,7 @@ namespace Lattice.Combat
             if(beaten||enemy!=null)
             {
                 slump=Mathf.MoveTowards(slump,beaten||!enemy.Health.Alive?1:0,dt/.35f);
-                if(slump>0&&!yieldsLow)Slump(slump);
+                if(slump>0)Slump(slump);
                 return;
             }
             bool resting=state=="Idle"&&(shown==CalmState||!hasCalm)&&!upperShot&&emitterWeight<.01f&&(form==null||!form.Shaping);
@@ -119,11 +116,9 @@ namespace Lattice.Combat
             // A hand's width out from straight down, or it hangs through a wide hip.
             arm.rotation=Quaternion.Slerp(Quaternion.identity,Quaternion.FromToRotation(along,Vector3.down+transform.right*(side*.2f)),weight)*arm.rotation;
         }
-        /// <summary>Beaten: the back rounds, the head drops, and whatever the recoil left in the air comes down. A body the clip already has low, hips well under its standing height, needs
-        /// none of it, and its arms may be bearing it up.</summary>
+        /// <summary>Beaten: the back rounds, the head drops, and whatever the clip left in the air comes down.</summary>
         void Slump(float weight)
         {
-            if(hips==null||thigh==null||shin==null||sole==null||hips.position.y-sole.position.y<(Vector3.Distance(thigh.position,shin.position)+Vector3.Distance(shin.position,sole.position))*.7f)return;
             var bow=transform.right;
             for(int i=0;i<back.Length;i++)if(back[i]!=null)back[i].rotation=Quaternion.AngleAxis(BackBow[i]*weight,bow)*back[i].rotation;
             if(neck!=null)neck.rotation=Quaternion.AngleAxis(NeckBow*weight,bow)*neck.rotation;
@@ -185,19 +180,11 @@ namespace Lattice.Combat
                 }
             }
             bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive&&!enemy.definition.yieldsOnDefeat;
-            // She gives up low, and the person who takes over holds the same frame. A rig with no such clip holds the recoil of its hit reaction, with the slump laid over it.
-            bool yielding=enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat;
-            float yieldLength=0;
-            if(yielding)
+            // She gives up low, and the person who takes over holds the same frame.
+            if(enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat)
             {
-                wanted=yieldsLow?YieldState:"Stagger";float hold=yieldsLow?YieldPhase:.25f;
-                if(!lengths.TryGetValue(wanted,out yieldLength))
-                {
-                    foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name==wanted){yieldLength=clip.length;break;}
-                    if(yieldLength>0)lengths[wanted]=yieldLength;
-                }
-                rate=yieldsLow||yieldLength<=0?1:yieldLength*.25f/.22f;
-                if(state==wanted&&!animator.IsInTransition(0)&&animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=hold)rate=0;
+                wanted=YieldState;rate=1;
+                if(state==wanted&&!animator.IsInTransition(0)&&animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=YieldPhase)rate=0;
             }
             bool gettingUp=actor!=null&&actor.Recovering;
             if(down||gettingUp)
@@ -273,9 +260,7 @@ namespace Lattice.Combat
                 // The cycle offset stays normalized while cadence changes.
                 // Converting it to fixed seconds produced phase jumps when a
                 // crossfade was interrupted by the next shot's speed change.
-                // Into the clip partway, timed to reach its frame as the blend ends: from its start she would lie down first.
-                if(yielding&&yieldsLow&&yieldLength>0)animator.CrossFadeInFixedTime(wanted,YieldSink,0,Mathf.Max(0,YieldPhase*yieldLength-YieldSink));
-                else if(phase>=0)animator.CrossFade(wanted,blend*rate/priorDuration,0,phase);
+                if(phase>=0)animator.CrossFade(wanted,blend*rate/priorDuration,0,phase);
                 else animator.CrossFadeInFixedTime(pose, fullAction ? .045f : settling ? .35f : blend, 0, 0);
             }
             if (fullAction)

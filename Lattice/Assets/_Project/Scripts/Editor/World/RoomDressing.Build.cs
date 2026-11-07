@@ -300,7 +300,7 @@ namespace Lattice.EditorTools
             var prompts=Object.FindObjectsByType<InteractionPrompt>(FindObjectsSortMode.None).Where(p=>!p.transform.IsChildOf(root)).ToArray();
             var spawns=Object.FindObjectsByType<SpawnPoint>(FindObjectsSortMode.None);
             var encounters=Object.FindObjectsByType<EncounterVolume>(FindObjectsSortMode.None).Select(e=>e.GetComponent<Collider>().bounds).ToArray();
-            var existing=Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Where(c=>c.enabled&&!c.isTrigger&&!c.transform.IsChildOf(root)&&c.bounds.size.x<60&&c.bounds.max.y-c.bounds.min.y>.35f&&c.GetComponentInParent<InteractionPrompt>()==null).ToArray();
+            var existing=Object.FindObjectsByType<Collider>(FindObjectsSortMode.None).Where(c=>c.enabled&&!c.isTrigger&&!c.transform.IsChildOf(root)&&c.name!=ChapterOneStaging.PoolEdge&&c.bounds.size.x<60&&c.bounds.max.y-c.bounds.min.y>.35f&&c.GetComponentInParent<InteractionPrompt>()==null).ToArray();
             var reject=new List<Placed>();
             foreach(var item in placed.Where(p=>p.solid&&!p.structural))
             {

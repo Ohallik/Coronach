@@ -19,9 +19,12 @@ namespace Lattice.UI
             box=ScreenBox(rect);Add(box);
         }
         public bool Contains(Vector3 screen)=>up&&screen.z>0&&box.Contains(screen);
+        public bool Showing=>up;
         /// <summary>Whether something that reaches this far around a point touches the plate: the lock's brackets do, well before its middle is behind it.</summary>
         public bool Touches(Vector3 screen,float reach)=>up&&screen.z>0&&screen.x>box.xMin-reach&&screen.x<box.xMax+reach&&screen.y>box.yMin-reach&&screen.y<box.yMax+reach;
         public void Look(Vector3 screen,float now){if(Contains(screen))coveredAt=now;}
+        /// <summary>For a thing known by one point that's wider than a point: a pad, a ship's wing.</summary>
+        public void Near(Vector3 screen,float reach,float now){if(Touches(screen,reach))coveredAt=now;}
         /// <summary>Through the plate's renderer, not its colour: a colour rebuilds its mesh each step, and a band's own alpha stays what it was built with.</summary>
         public void Step(float now,float dt)
         {
@@ -31,10 +34,12 @@ namespace Lattice.UI
             shown=Mathf.MoveTowards(shown,goal,dt*(goal<shown?Down:Up));plate.canvasRenderer.SetAlpha(shown);
         }
         // ---------- what a word in the world keeps out from under ----------
-        static readonly Rect[] plates=new Rect[12];
+        static readonly Rect[] plates=new Rect[13];
         static int plateCount;
         public static void BeginPlates()=>plateCount=0;
         public static void AddPlate(RectTransform rect)=>Add(ScreenBox(rect));
+        /// <summary>A plate that also claims the room over it: a sign standing there reads as its heading.</summary>
+        public static void AddHeadroom(RectTransform rect,float above){var at=ScreenBox(rect);at.yMax+=above;at.xMin-=above*.6f;at.xMax+=above*.6f;Add(at);}
         static void Add(Rect at){if(plateCount<plates.Length)plates[plateCount++]=at;}
         static Rect ScreenBox(RectTransform rect){rect.GetWorldCorners(Corners);return Rect.MinMaxRect(Corners[0].x,Corners[0].y,Corners[2].x,Corners[2].y);}
         /// <summary>Whether something on the screen is cut by a fixed plate or by the screen's own edge. Wholly off the screen cuts nothing.</summary>

@@ -328,7 +328,7 @@ namespace Lattice.EditorTools
         {
             float y=floor??HushwellLayout.Level(z);
             foreach(var c in Physics.OverlapBox(new Vector3(x,y+.65f,z),new Vector3(w*.5f,.5f,l*.5f),Quaternion.Euler(0,yaw,0),~0,QueryTriggerInteraction.Ignore))
-                if(!IsTerrain(c)&&!c.transform.IsChildOf(root))return true;
+                if(!IsTerrain(c)&&!c.transform.IsChildOf(root)&&c.name!=ChapterOneStaging.PoolEdge)return true;
             return false;
         }
         /// <summary>True when something other than terrain stands over the point (a hab, a rock, a pad).</summary>

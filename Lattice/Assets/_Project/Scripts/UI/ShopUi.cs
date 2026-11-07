@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Lattice.Core;
 using Lattice.Data;
+using Lattice.Dialogue;
 using Lattice.Rpg;
 using TMPro;
 using UnityEngine;
@@ -13,14 +14,17 @@ namespace Lattice.UI
     public sealed class ShopUi:MonoBehaviour
     {
         const int PerPage=6;
-        Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="",sellAsked;FirstPress first;
+        /// <summary>Where the list stands with someone selling it: to the right of them, in a frame no wider than the screen's margins allow. The rows keep their width.</summary>
+        const float SellerListAt=206;
+        Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="",sellAsked,seller;FirstPress first;
         public bool IsOpen=>panel!=null;
         void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);PromptService.Changed+=Restate;}
         void OnDestroy(){PromptService.Changed-=Restate;}
         void Restate(){if(IsOpen)Rebuild();}
-        public void Open(ShopInventory source)
+        /// <param name="from">Who's selling, the speaker of the conversation that opened it: their stock with their face on it, as the dialogue box draws them. It was a list on a black screen headed only 'Arch Market'.</param>
+        public void Open(ShopInventory source,string from=null)
         {
-            inventory=source;page=offset=0;feedback="";sellAsked=null;GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);
+            inventory=source;seller=from;page=offset=0;feedback="";sellAsked=null;GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);
             // Focus starts on an offer, and the A that ended the conversation is often pressed twice: submit waits a moment.
             first.Begin();
             Rebuild("ShopRow1");
@@ -38,17 +42,23 @@ namespace Lattice.UI
         void Rebuild(string want=null)
         {
             var selected=EventSystem.current.currentSelectedGameObject;string focus=want??(selected!=null?selected.name:null);
-            // Solid: at .95 a bright sign showed through as ghost letters between the rows.
-            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,1).gameObject;
+            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,UiKit.MenuDim).gameObject;
+            var face=string.IsNullOrEmpty(seller)?null:PortraitLookup.Get(seller,BodyForm.Natural,PortraitEmotion.Happy);float listAt=face!=null?SellerListAt:0;
+            UiKit.SolidFrame(panel.transform,"ShopPanel",new(.5f,.5f),new(0,-13),new(face!=null?1680:1290,980));
+            if(face!=null)
+            {
+                UiKit.Bust(panel.transform,"SellerPortrait",new(.5f,.5f),new(-806,-472),500).sprite=face;
+                var who=UiKit.Heading(panel.transform,"SellerName",DisplayNames.Speaker(seller),32,UiKit.GoldColor);UiKit.Rect(who.gameObject,new(.5f,.5f),new(.5f,.5f),new(-596,14),new(400,50));
+            }
             var state=GameServices.Current.State;var active=state.party[state.activeMember];
             string trade=inventory!=null&&!string.IsNullOrEmpty(inventory.title)?inventory.title:"OUTFITTER";
             var heading=UiKit.Heading(panel.transform,"Heading",trade+(page==0?" · BUY":" · SELL")+"   "+state.scrip+" SCRIP",42,UiKit.TextColor);
-            UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,390),new(1400,80));
+            UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,390),new(1180,80));
             var buttons=new List<Selectable>();int row=0;
             void Add(string label,System.Action action,string name=null)
             {
                 var b=UiKit.Button(panel.transform,name??"ShopRow"+row,label,action);b.GetComponentInChildren<TMP_Text>().fontSize=30;
-                UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,260-row++*76),new(1180,62));buttons.Add(b);
+                UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,260-row++*76),new(1180,62));buttons.Add(b);
             }
             Add((page==0?"Sell parts":"Buy supplies")+"  ·  "+DeviceHints.Pages(),Switch);
             var offers=new List<(string label,Action action)>();
@@ -99,7 +109,7 @@ namespace Lattice.UI
             if(offers.Count>PerPage)Add(UiKit.PagerLabel(offset,PerPage,offers.Count),()=>{offset=offset+PerPage<offers.Count?offset+PerPage:0;sellAsked=null;Rebuild("Pager");},"Pager");
             Add("Back",()=>{UiSounds.Cancel();Close();},"ShopBack");
             string said=feedback!=""?feedback:page==1?"Only parts can be sold here. Anything worn comes off in Gear first.":"";
-            var note=UiKit.Text(panel.transform,"Feedback",said,25,UiKit.TextColor);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-430),new(1200,70));
+            var note=UiKit.Text(panel.transform,"Feedback",said,25,UiKit.TextColor);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(listAt,-430),new(1180,70));
             UiKit.LinkVertical(buttons.ToArray());
             Selectable target=focus!=null?buttons.FirstOrDefault(b=>b.name==focus):null;
             // The last row went away with a sale: the nearest one above it.

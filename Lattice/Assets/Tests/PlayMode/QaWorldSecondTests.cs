@@ -121,7 +121,10 @@ namespace Lattice.Tests.PlayMode
             var hatches=All<Transform>().Where(t=>t.name.StartsWith("Private rest hatch")).ToArray();Assert.IsNotEmpty(hatches,"fixture: the rest cabins have doors");
             Assert.Less(hatches.Min(h=>Flat(h.position,Sign("SERVICE / REST CABINS").transform.position)),3,"SERVICE / REST CABINS isn't at a cabin's door");
             var launch=All<DockingPad>().Single(d=>d.scene=="TallowApproach");
-            Assert.Greater(Flat(launch.transform.position,Sign("PRESSURE LIFT").transform.position),2,"PRESSURE LIFT lies under the feet of everyone standing on the launch spot: it only ever shows faded to a ghost");
+            // It stands on the lift's own lintel now, a metre from the launch spot and three over it: what this asks is that nobody standing there thins it out, and that's what it says.
+            var lift=Sign("PRESSURE LIFT");
+            Assert.Greater(lift.transform.position.y,3,"PRESSURE LIFT lies under the feet of everyone standing on the launch spot: it only ever shows faded to a ghost");
+            Assert.IsTrue(lift.GetComponent<SignFade>().bossOnly,"PRESSURE LIFT thins out under a hero standing a storey below it: it only ever shows faded to a ghost");
         }
 
         // ---------------------------------------------------------------- item 2: what stands over a fight
@@ -630,7 +633,10 @@ namespace Lattice.Tests.PlayMode
             Assert.IsEmpty(kit.GetComponentsInChildren<Collider>(),"the job's kit is solid and off the bake: it can trap someone");
             Assert.GreaterOrEqual(kit.GetComponentsInChildren<Renderer>().Length,5,"the opening has no edge to it");
             Flag(OpeningMarketSequence.Repaired);yield return null;yield return null;
-            Assert.IsFalse(kit.gameObject.activeInHierarchy,"the kit stays out once the walkway's mended");
+            Assert.IsFalse(All<Transform>().Where(t=>t.name=="Opening edge").Any(t=>t.gameObject.activeInHierarchy),"the job's painted edge stays round a hole that's been closed");
+            // The kit stays a while, as if someone's still packing up: QaWorldThirdTests. It doesn't stay for good.
+            Flag("warpkey");yield return null;yield return null;
+            Assert.IsFalse(kit.gameObject.activeInHierarchy,"the kit stays out for the rest of the game once the walkway's mended");
         }
         [UnityTest] public IEnumerator ThePassageGoesOnPastItsRim()
         {

@@ -52,7 +52,8 @@ namespace Lattice.Tests.PlayMode
         // 42.5 deep at the bottom. Content keeps about 10 units clear of each.
         internal static class FrameClear{public const float Side=44,Top=40,Bottom=50;}
         static Rect Box(RectTransform rt){var c=new Vector3[4];rt.GetWorldCorners(c);return Rect.MinMaxRect(c[0].x,c[0].y,c[2].x,c[2].y);}
-        static void Inside(string frameName,string[] texts,string[] bars,List<string> failures)
+        /// <param name="weight">How much lighter the frame is drawn than the sheet's weight, which is what the art's top and bottom depths above go by: the same 10 clear of the art it really has, up and down, where a frame as tall as its words needs it. Its sides didn't change, and keep the old numbers.</param>
+        static void Inside(string frameName,string[] texts,string[] bars,List<string> failures,float weight=1)
         {
             var frame=Object.FindObjectsByType<RectTransform>(FindObjectsSortMode.None).FirstOrDefault(r=>r.name==frameName);Assert.IsNotNull(frame,"missing "+frameName);
             // Look only inside the frame's own canvas: other surfaces reuse names like "Status".
@@ -61,7 +62,7 @@ namespace Lattice.Tests.PlayMode
             void Check(string name,Vector3 lo,Vector3 hi)
             {
                 float left=(lo.x-outer.xMin)/scale,right=(outer.xMax-hi.x)/scale,bottom=(lo.y-outer.yMin)/scale,top=(outer.yMax-hi.y)/scale;
-                if(left<FrameClear.Side||right<FrameClear.Side||bottom<FrameClear.Bottom||top<FrameClear.Top)failures.Add($"{frameName}/{name} crowds the border ({left:0} left, {right:0} right, {bottom:0} bottom, {top:0} top)");
+                if(left<FrameClear.Side||right<FrameClear.Side||bottom<FrameClear.Bottom-42.5f+42.5f/weight||top<FrameClear.Top-30+30/weight)failures.Add($"{frameName}/{name} crowds the border ({left:0} left, {right:0} right, {bottom:0} bottom, {top:0} top)");
             }
             foreach(string name in texts)
             {
@@ -100,7 +101,8 @@ namespace Lattice.Tests.PlayMode
             Audit("hud",failures);
             // Framed HUD content clears its frame's artwork (the dialogue panel's rule).
             Inside("VitalsFrame",new[]{"Status","IntegrityLabel","ChargeLabel","ThrustLabel","Partner"},new[]{"IntegrityBack","ChargeBack","ThrustBack"},failures);
-            Inside("ObjectiveFrame",new[]{"Objective"},new string[0],failures);
+            // Drawn at half weight, and as tall as its words: at the sheet's depths its one line would stand in a box 118 tall.
+            Inside("ObjectiveFrame",new[]{"Objective"},new string[0],failures,2);
             // The partner line is longest when the partner is down and waiting for help.
             var party=Lattice.Combat.PartyController.Current;var partner=party.members[1-party.index];
             partner.Health.Receive(new Lattice.Combat.DamagePacket{amount=partner.Health.maximum*10});yield return new WaitForSecondsRealtime(.3f);

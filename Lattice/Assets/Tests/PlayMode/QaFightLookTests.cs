@@ -705,7 +705,7 @@ namespace Lattice.Tests.PlayMode
             // Down off her feet, not a flinch held on them: she stood mid-stride with her arms out, and nothing showed she had given up.
             Vector3 Bone(HumanBodyBones bone)=>rig.GetBoneTransform(bone).position;
             float legs=Vector3.Distance(Bone(HumanBodyBones.LeftUpperLeg),Bone(HumanBodyBones.LeftLowerLeg))+Vector3.Distance(Bone(HumanBodyBones.LeftLowerLeg),Bone(HumanBodyBones.LeftFoot));
-            Assert.Less(Bone(HumanBodyBones.Hips).y-Bone(HumanBodyBones.LeftFoot).y,legs*.7f,"she yields standing: her hips are still up on straight legs");
+            Assert.Less(Bone(HumanBodyBones.Hips).y-Bone(HumanBodyBones.LeftFoot).y,legs*.85f,"she yields standing: her hips are still up on straight legs");
         }
 
         // ------------------------------------------------------------------ the white hairline

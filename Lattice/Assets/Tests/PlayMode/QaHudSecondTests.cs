@@ -123,8 +123,7 @@ namespace Lattice.Tests.PlayMode
             }
             float low=shape.Min(p=>p.y),high=shape.Max(p=>p.y),wide=shape.Max(p=>p.x)-shape.Min(p=>p.x),length=high-low;
             Assert.GreaterOrEqual(length/wide,1.5f,"the arrow isn't long and slim: it's a triangle");
-            var notch=shape.Where((p,i)=>i!=tip&&Mathf.Abs(p.x)<.001f).ToArray();Assert.AreEqual(1,notch.Length,"the arrow has no notch on its axis");
-            Assert.GreaterOrEqual((notch[0].y-low)/length,.22f,"the notch is too shallow to give the arrow a tail");
+            var notch=shape.Where((p,i)=>i!=tip&&Mathf.Abs(p.x)<.001f).ToArray();Assert.IsEmpty(notch,"the arrow has a notch on its axis: at this size it forks into a V or a Y, and turned up and left it's a mouse pointer");
             // Still drawn at the type floor, the small one too: it sits on a line of type and has to read beside it.
             foreach(string name in new[]{"ObjectiveArrow","ObjectiveAlsoArrow"})
             {
@@ -226,7 +225,7 @@ namespace Lattice.Tests.PlayMode
             BarkService.Play("Taren","swap",true);yield return null;yield return null;yield return null;
             Assert.IsTrue(Picture("InteractionPlate").enabled&&Picture("BarkPlate").enabled,"fixture: the prompt and the bark are up");
             var bark=Picture("BarkPlate");
-            Assert.That(bark.color.a,Is.InRange(.4f,.8f),"a bark's plate is a solid box, and Orrin's sat on the very tender he was saying was free");
+            Assert.That(bark.color.a,Is.InRange(.8f,.9f),"a bark's plate either goes muddy on a bright floor, with the slab showing through it on a dark one, or is a solid box lying on the very tender Orrin is saying is free");
             var at=Behind(Picture("InteractionPlate").rectTransform,.75f);var hound=Awake(at);
             yield return Hold(hound,at,.3f);
             Assert.Less(Plate("InteractionPlate"),.42f,"an awake enemy is behind the prompt and its plate stays solid");
@@ -256,12 +255,12 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(under.xMin>=outer.xMin&&under.xMax<=outer.xMax&&under.yMin>=outer.yMin&&under.yMax<=outer.yMax,"the backing shows past the frame's cut corners");
             panel.Hide();yield return null;
             Assert.IsFalse(backing.isActiveAndEnabled,"the backing stays on the screen with the box gone");
-            Image Backdrop(string surface)=>Object.FindObjectsByType<Image>(FindObjectsSortMode.None).First(i=>i.name=="Dim"&&i.canvas.rootCanvas.name==surface);
+            // The world shows round them now, dimmed, which QaHudThirdTests pins. What their rows stand on lets nothing through.
             var menu=Object.FindFirstObjectByType<PauseMenu>();menu.Open();yield return null;
-            Assert.AreEqual(1,Backdrop("Menus").color.a,.001f,"the pause menu lets the world through: a bright sign read as a footer under every page");
+            Assert.AreEqual(1,Picture("MenuPanelBacking").color.a,.001f,"the pause menu's plate lets the world through: a bright sign read as a footer under every page");
             menu.Close();yield return null;yield return null;
             var shop=Object.FindFirstObjectByType<ShopUi>();shop.Open(GameCatalog.Find<ShopInventory>("Lanternwick"));yield return null;
-            Assert.AreEqual(1,Backdrop("Shop").color.a,.001f,"the shop lets the world through: a sign read as ghost letters between its rows");
+            Assert.AreEqual(1,Picture("ShopPanelBacking").color.a,.001f,"the shop's plate lets the world through: a sign read as ghost letters between its rows");
             shop.Close();
         }
         static TextMeshPro[] Faded()=>Object.FindObjectsByType<SignFade>(FindObjectsSortMode.None).Select(f=>f.GetComponent<TextMeshPro>()).ToArray();

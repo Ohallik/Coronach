@@ -45,7 +45,7 @@ namespace Lattice.Combat
                 float angle=i*Mathf.PI*2/edge.positionCount;
                 edge.SetPosition(i,new Vector3(Mathf.Sin(angle)*radius,.8f,Mathf.Cos(angle)*radius));
             }
-            edge.startColor=edge.endColor=actor.character=="Taren"?new Color(1,.65f,.2f,.8f):new Color(.1f,.8f,1,.8f);edge.enabled=true;
+            edge.startColor=edge.endColor=actor.character=="Taren"?new Color(GroundRing.Friendly.r,GroundRing.Friendly.g,GroundRing.Friendly.b,.8f):new Color(.1f,.8f,1,.8f);edge.enabled=true;
         }
         void Resolve(int dash,Vector3 from,Vector3 to)
         {
@@ -71,7 +71,7 @@ namespace Lattice.Combat
             // five frame-count samples which could advertise damage ahead.
             float distance=delta.magnitude;
             for(float sample=1-effectTravel;sample<=distance;sample+=1)
-                CombatVfx.Burst(a+delta*(sample/distance),actor.character=="Taren"?new Color(1,.65f,.2f):Color.cyan,"lunge");
+                CombatVfx.Burst(a+delta*(sample/distance),actor.character=="Taren"?GroundRing.Friendly:Color.cyan,"lunge");
             effectTravel=(effectTravel+distance)%1;
         }
     }

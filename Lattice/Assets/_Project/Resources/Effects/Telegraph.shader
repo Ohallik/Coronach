@@ -69,6 +69,7 @@ Shader "Lattice/Telegraph"
             #pragma fragment Frag
             half4 Frag(Varyings input):SV_Target
             {
+                clip(1.0005-input.uv.x);
                 // A marking tinted faint on purpose (a lit relay's ward) is a boundary, not a danger: it stays out of the walls.
                 half alpha=Rim(EdgeMetres(input))*0.42*_Through*_Fade*_BaseColor.a*step(0.99,_BaseColor.a)*saturate(input.scale.z);
                 clip(alpha-0.004);
@@ -90,6 +91,8 @@ Shader "Lattice/Telegraph"
             #pragma fragment Frag
             half4 Frag(Varyings input):SV_Target
             {
+                // uv.x runs on past 1 where a lane has gone on under a hill: its paint ended at the rim before that.
+                clip(1.0005-input.uv.x);
                 float2 metres=max(input.scale.xy,0.01);
                 float edge=EdgeMetres(input);
                 half rim=Rim(edge);
@@ -108,9 +111,10 @@ Shader "Lattice/Telegraph"
                 alpha=max(alpha,keyline*0.6);
                 colour=lerp(colour,_BaseColor.rgb*1.5,rim);
                 alpha=max(alpha,rim);
-                // The strike's flash: at half opacity and most of the way to white, a small burst was a white disc under whatever stood in it, and a wide one a pale sheet.
-                colour=lerp(colour,half3(1,1,1),_Flash*0.35);
-                alpha=saturate(alpha+_Flash*0.18)*_Fade*_BaseColor.a;
+                // The strike's flash lights the marking's own lines and rim. Across the whole of it, a small burst was a white disc under whatever stood in it, a wide one a pale sheet,
+                // and a lane on flight's dark floor a flat salmon slab.
+                colour=lerp(colour,half3(1,1,1),_Flash*0.22);
+                alpha=saturate(alpha+_Flash*(0.05+hatch*0.35))*_Fade*_BaseColor.a;
                 return half4(colour,alpha);
             }
             ENDHLSL

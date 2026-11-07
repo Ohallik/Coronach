@@ -287,11 +287,12 @@ namespace Lattice.Tests.PlayMode
             var drawn=reticle.canvas.GetComponentsInChildren<Graphic>().ToList();
             foreach(string plate in new[]{"TargetPlate","VitalsFrame"})
                 Assert.Less(drawn.IndexOf(reticle),drawn.IndexOf(Picture(plate)),$"the reticle is drawn over {plate}: its brackets cut through the words ('LO..KED')");
-            var words=Text("Target");var frame=Picture("TargetPlate");var c=new Vector3[4];frame.rectTransform.GetWorldCorners(c);
-            // A locked target moved up the screen makes the flight camera reframe, so it's held under the plate until the camera settles.
+            var words=Text("Target");var frame=Picture("ObjectiveFrame");var c=new Vector3[4];frame.rectTransform.GetWorldCorners(c);
+            // A locked target moved up the screen makes the flight camera reframe, so it's held under the plate until the camera settles. Not its own plate: in flight that moves off a target behind it, which QaHudThirdTests pins.
+            float held=dart.transform.position.y+.3f;
             for(int settling=0;settling<90;settling++)
             {
-                var ray=camera.ScreenPointToRay((c[0]+c[2])*.5f);dart.transform.position=ray.GetPoint((dart.transform.position.y+.3f-ray.origin.y)/ray.direction.y);
+                var ray=camera.ScreenPointToRay((c[0]+c[2])*.5f);dart.transform.position=ray.GetPoint((held-ray.origin.y)/ray.direction.y);
                 Physics.SyncTransforms();yield return null;
             }
             yield return null;Assert.IsTrue(reticle.enabled,"fixture: the lock held");
@@ -341,12 +342,13 @@ namespace Lattice.Tests.PlayMode
             yield return Hold(hound,at,.3f);
             Assert.Less(Plate("TargetPlate"),.42f,"the locked target is behind the target plate and the plate stays solid");
             hound.transform.position=hero.transform.position+Vector3.right*30;Physics.SyncTransforms();
-            // A prompt the hero is reading gives way only to the hero: the partner walking behind it mustn't take it away.
+            // A prompt's plate gives way to the partner as well, even on a calm walk: it cut her wing, and only the plate goes, with the words staying to be read.
             var fixture=new GameObject("Prompt fixture").AddComponent<FixturePrompt>();fixture.prompt="Finish the walkway repair";fixture.range=6;fixture.transform.position=hero.transform.position;
             yield return null;yield return null;
             Put(partner,Behind(Picture("InteractionPlate").rectTransform,1));
             yield return new WaitForSecondsRealtime(.25f);
-            Assert.Greater(Plate("InteractionPlate"),.98f,"the prompt the hero is standing at fades because the partner walked behind it");
+            Assert.Less(Plate("InteractionPlate"),.42f,"the prompt's plate lies on the partner walking behind it, solid");
+            Assert.AreEqual(1,Text("Interaction").alpha*Text("Interaction").canvasRenderer.GetAlpha(),.01f,"the prompt the hero is standing at loses its words because the partner walked behind it");
             Object.Destroy(fixture.gameObject);
         }
 
@@ -376,8 +378,10 @@ namespace Lattice.Tests.PlayMode
             var partner=Partner;Hero.Health.InvulnerableUntil=partner.Health.InvulnerableUntil=GameTime.Now+10;
             // A fight: on a calm walk the partner doesn't move it, which QaHudSecondTests pins.
             Spawn("Ridgehound",Hero.transform.position+Vector3.right*6+Vector3.back*3).Passive=false;Put(partner,Behind(plate.rectTransform,1));
-            yield return new WaitForSecondsRealtime(.3f);
-            Assert.Less(Plate("BarkPlate"),.42f,"the partner is behind a bark and the plate stays solid");
+            yield return new WaitForSecondsRealtime(.45f);
+            // A plate that only faded left its words lying on her, so it slides clear along its column. QaHudThirdTests pins that, and QaHudSecondTests the fade for what isn't a hero.
+            var chest=(Vector2)Camera.main.WorldToScreenPoint(partner.transform.position+Vector3.up);
+            Assert.IsFalse(Box(plate.rectTransform).Contains(chest),"the partner is behind a bark and its words stay lying on her");
         }
 
         // ------------------------------------------------------------------ items 7 and 13: what the objective says and points at
@@ -683,11 +687,13 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator TheBossCardEntersAboveTheHeroAndClearOfThePlates()
         {
             var hero=Hero;hero.Health.InvulnerableUntil=GameTime.Now+30;
-            var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),hero.transform.position+Vector3.forward*12);boss.Passive=false;
-            yield return new WaitForSecondsRealtime(.55f);
+            // Held where she's put: where the camera carries the hero is down to where she stands, and this reads it while the card is up.
+            var hessaAt=hero.transform.position+Vector3.forward*12;var boss=ActorFactory.Enemy(GameCatalog.Find<EnemyDef>("HessaKorl"),hessaAt);boss.Passive=false;
+            yield return Hold(boss,hessaAt,.55f);
             var card=Text("BossTitleCard");var line=Text("BossTitleEpithet");Assert.IsTrue(card.isActiveAndEnabled&&line.isActiveAndEnabled&&card.alpha>.5f,"fixture: the card is up");
             StringAssert.Contains("HESSA KORL",card.text,"fixture: her name");
             Assert.AreEqual("Cinzel SDF",card.font.name,"the card isn't in the game's display face: it reads as a label, not an entrance");
+            // With her this far up the screen the camera carries the hero down, so the card stands over him: QaHudThirdTests pins the place it takes with a boss close by.
             var head=Camera.main.WorldToScreenPoint(hero.transform.position+Vector3.up*2.1f);
             Assert.Greater(Box(line.rectTransform).yMin,head.y,"the card lies across the hero, over whatever is marked under them");
             foreach(string plate in new[]{"VitalsFrame","ObjectiveFrame"})
@@ -727,7 +733,8 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual("Cinzel SDF",card.font.name,"the card isn't in the boss card's display face");
             var words=Text("ChapterCardBody");var screen=Box((RectTransform)card.canvas.transform);
             Assert.AreEqual(screen.center.x,Box(card.rectTransform).center.x,screen.width*.02f,"the card isn't centred");
-            Assert.AreEqual(screen.center.y,(Box(card.rectTransform).center.y+Box(words.rectTransform).center.y)*.5f,screen.height*.12f,"the card isn't in the middle of the screen");
+            // Off the middle of the frame, where the party stands, as QaHudThirdTests pins with the party in it: both heroes stood behind its words.
+            Assert.Less(Box(Picture("ChapterCardFrame").rectTransform).yMax,screen.center.y,"the card is back across the middle of the screen, on the party");
             Assert.IsFalse(Picture("QuestToastFrame").gameObject.activeInHierarchy,"the corner card shows the same words beside it");
             StringAssert.Contains("road runs on to Xylos",words.text,"nothing says plainly that the road goes on");
             foreach(var developer in new[]{"for today","stops here","build"})StringAssert.DoesNotContain(developer,words.text,"the card sounds like a developer's note");

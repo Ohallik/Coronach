@@ -39,7 +39,7 @@ namespace Lattice.UI
         }
         void Bench()=>GetComponent<PauseMenu>().Open(PauseMenu.FabricatePage,true);
         void Shop(ShopInventory inventory)=>GetComponent<ShopUi>().Open(inventory);
-        void Request(string action){if(action=="bench")Bench();else if(action=="shop")Shop(ZoneController.Current!=null?GameCatalog.Find<ShopInventory>(ZoneController.Current.definition.id):null);else if(action=="repair")RepairBay.Repair();}
+        void Request(string action){if(action=="bench")Bench();else if(action=="shop")GetComponent<ShopUi>().Open(ZoneController.Current!=null?GameCatalog.Find<ShopInventory>(ZoneController.Current.definition.id):null,DialogueSystem.Current!=null?DialogueSystem.Current.Speaker:null);else if(action=="repair")RepairBay.Repair();}
         void Join(string id)
         {
             var party=PartyController.Current;float spacing=party.Active.flight?HeroCollision.ArrivalSpacing:2;

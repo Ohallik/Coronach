@@ -934,8 +934,8 @@ namespace Lattice.Tests.PlayMode
             Place(lead,Inside(lane,floor));Place(partner,JustOutside(lane,floor));yield return null;
             Assert.IsTrue(lane.Contains(lead.transform.position),"fixture: he stands in the lane");
             float onLane=lead.Health.integrity,offLane=partner.Health.integrity;
-            // Until the breath that follows it marks its ring: that one is allowed to reach him.
-            for(float end=Time.unscaledTime+3.2f;Time.unscaledTime<end&&!Telegraph.Live.Any(t=>t!=null&&t.owner==boss&&!t.Released&&t.Shape==Telegraph.Kind.Circle);)yield return null;
+            // Until the breath that follows it marks anything, its ring or with an organ pumping its half: that one is allowed to reach him.
+            for(float end=Time.unscaledTime+3.2f;Time.unscaledTime<end&&!Telegraph.Live.Any(t=>t!=null&&t.owner==boss&&!t.Released&&t.Shape!=Telegraph.Kind.Line);)yield return null;
             Assert.Less(lead.Health.integrity,onLane,"the crossing passed through a hero standing in its lane");
             Assert.AreEqual(offLane,partner.Health.integrity,.01f,"the crossing struck a hero just outside its lane");
         }

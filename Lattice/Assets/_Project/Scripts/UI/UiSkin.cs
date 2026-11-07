@@ -83,9 +83,9 @@ namespace Lattice.UI
             }
             return Drawn(id,size,pixels,new Vector4(31,31,31,31));
         }
-        /// <summary>The arrow's outline, tip up, in the sprite's -1 to 1. Long and slim, the tip well past everything else, the wing ends blunt and a notch behind them, so it has one sharp end
-        /// at any rotation. The wings used to reach further from the middle than the tip (1.08 against .92), and it read as a plain triangle aimed 120 degrees off.</summary>
-        public static readonly Vector2[] PointerOutline={new(0,.98f),new(.48f,-.56f),new(.32f,-.68f),new(0,-.26f),new(-.32f,-.68f),new(-.48f,-.56f)};
+        /// <summary>The arrow's outline, tip up, in the sprite's -1 to 1. A long tip, narrow wings and a short blunt tail behind them, so it has one sharp end at any rotation. The wings used to reach further
+        /// from the middle than the tip, and it read as a triangle aimed 120 degrees off. No notch, and the outline stays convex: at the size it's drawn a notch forked it into a V or a Y pointing down, and Y means Swap on the same screen, and up and left it was a desktop mouse pointer.</summary>
+        public static readonly Vector2[] PointerOutline={new(0,.98f),new(.44f,-.46f),new(.24f,-.72f),new(-.24f,-.72f),new(-.44f,-.46f)};
         /// <summary>A solid arrowhead pointing up, for what the objective points at: drawn in code, not art.</summary>
         public static Sprite Pointer()
         {
@@ -104,7 +104,7 @@ namespace Lattice.UI
             }
             return Drawn(id,size,pixels,Vector4.zero);
         }
-        /// <summary>Crossings counted along a line: the notch makes the outline concave.</summary>
+        /// <summary>Crossings counted along a line, which holds for whatever the outline is.</summary>
         static bool InPointer(Vector2 p)
         {
             bool inside=false;var shape=PointerOutline;
@@ -112,11 +112,27 @@ namespace Lattice.UI
                 if((shape[i].y>p.y)!=(shape[j].y>p.y)&&p.x<(shape[j].x-shape[i].x)*(p.y-shape[i].y)/(shape[j].y-shape[i].y)+shape[i].x)inside=!inside;
             return inside;
         }
-        static Sprite Drawn(string id,int size,Color32[] pixels,Vector4 border)
+        /// <summary>What lies over the right side of a bust, in the plate's own colour, so a shoulder goes into the box rather than stopping on a line. The seat's soft edge alone wasn't enough, and the reason is
+        /// measured: the canvas blends in light and the eye reads in sRGB, so its straight ramp in light left a bright shawl at 66 levels four units from the cut, 47 at two and 19 at the cut. What this lets through falls by the eye's own curve, so what's seen falls evenly.
+        /// It fades out upward as well: on all 288 cells the art only reaches the seat's edge below the chin, and above that it would lie across hair and cheeks for no gain.</summary>
+        public static Sprite BustFade()
         {
-            var texture=new Texture2D(size,size,TextureFormat.RGBA32,false){name=id,wrapMode=TextureWrapMode.Clamp,hideFlags=HideFlags.DontUnloadUnusedAsset};
-            texture.SetPixels32(pixels);texture.Apply(false,true);
-            var sprite=Sprite.Create(texture,new Rect(0,0,size,size),new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect,border);
+            const string id="bustfade";const int wide=96,high=64;const float fullTo=.7f;
+            if(Cache.TryGetValue(id,out var known)&&known!=null)return known;
+            var pixels=new Color32[wide*high];
+            for(int y=0;y<high;y++)for(int x=0;x<wide;x++)
+            {
+                float through=Mathf.Pow(1-x/(wide-1f),2.2f),rise=Mathf.Clamp01((y/(high-1f)-fullTo)/(1-fullTo));
+                pixels[y*wide+x]=new Color32(255,255,255,(byte)(255*(1-through)*(1-Mathf.SmoothStep(0,1,rise))));
+            }
+            return Drawn(id,wide,high,pixels,Vector4.zero,true);
+        }
+        static Sprite Drawn(string id,int size,Color32[] pixels,Vector4 border)=>Drawn(id,size,size,pixels,border,false);
+        static Sprite Drawn(string id,int wide,int high,Color32[] pixels,Vector4 border,bool readable)
+        {
+            var texture=new Texture2D(wide,high,TextureFormat.RGBA32,false){name=id,wrapMode=TextureWrapMode.Clamp,hideFlags=HideFlags.DontUnloadUnusedAsset};
+            texture.SetPixels32(pixels);texture.Apply(false,!readable);
+            var sprite=Sprite.Create(texture,new Rect(0,0,wide,high),new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect,border);
             sprite.name=id;sprite.hideFlags=HideFlags.DontUnloadUnusedAsset;Cache[id]=sprite;return sprite;
         }
 

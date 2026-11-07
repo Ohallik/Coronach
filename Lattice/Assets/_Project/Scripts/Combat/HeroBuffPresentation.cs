@@ -1,4 +1,4 @@
-﻿using Lattice.Core;
+using Lattice.Core;
 using Lattice.Data;
 using UnityEngine;
 namespace Lattice.Combat
@@ -44,7 +44,7 @@ namespace Lattice.Combat
                 var hand=rig.GetBoneTransform(i==0?HumanBodyBones.LeftHand:HumanBodyBones.RightHand);
                 particles[i].position=transform.InverseTransformPoint(hand.position);
                 particles[i].startSize=overdrive?.65f:1.1f;
-                particles[i].startColor=overdrive?new Color(1,.65f,.15f,.7f):new Color(.15f,.85f,1,.75f);
+                particles[i].startColor=overdrive?new Color(1.1f,1.06f,.95f,.7f):new Color(.15f,.85f,1,.75f);
                 particles[i].startLifetime=particles[i].remainingLifetime=1000;
             }
             effect.SetParticles(particles,count);

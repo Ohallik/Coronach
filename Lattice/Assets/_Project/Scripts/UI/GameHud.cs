@@ -17,9 +17,17 @@ namespace Lattice.UI
         /// <summary>Places by the 1080p layout's coordinates, held from the nearest corner or edge: the same pixels at 16:9, and still in
         /// its corner on any other screen. Everything used to hang from the bottom-left and ran off the top of a 21:9 screen.</summary>
         static RectTransform Corner(GameObject go,Vector2 anchor,Vector2 pos,Vector2 size)=>UiKit.Rect(go,anchor,anchor,pos-Vector2.Scale(anchor,new(1920,1080)),size);
-        RectTransform vitals,skillRow;ObjectiveHud objective;QuestToast toast;BarkPanel barks;TextPlate targetPlate,skillsPlate;
+        RectTransform vitals,skillRow;ObjectiveHud objective;QuestToast toast;BarkPanel barks;PickupFeed feed;TextPlate targetPlate,skillsPlate;
         /// <summary>How far off an awake enemy is worth a look, and how near one makes this a fight, which is when a partner behind a plate counts: on a calm walk she dimmed the objective for nothing. A flight's fights stand further off.</summary>
-        const float AwakeRange=60,FightRange=18,FlightFightRange=45;
+        const float AwakeRange=60;
+        internal const float FightRange=18,FlightFightRange=45;
+        /// <summary>A little round the point a goal or a prompt's thing is known by: a pad or a ship's wing is wider than its middle.</summary>
+        const float GoalRound=40,PromptRound=60,ShipRound=130;
+        /// <summary>Flight's targets come in from the top, where the target plate stands. It steps down this far when its own target is behind it, a little past the lock's brackets, and goes home when that's over, with this much to spare so a target on the line doesn't send it up and down.</summary>
+        const float TargetStep=170,TargetStepHold=30,TargetStepPerSecond=1000,ShipRoom=60;
+        float targetDrop;Vector2 targetHome;
+        /// <summary>How much room over the prompt a sign has to leave.</summary>
+        const float PromptHeadroom=190;RectTransform promptFrame;
         /// <summary>How far the lock's brackets reach from its middle: they cross a stepped-aside plate's words before the middle is behind it, and they dim from there, the margin they always had.</summary>
         const float ReticleReach=45;
         readonly PanelFade[] panels=new PanelFade[8];
@@ -60,7 +68,7 @@ namespace Lattice.UI
             canvas=UiKit.CreateCanvas("HUD",5,transform);
             // Every line reads at 16 px or more on a 1280x720 screen (24 units at the
             // 1080p reference): each label has its own row above its bar.
-            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");frame.pixelsPerUnitMultiplier=2;vitals=Corner(frame.gameObject,TopLeft,new(277,918),new(524,298));frame.raycastTarget=false;objective=GetComponent<ObjectiveHud>();toast=GetComponent<QuestToast>();barks=GetComponent<BarkPanel>();
+            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");frame.pixelsPerUnitMultiplier=2;vitals=Corner(frame.gameObject,TopLeft,new(277,918),new(524,298));frame.raycastTarget=false;objective=GetComponent<ObjectiveHud>();toast=GetComponent<QuestToast>();barks=GetComponent<BarkPanel>();feed=GetComponent<PickupFeed>();
             status=Text("Status",TopLeft,new(297,1010),new(470,38),28,TextAlignmentOptions.Left);
             hpLabel=Text("IntegrityLabel",TopLeft,new(297,976),new(470,30),24,TextAlignmentOptions.Left);
             chargeLabel=Text("ChargeLabel",TopLeft,new(297,933),new(470,30),24,TextAlignmentOptions.Left);
@@ -69,7 +77,7 @@ namespace Lattice.UI
             charge=Bar("Charge",new(262,912),new Color(.18f,.66f,1));
             thrust=Bar("Thrust",new(262,869),new Color(1,.65f,.2f));
             partner=Text("Partner",TopLeft,new(279,833),new(435,32),24,TextAlignmentOptions.Left);
-            target=Text("Target",TopCentre,new(960,972),new(700,80),25);
+            target=Text("Target",TopCentre,new(960,972),new(700,80),25);targetHome=target.rectTransform.anchoredPosition;
             // Centred between the objective frame's top edge (987.5) and the top of the screen: at 1000 its words sat on that edge.
             zone=Text("Zone",TopRight,new(1635,1034),new(500,60),26,TextAlignmentOptions.Right);
             skills=Text("Skills",BottomLeft,new(625,50),new(1190,60),24);
@@ -77,7 +85,7 @@ namespace Lattice.UI
             UiKit.Legible(skills);UiKit.Legible(prompt);UiKit.Legible(target);UiKit.Legible(zone).color=UiKit.LooseTextColor;
             // Only a panel's plate steps aside, so what it says has to hold on the floor without it.
             foreach(var word in new[]{status,hpLabel,chargeLabel,thrustLabel,partner})UiKit.Legible(word).color=UiKit.LooseTextColor;
-            var promptPlate=TextPlate.Attach(prompt,"InteractionPlate");skillsPlate=TextPlate.Attach(skills,"SkillsPlate",34);targetPlate=TextPlate.Attach(target,"TargetPlate",34);
+            var promptPlate=TextPlate.Attach(prompt,"InteractionPlate");promptFrame=promptPlate.Frame.rectTransform;skillsPlate=TextPlate.Attach(skills,"SkillsPlate",34);targetPlate=TextPlate.Attach(target,"TargetPlate",34);
             // The zone's name had nothing behind it, and a strut or a neon strip ran straight through its letters.
             var zonePlate=TextPlate.Attach(zone,"ZonePlate",24);
             panels[0]=new PanelFade(vitals,frame);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame);panels[2]=new PanelFade(promptPlate.Frame.rectTransform,promptPlate.Frame);
@@ -125,13 +133,13 @@ namespace Lattice.UI
             // Under the skill icons: the band's lower edge reaches the first two, and a fight's next press mustn't go dim for it.
             bossRoot.transform.SetSiblingIndex(skillIcons[0].transform.GetSiblingIndex());
             bossRoot.SetActive(false);
-            // The title card: the boss's name as its fight begins, in the band over the hero and under the target plate, clear of both corners.
-            // Across the middle of the screen it lay on the hero and on the first marked attack. With a dark band behind it, it hid a boss standing under it from the hips up: its words hold on their own for the moment they're up.
-            bossRule=UiKit.Panel(canvas.transform,"BossTitleRule",UiKit.GoldColor);bossRule.raycastTarget=false;bossRule.enabled=false;bossCardRule=Corner(bossRule.gameObject,TopCentre,new(960,811),new(620,3));
+            // The title card: the boss's name as its fight begins, in a film title's place just over the bar. SeatBossCard moves it when the camera is about to carry the hero down into that place.
+            // Across the middle of the screen it lay on the hero and on the first marked attack, and under the target plate it lay on the boss, her name and the numbers across her from the hips up. Its words hold on their own for the moment they're up.
+            bossRule=UiKit.Panel(canvas.transform,"BossTitleRule",UiKit.GoldColor);bossRule.raycastTarget=false;bossRule.enabled=false;bossCardRule=Corner(bossRule.gameObject,BottomCentre,new(960,CardLow+CardRuleUp),new(620,3));
             bossCard=UiKit.Legible(UiKit.Heading(canvas.transform,"BossTitleCard","",58,new Color(1,.93f,.8f)));
-            Corner(bossCard.gameObject,TopCentre,new(960,850),new(740,76));bossCard.textWrappingMode=TextWrappingModes.NoWrap;bossCard.raycastTarget=false;
+            Corner(bossCard.gameObject,BottomCentre,new(960,CardLow+CardNameUp),new(740,76));bossCard.textWrappingMode=TextWrappingModes.NoWrap;bossCard.raycastTarget=false;
             bossCardEpithet=UiKit.Legible(UiKit.Text(canvas.transform,"BossTitleEpithet","",28,UiKit.LooseTextColor,TextAlignmentOptions.Center));
-            Corner(bossCardEpithet.gameObject,TopCentre,new(960,788),new(740,44));bossCardEpithet.raycastTarget=false;
+            Corner(bossCardEpithet.gameObject,BottomCentre,new(960,CardLow),new(740,44));bossCardEpithet.raycastTarget=false;
             bossCard.alpha=bossCardEpithet.alpha=0;
         }
         TMP_Text BossText(string name,Vector2 pos,int font,TextAlignmentOptions align)
@@ -149,7 +157,9 @@ namespace Lattice.UI
         {
             var boss=BossController.Focus(active.transform.position);bool show=boss!=null;
             if(bossRoot.activeSelf!=show)bossRoot.SetActive(show);
-            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;}
+            if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;cardSeated=false;}
+            // A conversation can open the fight, with the camera framed for the talk: the card waits for the bar to be seen, as its clock does.
+            if(show&&!cardSeated&&!GameInput.Current.Blocked){cardSeated=true;SeatBossCard(boss,active);}
             AdvanceBossCard();
             if(!show){shownBoss=null;shownCollar=null;return false;}
             var health=boss.Health;
@@ -172,6 +182,31 @@ namespace Lattice.UI
             if(bossState.text!=state)bossState.text=state;
             bossState.color=boss.Shifting?ShiftingWords:health.Broken?OpeningWords:UiKit.LooseTextColor;
             return true;
+        }
+        /// <summary>The card's epithet, from the foot of the screen in its usual place, or from the middle of the screen; and how far over it the rule and the name stand.</summary>
+        const float CardLow=278,CardMiddle=-28,CardRuleUp=23,CardNameUp=62;
+        /// <summary>The top of the part of the screen a boss's framing keeps it in (PartyController).</summary>
+        const float FightTop=.93f;
+        bool cardSeated=true;
+        /// <summary>Where the words stand, chosen as the card first shows and then left alone. Just over the bar they're clear of a boss the hero is close to, as Hessa is. But a big boss or a far one makes the camera slide until it fits, which carries the hero down to the bottom of his part of the screen, with his feet .25 to .3 up it at the Bellows and the Burrower: the words would lie on him, so they go in the gap between the two.
+        /// Read ahead, from where the boss's top stands now. A flight frames both from their middle.</summary>
+        void SeatBossCard(BossController boss,CombatActor hero)
+        {
+            bool middle=false;var camera=Camera.main;
+            if(camera!=null&&!hero.flight)
+            {
+                float reach=1,high=boss.transform.position.y+2;
+                foreach(var view in boss.GetComponentsInChildren<Renderer>())
+                    if(view is MeshRenderer||view is SkinnedMeshRenderer){var size=view.bounds;reach=Mathf.Max(reach,Mathf.Max(size.extents.x,size.extents.z));high=Mathf.Max(high,size.max.y);}
+                var away=camera.transform.forward;away.y=0;var top=boss.transform.position+away.normalized*(reach*.8f);top.y=high;
+                // Behind the lens a viewport reading comes back mirrored, and a boss far down the screen read as far up it.
+                var seen=camera.WorldToViewportPoint(top);
+                float feet=camera.WorldToViewportPoint(hero.transform.position).y-(seen.z>0?Mathf.Max(0,seen.y-FightTop):0);
+                middle=feet<(CardLow+CardNameUp+38)/((RectTransform)canvas.transform).rect.height+.02f;
+            }
+            var anchor=middle?Middle:BottomCentre;float from=middle?CardMiddle:CardLow;
+            void Put(RectTransform piece,float up){piece.anchorMin=piece.anchorMax=anchor;piece.anchoredPosition=new Vector2(0,from+up);}
+            Put(bossCardEpithet.rectTransform,0);Put(bossCardRule,CardRuleUp);Put(bossCard.rectTransform,CardNameUp);
         }
         /// <summary>The card enters: the name's letters close up as it fades in and a gold rule draws out under it. Its clock runs from when the bar can be seen: a conversation hides the HUD, and the card spent itself behind Hessa's.</summary>
         void AdvanceBossCard()
@@ -270,7 +305,8 @@ namespace Lattice.UI
                 float brackets=ReticleReach*canvas.scaleFactor;foreach(var panel in panels)if(panel!=null&&panel.Touches(screen,brackets)){mark.a*=.4f;break;}
                 reticle.color=mark;
             }
-            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
+            StepTargetPlate(a);
+            var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp&&!QuestToast.CardUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
             bool combat=ZoneController.Current.Combat;
             for(int i=0;i<4;i++)
             {
@@ -287,9 +323,12 @@ namespace Lattice.UI
             string Hint(string action,string label)=>PromptService.Tag(action)+"  "+label;
             // The first fight teaches swap (TEST_PLAN 4.1). At the widest a keyboard's words can make it, with the longest quick item, this strip stands 1091 of its 1190 at the type floor.
             string swap=combat&&party.members.Length>1?Hint("Swap","SWAP")+"    ":"";
+            // While a prompt would answer the press, the bar says so: it said A ATTACK under 'A Launch'. This is PlayerBrain's own test: no prompt with the boss bar up, and with an enemy on the hero the prompts shut themselves (Available), so A is the attack again.
+            // Only where it's one button, since a keyboard's E and J each still do what they say. INTERACT is 22 units on ATTACK, and the strip's widest would stand 1113 of its 1190 with it.
+            string press=a.flight?"Fire":"Attack",strike=combat?interaction!=null&&!bossUp&&PromptService.Tag("Interact")==PromptService.Tag(press)?Hint("Interact","INTERACT"):Hint(press,a.flight?"FIRE":"ATTACK"):"";
             skills.text=!combat?Hint("Interact","INTERACT")+(party.members.Length>1?"    "+Hint("Swap","SWAP"):"")+"    "+Hint(a.flight?"Boost":"Sprint",a.flight?"BOOST":"SPRINT")+(a.flight?"    "+Hint("Brake","BRAKE"):"")+"    "+Hint("Log","QUESTS")+"    "+Hint("Pause","MENU"):
-                a.flight?Hint("Fire","FIRE")+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+swap+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
-                Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+swap+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
+                a.flight?strike+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+swap+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
+                strike+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+swap+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
             StepAside(party,a);
         }
@@ -326,9 +365,11 @@ namespace Lattice.UI
             float now=Time.unscaledTime,fightRange=a.flight?FlightFightRange:FightRange;
             PanelFade.BeginPlates();
             foreach(var panel in panels)panel?.Measure();
-            // A sign is cut by these two as well, though they don't fade themselves.
+            // A sign is cut by these as well, though they don't fade themselves.
             if(skillsPlate.Frame.enabled)PanelFade.AddPlate(skillsPlate.Frame.rectTransform);
             if(ZoneController.Current.Combat)PanelFade.AddPlate(skillRow);
+            if(feed!=null&&feed.Band!=null)PanelFade.AddPlate(feed.Band);
+            if(panels[2]!=null&&panels[2].Showing)PanelFade.AddHeadroom(promptFrame,PromptHeadroom*canvas.scaleFactor);
             Watch(camera,a,now);
             if(a.target!=null&&a.target.Alive)Look(camera.WorldToScreenPoint(aim.Centre(a.target)),now);
             bool fight=shownBoss!=null;
@@ -345,7 +386,36 @@ namespace Lattice.UI
                 if(behind){Look(low,now);Look(high,now);}
             }
             if(fight&&party.members.Length>1)Watch(camera,party.members[1-party.index],now);
+            // Where the objective sends the party counts as well: it hid half of the launch pad it named. A goal behind the camera is behind nothing.
+            if(objective!=null&&objective.Goal.HasValue){var goal=camera.WorldToScreenPoint(objective.Goal.Value);float round=GoalRound*canvas.scaleFactor;foreach(var panel in panels)panel?.Near(goal,round,now);}
+            // The prompt is a bar across the low middle of the screen, where the party and what it's reaching for stand, and only its plate goes, so on a calm walk too: it cut Sela's wing, and lay on a warp under the warp's own sign.
+            var bar=panels[2];
+            if(bar.Showing)
+            {
+                float round=PromptRound*canvas.scaleFactor,body=(a.flight?ShipRound:PromptRound)*canvas.scaleFactor;
+                foreach(var member in party.members)bar.Near(camera.WorldToScreenPoint(member.transform.position+Vector3.up*(a.flight?0:.75f)),body,now);
+                foreach(var thing in InteractionPrompt.Active)bar.Near(camera.WorldToScreenPoint(thing.transform.position),round,now);
+            }
             foreach(var panel in panels)panel?.Step(now,Time.unscaledDeltaTime);
+        }
+        /// <summary>The words naming a Shellmine lay on the Shellmine. With its own target behind it in flight the plate steps down past it, unless that lands it on the ship. On foot the camera keeps a target lower on the screen, and the plate fades as any plate does.</summary>
+        void StepTargetPlate(CombatActor a)
+        {
+            float want=0;
+            if(a.flight&&reticle.enabled&&targetPlate.Frame.enabled)
+            {
+                float scale=canvas.scaleFactor;targetPlate.Frame.rectTransform.GetWorldCorners(corners);
+                float left=corners[0].x,right=corners[2].x,low=corners[0].y+targetDrop*scale,high=corners[1].y+targetDrop*scale,reach=(ReticleReach+(targetDrop>0?TargetStepHold:0))*scale;
+                Vector2 lockedAt=reticle.rectTransform.position;
+                if(lockedAt.x>left-reach&&lockedAt.x<right+reach&&lockedAt.y>low-reach)
+                {
+                    Vector2 ship=Camera.main.WorldToScreenPoint(a.transform.position);float step=TargetStep*scale,room=ShipRoom*scale;
+                    if(ship.x<left-room||ship.x>right+room||ship.y<low-step-room||ship.y>high-step+room)want=TargetStep;
+                }
+            }
+            if(targetDrop==want)return;
+            targetDrop=Mathf.MoveTowards(targetDrop,want,Time.unscaledDeltaTime*TargetStepPerSecond);
+            target.rectTransform.anchoredPosition=targetHome-new Vector2(0,targetDrop);
         }
         bool Behind(Vector3 screen){foreach(var panel in panels)if(panel!=null&&panel.Contains(screen))return true;return false;}
         void Look(Vector3 screen,float now){foreach(var panel in panels)panel?.Look(screen,now);}
@@ -353,8 +423,10 @@ namespace Lattice.UI
         void Watch(Camera camera,CombatActor hero,float now)
         {
             var at=hero.transform.position;bool standing=hero.Health.Alive&&!hero.flight;
-            Look(camera.WorldToScreenPoint(at+Vector3.up*(standing?1:.3f)),now);
+            var middle=camera.WorldToScreenPoint(at+Vector3.up*(standing?1:.3f));Look(middle,now);
             if(standing)Look(camera.WorldToScreenPoint(at+Vector3.up*1.7f),now);
+            // A ship goes by its hull, as it stands on the screen at this zoom: wedged in the gap between the objective and the card under it, its middle was behind neither, with only its wings showing and a wing cut off by the card.
+            else if(hero.flight){float hull=Mathf.Abs(camera.WorldToScreenPoint(at+camera.transform.right*HeroCollision.HullRadius(hero.character)).x-middle.x);foreach(var panel in panels)panel?.Near(middle,hull,now);}
         }
         static string TargetKeys(CombatActor a)=>PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK")+"    "+DeviceHints.CycleTarget()+"  SWITCH";
         /// <summary>The quick item and how many are left. None left reads as out of reach; a refused press flashes, as a refused skill's icon does.</summary>
@@ -459,17 +531,17 @@ namespace Lattice.UI
         }
         static readonly Vector3[] corners=new Vector3[4];
         /// <summary>A number floats where its body stands, but not across what the player reads mid-fight: the vitals, the objective, the target
-        /// plate, a boss's name while it's up, and the skill row and hint bar along the screen's foot. So it leaves them downward or toward the middle of the screen, whichever is nearer, or up off the foot.</summary>
+        /// plate, a boss's name while it's up, and the skill row and hint bar along the screen's foot. So it leaves the top's panels downward or toward the middle of the screen, whichever is nearer, and it goes up off the card, over the bar, and off the foot.</summary>
         Vector2 ClearOfFrames(Vector2 point,Vector2 size)
         {
             var root=(RectTransform)canvas.transform;
             for(int i=0;i<7;i++)
             {
-                var frame=i switch{0=>vitals,1=>objective!=null?objective.Frame:null,2=>targetPlate!=null&&targetPlate.Frame.enabled?targetPlate.Frame.rectTransform:null,3=>bossCard!=null&&bossCard.alpha>0?bossCard.rectTransform:null,4=>bossCardEpithet!=null&&bossCardEpithet.alpha>0?bossCardEpithet.rectTransform:null,5=>ZoneController.Current!=null&&ZoneController.Current.Combat?skillRow:null,_=>skillsPlate!=null&&skillsPlate.Frame.enabled?skillsPlate.Frame.rectTransform:null};if(frame==null)continue;
+                var frame=i switch{0=>vitals,1=>objective!=null?objective.Frame:null,2=>targetPlate!=null&&targetPlate.Frame.enabled?targetPlate.Frame.rectTransform:null,3=>bossCardEpithet!=null&&bossCardEpithet.alpha>0?bossCardEpithet.rectTransform:null,4=>bossCard!=null&&bossCard.alpha>0?bossCard.rectTransform:null,5=>ZoneController.Current!=null&&ZoneController.Current.Combat?skillRow:null,_=>skillsPlate!=null&&skillsPlate.Frame.enabled?skillsPlate.Frame.rectTransform:null};if(frame==null)continue;
                 frame.GetWorldCorners(corners);
                 Vector2 low=(Vector2)root.InverseTransformPoint(corners[0])-size*.5f,high=(Vector2)root.InverseTransformPoint(corners[2])+size*.5f;
                 if(point.x<=low.x||point.x>=high.x||point.y<=low.y||point.y>=high.y)continue;
-                if(i>=5){point.y=high.y;continue;}
+                if(i>=3){point.y=high.y;continue;}
                 bool left=low.x+high.x<0;float across=left?high.x-point.x:point.x-low.x,down=point.y-low.y;
                 if(down<across)point.y=low.y;else point.x=left?high.x:low.x;
             }

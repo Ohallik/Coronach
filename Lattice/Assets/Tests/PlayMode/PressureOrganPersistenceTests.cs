@@ -30,7 +30,7 @@ namespace Lattice.Tests.PlayMode
             var services=GameServices.Current;services.Saves.Save("slot3",services.State);
             var loaded=services.Saves.Load("slot3");Assert.IsNotNull(loaded);services.State=loaded;
         }
-        static void Break(Health health)=>health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=100000,type=DamageType.Kinetic});
+        static void Break(Health health)=>health.Receive(new DamagePacket{source=PartyController.Current.Active.Health,amount=1e7f,type=DamageType.Kinetic});
 
         [UnityTest] public IEnumerator OneBrokenOrganStaysCollapsedAfterSaveAndReloadWhileTheOtherStillPumps()
         {

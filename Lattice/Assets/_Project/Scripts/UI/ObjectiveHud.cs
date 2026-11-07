@@ -15,7 +15,14 @@ namespace Lattice.UI
         /// <summary>What the panel asks of the player now, without its distance line: the quest log falls back on it.</summary>
         public static string CurrentLabel{get{var hud=FindFirstObjectByType<ObjectiveHud>();return hud!=null&&hud.text!=null?hud.text.text.Split('\n')[0]:"";}}
         TMP_Text text;float next;Canvas canvas;bool inFight;
-        Image arrow,alsoArrow;Vector3? goalAt,alsoAt;
+        Image arrow,alsoArrow;Vector3? goalAt,alsoAt;float hereAt=Here;
+        /// <summary>The frame stands from here down, and is as tall as what it says: four lines' height round one line left a dark block over whatever the fight was doing, and hid half of the launch pad it named.</summary>
+        public const float FrameTop=92.5f;
+        const float LinePitch=27.6f,FrameAir=60,FrameLeast=88;
+        /// <summary>Where the panel is sending the party: nowhere in a fight, or with nothing to go to.</summary>
+        public Vector3? Goal=>goalAt;
+        /// <summary>That's a hero who's down: worth a mark at the screen's edge on foot as well, where they can lie out of shot.</summary>
+        public bool GoalIsHero{get;private set;}
         /// <summary>Nearer than this the goal is simply here: a distance and a direction mean nothing.</summary>
         const float Here=3;
         /// <summary>Room at the head of the distance line for the arrow.</summary>
@@ -28,7 +35,7 @@ namespace Lattice.UI
             canvas=UiKit.CreateCanvas("Objective",6,transform);var frame=UiKit.DarkFrame(canvas.transform,"ObjectiveFrame");frame.raycastTarget=false;
             // At the weight of the card under it, and of the vitals in the other corner. The full border left this frame room for three lines of type, and it can need four.
             frame.pixelsPerUnitMultiplier=2;
-            Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
+            Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-FrameTop),new(570,FrameLeast));Frame.pivot=new(.5f,1);Frame.anchoredPosition=new(-300,-FrameTop);
             Fade=new PanelFade(Frame,frame);
             // Its plate steps aside, so what it says has to hold on the floor without it.
             text=UiKit.Legible(UiKit.Text(frame.transform,"Objective","",24,UiKit.LooseTextColor,TextAlignmentOptions.MidlineLeft));
@@ -42,13 +49,13 @@ namespace Lattice.UI
         }
         /// <summary>The camera is fixed, so the way to go is a way on the screen, and that's what the arrow shows. The word was the target's bearing from the
         /// camera ("behind" was down-screen), and read as wrong to anyone flying straight at it.</summary>
-        static void Point(Image image,Vector3? goal,Vector3 hero)
+        static void Point(Image image,Vector3? goal,Vector3 hero,float here)
         {
             bool on=false;var camera=Camera.main;
             if(goal.HasValue&&camera!=null)
             {
                 var gap=goal.Value-hero;gap.y=0;
-                if(gap.sqrMagnitude>=Here*Here)
+                if(gap.sqrMagnitude>=here*here)
                 {
                     on=true;
                     // A short step toward it: a straight line stays straight on screen, and a far goal can lie behind the camera itself.
@@ -73,6 +80,13 @@ namespace Lattice.UI
                 alsoArrow.rectTransform.anchoredPosition=new Vector2(c.xAdvance+20,c.baseLine+middle);break;
             }
         }
+        /// <summary>A hero down with no fight on: nothing goes on until they're up. Hessa waits to speak until the party stands, and the panel said 'Hear Hessa out' with its arrow on her, 3 m away, and nothing to press.</summary>
+        static CombatActor Downed(PartyController party)
+        {
+            if(party.members.Length<2)return null;
+            var other=party.members[1-party.index];if(other.Health.Alive)return null;
+            var lead=party.Active;return EnemyBrain.AwakeNear(lead.transform.position,lead.flight?GameHud.FlightFightRange:GameHud.FightRange)?null:other;
+        }
         /// <summary>With the bar up the boss is the objective, not the fixed spot the walk there pointed at. The Cantor's lines and Hessa's already name the fight.</summary>
         static string FightGoal(BossController boss,string label)=>boss.Health.id switch
         {
@@ -87,7 +101,7 @@ namespace Lattice.UI
             var hero=party.Active.transform.position;
             // A bar going up or a boss falling changes what the panel should say now, not at its next look: it said 'Release the collar lock' over the rewards.
             var fight=BossController.Focus(hero);if((fight!=null)!=inFight){inFight=fight!=null;next=0;}
-            Point(arrow,goalAt,hero);Point(alsoArrow,alsoAt,hero);
+            Point(arrow,goalAt,hero,hereAt);Point(alsoArrow,alsoAt,hero,Here);
             if(Time.unscaledTime<next)return;next=Time.unscaledTime+.25f;
             var state=GameServices.Current.State;var flags=GameServices.Current.Flags;Vector3? goal=null;string label="";
             var prompts=InteractionPrompt.Active;
@@ -194,15 +208,21 @@ namespace Lattice.UI
             if(target!=null)goal=target.transform.position;
             if(fight!=null){label=FightGoal(fight,label);goal=null;}
             if(flags.GetBool("chapter2.homecoming")){label="Chapter 2 complete. Xylos's river towns are next, but their route isn't charted yet.";goal=null;}
+            // No 'Here' for them: the arrow holds until the revive has started, or it stops a step short of the reach and nothing happens.
+            var down=fight==null?Downed(party):null;GoalIsHero=down!=null;hereAt=down!=null?0:Here;
+            if(down!=null){label=$"Get {DisplayNames.Speaker(down.character)} back up";goal=party.ReviveTarget==down?null:down.transform.position;}
             static int Lantern(GameState state)=>state.questSteps.TryGetValue("LanternRoad",out var step)?step:-1;
             string direction="";goalAt=goal;
             if(goal.HasValue)
             {
                 var delta=goal.Value-hero;delta.y=0;
-                direction=delta.sqrMagnitude<Here*Here?"\nHere":$"\n{ArrowRoom}{delta.magnitude:0} m";
+                direction=delta.sqrMagnitude<hereAt*hereAt?"\nHere":$"\n{ArrowRoom}{delta.magnitude:0} m";
             }
             string words=label+direction+Also(state,hero);
-            if(text.text!=words){text.text=words;SeatArrows(label.Length+1+ArrowRoom.Length);}
+            if(text.text==words)return;
+            text.text=words;SeatArrows(label.Length+1+ArrowRoom.Length);
+            // By its lines, not its letters: a tail on a new word mustn't make the frame breathe, and only a change of words can move it.
+            float high=Mathf.Max(FrameLeast,text.textInfo.lineCount*LinePitch+FrameAir);if(Frame.sizeDelta.y!=high)Frame.sizeDelta=new(Frame.sizeDelta.x,high);
         }
         /// <summary>The nearest thing an active side quest wants in this zone, as a dim line under the main objective, with its distance.
         /// The den, the crate and the plates were otherwise found from the log's words alone. A boss fight has the player's whole attention.</summary>
