@@ -19,7 +19,9 @@ namespace Lattice.UI
         public static readonly string[] Items={"ScrapAlloy","LatticeFilament","RidgeCrystal","HuskCore","ChoirResin","CantorPearl","Emitter","Edge","Frame","Drive","Module","RepairGel","ChargeCell","WarpKey","Scrip","Anvil"};
         public static Sprite Kit(string name)
         {
-            if(name=="panel_frame"||name=="panel_dark")return Slice("ui-panel",new(.02f,.025f,.96f,.915f),"panel",new(85,85,85,85),200);
+            // The sheet leaves 56 empty pixels under the panel and 6 over it. The slice used to carry them all, and its border then ended inside the
+            // bottom bevel: every frame's art stood high in its rect, and whatever was centred in the rect sat low in the art.
+            if(name=="panel_frame"||name=="panel_dark")return Slice("ui-panel",new(.02f,.0738f,.96f,.8662f),"panel",new(85,85,85,85),200);
             if(name.StartsWith("button")||name.StartsWith("row"))return Slice("ui-button",new(.02f,.25f,.96f,.54f),"button",new(160,90,160,90),300);
             if(name=="bar_frame"||name=="bar_fill")return Slice("ui-controls",new(.022f,.42f,.347f,.16f),"bar",new(60,20,60,20),100);
             if(name=="keycap")return Slice("ui-controls",new(.447f,.32f,.135f,.355f),"thumb",Vector4.zero,100);
@@ -64,6 +66,54 @@ namespace Lattice.UI
             sprite = Resources.Load<Sprite>(key);
             Cache[key] = sprite; // cache nulls too — missing art must not re-hit Resources
             return sprite;
+        }
+
+        // ---------- drawn here ----------
+
+        /// <summary>A soft-edged block, nine-sliced, for a dark band behind words with no frame. A gradient, not art.</summary>
+        public static Sprite SoftBand()
+        {
+            const string id="softband";const int size=64;
+            if(Cache.TryGetValue(id,out var known)&&known!=null)return known;
+            var pixels=new Color32[size*size];
+            for(int y=0;y<size;y++)for(int x=0;x<size;x++)
+            {
+                float edge=Mathf.Min(Mathf.Min(x,size-1-x),Mathf.Min(y,size-1-y))/(size*.5f-1);
+                pixels[y*size+x]=new Color32(255,255,255,(byte)(255*Mathf.SmoothStep(0,1,edge)));
+            }
+            return Drawn(id,size,pixels,new Vector4(31,31,31,31));
+        }
+        /// <summary>A solid arrowhead pointing up, for what the objective points at: a triangle with a notch, not art.</summary>
+        public static Sprite Pointer()
+        {
+            const string id="pointer";const int size=64,samples=4;
+            if(Cache.TryGetValue(id,out var known)&&known!=null)return known;
+            Vector2 apex=new(0,.92f),right=new(.72f,-.8f),notch=new(0,-.36f),left=new(-.72f,-.8f);
+            var pixels=new Color32[size*size];
+            for(int y=0;y<size;y++)for(int x=0;x<size;x++)
+            {
+                int inside=0;
+                for(int sy=0;sy<samples;sy++)for(int sx=0;sx<samples;sx++)
+                {
+                    var p=new Vector2((x+(sx+.5f)/samples)/size*2-1,(y+(sy+.5f)/samples)/size*2-1);
+                    if(InTriangle(p,apex,right,notch)||InTriangle(p,apex,notch,left))inside++;
+                }
+                pixels[y*size+x]=new Color32(255,255,255,(byte)(255*inside/(samples*samples)));
+            }
+            return Drawn(id,size,pixels,Vector4.zero);
+        }
+        static float Side(Vector2 p,Vector2 a,Vector2 b)=>(p.x-b.x)*(a.y-b.y)-(a.x-b.x)*(p.y-b.y);
+        static bool InTriangle(Vector2 p,Vector2 a,Vector2 b,Vector2 c)
+        {
+            float one=Side(p,a,b),two=Side(p,b,c),three=Side(p,c,a);
+            return !((one<0||two<0||three<0)&&(one>0||two>0||three>0));
+        }
+        static Sprite Drawn(string id,int size,Color32[] pixels,Vector4 border)
+        {
+            var texture=new Texture2D(size,size,TextureFormat.RGBA32,false){name=id,wrapMode=TextureWrapMode.Clamp,hideFlags=HideFlags.DontUnloadUnusedAsset};
+            texture.SetPixels32(pixels);texture.Apply(false,true);
+            var sprite=Sprite.Create(texture,new Rect(0,0,size,size),new Vector2(.5f,.5f),100,0,SpriteMeshType.FullRect,border);
+            sprite.name=id;sprite.hideFlags=HideFlags.DontUnloadUnusedAsset;Cache[id]=sprite;return sprite;
         }
 
         // ---------- fonts ----------

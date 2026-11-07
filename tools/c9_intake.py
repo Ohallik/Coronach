@@ -7,6 +7,7 @@ on the ORIGINAL rigged model (the retexture output may lose its skeleton); the r
 
   python tools/c9_intake.py            # every finished piece
   python tools/c9_intake.py --only LanternTower,Gloomgrazer
+  python tools/c9_intake.py --batch QA-Cast --only BrekkBody,HessaKorl,IshenBody,PellBody   # the November retextures
 """
 from __future__ import annotations
 
@@ -38,7 +39,8 @@ RESKIN = {
     "MusterScav": ("SentinelHusk", "Enemies", "MusterScav", 2.3, "orange"),
     "MusterSergeant": ("SentinelHusk", "Enemies", "MusterSergeant", 2.75, "orange"),
     "HessaKorl": ("SentinelHusk", "Enemies", "HessaKorl", 2.6, "amber"),
-    "BrekkBody": ("SentinelHusk", "Characters", None, 2.25, None),
+    # A deserter in a smith's apron: the armoured husk made a friendly read as the boss just fought (QA, November).
+    "BrekkBody": ("Orrin", "Characters", None, 2.1, None),
     "MusterSkiff": ("PatrolCutter", "Enemies", "MusterSkiff", 3.6, None),
     "AumiBody": ("Neve", "Characters", None, 1.86, "amber"),
     "CorraBody": ("Mira", "Characters", None, 1.84, "orange"),
@@ -46,6 +48,8 @@ RESKIN = {
     "PellBody": ("SurvivorNatural", "Characters", None, 1.7, None),
 }
 TEXTURE_OF = {"MusterSergeant": "MusterScav"}
+# Gamma under 1 lifts a texture that came back too dark to read in its zone's light.
+LIFT = {"BrekkBody": .72}
 
 
 def albedo(name: str) -> Path:
@@ -55,6 +59,8 @@ def albedo(name: str) -> Path:
     out = GEN / f"{name}_albedo.png"
     image = Image.open(source).convert("RGB")
     image.thumbnail((1024, 1024), Image.Resampling.LANCZOS)
+    if name in LIFT:
+        image = image.point(lambda v: round(255 * (v / 255) ** LIFT[name]))
     image.save(out)
     return out
 
@@ -75,7 +81,10 @@ def rel(path: Path) -> str:
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--only")
+    parser.add_argument("--batch", default="C9-Lantern", help="the art-src/Generated folder holding the textures")
     a = parser.parse_args()
+    global GEN
+    GEN = ROOT / "art-src/Generated" / a.batch
     only = set(a.only.split(",")) if a.only else None
     rows = json.loads(INTAKE.read_text(encoding="utf-8"))
     by_id = {r["id"]: r for r in rows}

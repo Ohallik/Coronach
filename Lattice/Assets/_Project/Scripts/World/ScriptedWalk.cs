@@ -25,6 +25,8 @@ namespace Lattice.World
         public bool walkThroughDialogue;
         readonly RaycastHit[] hits=new RaycastHit[16];
         GameState owner;Vector3[] current;int next;bool exiting;
+        /// <summary>How the scene stands this person: the end of an exit walk turns back to it, as a later load would find them.</summary>
+        Quaternion placed;bool turningHome;
         public enum Stage{Inactive,Waiting,Walking,Arrived,Exiting,Done}
         public Stage Phase{get;private set;}
         public bool Arrived=>Phase==Stage.Arrived||Phase==Stage.Exiting||Phase==Stage.Done;
@@ -32,7 +34,7 @@ namespace Lattice.World
 
         void Awake()
         {
-            var service=GameServices.Current;Phase=Stage.Inactive;
+            var service=GameServices.Current;Phase=Stage.Inactive;placed=transform.rotation;
             if(service==null||path==null||path.Length==0)return;
             owner=service.State;
             if(!service.Flags.GetBool(requireFlag)||!string.IsNullOrEmpty(skipIfJoined)&&owner.party.Exists(m=>m.id==skipIfJoined))return;
@@ -43,6 +45,11 @@ namespace Lattice.World
         }
         void Update()
         {
+            if(turningHome&&!GameTime.Paused&&(GameInput.Current==null||!GameInput.Current.Blocked))
+            {
+                transform.rotation=Quaternion.RotateTowards(transform.rotation,placed,Mathf.Max(0,turnSpeed)*Time.deltaTime);
+                turningHome=Quaternion.Angle(transform.rotation,placed)>.1f;
+            }
             if(Phase==Stage.Inactive||Phase==Stage.Done)return;
             var service=GameServices.Current;
             if(service==null||!ReferenceEquals(owner,service.State)){Phase=Stage.Inactive;return;}
@@ -65,7 +72,7 @@ namespace Lattice.World
             if(delta.magnitude<.05f)
             {
                 next++;
-                if(next>=current.Length){Phase=exiting?Stage.Done:Stage.Arrived;Blocked=false;}
+                if(next>=current.Length){Phase=exiting?Stage.Done:Stage.Arrived;Blocked=false;turningHome=exiting;}
                 return;
             }
             float distance=Mathf.Min(Mathf.Max(0,speed)*Time.deltaTime,delta.magnitude);if(distance<=0)return;

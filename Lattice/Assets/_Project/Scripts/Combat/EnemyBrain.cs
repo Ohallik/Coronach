@@ -11,6 +11,8 @@ namespace Lattice.Combat
     {
         public const float Fuse=.45f,Radius=2.5f;
         Telegraph mark;DamagePacket packet;Vector3 at;
+        /// <summary>The fight it belonged to is over: it doesn't go off on the heroes who just won.</summary>
+        public void Defuse(){if(mark!=null)mark.Clear();Destroy(gameObject);}
         public static void Arm(Vector3 at,DamagePacket packet)
         {
             var blast=new GameObject("Death blast").AddComponent<DeathBlast>();blast.at=at;blast.packet=packet;
@@ -60,9 +62,19 @@ namespace Lattice.Combat
         public bool Warded=>Time.time<wardedUntil;
         BossController boss;
         CantorCollar collar;
+        /// <summary>Awake bodies on the ground, so they can keep out of each other without asking the scene.</summary>
+        static readonly List<EnemyBrain> crowd=new();
+        const float KeepApartSpeed=2.4f,HeroBody=.45f,HeroCapsule=.35f,MostBody=2;
+        float bodyRadius=.5f;bool crowded;
+        void OnEnable(){if(!crowd.Contains(this))crowd.Add(this);}
+        void OnDisable(){crowd.Remove(this);}
         void Awake(){Health=GetComponent<Health>();controller=GetComponent<CharacterController>();home=transform.position;}
         void Start()
         {
+            // Its drawn body, not its capsule: a Scrapmite's legs reach .75 m on a .55 m capsule, so five of them standing shoulder to shoulder were one heap.
+            bodyRadius=controller!=null?controller.radius:.5f;
+            foreach(var body in GetComponentsInChildren<Renderer>())
+                if(body is MeshRenderer||body is SkinnedMeshRenderer)bodyRadius=Mathf.Max(bodyRadius,Mathf.Min(MostBody,Mathf.Min(body.bounds.extents.x,body.bounds.extents.z)));
             Health.Damaged+=OnDamaged;
             boss=GetComponent<BossController>();
             collar=GetComponent<CantorCollar>();
@@ -163,6 +175,7 @@ namespace Lattice.Combat
             else if(disabledRig)CombatAudio.Death(transform,true);
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
             else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine||definition.id=="MusterSkiff");
+            if(definition.boss)Telegraph.ClearAll(this);
             CancelAttack();
             if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
             controller.enabled=false;enabled=false;
@@ -224,6 +237,7 @@ namespace Lattice.Combat
                 }
                 return;
             }
+            KeepApart(d,distance,range);
             if(distance<range&&Time.time>=nextAttack)
             {
                 float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;
@@ -238,10 +252,12 @@ namespace Lattice.Combat
             if(ranged)
             {
                 if(distance>range*.85f)Move(d,definition.speed);
-                // A boss's rest is the time to close: a heavy brawler doesn't back-pedal from melee.
-                else if(distance<range*.4f&&boss==null)Move(-d,definition.speed);
+                // A boss's rest is the time to close: a heavy brawler doesn't back-pedal from melee. A serpent's Move swims forward through a
+                // broad turn, so this is how it keeps moving with the party on it: without it the Cantor stood still at close range.
+                else if(distance<range*.4f&&(boss==null||definition.archetype==EnemyArchetype.Serpent))Move(-d,definition.speed);
             }
-            else if(distance>range*.7f)
+            // Pressed in among its own, a body in reach stops there instead of shoving for a place at the front.
+            else if(distance>range*(crowded?1:.7f))
             {
                 Vector3 approach=d.normalized;
                 if(definition.archetype==EnemyArchetype.PackHunter)approach+=Vector3.Cross(Vector3.up,approach)*Mathf.Sin(Time.time+GetInstanceID())*.35f;
@@ -252,6 +268,30 @@ namespace Lattice.Combat
                 transform.rotation=boss!=null?Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(d),BossTurnRate*Time.deltaTime):Quaternion.LookRotation(d);
         }
         const float BossTurnRate=120;
+        /// <summary>A light shove apart for bodies that aren't busy, under walking pace so nothing is ever held off a hero or pinned in a corridor. Never mid-tell:
+        /// what a body marked is where it strikes from. It only ever moves itself, through its controller, so walls and floors still hold it.</summary>
+        void KeepApart(Vector3 toVictim,float distance,float reach)
+        {
+            crowded=false;
+            if(boss!=null||Mine||definition.archetype==EnemyArchetype.Serpent||!controller.enabled||ZoneController.Current==null||ZoneController.Current.Flight)return;
+            var at=transform.position;var push=Vector3.zero;
+            foreach(var other in crowd)
+            {
+                if(other==this||other.Passive||!other.Health.Alive)continue;
+                if(Shove(at,other.transform.position,bodyRadius+other.bodyRadius,controller.radius+other.controller.radius,ref push))crowded=true;
+            }
+            // In reach, its own can't press it further in: they fan out round the hero, or the one in front ends up on top of him.
+            if(distance<reach&&distance>.01f){float inward=Vector3.Dot(push,toVictim)/distance;if(inward>0)push-=toVictim*(inward/distance);}
+            foreach(var hero in PartyController.Current.members)if(hero.Health.Alive)Shove(at,hero.transform.position,bodyRadius+HeroBody,controller.radius+HeroCapsule,ref push);
+            if(push.sqrMagnitude>.0001f)controller.Move(Vector3.ClampMagnitude(push,1)*(KeepApartSpeed*Time.deltaTime));
+        }
+        /// <summary>Full strength where the capsules touch, which is as close as they can get. Scaled on the whole gap instead, a body at the capsules' limit shoved at a quarter strength
+        /// and a pack still walking in never came clear of itself.</summary>
+        bool Shove(Vector3 at,Vector3 from,float gap,float touching,ref Vector3 push)
+        {
+            var away=at-from;away.y=0;float distance=away.magnitude;if(distance>=gap)return false;
+            push+=(distance>.01f?away/distance:transform.right)*Mathf.Min(1,(gap-distance)/Mathf.Max(.05f,gap-touching));return true;
+        }
         IEnumerator LungeAttack(DamagePacket packet)
         {
             lunging=true;var victims=new HashSet<Health>();Vector3 direction=aim;

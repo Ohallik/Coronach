@@ -56,6 +56,10 @@ Shader "Lattice/Toon"
         // Default off keeps every existing strata material unchanged; terrain uses it so flat ground stays plain.
         _StrataSlope("Strata Slope Mask", Vector) = (0.12, 0.35, 0, 0)
 
+        // ---- A steep face takes the base map from the side: terrain's uv is its floor plan, which smears a cliff into long streaks. ----
+        [Toggle(_TRIPLANAR_ON)] _Triplanar("Side Projection", Float) = 0
+        _TriplanarScale("Side Projection Scale (1/world-u)", Float) = 0.125
+
         // ---- POLISH-01: soft edges ----
         [Toggle(_EDGEFADE_ON)] _EdgeFade("Edge Fade", Float) = 0
         // x = mode (0 = path uv2, 1 = disc uv2, 2 = object-local slab), y = fade width (world u),
@@ -148,12 +152,15 @@ Shader "Lattice/Toon"
         //      (MPB). Bayer dither clip, mirrored into the depth passes so the SSAO/depth
         //      prepass agrees with the color pass; the ShadowCaster stays UNCLIPPED on
         //      purpose — a faded roof still throws its shadow, which keeps the world
-        //      grounded while you see through it. ----
+        //      grounded while you see through it. Only past a full fade (SceneryOcclusion,
+        //      a body gone under the lens) does the shadow go as well. ----
         [Toggle(_OCCFADE_ON)] _OccFadeToggle("Occluder Fade", Float) = 0
         _OccFade("Occluder Fade Amount", Range(0, 1)) = 0
         // xy = avatar centre in viewport space; zw = compact ellipse half extents.
         // OccluderFade drives this per renderer so only pixels over the avatar ghost.
         _OccFadeEllipse("Occluder Avatar Ellipse", Vector) = (0.5, 0.5, 0.08, 0.14)
+        // How far the screen-door opens at full fade. A boss keeps more of its body than scenery does (BossOcclusion).
+        _OccFadeDepth("Occluder Fade Depth", Range(0, 1)) = 0.82
 
         // ---- POLISH-01: material-driven pass state (defaults == the old hardcoded state) ----
         [Enum(UnityEngine.Rendering.CullMode)] _Cull("Cull", Float) = 2
@@ -189,6 +196,7 @@ Shader "Lattice/Toon"
             half4 _StrataTintB;
             float4 _StrataParams;
             float4 _StrataSlope;
+            float _TriplanarScale;
             float4 _EdgeParams;
             half4 _DeepColor;
             half4 _FoamColor;
@@ -211,6 +219,7 @@ Shader "Lattice/Toon"
             half4 _DissolveEdgeColor;
             half _OccFade;
             float4 _OccFadeEllipse;
+            half _OccFadeDepth;
             float4 _WindParams;
             half _ScatterPebbleRerole;
         CBUFFER_END
@@ -287,7 +296,7 @@ Shader "Lattice/Toon"
         }
 
         // 4x4 Bayer screen-door threshold (POLISH-22 occluder fade). At full fade the
-        // 0.82 cap in the callers keeps ~1/5 of the pixel lattice alive, so the blocker
+        // default 0.82 _OccFadeDepth keeps ~1/5 of the pixel lattice alive, so the blocker
         // still reads as a ghost silhouette instead of popping out of existence.
         half FbBayer4(float2 pixel)
         {
@@ -354,6 +363,7 @@ Shader "Lattice/Toon"
             #pragma shader_feature_local_fragment _ALPHATEST_ON
             #pragma shader_feature_local_fragment _DETAIL_ON
             #pragma shader_feature_local_fragment _STRATA_ON
+            #pragma shader_feature_local_fragment _TRIPLANAR_ON
             #pragma shader_feature_local_fragment _EDGEFADE_ON
             #pragma shader_feature_local_fragment _WATER_ON
             #pragma shader_feature_local_fragment _GLOW_ON
@@ -453,6 +463,15 @@ Shader "Lattice/Toon"
                 UNITY_SETUP_INSTANCE_ID(input);
 
                 half4 baseTex = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv);
+                #if defined(_TRIPLANAR_ON)
+                {
+                    float3 facing = pow(abs(normalize(input.normalWS)), 6.0);
+                    facing /= facing.x + facing.y + facing.z;
+                    baseTex = baseTex * facing.y
+                        + SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.positionWS.zy * _TriplanarScale) * facing.x
+                        + SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.positionWS.xy * _TriplanarScale) * facing.z;
+                }
+                #endif
                 baseTex.rgb = lerp(half3(1, 1, 1), baseTex.rgb, _BaseMapStrength);
                 half4 albedo = baseTex * _BaseColor;
                 #if defined(_VCOLOR_ON)
@@ -480,7 +499,7 @@ Shader "Lattice/Toon"
 
                 #if defined(_OCCFADE_ON)
                 clip(FbBayer4(input.positionCS.xy)
-                     - _OccFade * 0.82h * FbOccFadeMask(input.positionCS));
+                     - _OccFade * _OccFadeDepth * FbOccFadeMask(input.positionCS));
                 #endif
 
                 half alphaOut = albedo.a;
@@ -619,8 +638,13 @@ Shader "Lattice/Toon"
 
                 #if defined(_DETAIL_ON)
                 {
-                    float macro = FbFbm2(input.positionWS.xz * _DetailParams.x);
-                    float micro = FbNoise2(input.positionWS.xz * _DetailParams.y);
+                    float2 detailAt = input.positionWS.xz;
+                    #if defined(_TRIPLANAR_ON)
+                    // Height moves the noise too, or a cliff wears the floor's noise as long vertical streaks.
+                    detailAt += input.positionWS.yy * float2(0.71, -0.53);
+                    #endif
+                    float macro = FbFbm2(detailAt * _DetailParams.x);
+                    float micro = FbNoise2(detailAt * _DetailParams.y);
                     // Painter's-pass value islands: the old one-sided multiply only
                     // darkened the field and then collapsed back into a single toon
                     // band in foggy/dark scenes. Cross the material's two palette
@@ -767,7 +791,7 @@ Shader "Lattice/Toon"
                     Light light = GetAdditionalLight(li, input.positionWS);
                     half contribution = saturate(dot(normalWS, light.direction))
                         * light.distanceAttenuation * light.shadowAttenuation;
-                    lighting += light.color * ToonRamp(contribution) * 0.6h;
+                    lighting += light.color * saturate(contribution) * 0.6h;
                 }
                 #endif
 
@@ -793,6 +817,9 @@ Shader "Lattice/Toon"
                 half3 rimColor = _RimColor.rgb * rim * lit;
 
                 half3 emission = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, input.uv).rgb * _EmissionColor.rgb;
+                #if defined(_VCOLOR_ON)
+                emission *= input.color.a;
+                #endif
 
                 half3 color = albedo.rgb * (lighting + ambient) + rimColor + emission
                               + gelCore + dissolveEdge + surfEmiss + sparkle * lit;
@@ -829,7 +856,7 @@ Shader "Lattice/Toon"
                 // is deliberately not erased: OccluderFade's whole premise is that the
                 // blocker stays readable as a ghost.
                 {
-                    half occGhost = saturate(_OccFade) * 0.78h
+                    half occGhost = saturate(_OccFade) * saturate(_OccFadeDepth * 1.66h - 0.58h)
                                     * FbOccFadeMask(input.positionCS);
                     half3 ghostHaze = _FbAerialDist.z > 0.0001
                         ? _FbAerialNear.rgb
@@ -857,6 +884,7 @@ Shader "Lattice/Toon"
             #pragma vertex ShadowVert
             #pragma fragment ShadowFrag
             #pragma shader_feature_local_fragment _ALPHATEST_ON
+            #pragma shader_feature_local_fragment _OCCFADE_ON
             #pragma shader_feature_local _WIND_ON
             #pragma multi_compile_instancing
             #pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
@@ -914,6 +942,9 @@ Shader "Lattice/Toon"
                 half alpha = SAMPLE_TEXTURE2D(_BaseMap, sampler_BaseMap, input.uv).a * _BaseColor.a;
                 clip(alpha - _Cutoff);
                 #endif
+                #if defined(_OCCFADE_ON)
+                clip(FbBayer4(input.positionCS.xy) - saturate((_OccFade - 1.0h) * 4.0h));
+                #endif
                 return 0;
             }
             ENDHLSL
@@ -968,7 +999,7 @@ Shader "Lattice/Toon"
                 #endif
                 #if defined(_OCCFADE_ON)
                 clip(FbBayer4(input.positionCS.xy)
-                     - _OccFade * 0.82h * FbOccFadeMask(input.positionCS));
+                     - _OccFade * _OccFadeDepth * FbOccFadeMask(input.positionCS));
                 #endif
                 return 0;
             }
@@ -1026,7 +1057,7 @@ Shader "Lattice/Toon"
                 #endif
                 #if defined(_OCCFADE_ON)
                 clip(FbBayer4(input.positionCS.xy)
-                     - _OccFade * 0.82h * FbOccFadeMask(input.positionCS));
+                     - _OccFade * _OccFadeDepth * FbOccFadeMask(input.positionCS));
                 #endif
                 return half4(normalize(input.normalWS), 0);
             }

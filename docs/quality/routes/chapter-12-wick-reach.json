@@ -179,12 +179,12 @@
     },
     {
       "name": "to the pressure lift",
-      "seconds": 6.27,
+      "seconds": 5.56,
       "navigate": true,
       "point": {
         "x": 0,
         "y": 0,
-        "z": -10
+        "z": -8
       },
       "tolerance": 0.8,
       "until": "arrived",

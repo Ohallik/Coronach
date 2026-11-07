@@ -121,7 +121,8 @@ namespace Lattice.UI
             Button Add(string text,System.Action action=null,string icon=null,string name=null)
             {
                 var b=UiKit.Row(panel.transform,name??"Row_"+row,text,action,rowFont);UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(170,290-row*68),new(1220,56));list.Add(b);row++;
-                if(icon!=null){var image=UiKit.Icon(b.transform,"Item",icon,Color.white);UiKit.Rect(image.gameObject,new(0,.5f),new(0,.5f),new(38,0),new(48,48));b.GetComponentInChildren<TMP_Text>().margin=new Vector4(78,0,20,0);}
+                // The icon stands clear of the selection bar, which is 16 to 22 in: on top of it, a selected blade and the bar merged into an L.
+                if(icon!=null){var image=UiKit.Icon(b.transform,"Item",icon,Color.white);UiKit.Rect(image.gameObject,new(0,.5f),new(0,.5f),new(48,0),new(48,48));b.GetComponentInChildren<TMP_Text>().margin=new Vector4(78,0,20,0);}
                 return b;
             }
             // A page's title, in a row's place: it can't take focus, so no stray A lands on it.
@@ -137,7 +138,9 @@ namespace Lattice.UI
             {
                 if(count<=perPage)return;
                 // Focus goes by role here: an index would land the next A on whatever took it, a buy, an equip or a salvage.
-                Add($"Next page  ({offset/perPage+1}/{Mathf.CeilToInt(count/(float)perPage)})",()=>{rebind?.Cancel();offset=offset+perPage<count?offset+perPage:0;salvageAsked=null;Rebuild(true,"Pager");},null,"Pager");
+                var pager=Add(UiKit.PagerLabel(offset,perPage,count),()=>{rebind?.Cancel();offset=offset+perPage<count?offset+perPage:0;salvageAsked=null;Rebuild(true,"Pager");},null,"Pager");
+                // In line with the rows above: a page of icon rows starts its words further in, and this one sat hard against the row's left chevron.
+                if(list.Count>1){var above=list[list.Count-2].GetComponentInChildren<TMP_Text>();if(above!=null)pager.GetComponentInChildren<TMP_Text>().margin=above.margin;}
             }
             if(page==PartyPage)
             {
@@ -217,12 +220,14 @@ namespace Lattice.UI
                 var fabricator=new Fabrication(state);var inventory=RpgServices.Inventory;
                 var recipes=GameCatalog.All<RecipeDef>().OrderBy(r=>r.discipline).ThenBy(r=>r.tier).ToArray();
                 const int perPage=6;
+                bool Makeable(RecipeDef r)=>fabricator.Level(r.discipline)>=r.unlockLevel&&r.tier<=Mathf.Min(3,fabricator.Level(r.discipline))&&(r.output==null||AtBench)&&r.inputs.All(x=>inventory.Count(x.id)>=x.count);
                 foreach(var recipe in recipes.Skip(Window(recipes.Length,perPage)).Take(perPage))
                 {
                     var r=recipe;
                     string does=r.output!=null?PartText.Effect(r.output):PartText.Restores(GameCatalog.Find<ConsumableDef>(r.consumableOutput));
-                    string needs=string.Join(", ",r.inputs.Select(x=>$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}"));
-                    Add($"{r.displayName}  T{r.tier}  ·  {does}  ·  {needs}",()=>Fabricate(r,fabricator),r.output!=null?r.output.slot.ToString():r.consumableOutput);
+                    string needs=string.Join(", ",r.inputs.Select(x=>{string held=$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}";return inventory.Count(x.id)<x.count?$"<color=#FFB08A>{held}</color>":held;}));
+                    var line=Add($"{r.displayName}  T{r.tier}  ·  {does}  ·  {needs}",()=>Fabricate(r,fabricator),r.output!=null?r.output.slot.ToString():r.consumableOutput);
+                    if(!Makeable(r))Dim(line);
                 }
                 Pager(recipes.Length,perPage);
                 string Trained(Discipline d){int level=fabricator.Level(d);return level>=10?$"{d} {level}":$"{d} {level} ({fabricator.Xp(d)%30}/30)";}
@@ -303,6 +308,13 @@ namespace Lattice.UI
             if(target==null&&focus!=null&&focus.StartsWith("Row_")&&int.TryParse(focus.Substring(4),out int gone))
                 for(int i=gone-1;i>=0&&target==null;i--){string above="Row_"+i;target=list.FirstOrDefault(s=>s.name==above);}
             EventSystem.current.SetSelectedGameObject((target!=null?target:list[0]).gameObject);
+        }
+        /// <summary>A row a press can only refuse: the player shouldn't have to read every count to find what can be made. It keeps its focus, so the refusal can still say why.</summary>
+        static void Dim(Button row)
+        {
+            row.GetComponentInChildren<TMP_Text>().color=UiKit.DimTextColor;
+            var state=row.colors;state.normalColor=new Color(.46f,.52f,.58f);row.colors=state;
+            var icon=row.transform.Find("Item");if(icon!=null&&icon.TryGetComponent<Image>(out var image))image.color=new Color(.55f,.55f,.55f);
         }
         /// <summary>The open tab stays lit wherever focus is: the page's heading was the only sign of it.</summary>
         static void MarkOpenTab(Button tab)

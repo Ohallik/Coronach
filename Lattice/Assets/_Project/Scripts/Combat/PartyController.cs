@@ -18,6 +18,11 @@ namespace Lattice.Combat
         Renderer[] heroMeshes, targetMeshes;
         readonly System.Collections.Generic.Dictionary<CombatActor,Renderer[]> companionMeshes=new();
         int targetChildCount;
+        /// <summary>A ground boss stays in frame. The hero keeps clear of the screen's corners and its bars; the boss's body may run closer to the edge. Past this far back the hero
+        /// would be too small to play, and a boss that still can't fit gets the HUD's edge mark instead.</summary>
+        static readonly Rect FightBossArea=Rect.MinMaxRect(.03f,.13f,.97f,.93f),FightHeroArea=Rect.MinMaxRect(.14f,.24f,.86f,.84f);
+        const float FarthestFight=36,BigMarking=7;
+        BossController framedBoss;float framedBossReach,framedBossHeight;
         public float ReviveProgress=>reviveTarget!=null?Mathf.Clamp01(revive/2):0;
         public CombatActor ReviveTarget=>reviveTarget;
         public int SwapCount{get;private set;}
@@ -81,6 +86,26 @@ namespace Lattice.Combat
             }
             if(!Active.Health.Alive)Swap(true);
             FrameFlightEncounter();
+            FrameGroundFight();
+        }
+        void FrameGroundFight()
+        {
+            if(cameraRig==null||Active.flight)return;
+            var at=Active.transform.position;var boss=BossController.Focus(at);
+            if(boss==null){framedBoss=null;return;}
+            if(framedBoss!=boss)
+            {
+                // Measured once and held, turning or not: a box that followed every swing of the body would nudge the camera on every swing.
+                framedBoss=boss;float reach=1,top=boss.transform.position.y+2;
+                foreach(var mesh in boss.GetComponentsInChildren<Renderer>())
+                    if(mesh is MeshRenderer||mesh is SkinnedMeshRenderer){var size=mesh.bounds;reach=Mathf.Max(reach,Mathf.Max(size.extents.x,size.extents.z));top=Mathf.Max(top,size.max.y);}
+                framedBossReach=reach*.8f;framedBossHeight=top-boss.transform.position.y;
+            }
+            var subject=new Bounds(boss.transform.position+Vector3.up*(framedBossHeight*.5f),new Vector3(framedBossReach*2,framedBossHeight,framedBossReach*2));
+            // Standing in a marking too wide for the usual view, the way out of it has to be on screen as well.
+            foreach(var marking in Telegraph.Live)
+                if(marking!=null&&!marking.Released&&marking.owner is BossController&&marking.Span>=BigMarking&&marking.Contains(at))subject.Encapsulate(marking.EdgeFrom(at));
+            cameraRig.FrameGround(subject,FightBossArea,FightHeroArea,FarthestFight);
         }
         void FrameFlightEncounter()
         {

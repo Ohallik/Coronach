@@ -44,6 +44,8 @@ namespace Lattice.Combat
             var health=root.AddComponent<Health>();health.id=definition.id;health.maximum=health.integrity=definition.integrity;health.weakness=definition.weakness;health.resistance=definition.resistance;health.breakThreshold=definition.breakThreshold;
             AddBodyHurtbox(root,health,cc);
             var visual=definition.prefab!=null?Object.Instantiate(definition.prefab,root.transform):Visual("ART_PENDING_"+definition.id,definition.archetype==EnemyArchetype.Mine?PrimitiveType.Sphere:PrimitiveType.Capsule,root.transform,new Vector3(cc.radius*2,cc.height*.5f,cc.radius*2),cc.center,"Enemy");
+            // Only what's drawn: these two were too small to find on a dark sky, and their hit shapes are the capsule above.
+            if(definition.id=="ChoristerDart")visual.transform.localScale*=1.5f;else if(definition.id=="Shellmine")visual.transform.localScale*=1.4f;
             if(definition.id=="Cantor")SerpentSegments.CenterVisual(visual,SerpentSegments.CenterHeight);
             if(definition.id=="Scrapmite"||definition.id.StartsWith("Chorister")||definition.id=="MusterSkiff"){var motion=visual.AddComponent<ProceduralMotion>();motion.motion=definition.id=="Scrapmite"?ProceduralMotion.Motion.Skitter:ProceduralMotion.Motion.Hover;}
             var enemy=root.AddComponent<EnemyBrain>();enemy.definition=definition;
@@ -55,7 +57,7 @@ namespace Lattice.Combat
             root.AddComponent<DefeatPresentation>().visual=visual.transform;
             if(definition.id=="Cantor")root.AddComponent<CantorCollar>().Initialize(definition,root.GetComponent<SerpentSegments>());
             if(definition.id=="Burrower")root.AddComponent<BurrowerShutdown>();
-            if(definition.id=="Burrower"||definition.id=="BellowsBelow")root.AddComponent<BossOcclusion>();
+            if(definition.id=="Burrower"||definition.id=="BellowsBelow"||definition.id=="HessaKorl")root.AddComponent<BossOcclusion>();
             return enemy;
         }
         static void AddBodyHurtbox(GameObject root,Health health,CharacterController movement)

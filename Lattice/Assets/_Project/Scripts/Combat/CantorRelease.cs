@@ -17,6 +17,7 @@ namespace Lattice.Combat
         Transform head;
         Transform[] parts;
         Vector3[] localPositions,worldPositions;
+        float[] spacings;
         Quaternion[] localRotations;
         Vector3 origin,headPosition,firstControl,secondControl,destination;
         Vector3 turnCenter,turnOffset,travelOrigin;
@@ -29,11 +30,13 @@ namespace Lattice.Combat
             head=visual;origin=transform.position;heading=transform.rotation;
             headPosition=head.localPosition;headRotation=head.localRotation;
             parts=new Transform[body.Count];localPositions=new Vector3[body.Count];
-            localRotations=new Quaternion[body.Count];worldPositions=new Vector3[body.Count];
+            localRotations=new Quaternion[body.Count];worldPositions=new Vector3[body.Count];spacings=new float[body.Count];
+            var ahead=transform.position+Vector3.up*SerpentSegments.CenterHeight;
             for(int i=0;i<body.Count;i++)
             {
                 parts[i]=body[i];localPositions[i]=body[i].localPosition;
                 localRotations[i]=body[i].localRotation;worldPositions[i]=body[i].position;
+                spacings[i]=Mathf.Clamp(Vector3.Distance(ahead,body[i].position),SerpentSegments.Link,SerpentSegments.RestLink);ahead=body[i].position;
             }
             var forward=Vector3.ProjectOnPlane(transform.forward,Vector3.up).normalized;
             bool gullet=ZoneController.Current!=null&&ZoneController.Current.definition.id=="Gullet_Tunnel";
@@ -95,14 +98,14 @@ namespace Lattice.Combat
                 if(tangent.sqrMagnitude>.001f)transform.rotation=Quaternion.LookRotation(tangent);
             }
             // Cached world points are independent of the moving parent. Each
-            // segment follows its predecessor at the original 2.2 m spacing.
+            // segment follows its predecessor at the spacing it fell with.
             var previous=transform.position+Vector3.up*SerpentSegments.CenterHeight;
             for(int i=0;i<parts.Length;i++)
             {
                 if(parts[i]==null)continue;
                 var direction=previous-worldPositions[i];
                 direction=direction.sqrMagnitude>.001f?direction.normalized:transform.forward;
-                worldPositions[i]=previous-direction*2.2f;
+                worldPositions[i]=previous-direction*spacings[i];
                 parts[i].SetPositionAndRotation(worldPositions[i],Quaternion.LookRotation(direction));
                 previous=worldPositions[i];
             }

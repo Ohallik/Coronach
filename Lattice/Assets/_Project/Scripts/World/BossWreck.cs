@@ -18,6 +18,8 @@ namespace Lattice.World
         void Start()
         {
             if(wreck==null||GameServices.Current==null)return;
+            // It has no collider, so anyone can walk behind it: it opens for the hero as the rig did when it was fighting.
+            if(wreck.GetComponent<BossOcclusion>()==null)wreck.AddComponent<BossOcclusion>();
             // The seams are dead: the model's own emission is what said it was running.
             var block=new MaterialPropertyBlock();
             foreach(var part in wreck.GetComponentsInChildren<Renderer>(true)){part.GetPropertyBlock(block);block.SetVector(Emission,Vector4.zero);part.SetPropertyBlock(block);}

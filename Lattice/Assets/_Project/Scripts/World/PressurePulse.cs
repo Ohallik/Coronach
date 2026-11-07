@@ -34,7 +34,7 @@ namespace Lattice.World
             if(initialized&&open==Open)return;bool exhale=initialized&&open;initialized=true;Open=open;
             if(vent!=null)vent.SetOpen(open);
             if(!exhale||!Application.isPlaying)return;
-            CombatVfx.Burst(transform.position+Vector3.up*1.5f,new Color(.84f,.74f,.6f),"shape");
+            CombatVfx.Burst(transform.position+Vector3.up*1.2f,new Color(.84f,.76f,.64f,.4f),"steam");
             if(hazardRadius<=0)return;
             foreach(var health in Health.All.ToArray())
             {

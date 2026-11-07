@@ -88,6 +88,15 @@ namespace Lattice.Tests.PlayMode
                 var view=camera.WorldToViewportPoint(body.transform.position+Vector3.up*height);
                 Assert.IsTrue(view.z>0&&view.x>0&&view.x<1&&view.y>0&&view.y<1,$"her {part} is off screen during her own confrontation ({view})");
             }
+            // From the middle of the mouth, where the route walks in. Her real height, against the box and the top of the screen; the camera's move is an easy one.
+            foreach(var hero in PartyController.Current.members)Put(hero,new Vector3(hero==PartyController.Current.Active?0:-2,0.2f,121));
+            yield return new WaitForSecondsRealtime(2.5f);
+            float top=body.GetComponentsInChildren<Renderer>().Where(r=>r is MeshRenderer||r is SkinnedMeshRenderer).Max(r=>r.bounds.max.y);
+            var head=camera.WorldToViewportPoint(new Vector3(body.transform.position.x,top,body.transform.position.z));
+            Assert.Less(head.y,.97f,$"her head is above the top of the screen through her own confrontation: only her legs are in the room ({head})");
+            Assert.Greater(head.y,QaFightLookTests.BoxTop,$"she stands behind the dialogue box ({head})");
+            var feet=camera.WorldToViewportPoint(PartyController.Current.Active.transform.position);
+            Assert.Greater(feet.y,QaFightLookTests.BoxTop-.02f,$"Taren stands behind the dialogue box while she talks to him ({feet})");
             DialogueSystem.Current.AutoAdvance=true;yield return Finish();
             Assert.IsTrue(Has("relay.hessaConfronted"));
             // She wakes only then, and it is the same body.
@@ -483,13 +492,15 @@ namespace Lattice.Tests.PlayMode
             var arch=All<SceneryOcclusion>().FirstOrDefault(s=>s.name=="Market arch");
             Assert.IsNotNull(arch,"the arch fills the screen and hides the hero around Corra's stall");
             var lead=PartyController.Current.Active;
-            Put(lead,new Vector3(0,.2f,9));
+            // Behind a leg of the arch, where it really does stand between the camera and the hero.
+            Put(lead,new Vector3(arch.transform.position.x+3.4f,.2f,arch.transform.position.z+3));
             yield return new WaitForSecondsRealtime(.8f);
             var block=new MaterialPropertyBlock();float fade=0;
             foreach(var r in arch.GetComponentsInChildren<Renderer>()){r.GetPropertyBlock(block);fade=Mathf.Max(fade,block.GetFloat("_OccFade"));}
             Assert.Greater(fade,.5f,"standing behind the arch leaves the hero hidden");
             foreach(var r in arch.GetComponentsInChildren<MeshRenderer>())Assert.IsTrue(r.sharedMaterial.IsKeywordEnabled("_OCCFADE_ON"),"the fade is asked for, but the material can't draw it");
-            Put(lead,new Vector3(0,.2f,-14));
+            // Up the street, with nothing between the camera and the hero.
+            Put(lead,new Vector3(0,.2f,30));
             yield return new WaitForSecondsRealtime(.8f);fade=0;
             foreach(var r in arch.GetComponentsInChildren<Renderer>()){r.GetPropertyBlock(block);fade=Mathf.Max(fade,block.GetFloat("_OccFade"));}
             Assert.Less(fade,.05f,"the arch stays faded with nobody behind it");

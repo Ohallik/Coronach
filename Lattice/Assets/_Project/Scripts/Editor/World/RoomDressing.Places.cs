@@ -79,7 +79,8 @@ namespace Lattice.EditorTools
             HazardEdges(-1.95f,-11.65f,1.95f,-7.35f,true,true,true,false,.28f);
             Detail("DecalHazard",0,-7f,.4f,4f,90,.02f,true,.9f);
             Detail("PictoDock",0,-9.5f,1.5f,1.5f,0);
-            Detail("PictoGalley",-6.6f,-5.2f,1.1f,1.1f,0);Detail("PictoRepair",4.6f,1.4f,1.1f,1.1f,0);Detail("PictoCabins",0,7.6f,1.1f,1.1f,0);
+            // The galley's picture lay behind the life support hatch from this camera, all but a pale tuft of it; the bed's lay under its sign.
+            Detail("PictoGalley",-7.3f,-2.2f,1.1f,1.1f,0);Detail("PictoRepair",4.6f,1.4f,1.1f,1.1f,0);Detail("PictoCabins",-2.8f,7.6f,1.1f,1.1f,0);
             foreach(int s in new[]{-1,1}){Detail("DecalGrate",s*8.4f,-4.6f,1.3f,1.3f,0);Detail("DecalDrain",s*4.4f,7f,.9f,.9f,0);}
             Detail("DecalHatch",9.8f,-1.4f,1.1f,1.1f,0);Detail("DecalTrench",8.6f,2.6f,.7f,1.4f,90);
             // No kiosk here: every open spot near the lobby is somebody's route, and the Keeper is the refuge's information point.
@@ -102,11 +103,23 @@ namespace Lattice.EditorTools
                 // Sample cores at the outpost bench and beside the hopper they were drilled for.
                 Put("DressCoreRack",-8.8f,1.6f,0);Put("DressCoreRack",11.2f,144.2f,0);
                 // Solid pieces first, so plants and patches can keep off them.
-                Boulders();SurveyBeacons();Flora();GroundPatches();
+                Boulders();SurveyBeacons();ExcavationFloor();Flora();GroundPatches();
             }
             finally{terrainGround=false;}
         }
 
+        /// <summary>The Burrower's arena was more flat dirt. The spoil line now runs from the bore to the hopper with its buffer, and what the drill threw up lies along the walls.
+        /// All drawn only and under a metre: the fight's ground and sightlines don't change.</summary>
+        static void ExcavationFloor()
+        {
+            // Ground patches draw after the bore's dark, so none may lie on it, nor a plant's gravel.
+            signRects.Add(Rect.MinMaxRect(4.8f,174.2f,11.2f,179.8f));
+            Strip("DecalRails",Smooth(new[]{new Vector2(12.4f,149.6f),new Vector2(11.4f,158),new Vector2(11.6f,168),new Vector2(10.7f,173.4f)}),0,1.25f,.035f);
+            Put("DressRailBuffer",10.5f,174.4f,100,.8f,false);
+            foreach(var (x,z,yaw,scale) in new[]{(13.6f,181.5f,40f,.72f),(-11.6f,171.5f,200f,.66f),(-12f,189f,110f,.7f),(13f,187f,300f,.62f)})
+                Put("DressSpoilHeap",x,z,yaw,scale,false,false,.12f).name="Excavation spoil";
+            foreach(var (x,z,size) in new[]{(9.4f,170f,4.4f),(5.5f,183f,5.2f),(-6f,189f,4.6f)})Detail("GroundStain",x,z,size,size,x*41,.045f,true);
+        }
         /// <summary>Chaikin corner cutting (three passes), endpoints kept.</summary>
         static Vector2[] Smooth(Vector2[] path)
         {
@@ -150,7 +163,7 @@ namespace Lattice.EditorTools
             {
                 var p=new Vector2(x+(float)random.NextDouble()*6-3,z+(float)random.NextDouble()*6-3);
                 float size=2.4f+(float)random.NextDouble()*2.4f,yaw=(float)random.NextDouble()*360,roll=(float)random.NextDouble();string pick=plain[random.Next(plain.Length)];
-                if(roll>.55f||Slope(p)>.32f||RoadDistance(p)<.6f+size*.5f)continue;
+                if(roll>.38f||Slope(p)>.32f||RoadDistance(p)<.6f+size*.5f)continue;
                 float clay=Mathf.PerlinNoise(p.x*.05f+31.7f,p.y*.05f+7.3f),dust=Mathf.PerlinNoise(p.x*.09f+3.1f,p.y*.09f+90.2f);
                 bool ore=SorrelRedesign.Mines.Any(m=>Vector2.Distance(m,p)<11);
                 string kind=ore?"GroundStain":clay>.55f?"GroundClay":dust>.6f?"GroundRipples":pick;
@@ -161,6 +174,13 @@ namespace Lattice.EditorTools
         /// <summary>Low alien plants in clusters, thicker where a broad noise field says the basin holds moisture.</summary>
         static void Flora()
         {
+            // The succulent's own red, faceted and white-tipped, is what a crystal looks like, and it stood beside the road while the objective pointed at the real, cyan ones.
+            // Most of its colour now comes from a dusty sage, so it reads as dry scrub.
+            var succulent=UnityEditor.AssetDatabase.LoadAssetAtPath<Material>("Assets/_Project/Art/Generated/Models/DressSucculent/DressSucculent_Toon.mat");
+            succulent.SetFloat("_BaseMapStrength",.45f);succulent.SetColor("_BaseColor",new Color(.56f,.62f,.42f));UnityEditor.EditorUtility.SetDirty(succulent);
+            // Everything built or standing, thin steel pads and the collider-free skiff included. A clump's middle kept clear of solid pieces, but its plants scatter 2 m round it.
+            var built=Object.FindObjectsByType<MeshRenderer>(FindObjectsSortMode.None).Where(r=>r.GetComponent<TMPro.TMP_Text>()==null&&r.GetComponent<BiomePatch>()==null&&Mathf.Max(r.bounds.size.x,r.bounds.size.z)<60)
+                .Select(r=>Rect.MinMaxRect(r.bounds.min.x,r.bounds.min.z,r.bounds.max.x,r.bounds.max.z)).ToList();
             var random=new System.Random(7717);int clusters=0,plants=0;
             // Only the band a player walks through (within 30 m of a graded road) is planted;
             // the far slopes are seen at a distance where the grass already reads.
@@ -174,8 +194,18 @@ namespace Lattice.EditorTools
                 float wet=Mathf.SmoothStep(0,1,(Mathf.PerlinNoise(p.x*.035f+12.4f,p.y*.035f+55.1f)-.15f)/.35f);
                 if(RoadDistance(p)>30)continue;
                 if(roll>.85f*wet||Slope(p)>.4f||RoadDistance(p)<2.5f||!Open(p,2f,false))continue;
-                if(Covered(p,1.6f)||placed.Any(q=>q.solid&&!q.structural&&PointRect(p,Footprint2D(q.go))<1.8f))continue;
-                foreach(var (o,yaw,scale) in offsets){Put(fan?"DressFanShrub":"DressSucculent",p.x+o.x,p.y+o.y,yaw,scale,false,true,.06f);plants++;}
+                if(Covered(p,1.6f)||signRects.Any(r=>PointRect(p,r)<2.4f)||placed.Any(q=>q.solid&&!q.structural&&PointRect(p,Footprint2D(q.go))<1.8f))continue;
+                int rooted=plants;
+                foreach(var (o,yaw,scale) in offsets)
+                {
+                    // On a slope's edge a plant sinks to its lowest footing and leaves a few shards poking out of the dirt. A clump mixes its kinds so it doesn't repeat.
+                    if(Slope(p+o)>.22f||RoadDistance(p+o)<.6f||built.Any(r=>PointRect(p+o,r)<.8f))continue;
+                    bool other=Mathf.Repeat(o.x*7.3f+o.y*3.1f,1)<.25f;
+                    Put(fan!=other?"DressFanShrub":"DressSucculent",p.x+o.x,p.y+o.y,yaw,scale,false,true,.1f);plants++;
+                }
+                if(plants==rooted)continue;
+                // Their gravel skirts melt into one soft patch instead of each sitting on its own jagged disc.
+                Detail("GroundGravel",p.x,p.y,5.2f,5.2f,p.x*37,.04f,true);
                 clusters++;
             }
             Debug.Log($"DRESSING_FLORA clusters={clusters} plants={plants}");
@@ -189,7 +219,7 @@ namespace Lattice.EditorTools
             {
                 var p=new Vector2(x+(float)random.NextDouble()*10-5,z+(float)random.NextDouble()*10-5);
                 float yaw=(float)random.NextDouble()*360,scale=.75f+(float)random.NextDouble()*.4f;double roll=random.NextDouble();
-                if(roll>.4f||Slope(p)>.22f||RoadDistance(p)<3f||Covered(p,1.8f))continue;
+                if(roll>.4f||Slope(p)>.22f||RoadDistance(p)<3f||Covered(p,1.8f)||signRects.Any(r=>PointRect(p,r)<2.2f))continue;
                 Put("DressBoulders",p.x,p.y,yaw,scale,true,true,.12f);count++;
             }
             Debug.Log("DRESSING_BOULDERS placed="+count);

@@ -46,6 +46,7 @@ Material:
     - _Glow: 0
     - _Ice: 0
     - _OccFade: 0
+    - _OccFadeDepth: 0.82
     - _OccFadeToggle: 0
     - _RampSteps: 3
     - _ReceiveShadows: 1
@@ -56,6 +57,8 @@ Material:
     - _Surf: 0
     - _SurfMode: 1
     - _SurfZUp: 0
+    - _Triplanar: 0
+    - _TriplanarScale: 0.125
     - _VColor: 0
     - _Water: 0
     - _Wind: 0

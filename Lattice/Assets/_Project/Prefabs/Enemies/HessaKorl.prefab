@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6420215395194612830}
   - component: {fileID: 8385092938034704063}
-  - component: {fileID: 4993605482131688641}
+  - component: {fileID: 1361305794473199603}
   m_Layer: 0
   m_Name: HessaKorl
   m_TagString: Untagged
@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Lattice.Combat::Lattice.Combat.GeneratedAnimator
   strideProfile: {fileID: 0}
---- !u!114 &4993605482131688641
+--- !u!114 &1361305794473199603
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}

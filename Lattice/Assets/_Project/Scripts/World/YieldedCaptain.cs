@@ -38,7 +38,7 @@ namespace Lattice.World
         }
         void StandAtPost()
         {
-            standing=true;npc.gameObject.SetActive(true);
+            standing=true;npc.gameObject.SetActive(true);Beaten();
             if(!GameServices.Current.Flags.GetBool(heardFlag)){nearOnly=true;speakAt=Time.unscaledTime+1;}
         }
         void TakeOver(string id,Vector3 position,Quaternion rotation)
@@ -46,8 +46,19 @@ namespace Lattice.World
             if(id!=bossId||npc==null)return;
             npc.transform.SetPositionAndRotation(position,rotation);npc.gameObject.SetActive(true);standing=true;
             // The incoming body has held its prefab pose since the scene loaded; it must not show that for a frame.
-            var rig=npc.GetComponentInChildren<Animator>();if(rig!=null)rig.Update(0);
+            Beaten();
             if(!GameServices.Current.Flags.GetBool(heardFlag)){nearOnly=false;speakAt=Time.unscaledTime+.4f;}
+        }
+        /// <summary>She doesn't stand to attention after a beating: the fighter's last pose, her hit reaction's recoil, held (the rig has no kneel or slump to play).</summary>
+        void Beaten()
+        {
+            var rig=npc.GetComponentInChildren<Animator>();if(rig==null)return;
+            if(rig.HasState(0,Animator.StringToHash("Stagger")))
+            {
+                var driver=npc.GetComponentInChildren<GeneratedAnimator>();if(driver!=null)driver.enabled=false;
+                rig.Play("Stagger",0,.25f);rig.speed=0;
+            }
+            rig.Update(0);
         }
         /// <summary>A fighter's body still playing out its defeat; the person takes over when it finishes.</summary>
         bool BodyLeaving()

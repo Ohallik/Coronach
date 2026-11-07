@@ -5,28 +5,87 @@ using Lattice.Data;
 using Lattice.World;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 namespace Lattice.UI
 {
     public sealed class ObjectiveHud:MonoBehaviour
     {
         /// <summary>What the panel asks of the player now, without its distance line: the quest log falls back on it.</summary>
         public static string CurrentLabel{get{var hud=FindFirstObjectByType<ObjectiveHud>();return hud!=null&&hud.text!=null?hud.text.text.Split('\n')[0]:"";}}
-        TMP_Text text;float next;Canvas canvas;
+        TMP_Text text;float next;Canvas canvas;bool inFight;
+        Image arrow,alsoArrow;Vector3? goalAt,alsoAt;
+        /// <summary>Nearer than this the goal is simply here: a distance and a direction mean nothing.</summary>
+        const float Here=3;
+        /// <summary>Room at the head of the distance line for the arrow.</summary>
+        const string ArrowRoom="<space=34>";
         /// <summary>What floating numbers keep clear of.</summary>
         public RectTransform Frame{get;private set;}
+        public PanelFade Fade{get;private set;}
         void Start()
         {
             canvas=UiKit.CreateCanvas("Objective",6,transform);var frame=UiKit.DarkFrame(canvas.transform,"ObjectiveFrame");frame.raycastTarget=false;
             // At the weight of the card under it, and of the vitals in the other corner. The full border left this frame room for three lines of type, and it can need four.
             frame.pixelsPerUnitMultiplier=2;
             Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
+            var group=frame.gameObject.AddComponent<CanvasGroup>();group.blocksRaycasts=false;group.interactable=false;Fade=new PanelFade(Frame,frame,group);
             text=UiKit.Text(frame.transform,"Objective","",24,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
             UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,112));
+            arrow=Pointer("ObjectiveArrow",26,UiKit.GoldColor);alsoArrow=Pointer("ObjectiveAlsoArrow",20,UiKit.DimTextColor);
         }
+        Image Pointer(string name,float size,Color color)
+        {
+            var image=UiKit.Panel(text.transform,name,color);image.sprite=UiSkin.Pointer();image.preserveAspect=true;image.raycastTarget=false;image.enabled=false;
+            UiKit.Rect(image.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(size,size));return image;
+        }
+        /// <summary>The camera is fixed, so the way to go is a way on the screen, and that's what the arrow shows. The word was the target's bearing from the
+        /// camera ("behind" was down-screen), and read as wrong to anyone flying straight at it.</summary>
+        static void Point(Image image,Vector3? goal,Vector3 hero)
+        {
+            bool on=false;var camera=Camera.main;
+            if(goal.HasValue&&camera!=null)
+            {
+                var gap=goal.Value-hero;gap.y=0;
+                if(gap.sqrMagnitude>=Here*Here)
+                {
+                    on=true;
+                    // A short step toward it: a straight line stays straight on screen, and a far goal can lie behind the camera itself.
+                    Vector2 way=camera.WorldToScreenPoint(hero+gap.normalized*2)-camera.WorldToScreenPoint(hero);
+                    image.rectTransform.localRotation=Quaternion.Euler(0,0,Mathf.Atan2(way.y,way.x)*Mathf.Rad2Deg-90);
+                }
+            }
+            if(image.enabled!=on)image.enabled=on;
+        }
+        /// <summary>The arrows stand on their lines, in the label's own space: the main one in the room left at the head of the distance, the small one after the last word.</summary>
+        void SeatArrows(int distanceFrom)
+        {
+            text.ForceMeshUpdate();var info=text.textInfo;float middle=text.fontSize*.33f;
+            for(int i=0;i<info.characterCount;i++)
+            {
+                var c=info.characterInfo[i];if(!c.isVisible||c.index<distanceFrom)continue;
+                arrow.rectTransform.anchoredPosition=new Vector2(c.origin-20,c.baseLine+middle);break;
+            }
+            for(int i=info.characterCount-1;i>=0;i--)
+            {
+                var c=info.characterInfo[i];if(!c.isVisible)continue;
+                alsoArrow.rectTransform.anchoredPosition=new Vector2(c.xAdvance+16,c.baseLine+middle);break;
+            }
+        }
+        /// <summary>With the bar up the boss is the objective, not the fixed spot the walk there pointed at. The Cantor's lines and Hessa's already name the fight.</summary>
+        static string FightGoal(BossController boss,string label)=>boss.Health.id switch
+        {
+            "Burrower"=>"Stop the Burrower",
+            "BellowsBelow"=>PressureOrgan.AnyPumping?"Break the pressure organs bracing the Bellows":"Bring down the Bellows",
+            _=>label,
+        };
         void Update()
         {
             canvas.enabled=!GameInput.Current.Blocked;
-            if(Time.unscaledTime<next||PartyController.Current==null)return;next=Time.unscaledTime+.25f;
+            var party=PartyController.Current;if(party==null||party.members==null)return;
+            var hero=party.Active.transform.position;
+            // A bar going up or a boss falling changes what the panel should say now, not at its next look: it said 'Release the collar lock' over the rewards.
+            var fight=BossController.Focus(hero);if((fight!=null)!=inFight){inFight=fight!=null;next=0;}
+            Point(arrow,goalAt,hero);Point(alsoArrow,alsoAt,hero);
+            if(Time.unscaledTime<next)return;next=Time.unscaledTime+.25f;
             var state=GameServices.Current.State;var flags=GameServices.Current.Flags;Vector3? goal=null;string label="";
             var prompts=InteractionPrompt.Active;
             InteractionPrompt target=null;
@@ -129,23 +188,25 @@ namespace Lattice.UI
                 default:label="Practice attacks, dodges and swaps";break;
             }
             if(target!=null)goal=target.transform.position;
+            if(fight!=null){label=FightGoal(fight,label);goal=null;}
             if(flags.GetBool("chapter2.homecoming")){label="Chapter 2 complete. Xylos's river towns are next, but their route isn't charted yet.";goal=null;}
             static int Lantern(GameState state)=>state.questSteps.TryGetValue("LanternRoad",out var step)?step:-1;
-            string direction="";
+            string direction="";goalAt=goal;
             if(goal.HasValue)
             {
-                var delta=goal.Value-PartyController.Current.Active.transform.position;delta.y=0;
-                var local=Quaternion.Euler(0,-ZoneController.Current.definition.cameraProfile.yaw,0)*delta;
-                direction=$"\n{delta.magnitude:0} m · "+(Mathf.Abs(local.x)>Mathf.Abs(local.z)?local.x>0?"right":"left":local.z>0?"ahead":"behind");
+                var delta=goal.Value-hero;delta.y=0;
+                direction=delta.sqrMagnitude<Here*Here?"\nHere":$"\n{ArrowRoom}{delta.magnitude:0} m";
             }
-            text.text=label+direction+Also(state,PartyController.Current.Active.transform.position);
+            string words=label+direction+Also(state,hero);
+            if(text.text!=words){text.text=words;SeatArrows(label.Length+1+ArrowRoom.Length);}
         }
         /// <summary>The nearest thing an active side quest wants in this zone, as a dim line under the main objective, with its distance.
         /// The den, the crate and the plates were otherwise found from the log's words alone. A boss fight has the player's whole attention.</summary>
-        static string Also(GameState state,Vector3 from)
+        string Also(GameState state,Vector3 from)
         {
+            alsoAt=null;
             if(BossController.Focus(from,45)!=null)return "";
-            QuestDef found=null;int step=0;float best=float.MaxValue;
+            QuestDef found=null;int step=0;float best=float.MaxValue;Vector3 at=default;
             foreach(var pair in state.questSteps)
             {
                 if(System.Array.IndexOf(PauseMenu.MainQuests,pair.Key)>=0)continue;
@@ -154,10 +215,12 @@ namespace Lattice.UI
                 {
                     if(!Wants(quest,pair.Value,prompt))continue;
                     var gap=prompt.transform.position-from;gap.y=0;
-                    if(gap.sqrMagnitude<best){best=gap.sqrMagnitude;found=quest;step=pair.Value;}
+                    if(gap.sqrMagnitude<best){best=gap.sqrMagnitude;found=quest;step=pair.Value;at=prompt.transform.position;}
                 }
             }
-            return found==null?"":$"\n<color=#{ColorUtility.ToHtmlStringRGB(UiKit.DimTextColor)}>Also: {QuestText.Brief(found,step,state)}  ·  {Mathf.Sqrt(best):0} m</color>";
+            if(found==null)return "";
+            alsoAt=at;
+            return $"\n<color=#{ColorUtility.ToHtmlStringRGB(UiKit.DimTextColor)}>Also: {QuestText.Brief(found,step,state)}  ·  {Mathf.Sqrt(best):0} m</color>";
         }
         static bool Wants(QuestDef quest,int step,InteractionPrompt prompt)=>prompt switch
         {

@@ -13,10 +13,19 @@ namespace Lattice.Combat
         /// <summary>Shots in the air, so AI can read incoming fire as a player does.</summary>
         public static readonly HashSet<Projectile> Live=new();
         public Vector3 Velocity=>velocity;
+        static readonly List<Projectile> fizzling=new();
+        /// <summary>Whoever fired these is out of the fight: their shots burn out where they are.</summary>
+        public static void Fizzle(Health source)
+        {
+            fizzling.Clear();
+            foreach(var shot in Live)if(shot.packet.source==source)fizzling.Add(shot);
+            foreach(var shot in fizzling){CombatVfx.Burst(shot.transform.position,new Color(1,.45f,.15f),"spark");shot.Recycle();}
+            fizzling.Clear();
+        }
         /// <summary>Would this shot harm a body on the given side?</summary>
         public bool Threatens(bool friendlySide)=>hasFaction&&friendly!=friendlySide;
         Renderer view;TrailRenderer trail;
-        static Material friendlyShot,hostileShot;
+        static Material friendlyShot,hostileShot,partyShot;
         static Material Shots(bool hostile)
         {
             friendlyShot??=Resources.Load<Material>("Blockout/Emission");
@@ -28,7 +37,16 @@ namespace Lattice.Combat
                 if(hostileShot.HasProperty("_Color"))hostileShot.SetColor("_Color",hot);
                 if(hostileShot.HasProperty("_EmissionColor"))hostileShot.SetColor("_EmissionColor",hot*2.4f);
             }
-            return hostile?hostileShot:friendlyShot;
+            // The shared Emission burns out to plain white under the grade: a white ball in the air, nobody's in particular.
+            if(partyShot==null&&friendlyShot!=null)
+            {
+                partyShot=new Material(friendlyShot){name="party shot (runtime)"};
+                var cool=new Color(.2f,.85f,1);
+                if(partyShot.HasProperty("_BaseColor"))partyShot.SetColor("_BaseColor",cool);
+                if(partyShot.HasProperty("_Color"))partyShot.SetColor("_Color",cool);
+                if(partyShot.HasProperty("_EmissionColor"))partyShot.SetColor("_EmissionColor",cool*1.6f);
+            }
+            return hostile?hostileShot:partyShot;
         }
         /// <param name="reach">How far a marked shot flies: it ends where its marking ends. Unmarked shots fly their three seconds.</param>
         public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24,float reach=0)
@@ -44,7 +62,9 @@ namespace Lattice.Combat
             // Their shots read as theirs: bigger, hot and trailing, against the party's small cyan needles.
             bool hostile=damage.source!=null&&!damage.source.friendly;
             p.transform.localScale=Vector3.one*(hostile?.36f:.18f);p.view.sharedMaterial=Shots(hostile);
-            p.trail.Clear();p.trail.enabled=hostile;
+            // Theirs a hot trail, the party's a thin cyan streak: a shot says whose it is.
+            p.trail.sharedMaterial=p.view.sharedMaterial;p.trail.startWidth=hostile?.26f:.12f;
+            p.trail.Clear();p.trail.enabled=true;
             p.transform.position=position;p.velocity=direction.normalized*speed;p.life=reach>0?reach/speed:3;p.marked=reach>0;
             damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;
             p.hasFaction=damage.source!=null;p.friendly=p.hasFaction&&damage.source.friendly;

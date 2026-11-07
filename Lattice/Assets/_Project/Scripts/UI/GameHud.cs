@@ -14,14 +14,21 @@ namespace Lattice.UI
         /// <summary>Places by the 1080p layout's coordinates, held from the nearest corner or edge: the same pixels at 16:9, and still in
         /// its corner on any other screen. Everything used to hang from the bottom-left and ran off the top of a 21:9 screen.</summary>
         static RectTransform Corner(GameObject go,Vector2 anchor,Vector2 pos,Vector2 size)=>UiKit.Rect(go,anchor,anchor,pos-Vector2.Scale(anchor,new(1920,1080)),size);
-        RectTransform vitals;ObjectiveHud objective;
+        RectTransform vitals;ObjectiveHud objective;QuestToast toast;BarkPanel barks;TextPlate targetPlate;
+        /// <summary>How far past its edge a panel counts as covering a body, and how far off an awake enemy is worth a look.</summary>
+        const float PanelMargin=40,AwakeRange=60;
+        readonly PanelFade[] panels=new PanelFade[8];
+        readonly BodyAim aim=new(),bossAim=new();
         TMP_Text status,partner,target,prompt,skills,zone,probe,hpLabel,chargeLabel,thrustLabel;
         Image hp,charge,thrust,reticle;
         readonly Image[] skillIcons=new Image[4];
         // The boss bar (D198): name, integrity with a lagging chip, phase notches, break gauge and the fight's state.
         GameObject bossRoot;TMP_Text bossName,bossEpithet,bossState;Image bossBack,bossFill,bossChip,bossBreak;
         readonly System.Collections.Generic.List<Image> bossNotches=new();float bossChipFraction=1;BossController shownBoss,introduced;
-        TMP_Text bossCard,bossCardEpithet;float bossCardAge=99;
+        TMP_Text bossCard,bossCardEpithet;float bossCardAge=99;CanvasGroup bossCardGroup;RectTransform bossCardRule;
+        CantorCollar shownCollar;float[] bossMarks=System.Array.Empty<float>();
+        const float BossCardGone=3.2f;
+        static readonly Color OpeningWords=new(1,.8f,.3f),ShiftingWords=new(.95f,.85f,1f);
         const float BossBarWidth=900;
         readonly TMP_Text[] skillLabels=new TMP_Text[4];
         static readonly ProfilerMarker UpdateMarker=new("Coronach.HUD.Refresh");
@@ -47,7 +54,7 @@ namespace Lattice.UI
             canvas=UiKit.CreateCanvas("HUD",5,transform);
             // Every line reads at 16 px or more on a 1280x720 screen (24 units at the
             // 1080p reference): each label has its own row above its bar.
-            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");frame.pixelsPerUnitMultiplier=2;vitals=Corner(frame.gameObject,TopLeft,new(277,918),new(524,298));frame.raycastTarget=false;objective=GetComponent<ObjectiveHud>();
+            var frame=UiKit.DarkFrame(canvas.transform,"VitalsFrame");frame.pixelsPerUnitMultiplier=2;vitals=Corner(frame.gameObject,TopLeft,new(277,918),new(524,298));frame.raycastTarget=false;objective=GetComponent<ObjectiveHud>();toast=GetComponent<QuestToast>();barks=GetComponent<BarkPanel>();
             status=Text("Status",TopLeft,new(297,1010),new(470,38),28,TextAlignmentOptions.Left);
             hpLabel=Text("IntegrityLabel",TopLeft,new(297,976),new(470,30),24,TextAlignmentOptions.Left);
             chargeLabel=Text("ChargeLabel",TopLeft,new(297,933),new(470,30),24,TextAlignmentOptions.Left);
@@ -61,29 +68,37 @@ namespace Lattice.UI
             zone=Text("Zone",TopRight,new(1635,1034),new(500,60),26,TextAlignmentOptions.Right);
             skills=Text("Skills",BottomLeft,new(625,50),new(1190,60),24);
             prompt=Text("Interaction",BottomCentre,new(960,205),new(1200,60),28);
-            skills.outlineWidth=.2f;skills.outlineColor=new Color32(5,12,22,255);
-            prompt.outlineWidth=.22f;prompt.outlineColor=new Color32(5,12,22,255);
-            target.outlineWidth=.2f;target.outlineColor=new Color32(5,12,22,255);
-            zone.outlineWidth=.2f;zone.outlineColor=new Color32(5,12,22,255);
-            TextPlate.Attach(prompt,"InteractionPlate");TextPlate.Attach(skills,"SkillsPlate",34,10);TextPlate.Attach(target,"TargetPlate",34,10);
-            reticle=UiKit.Panel(canvas.transform,"TargetReticle",Color.white);reticle.sprite=UiSkin.Kit("reticle");reticle.raycastTarget=false;reticle.preserveAspect=true;
+            UiKit.Legible(skills);UiKit.Legible(prompt);UiKit.Legible(target);UiKit.Legible(zone).color=UiKit.LooseTextColor;
+            // Each panel's pieces in a group of their own, to fade as one.
+            var vitalsGroup=Group("VitalsGroup",frame,status,hpLabel,chargeLabel,thrustLabel,hp.transform.parent,charge.transform.parent,thrust.transform.parent,partner);
+            var targetGroup=Group("TargetGroup",target);var promptGroup=Group("InteractionGroup",prompt);var zoneGroup=Group("ZoneGroup",zone);
+            var promptPlate=TextPlate.Attach(prompt,"InteractionPlate");TextPlate.Attach(skills,"SkillsPlate",34);targetPlate=TextPlate.Attach(target,"TargetPlate",34);
+            // The zone's name had nothing behind it, and a strut or a neon strip ran straight through its letters.
+            var zonePlate=TextPlate.Attach(zone,"ZonePlate",24);
+            panels[0]=new PanelFade(vitals,frame,vitalsGroup);panels[1]=new PanelFade(targetPlate.Frame.rectTransform,targetPlate.Frame,targetGroup);panels[2]=new PanelFade(promptPlate.Frame.rectTransform,promptPlate.Frame,promptGroup,PanelFade.Hero);
+            panels[7]=new PanelFade(zonePlate.Frame.rectTransform,zonePlate.Frame,zoneGroup);
+            // First in the canvas, so under every plate: drawn over them, its brackets cut through their words ('LO..KED').
+            reticle=UiKit.Panel(canvas.transform,"TargetReticle",Color.white);reticle.sprite=UiSkin.Kit("reticle");reticle.raycastTarget=false;reticle.preserveAspect=true;reticle.transform.SetAsFirstSibling();
             UiKit.Rect(reticle.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(90,90));
             for(int i=0;i<4;i++)
             {
                 skillIcons[i]=UiKit.Panel(canvas.transform,"Skill"+i,Color.white);skillIcons[i].raycastTarget=false;
                 Corner(skillIcons[i].gameObject,BottomRight,new(1340+i*150,112),new(74,74));
-                skillLabels[i]=Text("SkillLabel"+i,BottomRight,new(1340+i*150,42),new(145,62),24);
+                skillLabels[i]=UiKit.Legible(Text("SkillLabel"+i,BottomRight,new(1340+i*150,42),new(145,62),24));skillLabels[i].color=UiKit.LooseTextColor;
             }
 #if LATTICE_DEV || UNITY_EDITOR
             probe=Text("InputProbe",BottomRight,new(1630,280),new(500,180),16,TextAlignmentOptions.Right);
 #endif
-            BuildBossBar();
+            BuildBossBar();gameObject.AddComponent<BossEdgeMark>().Build(canvas.transform);
             Health.DamageNumber+=Damage;PlayerBrain.QuickItemRefused+=OnItemRefused;
         }
         void BuildBossBar()
         {
             bossRoot=new GameObject("BossBar",typeof(RectTransform));bossRoot.transform.SetParent(canvas.transform,false);
             var root=(RectTransform)bossRoot.transform;root.anchorMin=root.anchorMax=BottomCentre;root.pivot=Vector2.zero;root.anchoredPosition=Vector2.zero;root.sizeDelta=Vector2.zero;
+            // The words have no frame and lie over the fullest markings and the brightest floors.
+            var band=UiKit.SoftBand(bossRoot.transform,"BossBand",new Color(.01f,.02f,.04f,.6f));UiKit.Rect(band.gameObject,Vector2.zero,Vector2.zero,new(0,178),new(1060,132));
+            var barGroup=bossRoot.AddComponent<CanvasGroup>();barGroup.blocksRaycasts=false;barGroup.interactable=false;panels[3]=new PanelFade(band.rectTransform,band,barGroup,PanelFade.Party,.55f);
             bossName=BossText("BossName",new(0,216),28,TextAlignmentOptions.Left);
             bossEpithet=BossText("BossEpithet",new(0,216),24,TextAlignmentOptions.Right);
             bossBack=UiKit.Panel(bossRoot.transform,"BossIntegrityBack",new Color(.025f,.045f,.065f,.9f));bossBack.raycastTarget=false;
@@ -93,24 +108,31 @@ namespace Lattice.UI
             var breakBack=UiKit.Panel(bossRoot.transform,"BossBreakBack",new Color(.025f,.045f,.065f,.9f));breakBack.raycastTarget=false;
             UiKit.Rect(breakBack.gameObject,Vector2.zero,Vector2.zero,new(0,168),new(BossBarWidth,7));
             bossBreak=BossFill(breakBack.transform,"BossBreak",new Color(1,.62f,.2f,.85f),7);
-            bossState=BossText("BossState",new(0,140),24,TextAlignmentOptions.Center);
+            // What the player acts on, so the strongest line of them.
+            bossState=BossText("BossState",new(0,140),30,TextAlignmentOptions.Center);bossState.fontStyle=FontStyles.Bold;
             for(int i=0;i<3;i++)
             {
                 var notch=UiKit.Panel(bossBack.transform,"BossNotch"+i,new Color(.95f,.95f,1,.95f));notch.raycastTarget=false;
                 var rect=UiKit.Rect(notch.gameObject,new(0,.5f),new(0,.5f),Vector2.zero,new(3,28));rect.pivot=new(.5f,.5f);bossNotches.Add(notch);
             }
+            // Under the skill icons: the band's lower edge reaches the first two, and a fight's next press mustn't go dim for it.
+            bossRoot.transform.SetSiblingIndex(skillIcons[0].transform.GetSiblingIndex());
             bossRoot.SetActive(false);
-            // The title card: the boss's name across the middle of the screen as its fight begins.
-            bossCard=UiKit.Text(canvas.transform,"BossTitleCard","",64,new Color(1,.93f,.8f),TextAlignmentOptions.Center);
-            Corner(bossCard.gameObject,Middle,new(960,640),new(1400,90));bossCard.outlineWidth=.25f;bossCard.outlineColor=new Color32(5,12,22,255);bossCard.raycastTarget=false;
-            bossCardEpithet=UiKit.Text(canvas.transform,"BossTitleEpithet","",28,UiKit.TextColor,TextAlignmentOptions.Center);
-            Corner(bossCardEpithet.gameObject,Middle,new(960,580),new(1400,44));bossCardEpithet.outlineWidth=.2f;bossCardEpithet.outlineColor=new Color32(5,12,22,255);bossCardEpithet.raycastTarget=false;
+            // The title card: the boss's name as its fight begins, in the band over the hero and under the target plate, clear of both corners.
+            // Across the middle of the screen it lay on the hero and on the first marked attack.
+            var cardBand=UiKit.SoftBand(canvas.transform,"BossTitleBand",new Color(.01f,.02f,.04f,.62f));Corner(cardBand.gameObject,TopCentre,new(960,828),new(770,190));
+            var rule=UiKit.Panel(canvas.transform,"BossTitleRule",UiKit.GoldColor);rule.raycastTarget=false;bossCardRule=Corner(rule.gameObject,TopCentre,new(960,811),new(620,3));
+            bossCardGroup=Group("BossTitle",cardBand,rule);bossCardGroup.alpha=0;bossCardGroup.gameObject.SetActive(false);
+            bossCard=UiKit.Legible(UiKit.Heading(canvas.transform,"BossTitleCard","",58,new Color(1,.93f,.8f)));
+            Corner(bossCard.gameObject,TopCentre,new(960,850),new(740,76));bossCard.textWrappingMode=TextWrappingModes.NoWrap;bossCard.raycastTarget=false;
+            bossCardEpithet=UiKit.Legible(UiKit.Text(canvas.transform,"BossTitleEpithet","",28,UiKit.LooseTextColor,TextAlignmentOptions.Center));
+            Corner(bossCardEpithet.gameObject,TopCentre,new(960,788),new(740,44));bossCardEpithet.raycastTarget=false;
             bossCard.alpha=bossCardEpithet.alpha=0;
         }
         TMP_Text BossText(string name,Vector2 pos,int font,TextAlignmentOptions align)
         {
-            var t=UiKit.Text(bossRoot.transform,name,"",font,UiKit.TextColor,align);UiKit.Rect(t.gameObject,Vector2.zero,Vector2.zero,pos,new(BossBarWidth,36));
-            t.outlineWidth=.2f;t.outlineColor=new Color32(5,12,22,255);t.raycastTarget=false;return t;
+            var t=UiKit.Legible(UiKit.Text(bossRoot.transform,name,"",font,UiKit.LooseTextColor,align));UiKit.Rect(t.gameObject,Vector2.zero,Vector2.zero,pos,new(BossBarWidth,36));
+            t.raycastTarget=false;return t;
         }
         Image BossFill(Transform parent,string name,Color color,float height)
         {
@@ -123,28 +145,64 @@ namespace Lattice.UI
             var boss=BossController.Focus(active.transform.position);bool show=boss!=null;
             if(bossRoot.activeSelf!=show)bossRoot.SetActive(show);
             if(show&&boss!=introduced){introduced=boss;bossCardAge=0;bossCard.text=boss.DisplayName;bossCardEpithet.text=boss.Epithet;}
-            bossCardAge+=Time.unscaledDeltaTime;
-            float card=bossCardAge<.35f?bossCardAge/.35f:bossCardAge<2.2f?1:Mathf.Clamp01(1-(bossCardAge-2.2f)/.6f);
-            bossCard.alpha=bossCardEpithet.alpha=card;
-            if(!show){shownBoss=null;return false;}
-            var health=boss.Health;float fraction=Mathf.Clamp01(health.integrity/Mathf.Max(1,health.maximum));
-            if(boss!=shownBoss){shownBoss=boss;bossChipFraction=fraction;}
+            AdvanceBossCard();
+            if(!show){shownBoss=null;shownCollar=null;return false;}
+            var health=boss.Health;
+            if(boss!=shownBoss){shownBoss=boss;shownCollar=boss.GetComponent<CantorCollar>();bossMarks=MarksFor(boss);bossChipFraction=FightLeft(health);}
+            float fraction=FightLeft(health);
             bossChipFraction=fraction>=bossChipFraction?fraction:Mathf.MoveTowards(bossChipFraction,fraction,Time.unscaledDeltaTime*.22f);
             bossFill.rectTransform.sizeDelta=new Vector2(BossBarWidth*fraction,20);bossChip.rectTransform.sizeDelta=new Vector2(BossBarWidth*bossChipFraction,20);
             bossFill.color=boss.Shifting?new Color(.95f,.85f,1f):new Color(.86f,.25f,.2f);
             float meter=health.Broken?1:Mathf.Clamp01(health.BreakMeter/Mathf.Max(1,health.breakThreshold));
             bossBreak.rectTransform.sizeDelta=new Vector2(BossBarWidth*meter,7);bossBreak.color=health.Broken?new Color(1,.92f,.45f):new Color(1,.62f,.2f,.85f);
             if(bossName.text!=boss.DisplayName)bossName.text=boss.DisplayName;
-            if(bossEpithet.text!=boss.Epithet)bossEpithet.text=boss.Epithet;
-            var thresholds=boss.Thresholds;
+            // The card says it first: the bar takes it up when the card has gone, not the same words twice at once.
+            string epithet=bossCardAge<BossCardGone?"":boss.Epithet;if(bossEpithet.text!=epithet)bossEpithet.text=epithet;
             for(int i=0;i<bossNotches.Count;i++)
             {
-                bool on=i<thresholds.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
-                if(on)bossNotches[i].rectTransform.anchoredPosition=new Vector2(BossBarWidth*thresholds[i],0);
+                bool on=i<bossMarks.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
+                if(on)bossNotches[i].rectTransform.anchoredPosition=new Vector2(BossBarWidth*bossMarks[i],0);
             }
             string state=boss.Shifting?boss.ShiftText:health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:boss.StatusText;
             if(bossState.text!=state)bossState.text=state;
+            bossState.color=boss.Shifting?ShiftingWords:health.Broken?OpeningWords:UiKit.LooseTextColor;
             return true;
+        }
+        /// <summary>The card enters: the name's letters close up as it fades in and a gold rule draws out under it. Its band sits out the rest of the fight switched off.</summary>
+        void AdvanceBossCard()
+        {
+            bossCardAge+=Time.unscaledDeltaTime;
+            float card=bossCardAge<.35f?bossCardAge/.35f:bossCardAge<2.6f?1:Mathf.Clamp01(1-(bossCardAge-2.6f)/.6f);
+            bossCard.alpha=bossCardEpithet.alpha=card;
+            if(bossCardGroup.gameObject.activeSelf!=card>0)bossCardGroup.gameObject.SetActive(card>0);
+            if(card<=0)return;
+            bossCardGroup.alpha=card;
+            if(bossCardAge<.6f||bossCard.characterSpacing!=6)
+            {
+                float settled=Mathf.Clamp01(bossCardAge/.45f);settled=1-(1-settled)*(1-settled)*(1-settled);
+                bossCard.characterSpacing=Mathf.Lerp(24,6,settled);bossCardRule.sizeDelta=new Vector2(Mathf.Lerp(0,620,settled),3);
+            }
+        }
+        /// <summary>What's left of the whole fight. The Cantor's bar is its head and its links together, by their shares: a link at 66/5100 over a full bar read as nearly dead with nothing gone.</summary>
+        float FightLeft(Health head)
+        {
+            float left=head.integrity,whole=head.maximum;
+            if(shownCollar!=null)
+            {
+                var links=shownCollar.Links;
+                for(int i=0;i<links.Count;i++)if(links[i]!=null){left+=links[i].integrity;whole+=links[i].maximum;}
+            }
+            return Mathf.Clamp01(left/Mathf.Max(1,whole));
+        }
+        /// <summary>The phase notches on that same bar. The Cantor's head can't be hurt until the last link goes, so that's a mark of its own, and the head's two phases fall inside its share.</summary>
+        float[] MarksFor(BossController boss)
+        {
+            var thresholds=boss.Thresholds;if(shownCollar==null)return thresholds;
+            var head=boss.Health;float whole=head.maximum;var links=shownCollar.Links;
+            for(int i=0;i<links.Count;i++)if(links[i]!=null)whole+=links[i].maximum;
+            float share=head.maximum/Mathf.Max(1,whole);var marks=new float[thresholds.Length+1];marks[0]=share;
+            for(int i=0;i<thresholds.Length;i++)marks[i+1]=share*thresholds[i];
+            return marks;
         }
         const float BarWidth=400;
         float refusedHeard,itemRefusedAt=-99;
@@ -152,6 +210,14 @@ namespace Lattice.UI
         const float Unbreakable=10000;
         TMP_Text Text(string name,Vector2 anchor,Vector2 pos,Vector2 size,int font,TextAlignmentOptions align=TextAlignmentOptions.Center)
         {var t=UiKit.Text(canvas.transform,name,"",font,UiKit.TextColor,align);Corner(t.gameObject,anchor,pos,size);return t;}
+        /// <summary>A stretched parent for one panel's pieces: they fade as one, and every anchor means what it did on the canvas.</summary>
+        CanvasGroup Group(string name,params Component[] parts)
+        {
+            var go=new GameObject(name,typeof(RectTransform),typeof(CanvasGroup));go.transform.SetParent(canvas.transform,false);
+            var rect=(RectTransform)go.transform;rect.anchorMin=Vector2.zero;rect.anchorMax=Vector2.one;rect.offsetMin=rect.offsetMax=Vector2.zero;
+            foreach(var part in parts)part.transform.SetParent(rect,false);
+            var group=go.GetComponent<CanvasGroup>();group.blocksRaycasts=false;group.interactable=false;return group;
+        }
         Image Bar(string name,Vector2 pos,Color color)
         {
             var bg=UiKit.Panel(canvas.transform,name+"Back",new Color(.025f,.045f,.065f,.85f));Corner(bg.gameObject,TopLeft,pos,new(BarWidth,14));
@@ -168,6 +234,7 @@ namespace Lattice.UI
         }
         void Refresh()
         {
+            AdvanceNumbers();
             var party=PartyController.Current;if(party==null||party.members==null)return;
             canvas.enabled=!GameInput.Current.Blocked;
             var a=party.Active;
@@ -187,7 +254,8 @@ namespace Lattice.UI
             zone.text=DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
             if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
-                target.text=(a.TargetLocked?"LOCKED    ":"")+TargetKeys(a);
+                // The bar has a boss's name and gauge. The Cantor's lock is the one thing on its body the objective names, so the plate names it too, with its progress.
+                target.text=shownCollar!=null?(a.TargetLocked?"LOCKED  ·  ":"")+$"COLLAR LOCK   {a.target.integrity:0}/{a.target.maximum:0}\n"+TargetKeys(a):(a.TargetLocked?"LOCKED    ":"")+TargetKeys(a);
             else if(a.target!=null&&a.target.Alive)
                 target.text=(a.TargetLocked?"LOCKED  ·  ":"")+$"{(a.target.GetComponent<CantorCollar>()!=null?"Cantor collar lock":DisplayNames.Target(a.target.id)).ToUpperInvariant()}   {a.target.integrity:0}/{a.target.maximum:0}\n"+
                     (a.target.Broken?"BROKEN    ":a.target.breakThreshold>=Unbreakable?"":"BREAK "+a.target.BreakMeter.ToString("0")+" / "+a.target.breakThreshold.ToString("0")+"    ")+
@@ -196,9 +264,12 @@ namespace Lattice.UI
             reticle.enabled=a.target!=null&&a.target.Alive;
             if(reticle.enabled)
             {
-                reticle.color=a.TargetLocked?new Color(1,.76f,.3f):new Color(1,1,1,.55f);
-                var screen=Camera.main.WorldToScreenPoint(a.target.transform.position+Vector3.up);
+                var screen=Camera.main.WorldToScreenPoint(aim.Centre(a.target));
                 RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,screen,null,out var point);reticle.rectTransform.anchoredPosition=point;
+                // It stays on its target under a panel that has stepped aside, but dim there: the panel's words are read through it.
+                var mark=a.TargetLocked?new Color(1,.76f,.3f):new Color(1,1,1,.55f);
+                foreach(var panel in panels)if(panel!=null&&panel.Contains(screen)){mark.a*=.4f;break;}
+                reticle.color=mark;
             }
             var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
             bool combat=ZoneController.Current.Combat;
@@ -219,6 +290,60 @@ namespace Lattice.UI
                 a.flight?Hint("Fire","FIRE")+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
                 Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
+            StepAside(party,a);
+        }
+        /// <summary>The middle of a body as it's drawn, measured once when it's first aimed at and carried on its own transform after that: a bobbing dart keeps its
+        /// mark with no search every frame. A root's position plus a metre missed flying bodies by 30 to 40 px, so the brackets framed empty sky.</summary>
+        sealed class BodyAim
+        {
+            Health of;Transform body;Vector3 local;
+            public Vector3 Centre(Health target)
+            {
+                if(target!=of||body==null)
+                {
+                    of=target;body=target.TryGetComponent<DefeatPresentation>(out var shown)&&shown.visual!=null?shown.visual:target.transform;
+                    var bounds=new Bounds();bool found=false;
+                    foreach(var view in body.GetComponentsInChildren<Renderer>())
+                    {
+                        if(view is not (MeshRenderer or SkinnedMeshRenderer))continue;
+                        if(found)bounds.Encapsulate(view.bounds);else{bounds=view.bounds;found=true;}
+                    }
+                    if(!found&&target.TryGetComponent<Collider>(out var shape)&&shape.enabled){bounds=shape.bounds;found=true;}
+                    local=body.InverseTransformPoint(found?bounds.center:target.transform.position+Vector3.up);
+                }
+                return body.TransformPoint(local);
+            }
+        }
+        /// <summary>Who is behind a panel this frame, from a short fixed list: the party, the target, the boss, and an awake enemy near enough to matter.</summary>
+        void StepAside(PartyController party,CombatActor a)
+        {
+            var camera=Camera.main;if(camera==null)return;
+            if(panels[4]==null&&objective!=null)panels[4]=objective.Fade;
+            if(panels[5]==null&&toast!=null)panels[5]=toast.Fade;
+            if(panels[6]==null&&barks!=null)panels[6]=barks.Fade;
+            float now=Time.unscaledTime,margin=PanelMargin*canvas.scaleFactor;
+            foreach(var panel in panels)panel?.Measure(margin);
+            Watch(camera,a,PanelFade.Hero,now);
+            if(party.members.Length>1)Watch(camera,party.members[1-party.index],PanelFade.Party,now);
+            if(a.target!=null&&a.target.Alive)Look(camera.WorldToScreenPoint(aim.Centre(a.target)),PanelFade.Everyone,now);
+            if(shownBoss!=null&&shownBoss.Health!=a.target)Look(camera.WorldToScreenPoint(bossAim.Centre(shownBoss.Health)),PanelFade.Everyone,now);
+            foreach(var body in Health.All)
+            {
+                if(body==null||body.friendly||!body.Alive)continue;
+                var gap=body.transform.position-a.transform.position;gap.y=0;if(gap.sqrMagnitude>AwakeRange*AwakeRange)continue;
+                var screen=camera.WorldToScreenPoint(body.transform.position+Vector3.up*.75f);
+                bool behind=false;foreach(var panel in panels)if(panel!=null&&panel.Contains(screen)){behind=true;break;}
+                if(behind&&body.TryGetComponent<EnemyBrain>(out var brain)&&brain.enabled&&!brain.Passive)Look(screen,PanelFade.Everyone,now);
+            }
+            foreach(var panel in panels)panel?.Step(now,Time.unscaledDeltaTime);
+        }
+        void Look(Vector3 screen,int who,float now){foreach(var panel in panels)panel?.Look(screen,who,now);}
+        /// <summary>On foot the head counts as well as the middle, being what shows first at a panel's edge. A ship or a body lying down is one low shape.</summary>
+        void Watch(Camera camera,CombatActor hero,int who,float now)
+        {
+            var at=hero.transform.position;bool standing=hero.Health.Alive&&!hero.flight;
+            Look(camera.WorldToScreenPoint(at+Vector3.up*(standing?1:.3f)),who,now);
+            if(standing)Look(camera.WorldToScreenPoint(at+Vector3.up*1.7f),who,now);
         }
         static string TargetKeys(CombatActor a)=>PromptService.Tag("LockOn")+(a.TargetLocked?"  UNLOCK":"  LOCK")+"    "+DeviceHints.CycleTarget()+"  SWITCH";
         /// <summary>The quick item and how many are left. None left reads as out of reach; a refused press flashes, as a refused skill's icon does.</summary>
@@ -237,29 +362,79 @@ namespace Lattice.UI
             return PromptService.Tag("SkillMod")+"+"+PromptService.Tag(faces[slot]);
         }
         static string Readable(string value)=>System.Text.RegularExpressions.Regex.Replace(value??"","(?<=[a-z])(?=[A-Z])"," ");
-        void Damage(Health health,float amount,HitKind kind){if(canvas!=null)StartCoroutine(Number(health.transform.position+Vector3.up*1.9f,amount,kind));}
-        IEnumerator Number(Vector3 position,float amount,HitKind kind)
+        // ---------- damage numbers ----------
+        /// <summary>A number holds for most of its life and then fades; all rise at one speed, so what's clear of its neighbours when it lands stays clear.</summary>
+        const float NumberLife=1.05f,NumberHold=.7f,NumberRise=.85f,MergeWindow=.1f;
+        sealed class Floater{public TMP_Text text;public RectTransform rect;public Health from;public HitKind kind;public string mark;public float amount,born,age;public Vector3 world;public Vector2 offset,size;public bool rises;}
+        readonly System.Collections.Generic.List<Floater> floaters=new();
+        /// <summary>Where to try a new number, in its own widths and heights from its body: beside it first, then over and under.</summary>
+        static readonly Vector2[] Slots={new(0,0),new(1,0),new(-1,0),new(0,1),new(1,1),new(-1,1),new(2,0),new(-2,0),new(0,-1),new(1,-1),new(-1,-1),new(2,1),new(-2,1),new(0,2),new(1,2),new(-1,2),new(2,-1),new(-2,-1),new(2,2),new(-2,2)};
+        void Damage(Health health,float amount,HitKind kind)
         {
+            if(canvas==null||health==null||Camera.main==null)return;
+            float now=Time.unscaledTime;
+            // Hits landing together read as one: a volley's pellets or a spin's ticks were a stack of the same digits.
+            foreach(var open in floaters)if(open.from==health&&open.kind==kind&&now-open.born<MergeWindow)
+            {open.amount+=amount;open.text.text=open.amount.ToString("0")+open.mark;open.size=open.text.GetPreferredValues(open.text.text,160,60)+new Vector2(8,0);open.rect.SetAsLastSibling();return;}
             var (mark,size,color)=kind switch{HitKind.Weak=>("!",32f,new Color(1,.72f,.26f)),HitKind.WeakSpot=>("!!",34f,new Color(1,.93f,.45f)),HitKind.Resisted=>("",24f,new Color(.62f,.66f,.7f)),_=>("",27f,Color.white)};
-            var t=UiKit.Text(canvas.transform,"Damage",amount.ToString("0")+mark,size,color);
-            var rect=UiKit.Rect(t.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(160,60));
-            for(float time=0;time<.75f;time+=Time.unscaledDeltaTime)
+            var t=UiKit.Legible(UiKit.Text(canvas.transform,"Damage",amount.ToString("0")+mark,size,color));
+            var rect=UiKit.Rect(t.gameObject,Middle,Middle,Vector2.zero,new(160,60));
+            var floater=new Floater{text=t,rect=rect,from=health,kind=kind,mark=mark,amount=amount,born=now,world=health.transform.position+Vector3.up*1.9f,size=t.GetPreferredValues(t.text,160,60)+new Vector2(8,0)};
+            Seat(floater);floaters.Add(floater);
+        }
+        /// <summary>The first slot clear of every number still up, on anyone: two bodies side by side smeared just as one did.</summary>
+        void Seat(Floater floater)
+        {
+            var anchor=OnCanvas(floater.world);var spot=anchor;var size=floater.rect.sizeDelta;floater.rises=true;
+            foreach(var slot in Slots)
             {
-                var screen=Camera.main.WorldToScreenPoint(position+Vector3.up*time);
-                RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,screen,null,out var point);rect.anchoredPosition=ClearOfFrames(point,rect.sizeDelta);
-                t.alpha=1-time/.75f;yield return null;
+                var wanted=anchor+Vector2.Scale(slot,floater.size);var tried=ClearOfFrames(OnScreen(wanted,size),size);
+                if(!Free(tried,floater.size))continue;
+                spot=tried;floater.rises=tried==wanted;break;
             }
-            Destroy(t.gameObject);
+            // Put aside by a frame or the screen's edge, it holds there: rising, it would only press against what it left.
+            floater.offset=spot-anchor;floater.rect.anchoredPosition=spot;
+        }
+        bool Free(Vector2 at,Vector2 size)
+        {
+            foreach(var other in floaters)
+            {
+                var gap=at-other.rect.anchoredPosition;
+                if(Mathf.Abs(gap.x)<(size.x+other.size.x)*.5f&&Mathf.Abs(gap.y)<(size.y+other.size.y)*.5f)return false;
+            }
+            return true;
+        }
+        void AdvanceNumbers()
+        {
+            if(Camera.main==null)return;
+            for(int i=floaters.Count-1;i>=0;i--)
+            {
+                var floater=floaters[i];floater.age+=Time.unscaledDeltaTime;
+                if(floater.age>=NumberLife){Destroy(floater.text.gameObject);floaters.RemoveAt(i);continue;}
+                var at=floater.rises?floater.world+Vector3.up*(NumberRise*floater.age):floater.world;var size=floater.rect.sizeDelta;
+                floater.rect.anchoredPosition=ClearOfFrames(OnScreen(OnCanvas(at)+floater.offset,size),size);
+                floater.text.alpha=floater.age<NumberHold?1:1-(floater.age-NumberHold)/(NumberLife-NumberHold);
+            }
+        }
+        Vector2 OnCanvas(Vector3 world)
+        {
+            RectTransformUtility.ScreenPointToLocalPointInRectangle((RectTransform)canvas.transform,Camera.main.WorldToScreenPoint(world),null,out var point);return point;
+        }
+        /// <summary>A number never leaves the screen: a '43!' over a boss at the top edge was cut in half. This goes before the frames, or a body just off the screen is pressed back across them.</summary>
+        Vector2 OnScreen(Vector2 point,Vector2 size)
+        {
+            var room=((RectTransform)canvas.transform).rect.size*.5f-size*.5f;
+            return new Vector2(Mathf.Clamp(point.x,-room.x,room.x),Mathf.Clamp(point.y,-room.y,room.y));
         }
         static readonly Vector3[] corners=new Vector3[4];
-        /// <summary>A number floats where its body stands, but not across what the player reads mid-fight: the vitals and the objective
-        /// hold the top corners, so it leaves them downward or toward the middle of the screen, whichever is nearer.</summary>
+        /// <summary>A number floats where its body stands, but not across what the player reads mid-fight: the vitals, the objective and the target
+        /// plate, so it leaves them downward or toward the middle of the screen, whichever is nearer.</summary>
         Vector2 ClearOfFrames(Vector2 point,Vector2 size)
         {
             var root=(RectTransform)canvas.transform;
-            for(int i=0;i<2;i++)
+            for(int i=0;i<3;i++)
             {
-                var frame=i==0?vitals:objective!=null?objective.Frame:null;if(frame==null)continue;
+                var frame=i==0?vitals:i==1?objective!=null?objective.Frame:null:targetPlate!=null&&targetPlate.Frame.enabled?targetPlate.Frame.rectTransform:null;if(frame==null)continue;
                 frame.GetWorldCorners(corners);
                 Vector2 low=(Vector2)root.InverseTransformPoint(corners[0])-size*.5f,high=(Vector2)root.InverseTransformPoint(corners[2])+size*.5f;
                 if(point.x<=low.x||point.x>=high.x||point.y<=low.y||point.y>=high.y)continue;

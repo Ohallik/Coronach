@@ -219,7 +219,9 @@ namespace Lattice.Combat
     /// <summary>An expanding marker on the ground (or the flight plane) for a skill's reach.</summary>
     public sealed class SkillRing:MonoBehaviour
     {
-        GroundRing ring;FlightEnergyArc arc;float radius,life,age,from;Color color;bool shrink;
+        GroundRing ring;FlightEnergyArc arc;float radius,life,age,from;Color color;bool shrink,dismissed;
+        /// <summary>The fight is over: it runs out quickly, and through a conversation too.</summary>
+        public void Dismiss()=>dismissed=true;
         public static SkillRing Expand(Vector3 center,float radius,Color color,float life,bool flight,bool shrink=false,float from=0)
         {
             var go=new GameObject("Skill ring",typeof(SkillRing));go.transform.position=center;
@@ -230,8 +232,8 @@ namespace Lattice.Combat
         }
         void Update()
         {
-            if(GameTime.CombatHeld)return;
-            age+=Time.deltaTime;float t=Mathf.Clamp01(age/life);
+            if(GameTime.CombatHeld&&!dismissed)return;
+            age+=dismissed?Time.unscaledDeltaTime*4:Time.deltaTime;float t=Mathf.Clamp01(age/life);
             float r=shrink?Mathf.Lerp(from,radius,t):radius*Mathf.Clamp01(age/(life*.7f));
             var c=color;c.a=Mathf.Clamp01((1-t)*1.6f);
             if(ring!=null)ring.Draw(r,c);if(arc!=null)arc.Draw(r,180,c,true);

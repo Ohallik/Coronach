@@ -40,17 +40,19 @@ namespace Lattice.UI
         public void OnDeselect(UnityEngine.EventSystems.BaseEventData eventData) => Mark(false);
     }
 
-    /// <summary>A dark plate behind floating centre-aligned HUD text, sized to its words and hidden with them, so a prompt or
-    /// a line reads on the brightest floor (QA-002).</summary>
+    /// <summary>A dark plate behind floating HUD text, hidden with it, so a prompt or a line reads on the brightest floor (QA-002). It's sized and
+    /// centred on the letters as they're drawn: at this weight the frame's bevel takes 10 units top and bottom, and the padding leaves 6 of air inside that.</summary>
     public sealed class TextPlate : MonoBehaviour
     {
-        TMP_Text text; Image image; Vector2 padding; string shown;
-        public static TextPlate Attach(TMP_Text text, string name, float paddingX = 30, float paddingY = 14)
+        TMP_Text text; Image image; Vector2 padding; string shown; Vector2 shownAt;
+        /// <summary>The plate's picture: what a fade watches, and what numbers keep clear of.</summary>
+        public Image Frame => image;
+        public static TextPlate Attach(TMP_Text text, string name, float paddingX = 30, float paddingY = 16)
         {
             var image = UiKit.DarkFrame(text.transform.parent, name);
             image.pixelsPerUnitMultiplier = 3; image.raycastTarget = false;
             var from = text.rectTransform; var rect = image.rectTransform;
-            rect.anchorMin = from.anchorMin; rect.anchorMax = from.anchorMax; rect.pivot = from.pivot;
+            rect.anchorMin = from.anchorMin; rect.anchorMax = from.anchorMax; rect.pivot = new Vector2(.5f, .5f);
             rect.anchoredPosition = from.anchoredPosition;
             image.transform.SetSiblingIndex(text.transform.GetSiblingIndex());
             var plate = image.gameObject.AddComponent<TextPlate>();
@@ -61,10 +63,14 @@ namespace Lattice.UI
         {
             bool visible = text != null && text.isActiveAndEnabled && !string.IsNullOrEmpty(text.text);
             if (image.enabled != visible) image.enabled = visible;
-            if (!visible || text.text == shown) return;
-            shown = text.text;
-            var need = text.GetPreferredValues(shown, text.rectTransform.rect.width, 0);
-            image.rectTransform.sizeDelta = need + padding * 2;
+            if (!visible) return;
+            var from = text.rectTransform;
+            if (text.text == shown && from.anchoredPosition == shownAt) return;
+            shown = text.text; shownAt = from.anchoredPosition;
+            var ink = UiKit.Ink(text);
+            float wide = text.GetPreferredValues(shown, from.rect.width, 0).x;
+            image.rectTransform.sizeDelta = new Vector2(wide + padding.x * 2, ink.height + padding.y * 2);
+            image.rectTransform.anchoredPosition = shownAt + ink.center;
         }
     }
 
@@ -77,6 +83,8 @@ namespace Lattice.UI
         public static readonly Color FrostColor = new(0.69f, 0.8f, 0.92f);
         public static readonly Color ButtonColor = new(0.13f, 0.19f, 0.28f, 0.95f);
         public static readonly Color ButtonHighlight = new(0.24f, 0.38f, 0.55f, 1f);
+        /// <summary>Words with no frame behind them: the panels' pale lavender is too dim for an orange floor.</summary>
+        public static readonly Color LooseTextColor = new(0.97f, 0.98f, 1f);
 
         public static TMP_FontAsset Font => TMP_Settings.defaultFontAsset;
 
@@ -87,6 +95,57 @@ namespace Lattice.UI
             var zone = Lattice.Core.ZoneController.Current;
             var view = zone != null && zone.definition != null ? zone.definition.cameraProfile : null;
             return view == null ? 0 : pixels / 1080f * 2 * view.distance * Mathf.Tan(view.fov * .5f * Mathf.Deg2Rad) * 10;
+        }
+
+        /// <summary>Where a label's letters really stand, in its own space. TMP's text bounds report the font's ascent and descent, not the glyphs':
+        /// that's why words looked low in plates sized from them.</summary>
+        public static UnityEngine.Rect Ink(TMP_Text text)
+        {
+            text.ForceMeshUpdate();var info = text.textInfo;
+            float left = float.MaxValue, right = float.MinValue, low = float.MaxValue, high = float.MinValue;
+            for (int i = 0; i < info.characterCount; i++)
+            {
+                var c = info.characterInfo[i];
+                if (!c.isVisible || c.textElement == null) continue;
+                var metrics = c.textElement.glyph.metrics;
+                float top = c.baseLine + metrics.horizontalBearingY * c.scale;
+                high = Mathf.Max(high, top); low = Mathf.Min(low, top - metrics.height * c.scale);
+                left = Mathf.Min(left, c.origin); right = Mathf.Max(right, c.xAdvance);
+            }
+            return high < low ? new UnityEngine.Rect() : UnityEngine.Rect.MinMaxRect(left, low, right, high);
+        }
+
+        static readonly Dictionary<TMP_FontAsset, Material> legible = new();
+        /// <summary>One shared material per font for words that have to hold over anything: a wider dark outline, a face dilated by what the outline eats
+        /// so thin strokes stay, and a soft underlay. Setting outlineWidth on a label copies its material, so a label spawned often would make one each.
+        /// The full shader's underlay is a shader_feature: "Legible Type Variants" in Resources is what keeps that variant in a build.</summary>
+        public static Material LegibleMaterial(TMP_FontAsset font)
+        {
+            if (font == null) return null;
+            if (legible.TryGetValue(font, out var known) && known != null) return known;
+            var material = new Material(font.material) { name = font.name + " Legible", hideFlags = HideFlags.DontUnloadUnusedAsset };
+            material.EnableKeyword("UNDERLAY_ON");
+            material.SetFloat("_FaceDilate", .36f); material.SetFloat("_OutlineWidth", .36f); material.SetColor("_OutlineColor", new Color32(5, 12, 22, 255));
+            material.SetColor("_UnderlayColor", new Color(0, 0, 0, .85f)); material.SetFloat("_UnderlayOffsetX", 0); material.SetFloat("_UnderlayOffsetY", -.6f);
+            material.SetFloat("_UnderlayDilate", .8f); material.SetFloat("_UnderlaySoftness", .7f);
+            ShaderUtilities.UpdateShaderRatios(material);
+            legible[font] = material; return material;
+        }
+        public static T Legible<T>(T text) where T : TMP_Text { text.fontSharedMaterial = LegibleMaterial(text.font); return text; }
+
+        /// <summary>A soft dark block behind words with no frame: a band across a boss's bar or a card.</summary>
+        public static Image SoftBand(Transform parent, string name, Color color)
+        {
+            var image = Panel(parent, name, color);
+            image.sprite = UiSkin.SoftBand(); image.type = Image.Type.Sliced; image.raycastTarget = false;
+            return image;
+        }
+
+        /// <summary>What a pager row does from here: the last page's press goes back to the first, whatever "next" said.</summary>
+        public static string PagerLabel(int offset, int perPage, int count)
+        {
+            int page = offset / perPage + 1, pages = Mathf.CeilToInt(count / (float)perPage);
+            return (page < pages ? "Next page" : "Back to first page") + $"  ({page}/{pages})";
         }
 
         public static Canvas CreateCanvas(string name, int sortingOrder, Transform parent = null)

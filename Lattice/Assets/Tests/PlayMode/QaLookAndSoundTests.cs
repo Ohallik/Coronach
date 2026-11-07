@@ -111,7 +111,7 @@ namespace Lattice.Tests.PlayMode
             foreach(var sign in signs)
             {
                 Assert.AreEqual("Cinzel SDF",sign.font.name,sign.text+" is still in the engine's default font");
-                Assert.Greater(sign.outlineWidth,0,sign.text+" has no edge: pale type on a bright planet or a sunlit floor can't be read");
+                Assert.GreaterOrEqual(sign.fontSharedMaterial.GetFloat(ShaderUtilities.ID_OutlineWidth),.22f,sign.text+" has no edge: pale type on a bright planet or a sunlit floor can't be read");
             }
         }
         [UnityTest] public IEnumerator RidgeCrystalsShowTheirFacets()

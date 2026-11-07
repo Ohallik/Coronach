@@ -41,7 +41,8 @@ namespace Lattice.Tests.PlayMode
             if(npc!=null)Object.Destroy(npc.gameObject);
             GameTime.Reset();SceneManager.LoadScene("_Boot");yield return null;
         }
-        void Observe(){GameServices.Current.Flags.SetBool("tallow.lineObserved",true);}
+        // Reaching the final tier means having met them: a first meeting comes first, whatever the story has moved on to.
+        void Observe(){GameServices.Current.Flags.SetBool("met.Warden",true);GameServices.Current.Flags.SetBool("tallow.lineObserved",true);}
         bool Acknowledged=>GameServices.Current.Flags.GetBool("tallow.driftDiscussed");
         [Test] public void AcknowledgementWaitsForCompletionAndPersistsExactlyOnce()
         {

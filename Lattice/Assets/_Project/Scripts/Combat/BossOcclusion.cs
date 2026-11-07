@@ -12,6 +12,12 @@ namespace Lattice.Combat
         float amount;
         static readonly int Fade = Shader.PropertyToID("_OccFade");
         static readonly int Ellipse = Shader.PropertyToID("_OccFadeEllipse");
+        static readonly int Depth = Shader.PropertyToID("_OccFadeDepth");
+        // The hero's real size on screen (1.9 m seen from 40 degrees, a little wider with the arms), not a 2 by 3 m bite out of the boss.
+        const float HalfWidth = .65f, HalfHeight = 1f;
+        // How far the screen-door opens at full fade: 10 of its 16 cells, against 13 for scenery. It has to read as seeing through,
+        // so more of the body and its weak spot stay, and the hero's own silhouette makes up the difference.
+        const float OpenShare = .6f;
 
         void LateUpdate() => RefreshView(Camera.main, PartyController.Current != null ? PartyController.Current.Active : null, Time.unscaledDeltaTime);
 
@@ -34,8 +40,8 @@ namespace Lattice.Combat
                 var view = camera.WorldToViewportPoint(center);
                 if (view.z > camera.nearClipPlane)
                 {
-                    var horizontal = camera.WorldToViewportPoint(center + camera.transform.right * .95f);
-                    var vertical = camera.WorldToViewportPoint(center + camera.transform.up * 1.45f);
+                    var horizontal = camera.WorldToViewportPoint(center + camera.transform.right * HalfWidth);
+                    var vertical = camera.WorldToViewportPoint(center + camera.transform.up * HalfHeight);
                     ellipse = new Vector4(view.x, view.y, Mathf.Abs(horizontal.x - view.x), Mathf.Abs(vertical.y - view.y));
                     var ray = new Ray(camera.transform.position, center - camera.transform.position);
                     float distance = Vector3.Distance(camera.transform.position, center);
@@ -46,10 +52,11 @@ namespace Lattice.Combat
                 }
             }
             amount = Mathf.MoveTowards(amount, blocked ? 1 : 0, Mathf.Max(0, delta) * 8);
+            if (blocked) HeroSilhouette.Show(hero);
             foreach (var body in bodies)
             {
                 if (body == null || body is not MeshRenderer && body is not SkinnedMeshRenderer) continue;
-                body.GetPropertyBlock(block); block.SetFloat(Fade, amount);
+                body.GetPropertyBlock(block); block.SetFloat(Fade, amount); block.SetFloat(Depth, OpenShare);
                 block.SetVector(Ellipse, ellipse); body.SetPropertyBlock(block);
             }
         }

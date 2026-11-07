@@ -5628,5 +5628,117 @@
       "art-src/Generated/QA-Drone/SurveyDrone.fbx",
       "art-src/Generated/QA-Drone/SurveyDrone_base_color.png"
     ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b2e0-b56c-7792-b1ad-d24ea891cb01",
+    "task_id": "01a1b2e0-b56c-7792-b1ad-d24ea891cb01",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Vaskar blacksmith in plain civilian work clothes, a gentle tired man: weathered olive-grey skin grown in large overlapping plates with slightly darker seams, a long healed scar across one cheek, tired amber eyes, no hair, dark grey crest behind the skull edged with dull rust; a worn mid-brown leather smith's apron with visible stitching over a light coarse grey shirt with rolled sleeves, grey-brown trousers, scuffed brown boots, soot smudges. Lightly coloured and easy to read in sunlight, no armor, no weapons, no glowing parts, no black clothing. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1006608 sha256(base64)=2e18695d4a467e00>",
+      "text_style_prompt": "Vaskar blacksmith in plain civilian work clothes, a gentle tired man: weathered olive-grey skin grown in large overlapping plates with slightly darker seams, a long healed scar across one cheek, tired amber eyes, no hair, dark grey crest behind the skull edged with dull rust; a worn mid-brown leather smith's apron with visible stitching over a light coarse grey shirt with rolled sleeves, grey-brown trousers, scuffed brown boots, soot smudges. Lightly coloured and easy to read in sunlight, no armor, no weapons, no glowing parts, no black clothing. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/BrekkBody.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-06T22:00:37+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-06T22:01:14+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/BrekkBody.fbx",
+      "art-src/Generated/QA-Cast/BrekkBody_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b2e1-5818-71e9-981d-81b7b70c9479",
+    "task_id": "01a1b2e1-5818-71e9-981d-81b7b70c9479",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Muster scavenger captain, a proud Vaskar woman in salvage plate: warm rust-bronze and burnt orange armor plates with fine black seams and rust-red edging, a gunmetal collar, a ragged bright crimson captain's sash across one shoulder and hip, tall crimson crest fins on the helm, a bright amber visor and an amber crystal shard bound to the chest plate. Mostly warm mid-tone orange-bronze rather than black, so the figure reads clearly against a dark floor. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=846504 sha256(base64)=36f0cf1b859cae84>",
+      "text_style_prompt": "Muster scavenger captain, a proud Vaskar woman in salvage plate: warm rust-bronze and burnt orange armor plates with fine black seams and rust-red edging, a gunmetal collar, a ragged bright crimson captain's sash across one shoulder and hip, tall crimson crest fins on the helm, a bright amber visor and an amber crystal shard bound to the chest plate. Mostly warm mid-tone orange-bronze rather than black, so the figure reads clearly against a dark floor. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/HessaKorl.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-06T22:01:17+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-06T22:01:54+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/HessaKorl.fbx",
+      "art-src/Generated/QA-Cast/HessaKorl_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b2e1-f52a-776f-a41e-3a257b908052",
+    "task_id": "01a1b2e1-f52a-776f-a41e-3a257b908052",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "elderly Vael archivist man: cool pale grey-blue skin with faded violet lines at the temples, thin white combed-back hair, small round brass reading glasses low on the nose, pale blue eyes; a layered pale sand-coloured scholar's coat with many small pockets over cream trousers, soft pale cloth shoes, a bundle of paper slips at the collar. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1006608 sha256(base64)=2e18695d4a467e00>",
+      "text_style_prompt": "elderly Vael archivist man: cool pale grey-blue skin with faded violet lines at the temples, thin white combed-back hair, small round brass reading glasses low on the nose, pale blue eyes; a layered pale sand-coloured scholar's coat with many small pockets over cream trousers, soft pale cloth shoes, a bundle of paper slips at the collar. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/IshenBody.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-06T22:02:04+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-06T22:02:41+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/IshenBody.fbx",
+      "art-src/Generated/QA-Cast/IshenBody_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b2e2-acb7-736d-a478-8b8c54911673",
+    "task_id": "01a1b2e2-acb7-736d-a478-8b8c54911673",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "young Vael lamp apprentice: light slate-blue pale skin, faint cyan lines on the cheeks, a smudge of soot on one cheek, green eyes, short spiky pale sand-white hair; a patched pale tan work tunic with rolled sleeves, tan-brown trousers, soft brown boots, a small brass wick-trimmer on a cord. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=1033832 sha256(base64)=be7be793bd9505ec>",
+      "text_style_prompt": "young Vael lamp apprentice: light slate-blue pale skin, faint cyan lines on the cheeks, a smudge of soot on one cheek, green eyes, short spiky pale sand-white hair; a patched pale tan work tunic with rolled sleeves, tan-brown trousers, soft brown boots, a small brass wick-trimmer on a cord. Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/PellBody.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-06T22:02:45+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-06T22:03:34+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/PellBody.fbx",
+      "art-src/Generated/QA-Cast/PellBody_base_color.png"
+    ]
   }
 ]

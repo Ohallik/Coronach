@@ -8,6 +8,7 @@ namespace Lattice.UI
 {
     public sealed class WorldUiBridge:MonoBehaviour
     {
+        void Awake()=>gameObject.AddComponent<ConversationFraming>();
         void OnEnable(){Npc.TalkRequested+=Talk;DiscoveryPoint.DialogueRequested+=Discover;Lattice.World.Bench.Requested+=Bench;Lattice.World.Shop.Requested+=Shop;DialogueSystem.UiRequested+=Request;DialogueSystem.MemberJoined+=Join;}
         void OnDisable(){Npc.TalkRequested-=Talk;DiscoveryPoint.DialogueRequested-=Discover;Lattice.World.Bench.Requested-=Bench;Lattice.World.Shop.Requested-=Shop;DialogueSystem.UiRequested-=Request;DialogueSystem.MemberJoined-=Join;}
         void Talk(string node,string speaker,System.Action<bool> completed)

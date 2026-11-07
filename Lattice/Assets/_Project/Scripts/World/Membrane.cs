@@ -38,7 +38,7 @@ namespace Lattice.World
         System.Collections.IEnumerator Dissolve()
         {
             var renderers=GetComponentsInChildren<Renderer>();var block=new MaterialPropertyBlock();
-            Lattice.Combat.CombatVfx.Burst(transform.position,Color.cyan,"shape");
+            Lattice.Combat.CombatVfx.Burst(transform.position,new Color(.45f,.95f,1,.4f),"steam");
             for(float t=0;t<.5f;t+=Time.deltaTime)
             {
                 if(!Open)yield break;

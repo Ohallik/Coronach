@@ -97,7 +97,7 @@ namespace Lattice.UI
             if(offset>=offers.Count)offset=offers.Count>0?(offers.Count-1)/PerPage*PerPage:0;
             foreach(var offer in offers.Skip(offset).Take(PerPage))Add(offer.label,offer.action);
             // Focus goes by role: an index would land the next A on a buy.
-            if(offers.Count>PerPage)Add($"Next page  ({offset/PerPage+1}/{Mathf.CeilToInt(offers.Count/(float)PerPage)})",()=>{offset=offset+PerPage<offers.Count?offset+PerPage:0;sellAsked=null;Rebuild("Pager");},"Pager");
+            if(offers.Count>PerPage)Add(UiKit.PagerLabel(offset,PerPage,offers.Count),()=>{offset=offset+PerPage<offers.Count?offset+PerPage:0;sellAsked=null;Rebuild("Pager");},"Pager");
             Add("Back",()=>{UiSounds.Cancel();Close();},"ShopBack");
             string said=feedback!=""?feedback:page==1?"Only parts can be sold here. Anything worn comes off in Gear first.":"";
             var note=UiKit.Text(panel.transform,"Feedback",said,25,UiKit.TextColor);UiKit.Rect(note.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-430),new(1200,70));

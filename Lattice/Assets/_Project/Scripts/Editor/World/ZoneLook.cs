@@ -93,12 +93,14 @@ namespace Lattice.EditorTools
                 fog=true,fogColor=C(.42f,.38f,.54f),fogStart=40,fogEnd=170,
                 exposure=.1f,contrast=12,saturation=-8,splitShadows=C(.42f,.45f,.62f),splitHighlights=C(.55f,.5f,.46f),
                 bloomThreshold=.85f,bloomIntensity=.7f,vignette=.26f},
-            ["SunkenRelay"]=new Spec{sun=C(.85f,.84f,1f),sunIntensity=.8f,shadowStrength=.8f,
-                sky=C(.3f,.29f,.4f),equator=C(.24f,.22f,.26f),ground=C(.13f,.11f,.11f),
-                exposure=.3f,contrast=8,saturation=-4,splitShadows=C(.46f,.47f,.56f),splitHighlights=C(.54f,.5f,.46f),
-                bloomThreshold=.85f,bloomIntensity=.75f,vignette=.26f},
+            // QA: a buried station read as open ground, with a hard sun, wall tops lit as if under the sky and an even lilac floor. Down here there's only a faint cold fill now, too weak for a
+            // shadow to read: what light there is comes from the lamps and the Great Lantern, and the wall tops, above the lamps, stay dark.
+            ["SunkenRelay"]=new Spec{sun=C(.62f,.66f,.85f),sunIntensity=.28f,sunPitch=62,shadowStrength=.25f,
+                sky=C(.16f,.17f,.25f),equator=C(.17f,.17f,.22f),ground=C(.1f,.09f,.1f),
+                exposure=.25f,contrast=12,saturation=-2,splitShadows=C(.44f,.46f,.6f),splitHighlights=C(.56f,.5f,.44f),
+                bloomThreshold=.85f,bloomIntensity=.8f,vignette=.3f},
             // QA: between lamps the floor went near black and the player lost the walls; the dark stays, the mud doesn't.
-            ["Hushwell"]=new Spec{sun=C(.8f,.86f,1f),sunIntensity=.8f,shadowStrength=.8f,
+            ["Hushwell"]=new Spec{sun=C(.8f,.86f,1f),sunIntensity=.8f,shadowStrength=.6f,
                 sky=C(.28f,.31f,.44f),equator=C(.22f,.21f,.26f),ground=C(.13f,.12f,.13f),
                 exposure=.35f,contrast=8,saturation=4,splitShadows=Neutral,splitHighlights=Neutral,
                 bloomThreshold=.85f,bloomIntensity=.7f,vignette=.24f},

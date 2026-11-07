@@ -17,6 +17,8 @@ namespace Lattice.EditorTools
     {
         const string RootName="Market walkway service job";
         const float GateX=-12.55f,SouthWall=-5.75f,NorthWall=-.25f;
+        /// <summary>Above the deck runners and studs (up to 2 cm proud), under the closed lid.</summary>
+        public const float OpeningHeight=.03f;
         public static readonly Vector3 RepairPoint=new Vector3(-15,0,-3);
         public static readonly Vector3[] SelaApproach={new Vector3(-4.5f,0,-3.6f),new Vector3(-9,0,-4.2f),new Vector3(-11.3f,0,-4.4f)};
         public static readonly Vector3[] SelaExit={new Vector3(-11.3f,0,-4.4f),new Vector3(-12.3f,0,-3.4f),new Vector3(-16,0,-3.2f),new Vector3(-19.5f,0,-2.4f),new Vector3(-23,0,-1)};
@@ -36,7 +38,7 @@ namespace Lattice.EditorTools
             sequence.orrin=orrin;sequence.sela=sela;sequence.mira=mira;
 
             // The service cover: an opening in the bridge deck with its lid hinged up on the office side.
-            var opening=Piece(root,"DeckWall","Walkway service opening",new Vector3(-13.6f,.008f,-3),new Vector3(1.5f,.014f,1.5f),false);
+            var opening=Piece(root,"DeckWall","Walkway service opening",new Vector3(-13.6f,OpeningHeight,-3),new Vector3(1.5f,.014f,1.5f),false);
             foreach(var r in opening.GetComponentsInChildren<Renderer>())r.sharedMaterial=Flat("market-service-opening",new Color(.05f,.06f,.08f));
             var guard=new GameObject("Service opening guard",typeof(BoxCollider));guard.transform.SetParent(root.transform,false);
             guard.transform.position=new Vector3(-13.6f,.5f,-3);guard.GetComponent<BoxCollider>().size=new Vector3(1.6f,1,1.6f);

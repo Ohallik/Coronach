@@ -15,6 +15,17 @@ namespace Lattice.Combat
         Quaternion restoredRotation;
         public System.Collections.Generic.IReadOnlyList<Transform> Parts=>segments;
         public const float CenterHeight=1.5f;
+        /// <summary>One link of the swimming chain. The drums are 2.6 m long: on a 2 m link they stay shut on the outside of a bend up to MostBend, where 2.2 m opened at 19 degrees.
+        /// The resting coil and its bed were laid out at RestLink, and the chain draws in from there as it wakes.</summary>
+        public const float Link=2,RestLink=2.2f;
+        /// <summary>The body bends no further than this at a joint once it has caught up. A head doubling back can outrun that for a moment;
+        /// the bend eases back at this rate instead of whipping fourteen metres of tail round in a frame.</summary>
+        const float MostBend=26,BendRate=540;
+        /// <summary>Nothing but a joint's own neighbours comes closer than this (the drums are 2 m across): the body coils round itself, not through itself.</summary>
+        const float KeepClear=2.6f;
+        /// <summary>Faster than anything the animal does (its lash is 24 m/s), so the carrier was put there: the body takes that jump up over the next moment, not in one frame.</summary>
+        const float JumpSpeed=40,JumpRecovery=3;
+        Vector3 lastCarrier,slack;float link=RestLink;
         void Start()
         {
             var definition=GetComponent<EnemyBrain>().definition;var health=GetComponent<Health>();
@@ -42,7 +53,7 @@ namespace Lattice.Combat
                 segments[i].position=at;segments[i].rotation=Quaternion.LookRotation(previous-at);
                 restingPositions[i]=at;followedPositions[i]=at;previous=at;
             }
-            followingInitialized=true;restoredPosition=transform.position;restoredRotation=transform.rotation;resting=true;
+            followingInitialized=true;restoredPosition=transform.position;restoredRotation=transform.rotation;resting=true;lastCarrier=transform.position;slack=Vector3.zero;link=RestLink;
         }
         public static void CenterVisual(GameObject visual,float height)
         {
@@ -72,7 +83,19 @@ namespace Lattice.Combat
             holdingRestoredPose=true;enabled=true;
         }
         void RememberWorldPositions()
-        {for(int i=0;i<segments.Length;i++)if(segments[i]!=null)followedPositions[i]=segments[i].position;followingInitialized=true;}
+        {for(int i=0;i<segments.Length;i++)if(segments[i]!=null)followedPositions[i]=segments[i].position;followingInitialized=true;lastCarrier=transform.position;slack=Vector3.zero;}
+        /// <summary>Where a joint hangs from the one ahead of it: exactly one link away across the plane. The wave is height only, so speed can't stretch the body.</summary>
+        static Vector3 Hang(Vector3 ahead,Vector3 at,Vector3 aheadHeading,bool bends,float length,float dt,out Vector3 heading)
+        {
+            var delta=ahead-at;delta.y=0;
+            heading=delta.sqrMagnitude>.0001f?delta.normalized:aheadHeading;
+            if(bends)
+            {
+                float bend=Vector3.SignedAngle(aheadHeading,heading,Vector3.up),size=Mathf.Abs(bend);
+                if(size>MostBend)heading=Quaternion.AngleAxis(Mathf.Sign(bend)*Mathf.Max(MostBend,size-BendRate*dt),Vector3.up)*aheadHeading;
+            }
+            return ahead-heading*length;
+        }
         void LateUpdate()
         {
             // Even with zero delta, recomputing the preceding frame's tangent
@@ -98,17 +121,30 @@ namespace Lattice.Combat
                 if(transform.position==restoredPosition&&transform.rotation==restoredRotation)return;
                 holdingRestoredPose=false;
             }
-            var previous=transform.position+Vector3.up*CenterHeight;
+            float dt=Time.deltaTime,height=transform.position.y+CenterHeight;
+            var carrier=transform.position;var moved=carrier-lastCarrier;moved.y=0;lastCarrier=carrier;
+            if(moved.magnitude>JumpSpeed*dt)slack+=moved;
+            slack=Vector3.MoveTowards(slack,Vector3.zero,JumpRecovery*dt);
+            var previous=carrier-slack;previous.y=height;
+            var ahead=transform.forward;ahead.y=0;ahead=ahead.sqrMagnitude>.0001f?ahead.normalized:Vector3.forward;
+            link=Mathf.MoveTowards(link,Link,.8f*dt);
             for(int i=0;i<segments.Length;i++)
             {
                 var segment=segments[i];if(segment==null)continue;
                 // The hierarchy owns lifetime and recovery, not locomotion.
                 // Follow the last evaluated world pose; inherited carrier yaw
                 // otherwise swings the whole tail through nearby ships.
-                var delta=previous-followedPositions[i];var direction=delta.sqrMagnitude>.01f?delta.normalized:transform.forward;
-                var goal=previous-direction*2.2f;goal.y=transform.position.y+CenterHeight+Mathf.Sin(Time.time*2-i*.5f)*.25f;
-                segment.position=Vector3.Lerp(followedPositions[i],goal,1-Mathf.Exp(-8*Time.deltaTime));followedPositions[i]=segment.position;
-                segment.rotation=Quaternion.LookRotation(direction);previous=segment.position;
+                var at=Hang(previous,followedPositions[i],ahead,i>0,link,dt,out var heading);
+                for(int other=-1;other<i-1;other++)
+                {
+                    var near=other<0?carrier:followedPositions[other];
+                    var apart=at-near;apart.y=0;float gap=apart.magnitude;
+                    if(gap>=KeepClear)continue;
+                    at=Hang(previous,near+(gap>.001f?apart/gap:transform.right)*KeepClear,ahead,i>0,link,dt,out heading);
+                }
+                at.y=height+Mathf.Sin(Time.time*2-i*.5f)*.25f;
+                segment.position=at;followedPositions[i]=at;
+                segment.rotation=Quaternion.LookRotation(previous-at);previous=at;ahead=heading;
             }
         }
     }

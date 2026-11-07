@@ -117,7 +117,7 @@ namespace Lattice.Combat
             health.Died+=(_,__)=>
             {
                 StopAllCoroutines();Interrupt();busy=false;enabled=false;MusicDirector.Encounter(this,null,false);
-                DismissSummons();
+                ClearTheField();DismissSummons();
                 GameServices.Current.Flags.SetBool("bossdown."+health.id,true);
                 if(health.id=="BellowsBelow")PressureOrgan.SettleAll();
                 BarkService.Play(PartyController.Current.Active.character,health.id=="Cantor"?"release":"boss",true);
@@ -169,9 +169,21 @@ namespace Lattice.Combat
         void ClearTemporary(){foreach(var item in temporary)if(item!=null)Destroy(item);temporary.Clear();}
         void DismissSummons()
         {
-            // Released adds leave quietly with the fight: no death blasts beside heroes who just won.
-            foreach(var add in summoned)if(add!=null){CombatVfx.Burst(add.transform.position+Vector3.up*.5f,new Color(.6f,.6f,.6f),"failure");Destroy(add.gameObject);}
+            // Released adds leave quietly with the fight: no death blasts beside heroes who just won, and nothing they had marked or fired.
+            foreach(var add in summoned)if(add!=null){Telegraph.ClearAll(add);Projectile.Fizzle(add.Health);CombatVfx.Burst(add.transform.position+Vector3.up*.5f,new Color(.6f,.6f,.6f),"failure");Destroy(add.gameObject);}
             summoned.Clear();
+        }
+        /// <summary>The fight ends on this frame: what it left on the floor or in the air threatens nobody through the win, or through a surrender talk
+        /// that stops the clock on anything still lingering. The party's own fields go with it: a ring on an empty floor was the last thing on screen.</summary>
+        void ClearTheField()
+        {
+            Telegraph.ClearAll(this);Projectile.Fizzle(health);
+            foreach(var blast in FindObjectsByType<DeathBlast>(FindObjectsSortMode.None))blast.Defuse();
+            foreach(var net in FindObjectsByType<PulseField>(FindObjectsSortMode.None))net.Dismiss();
+            foreach(var seed in FindObjectsByType<NetSeed>(FindObjectsSortMode.None))Destroy(seed.gameObject);
+            foreach(var ring in FindObjectsByType<SkillRing>(FindObjectsSortMode.None))ring.Dismiss();
+            foreach(var well in FindObjectsByType<GravityWell>(FindObjectsSortMode.None))Destroy(well.gameObject);
+            foreach(var fall in FindObjectsByType<StarfallStrike>(FindObjectsSortMode.None))Destroy(fall.gameObject);
         }
 
         void Update()

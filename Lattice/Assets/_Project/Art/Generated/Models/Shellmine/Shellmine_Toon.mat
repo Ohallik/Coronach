@@ -34,7 +34,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaTest: 0
-    - _BaseMapStrength: 1
+    - _BaseMapStrength: 0.6
     - _Cull: 2
     - _Cutoff: 0.5
     - _Detail: 0
@@ -47,7 +47,7 @@ Material:
     - _OccFade: 0
     - _OccFadeToggle: 0
     - _RampSteps: 3
-    - _RimPower: 4
+    - _RimPower: 2.5
     - _ScatterPebbleRerole: 0
     - _SrcBlend: 1
     - _Strata: 0
@@ -59,7 +59,7 @@ Material:
     - _Wind: 0
     - _ZWrite: 1
     m_Colors:
-    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _BaseColor: {r: 1, g: 0.55, b: 0.35, a: 1}
     - _DeepColor: {r: 0.09999997, g: 0.29999998, b: 0.5, a: 0.92}
     - _DetailParams: {r: 0.035, g: 0.55, b: 0.4, a: 0.2}
     - _DetailTintA: {r: 0.86, g: 0.9, b: 0.82, a: 1}
@@ -78,7 +78,7 @@ Material:
     - _IceParams: {r: 2.6, g: 0.4, b: 0.5, a: 0.35}
     - _IceRimColor: {r: 0.7, g: 0.92, b: 1.05, a: 1}
     - _OccFadeEllipse: {r: 0.5, g: 0.5, b: 0.08, a: 0.14}
-    - _RimColor: {r: 0.24999997, g: 0.24999997, b: 0.29999998, a: 1}
+    - _RimColor: {r: 0.95, g: 0.42, b: 0.12, a: 1}
     - _ShadowTint: {r: 0.54999995, g: 0.54999995, b: 0.68, a: 1}
     - _StrataParams: {r: 0.55, g: 0.5, b: 0.35, a: 0.6}
     - _StrataTintA: {r: 0.8, g: 0.75, b: 0.7, a: 1}

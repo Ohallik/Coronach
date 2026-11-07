@@ -130,7 +130,7 @@ namespace Lattice.EditorTools
         }
         public static void ConfigureApproach()
         {
-            foreach(string key in new[]{"DeckWall","DeckFloor","CoilMooring","DeckCrate","WarpBeacon"})
+            foreach(string key in new[]{"DeckWall","DeckFloor","CoilMooring","DeckCrate","DressCommsMast"})
                 if(AssetDatabase.LoadAssetAtPath<GameObject>("Assets/_Project/Prefabs/Environment/"+key+".prefab")==null)
                     throw new System.InvalidOperationException("Missing generated mooring kit: "+key);
             var old=GameObject.Find(RootName);if(old!=null)Object.DestroyImmediate(old);
@@ -148,7 +148,8 @@ namespace Lattice.EditorTools
             var point=new GameObject("Inspect the slack port line",typeof(DiscoveryPoint));point.transform.SetParent(root.transform,false);point.transform.position=new Vector3(-25,1,1);
             var discovery=point.GetComponent<DiscoveryPoint>();discovery.prompt="Inspect the port docking line";discovery.range=4;
             discovery.flag="tallow.lineObserved";discovery.requiredFlag="met.Keeper";discovery.dialogueNode="SelaTallowLine";discovery.dialogueSpeaker="Sela";discovery.report="";discovery.situation="";
-            var marker=Piece(root,"WarpBeacon","Detached anchorage marker",MarkerPosition,new Vector3(2,3,2),false);
+            // A buoy's mast with an amber lamp: it wore the warp's horned beacon at the warp's size, so a story object said "warp".
+            var marker=Piece(root,"DressCommsMast","Detached anchorage marker",MarkerPosition,new Vector3(2,3.4f,2),false);
             var drift=root.AddComponent<TallowMarkerDrift>();drift.marker=marker.transform;drift.observation=point.transform;
             ConfigureHardware(root);
             ConfigureReadingView(drift);

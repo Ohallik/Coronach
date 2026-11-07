@@ -18,10 +18,11 @@ MonoBehaviour:
   cameraProfile: {fileID: 11400000, guid: fbdc47075c71646459aeefe072af22b2, type: 2}
   hd2dProfile: {fileID: 11400000, guid: a2360d045852b864db338e4b91cd320d, type: 2}
   ambientAudio: {fileID: 0}
+  ambientVolume: 0.055
   musicId: 
   mapIcon: {fileID: 0}
   flightPlane: 1
   safePockets: []
   enemyThreat: 1.5
   cameraClearsScenery: 0
-  skybox: {fileID: 2100000, guid: 3dfa06876a929784fbe9c19c6d1f9114, type: 2}
+  skybox: {fileID: 2100000, guid: 6c20ec4b3647a9d47afef21da7c59fa2, type: 2}

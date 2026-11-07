@@ -61,7 +61,7 @@ namespace Lattice.Tests.PlayMode
                 // The leader uses its real flight motor. The live carrier turns
                 // toward it; the alternative leaves the animal stationary and
                 // takes the leader across the far side to demand regrouping.
-                var goal=regroup?(age<5?new Vector3(212,1,-4):new Vector3(180,1,12)):
+                var goal=regroup?(age<5?new Vector3(212,1,-4):new Vector3(168,1,16)):
                     new Vector3(200+Mathf.Cos(age*.5f)*4,1,Mathf.Sin(age*.5f)*4);
                 var delta=goal-leader.transform.position;
                 leader.motor.Move(new Vector2(delta.x,delta.z).normalized,false,true);

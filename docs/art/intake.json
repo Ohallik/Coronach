@@ -2150,7 +2150,7 @@
     "fit": "height",
     "yaw": 0,
     "clips": [],
-    "pitch": -90
+    "pitch": 0
   },
   {
     "id": "CanyonHouse",
@@ -2407,8 +2407,8 @@
   {
     "id": "HessaKorl",
     "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
-    "albedo": "art-src/Generated/C9-Lantern/HessaKorl_albedo.png",
-    "emission": "art-src/Generated/C9-Lantern/HessaKorl_emission.png",
+    "albedo": "art-src/Generated/QA-Cast/HessaKorl_albedo.png",
+    "emission": "art-src/Generated/QA-Cast/HessaKorl_emission.png",
     "emissionColor": "#FFB62E",
     "kind": "biped",
     "fit": "height",
@@ -2450,9 +2450,9 @@
   },
   {
     "id": "BrekkBody",
-    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
-    "albedo": "art-src/Generated/C9-Lantern/BrekkBody_albedo.png",
-    "emission": "art-src/Generated/C9-Lantern/BrekkBody_emission.png",
+    "model": "art-src/Generated/P3-Orrin/Orrin_clean.fbx",
+    "albedo": "art-src/Generated/QA-Cast/BrekkBody_albedo.png",
+    "emission": "art-src/Generated/QA-Cast/BrekkBody_emission.png",
     "emissionColor": "#FF8046",
     "kind": "biped",
     "fit": "height",
@@ -2460,7 +2460,7 @@
     "character": null,
     "form": "Natural",
     "enemy": null,
-    "size": 2.25,
+    "size": 2.1,
     "yaw": 0.0,
     "pitch": 0.0,
     "roll": 0.0,
@@ -2479,16 +2479,6 @@
         "state": "Attack",
         "path": "Assets/_Project/Art/Animation/UAL-Skeleton.fbx",
         "name": "Armature|Armature|Armature|Sword_Attack"
-      },
-      {
-        "state": "Down",
-        "path": "Assets/_Project/Art/Animation/HeroDeath.fbx",
-        "name": "Down"
-      },
-      {
-        "state": "Stagger",
-        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
-        "name": "Stagger"
       }
     ]
   },
@@ -2581,8 +2571,8 @@
   {
     "id": "IshenBody",
     "model": "art-src/Generated/P3-Hal/Hal_clean.fbx",
-    "albedo": "art-src/Generated/C9-Lantern/IshenBody_albedo.png",
-    "emission": "art-src/Generated/C9-Lantern/IshenBody_emission.png",
+    "albedo": "art-src/Generated/QA-Cast/IshenBody_albedo.png",
+    "emission": "art-src/Generated/QA-Cast/IshenBody_emission.png",
     "emissionColor": "#FF8046",
     "kind": "biped",
     "fit": "height",
@@ -2615,8 +2605,8 @@
   {
     "id": "PellBody",
     "model": "art-src/Generated/P44-NPCBodies/SurvivorNatural_clean.fbx",
-    "albedo": "art-src/Generated/C9-Lantern/PellBody_albedo.png",
-    "emission": "art-src/Generated/C9-Lantern/PellBody_emission.png",
+    "albedo": "art-src/Generated/QA-Cast/PellBody_albedo.png",
+    "emission": "art-src/Generated/QA-Cast/PellBody_emission.png",
     "kind": "biped",
     "folder": "Characters",
     "size": 1.7,

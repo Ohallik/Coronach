@@ -188,7 +188,7 @@ namespace Lattice.EditorTools
             }
             Debug.Log("GULLET_WALLS_OK samples="+samples);
         }
-        static void Shell()
+        internal static void Shell()
         {
             // Open upper shell: a readable cutaway diorama, with separate left and right bellies.
             var vertices=new List<Vector3>();var uv=new List<Vector2>();var colors=new List<Color>();var triangles=new List<int>();int sides=48;
@@ -209,42 +209,43 @@ namespace Lattice.EditorTools
                     // Keep longitudinal UVs continuous; blending absolute z scales
                     // creates a compressed striped band at the end of the organ.
                     uv.Add(new Vector2(Mathf.Lerp(side/(float)sides*4,2-(x-c)/9,blend),alongUv));
-                    colors.Add(GulletCoilArt.Tissue(x,z));
+                    colors.Add(Shade(x,z));
                     if(step==stations.Count-1||side==sides)continue;
                     int a=step*(sides+1)+side,b=a+sides+1;triangles.AddRange(new[]{a,a+1,b,a+1,b+1,b});
                 }
             }
-            // Tint changes happen at the valves, where each sphincter hides the seam.
-            float[] bounds={GulletProfile.Valves[0],GulletProfile.Valves[1],GulletProfile.Valves[2],874};
-            var parts=new List<int>[bounds.Length+1];for(int i=0;i<parts.Length;i++)parts[i]=new List<int>();
-            for(int t=0;t<triangles.Count;t+=3)
-            {
-                float z=(vertices[triangles[t]].z+vertices[triangles[t+1]].z+vertices[triangles[t+2]].z)/3;int part=0;while(part<bounds.Length&&z>=bounds[part])part++;
-                parts[part].AddRange(new[]{triangles[t],triangles[t+1],triangles[t+2]});
-            }
-            var mesh=new Mesh{name="Gullet cutaway shell"};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetColors(colors);mesh.subMeshCount=parts.Length;
-            for(int i=0;i<parts.Length;i++)mesh.SetTriangles(parts[i],i);mesh.RecalculateNormals();mesh.RecalculateBounds();
+            var mesh=new Mesh{name="Gullet cutaway shell"};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetColors(colors);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
             Directory.CreateDirectory("Assets/_Project/Art/WorldMeshes");const string path="Assets/_Project/Art/WorldMeshes/GulletShell.asset";
             var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(existing==null)AssetDatabase.CreateAsset(mesh,path);else{EditorUtility.CopySerialized(mesh,existing);Object.DestroyImmediate(mesh);mesh=existing;}
-            var go=GameObject.Find("Gullet membrane shell")??new GameObject("Gullet membrane shell",typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.isStatic=true;go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshCollider>().sharedMesh=null;go.GetComponent<MeshCollider>().sharedMesh=mesh;go.GetComponent<Renderer>().sharedMaterials=SectionMaterials();
+            var go=GameObject.Find("Gullet membrane shell")??new GameObject("Gullet membrane shell",typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.isStatic=true;go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshCollider>().sharedMesh=null;go.GetComponent<MeshCollider>().sharedMesh=mesh;go.GetComponent<Renderer>().sharedMaterials=ShellMaterial();
         }
-        // One generated membrane, tinted per organ: warm feeding tissue, dark
-        // muscular throat, luminous nursery, deep coil and a bright exit.
-        static Material[] SectionMaterials()
+        // One generated membrane, tinted per organ: warm feeding tissue, dark muscular throat, luminous nursery,
+        // deep coil and a bright exit. These were five materials meeting in a hard saw-toothed line at each valve,
+        // and from the flight camera the tube's cross-section read as the rim of a huge flat translucent disc.
+        // Now one material: vertex colour carries the tint, its alpha how strongly the veins glow, fading across each valve.
+        static readonly float[] OrganEnds={GulletProfile.Valves[0],GulletProfile.Valves[1],GulletProfile.Valves[2],874};
+        static readonly Color[] OrganTints={new(1.08f,.92f,1.04f),new(.8f,.84f,.95f),new(.95f,1.06f,1.1f),new(.65f,.6f,.84f),new(1,1,1)};
+        static readonly float[] OrganGlow={.55f,.45f,1,.12f,.9f};
+        const float OrganFade=16;
+        static Color Shade(float x,float z)
+        {
+            Color tint=OrganTints[0];float glow=OrganGlow[0];
+            for(int i=0;i<OrganEnds.Length;i++)
+            {
+                float t=Mathf.SmoothStep(0,1,Mathf.InverseLerp(OrganEnds[i]-OrganFade,OrganEnds[i]+OrganFade,z));
+                tint=Color.Lerp(tint,OrganTints[i+1],t);glow=Mathf.Lerp(glow,OrganGlow[i+1],t);
+            }
+            var tissue=GulletCoilArt.Tissue(x,z);
+            return new Color(tissue.r*tint.r,tissue.g*tint.g,tissue.b*tint.b,glow);
+        }
+        static Material[] ShellMaterial()
         {
             var source=Resources.Load<Material>("WorldMaterials/gullet-membrane");
-            var tints=new[]{("feeding",new Color(1.08f,.92f,1.04f),new Color(.6f,1.3f,2.4f)),("throat",new Color(.8f,.84f,.95f),new Color(.03f,1.5f,1.9f)),
-                ("nursery",new Color(.95f,1.06f,1.1f),new Color(.1f,3.8f,4.2f)),("coil",new Color(.84f,.8f,1f),new Color(.45f,1.1f,3.2f)),("exit",new Color(1,1,1),new Color(.05f,3.2f,3.8f))};
-            var result=new Material[tints.Length];
-            for(int i=0;i<tints.Length;i++)
-            {
-                string path="Assets/_Project/Resources/WorldMaterials/gullet-membrane-"+tints[i].Item1+".mat";
-                var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(mat==null){mat=new Material(source);AssetDatabase.CreateAsset(mat,path);}
-                mat.CopyPropertiesFromMaterial(source);mat.SetColor("_BaseColor",tints[i].Item2);mat.SetColor("_EmissionColor",tints[i].Item3);
-                if(tints[i].Item1=="coil")GulletCoilArt.ConfigureMembrane(mat);
-                EditorUtility.SetDirty(mat);result[i]=mat;
-            }
-            return result;
+            const string path="Assets/_Project/Resources/WorldMaterials/gullet-membrane-shell.mat";
+            var mat=AssetDatabase.LoadAssetAtPath<Material>(path);if(mat==null){mat=new Material(source);AssetDatabase.CreateAsset(mat,path);}
+            mat.CopyPropertiesFromMaterial(source);mat.SetColor("_BaseColor",Color.white);mat.SetColor("_EmissionColor",new Color(.1f,3.8f,4.2f));
+            mat.EnableKeyword("_VCOLOR_ON");mat.SetFloat("_VColor",1);
+            EditorUtility.SetDirty(mat);return new[]{mat};
         }
     }
 }

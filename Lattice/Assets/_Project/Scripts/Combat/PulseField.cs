@@ -8,16 +8,27 @@ namespace Lattice.Combat
         public bool flight;
         bool factionCaptured,hasFaction,friendly;
         float nextPulse;
+        GroundRing ring;float dismissed=-1;
+        const float DismissSeconds=.25f;
+        /// <summary>The fight it was laid in is over. It goes quickly, and through a conversation too: its clock stops for one, which left the ring on the floor for the whole talk.</summary>
+        public void Dismiss(){if(dismissed<0)dismissed=0;}
         internal void RememberFaction(bool known,bool ally)
         {factionCaptured=true;hasFaction=known;friendly=ally;}
         void Start()
         {
             if(!factionCaptured)RememberFaction(packet.source!=null,packet.source!=null&&packet.source.friendly);
-            var ring=gameObject.AddComponent<GroundRing>();ring.Initialize(radius,flight?0:.12f,flight?0:.75f);
+            ring=gameObject.AddComponent<GroundRing>();ring.Initialize(radius,flight?0:.12f,flight?0:.75f);
             ring.Draw(radius,new Color(.12f,.85f,1,.8f));
         }
         void Update()
         {
+            if(dismissed>=0)
+            {
+                dismissed+=Time.unscaledDeltaTime;
+                if(ring!=null)ring.Draw(radius,new Color(.12f,.85f,1,.8f*Mathf.Clamp01(1-dismissed/DismissSeconds)));
+                if(dismissed>=DismissSeconds)Destroy(gameObject);
+                return;
+            }
             if(Lattice.Core.GameTime.CombatHeld)return;
             life-=Time.deltaTime;if(life<=0){Destroy(gameObject);return;}
             if(Time.time<nextPulse)return;nextPulse=Time.time+1;

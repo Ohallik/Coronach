@@ -310,7 +310,7 @@
       "point": {
         "x": 0,
         "y": 0,
-        "z": -10
+        "z": -8
       },
       "leftTrigger": 0,
       "expectedScene": "TallowDrift"

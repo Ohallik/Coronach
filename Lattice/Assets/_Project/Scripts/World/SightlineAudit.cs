@@ -46,6 +46,8 @@ namespace Lattice.World
                 {
                     var renderer=filter.GetComponent<MeshRenderer>();
                     if(renderer==null||!renderer.enabled||!filter.gameObject.activeInHierarchy||filter.sharedMesh==null)continue;
+                    // A floor patch has no height of its own: a sightline that meets one on a slope has already met the ground under it.
+                    if(filter.name.StartsWith("Floor detail"))continue;
                     var probe=new GameObject("Sightline probe"){layer=ProbeLayer,hideFlags=HideFlags.DontSave};
                     probe.transform.SetParent(filter.transform,false);
                     probe.AddComponent<MeshCollider>().sharedMesh=filter.sharedMesh;

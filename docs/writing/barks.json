@@ -22,7 +22,7 @@
     "zone.flight": "Same body. Different problem.|Clear lanes. Stay sharp.|Let's see what's broken out here.",
     "bossphase.HessaKorl": "She's calling her crew. Watch the ground.",
     "bossopening.HessaKorl": "She overreached. Now!",
-    "bossopening.Cantor": "The collar's gone slack. Cut it!",
+    "bossopening.Cantor": "The collar slacks each time its song ends. Cut it then!",
     "bossphase.Cantor": "It's changing its song. Watch the lanes."
   },
   "Sela": {
@@ -45,7 +45,7 @@
     "zone.flight": "I vote we touch nothing. Yet.|Pretty. That usually means trouble.|Nobody panic. That's my job.",
     "bossphase.HessaKorl": "She brought friends. Read the floor, Vosk.",
     "bossopening.HessaKorl": "There's your opening. Don't admire it.",
-    "bossopening.Cantor": "Its song's spent. Cut the collar, Vosk.",
+    "bossopening.Cantor": "The collar slacks when its song ends. Cut it then, Vosk.",
     "bossphase.Cantor": "New rhythm. Read the current, Vosk."
   }
 }

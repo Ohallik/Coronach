@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
@@ -51,6 +51,8 @@ namespace Lattice.EditorTools
             Put("DressMarketStall",-4.6f,9.05f,0);Put("DressMarketStall",4.6f,9.05f,0);
             Put("DressCargoPallet",-7.5f,8.9f,0);Put("DressCargoPallet",7.5f,8.9f,0);
             Lamp(-2.6f,5.3f,0);Lamp(2.6f,5.3f,0);
+            // Her own counter, at her shoulder: on the runner, with the stalls five metres behind her, she didn't read as a shopkeeper. Under the camera's 1.4 m rule, like her mobile cart.
+            Put("DressMarketStall",1.5f,5f,0,.643f);
             Put("HushwellCrates",-9.9f,6.6f,20,.9f);Put("DressCargoPallet",10.2f,6.4f,90);
             // Galley: herb planters back onto the market stalls through the wall.
             Put("DressPlanter",-4.6f,10.7f,180);Put("DressPlanter",4.6f,10.7f,180);

@@ -352,7 +352,7 @@ namespace Lattice.Tests.PlayMode
             var menu=Menu;menu.Open(PauseMenu.GearPage);yield return null;
             for(int i=0;i<4;i++)
             {
-                var next=Buttons().First(b=>Words(b).StartsWith("Next page"));var count=System.Text.RegularExpressions.Regex.Match(Words(next),@"\((\d+)/(\d+)\)");
+                var next=Buttons().First(b=>b.name=="Pager");var count=System.Text.RegularExpressions.Regex.Match(Words(next),@"\((\d+)/(\d+)\)");
                 if(count.Groups[1].Value==count.Groups[2].Value)break;
                 next.onClick.Invoke();yield return null;
             }

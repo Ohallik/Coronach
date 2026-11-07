@@ -88,9 +88,9 @@ namespace Lattice.Tests.PlayMode
             ("HUD","Skill0",1340,112,74,74),("HUD","Skill1",1490,112,74,74),("HUD","Skill2",1640,112,74,74),("HUD","Skill3",1790,112,74,74),
             ("HUD","SkillLabel0",1340,42,145,62),("HUD","SkillLabel1",1490,42,145,62),("HUD","SkillLabel2",1640,42,145,62),("HUD","SkillLabel3",1790,42,145,62),
             ("HUD","BossName",960,216,900,36),("HUD","BossEpithet",960,216,900,36),("HUD","BossIntegrityBack",960,186,900,20),("HUD","BossBreakBack",960,168,900,7),("HUD","BossState",960,140,900,36),
-            ("HUD","BossTitleCard",960,640,1400,90),("HUD","BossTitleEpithet",960,580,1400,44),
-            ("Objective","ObjectiveFrame",1620,905,570,165),("Barks","Bark",960,285,1250,65),("QuestToast","QuestToastFrame",0,0,0,0),
-            ("Dialogue","DialoguePanel",960,205,1760,330),("Dialogue","Portrait",250,265,300,390),
+            ("HUD","BossTitleCard",960,850,740,76),("HUD","BossTitleEpithet",960,788,740,44),
+            ("Objective","ObjectiveFrame",1620,905,570,165),("Barks","Bark",292,505,460,170),("QuestToast","QuestToastFrame",0,0,0,0),
+            ("Dialogue","DialoguePanel",960,205,1760,330),("Dialogue","Portrait",266,213.5f,360,360),
         };
         static Canvas Surface(string name)
         {var found=Object.FindObjectsByType<Canvas>(FindObjectsInactive.Include,FindObjectsSortMode.None).FirstOrDefault(c=>c.name==name);Assert.IsNotNull(found,"the "+name+" surface was never built");return found;}
@@ -124,7 +124,7 @@ namespace Lattice.Tests.PlayMode
             }
             Anchored("HUD","VitalsFrame",0,1);Anchored("HUD","Status",0,1);Anchored("HUD","IntegrityBack",0,1);Anchored("HUD","Partner",0,1);
             Anchored("HUD","Target",.5f,1);Anchored("HUD","Zone",1,1);Anchored("HUD","Skills",0,0);Anchored("HUD","Skill3",1,0);Anchored("HUD","SkillLabel3",1,0);
-            Anchored("HUD","Interaction",.5f,0);Anchored("HUD","BossBar",.5f,0);Anchored("HUD","BossTitleCard",.5f,.5f);Anchored("HUD","BossTitleEpithet",.5f,.5f);
+            Anchored("HUD","Interaction",.5f,0);Anchored("HUD","BossBar",.5f,0);Anchored("HUD","BossTitleCard",.5f,1);Anchored("HUD","BossTitleEpithet",.5f,1);Anchored("Barks","Bark",0,1);
             Anchored("HUD","SkillsPlate",0,0);Anchored("HUD","TargetPlate",.5f,1);Anchored("HUD","InteractionPlate",.5f,0);
             var scaler=Surface("HUD").GetComponent<CanvasScaler>();
             var clear=new List<(string a,string b)>();

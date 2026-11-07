@@ -243,6 +243,12 @@ namespace Lattice.EditorTools
                 }
                 CavePut(key,x,z,yaw,scale,true,.08f);
             }
+            // The pools' shore: wet stones round each basin, drawn only, so the water has an edge and doesn't read as a flat soft patch.
+            foreach(var pool in BiomeLandscapeUpgrade.NurseryPools)for(int i=0;i<9;i++)
+            {
+                float a=(i*40+pool.x*17)*Mathf.Deg2Rad,reach=1.14f+.1f*Mathf.Sin(i*2.4f);
+                Put("HushwellRubble",pool.x+Mathf.Cos(a)*pool.z*reach,pool.y+Mathf.Sin(a)*pool.w*reach,i*67,.3f+.08f*(i%3),false).name="Pool rim";
+            }
             // The eggs' own glow on the two largest groups.
             foreach(var p in new[]{new Vector2(7.4f,326.2f),new Vector2(20.6f,328.6f)})
             {
@@ -304,7 +310,7 @@ namespace Lattice.EditorTools
             foreach(var v in Vents)Detail("GroundCrust",v.x,v.y,VentPlume*2,VentPlume*2,v.x*13,.03f,true);
             // Fissures radiating from where the Bellows breathes, outside the grooved slab.
             var b=HushwellLayout.Bellows;
-            for(int i=0;i<9;i++){float a=(i*40+12)*Mathf.Deg2Rad;var p=b+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*12.5f;Detail("GroundFissure",p.x,p.y,4.2f,4.2f,i*40+12+90,.03f);}
+            for(int i=0;i<9;i+=2){float a=(i*40+12)*Mathf.Deg2Rad;var p=b+new Vector2(Mathf.Cos(a),Mathf.Sin(a))*12.5f;Detail("GroundFissure",p.x,p.y,4.2f,4.2f,i*40+12+90,.03f);}
             var avoid=new List<(Vector2 at,float radius)>{(b,10f),(HushwellLayout.Nursery,6.4f)};
             foreach(float z in new[]{100f,106f,112f})avoid.Add((new Vector2(RouteAt(z).at.x,z),2.8f));
             foreach(var pool in BiomeLandscapeUpgrade.NurseryPools)avoid.Add((new Vector2(pool.x,pool.y),Mathf.Max(pool.z,pool.w)+.6f));
@@ -313,10 +319,10 @@ namespace Lattice.EditorTools
             {
                 var p=new Vector2(x+(float)random.NextDouble()*3.6f-1.8f,z+(float)random.NextDouble()*3.6f-1.8f);
                 float size=2.4f+(float)random.NextDouble()*2.2f,yaw=(float)random.NextDouble()*360;double roll=random.NextDouble(),pick=random.NextDouble();
-                if(roll>.62||HushwellLayout.Clear(p)>-size*.4f-.2f||avoid.Any(a=>Vector2.Distance(a.at,p)<a.radius+size*.5f))continue;
+                if(roll>.42||HushwellLayout.Clear(p)>-size*.4f-.2f||avoid.Any(a=>Vector2.Distance(a.at,p)<a.radius+size*.5f))continue;
                 if(Vents.Any(v=>Vector2.Distance(v,p)<VentPlume+size*.5f)||RailDistance(p)<size*.5f+.9f)continue;
                 float level=HushwellLayout.Level(p.y);
-                string kind=level>-1?(pick<.62?"GroundDust":pick<.8?"GroundBasalt":"GroundFissure"):level>-9?(pick<.3?"GroundBasalt":pick<.72?"GroundFissure":"GroundDust"):(pick<.35?"GroundBasalt":pick<.75?"GroundFissure":"GroundDust");
+                string kind=level>-1?(pick<.34?"GroundDust":pick<.7?"GroundBasalt":"GroundFissure"):level>-9?(pick<.3?"GroundBasalt":pick<.72?"GroundFissure":"GroundDust"):(pick<.35?"GroundBasalt":pick<.75?"GroundFissure":"GroundDust");
                 if(Detail(kind,p.x,p.y,size,size,yaw,.04f))count++;
             }
             Debug.Log("DRESSING_CAVE_PATCHES placed="+count);
@@ -376,10 +382,11 @@ namespace Lattice.EditorTools
             float Along(float z)=>Mathf.Atan2(GulletProfile.Center(z+4)-GulletProfile.Center(z-4),8)*Mathf.Rad2Deg;
 
             // Vessels run along both sides of every organ, a little denser and brighter toward the nursery gate.
-            for(float z=6;z<=880;z+=R(8,12))
+            // Few enough that the same stamp doesn't show seven or eight times at once when the camera pulls back.
+            for(float z=6;z<=880;z+=R(18,30))
                 foreach(int side in new[]{-1,1})
                 {
-                    if(GulletProfile.Valves.Any(v=>Mathf.Abs(v-z)<9)||z>705&&z<868&&random.NextDouble()<.6)continue;
+                    if(GulletProfile.Valves.Any(v=>Mathf.Abs(v-z)<9)||z>705&&z<868&&random.NextDouble()<.6||random.NextDouble()<.3)continue;
                     float w=R(3,4.5f),l=R(7,11);
                     Patch("GroundVeins",GulletBed(z+R(-3,3),side*R(.22f,.6f),l),w,l,Along(z)+R(-22,22));
                 }

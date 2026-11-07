@@ -20,14 +20,17 @@ namespace Lattice.UI
         static readonly Dictionary<string,int> seen=new(),seenCounts=new();
         static readonly List<(string heading,string body)> pending=new();
         float showing,next;
-        const string ChapterEnd="chapter2.homecoming",ChapterEndHeading="CHAPTER 2 COMPLETE",ChapterEndBody="The story stops here in this build, for today. Xylos comes next. Nothing closes behind you, so keep exploring.";
+        const string ChapterEnd="chapter2.homecoming",ChapterEndHeading="CHAPTER 2 COMPLETE",ChapterEndTitle="THE LANTERN ROAD",ChapterEndBody="Tallow has its route that waits, and a lantern to keep it. The road runs on to Xylos in a later build. Until then nothing closes behind you, so keep exploring.";
         const float ChapterEndSeconds=9;
         /// <summary>The chapter's last conversation has been heard. Read from the state on adoption, so a load says nothing.</summary>
         static bool chapterEnded;
         const float TextWidth=490;
+        GameObject chapterCard;CanvasGroup chapterGroup;TMP_Text cardHeading,cardBody;bool chapterUp;float cardAge;
+        /// <summary>Under the objective panel, it steps aside as that does.</summary>
+        public PanelFade Fade{get;private set;}
         public string Heading=>heading!=null?heading.text:"";
         public string Body=>body!=null?body.text:"";
-        public bool Showing=>frame!=null&&frame.gameObject.activeSelf;
+        public bool Showing=>frame!=null&&(frame.gameObject.activeSelf||chapterCard.activeSelf);
         void Start()
         {
             canvas=UiKit.CreateCanvas("QuestToast",7,transform);
@@ -37,10 +40,25 @@ namespace Lattice.UI
             UiKit.Rect(heading.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
             body=UiKit.Text(frame.transform,"QuestToastBody","",24,UiKit.TextColor,TextAlignmentOptions.TopLeft);
             var words=UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-58),new(TextWidth,30));words.pivot=new(.5f,1);words.anchoredPosition=new(0,-58);
+            var group=frame.gameObject.AddComponent<CanvasGroup>();group.blocksRaycasts=false;group.interactable=false;Fade=new PanelFade(frame.rectTransform,frame,group);
             frame.gameObject.SetActive(false);
             readHint=UiKit.Text(frame.transform,"QuestToastHint","",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineRight);
             UiKit.Rect(readHint.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
+            BuildChapterCard();
             Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;Notices.Posted+=OnNotice;PromptService.Changed+=RefreshHint;
+        }
+        /// <summary>The end of a chapter gets the middle of the screen, in the boss card's style: the small card in the corner said it like any other task.</summary>
+        void BuildChapterCard()
+        {
+            chapterCard=new GameObject("ChapterCard",typeof(RectTransform),typeof(CanvasGroup));chapterCard.transform.SetParent(canvas.transform,false);
+            var holder=UiKit.Rect(chapterCard,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(1,1));
+            chapterGroup=chapterCard.GetComponent<CanvasGroup>();chapterGroup.blocksRaycasts=false;chapterGroup.interactable=false;
+            var band=UiKit.SoftBand(holder,"ChapterCardBand",new Color(.01f,.02f,.04f,.8f));UiKit.Rect(band.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(1500,420));
+            cardHeading=UiKit.Legible(UiKit.Heading(holder,"ChapterCardHeading","",64,new Color(1,.93f,.8f)));UiKit.Rect(cardHeading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,115),new(1300,90));
+            var title=UiKit.Legible(UiKit.Heading(holder,"ChapterCardTitle",ChapterEndTitle,32,UiKit.GoldColor));UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,50),new(1300,50));
+            var rule=UiKit.Panel(holder,"ChapterCardRule",UiKit.GoldColor);rule.raycastTarget=false;UiKit.Rect(rule.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,18),new(620,3));
+            cardBody=UiKit.Legible(UiKit.Text(holder,"ChapterCardBody","",30,UiKit.LooseTextColor));UiKit.Rect(cardBody.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-65),new(1180,130));
+            chapterCard.SetActive(false);
         }
         void OnDestroy(){Lattice.Rpg.Levels.LevelRaised-=OnLevel;SkillBook.MasteryRaised-=OnMastery;Notices.Posted-=OnNotice;PromptService.Changed-=RefreshHint;}
         /// <summary>A card about a quest says which button opens the log, on the device in the player's hand.</summary>
@@ -70,7 +88,7 @@ namespace Lattice.UI
             {
                 watched=state;seen.Clear();seenCounts.Clear();pending.Clear();showing=0;chapterEnded=state.flags.TryGetValue(ChapterEnd,out bool ended)&&ended;
                 foreach(var pair in state.questSteps)seen[pair.Key]=pair.Value;foreach(var pair in state.questCounts)seenCounts[pair.Key]=pair.Value;
-                frame.gameObject.SetActive(false);return;
+                frame.gameObject.SetActive(false);chapterCard.SetActive(false);chapterUp=false;return;
             }
             if(Time.unscaledTime>=next)Scan(state);
             bool blocked=GameInput.Current!=null&&GameInput.Current.Blocked;
@@ -78,15 +96,21 @@ namespace Lattice.UI
             {
                 // A quest's level-up queues the moment it pays and the quest itself only shows up in the scan: look first, so QUEST COMPLETE goes ahead of its own SYNC card.
                 Scan(state);
-                var (h,b)=pending[0];pending.RemoveAt(0);heading.text=h;body.text=b;showing=h==ChapterEndHeading?ChapterEndSeconds:pending.Count>0?3.2f:4.5f;readable=h=="NEW QUEST"||h=="QUEST UPDATED";RefreshHint();
-                // The frame grows with its words, so a long step or a double skill never crosses its edge (QA-005).
-                float high=body.GetPreferredValues(b,TextWidth,0).y;
-                body.rectTransform.sizeDelta=new(TextWidth,high);frame.rectTransform.sizeDelta=new(570,58+high+34);
+                var (h,b)=pending[0];pending.RemoveAt(0);heading.text=h;body.text=b;chapterUp=h==ChapterEndHeading;showing=chapterUp?ChapterEndSeconds:pending.Count>0?3.2f:4.5f;readable=h=="NEW QUEST"||h=="QUEST UPDATED";RefreshHint();
+                if(chapterUp){cardHeading.text=h;cardBody.text=b;cardAge=0;}
+                else
+                {
+                    // The frame grows with its words, so a long step or a double skill never crosses its edge (QA-005).
+                    float high=body.GetPreferredValues(b,TextWidth,0).y;
+                    body.rectTransform.sizeDelta=new(TextWidth,high);frame.rectTransform.sizeDelta=new(570,58+high+34);
+                }
                 AudioManager.Play("forceField_000",.08f);
             }
             if(showing>0&&!blocked)showing-=Time.unscaledDeltaTime;
-            bool visible=showing>0&&!blocked;
-            if(frame.gameObject.activeSelf!=visible)frame.gameObject.SetActive(visible);
+            bool visible=showing>0&&!blocked,corner=visible&&!chapterUp,middle=visible&&chapterUp;
+            if(frame.gameObject.activeSelf!=corner)frame.gameObject.SetActive(corner);
+            if(chapterCard.activeSelf!=middle)chapterCard.SetActive(middle);
+            if(middle){cardAge+=Time.unscaledDeltaTime;chapterGroup.alpha=Mathf.Min(Mathf.Clamp01(cardAge/.8f),Mathf.Clamp01(showing/1.2f));}
         }
         void Scan(GameState state)
         {

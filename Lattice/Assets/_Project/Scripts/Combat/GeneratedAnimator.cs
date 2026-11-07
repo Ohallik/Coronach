@@ -108,7 +108,18 @@ namespace Lattice.Combat
                 }
             }
             bool down=actor!=null&&!actor.Health.Alive||enemy!=null&&!enemy.Health.Alive&&!enemy.definition.yieldsOnDefeat;
-            if(enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat){wanted="Idle";rate=1;}
+            // She gives up on her feet: the rig has no kneel or slump, and the recoil of its hit reaction, held, is the nearest thing to beaten. The person who takes over holds the same pose.
+            if(enemy!=null&&!enemy.Health.Alive&&enemy.definition.yieldsOnDefeat)
+            {
+                wanted="Stagger";
+                if(!lengths.TryGetValue(wanted,out float length))
+                {
+                    foreach(var clip in animator.runtimeAnimatorController.animationClips)if(clip.name==wanted){length=clip.length;break;}
+                    if(length>0)lengths[wanted]=length;
+                }
+                rate=length>0?length*.25f/.22f:1;
+                if(state==wanted&&!animator.IsInTransition(0)&&animator.GetCurrentAnimatorStateInfo(0).normalizedTime>=.25f)rate=0;
+            }
             bool gettingUp=actor!=null&&actor.Recovering;
             if(down||gettingUp)
             {

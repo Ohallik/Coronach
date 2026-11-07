@@ -12,9 +12,13 @@ namespace Lattice.UI
     {
         /// <summary>Beats that stay true after they've been heard: the person is only repeating themselves, and a mark on them would never clear.</summary>
         static readonly HashSet<string> Repeats=new(){"AbriLanternRepeat","AbriLanternWaiting","AbriLanternAfter","PellLampAfter"};
-        const float MarkPixels=30;
-        sealed class Label{public TextMeshPro text;public string name;public Color color;public float size;public bool marked;}
+        /// <summary>How tall a name stands on a 1080p screen, and how tall when it's marked; and how far over the head it hangs, in metres.</summary>
+        const float NamePixels=26,MarkPixels=32,OverHead=.32f;
+        /// <summary>A heavy mark, not a tick: thin Cinzel's '!' read as a stray stroke before the name.</summary>
+        const string Mark="<size=150%><b>!</b></size>  ";
+        sealed class Label{public TextMeshPro text;public string name;public Color color;public float size,markSize;public bool marked;}
         readonly Dictionary<Npc,Label> labels=new();
+        readonly List<Label> shown=new();
         float next;
         public static bool HasNews(Npc npc)
         {
@@ -37,8 +41,18 @@ namespace Lattice.UI
                 if(prompt is not Npc npc)continue;
                 var label=LabelOf(npc);if(label==null)continue;
                 bool news=HasNews(npc);if(news==label.marked)continue;
-                label.marked=news;label.text.text=news?"! "+label.name:label.name;label.text.color=news?UiKit.GoldColor:label.color;
-                label.text.fontSize=news?Mathf.Max(label.size,UiKit.WorldFontSize(MarkPixels)):label.size;
+                label.marked=news;label.text.text=news?Mark+label.name:label.name;label.text.color=news?UiKit.GoldColor:label.color;
+                label.text.fontSize=news?label.markSize:label.size;
+            }
+        }
+        /// <summary>A name reads level whichever way its person faces: as a child it turned with them, so CORRA stood on end.</summary>
+        void LateUpdate()
+        {
+            var view=Camera.main;if(view==null)return;var facing=view.transform.rotation;
+            for(int i=shown.Count-1;i>=0;i--)
+            {
+                var text=shown[i].text;
+                if(text==null)shown.RemoveAt(i);else text.transform.rotation=facing;
             }
         }
         /// <summary>The label the camera can see: a hailed person's own is switched off with their body, and a sign named for them hangs beside their ship.</summary>
@@ -52,8 +66,23 @@ namespace Lattice.UI
                 string sign="Sign_"+DisplayNames.Speaker(npc.speaker);
                 foreach(var other in FindObjectsByType<TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None))if(other.name==sign&&Shown(other)){found=other;break;}
             }
-            var label=found!=null?new Label{text=found,name=found.text,color=found.color,size=found.fontSize}:null;
+            Label label=null;
+            if(found!=null)
+            {
+                found.fontSharedMaterial=UiKit.LegibleMaterial(found.font);
+                float scale=Mathf.Max(.01f,found.transform.lossyScale.y),size=Mathf.Max(found.fontSize,UiKit.WorldFontSize(NamePixels)/scale);found.fontSize=size;
+                if(found.transform.IsChildOf(npc.transform))OverTheHead(found,npc);
+                label=new Label{text=found,name=found.text,color=found.color,size=size,markSize=Mathf.Max(size,UiKit.WorldFontSize(MarkPixels)/scale)};shown.Add(label);
+            }
             labels[npc]=label;return label;
+        }
+        /// <summary>Over this body's own head. A fixed 2.8 m left a name floating against the wall behind a short person, and in the shoulder of a tall one.</summary>
+        static void OverTheHead(TextMeshPro label,Npc npc)
+        {
+            float top=float.MinValue;
+            foreach(var body in npc.GetComponentsInChildren<Renderer>())
+                if(!body.transform.IsChildOf(label.transform)&&body is MeshRenderer or SkinnedMeshRenderer)top=Mathf.Max(top,body.bounds.max.y);
+            if(top>float.MinValue){var at=npc.transform.position;label.transform.position=new Vector3(at.x,top+OverHead,at.z);}
         }
         static bool Shown(TextMeshPro text){var view=text.GetComponent<Renderer>();return view!=null&&view.enabled;}
     }

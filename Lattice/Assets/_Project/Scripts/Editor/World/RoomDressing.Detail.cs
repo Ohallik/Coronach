@@ -38,13 +38,47 @@ namespace Lattice.EditorTools
 
         sealed class DetailBatch{public readonly List<Vector3> v=new();public readonly List<Vector2> uv=new();public readonly List<int> t=new();public readonly List<Color32> c=new();}
         /// <summary>Strip kinds whose runs fade out at both ends instead of stopping square (vertex alpha, `_VCOLOR_ON`).</summary>
-        static readonly HashSet<string> FadedEnds=new(){"GroundScour"};
+        static readonly HashSet<string> FadedEnds=new(){"GroundScour","GroundTracks"};
+        /// <summary>Ground patches that must not read as stickers: each takes its own crop of the texture, its own shade and an irregular feathered edge, so no two match and none
+        /// shows the stamp's outline. A crust marks a plume's reach, and a pool, a pore or eggs are things in their own right: those keep their shape.</summary>
+        static readonly HashSet<string> Feathered=new(){"GroundClay","GroundStain","GroundRipples","GroundGravel","GroundPebbles","GroundScuff","GroundBasalt","GroundDust","GroundFissure","GroundSilt","GroundScar","GroundVeins"};
+        static bool VertexColoured(string kind)=>FadedEnds.Contains(kind)||Feathered.Contains(kind);
+        /// <summary>Crop, shade and edge from the patch's own position: no random stream moves, so every other piece stays where it was.</summary>
+        static Color32[] Feather(float x,float z,Vector2[] uvs,int nx,int nz)
+        {
+            float Hash(float seed)=>Mathf.Repeat(Mathf.Sin(x*12.9898f+z*78.233f+seed)*43758.5453f,1);
+            float crop=Mathf.Lerp(.58f,.86f,Hash(1)),du=Mathf.Lerp(.07f,.93f-crop,Hash(2)),dv=Mathf.Lerp(.07f,.93f-crop,Hash(3)),wobble=Hash(6)*40;
+            bool flipU=Hash(4)>.5f,flipV=Hash(5)>.5f;byte tone=(byte)Mathf.RoundToInt(255*Mathf.Lerp(.84f,1,Hash(7)));
+            var shades=new Color32[uvs.Length];
+            for(int j=0;j<=nz;j++)for(int i=0;i<=nx;i++)
+            {
+                float s=i/(float)nx,t=j/(float)nz;int k=j*(nx+1)+i;
+                uvs[k]=new Vector2(du+crop*(flipU?1-s:s),dv+crop*(flipV?1-t:t));
+                var q=new Vector2(2*s-1,2*t-1);float angle=Mathf.Atan2(q.y,q.x);
+                float edge=.78f+.22f*Mathf.PerlinNoise(Mathf.Cos(angle)*1.4f+wobble,Mathf.Sin(angle)*1.4f+wobble);
+                shades[k]=new Color32(tone,tone,tone,(byte)Mathf.RoundToInt(255*(1-Mathf.SmoothStep(edge*.42f,edge,q.magnitude))));
+            }
+            return shades;
+        }
+        /// <summary>What a floor sign will cover once it's sized for the camera: ground patches keep off it, and so does whatever stands.</summary>
+        static List<Rect> signRects=new();
+        static List<Rect> SignRects()
+        {
+            var rects=new List<Rect>();if(Station||Exterior)return rects;
+            foreach(var sign in Object.FindObjectsByType<TMPro.TextMeshPro>(FindObjectsInactive.Include,FindObjectsSortMode.None))
+            {
+                if(!sign.name.StartsWith("Sign_")||sign.transform.parent!=null)continue;
+                var p=sign.transform.position;float half=sign.text.Length*.2f+.5f;
+                rects.Add(Rect.MinMaxRect(p.x-half,p.z-1,p.x+half,p.z+1));
+            }
+            return rects;
+        }
         static readonly Dictionary<(string kind,int x,int z),DetailBatch> details=new();
         static readonly List<Rect> detailRects=new();
         static List<Rect> obstacles;
         static int detailPlaced,detailSkipped;
 
-        static void BeginDetails(){details.Clear();detailRects.Clear();obstacles=null;detailPlaced=detailSkipped=0;}
+        static void BeginDetails(){details.Clear();detailRects.Clear();obstacles=null;detailPlaced=detailSkipped=0;signRects=SignRects();}
 
         static void StageDetailTextures()
         {
@@ -79,18 +113,19 @@ namespace Lattice.EditorTools
                 "DecalHazard"=>new Color(.95f,.9f,.8f),
                 // Ground decals blend into the soil: muted toward the terrain colour, partly transparent.
                 "GroundTracks"=>new Color(.42f,.27f,.2f,.42f),
-                "GroundRipples"=>new Color(.84f,.72f,.64f,.7f),
-                "GroundScuff"=>new Color(.86f,.74f,.66f,.75f),
-                "GroundClay"=>new Color(.88f,.76f,.72f,.8f),
+                "GroundRipples"=>new Color(.84f,.72f,.64f,.5f),
+                "GroundScuff"=>new Color(.86f,.74f,.66f,.5f),
+                "GroundClay"=>new Color(.8f,.68f,.64f,.5f),
+                "GroundGravel" or "GroundPebbles" or "GroundStain"=>new Color(.9f,.82f,.78f,.6f),
                 // Hushwell: the cave floor is a dark warm brown under a dim key, so its patches are muted toward it.
-                "GroundBasalt"=>new Color(.84f,.8f,.82f,.45f),
-                "GroundDust"=>new Color(.72f,.66f,.62f,.62f),
+                "GroundBasalt"=>new Color(.84f,.8f,.82f,.36f),
+                "GroundDust"=>new Color(.6f,.5f,.42f,.38f),
                 "GroundCrust"=>new Color(.9f,.86f,.8f,.9f),
-                "GroundFissure"=>new Color(.42f,.34f,.32f,.95f),
+                "GroundFissure"=>new Color(.42f,.34f,.32f,.7f),
                 // The Gullet: tissue patches sit on the tinted membrane, slightly translucent so the cells show through.
                 "GroundScour"=>new Color(.72f,.68f,.85f,.5f),
                 // In play the Gullet's bloom made full-strength vessels the brightest thing on screen, the same cyan as shots: kept quiet.
-                "GroundVeins"=>new Color(.62f,.7f,.82f,.85f),
+                "GroundVeins"=>new Color(.42f,.48f,.68f,.55f),
                 _ when DetailKinds3.Contains(kind)&&kind.StartsWith("Ground")=>new Color(.86f,.84f,.95f,.85f),
                 _ when kind.StartsWith("Ground")=>new Color(.9f,.82f,.78f,.82f),
                 _=>Color.white
@@ -108,7 +143,7 @@ namespace Lattice.EditorTools
                 m.SetFloat("_SrcBlend",(float)BlendMode.One);m.SetFloat("_DstBlend",(float)BlendMode.Zero);m.SetFloat("_ZWrite",1);
                 m.renderQueue=(int)RenderQueue.AlphaTest;
             }
-            if(FadedEnds.Contains(kind)){m.EnableKeyword("_VCOLOR_ON");m.SetFloat("_VColor",1);}
+            if(VertexColoured(kind)){m.EnableKeyword("_VCOLOR_ON");m.SetFloat("_VColor",1);}
             else{m.DisableKeyword("_VCOLOR_ON");m.SetFloat("_VColor",0);}
             if(Glowing.Contains(kind))
             {
@@ -117,7 +152,8 @@ namespace Lattice.EditorTools
                 {
                     "DecalStud"=>new Color(1f,.68f,.28f)*2.4f,
                     // Bioluminescence carries the Gullet's colour: veins and scour lines brighter, eggs a soft pale glow.
-                    "GroundVeins"=>new Color(.13f,.9f,1f)*.32f,
+                    // Quieter than anything that flies over them: they shared the darts' blue and outshone them.
+                    "GroundVeins"=>new Color(.13f,.9f,1f)*.12f,
                     "GroundScour"=>new Color(.13f,.9f,1f)*1.1f,
                     "GroundEggs"=>new Color(.6f,.9f,1f)*1.6f,
                     "GroundPore"=>new Color(.3f,.6f,1f)*2f,
@@ -160,7 +196,7 @@ namespace Lattice.EditorTools
             if(!overlay)
             {
                 var inner=Rect.MinMaxRect(rect.xMin+.03f,rect.yMin+.03f,rect.xMax-.03f,rect.yMax-.03f);
-                bool blocked=detailRects.Any(r=>r.Overlaps(inner))||(Cave?BlockedRect(x,z,w,l,yaw):Exterior?RoofBlocked(x,z,w,l,yaw):Obstacles().Any(r=>r.Overlaps(inner)))
+                bool blocked=signRects.Any(r=>r.Overlaps(inner))||detailRects.Any(r=>r.Overlaps(inner))||(Cave?BlockedRect(x,z,w,l,yaw):Exterior?RoofBlocked(x,z,w,l,yaw):Obstacles().Any(r=>r.Overlaps(inner)))
                     ||placed.Any(p=>p.solid&&Footprint2D(p.go).Overlaps(inner));
                 if(blocked){detailSkipped++;Debug.Log($"DRESSING_DETAIL_SKIPPED {zone} {kind} at ({x:0.0},{z:0.0})");return false;}
                 detailRects.Add(rect);
@@ -188,7 +224,7 @@ namespace Lattice.EditorTools
             // curve that the 0.5 m grid follows, so there the flight ceiling, not a step rule, bounds a patch.)
             var kept=verts.Where((q,k)=>valid[k]).ToArray();
             if(conform&&!Flight&&kept.Max(q=>q.y)-kept.Min(q=>q.y)>Mathf.Max(w,l)*.45f){detailSkipped++;if(!overlay)detailRects.Remove(rect);if(trim)Debug.Log($"DRESSING_DETAIL_REFUSED {zone} {kind} at ({x:0.0},{z:0.0}): crosses a step");return false;}
-            Append(kind,x,z,verts,uvs,nx,nz,valid);
+            Append(kind,x,z,verts,uvs,nx,nz,valid,Feathered.Contains(kind)?Feather(x,z,uvs,nx,nz):null);
             detailPlaced++;return true;
         }
 
@@ -301,7 +337,7 @@ namespace Lattice.EditorTools
                 var (kind,cx,cz)=group.Key;var batch=group.Value;
                 if(!materials.TryGetValue(kind,out var material))materials[kind]=material=DetailMaterial(kind);
                 var mesh=new Mesh{name=$"{zone} detail {kind} {cx},{cz}",indexFormat=batch.v.Count>65000?IndexFormat.UInt32:IndexFormat.UInt16};
-                mesh.SetVertices(batch.v);mesh.SetUVs(0,batch.uv);mesh.SetTriangles(batch.t,0);if(FadedEnds.Contains(kind))mesh.SetColors(batch.c);
+                mesh.SetVertices(batch.v);mesh.SetUVs(0,batch.uv);mesh.SetTriangles(batch.t,0);if(VertexColoured(kind))mesh.SetColors(batch.c);
                 mesh.RecalculateNormals();mesh.RecalculateBounds();decalMeshes.Add(mesh);
                 var go=new GameObject("Floor detail "+kind,typeof(MeshFilter),typeof(MeshRenderer)){isStatic=true};
                 go.transform.SetParent(root,false);

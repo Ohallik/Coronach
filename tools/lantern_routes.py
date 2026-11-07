@@ -153,7 +153,7 @@ def wick_reach():
         r.add(f"hear Abri out {i + 1}", 60, buttons=["South"], pulseSeconds=0.55, until="ui:world", expectedUi="world")
         r.add(f"release after Abri {i + 1}", 0.5)
     r.wait("the lantern route is known", 0.5, expectedFlag="lantern.routeKnown")
-    r.walk("to the pressure lift", 0, 0, -10)
+    r.walk("to the pressure lift", 0, 0, -8)
     r.scene = "TallowApproach"
     r.add("launch from Tallow", 3, buttons=["South"], expectedForm="CivilFlight")
     r.add("release launch", 0.5)

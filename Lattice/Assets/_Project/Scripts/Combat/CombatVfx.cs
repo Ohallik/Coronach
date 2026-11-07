@@ -37,11 +37,11 @@ namespace Lattice.Combat
                 var fade=ps.colorOverLifetime;fade.enabled=true;var gradient=new Gradient();gradient.SetKeys(new[]{new GradientColorKey(Color.white,0),new GradientColorKey(Color.white,1)},new[]{new GradientAlphaKey(1,0),new GradientAlphaKey(0,1)});fade.color=gradient;
             }
             ps.transform.position=position;var settings=ps.main;
-            settings.startLifetime=kind=="spark"?.16f:kind=="failure"?.28f:kind=="form"?.13f:kind=="shape"?.6f:kind=="kill"?.45f:.24f;
-            settings.startSpeed=kind=="failure"?.6f:kind=="form"?1:kind=="kill"?6:kind=="shape"?3:kind=="boost"?1:3;
-            settings.startSize=kind=="spark"?.12f:kind=="failure"?.09f:kind=="form"?2.4f:kind=="shape"?.45f:kind=="lunge"?.7f:.3f;settings.startColor=color;
+            settings.startLifetime=kind=="steam"?.95f:kind=="spark"?.16f:kind=="failure"?.28f:kind=="form"?.13f:kind=="shape"?.6f:kind=="kill"?.45f:.24f;
+            settings.startSpeed=kind=="steam"?1.1f:kind=="failure"?.6f:kind=="form"?1:kind=="kill"?6:kind=="shape"?3:kind=="boost"?1:3;
+            settings.startSize=kind=="steam"?1.25f:kind=="spark"?.12f:kind=="failure"?.09f:kind=="form"?2.4f:kind=="shape"?.45f:kind=="lunge"?.7f:.3f;settings.startColor=color;
             ps.GetComponent<ParticleSystemRenderer>().sharedMaterial=kind=="lunge"?slash:kind=="shape"?circle:flare;
-            ps.Play();ps.Emit(kind=="spark"?5:kind=="failure"?6:kind=="form"?3:kind=="kill"?30:kind=="shape"?40:kind=="boost"?3:10);
+            ps.Play();ps.Emit(kind=="steam"?14:kind=="spark"?5:kind=="failure"?6:kind=="form"?3:kind=="kill"?30:kind=="shape"?40:kind=="boost"?3:10);
         }
     }
 }

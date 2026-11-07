@@ -7,11 +7,13 @@ namespace Lattice.World
     [ExecuteAlways]
     public sealed class StaysDark:MonoBehaviour
     {
-        static readonly int Emission=Shader.PropertyToID("_EmissionColor");
+        static readonly int Emission=Shader.PropertyToID("_EmissionColor"),BaseMap=Shader.PropertyToID("_BaseMap");
+        /// <summary>The tower's texture with its amber glass gone smoky. Dead means dark, and unlit amber in full sun still reads as lit.</summary>
+        public Texture glass;
         void Awake()
         {
             var block=new MaterialPropertyBlock();
-            foreach(var part in GetComponentsInChildren<Renderer>(true)){part.GetPropertyBlock(block);block.SetVector(Emission,Vector4.zero);part.SetPropertyBlock(block);}
+            foreach(var part in GetComponentsInChildren<Renderer>(true)){part.GetPropertyBlock(block);block.SetVector(Emission,Vector4.zero);if(glass!=null)block.SetTexture(BaseMap,glass);part.SetPropertyBlock(block);}
         }
     }
 }

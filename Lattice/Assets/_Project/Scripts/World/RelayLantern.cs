@@ -13,6 +13,8 @@ namespace Lattice.World
         public static readonly List<RelayLantern> All=new();
         public string flag;public float radius=10;public Renderer[] crystals=System.Array.Empty<Renderer>();public Light glow;
         public Color litColor=new(1.6f,1.05f,.45f);
+        /// <summary>This model's texture with its glass unlit, worn until it's relit: dead means dark, and a dead relay's painted amber in full sun read as softly lit.</summary>
+        public Texture deadGlass;
         /// <summary>Lit from the first frame, with no ceremony: a lantern nobody ever let go out.</summary>
         public bool alwaysLit;
         public bool Lit{get;private set;}
@@ -56,7 +58,8 @@ namespace Lattice.World
                 // The range that brings the pool on the floor to the ring, from a lamp this high.
                 float high=glow.transform.position.y-floor.y;glow.range=Mathf.Sqrt(radius*radius+high*high);
             }
-            if(ward==null){ward=Telegraph.Ring(floor,radius-.28f,radius,99999,new Color(1,.8f,.48f,.7f));ward.owner=this;ward.Steady=true;}
+            // Thin and pale: in a fight a bright orange curve on the floor reads as danger, and this one ran straight through the real markings.
+            if(ward==null){ward=Telegraph.Ring(floor,radius-.16f,radius,99999,new Color(1,.95f,.72f,.42f));ward.owner=this;ward.Steady=true;}
         }
         void Present(bool relit)
         {
@@ -64,7 +67,10 @@ namespace Lattice.World
             foreach(var crystal in crystals)
             {
                 if(crystal==null)continue;crystal.GetPropertyBlock(block);
-                block.SetColor("_EmissionColor",Lit?litColor:new Color(.05f,.07f,.12f));crystal.SetPropertyBlock(block);
+                block.SetColor("_EmissionColor",Lit?litColor:new Color(.05f,.07f,.12f));
+                var own=deadGlass!=null&&crystal.sharedMaterial!=null?crystal.sharedMaterial.GetTexture("_BaseMap"):null;
+                if(own!=null)block.SetTexture("_BaseMap",Lit?own:deadGlass);
+                crystal.SetPropertyBlock(block);
             }
             if(glow!=null)glow.enabled=Lit;
             ShowWard();
