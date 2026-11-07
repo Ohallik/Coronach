@@ -164,6 +164,8 @@ namespace Lattice.Tests.PlayMode
                 Assert.LessOrEqual(dialogue.LinesPresented-lines,1,"one confirm skipped multiple lines");
             }
             Assert.IsTrue(dialogue.Running);Assert.Greater(ChoiceCount,0,"choice never arrived");
+            // A choice holds its first press, as the shop and the bench do: these fixtures answer it on purpose, so they wait as a reader does.
+            yield return new WaitForSecondsRealtime(FirstPress.Hold+.05f);
         }
 
         IEnumerator FinishLines()
@@ -352,6 +354,7 @@ namespace Lattice.Tests.PlayMode
             try
             {
                 Assert.AreEqual(2,panel.GetComponentsInChildren<Transform>().Count(t=>t.name.StartsWith("Option_")));
+                yield return new WaitForSecondsRealtime(FirstPress.Hold+.05f);
                 yield return Press(GamepadButton.DpadDown);yield return Press(GamepadButton.South);
                 Assert.IsTrue(done);Assert.IsNotNull(selected);Assert.AreEqual(42,selected.DialogueOptionID);
             }

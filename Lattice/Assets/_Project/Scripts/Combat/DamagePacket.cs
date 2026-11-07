@@ -12,6 +12,8 @@ namespace Lattice.Combat
         public Health source;
         public Vector3 knockback;
         public bool isCrit;
+        /// <summary>This hit carries a crit a hero earned, which it spends by landing: see <see cref="CombatActor.Packet"/>.</summary>
+        public bool earnedCrit;
         public bool deathAttack;
         public string tag;
         /// <summary>How much of a landed hit's Charge this packet gives up: a skill landing many small hits can't repay itself on one target.</summary>

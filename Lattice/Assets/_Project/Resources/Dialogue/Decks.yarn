@@ -36,6 +36,7 @@ Mira: If it sparks, I sell it. If it smokes, Hal's down the corridor. #emotion:H
 title: MiraPost
 ---
 Mira: Six clean crystals. Every colour I asked for, including "not stolen". #emotion:Happy
+<<setFlag mira.thanked>>
 <<shop>>
 ===
 title: HalFirst

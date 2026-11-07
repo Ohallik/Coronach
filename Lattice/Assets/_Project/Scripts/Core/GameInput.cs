@@ -14,13 +14,21 @@ namespace Lattice.Core
         public InputActionMap Common { get; }
         public bool FlightMode { get; private set; }
         bool blocked;
+        /// <summary>How long Interact waits once a screen has handed the world back.</summary>
+        public const float HandBackHold=.35f;
         readonly System.Collections.Generic.HashSet<InputAction> carriedOver=new();
         public bool Blocked
         {
             get=>blocked;
             set
             {
-                if(blocked&&!value){carriedOver.Clear();foreach(var action in Active)if(action.type==InputActionType.Button&&!ContinuousMovement(action.name)&&action.IsPressed())carriedOver.Add(action);}
+                if(blocked&&!value)
+                {
+                    carriedOver.Clear();foreach(var action in Active)if(action.type==InputActionType.Button&&!ContinuousMovement(action.name)&&action.IsPressed())carriedOver.Add(action);
+                    // One rule for whatever hands the world back, a conversation, a menu, a shop or a load. A thumb still tapping must not start the talk over,
+                    // or take the exit the party arrived beside: a dock and a warp go at once, with no question. A held button waits for its release above; a new tap waits here.
+                    PromptService.HoldOffInteract(HandBackHold);
+                }
                 blocked=value;
             }
         }

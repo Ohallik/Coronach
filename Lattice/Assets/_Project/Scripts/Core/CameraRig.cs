@@ -98,6 +98,8 @@ namespace Lattice.Core
         static readonly RaycastHit[] Occluders=new RaycastHit[8];
         /// <summary>Closest the ground camera comes when a terrain rim blocks the party (D198).</summary>
         public const float NearestGroundDistance=6;
+        /// <summary>Closer than that only where the lens at that distance still can't see the hero.</summary>
+        const float LastGroundDistance=4;
         Vector3 returnOffset;
         float returnDistance,returnAge;
         bool returning;
@@ -144,10 +146,21 @@ namespace Lattice.Core
                 int count=Physics.SphereCastNonAlloc(from+Vector3.up*1.2f,.4f,back,Occluders,wanted,~0,QueryTriggerInteraction.Ignore);
                 for(int i=0;i<count;i++)if(Occluders[i].distance>0&&Scenery(Occluders[i].collider))
                     clear=Mathf.Min(clear,Mathf.Max(NearestGroundDistance,Occluders[i].distance-.6f));
+                // At its nearest the lens can still stand just above a rim, with the lip between it and the hero (twice on Sorrel's south rim). A little further in it goes
+                // under the plateau, where one-sided terrain draws nothing and he's in plain view.
+                if(clear<=NearestGroundDistance&&target!=null)
+                    for(var chest=target.position+Vector3.up*1.2f;clear>LastGroundDistance&&!Sees(center-viewOffset+back*clear,chest);)clear-=.5f;
             }
             if(groundDistance<0||dt<=0&&groundDistance>clear)groundDistance=clear;
             else groundDistance=Mathf.Lerp(groundDistance,clear,1-Mathf.Exp(-(clear<groundDistance?14:2.5f)*dt));
             return groundDistance;
+        }
+        static bool Sees(Vector3 eye,Vector3 chest)
+        {
+            var line=chest-eye;float length=line.magnitude;if(length<.31f)return true;
+            int count=Physics.RaycastNonAlloc(eye,line/length,Occluders,length-.3f,~0,QueryTriggerInteraction.Ignore);
+            for(int i=0;i<count;i++)if(Scenery(Occluders[i].collider))return false;
+            return true;
         }
         /// <summary>Visible, static scenery: not a body, not an invisible boundary.</summary>
         public static bool Scenery(Collider collider)=>!(collider is CharacterController)&&collider.attachedRigidbody==null&&

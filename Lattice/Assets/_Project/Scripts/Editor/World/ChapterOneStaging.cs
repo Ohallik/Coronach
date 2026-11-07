@@ -32,6 +32,12 @@ namespace Lattice.EditorTools
         public static void ClearSigns(string text){foreach(var sign in All<TextMeshPro>().Where(t=>t.text==text).ToArray())Object.DestroyImmediate(sign.gameObject);}
         static void ClearNamed(string name){foreach(var go in All<Transform>().Where(t=>t!=null&&t.name==name).Select(t=>t.gameObject).ToArray())if(go!=null)Object.DestroyImmediate(go);}
         static void Reprompt(string from,string to){foreach(var prompt in All<InteractionPrompt>())if(prompt.prompt==from)prompt.prompt=to;}
+        /// <summary>A warp's name on its prompt, its object and its sign, where the builder's words have moved on since the scene was built.</summary>
+        static void RenameWarp(WarpBeacon warp,string to)
+        {
+            foreach(var sign in All<TextMeshPro>().Where(t=>t.text==warp.prompt)){sign.text=to;sign.name="Sign_"+to;}
+            warp.prompt=to;warp.name=to;
+        }
         static void Spawn(string id,Vector3 at)
         {
             foreach(var old in All<SpawnPoint>().Where(s=>s.id==id).ToArray())Object.DestroyImmediate(old.gameObject);
@@ -172,6 +178,9 @@ namespace Lattice.EditorTools
             ClearNamed("Orrin's hail");
             var hail=new GameObject("Orrin's hail",typeof(RadioHail)).GetComponent<RadioHail>();hail.transform.position=gullet.transform.position;
             hail.speaker="Orrin";hail.situations=new[]{"hail.outer","hail.outer.after"};hail.needs=new[]{"warpkey","hushwell.nursery"};hail.heardFlag="orrin.outerHail";hail.silencedBy="bossdown.Cantor";
+            // Their later lines wait for what they talk about. On the survey key alone, Neve sent the party by a chart that didn't exist yet to a warp that refused them, and Ilo asked about a Gullet nobody had seen.
+            All<Npc>().Single(n=>n.speaker=="Neve").postFlag="hushwell.nursery";All<Npc>().Single(n=>n.speaker=="Ilo").postFlag="bossdown.Cantor";
+            BridgeCasings();
         }
         /// <summary>The Gullet runs one way until the Cantor is free, and the autosave is written on arrival, so the warp says so before anyone
         /// takes it, in its prompt and under its sign. Neither names the Cantor: the sign is up from the first visit here, and nobody has heard
@@ -200,10 +209,17 @@ namespace Lattice.EditorTools
         public static void Decks()
         {
             AfterTheCantor("Orrin","OrrinAfterCantor");
+            BridgeCasings();
             // At its new size its corner met the door's lintel.
             MoveSign("ARRIVALS / DOCK OFFICE",new Vector3(-28,.12f,-.8f));
             // The first job's service opening lay a millimetre under the promenade's runner: a lid standing on an unbroken walkway, with no hole.
             foreach(var hole in All<Transform>().Where(t=>t.name=="Walkway service opening"))hole.position=new Vector3(hole.position.x,MarketOpeningStaging.OpeningHeight,hole.position.z);
+        }
+        /// <summary>The four boxes under the Decks' bridges, in the interior and the exterior scene alike. Named for what they became, so a second pass finds none.</summary>
+        static void BridgeCasings()
+        {
+            foreach(float x in new[]{-14f,14f})foreach(float z in new[]{-3f,21.5f})
+                foreach(var block in All<Transform>().Where(t=>t.name=="DeckWall"&&t.parent==null&&(t.position-new Vector3(x,-1.5f,z)).sqrMagnitude<.01f).ToArray())StationRedesign.BridgeCasing(block.gameObject);
         }
         /// <summary>Back from Tallow on the warp, their old advice about getting there is stale.</summary>
         static void AfterTheCantor(string speaker,string node)
@@ -316,6 +332,8 @@ namespace Lattice.EditorTools
             var rock=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+"hushwell-rock.mat");
             rock.EnableKeyword("_TRIPLANAR_ON");rock.SetFloat("_Triplanar",1);rock.SetFloat("_TriplanarScale",.166f);EditorUtility.SetDirty(rock);
             All<WarpBeacon>().Single(w=>w.requiredFlag=="hushwell.nursery").lockedPrompt="The lift is dead. Look at what the Bellows was guarding first.";
+            // A warp with no lock has no locked words: the bore's still held the retired 'Sorrel key'.
+            foreach(var open in All<WarpBeacon>().Where(w=>string.IsNullOrEmpty(w.requiredFlag)))open.lockedPrompt="";
             All<EncounterVolume>().Single(e=>e.encounterId=="Hushwell_Bellows").checkpointSpawn="BellowsDoor";
             Spawn("BellowsDoor",HushwellLayout.OnFloor(new Vector2(0,237)));
             Cradle("Survey cradle",HushwellLayout.OnFloor(new Vector2(8,231)),-60,"BellowsDoor");
@@ -323,7 +341,9 @@ namespace Lattice.EditorTools
         }
         public static void Gullet()
         {
-            All<WarpBeacon>().Single(w=>w.scene=="TallowApproach").lockedPrompt="Warp locked — free the Cantor first";
+            var exit=All<WarpBeacon>().Single(w=>w.scene=="TallowApproach");exit.lockedPrompt="Warp locked — free the Cantor first";
+            // It lands in the open space above Tallow, with the dock still ahead, as the Halo's and the Reach's warps do. One name for the one place.
+            RenameWarp(exit,"Exit warp — Tallow Approach");
             All<EncounterVolume>().Single(e=>e.encounterId=="Gullet_Cantor").checkpointSpawn="Collar";
             Spawn("Collar",new Vector3(23,1,768));
             All<DiscoveryPoint>().Single(d=>d.flag=="gullet.collarObserved").saveSpawn="Collar";

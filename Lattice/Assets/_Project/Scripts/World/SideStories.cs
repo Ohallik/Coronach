@@ -53,6 +53,10 @@ namespace Lattice.World
             new("Ishen","IshenRecordReturn",s=>Step(s,"IshensRecord")==1),
             // Unsworn rations (UnswornRations): Corra feeds a Muster deserter hiding in the orchard shed.
             new("Brekk","BrekkRations",s=>Step(s,"UnswornRations")==1),
+            // Aumi can see them from the stair. Her ordinary line went on asking for relays already burning.
+            new("Aumi","AumiRelaysLit",s=>Met(s,"Aumi")&&Flag(s,"gorge.relaysLit")&&!Flag(s,"bossdown.HessaKorl")),
+            // Mira thanks the party once for the six crystals (her post tier), then goes back to selling.
+            new("Mira","MiraRepeat",s=>Flag(s,"mira.thanked")),
             // The captain's surrender: heard once, wherever she is standing (D202). Once the chart is given the fight is long over,
             // and she can't still be shouting as if it had just ended.
             new("Hessa","HessaYieldsLate",s=>Flag(s,"bossdown.HessaKorl")&&!Flag(s,"relay.hessaYielded")&&Flag(s,"lanternwick.chartGiven")),

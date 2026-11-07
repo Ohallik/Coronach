@@ -36,13 +36,15 @@ namespace Lattice.Combat
                 if(actor.target!=null&&(!combat||(actor.target.transform.position-transform.position).sqrMagnitude>900))actor.target=null;
             }
             PromptService.FindInteraction(transform.position);
-            if(input.Pressed("Interact")&&!input.SkillMod&&PromptService.TryInteract()){ForgetPresses();return;}
+            // With the boss bar up the HUD hides the prompt (GameHud, this same test), so A is the attack it looks like.
+            if(input.Pressed("Interact")&&!input.SkillMod&&BossController.Focus(transform.position)==null&&PromptService.TryInteract()){ForgetPresses();return;}
             Vector2 move=input.Move;
             var rotated=Quaternion.Euler(0,zone.definition.cameraProfile.yaw,0)*new Vector3(move.x,0,move.y);
             move=new Vector2(rotated.x,rotated.z);actor.MoveIntent=rotated;
             bool boost=SprintRequested(input.Held(actor.flight?"Boost":"Sprint"),move);
             actor.motor.Move(move,boost,actor.flight&&input.Held("Brake"));
-            if(input.Pressed("Swap")&&!input.SkillMod)PartyController.Current.Swap();
+            // A hero alone has nobody to swap to and no prompt offering it. With the partner down the press answers, as a refused roll or skill does.
+            if(input.Pressed("Swap")&&!input.SkillMod&&!PartyController.Current.Swap()&&PartyController.Current.members.Length>1)SwapRefused?.Invoke();
             if(!combat)return;
             if(input.LockOnToggled())
             {
@@ -83,12 +85,13 @@ namespace Lattice.Combat
         bool winded;
         /// <summary>D197. Civil (Natural form) sprinting is free: town travel has no reason to run out of breath. A combat
         /// sprint spends Thrust only while it actually carries the body, and once spent waits for
-        /// <see cref="SprintRecovery"/> instead of flickering. Flight boost keeps its established budget.</summary>
+        /// <see cref="SprintRecovery"/> instead of flickering. A flight boost spends and rests the same way, whether or not it's steering.</summary>
         bool SprintRequested(bool held,Vector2 move)
         {
             if(actor.flight)
             {
-                bool engine=held&&actor.thrust>1;
+                if(actor.thrust<=1)winded=true;else if(winded&&actor.thrust>=SprintRecovery)winded=false;
+                bool engine=held&&!winded;
                 if(engine)actor.thrust=Mathf.Max(0,actor.thrust-Time.unscaledDeltaTime*34);
                 return engine;
             }
@@ -101,6 +104,8 @@ namespace Lattice.Combat
         public bool Winded=>winded;
         /// <summary>The quick item's press always answers: a use is heard, and a refusal reaches the HUD with its reason (Combat can't see UI).</summary>
         public static event System.Action<string> QuickItemRefused;
+        /// <summary>Swap pressed with the partner down.</summary>
+        public static event System.Action SwapRefused;
         void QuickItem()
         {
             var state=GameServices.Current.State;string id=state.quickItem??"";

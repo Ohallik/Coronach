@@ -255,13 +255,15 @@ namespace Lattice.Tests.PlayMode
                 }
                 PromptService.ForceDevice(null);
                 EventSystem.current.SetSelectedGameObject(Object.FindObjectsByType<Button>(FindObjectsSortMode.None).First(b=>b.name=="Option_1").gameObject);yield return null;
+                // The choice's first press is held: this checks what a deliberate one does.
+                yield return new WaitForSecondsRealtime(FirstPress.Hold+.05f);
                 heard.Clear();
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState(Key.E));yield return null;yield return null;
                 InputSystem.QueueStateEvent(keyboard,new KeyboardState());yield return null;yield return null;
                 Assert.AreEqual(1,picked,"E plays a tick at a choice and chooses nothing: the keyboard player gets a sound and no result");
                 CollectionAssert.DoesNotContain(heard,"dialogue_tick","choosing with E also plays the line's advance tick");
                 // A pad's A chooses through the UI: it must not tick as well.
-                panel.Options(new List<string>{"Repair and save.","Just visiting."},i=>picked=i);yield return null;yield return null;
+                panel.Options(new List<string>{"Repair and save.","Just visiting."},i=>picked=i);yield return new WaitForSecondsRealtime(FirstPress.Hold+.05f);
                 picked=-1;heard.Clear();yield return Tap(GamepadButton.South);
                 Assert.AreEqual(0,picked,"fixture: A chooses the selected option");
                 CollectionAssert.DoesNotContain(heard,"dialogue_tick","choosing with A also plays the line's advance tick");
@@ -278,7 +280,8 @@ namespace Lattice.Tests.PlayMode
             yield return Load("Hub_Decks");
             var dialogue=DialogueSystem.Current;var hero=PartyController.Current.Active;hero.GetComponent<PlayerBrain>().AutoPilot=false;
             var talker=new GameObject("Talker").AddComponent<Npc>();talker.speaker="Orrin";talker.firstNode="OrrinRepeat";talker.range=6;talker.transform.position=hero.transform.position;
-            yield return null;yield return null;
+            // Past the load's own hand-back hold: this checks the hold a conversation's end leaves.
+            yield return new WaitForSecondsRealtime(.1f);
             yield return Tap(GamepadButton.South);
             Assert.IsTrue(dialogue.Running,"fixture: A beside someone talks to them");
             float deadline=Time.unscaledTime+10;

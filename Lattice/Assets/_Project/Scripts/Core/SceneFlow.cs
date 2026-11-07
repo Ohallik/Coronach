@@ -24,7 +24,7 @@ namespace Lattice.Core
             if(!Loading) StartCoroutine(Load(scene,spawn));
         }
         /// <summary>Loads a save picked from the title: its arrival doesn't write over the newest autosave. Only the next real
-        /// dock, warp, repair or discovery does.</summary>
+        /// dock, warp, repair or discovery does, or a conversation that finishes a quest.</summary>
         public void LoadSavedZone(string scene,string spawn)
         {
             if(Loading)return;
@@ -56,6 +56,7 @@ namespace Lattice.Core
             Debug.Log("ZONE_ENTER "+scene);
             for(float t=0;t<0.3f;t+=Time.unscaledDeltaTime){FadeChanged?.Invoke(1-t/0.3f);yield return null;}
             FadeChanged?.Invoke(0); Loading=false;DockArrival=false;
+            // This hand-back holds Interact too (GameInput.Blocked): every Decks spawn stands 3 m from a Launch, and a thumb tapping through the fade took it.
             if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;
             if(GameServices.Current!=null&&scene!="Title")BarkService.PlayArrival(GameServices.Current.State.party[GameServices.Current.State.activeMember].id);
             if(skipArrivalSave)skipArrivalSave=false;

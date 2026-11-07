@@ -45,6 +45,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "autosave",
       "expectedScene": "TallowApproach",
       "expectedUi": "world",
       "expectedFlag": "bossdown.Cantor",

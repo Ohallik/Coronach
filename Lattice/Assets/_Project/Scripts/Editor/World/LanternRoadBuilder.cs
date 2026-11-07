@@ -135,14 +135,14 @@ namespace Lattice.EditorTools
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Kinetic;e.archetype=EnemyArchetype.Sentinel;e.xp=95;e.boss=false;e.lootTable=Loot("MusterSergeant",new LootEntry{id="ScrapAlloy",count=4,chance=1},new LootEntry{id="RepairGel",count=1,chance=.35f});});
             ArenaBuilder.Asset<EnemyDef>("MusterSkiff",e=>{e.id="MusterSkiff";e.prefab=Body("Enemies","MusterSkiff","Enemies","ChoristerDrifter");e.integrity=170;e.breakThreshold=80;e.speed=4.2f;e.attacks=new[]{volley};
                 e.weakness=DamageType.Pulse;e.resistance=DamageType.Beam;e.archetype=EnemyArchetype.Spitter;e.xp=40;e.boss=false;e.lootTable=Loot("MusterSkiff",new LootEntry{id="ScrapAlloy",count=2,chance=.45f});});
-            ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=48000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
+            ArenaBuilder.Asset<EnemyDef>("HessaKorl",e=>{e.id="HessaKorl";e.prefab=Body("Enemies","HessaKorl","Enemies","SentinelHusk");e.integrity=56000;e.breakThreshold=700;e.speed=3.4f;e.attacks=new[]{bite};
                 e.weakness=DamageType.Plasma;e.resistance=DamageType.Pulse;e.archetype=EnemyArchetype.Sentinel;e.xp=420;e.boss=true;e.yieldsOnDefeat=true;e.lootTable=Loot("HessaKorl",new LootEntry{id="ChoirResin",count=3,chance=1},new LootEntry{id="RepairGel",count=2,chance=1});});
 
             ArenaBuilder.Asset<QuestDef>("LanternRoad",q=>{q.id="LanternRoad";q.title="The Lantern Road";
                 q.description="Venn wants a route that waits for a moving town. Lanternwick's lanterns once guided stations like Tallow.";
                 q.steps=new[]{Step(ObjectiveKind.Reach,"WickReach"),Step(ObjectiveKind.Reach,"Lanternwick"),Step(ObjectiveKind.TalkTo,"Aumi"),
                     Step(ObjectiveKind.Interact,"GorgeRelay",3),Step(ObjectiveKind.Kill,"HessaKorl"),Step(ObjectiveKind.Flag,"lanternwick.chartGiven")};
-                q.stepText=new[]{"Take Tallow's old lantern route through the Wick Reach","Dock at Lanternwick's courier pad","Find Lanternwick's lantern-keeper",
+                q.stepText=new[]{"Take Tallow's old lantern route through the Wick Reach","Land at Lanternwick's courier dock","Find Lanternwick's lantern-keeper",
                     "Relight the three relays in Lantern Gorge","Stop the scavengers stripping the Sunken Relay","Bring word back to Keeper Aumi"};
                 q.rewardXp=700;q.rewardScrip=400;q.rewards=new[]{new Ingredient{id="ModulesT2",count=1},new Ingredient{id="RepairGel",count=3}};q.flagsOnComplete=new[]{"chapter2.complete"};});
             ArenaBuilder.Asset<QuestDef>("PellsLamp",q=>{q.id="PellsLamp";q.title="Light for a Lamp-Keeper";
@@ -558,7 +558,8 @@ namespace Lattice.EditorTools
             WorldBuilder.Label("LANTERN GATE",new Vector3(0,-1,ReachLength-41),3.1f).transform.SetParent(strands.transform,true);
             WorldBuilder.Dock("Dock — Lanternwick",new Vector3(0,1,ReachLength-14),"Lanternwick","Arrival",WorldBuilder.FlightDockRange);
             WorldBuilder.Label("LANTERNWICK",new Vector3(0,5,ReachLength-10),2.6f);
-            WorldBuilder.Warp("Warp — Tallow Drift",new Vector3(-16,1,-2),"TallowApproach","lantern.routeKnown","Wick");
+            // No lock: nobody stands in the Reach without the route. It lands above Tallow with the dock still ahead, and is called that, as the Halo's and the Gullet's are.
+            WorldBuilder.Warp("Warp — Tallow Approach",new Vector3(-16,1,-2),"TallowApproach","","Wick").lockedPrompt="";
             // Walls at the flight plane; the far reaches stay visible.
             WorldBuilder.Boundary("West reach limit",new Vector3(-58,1,ReachLength*.5f),new Vector3(2,12,ReachLength+60));
             WorldBuilder.Boundary("East reach limit",new Vector3(58,1,ReachLength*.5f),new Vector3(2,12,ReachLength+60));
@@ -584,7 +585,9 @@ namespace Lattice.EditorTools
             // one long smear of strata on the way to the orchard gate. Kept low, as the gorge keeps its own.
             if(p.x<0)walls*=.42f;
             float north=Smooth(106,114,p.y)*(16+5*Mathf.PerlinNoise(p.x*.06f,p.y*.04f));
-            float south=Smooth(-34,-42,p.y)*4;
+            // What stops the party at the mouth has to be seen doing it: the limit stands at -33, and a bank that only began there ran on at a walkable slope with nothing marking the stop.
+            // It rises from the limit's face now, steep enough to be cliff. 4 m by -38 clears a sphere cast from the hero's chest at the camera's pitch by a metre: by -36 it would drag the camera in.
+            float south=Smooth(-33,-38,p.y)*4;
             float texture=.25f*Mathf.PerlinNoise(p.x*.12f+10,p.y*.12f);
             return Mathf.Max(Mathf.Max(east,west),Mathf.Max(walls,Mathf.Max(north,south)))+texture;
         }
@@ -693,6 +696,13 @@ namespace Lattice.EditorTools
             Person("Ishen",new Vector3(4,0,92),170,"ishen.recordRestored");
             var corra=Person("Corra",new Vector3(-6,0,17),110,"unsworn.rationsDelivered");
             Person("Brekk",new Vector3(-32,0,60),90,"unsworn.rationsDelivered");
+            // "It's on the stair, where she kept it": lit once she has it back, and gone with her to Tallow, where the chewed lamp stands beside her. Two gates, one for each.
+            var pellStand=new GameObject("Pell's lamp stand");
+            var pellLamp=Prop(Kit("LampPost","DressLightBollard"),new Vector3(24.6f,0,54.6f),1.5f,0,false);pellLamp.name="Pell's lamp";pellLamp.transform.SetParent(pellStand.transform,true);
+            var pellLight=new GameObject("Lamp light",typeof(Light));pellLight.transform.SetParent(pellLamp.transform,false);pellLight.transform.position=pellLamp.transform.position+Vector3.up*1.4f;
+            var pellGlow=pellLight.GetComponent<Light>();pellGlow.type=LightType.Point;pellGlow.color=new Color(1,.78f,.45f);pellGlow.range=6;pellGlow.intensity=1.6f;pellGlow.shadows=LightShadows.None;
+            var pellBurns=new GameObject("Pell's lamp burns",typeof(FlagGate)).GetComponent<FlagGate>();pellBurns.flag="pell.lampReturned";pellBurns.targets=new[]{pellLamp};pellLamp.SetActive(false);
+            var pellTakes=new GameObject("Pell takes her lamp",typeof(FlagGate)).GetComponent<FlagGate>();pellTakes.flag="pell.aboard";pellTakes.showWhenSet=false;pellTakes.targets=new[]{pellStand};
             WorldBuilder.Boundary("West town limit",new Vector3(-37,8,40),new Vector3(2,20,170));
             WorldBuilder.Boundary("East town limit",new Vector3(37,8,40),new Vector3(2,20,170));
             WorldBuilder.Boundary("North town limit",new Vector3(0,8,110),new Vector3(90,20,2));
@@ -875,8 +885,14 @@ namespace Lattice.EditorTools
                 float box=Mathf.Max(d.x,d.y)<0?Mathf.Max(d.x,d.y):new Vector2(Mathf.Max(d.x,0),Mathf.Max(d.y,0)).magnitude;
                 if(box<inside){inside=box;cameraSide=p.y<centre.y-size.y*.5f;}
             }
+            // Just south of any hall's wall counts too: a corridor's flank past its door belongs to the corridor by distance, and stood full height between the camera and a hero hugging that wall.
+            foreach(var (centre,size,_) in RelayHalls)
+            {
+                float south=centre.y-size.y*.5f;
+                if(p.y<south&&p.y>south-3.5f&&Mathf.Abs(p.x-centre.x)<size.x*.5f+1){cameraSide=true;break;}
+            }
             // Rock between a hall and the camera stays low, or the camera slides in to a close-up of the hero's knees.
-            float rock=Smooth(-.2f,1.3f,inside)*(5.2f+1.4f*Mathf.PerlinNoise(p.x*.08f+4,p.y*.08f))*(cameraSide?.45f:1);
+            float rock=Smooth(-.2f,1.3f,inside)*(5.2f+1.4f*Mathf.PerlinNoise(p.x*.08f+4,p.y*.08f))*(cameraSide?.36f:1);
             return rock+.06f*Mathf.PerlinNoise(p.x*.3f,p.y*.3f);
         }
         /// <summary>Each hall its own colour of dark, one running into the next at its door.</summary>

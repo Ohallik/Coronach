@@ -59,7 +59,7 @@ title: NeveParcelReturn
 Neve: Well? Did it arrive warm? #emotion:Curious
 Taren: The coffee did. They sent a reply. #emotion:Neutral
 Neve: "Received with thanks. Please stop sending socks." That's the nicest thing anyone's said to me all cycle. #emotion:Happy
-Neve: Keep these. Charge cells I was saving for an emergency, and you two look like one. #emotion:Amused
+Neve: Keep these. Charge Cells I was saving for an emergency, and you two look like one. #emotion:Amused
 <<setFlag neve.parcelAnswered>>
 ===
 title: OdaBerthOffer

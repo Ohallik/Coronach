@@ -108,10 +108,12 @@ namespace Lattice.Combat
             visual=presentation!=null?presentation.visual:null;if(visual!=null){visualRest=visual.localPosition;visualRestRotation=visual.localRotation;}
             // The Bellows has no rig: its breathing is its animation.
             if(health.id=="BellowsBelow"){body=visual;if(body!=null)bodyRest=body.localScale;}
+            // Sized for a rig's 1.4 m body. On Hessa's .8 m the outer two hung in the air beside her, and a shot past her shoulder landed for double with the !! of a weak spot.
+            float spots=Mathf.Min(1,GetComponent<CharacterController>().radius/1.4f);
             for(int i=0;i<(collar!=null?0:3);i++)
             {
                 var weak=new GameObject("WeakPoint_"+i,typeof(SphereCollider),typeof(Hurtbox));weak.transform.SetParent(transform,false);
-                weak.transform.localPosition=new Vector3((i-1)*1.2f,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f;weak.GetComponent<SphereCollider>().isTrigger=true;
+                weak.transform.localPosition=new Vector3((i-1)*1.2f*spots,1.4f,0);weak.GetComponent<SphereCollider>().radius=.5f*spots;weak.GetComponent<SphereCollider>().isTrigger=true;
                 weak.GetComponent<Hurtbox>().owner=health;weak.GetComponent<Hurtbox>().multiplier=2;
             }
             health.Died+=(_,__)=>
@@ -270,16 +272,18 @@ namespace Lattice.Combat
         Vector3 Toward(Vector3 point){var d=Flat(point-transform.position);return d.sqrMagnitude>.0001f?d.normalized:transform.forward;}
         bool Interrupted=>!health.Alive||health.Broken;
         /// <summary>The marking lands: everyone inside it is struck once (a dodge still evades), outside it nobody. Several
-        /// markings of one cast share <paramref name="once"/>: overlapping ones used to land together in one frame.</summary>
-        void Strike(Telegraph marking,float amount,DamageType type,float stagger=0,float shove=0,HashSet<Health> once=null)
+        /// markings of one cast share <paramref name="once"/>: overlapping ones used to land together in one frame. Markings that land apart in time pass <paramref name="landing"/>:
+        /// only a hit that lands spends the cast's one hit, so what he rolled through isn't what he paid for.</summary>
+        void Strike(Telegraph marking,float amount,DamageType type,float stagger=0,float shove=0,HashSet<Health> once=null,bool landing=false)
         {
             marking.Release();
             foreach(var actor in PartyController.Current.members)
             {
                 if(!actor.Health.Alive||!marking.Contains(actor.transform.position))continue;
-                if(once!=null&&!once.Add(actor.Health))continue;
+                if(once!=null&&(landing?once.Contains(actor.Health):!once.Add(actor.Health)))continue;
                 float dealt=actor.Health.Receive(Packet(amount,type));
                 if(dealt<=0)continue;
+                if(landing)once.Add(actor.Health);
                 if(stagger>0)actor.Stagger(stagger);
                 if(shove>0)StartCoroutine(Shove(actor,Flat(actor.transform.position-marking.Origin),shove));
             }
@@ -337,7 +341,7 @@ namespace Lattice.Combat
         string Pick(params (string move,float weight)[] options)
         {
             // Nothing properly on offer waits more than three picks: on weights alone, a wounded Burrower could go seven moves without
-            // its rings. What the weights steer a boss away from (a chain at lance range) stays rare.
+            // its rings. What the weights steer a boss away from, under FullOffer, stays rare.
             int longest=0;
             foreach(var option in options)if(option.weight>=FullOffer)longest=Mathf.Max(longest,Waited(option.move));
             float total=0;

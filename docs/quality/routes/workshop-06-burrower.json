@@ -43,9 +43,8 @@
       "name": "select manual slot1",
       "seconds": 0.2,
       "expectedScene": "Title",
-      "buttons": [
-        "DpadDown"
-      ],
+      "buttons": [],
+      "pickRow": "slot1",
       "expectedUi": "saves"
     },
     {
@@ -60,6 +59,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "slot1",
       "expectedUi": "world",
       "expectedFlag": "clear.Sorrel_7",
       "expectedCharacter": "Taren",

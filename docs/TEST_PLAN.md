@@ -22,7 +22,7 @@ A build passes this plan only when every **Blocker** and **Major** item below is
 
 | Quality | What it means here | How it is checked |
 |---|---|---|
-| Responsive | Input to visible action within 2 frames at 60 fps; no input is eaten during dialogue, menus or zone loads | Replay traces, `frames.csv`, PadBridge log lines |
+| Responsive | Input to visible action within 2 frames at 60 fps; no input is eaten during dialogue, menus or zone loads, but for two holds on a thumb still tapping: Interact waits .35 s after any screen hands the world back, and a shop, a bench or a choice holds its first press .3 s | Replay traces, `frames.csv`, PadBridge log lines |
 | Readable | Every enemy attack is marked before it lands; every objective names a place or person; no text overflows; no raw ids on screen | Eye sheets, `ReadableTypeTests`, `DialogueLayoutTests`, this plan's UI checks |
 | Fair | Any hit that lands was marked and dodgeable; a boss can be beaten without taking an unavoidable hit; defeat costs at most 2 minutes of replay | Boss checklists (§4.4), defeat-retry routes |
 | Paced | A new skill, zone, boss or story beat roughly every 15–25 minutes; no stretch of walking longer than 30 s with nothing to see or do | Chain timings, the pacing log (§4.3) |
@@ -48,7 +48,7 @@ Every bug follows the loop in §5: reproduce, write a failing check, fix, rerun,
 ## 4. Test areas
 
 ### 4.1 First minutes
-- [ ] The title screen shows the logo, New Game, Continue, Settings and Quit. Save slots read "Autosave — The Decks — Sync 3", never raw ids.
+- [ ] The title screen shows the logo, New Game, Continue, Settings and Quit, with its hints in the pad's words when a pad is connected. Save slots read "Autosave — The Decks — Sync 3", never raw ids, and the picker opens on the newest.
 - [ ] The first morning: the player can reach the walkway job without a tutorial wall; Orrin, Mira and Sela each answer when talked to; the repair prompt appears once Sela sets off.
 - [ ] The first combat (Sorrel) teaches attack, dodge, Flash Move and swap through play, not text.
 - [ ] Ten minutes in, the player knows who they are, what went wrong at Sorrel, and where to go. **[Human]**
@@ -64,7 +64,7 @@ Every bug follows the loop in §5: reproduce, write a failing check, fix, rerun,
 
 ### 4.3 Progression and pacing
 Keep a pacing log during the chain: the time of each level-up, skill learned, boss, new zone and story beat.
-- [ ] Skills unlock at Sync 3, 5, 8 and 12. Chapter 1 should end near Sync 7 (Anchor Slam, Tether Hook, Survey Drone and Waypoint Blink learned), and chapter 2 should reach Sync 8–10.
+- [ ] Skills unlock at Sync 3, 5, 8 and 12. Chapter 1 should end near Sync 7 (Anchor Slam, Tether Hook, Survey Drone and Waypoint Blink learned), and chapter 2's main path should end at Sync 8 to 10, or 11 with every side quest. Sync 12 and its skills stay for chapter 3.
 - [ ] A level-up card names the skill learned and says where to equip it. Mastery cards appear at 6, 18, 36 and 60 uses.
 - [ ] Gear: the Lanternwick shop sells Refined (T2) parts; the starter parts are clearly outclassed by chapter 2.
 - [ ] Scrip: the player can afford at least one T2 part by Lanternwick without grinding.
@@ -111,7 +111,7 @@ For each zone (Decks, Halo, Sorrel, Hushwell, Gullet, Tallow Approach, Tallow Dr
 - [ ] **Exits:** every dock and warp leads where its label says, and its locked text names what unlocks it.
 - [ ] **Art:**
   - No `ART_PENDING` objects, and no floating or half-buried props.
-  - No stretched textures, and cliff strata run horizontally.
+  - No stretched textures: no kit piece stands 5 times longer one way than its texture. (The Decks' low cutaway walls, at 3 to 4.3, nobody can see on screen.) Cliff strata run horizontally.
   - Dead relays look dark; lit relays glow; lights suit the time of day.
 - [ ] **Density:** walk the main route and count the stretches over 30 s with nothing new on screen (target: none).
 - [ ] **Lanternwick:** every named NPC is where the story says and can be talked to; the shop is Corra's own stock; the lantern stair, archive and orchard are readable as places.
@@ -172,8 +172,8 @@ For each of the 10 quests (Silent Outpost, What the Drill Found, Six Bright Answ
 - [ ] Survey Drone, Starfall and Gravity Fold spam doesn't stack effects or leak objects (count `Skill ring` and `Starfall` objects after a fight).
 
 ### 4.11 Saves
-- [ ] Autosave on dock, warp, repair and discovery. Continue resumes in the right zone and spawn, with the party, gear, quests, flags, skill loadout and mastery.
-- [ ] Old saves (pre-skill-loadout, pre-chapter 2) load and get the starting loadout.
+- [ ] Autosave on dock, warp, repair and discovery, and when a conversation completes a quest or ends a chapter: once it closes, in a safe place only (no fight on, nobody down, not the proving grounds). Nothing it paid is paid again after a Continue. Continue resumes in the right zone and spawn, with the party, gear, quests, flags, skill loadout and mastery.
+- [ ] Old saves (pre-skill-loadout, pre-chapter 2) load and get the starting loadout. One with no parts at all comes back armed from the title. A damaged save never stops the title coming up.
 - [ ] Defeat offers "Return to last autosave" and doesn't wipe progress.
 
 ### 4.12 Accessibility
@@ -183,7 +183,7 @@ For each of the 10 quests (Silent Outpost, What the Drill Found, Six Bright Answ
 - [ ] **Idea:** a difficulty option and a "hold to repeat attack" option.
 
 ### 4.13 Breaking things
-- [ ] Spam interact during a dialogue, a scene load, a zone transition or a boss intro.
+- [ ] Spam interact during a dialogue, a scene load, a zone transition or a boss intro. An arrival beside an exit doesn't bounce the party back out, and a choice can't be answered before it has been up .3 s.
 - [ ] Open the pause menu during every kind of dialogue and during a skill.
 - [ ] Swap characters mid-skill, mid-dodge and while downed.
 - [ ] Try to leave a boss arena mid-fight: pads and warps must wait.

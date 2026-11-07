@@ -34,6 +34,13 @@ namespace Lattice.Core
         void Update(){PromptService.Poll();State.playtime+=Time.unscaledDeltaTime;}
         void OnDestroy(){if(Current==this){Input?.Dispose();Current=null;}}
         public void NewGame(){State=new GameState();GiveStartingGear(State,State.party[0]); Debug.Log("NEW_GAME_OK");}
+        /// <summary>A save from before heroes started out armed holds no parts at all, and its party would reach the next fight empty-handed with nothing in Gear to put on. It gets
+        /// what a new game gives. Only from the title's picker and a Retry back to that save, not in Repair: fixtures that save and reload a bare party keep their numbers, and a hero with parts left in Gear has only taken them off.</summary>
+        public static void ArmAnEmptyParty(GameState state)
+        {
+            if(state.parts.Count>0)return;
+            foreach(var member in state.party)GiveStartingGear(state,member);
+        }
         /// <summary>A hero arrives wearing what their definition says, by a new game or by joining. Fixtures don't come through
         /// here (DevLoadout builds its own party), so their numbers stand.</summary>
         public static void GiveStartingGear(GameState state,MemberState member)

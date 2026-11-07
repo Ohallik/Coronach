@@ -22,7 +22,7 @@ namespace Lattice.UI
         void OnDestroy(){PromptService.Changed-=RefreshHint;}
         void Start()
         {
-            PromptService.Changed+=RefreshHint;
+            PromptService.Changed+=RefreshHint;PromptService.ReadConnectedPad();
             MusicDirector.SetLocation("Title",false);
             canvas=UiKit.CreateCanvas("TitleCanvas",10,transform);
             var background=new GameObject("KeyArt",typeof(RawImage)); background.transform.SetParent(canvas.transform,false);
@@ -103,6 +103,8 @@ namespace Lattice.UI
         void OpenSaves()
         {
             mainMenu.SetActive(false);savePicker=UiKit.Dim(canvas.transform,.96f).gameObject;var buttons=new List<Selectable>();int row=0;
+            // Where the player last was: a slot saved after the autosave is the newer one, and two presses of A loaded the older. Ties and dateless old saves keep the first row.
+            Selectable newest=null;string newestAt=null;
             var heading=UiKit.Heading(savePicker.transform,"LoadTitle","CONTINUE YOUR ROUTE",45,UiKit.TextColor);UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,330),new(1200,80));
             foreach(string slot in new[]{"autosave","slot1","slot2","slot3"})
             {
@@ -111,15 +113,16 @@ namespace Lattice.UI
                 var button=UiKit.Button(savePicker.transform,slot,state==null?SlotName(slot)+empty:SlotName(slot)+" — "+DisplayNames.Zone(state.zone)+" — Sync "+state.party[0].level+" — "+Played(state.playtime)+SavedWhen(state),()=>
                 {
                     if(SceneFlow.Current.Loading)return;
-                    var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;
+                    var loaded=GameServices.Current.Saves.Load(id);if(loaded==null)return;GameServices.Current.State=loaded;GameServices.ArmAnEmptyParty(loaded);
                     GameServices.Current.Saves.ResumeFrom(id);
                     if(id=="autosave")SceneFlow.Current.LoadZone(loaded.zone,loaded.spawn);else SceneFlow.Current.LoadSavedZone(loaded.zone,loaded.spawn);
                 });
                 // With its date a row runs past its 1200 at the button's 34.
                 button.GetComponentInChildren<TMP_Text>().fontSize=30;
                 button.interactable=state!=null;UiKit.Rect(button.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,180-row++*100),new(1200,72));if(button.interactable)buttons.Add(button);
+                if(state!=null&&(newest==null||string.CompareOrdinal(state.savedAtUtc,newestAt)>0)){newest=button;newestAt=state.savedAtUtc;}
             }
-            var back=UiKit.Button(savePicker.transform,"Back","Back",()=>{UiSounds.Cancel();CloseSaves();});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);
+            var back=UiKit.Button(savePicker.transform,"Back","Back",()=>{UiSounds.Cancel();CloseSaves();});UiKit.Rect(back.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,-280),new(400,65));buttons.Add(back);UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject((newest!=null?newest:buttons[0]).gameObject);
         }
         IEnumerator Capture()
         {

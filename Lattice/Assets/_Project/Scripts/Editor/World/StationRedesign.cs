@@ -242,9 +242,23 @@ namespace Lattice.EditorTools
             {
                 Floor(x,passage.z,4,passage.width);
                 foreach(int side in new[]{-1,1})Wall(x,passage.z+side*passage.width*.5f,4,.5f,exterior?3.5f:1.1f);
-                Piece("DeckWall",new Vector3(x,-1.5f,passage.z),new Vector3(4,3,passage.width));
+                var casing=Piece("DeckWall",new Vector3(x,-1.5f,passage.z),new Vector3(4,3,passage.width));if(!blockout)BridgeCasing(casing);
                 if(exterior)Piece("DeckFloor",new Vector3(x,3.65f,passage.z),new Vector3(4,.5f,passage.width));
             }
+        }
+        /// <summary>The load-bearing box under a bridge keeps its collision, and shows panels at their own proportions on the two ends the camera can see. One wall panel fitted to the whole
+        /// box spread its .23 m edge strip across a 4 m face, 15 to 18 times over. Its sides lie against the hulls and its top under the deck, where nothing shows.</summary>
+        public static void BridgeCasing(GameObject block)
+        {
+            var size=block.GetComponent<BoxCollider>().size;var at=block.transform.position;
+            for(int i=block.transform.childCount-1;i>=0;i--)UnityEngine.Object.DestroyImmediate(block.transform.GetChild(i).gameObject);
+            foreach(int end in new[]{-1,1})
+            {
+                // 2 cm back of the box's face: on the same plane as the end of the deck tile above, the two fought.
+                var panel=WorldBuilder.Piece("DeckWall",at+Vector3.forward*end*(size.z*.5f-.27f),new Vector3(size.x,size.y,.5f),"Rock",false);
+                panel.name="Bridge end panel";panel.transform.SetParent(block.transform,true);
+            }
+            block.name="Bridge casing";
         }
         static GameObject Piece(string key,Vector3 position,Vector3 size,bool solid=true)
         {

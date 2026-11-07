@@ -34,7 +34,7 @@ namespace Lattice.Core
             }
         }
         static float interactFrom;
-        /// <summary>A conversation just closed: a thumb still tapping through it must not start it again. Only Interact waits; Attack
+        /// <summary>A screen just handed the world back (GameInput.Blocked): a thumb still tapping through it must not act on what stands in reach. Only Interact waits; Attack
         /// and Dodge are on the same thumb and stay live.</summary>
         public static void HoldOffInteract(float seconds)=>interactFrom=Time.unscaledTime+seconds;
         public static bool TryInteract()
@@ -94,7 +94,7 @@ namespace Lattice.Core
             var pad = Gamepad.current;
             var kb = Keyboard.current;
             var mouse = Mouse.current;
-            bool padActive = pad != null && !pad.CheckStateIsAtDefaultIgnoringNoise();
+            bool padActive = pad != null && Speaking(pad);
             // Controller pass: moving the mouse counts as reaching for it — the cursor
             // (hidden while the pad speaks, PadSupport) must come back on a nudge, not
             // only on a click. A few pixels of travel, so desk vibration cannot flip it.
@@ -110,6 +110,29 @@ namespace Lattice.Core
             else if (Device == PromptDevice.Gamepad && kbActive && !padActive)
             {
                 Device = PromptDevice.Keyboard;
+                RaiseChanged();
+            }
+        }
+
+        /// <summary>What the game itself would read as a press. A real analog stick never quite rests at its default: compared raw, a hair off centre pinned the prompts to
+        /// the pad and kept the cursor hidden, and no key could bring them back. The stick's own dead zone hides that from movement, so it hides it here too.</summary>
+        static bool Speaking(Gamepad pad) =>
+            pad.buttonSouth.isPressed || pad.buttonEast.isPressed || pad.buttonWest.isPressed || pad.buttonNorth.isPressed
+            || pad.startButton.isPressed || pad.selectButton.isPressed || pad.leftShoulder.isPressed || pad.rightShoulder.isPressed
+            || pad.leftTrigger.isPressed || pad.rightTrigger.isPressed || pad.leftStickButton.isPressed || pad.rightStickButton.isPressed
+            || pad.dpad.ReadValue() != Vector2.zero || pad.leftStick.ReadValue() != Vector2.zero || pad.rightStick.ReadValue() != Vector2.zero;
+
+        static bool padRead;
+        /// <summary>The title is the first thing a player reads, in a pad-first game, and the device watch only learns from a press: with a pad on the bus it starts in the
+        /// pad's words. A key or the mouse takes them back as ever. Once a session, so a keyboard player sent back to the title keeps the keys.</summary>
+        public static void ReadConnectedPad()
+        {
+            if (padRead || _forced != null)
+                return;
+            padRead = true;
+            if (Device == PromptDevice.Keyboard && PadConnected)
+            {
+                Device = PromptDevice.Gamepad;
                 RaiseChanged();
             }
         }
@@ -379,7 +402,7 @@ namespace Lattice.Core
         /// <summary>Editor/tests teardown safety — drop caches and any device pin.</summary>
         public static void Reset()
         {
-            Interaction=null;consumedFrame=-1;interactFrom=0;
+            Interaction=null;consumedFrame=-1;interactFrom=0;padRead=false;
             _forced = null;
             Device = PromptDevice.Keyboard;
             SpriteCache.Clear();

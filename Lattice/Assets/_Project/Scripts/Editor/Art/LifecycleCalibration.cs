@@ -12,7 +12,7 @@ namespace Lattice.EditorTools
     public static class LifecycleCalibration
     {
         /// <summary>The Sentinel Husk's rig and its reskins (the Muster's soldiers and captain, D202) share one lifecycle.</summary>
-        static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.model!=null&&row.model.Contains("P3-SentinelHusk/");
+        internal static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.model!=null&&row.model.Contains("P3-SentinelHusk/");
         internal static void Install(GenIntake.Row row)
         {
             string path="Assets/_Project/Prefabs/"+row.folder+"/"+row.id+".prefab";

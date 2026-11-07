@@ -36,6 +36,9 @@ namespace Lattice.UI
         /// <summary>Ordinary input: press Swap (spaced half a second) until this hero leads. A harder fight can leave the
         /// partner in the lead after the other went down and was revived; later routes expect a particular lead.</summary>
         public string ensureCharacter;
+        /// <summary>Ordinary input: d-pad down to the row named here, by its object's name or the words it starts with, and only then the step's buttons. A list's order can change with
+        /// which save is newest or what the party holds, and a count of presses can't see that. "until":"row:name" ends a step on arrival.</summary>
+        public string pickRow;
         public float seconds = 1, x, y, leftTrigger, rightTrigger;
         public bool navigate;
         public bool approachPartner;

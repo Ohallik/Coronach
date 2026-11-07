@@ -50,6 +50,10 @@ namespace Lattice.Combat
         float overdriveBoost=1.2f,refractPower=1;
         bool guarding,critical,flashConsumed,flashEarned,guardEarned;
         float guardPressAt=-99;
+        /// <summary>How long a swing or a shot carries an earned crit before the next one may have it: past the end of any swing's contact.</summary>
+        const float CritCarried=.3f;
+        float critCarriedUntil;
+        void EarnCrit(){critical=true;critCarriedUntil=0;}
         float recoverUntil;
         public const float DownDuration=1.05f,ReviveDuration=1.15f;
         public bool Overdriving=>Health.Alive&&GameTime.Now<overdriveUntil;
@@ -99,8 +103,11 @@ namespace Lattice.Combat
         public void Guard(bool held)
         {
             if(!Health.Alive||Recovering||ChangingForm){guarding=false;return;}
-            if(held&&!guarding){refractUntil=0;guardEarned=GameTime.Now-guardPressAt>=FlashRhythm;guardPressAt=guardAt=GameTime.Now;VisualAttackUntil=0;AttackSequence++;}
-            guarding=held&&!flight; if(guarding)State=ActorState.Guard;else if(State==ActorState.Guard)State=ActorState.Idle;
+            // A roll wins: it keeps its i-frames, its Flash and its clip, and a guard still held takes up where it ends. Pressed with X down, Guard wrote over it in the same frame,
+            // so the hero glid in the guard pose and a hit landed at guard damage.
+            bool rolling=State==ActorState.Dodge&&GameTime.Now<actionUntil;
+            if(held&&!guarding){refractUntil=0;guardEarned=GameTime.Now-guardPressAt>=FlashRhythm;guardPressAt=guardAt=GameTime.Now;if(!rolling){VisualAttackUntil=0;AttackSequence++;}}
+            guarding=held&&!flight; if(guarding){if(!rolling)State=ActorState.Guard;}else if(State==ActorState.Guard)State=ActorState.Idle;
         }
         public void Stagger(float seconds){if(!Health.Alive||Recovering)return;CancelAction();State=ActorState.Stagger;actionUntil=GameTime.Now+seconds;}
         public bool Dodge(Vector3 direction)
@@ -123,7 +130,7 @@ namespace Lattice.Combat
         {
             if(GameTime.Now<refractUntil)
             {
-                refractUntil=0;critical=true;CombatAudio.Deflect(this);
+                refractUntil=0;EarnCrit();CombatAudio.Deflect(this);
                 var direction=BackAt(packet.source);var counter=Packet(rangedDamage*2*refractPower,DamageType.Beam,60);
                 if(flight)
                 {
@@ -150,7 +157,7 @@ namespace Lattice.Combat
                     bool controlled=PartyController.Current==null||PartyController.Current.Active==this;
                     if(controlled){StartCoroutine(FlashTime());AudioManager.Play("forceField_000",.3f);}
                     Debug.Log("FLASH_MOVE_OK");BarkService.Play(character,"flash");
-                    if(flight){critical=true;charge=Mathf.Min(100,charge+25);}
+                    if(flight){EarnCrit();charge=Mathf.Min(100,charge+25);}
                 }
                 return true;
             }
@@ -158,7 +165,7 @@ namespace Lattice.Combat
             {
                 if(guardEarned&&GameTime.Now-guardAt<=.2f)
                 {
-                    FlashGuards++;critical=true;charge=Mathf.Min(100,charge+25);guardAt=-99;Debug.Log("FLASH_GUARD_OK");
+                    FlashGuards++;EarnCrit();charge=Mathf.Min(100,charge+25);guardAt=-99;Debug.Log("FLASH_GUARD_OK");
                     // A perfect guard has to show itself: it used to be silent and invisible but for the Charge bar.
                     FlashGuardShownAt=GameTime.Now;CombatAudio.Deflect(this);
                     CombatVfx.Burst(transform.position+Vector3.up*1.2f+motor.Facing*.5f,new Color(1.5f,1.2f,.5f),"hit");
@@ -178,9 +185,10 @@ namespace Lattice.Combat
         }
         public DamagePacket Packet(float amount,DamageType type,float breakPower,string tag=null)
         {
-            bool crit=critical||UnityEngine.Random.value<Mathf.Clamp(.04f+Mathf.Max(0,response-10)*.003f,.04f,.25f);
-            var p=new DamagePacket{source=Health,amount=amount*damageScale*(GameTime.Now<overdriveUntil?overdriveBoost:1)*(crit?1+Mathf.Max(0,fortune)*.01f:1),type=type,breakPower=breakPower,isCrit=crit,tag=tag};
-            critical=false;return p;
+            // An earned crit belongs to the next hit that lands. Cleared here, at the swing's start, a swing that cut air threw it away.
+            bool earned=critical&&GameTime.Now>=critCarriedUntil;if(earned)critCarriedUntil=GameTime.Now+CritCarried;
+            bool crit=earned||UnityEngine.Random.value<Mathf.Clamp(.04f+Mathf.Max(0,response-10)*.003f,.04f,.25f);
+            return new DamagePacket{source=Health,amount=amount*damageScale*(GameTime.Now<overdriveUntil?overdriveBoost:1)*(crit?1+Mathf.Max(0,fortune)*.01f:1),type=type,breakPower=breakPower,isCrit=crit,earnedCrit=earned,tag=tag};
         }
         Vector3 Aim()
         {
@@ -258,7 +266,7 @@ namespace Lattice.Combat
                     GetComponent<MeleeContact>().Begin(move,Packet(damage*SkillBurst*power,DamageType.Kinetic,35));
                 else if(kind==SkillKind.ThreadLance||kind==SkillKind.ScatterBloom)
                     GetComponent<RangedContact>().Begin(move,direction,
-                        MultiHit(Packet(rangedDamage*(kind==SkillKind.ThreadLance?SkillBurst:.65f)*power,kind==SkillKind.ThreadLance?DamageType.Beam:DamageType.Plasma,kind==SkillKind.ThreadLance?40:18),kind==SkillKind.ScatterBloom),
+                        MultiHit(Packet(rangedDamage*(kind==SkillKind.ThreadLance?SkillBurst:.65f)*power,kind==SkillKind.ThreadLance?DamageType.Beam:DamageType.Plasma,kind==SkillKind.ThreadLance?40:18),kind==SkillKind.ScatterBloom,FanCut),
                         kind==SkillKind.ThreadLance?RangedContact.Pattern.Lance:RangedContact.Pattern.Fan);
                 else
                 {
@@ -310,7 +318,7 @@ namespace Lattice.Combat
             else if(kind==SkillKind.ThreadLance)GetComponent<FlightEmitter>().Queue(direction,Packet(rangedDamage*SkillBurst*power,DamageType.Beam,40),FlightEmitter.Pattern.Beam);
             else if(kind==SkillKind.ScatterBloom)
             {
-                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=MultiHit(Packet(rangedDamage*.65f*power,DamageType.Plasma,18));
+                var pellets=new DamagePacket[5];for(int i=0;i<pellets.Length;i++)pellets[i]=MultiHit(Packet(rangedDamage*.65f*power,DamageType.Plasma,18),true,FanCut);
                 GetComponent<FlightEmitter>().Queue(direction,pellets[0],FlightEmitter.Pattern.Fan,pellets);
             }
             else if(kind==SkillKind.StaticNet)GetComponent<FlightSkillContact>().Begin(FlightSkillContact.Release.Net,direction,MultiHit(Packet(rangedDamage*.45f*power,DamageType.Pulse,30)));
@@ -332,8 +340,18 @@ namespace Lattice.Combat
         /// loadout on cooldown and a multi-hit skill can't repay itself on one target (TEST_PLAN 4.4), while the kills keep an ordinary
         /// fight in Charge: at 7 a hit bosses paid for everything. The numbers are in the QA notes; feel is Nathan's to judge.</summary>
         public const float HitCharge=4,KillCharge=6,MultiHitCut=.6f;
+        /// <summary>A fan's five pellets all land point blank: at .6 a mastered Scatter Bloom (cost 12) paid 12.4 back at Sync 12. At .7 it pays 9.3, and keeps the promise until a Charge gain of 2.</summary>
+        public const float FanCut=.7f;
         float ChargeGain=>1+Mathf.Max(0,resonance-10)*.025f;
-        internal static DamagePacket MultiHit(DamagePacket packet,bool multi=true){if(multi)packet.chargeCut=MultiHitCut;return packet;}
+        internal static DamagePacket MultiHit(DamagePacket packet,bool multi=true,float cut=MultiHitCut){if(multi)packet.chargeCut=cut;return packet;}
+        /// <summary>What a landed hit pays whoever struck it, on anything that counts as a target: an enemy, or an organ the bar says to break. A weak spot or a break hits harder
+        /// but pays no more: on a x2 collar link plain shots used to out-earn a full loadout. A resisted hit still pays less. It's also where an earned crit is spent.</summary>
+        public static void PayHit(DamagePacket packet,float amount)
+        {
+            if(packet.source==null||!packet.source.TryGetComponent<CombatActor>(out var actor))return;
+            actor.AwardHit(Mathf.Min(amount,packet.amount)/Mathf.Max(1,actor.character=="Sela"?actor.rangedDamage:actor.damage),packet.chargeCut);
+            if(packet.earnedCrit&&amount>0){actor.critical=false;actor.critCarriedUntil=0;}
+        }
         public void AwardHit(float weight=1,float cut=0){charge=Mathf.Min(100,charge+HitCharge*Mathf.Clamp01(weight)*(1-Mathf.Clamp01(cut))*ChargeGain);}
         // The defeated body now voices its own death at its position.
         public void AwardKill(bool remark=true){Kills++;charge=Mathf.Min(100,charge+KillCharge*ChargeGain);if(remark)BarkService.Play(character,"kill");}

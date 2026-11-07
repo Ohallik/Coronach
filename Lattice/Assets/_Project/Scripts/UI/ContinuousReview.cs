@@ -114,7 +114,7 @@ namespace Lattice.UI
         GamepadState held;
         QualityStep step;
         int stepIndex;
-        bool recording, arrived, endedByCondition;
+        bool recording, arrived, endedByCondition, rowReached;
         Health stepTarget;
         double stepStart, previous, lastSwapPress=-1;
         string folder;
@@ -253,7 +253,7 @@ namespace Lattice.UI
             Debug.Log("QUALITY_REPLAY_BEGIN " + route.name);
             for (stepIndex = 0; stepIndex < route.steps.Length; stepIndex++)
             {
-                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;endedByCondition=false;
+                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;endedByCondition=false;rowReached=false;
                 var lead = PartyController.Current != null ? PartyController.Current.Active : null;stepTarget = lead != null && lead.TargetLocked ? lead.target : null;
                 Debug.Log("QUALITY_CHECKPOINT_BEGIN " + stepIndex + " " + step.name);
                 while (clock.Elapsed.TotalSeconds - stepStart < step.seconds)
@@ -354,6 +354,16 @@ namespace Lattice.UI
                 {held = held.WithButton(GamepadButton.North); lastSwapPress = clock.Elapsed.TotalSeconds;}
                 if (evading) held = held.WithButton(GamepadButton.East);
                 bool press = step.pulseSeconds <= 0 || (clock.Elapsed.TotalSeconds - stepStart) % step.pulseSeconds < .1;
+                // Once there it stays there: the press can take the row away, by moving a part or leaving the screen, and a d-pad held after that would cycle the quick item in the world.
+                if (!string.IsNullOrEmpty(step.pickRow) && !rowReached)
+                {
+                    if (OnRow(step.pickRow)) rowReached = true;
+                    else
+                    {
+                        press = false;
+                        if ((clock.Elapsed.TotalSeconds - stepStart) % .24 < .12) held = held.WithButton(GamepadButton.DpadDown);
+                    }
+                }
                 if (!evading && press && inReach && step.buttons != null) foreach (var button in step.buttons)
                 {
                     if (!Enum.TryParse<GamepadButton>(button, true, out var parsed)) throw new InvalidOperationException("Invalid replay button " + button);
@@ -544,6 +554,15 @@ namespace Lattice.UI
             if (!string.IsNullOrEmpty(step.expectedForm) && PartyController.Current.Active.GetComponent<FormController>().Current.ToString() != step.expectedForm) failures.Add(step.name + ": form mismatch");
 
         }
+        /// <summary>The cursor stands on this row: by the object's name (a save's slot), or the words it starts with (a spare part, where a worn one's mark comes first).</summary>
+        static bool OnRow(string want)
+        {
+            var system = UnityEngine.EventSystems.EventSystem.current; var row = system != null ? system.currentSelectedGameObject : null;
+            if (row == null) return false;
+            if (row.name == want) return true;
+            var words = row.GetComponentInChildren<TMPro.TMP_Text>();
+            return words != null && words.text.StartsWith(want, StringComparison.Ordinal);
+        }
         bool Condition(string name)
         {
             // The enemy locked when the step began has fallen.
@@ -553,6 +572,7 @@ namespace Lattice.UI
             if (name.StartsWith("flag:")) return GameServices.Current.Flags.GetBool(name.Substring(5));
             if (name.StartsWith("ui:")) return UiMatches(name.Substring(3), ObserveUi());
             if (name.StartsWith("scene:")) return !SceneFlow.Current.Loading && ActualScene == name.Substring(6);
+            if (name.StartsWith("row:")) return OnRow(name.Substring(4));
             var p = PartyController.Current;
             return name switch {
                 "partnerDown" => p != null && p.members.Length > 1 && !p.members[1-p.index].Health.Alive && p.Active.Health.Alive,

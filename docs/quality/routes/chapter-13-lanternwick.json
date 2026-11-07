@@ -45,6 +45,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "autosave",
       "expectedUi": "world",
       "expectedFlag": "wick.gateOpen",
       "expectedScene": "Lanternwick"

@@ -34,7 +34,8 @@ namespace Lattice.Combat
                 crowded=near>=2;
             }
             if(crowded&&lastMove!="SweepingCut")return("SweepingCut",SweepingCut());
-            string move=Pick(("HookLance",distance<8?2.2f:0),("Advance",distance>8?1.6f:0),("GrappleChain",distance>5?1.8f:.4f),("Sidearm",distance>8?1.2f:.5f),
+            // A dodged chain is her one deliberate opening, and the plan wants one in every phase: at lance range it's a light pick, but at FullOffer it still comes round.
+            string move=Pick(("HookLance",distance<8?2.2f:0),("Advance",distance>8?1.6f:0),("GrappleChain",distance>5?1.8f:FullOffer),("Sidearm",distance>8?1.2f:.5f),
                 ("Lampbreaker",Phase>=3?1.4f:0),("SweepingCut",Phase>=2&&distance<4?.8f:0));
             return move switch
             {
@@ -233,6 +234,8 @@ namespace Lattice.Combat
                 var offset=Quaternion.Euler(0,transform.eulerAngles.y+(i==0?-110:110),0)*Vector3.forward*6f;
                 var point=SummonPoint(offset);
                 var scav=ActorFactory.Enemy(definition,point+Vector3.up*.05f);summoned.Add(scav);
+                // The zone's threat, as the crew already in the room have it from their spawner: called in by hand they hit at 1 where those hit at 1.7.
+                var zone=ZoneController.Current;if(zone!=null&&zone.definition!=null)scav.DamageScale=Mathf.Max(.1f,zone.definition.enemyThreat);
                 CombatVfx.Burst(point+Vector3.up*.8f,new Color(.9f,.35f,.25f),"shot");
             }
             Debug.Log("BOSS_SUMMON "+health.id+" "+summoned.Count);

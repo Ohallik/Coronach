@@ -47,6 +47,10 @@ title: AumiRepeat
 ---
 Aumi: The orchard gate's past the last trees. I want the relays lit and the cutting stopped. I'll see the light from the stair. #emotion:Neutral
 ===
+title: AumiRelaysLit
+---
+Aumi: All three burning. I can see them from the stair. Now finish it: the scavengers are still cutting in the Sunken Relay. #emotion:Determined
+===
 title: AumiReturn
 ---
 Aumi: The gorge is lit. I could see it from the stair. #emotion:Shocked

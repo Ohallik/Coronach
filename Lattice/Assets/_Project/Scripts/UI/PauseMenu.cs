@@ -35,7 +35,9 @@ namespace Lattice.UI
         bool keyboardSettings,leaveAsked,closing;
         string feedback="",salvageAsked,listeningFor;
         PromptDevice feedbackDevice;
-        float submitHeldUntil;
+        FirstPress first;
+        /// <summary>A part that has just changed hands: the Gear list moves it, and the cursor goes with it.</summary>
+        string followPart;
         /// <summary>The Items page's rows by name, for the Swap button: what's under the cursor when it's pressed.</summary>
         readonly Dictionary<string,string> itemRows=new();
         public bool IsOpen=>panel!=null;
@@ -49,14 +51,14 @@ namespace Lattice.UI
             page=selected;offset=gearMode=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;feedbackDevice=PromptService.Device;AtBench=bench;
             GameServices.Current.Input.Blocked=true;GameTime.Paused=true;
             // The bench opens from a conversation on a row that spends materials, and the A that ended the talk is often pressed twice.
-            if(bench)HoldSubmit();
+            if(bench)first.Begin();
             Rebuild(false);
         }
         public void Close()
         {
             // Disposing a listen raises neither of its callbacks: it has to be cancelled, or its action stays dead.
             closing=true;rebind?.Cancel();closing=false;
-            submitHeldUntil=0;Navigation(true);
+            first.End();Navigation(true);
             if(AudioMix.Current!=null)AudioMix.Current.Flush();if(panel!=null)Destroy(panel);panel=null;if(GameServices.Current!=null)GameServices.Current.Input.Blocked=false;GameTime.Paused=false;
         }
         /// <summary>Back one level: out of a listen, a sub-page or, at the top of a page, the menu.</summary>
@@ -76,13 +78,14 @@ namespace Lattice.UI
         {
             if(!IsOpen||rebind!=null)return;
             // A stored result can name the other device's buttons. A question goes with its words, or the next press answers one nobody can see.
-            if(PromptService.Device!=feedbackDevice){feedbackDevice=PromptService.Device;feedback="";salvageAsked=null;}
+            // A refusal just earned stays: the press that earned it is what flips the device, a poll later, and refusals don't name buttons.
+            if(PromptService.Device!=feedbackDevice){feedbackDevice=PromptService.Device;if(Time.unscaledTime-refusedAt>.3f)feedback="";salvageAsked=null;}
             Rebuild();
         }
         void Update()
         {
             var input=GameServices.Current.Input;
-            if(submitHeldUntil>0&&Time.unscaledTime>=submitHeldUntil){submitHeldUntil=0;if(rebind==null)Navigation(true);}
+            first.Step(rebind==null);
             if(rebind!=null){if(UiActions.Cancel.WasPressedThisFrame())StepBack();return;}
             bool pause=input.Find("Pause").WasPressedThisFrame();
             if(!IsOpen){if(input.Blocked)return;if(pause)Open();else if(input.Find("Log").WasPressedThisFrame())Open(QuestsPage);return;}
@@ -95,7 +98,6 @@ namespace Lattice.UI
         }
         void GoTo(int target){rebind?.Cancel();page=target;offset=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;Rebuild(false);}
         static void Navigation(bool on){var system=EventSystem.current;if(system!=null)system.sendNavigationEvents=on;}
-        void HoldSubmit(){Navigation(false);submitHeldUntil=Time.unscaledTime+.3f;}
         void TrySwap(string want=null)
         {
             var party=PartyController.Current;if(party.members.Length<2)return;
@@ -151,7 +153,7 @@ namespace Lattice.UI
                     int number=i;string slot="slot"+i;var saved=GameServices.Current.Saves.Load(slot);
                     Add($"Save to slot {number}"+(saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty"),()=>{GameServices.Current.Saves.Save(slot,state);feedback=$"Saved to slot {number}.";Rebuild();});
                 }
-                Note($"{state.scrip} scrip  ·  The game autosaves when you dock, warp or repair");
+                Note($"{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");
             }
             else if(page==SkillsPage)
             {
@@ -190,7 +192,7 @@ namespace Lattice.UI
                                 int slot=skillSlot;var displaced=SkillBook.Equipped(member.id,slot);int from=SlotOf(s);SkillBook.Equip(member,slot,s);
                                 feedback=$"{s.displayName} is on {Binding(slot)}."+(from>=0&&from!=slot&&displaced!=null?$" {displaced.displayName} moved to {Binding(from)}.":"");
                                 skillSlot=-1;offset=0;Rebuild(false,"Row_"+(slot+1));
-                            }:null);
+                            }:()=>{Refuse($"{s.displayName} is learned at Sync {s.unlockLevel}.");Rebuild();});
                         line.gameObject.AddComponent<SelectNote>().selected=()=>note.text=Said(s);
                     }
                     Pager(all.Length,perPage);
@@ -205,14 +207,19 @@ namespace Lattice.UI
                 string[] hints={"Edges drive melee and the lunge, Emitters drive beams and flight fire. Select a worn part to take it off.","Select a module for the second module slot.","Each upgrade costs Scrap Alloy: three times the next level.","Select a spare part twice to break it down. Parts in use can't be salvaged."};
                 Add("Action: "+modes[gearMode]+" (select to change)",()=>{gearMode=(gearMode+1)%modes.Length;salvageAsked=null;feedback="";Rebuild();});
                 const int perPage=6;
-                foreach(var item in state.parts.Skip(Window(state.parts.Count,perPage)).Take(perPage))
+                var parts=GearOrder(state,member);
+                // Putting a part on or taking it off moves it in this list: the cursor goes with it, page and all, or the next A lands on whatever slid under it.
+                if(followPart!=null){int at=parts.FindIndex(p=>p.instanceId==followPart);if(at>=0)offset=at/perPage*perPage;}
+                foreach(var item in parts.Skip(Window(parts.Count,perPage)).Take(perPage))
                 {
                     var def=GameCatalog.Find<TechPartDef>(item.definitionId);if(def==null)continue;
                     var wearer=inventory.Wearer(item);
-                    Add($"{PartText.Mark(wearer,member)}{def.displayName}  T{def.tier} +{item.upgrade}{PartText.Affixes(item)}  ·  {PartText.Effect(def,item)}{(wearer==member?"":PartText.Against(state,member,def,item))}",
+                    var line=Add($"{PartText.Mark(wearer,member)}{def.displayName}  T{def.tier} +{item.upgrade}{PartText.Affixes(item)}  ·  {PartText.Effect(def,item)}{(wearer==member?"":PartText.Against(state,member,def,item))}",
                         ()=>UsePart(item,def,member),def.slot.ToString());
+                    if(item.instanceId==followPart)focus=line.name;
                 }
-                Pager(state.parts.Count,perPage);
+                followPart=null;
+                Pager(parts.Count,perPage);
                 Note(PartText.Wearing(state,member)+"\n"+hints[gearMode]);
             }
             else if(page==FabricatePage)
@@ -241,7 +248,7 @@ namespace Lattice.UI
                 foreach(var id in entries.Skip(Window(entries.Length,perPage)).Take(perPage))
                 {
                     bool usable=state.consumables.TryGetValue(id,out int count)&&count>0;if(!usable)count=state.materials[id];
-                    var line=Add($"{DisplayNames.Item(id)} ×{count}{ItemSays(id,recipes)}{(usable&&id==state.quickItem?"  ·  Quick item":"")}",usable?()=>UseItem(id):null,id);
+                    var line=Add($"{DisplayNames.Item(id)} ×{count}{ItemSays(id,recipes)}{(usable&&id==state.quickItem?"  ·  Quick item":"")}",usable?()=>UseItem(id):()=>NoUse(id,recipes),id);
                     itemRows[line.name]=id;
                 }
                 Pager(entries.Length,perPage);
@@ -274,7 +281,7 @@ namespace Lattice.UI
                     Add("Stay",StepBack);
                     Add("Return to title",()=>{Close();GameTime.Reset();GameServices.Current.Input.Blocked=false;SceneFlow.Current.LoadZone("Title");});
                     Add("Quit to desktop",Application.Quit);
-                    Note("Progress since your last save is lost. The game autosaves when you dock, warp or repair.");
+                    Note("Progress since your last save is lost. The game autosaves when you dock, warp, repair or finish a quest.");
                 }
                 else if(!keyboardSettings)
                 {
@@ -308,6 +315,14 @@ namespace Lattice.UI
             if(target==null&&focus!=null&&focus.StartsWith("Row_")&&int.TryParse(focus.Substring(4),out int gone))
                 for(int i=gone-1;i>=0&&target==null;i--){string above="Row_"+i;target=list.FirstOrDefault(s=>s.name==above);}
             EventSystem.current.SetSelectedGameObject((target!=null?target:list[0]).gameObject);
+        }
+        /// <summary>What this hero wears first, the second module last of it; then spares by slot, the better part first; then what the other hero wears, which takes a move to use.
+        /// In the order they came, it mixed all three: what's on Taren was fifth of six, between Sela's part and a spare. Like parts keep their order, so nothing shuffles under the cursor for no reason.</summary>
+        static List<PartInstance> GearOrder(GameState state,MemberState member)
+        {
+            var inventory=RpgServices.Inventory;
+            int Group(PartInstance p){var wearer=inventory.Wearer(p);return wearer==member?0:wearer==null?1:2;}
+            return state.parts.Select(p=>(part:p,def:GameCatalog.Find<TechPartDef>(p.definitionId))).OrderBy(x=>Group(x.part)).ThenBy(x=>x.def!=null?(int)x.def.slot:int.MaxValue).ThenBy(x=>x.part.instanceId==member.module2?1:0).ThenByDescending(x=>x.def!=null?x.def.tier:0).Select(x=>x.part).ToList();
         }
         /// <summary>A row a press can only refuse: the player shouldn't have to read every count to find what can be made. It keeps its focus, so the refusal can still say why.</summary>
         static void Dim(Button row)
@@ -353,19 +368,28 @@ namespace Lattice.UI
             });
             Rebuild();
         }
-        void Refuse(string why){feedback=why;UiSounds.Error();}
+        void Refuse(string why){feedback=why;refusedAt=Time.unscaledTime;UiSounds.Error();}
+        float refusedAt=-9;
+        /// <summary>A material's row takes focus like any other, so a press on it answers like any other refused row.</summary>
+        void NoUse(string id,RecipeDef[] recipes)
+        {
+            string name=DisplayNames.Item(id);
+            Refuse(recipes.Any(r=>r.inputs!=null&&r.inputs.Any(i=>i.id==id))?$"{name} is for fabricating. It can't be used from here.":$"{name} has no use yet. Keep it.");
+            Rebuild();
+        }
         void UseItem(string id)
         {
             var (used,message)=PartyController.Current.Active.GetComponent<PlayerBrain>().UseItem(id);
             if(used)feedback=message;else Refuse(message);
             // Rows go by place: with the stack gone the next item is under the cursor, and a repeat press would spend it.
-            if(used&&GameServices.Current.State.consumables[id]<=0)HoldSubmit();
+            if(used&&GameServices.Current.State.consumables[id]<=0)first.Begin();
             Rebuild();
         }
         void UsePart(PartInstance item,TechPartDef def,MemberState member)
         {
             var state=GameServices.Current.State;var inventory=RpgServices.Inventory;var wearer=inventory.Wearer(item);
             string name=def.displayName,who=DisplayNames.Speaker(member.id);
+            if(gearMode<=1)followPart=item.instanceId;
             if(gearMode==3)
             {
                 if(wearer!=null)Refuse($"{name} is on {DisplayNames.Speaker(wearer.id)}. Take it off with Action: Equip first.");

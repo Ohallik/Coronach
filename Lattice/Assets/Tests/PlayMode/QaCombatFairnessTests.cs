@@ -360,7 +360,7 @@ namespace Lattice.Tests.PlayMode
                 Assert.IsFalse(seen.Contains("TailSweep"),"a move with nothing to offer right now was played");
                 Assert.AreEqual(4,seen.Count,"six picks went by and the player never saw part of the boss's set: "+string.Join(",",seen));
             }
-            // A move the boss is steered away from up close stays rare: the rule must not make her throw a chain at someone she could stab.
+            // A move under FullOffer stays rare: the rule doesn't reach it. Her own chain at lance range sits at FullOffer on purpose, so that it comes round (HessaOffersHerOpeningInEveryPhaseEvenAtLanceRange).
             var close=new (string move,float weight)[]{("HookLance",2.2f),("GrappleChain",.4f)};int chains=0;
             used.Clear();count.SetValue(boss,0);last.SetValue(boss,null);
             for(int n=1;n<=400;n++)

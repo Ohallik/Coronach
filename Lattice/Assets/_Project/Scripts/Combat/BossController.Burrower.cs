@@ -197,8 +197,9 @@ namespace Lattice.Combat
             Strike(slam,16,DamageType.Kinetic,.4f,2.4f);Tremor(.6f,.12f);Pose(0);
             AudioManager.PlayAt("explosionCrunch_000",transform,transform.position,.28f,AudioBus.SFX,60);
             const float band=1.5f,speed=8f,reach=17f,spacing=.55f;
-            var centre=transform.position;var rings=new List<(Telegraph mark,float born,HashSet<Health> hit)>();
-            // One cast, one hit: bands .55 s apart with a .3 s stagger chained a hero from 60 to 0 in a second.
+            var centre=transform.position;var rings=new List<(Telegraph mark,float born,HashSet<Health> met)>();
+            // One cast, one hit: bands .55 s apart with a .3 s stagger chained a hero from 60 to 0 in a second. Only one that lands spends it:
+            // a band he rolled through is behind him and the next is still to come, and each band meets him once, so a perfect guard isn't hit a frame later by the band it just stopped.
             var struck=new HashSet<Health>();
             float started=Time.time;int launched=0;
             while(health.Alive&&(launched<3||rings.Count>0))
@@ -206,21 +207,22 @@ namespace Lattice.Combat
                 if(GameTime.Paused){yield return null;continue;}
                 if(launched<3&&Time.time-started>=launched*spacing)
                 {
-                    var ring=Mark(Telegraph.Ring(centre,.5f,.5f+band,99,Telegraph.Threat));ring.Steady=true;
-                    rings.Add((ring,Time.time,struck));launched++;
+                    // Out of the slam, from its centre: born at the slam's rim, a band struck a hero who had just stepped clear of it in under a fifth of a second. Now nothing outside that rim is struck in under a third.
+                    var ring=Mark(Telegraph.Ring(centre,0,.5f,99,Telegraph.Threat));ring.Steady=true;
+                    rings.Add((ring,Time.time,new HashSet<Health>()));launched++;
                 }
                 float soonest=float.PositiveInfinity;var hero=PartyController.Current.Active.transform.position;
                 for(int i=rings.Count-1;i>=0;i--)
                 {
-                    var (mark,born,hit)=rings[i];float outer=.5f+band+(Time.time-born)*speed;
+                    var (mark,born,met)=rings[i];float outer=.5f+(Time.time-born)*speed;
                     if(outer-band>reach){mark.Cancel();rings.RemoveAt(i);continue;}
                     mark.SetRing(outer-band,outer);
                     foreach(var actor in PartyController.Current.members)
                     {
-                        if(!actor.Health.Alive||hit.Contains(actor.Health))continue;
+                        if(!actor.Health.Alive||struck.Contains(actor.Health)||met.Contains(actor.Health))continue;
                         float d=Flat(actor.transform.position-centre).magnitude;
                         if(d>=outer-band-Telegraph.BodyAllowance&&d<=outer+Telegraph.BodyAllowance)
-                        {hit.Add(actor.Health);float dealt=actor.Health.Receive(Packet(13,DamageType.Pulse));if(dealt>0)actor.Stagger(.3f);}
+                        {met.Add(actor.Health);float dealt=actor.Health.Receive(Packet(13,DamageType.Pulse));if(dealt>0){struck.Add(actor.Health);actor.Stagger(.3f);}}
                     }
                     float heroDistance=Flat(hero-centre).magnitude;
                     if(heroDistance>outer)soonest=Mathf.Min(soonest,(heroDistance-outer)/speed);

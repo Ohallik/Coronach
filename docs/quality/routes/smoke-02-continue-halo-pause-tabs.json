@@ -43,9 +43,8 @@
       "name": "select slot 1",
       "seconds": 0.2,
       "expectedScene": "Title",
-      "buttons": [
-        "DpadDown"
-      ],
+      "buttons": [],
+      "pickRow": "slot1",
       "expectedUi": "saves"
     },
     {
@@ -59,6 +58,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "slot1",
       "expectedScene": "Hub_Decks",
       "expectedUi": "world",
       "expectedFlag": "met.Orrin",

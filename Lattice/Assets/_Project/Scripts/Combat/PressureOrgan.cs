@@ -31,6 +31,8 @@ namespace Lattice.Combat
         void Awake()
         {
             Health=GetComponent<Health>();if(visual!=null)rest=visual.localScale;
+            // While the bar says BREAK THEM, this is the fight: swings at it earn what swings earn. No kill's worth: a collar link pays none either.
+            Health.Damaged+=(_,packet,amount)=>CombatActor.PayHit(packet,amount);
             Health.Died+=(_,__)=>
             {
                 if(GameServices.Current!=null&&!string.IsNullOrEmpty(defeatedFlag))GameServices.Current.Flags.SetBool(defeatedFlag,true);

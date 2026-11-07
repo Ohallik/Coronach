@@ -23,7 +23,7 @@ namespace Lattice.Combat
             if(GameTime.CombatHeld||mark==null)return;if(!mark.Charged)return;
             mark.Release();CombatVfx.Burst(at+Vector3.up*.6f,new Color(1.3f,.55f,.2f),"kill");
             var party=PartyController.Current;
-            if(party!=null)foreach(var hero in party.members)if(hero.Health.Alive&&mark.Contains(hero.transform.position))hero.Health.Receive(packet);
+            if(party!=null)foreach(var hero in party.members)if(hero.Health.Alive&&mark.Contains(hero.transform.position)&&CombatCover.Clear(at+Vector3.up*.6f,hero.transform.position+Vector3.up*.9f))hero.Health.Receive(packet);
             Destroy(gameObject);
         }
     }
@@ -83,8 +83,7 @@ namespace Lattice.Combat
         }
         void OnDamaged(Health _,DamagePacket packet,float amount)
         {
-            // A weak spot or a break hits harder but pays no more: on a x2 collar link plain shots used to out-earn a full loadout. A resisted hit still pays less.
-            if(packet.source!=null&&packet.source.TryGetComponent<CombatActor>(out var actor))actor.AwardHit(Mathf.Min(amount,packet.amount)/Mathf.Max(1,actor.character=="Sela"?actor.rangedDamage:actor.damage),packet.chargeCut);
+            CombatActor.PayHit(packet,amount);
             if(Health.Alive&&!Health.Broken&&amount>0)
             {
                 ImpactStarted=Time.time;ImpactSequence++;
@@ -97,7 +96,8 @@ namespace Lattice.Combat
                 // expired strike that was interrupted three seconds earlier.
                 nextAttack=Mathf.Max(nextAttack,Health.BrokenUntil);
             }
-            else if(Health.Alive&&definition.archetype==EnemyArchetype.Sentinel&&packet.type==definition.resistance)
+            // The Husk's own. Keyed on its archetype, a Sergeant or Hessa took it too: a Sergeant resists Taren's every swing, so each one landed at a quarter and halved Sela's needles.
+            else if(Health.Alive&&definition.id=="SentinelHusk"&&packet.type==definition.resistance)
             {
                 // The attached ward carries the protective state. Re-emitting
                 // forty large rings for every pellet hid the hit silhouette.
@@ -174,7 +174,7 @@ namespace Lattice.Combat
             else if(yielded)AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40,.06f,.7f);
             else if(disabledRig)CombatAudio.Death(transform,true);
             else if(definition.boss)AudioManager.PlayAt("explosionCrunch_000",transform,transform.position+Vector3.up,.3f,AudioBus.SFX,40);
-            else CombatAudio.Death(transform,definition.archetype==EnemyArchetype.Sentinel||definition.archetype==EnemyArchetype.Mine||definition.id=="MusterSkiff");
+            else CombatAudio.Death(transform,definition.id=="SentinelHusk"||definition.archetype==EnemyArchetype.Mine||definition.id=="MusterSkiff");
             if(definition.boss)Telegraph.ClearAll(this);
             CancelAttack();
             if(definition.id=="Scrapmite")DeathBlast.Arm(transform.position,new DamagePacket{source=Health,amount=12,type=DamageType.Pulse,deathAttack=true});
@@ -228,17 +228,22 @@ namespace Lattice.Combat
                     else if(Mine)
                     {
                         // The blast and the body's end, in that order, and the blast outlives the body. Going off pays nobody.
-                        CombatActor.Strike(transform.position+Vector3.up*.7f,MineBlast,packet);
+                        CombatActor.Strike(transform.position+Vector3.up*.7f,MineBlast,packet).ThroughWalls=false;
                         CombatVfx.Burst(transform.position+Vector3.up,new Color(1.4f,.5f,.2f),"kill");
                         Health.Receive(new DamagePacket{amount=Health.maximum*3,type=DamageType.Pulse,tag=SelfDetonation});
                     }
-                    else CombatActor.Strike(transform.position+aim*1.1f+Vector3.up*.7f,Mathf.Max(1,range*.7f),packet);
+                    else
+                    {
+                        // Its centre stands 1.1 m ahead of the body, which can be past a thin wall the tell began beside: it stays on this side.
+                        var mouth=transform.position+Vector3.up*StrikeHeight;float ahead=CombatCover.Sweep(mouth,mouth+aim*1.1f,.05f,out var wall)?Mathf.Max(0,wall.distance-.05f):1.1f;
+                        CombatActor.Strike(mouth+aim*ahead,Mathf.Max(1,range*.7f),packet).ThroughWalls=false;
+                    }
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);
                 }
                 return;
             }
             KeepApart(d,distance,range);
-            if(distance<range&&Time.time>=nextAttack)
+            if(distance<range&&Time.time>=nextAttack&&InSight(victim))
             {
                 float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;
                 aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
@@ -251,13 +256,15 @@ namespace Lattice.Combat
             if(distance>35){Move(home-transform.position,definition.speed);return;}
             if(ranged)
             {
-                if(distance>range*.85f)Move(d,definition.speed);
+                // A shooter with a wall in the way closes until it has a line, rather than standing in range of nothing.
+                if(distance>range*.85f||Time.time<nextSight)Move(d,definition.speed);
                 // A boss's rest is the time to close: a heavy brawler doesn't back-pedal from melee. A serpent's Move swims forward through a
                 // broad turn, so this is how it keeps moving with the party on it: without it the Cantor stood still at close range.
                 else if(distance<range*.4f&&(boss==null||definition.archetype==EnemyArchetype.Serpent))Move(-d,definition.speed);
             }
             // Pressed in among its own, a body in reach stops there instead of shoving for a place at the front.
-            else if(distance>range*(crowded?1:.7f))
+            // But with no line it walks on: stood 4 m from a hero round a pillar, a hound would never get one.
+            else if(distance>range*(crowded?1:.7f)||Time.time<nextSight)
             {
                 Vector3 approach=d.normalized;
                 if(definition.archetype==EnemyArchetype.PackHunter)approach+=Vector3.Cross(Vector3.up,approach)*Mathf.Sin(Time.time+GetInstanceID())*.35f;
@@ -268,6 +275,17 @@ namespace Lattice.Combat
                 transform.rotation=boss!=null?Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(d),BossTurnRate*Time.deltaTime):Quaternion.LookRotation(d);
         }
         const float BossTurnRate=120;
+        /// <summary>Where a bite or a lunge is measured from, the same height as the look before its tell and a shot's muzzle. Knee-high rubble that a blade swings over stops neither.</summary>
+        const float StrikeHeight=1;
+        float nextSight;
+        /// <summary>A tell starts only at a hero it can see: pressed against a wall with him behind it, it keeps walking, and round a corner it can see past it still attacks.
+        /// Asked only when a tell would start, and a blocked look waits a beat before the next, so a body at a wall doesn't ask every frame.</summary>
+        bool InSight(CombatActor victim)
+        {
+            if(Time.time<nextSight)return false;
+            if(CombatCover.Clear(transform.position+Vector3.up*StrikeHeight,victim.transform.position+Vector3.up*.9f))return true;
+            nextSight=Time.time+.25f;return false;
+        }
         /// <summary>A light shove apart for bodies that aren't busy, under walking pace so nothing is ever held off a hero or pinned in a corridor. Never mid-tell:
         /// what a body marked is where it strikes from. It only ever moves itself, through its controller, so walls and floors still hold it.</summary>
         void KeepApart(Vector3 toVictim,float distance,float reach)
@@ -301,7 +319,7 @@ namespace Lattice.Combat
                 if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
                 float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled);travelled+=step;
                 if(controller.enabled)controller.Move(direction*step);
-                var hit=CombatActor.Strike(transform.position+Vector3.up*.7f+direction*LungeAhead,LungeRadius,packet);hit.hit=victims;
+                var hit=CombatActor.Strike(transform.position+Vector3.up*StrikeHeight+direction*LungeAhead,LungeRadius,packet);hit.hit=victims;hit.ThroughWalls=false;
                 yield return null;
             }
             lunging=false;

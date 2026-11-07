@@ -13,7 +13,17 @@ namespace Lattice.Combat
                 if(Opaque(hit.collider)&&hit.distance<=distance){nearest=hit;distance=hit.distance;found=true;}
             return found;
         }
-        public static bool Clear(Vector3 from,Vector3 to)=>!Sweep(from,to,.01f,out _);
+        static readonly RaycastHit[] Along=new RaycastHit[32];
+        /// <summary>Is the line between two points free of cover? A start inside a solid isn't, as with Sweep. It allocates nothing: an enemy asks it before a tell, and a blade for every body it passes.</summary>
+        public static bool Clear(Vector3 from,Vector3 to)
+        {
+            var delta=to-from;float distance=delta.magnitude;if(distance<.00001f)return true;
+            int count=Physics.SphereCastNonAlloc(from,.01f,delta/distance,Along,distance,~0,QueryTriggerInteraction.Ignore);
+            // More on the line than the buffer holds: the slow way sees them all.
+            if(count==Along.Length)return !Sweep(from,to,.01f,out _);
+            for(int i=0;i<count;i++)if(Opaque(Along[i].collider))return false;
+            return true;
+        }
         public static Vector3 Ground(Vector3 position)
         {
             // A probe that starts inside a solid gets that solid back at distance 0 with a zero point, which read as the world's origin:

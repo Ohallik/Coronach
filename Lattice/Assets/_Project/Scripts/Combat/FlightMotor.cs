@@ -27,7 +27,9 @@ namespace Lattice.Combat
             // Integrate constant thrust with drag, rather than applying all
             // thrust at the beginning of the frame and damping it immediately.
             float thrustTime=damping>.0001f?(1-decay)/damping:dt;
-            return Vector3.ClampMagnitude(velocity*decay+input*(acceleration*thrustTime),max);
+            // Thrust can't add speed past the cap, and speed already past it bleeds off through drag: a boost let go coasts down (.85 s from 22.8 to 12), not to cruise in a frame.
+            var coasting=velocity*decay;
+            return Vector3.ClampMagnitude(coasting+input*(acceleration*thrustTime),Mathf.Max(max,coasting.magnitude));
         }
         public static Vector3 Advance(ref Vector3 velocity,Vector3 input,float dt,float acceleration,float drag,float max,bool brake)
         {
@@ -84,7 +86,15 @@ namespace Lattice.Combat
         {
             // Combatants resolve damage through their attacks. Brushing a partner or a
             // lunge target must not count as hitting the tunnel wall.
-            if(!enabled||Mathf.Abs(hit.normal.y)>.5f||hit.collider.GetComponentInParent<Health>()!=null||Time.unscaledTime-contactAt<.6f)return;
+            float slope=Mathf.Abs(hit.normal.y);
+            if(!enabled||slope>=.85f||hit.collider.GetComponentInParent<Health>()!=null)return;
+            // A hull held to the flight plane climbs nothing it meets. A sloped wall (the Gullet's bowl of a shell, the lip of Tallow's dock) gets no shove and no charge, as it never has,
+            // and between shoves a plumb one neither, but the speed going into it stops: stored up to 12 m/s, it took half a second after the stick reversed just to start leaving.
+            if(slope>.5f||Time.unscaledTime-contactAt<.6f)
+            {
+                var side=hit.normal;side.y=0;side.Normalize();float into=Vector3.Dot(velocity,side);if(into<0)velocity-=side*into;
+                return;
+            }
             contactAt=Time.unscaledTime;dashRemaining=0;velocity=Vector3.Reflect(velocity,hit.normal)*.4f+hit.normal*4;
             if(Lattice.Core.ZoneController.Current!=null&&Lattice.Core.ZoneController.Current.Combat&&TryGetComponent<Health>(out var health))health.Receive(new DamagePacket{amount=12,type=DamageType.Kinetic});
             // At most once per 0.6 s: evidence of what a route or a pilot actually strikes.

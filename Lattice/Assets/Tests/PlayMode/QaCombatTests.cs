@@ -469,11 +469,12 @@ namespace Lattice.Tests.PlayMode
         [UnityTest] public IEnumerator EveryBossLastsAboutTwoMinutesAtTheRateThePartyDealsDamage()
         {
             yield return null;
-            // Integrity per second the replay party actually took off each boss (BOSS_DURATION, median of the QA and C7 chains).
-            foreach(var (boss,rate) in new[]{("Burrower",240f),("BellowsBelow",126f),("Cantor",285f),("HessaKorl",392f)})
+            // Integrity per second the replay party really took off each boss, the fastest it has gone: BOSS_DURATION on the v2 and v2c chains, on the 24000, 16000, 34000 and 44000 they fought.
+            // tools/boss_durations.py reads what the next chain does.
+            foreach(var (boss,rate) in new[]{("Burrower",300f),("BellowsBelow",237f),("Cantor",382f),("HessaKorl",465f)})
             {
                 float seconds=GameCatalog.Find<EnemyDef>(boss).integrity/rate;
-                Assert.GreaterOrEqual(seconds,100,$"{boss} falls in {seconds:0} s at the rate the replay party deals damage: the bar is 2 to 5 minutes");
+                Assert.GreaterOrEqual(seconds,120,$"{boss} falls in {seconds:0} s at the rate the replay party deals damage: the bar is 2 to 5 minutes");
             }
         }
         [UnityTest] public IEnumerator TheLongerBurrowerHitsSofter()

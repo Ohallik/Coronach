@@ -15,7 +15,8 @@ namespace Lattice.Combat
         FlightSeparation flightSeparation;
         SerpentSegments departingSerpent;
         FlightObstacles flightObstacles;
-        void OnEnable(){nextSkill=GameTime.Now+3;corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;}
+        // Three seconds at least, and never less than what it was already waiting: swapping out and back used to shorten the six to nine seconds to three.
+        void OnEnable(){nextSkill=Mathf.Max(nextSkill,GameTime.Now+3);corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;}
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
@@ -201,13 +202,18 @@ namespace Lattice.Combat
             var brain=actor.target.GetComponent<EnemyBrain>();
             return brain==null||!brain.Mine&&(!brain.CanBeMoved||brain.Heavy);
         }
-        static float Reach(Lattice.Data.SkillKind kind)=>kind switch
+        float Reach(Lattice.Data.SkillKind kind)=>kind switch
         {
             Lattice.Data.SkillKind.ScatterBloom=>5f,Lattice.Data.SkillKind.StaticNet=>9f,
-            Lattice.Data.SkillKind.ArcCleave or Lattice.Data.SkillKind.ForgeSpiral=>3.2f,
+            Lattice.Data.SkillKind.ForgeSpiral=>3.2f,
+            // On foot the blade passes a small body 1.7 m ahead, and a hero running in closes up to half a metre before it comes round: from 3.2 m it cut air, 20 Charge and all.
+            // In flight it's a 5.4 m wave, and a hull can't get within 2 m of anything.
+            Lattice.Data.SkillKind.ArcCleave=>actor.flight?3.2f:2f,
             Lattice.Data.SkillKind.PulseBurst or Lattice.Data.SkillKind.WaypointBlink=>3.8f,
             Lattice.Data.SkillKind.EmberStep=>6f,Lattice.Data.SkillKind.AnchorSlam=>8f,Lattice.Data.SkillKind.Faultline=>9f,
-            Lattice.Data.SkillKind.TetherHook=>11f,Lattice.Data.SkillKind.Overdrive=>6f,Lattice.Data.SkillKind.Refract=>0f,
+            Lattice.Data.SkillKind.TetherHook=>11f,Lattice.Data.SkillKind.Overdrive=>6f,
+            // Never: a parry wants a read on the hit that's coming, and this pick knows only how far off the target is. At random it's 20 Charge on nothing.
+            Lattice.Data.SkillKind.Refract=>0f,
             _=>12f,
         };
         static bool Departing(SerpentSegments body)=>body!=null&&body.gameObject.activeInHierarchy&&

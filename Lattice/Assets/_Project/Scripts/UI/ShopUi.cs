@@ -13,7 +13,7 @@ namespace Lattice.UI
     public sealed class ShopUi:MonoBehaviour
     {
         const int PerPage=6;
-        Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="",sellAsked;float submitHeldUntil;
+        Canvas canvas;GameObject panel;int page,offset;ShopInventory inventory;string feedback="",sellAsked;FirstPress first;
         public bool IsOpen=>panel!=null;
         void Start(){canvas=UiKit.CreateCanvas("Shop",35,transform);PromptService.Changed+=Restate;}
         void OnDestroy(){PromptService.Changed-=Restate;}
@@ -22,18 +22,16 @@ namespace Lattice.UI
         {
             inventory=source;page=offset=0;feedback="";sellAsked=null;GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);
             // Focus starts on an offer, and the A that ended the conversation is often pressed twice: submit waits a moment.
-            HoldSubmit();
+            first.Begin();
             Rebuild("ShopRow1");
         }
-        public void Close(){ReleaseSubmit();if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;MusicDirector.Shop(this,false);}
+        public void Close(){first.End();if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;MusicDirector.Shop(this,false);}
         void OnDisable(){MusicDirector.Shop(this,false);}
-        void HoldSubmit(){EventSystem.current.sendNavigationEvents=false;submitHeldUntil=Time.unscaledTime+.3f;}
-        void ReleaseSubmit(){submitHeldUntil=0;if(EventSystem.current!=null)EventSystem.current.sendNavigationEvents=true;}
         // The toggle, not an index: the same row on the other page would be a buy or a sale.
         void Switch(){page=1-page;offset=0;feedback="";sellAsked=null;Rebuild("ShopRow0");}
         void Update()
         {
-            if(!IsOpen)return;if(submitHeldUntil>0&&Time.unscaledTime>=submitHeldUntil)ReleaseSubmit();
+            if(!IsOpen)return;first.Step();
             if(UiActions.Cancel.WasPressedThisFrame()){UiSounds.Cancel();Close();return;}
             if(GameServices.Current.Input.Find("MenuNext").WasPressedThisFrame()||GameServices.Current.Input.Find("MenuPrev").WasPressedThisFrame())Switch();
         }
@@ -90,7 +88,7 @@ namespace Lattice.UI
                     if(wearer!=null){feedback=$"{name} is on {DisplayNames.Speaker(wearer.id)}. Take it off in Gear before selling it.";UiSounds.Error();}
                     else if((p.upgrade>0||def!=null&&def.tier>1)&&sellAsked!=p.instanceId){sellAsked=p.instanceId;feedback=$"Press again to sell {name} for {value} scrip.";}
                     // The next part slides under the cursor: a repeat press mustn't sell that too.
-                    else if(state.parts.Remove(p)){sellAsked=null;state.scrip+=value;feedback=$"Sold {name} for {value} scrip.";HoldSubmit();}
+                    else if(state.parts.Remove(p)){sellAsked=null;state.scrip+=value;feedback=$"Sold {name} for {value} scrip.";first.Begin();}
                     Rebuild();
                 }));
             }

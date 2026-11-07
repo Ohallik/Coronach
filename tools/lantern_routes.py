@@ -25,18 +25,15 @@ class Route:
         fields.setdefault("expectedScene", self.scene)
         self.steps.append(dict(name=name, seconds=round(seconds, 2), **fields))
 
-    def resume(self, scene, flag=None, speed=CIVIL_SPEED, spawn=None, form=None, brake=False, picks=0):
-        """Title, Continue, the newest autosave. `picks` moves down the save list."""
+    def resume(self, scene, flag=None, speed=CIVIL_SPEED, spawn=None, form=None, brake=False):
+        """Title, Continue, the autosave by name: the picker opens on whichever save is newest."""
         self.add("read title", 1, expectedUi="title")
         self.add("select Continue", 0.2, buttons=[], expectedUi="title")
         self.add("release select Continue", 0.3)
         self.add("open save picker", 0.5, buttons=["South"], expectedUi="saves")
         self.add("release save picker", 0.3)
-        for i in range(picks):
-            self.add(f"move down the save list {i + 1}", 0.2, buttons=["DpadDown"], expectedUi="saves")
-            self.add(f"release move {i + 1}", 0.3)
         self.scene = scene
-        self.add("load the autosave", 4, buttons=["South"], expectedUi="world", expectedFlag=flag, expectedForm=form)
+        self.add("load the autosave", 4, buttons=["South"], pickRow="autosave", expectedUi="world", expectedFlag=flag, expectedForm=form)
         self.at, self.speed, self.brake = spawn, speed, brake
 
     def walk(self, name, x, y, z, tolerance=0.8, seconds=None, stop=None, buttons=None):

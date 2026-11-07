@@ -57,8 +57,9 @@ namespace Lattice.Combat
                         if(!collider.TryGetComponent<Hurtbox>(out var box)||box.owner==null||!box.owner.Alive||
                             box.owner==actor.Health||box.owner.friendly==actor.Health.friendly||victims.Contains(box.owner))continue;
                         var target=collider.ClosestPoint((a+b)*.5f);
-                        if(Physics.Linecast(a,target,out var obstruction,~0,QueryTriggerInteraction.Ignore)&&
-                            obstruction.collider.gameObject.isStatic&&!obstruction.collider.TryGetComponent<Hurtbox>(out _))continue;
+                        // The cover every other skill stops at: it used to ask for a static flag, which a built player doesn't keep.
+                        // From the chest through the hand, because a posed wrist can already be past a thin wall the hero is pressed against.
+                        if(!CombatCover.Clear(transform.position+Vector3.up*.9f,a)||!CombatCover.Clear(a,target))continue;
                         victims.Add(box.owner);box.Hit(packet);
                     }
                 }

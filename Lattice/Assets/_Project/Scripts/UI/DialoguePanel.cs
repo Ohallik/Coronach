@@ -18,6 +18,7 @@ namespace Lattice.UI
         Image portrait;
         bool clicked;
         int shownFrame,lastQueuedFrame=-1,optionsFrame;
+        FirstPress first;
         public bool IsVisible=>panel!=null&&panel.activeInHierarchy;
         public bool OptionsVisible=>options!=null&&options.activeInHierarchy;
         public bool AdvanceRequested
@@ -39,15 +40,16 @@ namespace Lattice.UI
             hint=UiKit.Text(panel.transform,"Continue",DeviceHints.Continue(),25,UiKit.DimTextColor,TextAlignmentOptions.Right);UiKit.Rect(hint.gameObject,new(1,0),new(1,0),new(-300,68),new(470,40));
             DialogueSystem.Current.View=this;panel.SetActive(false);PromptService.Changed+=RefreshHint;
         }
-        void OnDestroy(){PromptService.Changed-=RefreshHint;}
+        void OnDestroy(){PromptService.Changed-=RefreshHint;first.End();}
         void RefreshHint(){if(hint!=null)hint.text=OptionsVisible?DeviceHints.Choose():DeviceHints.Continue();}
         void Update()
         {
+            first.Step();
             if(panel==null||!panel.activeSelf||Time.frameCount<=shownFrame)return;
             bool submit=UiActions.Submit.WasPressedThisFrame(),interact=GameServices.Current.Input.Find("Interact").WasPressedThisFrame();
             if(!OptionsVisible){if(submit||interact)QueueAdvance();return;}
             // A choice isn't a line to advance. Submit reaches the selected button through the EventSystem; the world's Interact key has to be handed to it.
-            if(!interact||submit||Time.frameCount<=optionsFrame)return;
+            if(first.Held||!interact||submit||Time.frameCount<=optionsFrame)return;
             var chosen=EventSystem.current!=null?EventSystem.current.currentSelectedGameObject:null;
             if(chosen!=null&&chosen.transform.IsChildOf(options.transform)&&chosen.TryGetComponent<Button>(out var button))button.onClick.Invoke();
         }
@@ -60,8 +62,10 @@ namespace Lattice.UI
         {
             ClearOptions();options=new GameObject("Options",typeof(RectTransform));options.transform.SetParent(canvas.transform,false);var buttons=new List<Selectable>();
             for(int i=0;i<labels.Count;i++){int n=i;var b=UiKit.Button(options.transform,"Option_"+i,labels[i],()=>selected(n));UiKit.Rect(b.gameObject,new(.5f,.5f),new(.5f,.5f),new(ChoiceX,100-i*85),new(ChoiceWidth,65));buttons.Add(b);}
-            UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);optionsFrame=Time.frameCount;RefreshHint();
+            UiKit.LinkVertical(buttons.ToArray());EventSystem.current.SetSelectedGameObject(buttons[0].gameObject);optionsFrame=Time.frameCount;
+            // A thumb tapping through the lines answered the top row five frames after it appeared: Hal's bench unasked, or a paid repair.
+            first.Begin();RefreshHint();
         }
-        public void ClearOptions(){if(options!=null)Destroy(options);options=null;RefreshHint();}
+        public void ClearOptions(){if(options!=null)Destroy(options);options=null;first.End();RefreshHint();}
     }
 }

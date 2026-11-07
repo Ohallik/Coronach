@@ -45,6 +45,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "autosave",
       "expectedScene": "Sorrel_Ridges",
       "expectedUi": "world",
       "expectedFlag": "warpkey",

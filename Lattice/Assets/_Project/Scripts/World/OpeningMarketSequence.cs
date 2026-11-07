@@ -26,13 +26,17 @@ namespace Lattice.World
         public float[] gateOpenYaw={90,-90};
         public Vector3 stallBack=new Vector3(.7f,0,0);
         GameState owner;bool fresh;float closure;Vector3 stallOrigin;Quaternion[] gateRest;
+        /// <summary>The gates and the service guard hold a hero 3.63 m from Mira at the nearest, and her holding line is written for that spot. 4.6, not 3.8: the nearest prompt wins, and once
+        /// Sela has come across with her 3.2 m she takes the south leaf, so this leaves Mira the north one.</summary>
+        const float MiraAcrossTheGate=4.6f;
+        float miraRange;
         public bool Fresh=>fresh;
         public float Closure=>closure;
 
         void Start()
         {
             var service=GameServices.Current;if(service==null){enabled=false;return;}
-            owner=service.State;fresh=service.Flags.GetBool(Requested)&&!service.Flags.GetBool(Repaired);
+            owner=service.State;fresh=service.Flags.GetBool(Requested)&&!service.Flags.GetBool(Repaired);miraRange=mira.range;
             stallOrigin=stall.localPosition;gateRest=new Quaternion[gates.Length];gateColliders=new Collider[gates.Length][];
             for(int i=0;i<gates.Length;i++){gateRest[i]=gates[i].localRotation;gateColliders[i]=gates[i].GetComponentsInChildren<Collider>(true);}
             closure=fresh?0:1;Apply();
@@ -54,7 +58,7 @@ namespace Lattice.World
             // until the bridge is open the three of them answer with a short holding line instead of not answering at all.
             orrin.holdNode=repaired&&closure>=1?null:"OrrinOpening";
             sela.holdNode=repaired?null:"SelaOpening";
-            mira.holdNode=repaired?null:"MiraOpening";
+            mira.holdNode=repaired?null:"MiraOpening";mira.range=repaired?miraRange:MiraAcrossTheGate;
             repair.enabled=fresh&&!repaired&&underway;
             float k=Mathf.SmoothStep(0,1,closure);
             cover.localRotation=Quaternion.Slerp(Quaternion.Euler(openCoverEuler),Quaternion.identity,k);

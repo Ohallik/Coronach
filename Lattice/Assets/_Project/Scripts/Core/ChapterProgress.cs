@@ -16,6 +16,9 @@ namespace Lattice.Core
         /// and a party saved with nobody standing, which would load into an endless defeat.</summary>
         public static void Repair(GameState state)
         {
+            // A damaged file can hold null where a list belongs. Read as it stood it threw where the title reads its saves, outside Read's guard, and the title never came up.
+            state.materials??=new();state.collectedMaterials??=new();state.consumables??=new();state.craftingXp??=new();state.questSteps??=new();state.questCounts??=new();state.parts??=new();
+            foreach(var member in state.party){member.equipped??=new();member.gear??=new();}
             foreach(string id in new[]{"RepairGel","ChargeCell"})
                 if(state.materials.TryGetValue(id,out int count))
                 {state.consumables.TryGetValue(id,out int held);state.consumables[id]=held+count;state.materials.Remove(id);}
@@ -29,7 +32,7 @@ namespace Lattice.Core
         }
         public static bool Migrate(GameState state)
         {
-            if(state==null||state.party==null||state.party.Count==0||state.flags==null)return false;
+            if(state==null||state.party==null||state.party.Count==0||state.party.Contains(null)||state.flags==null)return false;
             if(state.version==SaveVersion)return true;
             if(state.version!=1)return false;
             if(Has(state,"warpkey"))state.flags[LegacyAccess]=true;

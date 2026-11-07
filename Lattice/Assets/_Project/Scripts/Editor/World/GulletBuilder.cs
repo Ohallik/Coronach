@@ -85,7 +85,7 @@ namespace Lattice.EditorTools
             var cantor=WorldBuilder.Encounter("Gullet_Cantor",new(GulletProfile.Center(GulletProfile.CantorZ),1,GulletProfile.CantorZ),new(66,6,58),"Cantor",1);
             GulletPreviewStaging.Configure(cantor);
             WorldBuilder.Label("THE CANTOR'S COIL",new(0,-1,GulletProfile.CantorZ-50));
-            WorldBuilder.Warp("Exit warp — Tallow Drift",new(GulletProfile.Center(GulletProfile.ExitZ),1,GulletProfile.ExitZ),"TallowApproach","bossdown.Cantor");
+            WorldBuilder.Warp("Exit warp — Tallow Approach",new(GulletProfile.Center(GulletProfile.ExitZ),1,GulletProfile.ExitZ),"TallowApproach","bossdown.Cantor");
             VerifyWalls();
             ChapterOneStaging.Gullet();WorldBuilder.Save(scene,"Gullet_Tunnel");
         }

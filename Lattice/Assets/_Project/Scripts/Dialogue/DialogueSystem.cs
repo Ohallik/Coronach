@@ -14,6 +14,8 @@ namespace Lattice.Dialogue
         public static DialogueSystem Current{get;private set;}
         public static event Action<string> UiRequested;
         public static event Action<string> MemberJoined;
+        /// <summary>A conversation ran to its end and changed what a quit would lose: a quest finished in it, or a chapter's flag went up. Whoever can see the fight writes the save.</summary>
+        public static event Action Settled;
         public IDialogueView View;
         public bool Preparing{get;private set;}
         public bool Prepared{get;private set;}
@@ -25,10 +27,16 @@ namespace Lattice.Dialogue
         public int LinesPresented{get;internal set;}
         public string Speaker{get;private set;}
         public bool Running=>dialogueActive||Runner!=null&&Runner.IsDialogueRunning;
-        public const float InteractHoldOff=.35f;
         string pendingUi;
         Action<bool> pendingCompletion;
-        bool leaving,preparationComplete,dialogueActive;
+        bool leaving,preparationComplete,dialogueActive,chapterFlag;
+        GameState startedOn;int questsAtStart;
+        static int QuestsDone(GameState state)
+        {
+            int done=0;
+            foreach(var flag in state.flags)if(flag.Value&&flag.Key.StartsWith("quest.",StringComparison.Ordinal)&&flag.Key.EndsWith(".complete",StringComparison.Ordinal))done++;
+            return done;
+        }
         readonly List<string> pendingJoins=new();
         static readonly ProfilerMarker LoadProjectMarker=new("Coronach.Dialogue.LoadProject");
         static readonly ProfilerMarker SetProjectMarker=new("Coronach.Dialogue.SetProject");
@@ -47,7 +55,7 @@ namespace Lattice.Dialogue
                 {
                 if(leaving||GameServices.Current==null)return;
                 if(Preparing){preparationComplete=true;return;}
-                View?.Hide();GameServices.Current.Input.Blocked=false;PromptService.HoldOffInteract(InteractHoldOff);
+                View?.Hide();GameServices.Current.Input.Blocked=false;
                 if(Interrupted){pendingJoins.Clear();pendingUi=null;Debug.Log("DIALOGUE_CANCELLED "+Speaker);return;}
                 Debug.Log("DIALOGUE_OK "+Speaker);RpgServices.Quests.Report(ObjectiveKind.TalkTo,Speaker);
                 foreach(string id in pendingJoins)
@@ -60,8 +68,10 @@ namespace Lattice.Dialogue
                 completed=true;
                 }
                 finally {try{FinishPending(completed);}finally{dialogueActive=false;}}
+                // Last, with everything it set off done. Only a conversation that ran to its end comes this far.
+                if(ReferenceEquals(startedOn,GameServices.Current.State)&&(chapterFlag||QuestsDone(startedOn)>questsAtStart))Settled?.Invoke();
             });
-            Runner.AddCommandHandler("setFlag",(Action<string>)(key=>{GameServices.Current.Flags.SetBool(key,true);RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Flag,key);}));
+            Runner.AddCommandHandler("setFlag",(Action<string>)(key=>{GameServices.Current.Flags.SetBool(key,true);RpgServices.Quests.Report(Lattice.Data.ObjectiveKind.Flag,key);if(key.StartsWith("chapter",StringComparison.Ordinal))chapterFlag=true;}));
             Runner.AddCommandHandler("giveItem",(Action<string,int>)((id,count)=>RpgServices.Inventory.Grant(id,count)));
             Runner.AddCommandHandler("startQuest",(Action<string>)(id=>RpgServices.Quests.Start(id)));
             Runner.AddCommandHandler("shop",(Action)(()=>pendingUi="shop"));
@@ -114,6 +124,7 @@ namespace Lattice.Dialogue
             // Keep the conversation owned until those commands finish, so callers
             // cannot start a second node against the first node's cancellation state.
             Speaker=speaker;Interrupted=false;pendingCompletion=completed;dialogueActive=true;GameServices.Current.Input.Blocked=true;
+            startedOn=GameServices.Current.State;questsAtStart=QuestsDone(startedOn);chapterFlag=false;
             using(StartNodeMarker.Auto())Runner.StartDialogue(node).Forget();
             return true;
         }

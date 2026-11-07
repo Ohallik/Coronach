@@ -119,6 +119,8 @@ namespace Lattice.Combat
             }
             AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.18f,AudioBus.SFX,50);
             var marks=new List<Telegraph>();foreach(var b in bubbles)marks.Add(b.mark);
+            // One volley, one hit: they burst .12 s apart, and the first one's .25 s stagger held a standing hero for the rest, 40% of him with no way to roll.
+            var once=new HashSet<Health>();
             while(true)
             {
                 if(GameTime.Paused){yield return null;continue;}
@@ -129,7 +131,7 @@ namespace Lattice.Combat
                     var (view,mark)=bubbles[i];if(view==null)continue;
                     if(mark.Charged)
                     {
-                        Strike(mark,14,DamageType.Pulse,.25f);CombatVfx.Burst(view.position,new Color(.7f,.45f,1f),"shape");
+                        Strike(mark,14,DamageType.Pulse,.25f,0,once,true);CombatVfx.Burst(view.position,new Color(.7f,.45f,1f),"shape");
                         temporary.Remove(view.gameObject);Destroy(view.gameObject);bubbles[i]=(null,mark);continue;
                     }
                     waiting=true;

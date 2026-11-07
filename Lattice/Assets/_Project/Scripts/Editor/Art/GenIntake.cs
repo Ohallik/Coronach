@@ -176,7 +176,7 @@ namespace Lattice.EditorTools
             string path=Dir(row)+row.id+".controller";var controller=AssetDatabase.LoadAssetAtPath<AnimatorController>(path);
             if(controller==null)controller=AnimatorController.CreateAnimatorControllerAtPath(path);
             var machine=controller.layers[0].stateMachine;foreach(var state in machine.states)machine.RemoveState(state.state);
-            foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);state.iKOnFeet=row.kind=="biped";if(clip.state=="Idle")machine.defaultState=state;}
+            foreach(var clip in row.clips){var state=machine.AddState(clip.state);state.motion=Clip(clip);state.iKOnFeet=row.kind=="biped"&&!LifecycleCalibration.HuskRig(row);if(clip.state=="Idle")machine.defaultState=state;}
             if(row.character=="Taren"||row.character=="Sela")StrideCalibration.ConfigureController(controller);
             if(row.character=="Sela")RangedLayerSetup.Configure(controller);
             if(row.enemy=="SentinelHusk"||!string.IsNullOrEmpty(row.enemy)&&row.model.Contains("P3-SentinelHusk/"))EnemyRecoilLayerSetup.Configure(controller);

@@ -90,7 +90,7 @@ namespace Lattice.UI
             probe=Text("InputProbe",BottomRight,new(1630,280),new(500,180),16,TextAlignmentOptions.Right);
 #endif
             BuildBossBar();gameObject.AddComponent<BossEdgeMark>().Build(canvas.transform);
-            Health.DamageNumber+=Damage;PlayerBrain.QuickItemRefused+=OnItemRefused;
+            Health.DamageNumber+=Damage;PlayerBrain.QuickItemRefused+=OnItemRefused;PlayerBrain.SwapRefused+=OnSwapRefused;
         }
         void BuildBossBar()
         {
@@ -205,7 +205,7 @@ namespace Lattice.UI
             return marks;
         }
         const float BarWidth=400;
-        float refusedHeard,itemRefusedAt=-99;
+        float refusedHeard,itemRefusedAt=-99,swapRefusedAt=-99;
         /// <summary>A break threshold this high means the target can't be broken at all, so it gets no gauge (pressure organs).</summary>
         const float Unbreakable=10000;
         TMP_Text Text(string name,Vector2 anchor,Vector2 pos,Vector2 size,int font,TextAlignmentOptions align=TextAlignmentOptions.Center)
@@ -250,7 +250,7 @@ namespace Lattice.UI
             thrust.color=rollRefused?new Color(1,.3f,.25f):new Color(1,.65f,.2f);
             if(rollRefused&&a.RollRefusedAt>refusedHeard){refusedHeard=a.RollRefusedAt;UiSounds.Error();}
             // A downed partner's 0/max says nothing the state doesn't; the line stays on one row.
-            if(party.members.Length>1){var p=party.members[1-party.index];partner.text=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");}
+            if(party.members.Length>1){var p=party.members[1-party.index];string line=$"{PromptService.Tag("Swap")}  {DisplayNames.Speaker(p.character).ToUpperInvariant()}"+(p.Health.Alive?$"  {p.Health.integrity:0}/{p.Health.maximum:0}":"")+(p.Recovering?"  ·  RECOVERING":p.Health.Alive?"":party.ReviveTarget==p?"  ·  RESTORING "+(party.ReviveProgress*100).ToString("0")+"%":"  ·  APPROACH TO REVIVE");partner.text=Time.unscaledTime-swapRefusedAt<.25f?"<color=#FF4D40>"+line+"</color>":line;}
             zone.text=DisplayNames.Zone(ZoneController.Current.definition.id).ToUpperInvariant();
             bool bossUp=RefreshBossBar(a);
             if(a.target!=null&&a.target.Alive&&bossUp&&shownBoss!=null&&a.target==shownBoss.Health)
@@ -286,9 +286,11 @@ namespace Lattice.UI
                 skillLabels[i].text=(a.cooldowns[i]>0?a.cooldowns[i].ToString("0.0")+"s":SkillBinding(i,a.flight)+" · "+cost.ToString("0")+"C")+"\n"+(string.IsNullOrEmpty(skill.shortName)?skill.displayName:skill.shortName);
             }
             string Hint(string action,string label)=>PromptService.Tag(action)+"  "+label;
+            // The first fight teaches swap (TEST_PLAN 4.1). At the widest a keyboard's words can make it, with the longest quick item, this strip stands 1091 of its 1190 at the type floor.
+            string swap=combat&&party.members.Length>1?Hint("Swap","SWAP")+"    ":"";
             skills.text=!combat?Hint("Interact","INTERACT")+(party.members.Length>1?"    "+Hint("Swap","SWAP"):"")+"    "+Hint(a.flight?"Boost":"Sprint",a.flight?"BOOST":"SPRINT")+(a.flight?"    "+Hint("Brake","BRAKE"):"")+"    "+Hint("Log","QUESTS")+"    "+Hint("Pause","MENU"):
-                a.flight?Hint("Fire","FIRE")+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
-                Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
+                a.flight?Hint("Fire","FIRE")+"    "+Hint("Lunge","LUNGE")+"    "+Hint("Roll","ROLL")+"    "+swap+Hint("Boost","BOOST")+"    "+Hint("Brake","BRAKE"):
+                Hint("Attack","ATTACK")+"    "+Hint("Dodge","DODGE")+"    "+Hint("Guard","GUARD")+"    "+swap+Hint("Sprint","SPRINT")+"    "+QuickItem(state);
             if(probe!=null)probe.text=$"PAD: {PadBridge.Describe()}\nMOVE {GameServices.Current.Input.Move}\n{a.State}  {a.motor?.Velocity.magnitude:0.0} m/s";
             StepAside(party,a);
         }
@@ -354,6 +356,7 @@ namespace Lattice.UI
             return Time.unscaledTime-itemRefusedAt<.25f?"<color=#FF4D40>"+hint+"</color>":count<=0?"<color=#7D8894>"+hint+"</color>":hint;
         }
         void OnItemRefused(string why){itemRefusedAt=Time.unscaledTime;UiSounds.Error();}
+        void OnSwapRefused(){swapRefusedAt=Time.unscaledTime;UiSounds.Error();}
         /// <summary>The skill's button on the active device: RB plus the face glyph on a pad, the number key on a keyboard.</summary>
         public static string SkillBinding(int slot,bool flight)
         {
@@ -443,6 +446,6 @@ namespace Lattice.UI
             }
             return point;
         }
-        void OnDestroy(){Health.DamageNumber-=Damage;PlayerBrain.QuickItemRefused-=OnItemRefused;}
+        void OnDestroy(){Health.DamageNumber-=Damage;PlayerBrain.QuickItemRefused-=OnItemRefused;PlayerBrain.SwapRefused-=OnSwapRefused;}
     }
 }

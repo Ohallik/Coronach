@@ -14,7 +14,9 @@ namespace Lattice.World
         void Update()
         {
             var services=GameServices.Current;var party=PartyController.Current;
-            if(services==null||party==null||party.Active==null||services.Input.Blocked||said>=situations.Length)return;
+            if(services==null||party==null||party.Active==null||said>=situations.Length)return;
+            // The gap waits with the line it follows, which BarkPanel holds through a pause: run on behind the menu, the next line came straight over it.
+            if(services.Input.Blocked){if(next>=0)next+=Time.unscaledDeltaTime;return;}
             if(said==0)
             {
                 if(services.Flags.GetBool(heardFlag)||!string.IsNullOrEmpty(silencedBy)&&services.Flags.GetBool(silencedBy))return;

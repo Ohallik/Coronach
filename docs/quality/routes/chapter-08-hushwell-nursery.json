@@ -45,6 +45,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "autosave",
       "expectedScene": "Hushwell",
       "expectedUi": "world",
       "expectedFlag": "warpkey",

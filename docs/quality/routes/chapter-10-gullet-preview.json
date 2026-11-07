@@ -45,6 +45,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "autosave",
       "expectedScene": "Gullet_Tunnel",
       "expectedUi": "world",
       "expectedFlag": "warpkey",
