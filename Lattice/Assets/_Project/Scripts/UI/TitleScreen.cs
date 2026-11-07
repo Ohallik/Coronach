@@ -30,8 +30,11 @@ namespace Lattice.UI
             UiKit.Rect(background,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
             mainMenu=new GameObject("MainMenu",typeof(RectTransform));mainMenu.transform.SetParent(canvas.transform,false);
             UiKit.Rect(mainMenu,Vector2.zero,Vector2.one,Vector2.zero,Vector2.zero).sizeDelta=Vector2.zero;
-            var title=UiKit.Heading(mainMenu.transform,"Title",Application.productName.ToUpperInvariant(),105,UiKit.TextColor,TextAlignmentOptions.Left);
-            UiKit.Rect(title.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(470,-235),new Vector2(760,150));
+            // The designed wordmark: a display face's capitals alone read as a heading, not a logo. Its width is its art's, at the art's own proportions.
+            var title=new GameObject("Title",typeof(RawImage));title.transform.SetParent(mainMenu.transform,false);
+            var wordmark=title.GetComponent<RawImage>();wordmark.texture=Resources.Load<Texture2D>("UI/Title/wordmark");wordmark.raycastTarget=false;
+            float wordmarkHeight=wordmark.texture!=null?800f*wordmark.texture.height/wordmark.texture.width:156;
+            UiKit.Rect(title,new Vector2(0,1),new Vector2(0,1),new Vector2(470,-215),new Vector2(800,wordmarkHeight));
             var subtitle=UiKit.Text(mainMenu.transform,"Subtitle","ONE BODY. THREE FORMS.",24,new Color(.58f,.85f,.9f),TextAlignmentOptions.Left);
             UiKit.Rect(subtitle.gameObject,new Vector2(0,1),new Vector2(0,1),new Vector2(370,-345),new Vector2(540,55));
             var buttons=new List<Selectable>();

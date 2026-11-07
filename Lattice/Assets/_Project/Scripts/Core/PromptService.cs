@@ -39,7 +39,9 @@ namespace Lattice.Core
         public static void HoldOffInteract(float seconds)=>interactFrom=Time.unscaledTime+seconds;
         public static bool TryInteract()
         {
-            if(Interaction==null||AConsumed||Time.unscaledTime<interactFrom)return false;
+            if(Interaction==null||AConsumed)return false;
+            // A press the hold eats starts it over, so A answers only once the tapping pauses. Counted from the close alone, a thumb still going past .35 s started the talk over, or Mira's repeat and her shop.
+            if(Time.unscaledTime<interactFrom){interactFrom=Mathf.Max(interactFrom,Time.unscaledTime+GameInput.HandBackHold);return false;}
             consumedFrame=Time.frameCount;Interaction.Interact();return true;
         }
         public static PromptDevice Device { get; private set; } = PromptDevice.Keyboard;

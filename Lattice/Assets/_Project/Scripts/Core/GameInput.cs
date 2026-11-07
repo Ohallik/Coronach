@@ -14,7 +14,7 @@ namespace Lattice.Core
         public InputActionMap Common { get; }
         public bool FlightMode { get; private set; }
         bool blocked;
-        /// <summary>How long Interact waits once a screen has handed the world back.</summary>
+        /// <summary>How long Interact waits once a screen has handed the world back, and again from each press that wait eats (PromptService.TryInteract).</summary>
         public const float HandBackHold=.35f;
         readonly System.Collections.Generic.HashSet<InputAction> carriedOver=new();
         public bool Blocked

@@ -187,12 +187,16 @@ namespace Lattice.Combat
             finally{if(visual!=null)visual.localRotation=rest;}
         }
 
+        /// <summary>How near the target's bearing a stick counts as pointing at it.</summary>
+        const float StickAtTarget=60;
         void Blink(float power,Vector3 aim,bool flight)
         {
             var origin=transform.position+(flight?Vector3.up*.8f:Vector3.zero);
-            // The stick says where to escape to; otherwise straight back from the target.
-            Vector3 away=actor.MoveIntent.sqrMagnitude>.05f?Planar(actor.MoveIntent).normalized:
-                actor.target!=null&&actor.target.Alive?-Planar(actor.target.transform.position-transform.position).normalized:-actor.motor.Facing;
+            // The stick says where to escape to; otherwise straight back from the target. It can't say "at the target": thrust and stride are this same control, so closing on
+            // something always holds that way, on a digital pad most of all, and she dashed at what she was escaping with her charge left behind to hit nothing.
+            bool targeted=actor.target!=null&&actor.target.Alive;var toTarget=targeted?Planar(actor.target.transform.position-transform.position):Vector3.zero;
+            bool steered=actor.MoveIntent.sqrMagnitude>.05f&&(toTarget.sqrMagnitude<.01f||Vector3.Angle(Planar(actor.MoveIntent),toTarget)>StickAtTarget);
+            Vector3 away=steered?Planar(actor.MoveIntent).normalized:targeted?-toTarget.normalized:-actor.motor.Facing;
             if(away.sqrMagnitude<.01f)away=-aim;
             actor.Perform("Dodge",flight?.3f:.35f,flight?.18f:.3f);
             actor.Health.InvulnerableUntil=Mathf.Max(actor.Health.InvulnerableUntil,GameTime.Now+.4f);

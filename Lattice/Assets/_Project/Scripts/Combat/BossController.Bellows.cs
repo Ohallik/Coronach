@@ -28,6 +28,19 @@ namespace Lattice.Combat
             if(inflated!=null)inflated.localScale=inflatedRest;inflated=null;if(body!=null)body.localScale=bodyRest;
             foreach(var organ in PressureOrgan.All)organ.Breathe(0);
         }
+        /// <summary>A phase shift's brace on a body with no rig to rear back with: the dome draws down onto the floor and spreads, shaking as the ring fills, and lets go with the shove.</summary>
+        IEnumerator DomeBrace(float seconds)
+        {
+            inflated=body;inflatedRest=bodyRest;
+            for(float t=0;t<seconds&&!Interrupted;)
+            {
+                if(!GameTime.Paused)t+=Time.deltaTime;
+                float k=Mathf.SmoothStep(0,1,Mathf.Clamp01(t/seconds)),shake=.035f*k*k*Mathf.Sin(Time.time*47);
+                inflated.localScale=Vector3.Scale(inflatedRest,new Vector3(1+.16f*k+shake,1-.24f*k-shake,1+.16f*k+shake));
+                yield return null;
+            }
+            Deflate();
+        }
         IEnumerator BellowsBreath()
         {
             // Inhale: the body and its organs swell inside a marked ring and pull the party in; one pumping organ, in turn,

@@ -14,13 +14,14 @@ namespace Lattice.Combat
             return found;
         }
         static readonly RaycastHit[] Along=new RaycastHit[32];
-        /// <summary>Is the line between two points free of cover? A start inside a solid isn't, as with Sweep. It allocates nothing: an enemy asks it before a tell, and a blade for every body it passes.</summary>
-        public static bool Clear(Vector3 from,Vector3 to)
+        /// <summary>Is the line between two points, or a body's width along it, free of cover? A start inside a solid isn't, as with Sweep. It allocates nothing: an enemy asks it before a tell, a blade for every body it passes,
+        /// and a lunge that a hero or a wall has turned off its line asks it every frame.</summary>
+        public static bool Clear(Vector3 from,Vector3 to,float radius=.01f)
         {
             var delta=to-from;float distance=delta.magnitude;if(distance<.00001f)return true;
-            int count=Physics.SphereCastNonAlloc(from,.01f,delta/distance,Along,distance,~0,QueryTriggerInteraction.Ignore);
+            int count=Physics.SphereCastNonAlloc(from,radius,delta/distance,Along,distance,~0,QueryTriggerInteraction.Ignore);
             // More on the line than the buffer holds: the slow way sees them all.
-            if(count==Along.Length)return !Sweep(from,to,.01f,out _);
+            if(count==Along.Length)return !Sweep(from,to,radius,out _);
             for(int i=0;i<count;i++)if(Opaque(Along[i].collider))return false;
             return true;
         }

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Lattice.Core;
 using Lattice.Data;
@@ -24,6 +25,18 @@ namespace Lattice.UI
         }
         public static string Says(Stats stats)=>string.Join(", ",Lines(stats).Where(Counts).Select(l=>$"{l.name} +{l.value:0}"));
         public static string Effect(TechPartDef def,PartInstance item=null)=>Says(Total(def,item));
+        static string One(float value)=>value.ToString("0.#",CultureInfo.InvariantCulture);
+        /// <summary>What the next upgrade buys, by the sums the upgrade itself will use: "Output +30 to +32.4". To one place, in this mode alone: a Scrap Module's Fortune gains about a quarter, and
+        /// rounded it read "+3 to +3", paying for nothing. What an upgrade can't move, an affix's own stat, stands alone.</summary>
+        public static string NextUpgrade(TechPartDef def,PartInstance item)
+        {
+            if(item.upgrade>=5)return Upgraded(def,item)+"  ·  fully upgraded";
+            var next=new PartInstance{definitionId=item.definitionId,upgrade=item.upgrade+1,affixes=item.affixes};
+            return string.Join(", ",Lines(Total(def,item)).Zip(Lines(Total(def,next)),(now,then)=>(now,then)).Where(line=>Counts(line.then))
+                .Select(line=>$"{line.now.name} +{One(line.now.value)}"+(Mathf.Abs(line.then.value-line.now.value)<.01f?"":$" to +{One(line.then.value)}")));
+        }
+        /// <summary>The same numbers once it's paid: with the row promising +32.4, the line under it said +32.</summary>
+        public static string Upgraded(TechPartDef def,PartInstance item)=>string.Join(", ",Lines(Total(def,item)).Where(Counts).Select(line=>$"{line.name} +{One(line.value)}"));
         /// <summary>"  ·  now +8": what the hero has in that slot, in the stat this part leads with, or that the slot is free.</summary>
         public static string Against(GameState state,MemberState member,TechPartDef def,PartInstance item=null)
         {

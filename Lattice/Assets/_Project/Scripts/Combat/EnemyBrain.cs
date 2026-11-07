@@ -53,6 +53,8 @@ namespace Lattice.Combat
         Vector3 home;
         Vector3 aim;
         float nextAttack,strikeAt,attackAnimationUntil;
+        /// <summary>Where the body stood when it marked this attack and how far a drag has carried it since, and when it was last dragged.</summary>
+        Vector3 markedFrom;float dragged,draggedAt=float.NegativeInfinity;
         bool lunging;
         public float DamageScale=1;
         float wardedUntil;Vector3 wardFrom;
@@ -164,8 +166,20 @@ namespace Lattice.Combat
         /// hold their ground (D201).</summary>
         public bool CanBeMoved=>Health.Alive&&controller!=null&&controller.enabled&&GetComponent<BossController>()==null&&
             definition!=null&&!definition.boss&&definition.archetype!=EnemyArchetype.Serpent&&definition.archetype!=EnemyArchetype.Mine;
-        /// <summary>Moves the body through its controller, so walls and floors still hold it.</summary>
-        public void Displace(Vector3 delta){if(!CanBeMoved)return;delta.y=0;controller.Move(delta);}
+        /// <summary>How far a drag can carry a body through its attack: under this a shot or a lane is still within a hero's width of its paint. How long after a drag it can start a tell:
+        /// one started on the way would be lost an eighth of a second later, a flicker of paint and a lesson for nothing. And how fast a pull has to carry it for that: at the well's centre it only
+        /// takes back what the body just walked or its own kind just shoved it, which is carrying it nowhere, and from there it can attack as it always could.</summary>
+        const float MostDragged=.5f,DragSettles=.1f,DragPace=GravityWell.PullSpeed*.75f;
+        /// <summary>Moves the body through its controller, so walls and floors still hold it. What it marked is where it strikes from, so dragged off that it loses the attack, as a hook's reel does:
+        /// a Fold carried a bite up to 2.6 m off its painted circle, onto a hero who had stepped clear of it. Held by a wall it hasn't moved, and keeps it.</summary>
+        public void Displace(Vector3 delta)
+        {
+            if(!CanBeMoved)return;delta.y=0;var from=transform.position;controller.Move(delta);
+            var moved=transform.position-from;moved.y=0;if(moved.sqrMagnitude<.000001f)return;
+            float travel=moved.magnitude;if(travel>=DragPace*Time.deltaTime)draggedAt=Time.time;
+            if(!Telegraphing&&!lunging)return;
+            dragged+=travel;if(dragged>MostDragged)Interrupt();
+        }
         public void RestoreAfterRecovery()
         {
             CancelAttack();ImpactStarted=float.NegativeInfinity;ImpactSequence=0;
@@ -250,8 +264,8 @@ namespace Lattice.Combat
                     }
                     else
                     {
-                        // Its centre stands 1.1 m ahead of the body, which can be past a thin wall the tell began beside: it stays on this side.
-                        var mouth=transform.position+Vector3.up*StrikeHeight;float ahead=CombatCover.Sweep(mouth,mouth+aim*1.1f,.05f,out var wall)?Mathf.Max(0,wall.distance-.05f):1.1f;
+                        // From where it marked, whatever a drag under the limit has done since. Its centre stands 1.1 m ahead of that, which can be past a thin wall the tell began beside: it stays on this side.
+                        var mouth=new Vector3(markedFrom.x,transform.position.y+StrikeHeight,markedFrom.z);float ahead=CombatCover.Sweep(mouth,mouth+aim*1.1f,.05f,out var wall)?Mathf.Max(0,wall.distance-.05f):1.1f;
                         CombatActor.Strike(mouth+aim*ahead,Mathf.Max(1,range*.7f),packet).ThroughWalls=false;
                     }
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);
@@ -259,9 +273,10 @@ namespace Lattice.Combat
                 return;
             }
             KeepApart(d,distance,range);
-            if(distance<range&&Time.time>=nextAttack&&InSight(victim))
+            if(distance<range&&Time.time>=nextAttack&&Time.time>=draggedAt+DragSettles&&InSight(victim))
             {
                 float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;if(ranged)shotAt=Time.time;
+                markedFrom=transform.position;dragged=0;
                 aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
                 if(definition.archetype!=EnemyArchetype.Serpent&&boss==null)transform.rotation=Quaternion.LookRotation(aim);
                 AttackMark=MarkAttack(tell,dive,ranged,range);
@@ -335,10 +350,19 @@ namespace Lattice.Combat
                 if(GameTime.Paused||GameServices.Current.Input.Blocked){yield return null;continue;}
                 float step=Mathf.Min(LungeSpeed*Time.deltaTime,LungeTravel-travelled);travelled+=step;
                 if(controller.enabled)controller.Move(direction*step);
+                if(SlidOffItsLane(direction))break;
                 var hit=CombatActor.Strike(transform.position+Vector3.up*StrikeHeight+direction*LungeAhead,LungeRadius,packet);hit.hit=victims;hit.ThroughWalls=false;
                 yield return null;
             }
             lunging=false;
+        }
+        /// <summary>A controller slides along a wall it meets at an angle, and the strike slid with it, off the lane it painted: there it stops. Only a wall does that: round a hero or one of its own in
+        /// the way it goes on as it always has. It casts only once it is off its line, so an ordinary lunge never does.</summary>
+        bool SlidOffItsLane(Vector3 direction)
+        {
+            if(Mathf.Abs(Vector3.Dot(transform.position-markedFrom,Vector3.Cross(Vector3.up,direction)))<=Telegraph.BodyAllowance)return false;
+            var chest=transform.position+Vector3.up*StrikeHeight;
+            return !CombatCover.Clear(chest,chest+direction,controller.radius);
         }
         void Move(Vector3 direction,float speed)
         {

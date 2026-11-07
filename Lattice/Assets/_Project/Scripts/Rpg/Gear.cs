@@ -17,8 +17,12 @@ namespace Lattice.Rpg
             {
                 var item=state.parts.Find(p=>p.instanceId==id);if(item==null)continue;
                 var def=parts(item.definitionId);if(def==null)continue;
-                // Only the weapon being used contributes; armour and modules affect both attacks.
-                if((def.slot==GearSlot.Edge||def.slot==GearSlot.Emitter)&&def.slot!=weapon)continue;
+                // Only the weapon being used contributes; armour and modules affect both attacks. So do affixes (D008), but for a weapon's Output, which stays with its own attack.
+                if((def.slot==GearSlot.Edge||def.slot==GearSlot.Emitter)&&def.slot!=weapon)
+                {
+                    foreach(string name in item.affixes.Take(2)){var affix=affixes(name);if(affix!=null){var bonus=affix.bonus;bonus.output=0;total+=bonus;}}
+                    continue;
+                }
                 total+=Levels.PartStats(def,item);
                 foreach(string name in item.affixes.Take(2)){var affix=affixes(name);if(affix!=null)total+=affix.bonus;}
             }

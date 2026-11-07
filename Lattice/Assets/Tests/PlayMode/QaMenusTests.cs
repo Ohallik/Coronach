@@ -376,7 +376,7 @@ namespace Lattice.Tests.PlayMode
             {
                 menu.Open(page);yield return null;
                 var words=Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Select(t=>t.text).ToArray();
-                Assert.IsFalse(words.Any(w=>w.Contains("Swap active")||w.Contains("switches member")),$"page {page} offers a swap while Taren is alone");
+                Assert.IsFalse(words.Any(w=>w.Contains("Swap active")||w.Contains("switches member")||w.Contains("'s skills  ·")),$"page {page} offers a swap while Taren is alone");
                 menu.Close();yield return null;
             }
             var dialogue=DialogueSystem.Current;dialogue.AutoAdvance=true;
@@ -387,7 +387,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual("EmittersT1",State.parts.Find(p=>p.instanceId==emitter).definitionId);
             menu.Open(PauseMenu.PartyPage);yield return null;With("Swap active member");menu.Close();yield return null;
             menu.Open(PauseMenu.SkillsPage);yield return null;
-            Assert.IsTrue(Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Any(t=>t.text.Contains("switches member")),"nothing says how to reach Sela's skills");
+            Assert.IsTrue(Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Any(t=>t.text.Contains(PromptService.Tag("Swap")+" shows Sela's skills")),"nothing says how to reach Sela's skills");
             menu.Close();
         }
         /// <summary>prog153. Rewards and purchases sat unequipped: a player could finish a chapter with empty slots and a Refined Frame in the bag.</summary>

@@ -292,17 +292,18 @@ namespace Lattice.Tests.PlayMode
                 for(int i=0;i<3&&dialogue.Running;i++)yield return null;
             }
             Assert.IsFalse(dialogue.Running,"fixture: the conversation closes under the thumb");
-            float closed=Time.unscaledTime;yield return null;yield return null;
+            float closed=Time.unscaledTime,lastTap=closed;yield return null;yield return null;
             int taps=0;
             while(Time.unscaledTime-closed<.2f)
             {
-                taps++;yield return Tap(GamepadButton.South);
+                taps++;yield return Tap(GamepadButton.South);lastTap=Time.unscaledTime;
                 Assert.IsFalse(dialogue.Running,$"tap {taps}, {Time.unscaledTime-closed:0.00} s after the last line: the mashed press starts the same conversation over");
             }
             Assert.Greater(taps,0,"fixture: the thumb kept tapping while the conversation closed");
-            yield return new WaitForSecondsRealtime(Mathf.Max(0,closed+.5f-Time.unscaledTime));
+            // The hold counts from the last tap it ate, not from the close.
+            yield return new WaitForSecondsRealtime(Mathf.Max(0,lastTap+.5f-Time.unscaledTime));
             yield return Tap(GamepadButton.South);
-            Assert.IsTrue(dialogue.Running,"half a second after a conversation closes, A still won't talk to the person standing there");
+            Assert.IsTrue(dialogue.Running,"half a second after the thumb stops, A still won't talk to the person standing there");
         }
         [UnityTest] public IEnumerator AttackAndDodgeDoNotWaitForTheHoldOff()
         {

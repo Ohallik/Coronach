@@ -22,7 +22,7 @@ A build passes this plan only when every **Blocker** and **Major** item below is
 
 | Quality | What it means here | How it is checked |
 |---|---|---|
-| Responsive | Input to visible action within 2 frames at 60 fps; no input is eaten during dialogue, menus or zone loads, but for two holds on a thumb still tapping: Interact waits .35 s after any screen hands the world back, and a shop, a bench or a choice holds its first press .3 s | Replay traces, `frames.csv`, PadBridge log lines |
+| Responsive | Input to visible action within 2 frames at 60 fps; no input is eaten during dialogue, menus or zone loads, but for two holds on a thumb still tapping: Interact waits .35 s after any screen hands the world back, counted again from each press it eats, and a shop, a bench or a choice holds its first press .3 s | Replay traces, `frames.csv`, PadBridge log lines |
 | Readable | Every enemy attack is marked before it lands; every objective names a place or person; no text overflows; no raw ids on screen | Eye sheets, `ReadableTypeTests`, `DialogueLayoutTests`, this plan's UI checks |
 | Fair | Any hit that lands was marked and dodgeable; a boss can be beaten without taking an unavoidable hit; defeat costs at most 2 minutes of replay | Boss checklists (§4.4), defeat-retry routes |
 | Paced | A new skill, zone, boss or story beat roughly every 15–25 minutes; no stretch of walking longer than 30 s with nothing to see or do | Chain timings, the pacing log (§4.3) |
@@ -147,7 +147,8 @@ For each of the 10 quests (Silent Outpost, What the Drill Found, Six Bright Answ
 
 ### 4.8 UI and UX
 - [ ] All seven pause tabs (Party, Skills, Gear, Fabricate, Items, Quests, Settings) open, navigate by pad and mouse, and keep focus sensibly.
-- [ ] Skills page: four slots show the binding, cost and mastery; choosing a slot lists learned skills with their cost, mastery and cooldown, the focused skill's description in the note, and locked ones with their level; equipping one trades places with its old slot.
+- [ ] Skills page: four slots show the binding, cost and mastery; choosing a slot lists learned skills with their cost, mastery and cooldown, the focused skill's description in the note, and locked ones with their level; equipping one trades places with its old slot. Swap on this page shows the other hero's, named at its head, and leaves the party as it is: a partner who's down can still be looked at, and a trade goes on the hero shown.
+- [ ] Gear and Party: each row in Upgrade mode gives what the next level buys before it's paid for, and the Party page gives each hero's Response, Resonance and Fortune as well as Output and Plating.
 - [ ] The HUD shows integrity, Charge, Thrust, partner state, target with break, skill icons and costs, and the zone name. The boss bar hides the interaction prompt.
 - [ ] Shops show names and prices, refuse unaffordable purchases with a reason, and sell back with confirmation text.
 - [ ] Item names are consistent everywhere ("Scrap Alloy", "Repair Gel").
@@ -173,7 +174,7 @@ For each of the 10 quests (Silent Outpost, What the Drill Found, Six Bright Answ
 
 ### 4.11 Saves
 - [ ] Autosave on dock, warp, repair and discovery, and when a conversation completes a quest or ends a chapter: once it closes, in a safe place only (no fight on, nobody down, not the proving grounds). Nothing it paid is paid again after a Continue. Continue resumes in the right zone and spawn, with the party, gear, quests, flags, skill loadout and mastery.
-- [ ] Old saves (pre-skill-loadout, pre-chapter 2) load and get the starting loadout. One with no parts at all comes back armed from the title. A damaged save never stops the title coming up.
+- [ ] Old saves (pre-skill-loadout, pre-chapter 2) load and get the starting loadout. One with no parts at all comes back armed from the title. One from before a first meeting always came first gets Neve's cache and Hal's starting materials if it met them and never had them, once. One from before `pell.aboard` that has heard the homecoming no longer has Pell in Lanternwick. A damaged save never stops the title coming up.
 - [ ] Defeat offers "Return to last autosave" and doesn't wipe progress.
 
 ### 4.12 Accessibility

@@ -80,6 +80,20 @@ namespace Lattice.Tests.EditMode
         {Assert.AreEqual(7,(int)PortraitEmotion.Synced);Assert.AreEqual(PortraitEmotion.Synced,EmotionTags.Parse(new[]{"#emotion:Synced"}));Assert.AreEqual(PortraitEmotion.Neutral,EmotionTags.Parse(null));}
         [Test]public void OnlyOneGameplayMapEnabled()
         {using(var input=new GameInput()){Assert.IsTrue(input.Ground.enabled);Assert.IsFalse(input.Flight.enabled);input.SetFlight(true);Assert.IsFalse(input.Ground.enabled);Assert.IsTrue(input.Flight.enabled);}}
+        [Test]public void AWeaponsAffixReachesTheOtherAttackButItsOutputDoesNot()
+        {
+            var character=ScriptableObject.CreateInstance<CharacterDef>();var emitter=ScriptableObject.CreateInstance<TechPartDef>();var affix=ScriptableObject.CreateInstance<AffixDef>();
+            try
+            {
+                character.baseStats=new Stats{output=50,resonance=10};emitter.id="emitter";emitter.slot=GearSlot.Emitter;emitter.baseStats=new Stats{output=25};affix.bonus=new Stats{output=3,resonance=4};
+                var state=new GameState();var inv=new Inventory(state);var item=inv.GivePart(emitter);item.affixes.Add("resonant");inv.Equip(state.party[0],item,emitter);
+                var melee=Gear.Calculate(state,state.party[0],character,GearSlot.Edge,_=>emitter,_=>affix);
+                Assert.AreEqual(14,melee.resonance,.001,"D008: a Resonant Emitter's +4 reaches nothing, though its row promises it");
+                Assert.AreEqual(50,melee.output,.001,"an Emitter's Output leaks into the swing");
+                Assert.AreEqual(3,affix.bonus.output,.001,"counting it changed the affix's own asset");
+            }
+            finally{UnityEngine.Object.DestroyImmediate(character);UnityEngine.Object.DestroyImmediate(emitter);UnityEngine.Object.DestroyImmediate(affix);}
+        }
         [Test]public void EquippedWeaponUpgradeAndAffixAffectOnlyItsAttack()
         {
             var character=ScriptableObject.CreateInstance<CharacterDef>();var edge=ScriptableObject.CreateInstance<TechPartDef>();var affix=ScriptableObject.CreateInstance<AffixDef>();

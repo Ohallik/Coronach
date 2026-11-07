@@ -32,6 +32,8 @@ namespace Lattice.UI
         GameObject panel;
         TMP_Text note;
         int page,offset,gearMode;
+        /// <summary>Whose skills the Skills page shows. Swap flips it and the party stays as it is: seeing the partner's loadout used to mean really swapping, and with the partner down it couldn't be seen at all.</summary>
+        int skillsOf;
         bool keyboardSettings,leaveAsked,closing;
         string feedback="",salvageAsked,listeningFor;
         PromptDevice feedbackDevice;
@@ -48,7 +50,7 @@ namespace Lattice.UI
         public bool Listening=>rebind!=null;
         public void Open(int selected=0,bool bench=false)
         {
-            page=selected;offset=gearMode=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;feedbackDevice=PromptService.Device;AtBench=bench;
+            page=selected;offset=gearMode=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;feedbackDevice=PromptService.Device;AtBench=bench;skillsOf=GameServices.Current.State.activeMember;
             GameServices.Current.Input.Blocked=true;GameTime.Paused=true;
             // The bench opens from a conversation on a row that spends materials, and the A that ended the talk is often pressed twice.
             if(bench)first.Begin();
@@ -91,19 +93,29 @@ namespace Lattice.UI
             if(!IsOpen){if(input.Blocked)return;if(pause)Open();else if(input.Find("Log").WasPressedThisFrame())Open(QuestsPage);return;}
             if(UiActions.Cancel.WasPressedThisFrame()){StepBack();return;}
             if(pause){UiSounds.Cancel();Close();return;}
-            if((page==GearPage||page==SkillsPage)&&input.Find("Swap").WasPressedThisFrame())TrySwap(skillSlot>=0?"Row_"+(skillSlot+1):null);
+            if(page==GearPage&&input.Find("Swap").WasPressedThisFrame())TrySwap();
+            if(page==SkillsPage&&input.Find("Swap").WasPressedThisFrame())ShowOtherHero();
             if(page==ItemsPage&&input.Find("Swap").WasPressedThisFrame())SetQuickItem();
             if(input.Find("MenuNext").WasPressedThisFrame())GoTo((page+1)%tabs.Length);
             if(input.Find("MenuPrev").WasPressedThisFrame())GoTo((page+tabs.Length-1)%tabs.Length);
         }
-        void GoTo(int target){rebind?.Cancel();page=target;offset=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;Rebuild(false);}
+        void GoTo(int target){rebind?.Cancel();page=target;offset=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;skillsOf=GameServices.Current.State.activeMember;Rebuild(false);}
         static void Navigation(bool on){var system=EventSystem.current;if(system!=null)system.sendNavigationEvents=on;}
-        void TrySwap(string want=null)
+        void TrySwap()
         {
             var party=PartyController.Current;if(party.members.Length<2)return;
-            skillSlot=-1;salvageAsked=null;
+            salvageAsked=null;
             if(party.Swap())feedback="";
             else Refuse(DisplayNames.Speaker(party.members[(party.index+1)%party.members.Length].character)+" is down.");
+            Rebuild();
+        }
+        /// <summary>The other hero's skills, in this page's place. Nobody swaps, so it asks nothing of the partner: one who's down can still be looked at, and given a loadout for when they're up.
+        /// From inside the chooser it comes out on the same slot, as a swap did.</summary>
+        void ShowOtherHero()
+        {
+            int count=GameServices.Current.State.party.Count;if(count<2)return;
+            string want=skillSlot>=0?"Row_"+(skillSlot+1):null;
+            skillsOf=(skillsOf+1)%count;skillSlot=-1;offset=0;feedback="";UiSounds.Move();
             Rebuild(true,want);
         }
         void Rebuild(bool rememberFocus=true,string want=null)
@@ -154,18 +166,18 @@ namespace Lattice.UI
                     int number=i;string slot="slot"+i;var saved=GameServices.Current.Saves.Load(slot);
                     Add($"Save to slot {number}"+(saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty"),()=>{GameServices.Current.Saves.Save(slot,state);feedback=$"Saved to slot {number}.";Rebuild();});
                 }
-                Note($"{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");
+                Note(string.Join("\n",state.party.Select(m=>PartyTotals(state,m)))+$"\n{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");
             }
             else if(page==SkillsPage)
             {
-                var member=state.party[state.activeMember];string who=DisplayNames.Speaker(member.id);var all=SkillBook.All(member.id);
+                var member=state.party[skillsOf];string who=DisplayNames.Speaker(member.id);var all=SkillBook.All(member.id);
                 // Back and all eight skills fit above the note: no paging until a hero has more.
                 int perPage=all.Length>8?7:8;
                 string Binding(int at)=>GameHud.SkillBinding(at,InFlight);
                 int SlotOf(SkillDef of){for(int i=0;i<SkillBook.Slots;i++)if(SkillBook.Equipped(member.id,i)==of)return i;return -1;}
                 if(skillSlot<0)
                 {
-                    Header(who+"'s skills"+SwapClause(state));
+                    Header(who+"'s skills"+(state.party.Count>1?$"  ·  {PromptService.Tag("Swap")} shows {DisplayNames.Speaker(state.party[(skillsOf+1)%state.party.Count].id)}'s skills":""));
                     for(int i=0;i<SkillBook.Slots;i++)
                     {
                         int slot=i;var skill=SkillBook.Equipped(member.id,i);if(skill==null)continue;
@@ -207,6 +219,8 @@ namespace Lattice.UI
                 string[] modes={"Equip","Equip in module slot 2","Upgrade","Salvage"};
                 string[] hints={"Edges drive melee and the lunge, Emitters drive beams and flight fire. Select a worn part to take it off.","Select a module for the second module slot.","Each upgrade costs Scrap Alloy: three times the next level.","Select a spare part twice to break it down. Parts in use can't be salvaged."};
                 Add("Action: "+modes[gearMode]+" (select to change)",()=>{gearMode=(gearMode+1)%modes.Length;salvageAsked=null;feedback="";Rebuild();});
+                // Now and next share a row: a worn two-stat module with an affix ran past it at 26, and at the type floor it stands at 1060 of 1122.
+                if(gearMode==2)rowFont=24;
                 const int perPage=6;
                 var parts=GearOrder(state,member);
                 // Putting a part on or taking it off moves it in this list: the cursor goes with it, page and all, or the next A lands on whatever slid under it.
@@ -215,7 +229,9 @@ namespace Lattice.UI
                 {
                     var def=GameCatalog.Find<TechPartDef>(item.definitionId);if(def==null)continue;
                     var wearer=inventory.Wearer(item);
-                    var line=Add($"{PartText.Mark(wearer,member)}{def.displayName}  T{def.tier} +{item.upgrade}{PartText.Affixes(item)}  ·  {PartText.Effect(def,item)}{(wearer==member?"":PartText.Against(state,member,def,item))}",
+                    // What the part is against the slot decides an equip. What it becomes decides an upgrade: shown only as it stands, that was seen after paying.
+                    string says=gearMode==2?PartText.NextUpgrade(def,item):PartText.Effect(def,item)+(wearer==member?"":PartText.Against(state,member,def,item));
+                    var line=Add($"{PartText.Mark(wearer,member)}{def.displayName}  T{def.tier} +{item.upgrade}{PartText.Affixes(item)}  ·  {says}",
                         ()=>UsePart(item,def,member),def.slot.ToString());
                     if(item.instanceId==followPart)focus=line.name;
                 }
@@ -347,6 +363,13 @@ namespace Lattice.UI
             var stats=Gear.Calculate(state,m,GameCatalog.Find<CharacterDef>(m.id),m.id=="Taren"?GearSlot.Edge:GearSlot.Emitter,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
             return $"{DisplayNames.Speaker(m.id)}   Sync {m.level}   XP {m.xp}/{Levels.RequiredXp(m.level)}   Integrity {m.integrity:0}/{Levels.MaxIntegrity(m.level):0}   Output {stats.output:0}   Plating {stats.plating:0}";
         }
+        /// <summary>The three stats the rows have no room for, in the words Gear and the bench use. The fight reads all three off the Edge's sum (PartyController.RefreshStats), whichever weapon the row above
+        /// goes by, so that's the sum here: off the Emitter's, Sela's page would count a Resonant Emitter's +4, which the fight never gives her.</summary>
+        static string PartyTotals(GameState state,MemberState m)
+        {
+            var stats=Gear.Calculate(state,m,GameCatalog.Find<CharacterDef>(m.id),GearSlot.Edge,GameCatalog.Find<TechPartDef>,GameCatalog.Find<AffixDef>);
+            return $"{DisplayNames.Speaker(m.id)}  ·  Response {stats.response:0}  ·  Resonance {stats.resonance:0}  ·  Fortune {stats.fortune:0}";
+        }
         static string MasteryLine(string character,SkillDef skill)
         {
             int uses=SkillBook.Uses(character,skill.id),next=SkillBook.NextMasteryAt(uses);
@@ -403,7 +426,7 @@ namespace Lattice.UI
             {
                 int cost=3*(item.upgrade+1);
                 if(item.upgrade>=5)Refuse($"{name} is already at +5.");
-                else if(Gear.Upgrade(state,item))feedback=$"Upgraded {name} to +{item.upgrade}: {PartText.Effect(def,item)}.";
+                else if(Gear.Upgrade(state,item))feedback=$"Upgraded {name} to +{item.upgrade}: {PartText.Upgraded(def,item)}.";
                 else Refuse($"Upgrading {name} takes {cost} Scrap Alloy. You have {inventory.Count("ScrapAlloy")}. Salvage a spare part for more.");
             }
             else if(gearMode==1&&def.slot!=GearSlot.Module)Refuse("Only a module fits module slot 2. Set Action to Equip for this part.");

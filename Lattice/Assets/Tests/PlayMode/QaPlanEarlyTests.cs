@@ -241,9 +241,9 @@ namespace Lattice.Tests.PlayMode
             while(Object.FindFirstObjectByType<TitleScreen>()==null&&Time.unscaledTime<deadline)yield return null;
             Assert.IsNotNull(Object.FindFirstObjectByType<TitleScreen>(),"the game doesn't open on its title");
             yield return new WaitForSecondsRealtime(.3f);
-            var wordmark=Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).SingleOrDefault(t=>t.name=="Title"&&t.transform.parent.name=="MainMenu");
+            var wordmark=Object.FindObjectsByType<RawImage>(FindObjectsSortMode.None).SingleOrDefault(t=>t.name=="Title"&&t.transform.parent.name=="MainMenu");
             Assert.IsNotNull(wordmark,"the title has no wordmark");
-            Assert.AreEqual("CORONACH",wordmark.text,"the logo on the title isn't the game's name");
+            Assert.AreEqual("wordmark",wordmark.texture!=null?wordmark.texture.name:"","the logo on the title isn't the game's wordmark");
             var art=Object.FindObjectsByType<RawImage>(FindObjectsSortMode.None).FirstOrDefault(r=>r.name=="KeyArt");
             Assert.IsTrue(art!=null&&art.texture!=null,"the title's key art is missing: the menu sits on a blank screen");
             float above=float.MaxValue;

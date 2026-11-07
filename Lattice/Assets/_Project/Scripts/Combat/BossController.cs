@@ -201,6 +201,9 @@ namespace Lattice.Combat
             brain.DamageScale=1+(Phase-1)*.18f;
             // The Bellows braces against the cave while any pressure organ pumps.
             if(health.id=="BellowsBelow"&&PressureOrgan.AnyPumping)health.ShieldUntil=Time.time+.25f;
+            // A Flash slows the shift and not the clock its brace is timed on, so what the world's clock loses goes on the limit: untouchable for as long as the bar says so.
+            // Run out early, a break could stop the routine with its promised move and its summons still to come.
+            if(shifting)health.InvulnerableUntil+=Time.unscaledDeltaTime-Time.deltaTime;
             // A breath held through a spit's tell is the dome's wind-up.
             if(body!=null&&inflated==null){float tell=brain.TellProgress;body.localScale=bodyRest*(1+.035f*Mathf.Sin(Time.time*2.1f)*(1-tell)+.12f*tell);}
             if(brain.Passive||busy||health.Broken||GameServices.Current.Input.Blocked||PartyController.Current==null)return;
@@ -378,7 +381,7 @@ namespace Lattice.Combat
             BarkService.Play(PartyController.Current.Active.character,Situation("bossphase"),true);
             var wave=Mark(Telegraph.Circle(transform.position,collar!=null?9:7,.7f,Telegraph.Stagger));
             strikeAt=Time.time+.7f;
-            yield return Windup(.7f,-8,.2f,.06f);Pose(0);
+            yield return body!=null?DomeBrace(.7f):Windup(.7f,-8,.2f,.06f);Pose(0);
             wave.Release();strikeAt=0;
             foreach(var actor in PartyController.Current.members)
                 if(actor.Health.Alive&&wave.Contains(actor.transform.position))StartCoroutine(Shove(actor,Flat(actor.transform.position-transform.position),3.2f));

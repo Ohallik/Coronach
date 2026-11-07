@@ -84,11 +84,17 @@ namespace Lattice.Tests.PlayMode
             float deadline=Time.unscaledTime+20;
             while(Object.FindFirstObjectByType<TitleScreen>()==null&&Time.unscaledTime<deadline)yield return null;
             yield return new WaitForSecondsRealtime(.3f);
-            var title=Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Single(t=>t.name=="Title"&&t.transform.parent.name=="MainMenu");
-            Assert.AreEqual("Cinzel SDF",title.font.name,"the wordmark isn't in the display face");
-            var rect=title.rectTransform.rect;var size=title.GetPreferredValues(title.text,float.PositiveInfinity,float.PositiveInfinity);
-            Assert.LessOrEqual(size.x,rect.width,"the wordmark runs out of its box");
-            Assert.AreEqual(1,title.textInfo.lineCount,"the wordmark wraps");
+            var title=Object.FindObjectsByType<UnityEngine.UI.RawImage>(FindObjectsSortMode.None).SingleOrDefault(t=>t.name=="Title"&&t.transform.parent.name=="MainMenu");
+            Assert.IsNotNull(title,"the logo is live text in a display face: a heading, not a wordmark");
+            Assert.IsNotNull(title.texture,"the wordmark's art is missing");
+            var rect=title.rectTransform.rect;
+            Assert.AreEqual((float)title.texture.width/title.texture.height,rect.width/rect.height,.05f,"the wordmark is stretched out of its own proportions");
+            // Inside the screen, and clear of the line under it.
+            var corners=new Vector3[4];title.rectTransform.GetWorldCorners(corners);var canvas=title.canvas.GetComponent<RectTransform>();
+            var low=canvas.InverseTransformPoint(corners[0]);var high=canvas.InverseTransformPoint(corners[2]);var box=canvas.rect;
+            Assert.IsTrue(low.x>=box.xMin&&high.x<=box.xMax&&low.y>=box.yMin&&high.y<=box.yMax,$"the wordmark runs off the screen: {low} to {high} in {box}");
+            var subtitle=Object.FindObjectsByType<TMP_Text>(FindObjectsSortMode.None).Single(t=>t.name=="Subtitle");subtitle.rectTransform.GetWorldCorners(corners);
+            Assert.GreaterOrEqual(low.y,canvas.InverseTransformPoint(corners[1]).y,"the wordmark sits on the line under it");
         }
         [UnityTest] public IEnumerator EveryPageHeadingFitsInTheDisplayFace()
         {
