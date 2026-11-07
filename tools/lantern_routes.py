@@ -211,7 +211,7 @@ def lanternwick():
     r.wait("read the receipt", 1.2, expectedUi="shop")
     # What a player with scrip to spare does before the gorge. Hessa is a long fight, and the route used to reach her on one gel.
     r.add("find the repair gel", 3, pickRow="Repair Gel", until="row:Repair Gel", expectedUi="shop")
-    for i in range(6):
+    for i in range(12):
         r.press(f"buy repair gel {i + 1}", "South", 0.2, pickRow="Repair Gel", expectedUi="shop")
     r.add("leave the stall", 0.5, buttons=["East"], expectedUi="world")
     r.add("release leave stall", 0.3)

@@ -252,6 +252,96 @@
       "expectedScene": "Lanternwick"
     },
     {
+      "name": "buy repair gel 7",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 7",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 8",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 8",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 9",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 9",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 10",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 10",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 11",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 11",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "buy repair gel 12",
+      "seconds": 0.2,
+      "buttons": [
+        "South"
+      ],
+      "pickRow": "Repair Gel",
+      "expectedUi": "shop",
+      "expectedScene": "Lanternwick"
+    },
+    {
+      "name": "release buy repair gel 12",
+      "seconds": 0.3,
+      "expectedScene": "Lanternwick"
+    },
+    {
       "name": "leave the stall",
       "seconds": 0.5,
       "buttons": [
