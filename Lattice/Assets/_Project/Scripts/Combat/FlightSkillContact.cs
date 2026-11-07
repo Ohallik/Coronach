@@ -27,7 +27,7 @@ namespace Lattice.Combat
             if(pending)
             {
                 age+=Time.deltaTime;float anticipation=kind==Release.Pulse?.18f:kind==Release.Net?.15f:.12f;
-                var color=actor.character=="Taren"?new Color(1,.65f,.2f):new Color(.1f,.8f,1);
+                var color=actor.character=="Taren"?GroundRing.Friendly:new Color(.1f,.8f,1);
                 color.a=.25f+.6f*Mathf.Clamp01(age/anticipation);
                 Show(direction,kind==Release.Cleave?65:180,color);
                 if(age<anticipation)return;
@@ -52,7 +52,7 @@ namespace Lattice.Combat
                 else AudioManager.PlayAt("forceField_000",transform,transform.position+Vector3.up,.18f);
             }
             if(actor.Overdriving||actor.Refracting)
-                Show(actor.motor.Facing,180,actor.Refracting?new Color(.1f,.8f,1,.5f):new Color(1,.65f,.2f,.3f));
+                Show(actor.motor.Facing,180,actor.Refracting?new Color(.1f,.8f,1,.5f):new Color(GroundRing.Friendly.r,GroundRing.Friendly.g,GroundRing.Friendly.b,.3f));
             else Hide();
         }
         void Show(Vector3 aim,float halfAngle,Color color)

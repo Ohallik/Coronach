@@ -33,6 +33,9 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BodyStencil: 128
+    - _LightFloor: 0.3
+    - _RimUnlit: 0.6
     - _AlphaTest: 0
     - _BaseMapStrength: 0.82
     - _Cull: 2

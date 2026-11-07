@@ -20,7 +20,7 @@ namespace Lattice.UI
         static readonly Dictionary<string,int> seen=new(),seenCounts=new();
         static readonly List<(string heading,string body)> pending=new();
         float showing,next;
-        const string ChapterEnd="chapter2.homecoming",ChapterEndHeading="CHAPTER 2 COMPLETE",ChapterEndTitle="THE LANTERN ROAD",ChapterEndBody="Tallow has its route that waits, and a lantern to keep it. The road runs on to Xylos in a later build. Until then nothing closes behind you, so keep exploring.";
+        const string ChapterEnd="chapter2.homecoming",ChapterEndHeading="CHAPTER 2 COMPLETE",ChapterEndTitle="THE LANTERN ROAD",ChapterEndBody="Tallow has its route that waits, and a lantern to keep it. The road runs on to Xylos's river towns, and that chart is still being drawn. Until then nothing closes behind you, so keep exploring.";
         const float ChapterEndSeconds=9;
         /// <summary>The chapter's last conversation has been heard. Read from the state on adoption, so a load says nothing.</summary>
         static bool chapterEnded;
@@ -36,13 +36,14 @@ namespace Lattice.UI
             canvas=UiKit.CreateCanvas("QuestToast",7,transform);
             frame=UiKit.DarkFrame(canvas.transform,"QuestToastFrame");frame.raycastTarget=false;frame.pixelsPerUnitMultiplier=2;
             var box=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-272),new(570,118));box.pivot=new(.5f,1);box.anchoredPosition=new(-300,-272);
-            heading=UiKit.Text(frame.transform,"QuestToastHeading","",24,new Color(1,.78f,.36f),TextAlignmentOptions.MidlineLeft);
+            // Its plate steps aside, so what it says has to hold on the floor without it.
+            heading=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastHeading","",24,new Color(1,.78f,.36f),TextAlignmentOptions.MidlineLeft));
             UiKit.Rect(heading.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
-            body=UiKit.Text(frame.transform,"QuestToastBody","",24,UiKit.TextColor,TextAlignmentOptions.TopLeft);
+            body=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastBody","",24,UiKit.LooseTextColor,TextAlignmentOptions.TopLeft));
             var words=UiKit.Rect(body.gameObject,new(.5f,1),new(.5f,1),new(0,-58),new(TextWidth,30));words.pivot=new(.5f,1);words.anchoredPosition=new(0,-58);
-            var group=frame.gameObject.AddComponent<CanvasGroup>();group.blocksRaycasts=false;group.interactable=false;Fade=new PanelFade(frame.rectTransform,frame,group);
+            Fade=new PanelFade(frame.rectTransform,frame);
             frame.gameObject.SetActive(false);
-            readHint=UiKit.Text(frame.transform,"QuestToastHint","",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineRight);
+            readHint=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastHint","",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineRight));
             UiKit.Rect(readHint.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
             BuildChapterCard();
             Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;Notices.Posted+=OnNotice;PromptService.Changed+=RefreshHint;

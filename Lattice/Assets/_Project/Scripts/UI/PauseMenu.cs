@@ -110,7 +110,8 @@ namespace Lattice.UI
         {
             var selected=EventSystem.current.currentSelectedGameObject;
             string focus=want??(rememberFocus&&selected!=null?selected.name:null);
-            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,.95f).gameObject;
+            // Solid: at .95 a bright sign showed through as a dim footer under every page.
+            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,1).gameObject;
             var title=UiKit.Heading(panel.transform,"Heading",tabs[page].ToUpperInvariant(),46,UiKit.TextColor,TextAlignmentOptions.Left);
             UiKit.Rect(title.gameObject,new(.5f,.5f),new(.5f,.5f),new(-150,400),new(1100,75));
             var list=new List<Selectable>();var tabButtons=new List<Selectable>();
@@ -227,11 +228,13 @@ namespace Lattice.UI
                 var fabricator=new Fabrication(state);var inventory=RpgServices.Inventory;
                 var recipes=GameCatalog.All<RecipeDef>().OrderBy(r=>r.discipline).ThenBy(r=>r.tier).ToArray();
                 const int perPage=6;
-                bool Makeable(RecipeDef r)=>fabricator.Level(r.discipline)>=r.unlockLevel&&r.tier<=Mathf.Min(3,fabricator.Level(r.discipline))&&(r.output==null||AtBench)&&r.inputs.All(x=>inventory.Count(x.id)>=x.count);
+                bool Ranked(RecipeDef r)=>fabricator.Level(r.discipline)>=r.unlockLevel&&r.tier<=Mathf.Min(3,fabricator.Level(r.discipline));
+                bool Makeable(RecipeDef r)=>Ranked(r)&&(r.output==null||AtBench)&&r.inputs.All(x=>inventory.Count(x.id)>=x.count);
                 foreach(var recipe in recipes.Skip(Window(recipes.Length,perPage)).Take(perPage))
                 {
                     var r=recipe;
-                    string does=r.output!=null?PartText.Effect(r.output):PartText.Restores(GameCatalog.Find<ConsumableDef>(r.consumableOutput));
+                    // A rank it hasn't reached takes the place of what it would make, which won't fit beside it on a row. Grey with every material met looked like a fault: the reason was only in the footer.
+                    string does=!Ranked(r)?$"<color=#FFB08A>Needs {r.discipline} {Mathf.Max(r.unlockLevel,r.tier)}</color>":r.output!=null?PartText.Effect(r.output):PartText.Restores(GameCatalog.Find<ConsumableDef>(r.consumableOutput));
                     string needs=string.Join(", ",r.inputs.Select(x=>{string held=$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}";return inventory.Count(x.id)<x.count?$"<color=#FFB08A>{held}</color>":held;}));
                     var line=Add($"{r.displayName}  T{r.tier}  ·  {does}  ·  {needs}",()=>Fabricate(r,fabricator),r.output!=null?r.output.slot.ToString():r.consumableOutput);
                     if(!Makeable(r))Dim(line);

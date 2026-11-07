@@ -413,7 +413,8 @@ namespace Lattice.EditorTools
                 for(float a=from;a<=to;a+=3){float r=a*Mathf.Deg2Rad;arc.Add(new Vector2(Mathf.Cos(r)*26*scale,GulletProfile.CantorZ+Mathf.Sin(r)*45*scale));}
                 Strip("GroundScour",arc.ToArray(),0,4f,.06f);placed3++;
             }
-            for(int i=0;i<6;i++){float size=R(4,6);Patch("GroundScar",new Vector2(R(-20,20),R(745,860)),size,size,R(0,360));}
+            // The coil has its scour and its folds. Scar patches lay across both with nothing to explain them. The draws stay, so everything after them stands where it stood.
+            for(int i=0;i<6;i++){R(4,6);R(-20,20);R(745,860);R(0,360);}
             // The exit valve: vessels converge on the opening.
             foreach(int side in new[]{-1,1})for(int i=0;i<2;i++){float z=872+i*9;Patch("GroundVeins",GulletBed(z,side*.3f,9),3.6f,9,side*-18);}
             // The current out of the animal has worn grooves that converge on the aperture, leading the eye to the way out,

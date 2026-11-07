@@ -11,8 +11,8 @@ namespace Lattice.EditorTools
 {
     public static class LifecycleCalibration
     {
-        /// <summary>The Sentinel Husk's rig and its reskins (the Muster's soldiers and captain, D202) share one lifecycle.</summary>
-        internal static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.model!=null&&row.model.Contains("P3-SentinelHusk/");
+        /// <summary>The Sentinel Husk's rig and its reskins (the Muster's soldiers, D202) share one lifecycle, and so does their captain: her own body has the same Meshy skeleton and the same five states.</summary>
+        internal static bool HuskRig(GenIntake.Row row)=>row.enemy=="SentinelHusk"||row.enemy=="HessaKorl"||row.model!=null&&row.model.Contains("P3-SentinelHusk/");
         internal static void Install(GenIntake.Row row)
         {
             string path="Assets/_Project/Prefabs/"+row.folder+"/"+row.id+".prefab";
@@ -26,7 +26,7 @@ namespace Lattice.EditorTools
             Vector3 restEuler=Vector3.zero,restPivot=Vector3.zero;
             try
             {
-                foreach(string name in HuskRig(row)?new[]{"Down","Idle","Walk","Attack","Stagger"}.Where(clips.ContainsKey):new[]{"Down","Revive"})
+                foreach(string name in HuskRig(row)?new[]{"Down","Idle","Walk","Attack","Stagger","Revive"}.Where(clips.ContainsKey):new[]{"Down","Revive"})
                 {
                     var clip=clips[name];var graph=PlayableGraph.Create("Lifecycle surface calibration");graph.SetTimeUpdateMode(DirectorUpdateMode.Manual);
                     try

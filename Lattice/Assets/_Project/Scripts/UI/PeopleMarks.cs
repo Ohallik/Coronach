@@ -70,6 +70,8 @@ namespace Lattice.UI
             if(found!=null)
             {
                 found.fontSharedMaterial=UiKit.LegibleMaterial(found.font);
+                // A name goes with the signs: '! Keeper Abri' printed through the box, and 'ORRIN' was cut in half by the vitals.
+                if(!found.TryGetComponent<SignFade>(out _))found.gameObject.AddComponent<SignFade>().bossOnly=true;
                 float scale=Mathf.Max(.01f,found.transform.lossyScale.y),size=Mathf.Max(found.fontSize,UiKit.WorldFontSize(NamePixels)/scale);found.fontSize=size;
                 if(found.transform.IsChildOf(npc.transform))OverTheHead(found,npc);
                 label=new Label{text=found,name=found.text,color=found.color,size=size,markSize=Mathf.Max(size,UiKit.WorldFontSize(MarkPixels)/scale)};shown.Add(label);

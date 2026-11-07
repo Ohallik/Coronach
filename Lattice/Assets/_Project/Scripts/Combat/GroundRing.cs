@@ -7,6 +7,9 @@ namespace Lattice.Combat
     // rows retain a soft, fixed-width edge without stretching that padding.
     public sealed class GroundRing:MonoBehaviour
     {
+        /// <summary>What the party's own rings are drawn in: pale cream or, for Sela, the cold cyan of her shots. Orange, red and purple on the floor mean danger, and now that a marking is mostly its rim
+        /// a Pulse ring in the danger's own orange looked like one.</summary>
+        public static readonly Color Friendly=new(1.1f,1.06f,.95f);
         const int Sides=64;
         const float Crest=.5546875f;
         readonly float[] extents=new float[Sides];

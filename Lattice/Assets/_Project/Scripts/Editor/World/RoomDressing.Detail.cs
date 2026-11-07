@@ -43,6 +43,7 @@ namespace Lattice.EditorTools
         /// shows the stamp's outline. A crust marks a plume's reach, and a pool, a pore or eggs are things in their own right: those keep their shape.</summary>
         static readonly HashSet<string> Feathered=new(){"GroundClay","GroundStain","GroundRipples","GroundGravel","GroundPebbles","GroundScuff","GroundBasalt","GroundDust","GroundFissure","GroundSilt","GroundScar","GroundVeins"};
         static bool VertexColoured(string kind)=>FadedEnds.Contains(kind)||Feathered.Contains(kind);
+        const float FeatherStrength=.62f;
         /// <summary>Crop, shade and edge from the patch's own position: no random stream moves, so every other piece stays where it was.</summary>
         static Color32[] Feather(float x,float z,Vector2[] uvs,int nx,int nz)
         {
@@ -56,7 +57,9 @@ namespace Lattice.EditorTools
                 uvs[k]=new Vector2(du+crop*(flipU?1-s:s),dv+crop*(flipV?1-t:t));
                 var q=new Vector2(2*s-1,2*t-1);float angle=Mathf.Atan2(q.y,q.x);
                 float edge=.78f+.22f*Mathf.PerlinNoise(Mathf.Cos(angle)*1.4f+wobble,Mathf.Sin(angle)*1.4f+wobble);
-                shades[k]=new Color32(tone,tone,tone,(byte)Mathf.RoundToInt(255*(1-Mathf.SmoothStep(edge*.42f,edge,q.magnitude))));
+                // Mathf.SmoothStep isn't the shader's: its third argument is how far along, not a value to fade across. Written as one, a patch ran from about .6 in its middle to .22 at its rim, so
+                // every one ended in a faint square of straight-cut edges (the Coil's striped patch). Held at that .6 in the middle, so the floors stay as strong as they read, and gone at the rim.
+                shades[k]=new Color32(tone,tone,tone,(byte)Mathf.RoundToInt(255*FeatherStrength*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(edge*.42f,edge,q.magnitude)))));
             }
             return shades;
         }
@@ -124,6 +127,8 @@ namespace Lattice.EditorTools
                 "GroundFissure"=>new Color(.42f,.34f,.32f,.7f),
                 // The Gullet: tissue patches sit on the tinted membrane, slightly translucent so the cells show through.
                 "GroundScour"=>new Color(.72f,.68f,.85f,.5f),
+                // Scar tissue is a stripe that ignores the cells around it: quiet, or it reads as a piece of another texture pasted down.
+                "GroundScar"=>new Color(.6f,.58f,.72f,.55f),
                 // In play the Gullet's bloom made full-strength vessels the brightest thing on screen, the same cyan as shots: kept quiet.
                 "GroundVeins"=>new Color(.42f,.48f,.68f,.55f),
                 _ when DetailKinds3.Contains(kind)&&kind.StartsWith("Ground")=>new Color(.86f,.84f,.95f,.85f),

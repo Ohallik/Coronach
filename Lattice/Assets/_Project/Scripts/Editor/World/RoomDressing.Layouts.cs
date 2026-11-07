@@ -140,7 +140,8 @@ namespace Lattice.EditorTools
                         if(p.y<28||p.y>150)continue; // outpost and excavation have their own dressing
                         int pick=random.Next(5);float yaw=(float)random.NextDouble()*360;
                         if(pick==0)Put("DressStrataOutcrop",p.x,p.y,yaw,.42f+(float)random.NextDouble()*.12f,true,true,.15f);
-                        else if(pick==1)Put("DressStrataLedge",p.x,p.y,Mathf.Atan2(d.x,d.y)*Mathf.Rad2Deg+90,.6f+(float)random.NextDouble()*.3f,true,true,.15f);
+                        // Boulders, half sunk. A strata ledge laid along the road was a curved row of bright blocks: somebody's garden kerb on a wild ridge. The draw stays, so what follows stands where it stood.
+                        else if(pick==1)Put("DressBoulders",p.x,p.y,yaw,.5f+(float)random.NextDouble()*.3f,true,true,.12f);
                         else if(pick==2)Put("HushwellRubble",p.x,p.y,yaw,.9f+(float)random.NextDouble()*.4f,true,true,.1f);
                         else if(pick==3)Put("DressSpoilHeap",p.x,p.y,yaw,.5f+(float)random.NextDouble()*.3f,true,true,.1f);
                         else Put("HushwellLowRidge",p.x,p.y,Mathf.Atan2(d.x,d.y)*Mathf.Rad2Deg+90,.9f,true,true,.1f);
@@ -157,6 +158,8 @@ namespace Lattice.EditorTools
             Debug.Log("DRESSING_VERGES_PLACED "+count);
         }
 
+        /// <summary>Nearer a road than this a strata ledge isn't a far slope's contour: it's a curved row of bright blocks on a low shoulder at the party's feet (the reader's kerb, at (-1.1, 112.2)).</summary>
+        const float LedgeFromRoad=18;
         static void Scatter()
         {
             var away=new Vector2(Mathf.Sin(20*Mathf.Deg2Rad),Mathf.Cos(20*Mathf.Deg2Rad));
@@ -176,7 +179,10 @@ namespace Lattice.EditorTools
                     float yaw=Mathf.Atan2(g.x,g.y)*Mathf.Rad2Deg;int pick=random.Next(6);
                     string key=pick<3?"DressStrataLedge":pick<5?"DressStrataOutcrop":"RidgeRock"+(1+random.Next(3));
                     float scale=key=="DressStrataLedge"?.8f+(float)random.NextDouble()*.5f:.7f+(float)random.NextDouble()*.4f;
-                    Put(key,p.x,p.y,yaw,scale,true,true,Nominal[key].y*scale*.3f);kept.Add(p);ledges++;
+                    // Boulders there, half sunk and low enough for any sightline. Its draws are all behind it, so what follows stands where it stood.
+                    if(key=="DressStrataLedge"&&RoadDistance(p)<LedgeFromRoad)Put("DressBoulders",p.x,p.y,yaw,scale*.6f,true,true,.12f);
+                    else Put(key,p.x,p.y,yaw,scale,true,true,Nominal[key].y*scale*.3f);
+                    kept.Add(p);ledges++;
                     continue;
                 }
                 if(slope<.08f)

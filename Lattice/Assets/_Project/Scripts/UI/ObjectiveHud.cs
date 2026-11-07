@@ -8,6 +8,8 @@ using UnityEngine;
 using UnityEngine.UI;
 namespace Lattice.UI
 {
+    /// <summary>Read after the frame's blows have landed, as the HUD is: it said 'Release the exposed collar lock' over the rewards.</summary>
+    [DefaultExecutionOrder(905)]
     public sealed class ObjectiveHud:MonoBehaviour
     {
         /// <summary>What the panel asks of the player now, without its distance line: the quest log falls back on it.</summary>
@@ -17,7 +19,7 @@ namespace Lattice.UI
         /// <summary>Nearer than this the goal is simply here: a distance and a direction mean nothing.</summary>
         const float Here=3;
         /// <summary>Room at the head of the distance line for the arrow.</summary>
-        const string ArrowRoom="<space=34>";
+        const string ArrowRoom="<space=44>";
         /// <summary>What floating numbers keep clear of.</summary>
         public RectTransform Frame{get;private set;}
         public PanelFade Fade{get;private set;}
@@ -27,10 +29,11 @@ namespace Lattice.UI
             // At the weight of the card under it, and of the vitals in the other corner. The full border left this frame room for three lines of type, and it can need four.
             frame.pixelsPerUnitMultiplier=2;
             Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-175),new(570,165));
-            var group=frame.gameObject.AddComponent<CanvasGroup>();group.blocksRaycasts=false;group.interactable=false;Fade=new PanelFade(Frame,frame,group);
-            text=UiKit.Text(frame.transform,"Objective","",24,UiKit.TextColor,TextAlignmentOptions.MidlineLeft);
+            Fade=new PanelFade(Frame,frame);
+            // Its plate steps aside, so what it says has to hold on the floor without it.
+            text=UiKit.Legible(UiKit.Text(frame.transform,"Objective","",24,UiKit.LooseTextColor,TextAlignmentOptions.MidlineLeft));
             UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,112));
-            arrow=Pointer("ObjectiveArrow",26,UiKit.GoldColor);alsoArrow=Pointer("ObjectiveAlsoArrow",20,UiKit.DimTextColor);
+            arrow=Pointer("ObjectiveArrow",36,UiKit.GoldColor);alsoArrow=Pointer("ObjectiveAlsoArrow",30,UiKit.DimTextColor);
         }
         Image Pointer(string name,float size,Color color)
         {
@@ -62,12 +65,12 @@ namespace Lattice.UI
             for(int i=0;i<info.characterCount;i++)
             {
                 var c=info.characterInfo[i];if(!c.isVisible||c.index<distanceFrom)continue;
-                arrow.rectTransform.anchoredPosition=new Vector2(c.origin-20,c.baseLine+middle);break;
+                arrow.rectTransform.anchoredPosition=new Vector2(c.origin-25,c.baseLine+middle);break;
             }
             for(int i=info.characterCount-1;i>=0;i--)
             {
                 var c=info.characterInfo[i];if(!c.isVisible)continue;
-                alsoArrow.rectTransform.anchoredPosition=new Vector2(c.xAdvance+16,c.baseLine+middle);break;
+                alsoArrow.rectTransform.anchoredPosition=new Vector2(c.xAdvance+20,c.baseLine+middle);break;
             }
         }
         /// <summary>With the bar up the boss is the objective, not the fixed spot the walk there pointed at. The Cantor's lines and Hessa's already name the fight.</summary>
@@ -77,7 +80,7 @@ namespace Lattice.UI
             "BellowsBelow"=>PressureOrgan.AnyPumping?"Break the pressure organs bracing the Bellows":"Bring down the Bellows",
             _=>label,
         };
-        void Update()
+        void LateUpdate()
         {
             canvas.enabled=!GameInput.Current.Blocked;
             var party=PartyController.Current;if(party==null||party.members==null)return;

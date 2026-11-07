@@ -26,6 +26,7 @@ namespace Lattice.World
             // The crate is gone at once; a recorded message waits until nothing is shooting at the party.
             foreach(var body in GetComponentsInChildren<Renderer>())body.enabled=false;
             foreach(var solid in GetComponentsInChildren<Collider>())solid.enabled=false;
+            foreach(var glow in GetComponentsInChildren<Light>())glow.enabled=false;
             speechWaiting=true;
         }
         void Update()

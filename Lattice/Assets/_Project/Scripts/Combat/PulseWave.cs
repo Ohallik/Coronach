@@ -21,7 +21,7 @@ namespace Lattice.Combat
             if(GameTime.Paused)return;
             age+=Time.deltaTime;Radius=5*Mathf.Clamp01(age/.28f);
             var origin=transform.position+Vector3.up*.8f;
-            ring.Draw(Radius,new Color(1.5f,.75f,.2f,Mathf.Clamp01((.4f-age)/.12f)));
+            var tint=GroundRing.Friendly;tint.a=Mathf.Clamp01((.4f-age)/.12f);ring.Draw(Radius,tint);
             foreach(var health in Health.All.ToArray())
             {
                 if(health==null||!health.Alive||health==packet.source||packet.source!=null&&health.friendly==packet.source.friendly||victims.Contains(health))continue;

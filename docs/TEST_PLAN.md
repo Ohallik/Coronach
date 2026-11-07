@@ -98,7 +98,7 @@ Keep a pacing log during the chain: the time of each level-up, skill learned, bo
 | Every special is marked | Telegraph markings before every hit; nothing lands outside its marking |
 | Openings | At least one move per phase leaves a clear punish window (wedged charge, dodged chain, eruption) |
 | Phase shifts | Readable brace, push-back, then a new move |
-| Duration | 2–5 minutes at the expected level (Hessa: Sync 8–10) |
+| Duration | 2–5 minutes at the expected level (Hessa: Sync 8–10). `python tools/boss_durations.py <run>...` reads what a replay chain took; a person's time on a pad is still the real test **[Human]** |
 | Retry | Defeat returns to the checkpoint just before the arena; a second attempt is shorter |
 | Hessa specifically | The last Hook Lance thrust is held a beat; a dodged Grapple Chain leaves her open; the Lampbreaker flash can be outrun or rolled through; she yields, and once Aumi has been told stands under guard |
 

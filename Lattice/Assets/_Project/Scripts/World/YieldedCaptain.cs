@@ -49,14 +49,15 @@ namespace Lattice.World
             Beaten();
             if(!GameServices.Current.Flags.GetBool(heardFlag)){nearOnly=false;speakAt=Time.unscaledTime+.4f;}
         }
-        /// <summary>She doesn't stand to attention after a beating: the fighter's last pose, her hit reaction's recoil, held (the rig has no kneel or slump to play).</summary>
+        /// <summary>She doesn't stand to attention after a beating: the fighter's last frame, held, low on bent legs.</summary>
         void Beaten()
         {
             var rig=npc.GetComponentInChildren<Animator>();if(rig==null)return;
-            if(rig.HasState(0,Animator.StringToHash("Stagger")))
+            bool low=rig.HasState(0,Animator.StringToHash(GeneratedAnimator.YieldState));
+            if(low||rig.HasState(0,Animator.StringToHash("Stagger")))
             {
-                var driver=npc.GetComponentInChildren<GeneratedAnimator>();if(driver!=null)driver.enabled=false;
-                rig.Play("Stagger",0,.25f);rig.speed=0;
+                var driver=npc.GetComponentInChildren<GeneratedAnimator>();if(driver!=null)driver.HoldBeaten();
+                rig.Play(low?GeneratedAnimator.YieldState:"Stagger",0,low?GeneratedAnimator.YieldPhase:.25f);rig.speed=0;
             }
             rig.Update(0);
         }

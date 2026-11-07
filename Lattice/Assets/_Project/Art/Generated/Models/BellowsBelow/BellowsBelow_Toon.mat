@@ -34,6 +34,7 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _BodyStencil: 128
     - _AlphaTest: 0
     - _BaseMapStrength: 1
     - _Cull: 2

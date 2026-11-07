@@ -65,6 +65,22 @@ namespace Lattice.Combat
         /// <summary>Awake bodies on the ground, so they can keep out of each other without asking the scene.</summary>
         static readonly List<EnemyBrain> crowd=new();
         const float KeepApartSpeed=2.4f,HeroBody=.45f,HeroCapsule=.35f,MostBody=2;
+        /// <summary>How long after its last tell a shooter stays framed, past the cooldown between shots; and how far from the hero one is worth drawing back for.</summary>
+        const float ShooterFramedFor=3,ShooterReach=24;
+        float shotAt=float.NegativeInfinity;
+        /// <summary>The ground shooters firing at a point, as one box, with nothing allocated: the few bodies awake are all it walks.</summary>
+        public static bool ShootingAt(Vector3 at,ref Bounds bounds)
+        {
+            bool any=false;
+            foreach(var enemy in crowd)
+            {
+                if(enemy.Passive||enemy.boss!=null||Time.time-enemy.shotAt>ShooterFramedFor||!enemy.Health.Alive)continue;
+                var offset=enemy.transform.position-at;offset.y=0;if(offset.sqrMagnitude>ShooterReach*ShooterReach)continue;
+                var body=new Bounds(enemy.transform.position+Vector3.up*1.2f,new Vector3(1.4f,2.4f,1.4f));
+                if(any)bounds.Encapsulate(body);else{bounds=body;any=true;}
+            }
+            return any;
+        }
         float bodyRadius=.5f;bool crowded;
         void OnEnable(){if(!crowd.Contains(this))crowd.Add(this);}
         void OnDisable(){crowd.Remove(this);}
@@ -245,7 +261,7 @@ namespace Lattice.Combat
             KeepApart(d,distance,range);
             if(distance<range&&Time.time>=nextAttack&&InSight(victim))
             {
-                float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;
+                float tell=attack!=null?attack.telegraph:.65f;Telegraphing=true;strikeAt=Time.time+tell;TellDuration=tell;if(ranged)shotAt=Time.time;
                 aim=d.sqrMagnitude>.001f?d.normalized:transform.forward;
                 if(definition.archetype!=EnemyArchetype.Serpent&&boss==null)transform.rotation=Quaternion.LookRotation(aim);
                 AttackMark=MarkAttack(tell,dive,ranged,range);

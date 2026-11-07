@@ -832,9 +832,11 @@ namespace Lattice.Tests.PlayMode
             }
             // The search must see each zone's walls at all, reachable or not. Lanternwick is exempt from the count: chapter 2's lowered west wall leaves next to no foot of any wall
             // on the camera's side, and few picks there is that fix working, not a broken search. CAMERA_SWEEP below says how many it checked.
-            if(zone=="Lanternwick"&&corners.Count==0){TestContext.WriteLine("CAMERA_SWEEP Lanternwick checked=0 hidden=0: no scenery stands on the camera's line anywhere");yield break;}
+            // The relay's west walls came down too, for the same reason, and QaWorldSecondTests.TheRelaysWallsStayUnderTheLens says so from the other side.
+            bool lowered=zone=="Lanternwick"||zone=="SunkenRelay";
+            if(lowered&&corners.Count==0){TestContext.WriteLine($"CAMERA_SWEEP {zone} checked=0 hidden=0: no scenery stands on the camera's line anywhere");yield break;}
             Assert.IsNotEmpty(corners,$"fixture: the search finds no scenery on the camera's line anywhere in {zone}");
-            if(zone!="Lanternwick")Assert.GreaterOrEqual(picks.Count,5,$"fixture: {zone} has wall feet a hero can reach ({corners.Count} corners)");
+            if(!lowered)Assert.GreaterOrEqual(picks.Count,5,$"fixture: {zone} has wall feet a hero can reach ({corners.Count} corners)");
             var hidden=new List<string>();
             foreach(var at in picks)
             {

@@ -22,7 +22,12 @@ namespace Lattice.Combat
         /// would be too small to play, and a boss that still can't fit gets the HUD's edge mark instead.</summary>
         static readonly Rect FightBossArea=Rect.MinMaxRect(.03f,.13f,.97f,.93f),FightHeroArea=Rect.MinMaxRect(.14f,.24f,.86f,.84f);
         const float FarthestFight=36,BigMarking=7;
+        /// <summary>Ordinary fights draw back less far for a shooter than a boss fight does: they're smaller, and there's more of them to see.</summary>
+        const float FarthestShot=28;
+        /// <summary>A target nobody locked still counts when it's this near: the swing is going at it.</summary>
+        const float TargetFramedWithin=18;
         BossController framedBoss;float framedBossReach,framedBossHeight;
+        Health framedBodyOf;Collider framedBody;
         public float ReviveProgress=>reviveTarget!=null?Mathf.Clamp01(revive/2):0;
         public CombatActor ReviveTarget=>reviveTarget;
         public int SwapCount{get;private set;}
@@ -92,7 +97,14 @@ namespace Lattice.Combat
         {
             if(cameraRig==null||Active.flight)return;
             var at=Active.transform.position;var boss=BossController.Focus(at);
-            if(boss==null){framedBoss=null;return;}
+            if(boss==null)
+            {
+                framedBoss=null;
+                // Long danger lines came in from figures with only their legs on screen. Only those firing right now, and they're as gentle as a boss's framing.
+                var shooters=default(Bounds);
+                if(EnemyBrain.ShootingAt(at,ref shooters))cameraRig.FrameGround(shooters,FightBossArea,FightHeroArea,FarthestShot);
+                return;
+            }
             if(framedBoss!=boss)
             {
                 // Measured once and held, turning or not: a box that followed every swing of the body would nudge the camera on every swing.
@@ -105,7 +117,15 @@ namespace Lattice.Combat
             // Standing in a marking too wide for the usual view, the way out of it has to be on screen as well.
             foreach(var marking in Telegraph.Live)
                 if(marking!=null&&!marking.Released&&marking.owner is BossController&&marking.Span>=BigMarking&&marking.Contains(at))subject.Encapsulate(marking.EdgeFrom(at));
-            cameraRig.FrameGround(subject,FightBossArea,FightHeroArea,FarthestFight);
+            // The bar sends the hero at an organ and the plate says locked: that and the hero stay in frame, then the boss if it fits. Held on the boss alone, the organ fell off the left edge
+            // with its health going down. Crew and mites the same: what he's fighting comes first.
+            var aimed=Active.target;Bounds? first=null;
+            if(aimed!=null&&aimed.Targetable&&aimed!=boss.Health&&aimed.reactionOwner!=boss.Health&&(Active.TargetLocked||(aimed.transform.position-at).sqrMagnitude<TargetFramedWithin*TargetFramedWithin))
+            {
+                if(framedBodyOf!=aimed){framedBodyOf=aimed;framedBody=aimed.GetComponent<Collider>();}
+                first=framedBody!=null&&framedBody.enabled?framedBody.bounds:new Bounds(aimed.transform.position+Vector3.up,Vector3.one*2);
+            }
+            cameraRig.FrameGround(subject,FightBossArea,FightHeroArea,FarthestFight,0,first);
         }
         void FrameFlightEncounter()
         {

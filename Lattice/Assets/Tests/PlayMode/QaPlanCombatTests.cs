@@ -784,9 +784,13 @@ namespace Lattice.Tests.PlayMode
             var images=Object.FindFirstObjectByType<GameHud>().GetComponentsInChildren<UnityEngine.UI.Image>(true);
             var back=images.First(i=>i.name=="BossIntegrityBack");float width=back.rectTransform.rect.width;
             var notches=images.Where(i=>i.name.StartsWith("BossNotch")&&i.gameObject.activeInHierarchy).ToArray();var phases=boss.Thresholds;
-            // The Cantor's bar is its head and its links together: a notch where the last link goes, and the head's phases inside its share.
+            // The Cantor's bar is its head and its links together: a notch where each link goes, the last where the head opens, and the head's phases inside its share.
             var collar=enemy.GetComponent<CantorCollar>();
-            if(collar!=null){float share=enemy.Health.maximum/(enemy.Health.maximum+collar.Links.Sum(l=>l.maximum));phases=new[]{share}.Concat(phases.Select(p=>p*share)).ToArray();}
+            if(collar!=null)
+            {
+                float whole=enemy.Health.maximum+collar.Links.Sum(l=>l.maximum),share=enemy.Health.maximum/whole,left=whole;
+                phases=collar.Links.Select(l=>{left-=l.maximum;return left/whole;}).ToArray().Concat(phases.Select(p=>p*share)).ToArray();
+            }
             Assert.AreEqual(phases.Length,notches.Length,id+"'s bar doesn't notch each of its phases");
             for(int i=0;i<phases.Length;i++)Assert.AreEqual(phases[i],notches[i].rectTransform.anchoredPosition.x/width,.02f,id+"'s notch doesn't sit where its phase really turns");
             // The card clears the fight once it has been read.

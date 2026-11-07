@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using Lattice.Core;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 namespace Lattice.UI
 {
     /// <summary>A small stacking feed under the vitals: "+2 Scrap Alloy", "+8 scrip", "Saved". Loot, mining and caches used to
@@ -11,13 +12,22 @@ namespace Lattice.UI
         const float Life=2.6f,Fade=.5f;const int MaxLines=5;
         sealed class Line{public string id,name;public int amount;public float age;public TMP_Text text;}
         readonly List<Line> lines=new();
-        Canvas canvas;
+        Canvas canvas;Image band;
         void Start()
         {
             canvas=UiKit.CreateCanvas("PickupFeed",6,transform);
-            Lattice.Rpg.Inventory.Gained+=OnGained;SaveSystem.Written+=OnSaved;Lattice.Combat.PlayerBrain.QuickItemRefused+=OnRefused;
+            // Gold and a dim blue on Sorrel's orange floor were the weakest words on the screen at the payoff of a fight, outline or no outline. A soft dark band behind the stack, first in the canvas, with a tighter edge than a card's: it stands right under the vitals.
+            band=UiKit.SoftBand(canvas.transform,"PickupBand",new Color(.01f,.02f,.04f,.66f));band.pixelsPerUnitMultiplier=2;band.enabled=false;
+            Lattice.Rpg.Inventory.Gained+=OnGained;SaveSystem.Written+=OnSaved;Lattice.Combat.PlayerBrain.QuickItemRefused+=OnRefused;Notices.Posted+=OnNotice;
         }
-        void OnDestroy(){Lattice.Rpg.Inventory.Gained-=OnGained;SaveSystem.Written-=OnSaved;Lattice.Combat.PlayerBrain.QuickItemRefused-=OnRefused;}
+        void OnDestroy(){Lattice.Rpg.Inventory.Gained-=OnGained;SaveSystem.Written-=OnSaved;Lattice.Combat.PlayerBrain.QuickItemRefused-=OnRefused;Notices.Posted-=OnNotice;}
+        /// <summary>A card that says it's saved has said it. A repair bay's save was a bare word here and a card at the right, the same news twice. The bay saves first, so the word is already up.</summary>
+        void OnNotice(string heading,string body)
+        {
+            if(canvas==null||!heading.Contains("SAVED"))return;
+            var line=lines.Find(l=>l.id=="saved");if(line==null)return;
+            Destroy(line.text.gameObject);lines.Remove(line);Layout();
+        }
         void OnGained(string id,int amount)
         {
             if(canvas==null)return;
@@ -43,19 +53,28 @@ namespace Lattice.UI
             line.text.text=amount==0&&line.amount==0?name:$"+{line.amount} {name}";
             Layout();
         }
-        void Layout(){for(int i=0;i<lines.Count;i++)lines[i].text.rectTransform.anchoredPosition=new(250,-330-(lines.Count-1-i)*32);}
+        void Layout()
+        {
+            float wide=0;
+            for(int i=0;i<lines.Count;i++){lines[i].text.rectTransform.anchoredPosition=new(250,-330-(lines.Count-1-i)*32);wide=Mathf.Max(wide,lines[i].text.preferredWidth);}
+            if(band.enabled!=lines.Count>0)band.enabled=lines.Count>0;
+            if(lines.Count==0)return;
+            float width=wide+52,height=lines.Count*32+16;
+            UiKit.Rect(band.gameObject,new(0,1),new(0,1),new(14+width*.5f,-306-height*.5f),new(width,height));
+        }
         void Update()
         {
             if(canvas==null)return;
             canvas.enabled=GameInput.Current==null||!GameInput.Current.Blocked;
-            bool changed=false;
+            bool changed=false;float strongest=0;
             for(int i=lines.Count-1;i>=0;i--)
             {
                 var line=lines[i];line.age+=Time.unscaledDeltaTime;
-                line.text.alpha=Mathf.Clamp01((Life+Fade-line.age)/Fade);
+                line.text.alpha=Mathf.Clamp01((Life+Fade-line.age)/Fade);strongest=Mathf.Max(strongest,line.text.alpha);
                 if(line.age<Life+Fade)continue;
                 Destroy(line.text.gameObject);lines.RemoveAt(i);changed=true;
             }
+            if(band.enabled)band.canvasRenderer.SetAlpha(strongest);
             if(changed)Layout();
         }
     }

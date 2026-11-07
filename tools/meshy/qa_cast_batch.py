@@ -18,6 +18,7 @@ GEN = ROOT / "art-src" / "Generated" / BATCH
 MESHY = [sys.executable, str(ROOT / "tools/meshy/meshy.py")]
 TAIL = (". Every exposed part of the body, including face, neck, hands and bare feet, is painted this skin colour. Preserve "
         "palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.")
+HULL_TAIL = ". Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting."
 
 RESKINS = {
     # name: (source clean fbx, prompt)
@@ -36,6 +37,11 @@ RESKINS = {
         "elderly Vael archivist man: cool pale grey-blue skin with faded violet lines at the temples, thin white combed-back "
         "hair, small round brass reading glasses low on the nose, pale blue eyes; a layered pale sand-coloured scholar's coat "
         "with many small pockets over cream trousers, soft pale cloth shoes, a bundle of paper slips at the collar"),
+    # Not a person: the first enemy of chapter 2 read as soft clay on a dark sky. Hard paint and hull lines, warm for hostile as the other flight enemies are.
+    "MusterSkiff": ("art-src/Generated/P3-PatrolCutter/PatrolCutter_clean.fbx",
+        "Muster raider skiff, a hostile salvage gunship: hard-edged burnt-orange and rust-red painted hull plates separated by bold "
+        "near-black panel lines and rows of rivets, cream and black hazard chevrons on the wing tips, gunmetal engine nozzles scorched "
+        "black, a crude white tally stencil on the hull, chipped paint at plate edges. High contrast and crisp, nothing muddy or brown"),
     "PellBody": ("art-src/Generated/P44-NPCBodies/SurvivorNatural_clean.fbx",
         "young Vael lamp apprentice: light slate-blue pale skin, faint cyan lines on the cheeks, a smudge of soot on one cheek, "
         "green eyes, short spiky pale sand-white hair; a patched pale tan work tunic with rolled sleeves, tan-brown trousers, "
@@ -54,7 +60,7 @@ def main() -> int:
         if (GEN / f"{name}.fbx").exists():
             print("QA_CAST_SKIP", name, flush=True)
             continue
-        subprocess.run(MESHY + ["retexture", "--model", str(ROOT / model), "--prompt", prompt + TAIL, "--name", name,
+        subprocess.run(MESHY + ["retexture", "--model", str(ROOT / model), "--prompt", prompt + (HULL_TAIL if name == "MusterSkiff" else TAIL), "--name", name,
                                 "--batch", BATCH, "--prompt-id", "QA-Cast"], check=True, cwd=ROOT)
     print("QA_CAST_OK", flush=True)
     return 0

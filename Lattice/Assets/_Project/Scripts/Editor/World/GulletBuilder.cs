@@ -218,6 +218,41 @@ namespace Lattice.EditorTools
             Directory.CreateDirectory("Assets/_Project/Art/WorldMeshes");const string path="Assets/_Project/Art/WorldMeshes/GulletShell.asset";
             var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(existing==null)AssetDatabase.CreateAsset(mesh,path);else{EditorUtility.CopySerialized(mesh,existing);Object.DestroyImmediate(mesh);mesh=existing;}
             var go=GameObject.Find("Gullet membrane shell")??new GameObject("Gullet membrane shell",typeof(MeshFilter),typeof(MeshRenderer),typeof(MeshCollider));go.isStatic=true;go.GetComponent<MeshFilter>().sharedMesh=mesh;go.GetComponent<MeshCollider>().sharedMesh=null;go.GetComponent<MeshCollider>().sharedMesh=mesh;go.GetComponent<Renderer>().sharedMaterials=ShellMaterial();
+            OuterTissue();
+        }
+        /// <summary>The shell is an open cutaway. With the camera pulled back it ended in a ruled line along its upper rim, with stars beyond it and the wall growths standing off in the void. Past the rim the
+        /// animal goes on now: lumps where it meets the rim, so no straight line shows, then tissue darkening to nothing as it falls away. Drawn only, with no glow: nothing reaches it, and the rim's
+        /// walls are what stop a ship. It starts behind the mouth, so the way in stays open to space.</summary>
+        static void OuterTissue()
+        {
+            const int Rows=9;const float Reach=72;
+            var vertices=new List<Vector3>();var uv=new List<Vector2>();var colors=new List<Color>();var triangles=new List<int>();
+            var stations=new List<float>();for(float z=GulletProfile.Start+6;z<GulletProfile.End;z+=5)stations.Add(z);stations.Add(GulletProfile.End);
+            foreach(int side in new[]{-1,1})
+            {
+                int first=vertices.Count;
+                for(int s=0;s<stations.Count;s++)
+                {
+                    float z=stations[s],rim=side<0?GulletProfile.LeftEdge(z):GulletProfile.RightEdge(z);
+                    for(int i=0;i<=Rows;i++)
+                    {
+                        float t=i/(float)Rows,x=rim+side*Reach*t*t;
+                        float lump=Mathf.PerlinNoise(x*.11f+7,z*.11f)*2.4f*Mathf.Sin(Mathf.Clamp01(t*2)*Mathf.PI);
+                        vertices.Add(new Vector3(x,4+lump-Mathf.SmoothStep(0,14,Mathf.InverseLerp(.3f,1,t)),z));uv.Add(new Vector2(x/9,z/9));
+                        // Dark at its two ends as well: each is a straight cut across the void, and a lit one would be the ruled line over again.
+                        float ends=Mathf.Min(Mathf.InverseLerp(GulletProfile.Start+6,GulletProfile.Start+30,z),Mathf.InverseLerp(GulletProfile.End,GulletProfile.End-24,z));
+                        var shade=Color.Lerp(new Color(.46f,.42f,.6f),new Color(.015f,.012f,.03f),Mathf.Max(1-ends,Mathf.SmoothStep(0,1,Mathf.Clamp01(t*1.6f))));shade.a=0;colors.Add(shade);
+                        if(s==stations.Count-1||i==Rows)continue;
+                        int a=first+s*(Rows+1)+i,b=a+1,c=a+Rows+1,d=c+1;
+                        if(side>0)triangles.AddRange(new[]{a,c,b,b,c,d});else triangles.AddRange(new[]{a,b,c,b,d,c});
+                    }
+                }
+            }
+            var mesh=new Mesh{name="Gullet outer tissue"};mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetColors(colors);mesh.SetTriangles(triangles,0);mesh.RecalculateNormals();mesh.RecalculateBounds();
+            const string path="Assets/_Project/Art/WorldMeshes/GulletOuterTissue.asset";
+            var existing=AssetDatabase.LoadAssetAtPath<Mesh>(path);if(existing==null)AssetDatabase.CreateAsset(mesh,path);else{EditorUtility.CopySerialized(mesh,existing);Object.DestroyImmediate(mesh);mesh=existing;}
+            var go=GameObject.Find("Gullet outer tissue")??new GameObject("Gullet outer tissue",typeof(MeshFilter),typeof(MeshRenderer));go.isStatic=true;go.GetComponent<MeshFilter>().sharedMesh=mesh;
+            var view=go.GetComponent<MeshRenderer>();view.sharedMaterials=ShellMaterial();view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
         }
         // One generated membrane, tinted per organ: warm feeding tissue, dark muscular throat, luminous nursery,
         // deep coil and a bright exit. These were five materials meeting in a hard saw-toothed line at each valve,

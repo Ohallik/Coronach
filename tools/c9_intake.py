@@ -8,6 +8,7 @@ on the ORIGINAL rigged model (the retexture output may lose its skeleton); the r
   python tools/c9_intake.py            # every finished piece
   python tools/c9_intake.py --only LanternTower,Gloomgrazer
   python tools/c9_intake.py --batch QA-Cast --only BrekkBody,HessaKorl,IshenBody,PellBody   # the November retextures
+  python tools/c9_intake.py --batch QA-Hessa --only HessaKorl,BrekkBody,CorraBody,IshenBody   # and the whole new bodies
 """
 from __future__ import annotations
 
@@ -47,6 +48,9 @@ RESKIN = {
     "IshenBody": ("Hal", "Characters", None, 1.88, None),
     "PellBody": ("SurvivorNatural", "Characters", None, 1.7, None),
 }
+# Whole new bodies from tools/meshy/qa_body_batch.py, on the ids the game already uses: id: (file stem, size override).
+# The row keeps its clips and folder; only the mesh, the textures and the height change.
+BODY = {"HessaKorl": ("Hessa", 2.6), "BrekkBody": ("Brekk", 2.1), "CorraBody": ("Corra", 1.9), "IshenBody": ("Ishen", 1.88)}
 TEXTURE_OF = {"MusterSergeant": "MusterScav"}
 # Gamma under 1 lifts a texture that came back too dark to read in its zone's light.
 LIFT = {"BrekkBody": .72}
@@ -107,8 +111,28 @@ def main() -> int:
                    folder="Environment", size=height, fit=fit, yaw=0, clips=[])
         by_id[name] = row
         done.append(name)
+    for name, (stem, size) in BODY.items():
+        rigged = GEN / f"{stem}Body_Rigged.fbx"
+        if (only and name not in only) or not rigged.is_file():
+            continue
+        clean = GEN / f"{stem}Body_clean.fbx"
+        if not clean.is_file():
+            subprocess.run(["powershell", "-NoProfile", "-ExecutionPolicy", "Bypass", "-File", "scripts/blender.ps1",
+                            "-Script", "tools/blender/p64_strip_embedded.py", "--input", str(rigged), "--output", str(clean)],
+                           cwd=ROOT, check=True, timeout=650)
+        tex = GEN / f"{stem}Body_albedo.png"
+        image = Image.open(GEN / f"{stem}Body_Meshy_base_color.png").convert("RGB")
+        image.thumbnail((1024, 1024), Image.Resampling.LANCZOS)
+        image.save(tex)
+        row = dict(by_id[name])
+        row.update(model=rel(clean), albedo=rel(tex), emission=rel(emission(f"{stem}Body", tex, None)), size=size)
+        # She yields on the way down: the getting-up clip passes through the low, spent pose no other clip has.
+        if name == "HessaKorl" and not any(c["state"] == "Revive" for c in row["clips"]):
+            row["clips"] = row["clips"] + [{"state": "Revive", "path": "Assets/_Project/Art/Animation/HeroRevive.fbx", "name": "Revive"}]
+        by_id[name] = row
+        done.append(name)
     for name, (source_id, folder, enemy, size, key) in RESKIN.items():
-        if only and name not in only:
+        if (only and name not in only) or name in done:
             continue
         if not (GEN / f"{TEXTURE_OF.get(name, name)}_base_color.png").is_file():
             print("C9_INTAKE_MISSING", name)

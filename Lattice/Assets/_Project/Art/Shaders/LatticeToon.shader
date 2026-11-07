@@ -32,6 +32,12 @@ Shader "Lattice/Toon"
         _ShadowTint("Shadow Tint", Color) = (0.55, 0.55, 0.68, 1)
         _RimColor("Rim Color", Color) = (0.25, 0.25, 0.3, 1)
         _RimPower("Rim Power", Range(0.5, 12)) = 4
+        // Bodies that have to read in the dark, 0 for everything else: how much of the rim survives where the toon ramp says unlit (it was a lit-side rim only, so in the relay or
+        // a wall's cast shadow it went with the light), and the least light the surface ever takes. In daylight the floor is below what the sun gives, so nothing changes there.
+        _RimUnlit("Rim In Shade", Range(0, 1)) = 0
+        _LightFloor("Least Light", Range(0, 1)) = 0
+        // 128 marks a body: a danger marking's outline shows through scenery and never across one of these (Telegraph.shader). Render state, so not in the CBUFFER.
+        [HideInInspector] _BodyStencil("Body Stencil", Float) = 0
         [HDR] _EmissionColor("Emission Color", Color) = (0, 0, 0, 1)
         _EmissionMap("Emission Map", 2D) = "white" {}
         _Cutoff("Alpha Cutoff", Range(0, 1)) = 0.5
@@ -186,6 +192,8 @@ Shader "Lattice/Toon"
             half4 _ShadowTint;
             half4 _RimColor;
             half _RimPower;
+            half _RimUnlit;
+            half _LightFloor;
             half4 _EmissionColor;
             float4 _EmissionMap_ST;
             half _Cutoff;
@@ -356,6 +364,7 @@ Shader "Lattice/Toon"
             Cull [_Cull]
             Blend [_SrcBlend] [_DstBlend]
             ZWrite [_ZWrite]
+            Stencil { Ref [_BodyStencil] Comp Always Pass Replace }
 
             HLSLPROGRAM
             #pragma vertex Vert
@@ -814,14 +823,14 @@ Shader "Lattice/Toon"
                 // Lit-side rim for silhouette pop.
                 float3 viewDir = normalize(GetWorldSpaceViewDir(input.positionWS));
                 half rim = pow(1.0h - saturate(dot(viewDir, normalWS)), _RimPower);
-                half3 rimColor = _RimColor.rgb * rim * lit;
+                half3 rimColor = _RimColor.rgb * rim * max(lit, _RimUnlit);
 
                 half3 emission = SAMPLE_TEXTURE2D(_EmissionMap, sampler_EmissionMap, input.uv).rgb * _EmissionColor.rgb;
                 #if defined(_VCOLOR_ON)
                 emission *= input.color.a;
                 #endif
 
-                half3 color = albedo.rgb * (lighting + ambient) + rimColor + emission
+                half3 color = albedo.rgb * max(lighting + ambient, half3(_LightFloor, _LightFloor, _LightFloor)) + rimColor + emission
                               + gelCore + dissolveEdge + surfEmiss + sparkle * lit;
 
                 // POLISH-61C aerial perspective: distance+height COLOR haze under the

@@ -371,12 +371,13 @@ namespace Lattice.Tests.PlayMode
             Assert.LessOrEqual(tall,1.15f,$"the see-through reaches {tall:0.00} m above and below a hero who stands 1.9 m at this angle: it reads as a bite out of the boss");
             float depth=block.GetFloat("_OccFadeDepth");
             Assert.That(depth,Is.InRange(.5f,.65f),$"the boss's screen-door opens {depth:0.00} of its pixels: most of the body and its weak spot are gone where the hero stands");
+            // He shows through in his own colours, and the door shuts when nothing hides him. QaFightSecondTests stands him beside a real body and behind one.
             bool Ghosted()=>hero.GetComponentsInChildren<Renderer>().Any(r=>r.sharedMaterials.Any(m=>m!=null&&m.shader!=null&&m.shader.name=="Lattice/HeroSilhouette"));
             yield return Frames(2);
-            Assert.IsTrue(Ghosted(),"with more of the boss kept, the hero has no shape of their own behind it");
+            Assert.IsFalse(Ghosted(),"a flat cyan ghost lies over the hero behind the boss, and through his own limbs");
             var controller=boss.GetComponent<CharacterController>();controller.enabled=false;boss.transform.position=hero.transform.position-toward*15;controller.enabled=true;Physics.SyncTransforms();
             yield return new WaitForSecondsRealtime(.3f);
-            Assert.IsFalse(Ghosted(),"the hero's silhouette stays on after the boss has moved away");
+            body.GetPropertyBlock(block);Assert.Less(block.GetFloat("_OccFade"),.01f,"the door stays open on the boss after it has moved away from the hero");
         }
         [UnityTest] public IEnumerator HessasBodyOpensForTheHeroToo()
         {
@@ -395,8 +396,11 @@ namespace Lattice.Tests.PlayMode
             yield return Zone("Sorrel_Ridges");
             var site=Object.FindFirstObjectByType<BossWreck>();Assert.IsNotNull(site,"fixture: the wreck's site");Assert.IsTrue(site.wreck.activeInHierarchy,"fixture: a later visit finds the wreck");
             var bounds=BodyOf(site.rig);var hero=PartyController.Current.Active;var camera=Camera.main;
-            var away=Flat(camera.transform.forward).normalized;
-            var behind=bounds.center+away*1.6f;Put(hero,Floor(behind.x,behind.z,bounds.min.y));
+            // Behind it for the camera: on the line from the lens through the middle of the body itself, down at chest height.
+            var floor=Floor(bounds.center.x,bounds.center.z,bounds.min.y).y;var look=camera.transform.forward;
+            var points=site.rig.GetComponentsInChildren<MeshFilter>().SelectMany(f=>f.sharedMesh.vertices.Select(v=>f.transform.TransformPoint(v))).ToList();
+            var middle=new Vector3(points.Average(p=>p.x),floor+(points.Max(p=>p.y)-floor)*.6f,points.Average(p=>p.z));
+            var behind=middle+look*((middle.y-(floor+.95f))/-look.y);Put(hero,Floor(behind.x,behind.z,bounds.min.y));
             yield return new WaitForSecondsRealtime(1.5f);
             var body=site.rig.GetComponentsInChildren<Renderer>().First(r=>r is MeshRenderer or SkinnedMeshRenderer);
             var block=new MaterialPropertyBlock();body.GetPropertyBlock(block);
@@ -696,8 +700,12 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(person.gameObject.activeInHierarchy,"fixture: she takes over where she fell");
             yield return new WaitForSecondsRealtime(.3f);
             var rig=person.GetComponentInChildren<Animator>();
-            Assert.IsTrue(rig.GetCurrentAnimatorStateInfo(0).IsName("Stagger"),"she has just surrendered and stands bolt upright, idling like someone who won");
+            Assert.IsFalse(rig.GetCurrentAnimatorStateInfo(0).IsName("Idle"),"she has just surrendered and stands bolt upright, idling like someone who won");
             Assert.AreEqual(0,rig.speed,.001f,"her beaten pose doesn't hold: she goes on moving through it");
+            // Down off her feet, not a flinch held on them: she stood mid-stride with her arms out, and nothing showed she had given up.
+            Vector3 Bone(HumanBodyBones bone)=>rig.GetBoneTransform(bone).position;
+            float legs=Vector3.Distance(Bone(HumanBodyBones.LeftUpperLeg),Bone(HumanBodyBones.LeftLowerLeg))+Vector3.Distance(Bone(HumanBodyBones.LeftLowerLeg),Bone(HumanBodyBones.LeftFoot));
+            Assert.Less(Bone(HumanBodyBones.Hips).y-Bone(HumanBodyBones.LeftFoot).y,legs*.7f,"she yields standing: her hips are still up on straight legs");
         }
 
         // ------------------------------------------------------------------ the white hairline

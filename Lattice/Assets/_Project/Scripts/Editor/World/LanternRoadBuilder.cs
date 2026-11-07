@@ -111,6 +111,8 @@ namespace Lattice.EditorTools
             const string path="Assets/_Project/Resources/WorldMaterials/wick-sky.mat";
             var sky=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(sky==null){sky=new Material(source){name="wick-sky"};AssetDatabase.CreateAsset(sky,path);}else sky.CopyPropertiesFromMaterial(source);
+            // The same panorama on a shader that can take a turn. From a camera that never rotates a sky is painted on the screen: the same mote in the same place 100 m apart.
+            var drifting=Shader.Find("Lattice/DriftingSky");if(drifting!=null)sky.shader=drifting;
             sky.SetColor("_Tint",new Color(.62f,.47f,.36f,.5f));sky.SetFloat("_Rotation",137);sky.SetFloat("_Exposure",.85f);EditorUtility.SetDirty(sky);return sky;
         }
         static void Define()
@@ -345,9 +347,9 @@ namespace Lattice.EditorTools
             return lantern;
         }
         /// <summary>Strands of relay light: the Wick's lantern curtain and the door the relay's captain seals, never Choir tissue. They keep the flare's own soft texture and add to what's
-        /// behind them, so a strand is a glow with a bright core and no edge (a white texture on flat alpha made a bar chart of solid yellow rectangles). fromFloor lays the flare's core
-        /// along each strand from its centre out: brightest where it leaves the floor and gone by its top. Nearly all of the flare's light sits in its middle fifth, so the whole half of it
-        /// across a whole strand drew a thin tick a metre tall. The archive's patterns keep the whole flare.</summary>
+        /// behind them, so a strand is a glow with a bright core and no edge (a white texture on flat alpha made a bar chart of solid yellow rectangles). fromFloor draws curtain_soft: a bell across
+        /// each strand that comes up from nothing over its first eighth, so it has no straight end on the floor, and the strand's colour fades it to nothing at the top. That rise is in the texture
+        /// and not in a colour key because a line only takes colour at its points: a middle key on a two-point strand changes nothing. The archive's patterns keep the whole flare.</summary>
         static Material CurtainMaterial(string zone,bool fromFloor=true,string asset="Curtain")
         {
             var beam=new Material(Resources.Load<Material>("Effects/flare_01"));
@@ -436,8 +438,16 @@ namespace Lattice.EditorTools
             {
                 var p=pick();if(!allowed(p))continue;var (key,size,solid)=kinds[rng.Next(kinds.Length)];if(Prefab("Environment",key)==null)continue;
                 float scale=size*(.75f+.5f*(float)rng.NextDouble()),yaw=(float)rng.NextDouble()*360;placed++;
-                if(keptOff==null||!keptOff(p))Prop(key,new Vector3(p.x,0,p.y),scale,yaw,solid);
+                if(keptOff==null||!keptOff(p))Prop(key,new Vector3(p.x,key=="DressFanShrub"||key=="DressSucculent"?-PlantSkirt*scale:0,p.y),scale,yaw,solid);
             }
+        }
+        /// <summary>The kit's plants stand on a jagged disc of their own, up to 15% of their height: sunk this far it's under the ground and the plant starts at its leaves.</summary>
+        const float PlantSkirt=.16f;
+        /// <summary>On a floor sign's ground as the sign style lays it, or close enough on the camera's side to stand across its words. Planters and pallets are drawn after the signs are placed, so each zone lists its own.</summary>
+        static bool OnASign(Vector2 p,(Vector2 at,float half)[] signs)
+        {
+            foreach(var (at,half) in signs)if(Mathf.Abs(p.x-at.x)<half+2&&p.y>at.y-3.5f&&p.y<at.y+2)return true;
+            return false;
         }
         /// <summary>Close to someone, or on the floor between them and the fixed camera: from there a waist-high barrel hides their legs.</summary>
         static bool InSightOf(Vector2 p,Vector2 person,float reach,float length,float half)
@@ -447,16 +457,60 @@ namespace Lattice.EditorTools
             float along=Vector2.Dot(offset,toCamera),across=Mathf.Abs(offset.x*toCamera.y-offset.y*toCamera.x);
             return along>0&&along<length&&across<half;
         }
-        /// <summary>Rock outcrops and strata ledges along a cliff foot, so canyon walls read as rock from the fixed camera.</summary>
-        static void CliffFoot(IEnumerable<Vector3> points,int seed)
+        /// <summary>Rock outcrops and strata ledges along a cliff foot, so canyon walls read as rock from the fixed camera. What's left out or doesn't stay is dropped after its draws, so the others stand where they stood.</summary>
+        static void CliffFoot(IEnumerable<Vector3> points,int seed,Func<GameObject,bool> stays=null,Func<Vector2,bool> leftOut=null)
         {
             var rng=new System.Random(seed);string[] kinds={"RidgeRock1","RidgeRock2","RidgeRock3","DressStrataOutcrop","DressStrataLedge","DressBoulders"};
             foreach(var p in points)
             {
                 string key=kinds[rng.Next(kinds.Length)];if(Prefab("Environment",key)==null)continue;
                 float size=key.StartsWith("Ridge")?3.5f+(float)rng.NextDouble()*3:key=="DressBoulders"?1.6f+(float)rng.NextDouble():2.2f+(float)rng.NextDouble()*1.5f;
-                Prop(key,p,size,(float)rng.NextDouble()*360,true);
+                float yaw=(float)rng.NextDouble()*360;
+                if(leftOut!=null&&leftOut(new Vector2(p.x,p.z)))continue;
+                var rock=Prop(key,p,size,yaw,true);
+                if(stays!=null&&!stays(rock))UnityEngine.Object.DestroyImmediate(rock);
             }
+        }
+        /// <summary>Kit rocks are fitted by height, and the wide ones are three to six times as wide as they stand: a ledge 3.3 m tall came out twenty metres across. Stood on the ground under
+        /// its middle, half way up a wall, it hung out over the canyon floor four metres up, solid, between the camera and the fight: Gorge_3's stack hid the whole brawl behind one dotted hole.
+        /// Now no rock is wider than this, and one is walked back from the floor until its whole footprint clears it, then rests on the lowest ground under it, its far side in the wall.</summary>
+        const float WidestCliffRock=8,CliffRockClear=11.5f,MostSeatWalk=9;
+        static readonly (float x,float z)[] Footprint={(-1,-1),(0,-1),(1,-1),(-1,0),(0,0),(1,0),(-1,1),(0,1),(1,1)};
+        /// <summary>By its drawn box, the one the camera's fade and the checks go by.</summary>
+        static Bounds Drawn(GameObject go){var parts=go.GetComponentsInChildren<Renderer>();var all=parts[0].bounds;foreach(var part in parts)all.Encapsulate(part.bounds);return all;}
+        /// <summary>False when it can't clear the floor, or would be half under the ground: the caller drops it.</summary>
+        static bool SeatInWall(GameObject rock,Func<Vector2,float> fromFloor,float clear,bool capped=true)
+        {
+            var box=Drawn(rock);
+            float wide=Mathf.Max(box.size.x,box.size.z);
+            if(capped&&wide>WidestCliffRock)
+            {
+                var middle=box.center;rock.transform.localScale*=WidestCliffRock/wide;box=Drawn(rock);
+                rock.transform.position+=new Vector3(middle.x-box.center.x,0,middle.z-box.center.z);box=Drawn(rock);
+            }
+            var at=new Vector2(box.center.x,box.center.z);
+            var away=new Vector2(fromFloor(at+Vector2.right)-fromFloor(at-Vector2.right),fromFloor(at+Vector2.up)-fromFloor(at-Vector2.up));
+            if(away.sqrMagnitude>0)away.Normalize();
+            float Nearest(Vector2 c){float near=float.PositiveInfinity;foreach(var (x,z) in Footprint)near=Mathf.Min(near,fromFloor(c+new Vector2(x*box.extents.x,z*box.extents.z)));return near;}
+            for(float walked=0;walked<MostSeatWalk&&Nearest(at)<clear;walked+=.75f)at+=away*.75f;
+            bool fits=Nearest(at)>=clear;
+            float low=float.PositiveInfinity;foreach(var (x,z) in Footprint)low=Mathf.Min(low,height(at+new Vector2(x*box.extents.x,z*box.extents.z)));
+            rock.transform.position+=new Vector3(at.x-box.center.x,low+.01f-ModelGeometry.BoundsOf(rock).min.y,at.y-box.center.z);
+            // Where the plan's check looks for ground under a prop: if even the lowest of those is half way up it, the rock reads as sunk in.
+            float showing=height(at);foreach(var (x,z) in new[]{(.6f,.6f),(-.6f,.6f),(.6f,-.6f),(-.6f,-.6f)})showing=Mathf.Min(showing,height(at+new Vector2(x*box.extents.x,z*box.extents.z)));
+            return fits&&showing-low<box.size.y*.45f;
+        }
+        /// <summary>The rule, and QaWorldSecondTests' check of it: no piece standing more than 3 m over the floor crosses the fixed camera's line to a chest on the floor of a fight or the walked path.</summary>
+        const float TallOverAFight=3;
+        static bool HidesFloor(Bounds box,List<Vector3> floor)
+        {
+            foreach(var at in floor)
+            {
+                if(box.max.y-at.y<=TallOverAFight)continue;
+                var chest=at+Vector3.up*SightlineAudit.Chest;
+                if(box.IntersectRay(new Ray(chest+SightlineAudit.ToCamera*SightlineAudit.Distance,-SightlineAudit.ToCamera),out float along)&&along<SightlineAudit.Distance-SightlineAudit.NearIgnore)return true;
+            }
+            return false;
         }
         static float Smooth(float edge0,float edge1,float x)=>Mathf.SmoothStep(0,1,Mathf.Clamp01((x-edge0)/(edge1-edge0)));
         static float Segment(Vector2 p,Vector2 a,Vector2 b){var d=b-a;float t=Mathf.Clamp01(Vector2.Dot(p-a,d)/Mathf.Max(.0001f,d.sqrMagnitude));return Vector2.Distance(p,a+d*t);}
@@ -513,6 +567,7 @@ namespace Lattice.EditorTools
             }
             var glow=CurtainMaterial("WickReach",false,"Glow");
             DriftingDust(new Vector3(0,-2,ReachLength*.5f),new Vector3(110,14,ReachLength+20),glow);
+            new GameObject("Sky drift",typeof(SkyDrift));
             // Encounters along the lane: raiders first, then the wild Choir swarm the raiders stirred up.
             void Fight(string id,float x,float z,(string enemy,int count)[] waves)
             {
@@ -545,8 +600,11 @@ namespace Lattice.EditorTools
             var wave=new System.Random(61);
             for(float x=-54;x<=54;x+=3)
             {
-                float lean=((float)wave.NextDouble()-.5f)*1.2f,rise=8+(float)wave.NextDouble()*3.5f,width=4.4f+(float)wave.NextDouble()*1.2f;
-                Strand(strands.transform,new Vector3(x,-6,ReachLength-40),new Vector3(x+lean,-6+rise,ReachLength-40),beam,width,new Color(1,.6f,.22f,.62f),new Color(1,.6f,.22f,0));
+                // Nothing lies under it here to meet its foot: the feet are scattered so no line runs through them, and it thins out and shortens toward both ends instead of stopping in a row of teeth.
+                float taper=1-Smooth(.66f,1,Mathf.Abs(x)/54);
+                float lean=((float)wave.NextDouble()-.5f)*1.2f,rise=(8+(float)wave.NextDouble()*3.5f)*Mathf.Lerp(.55f,1,taper),width=(4.4f+(float)wave.NextDouble()*1.2f)*Mathf.Lerp(.72f,1,taper);
+                var foot=new Vector3(x+((float)wave.NextDouble()-.5f)*1.6f,-6-(float)wave.NextDouble()*1.6f,ReachLength-40+((float)wave.NextDouble()-.5f)*1.8f);
+                Strand(strands.transform,foot,foot+new Vector3(lean,rise,0),beam,width,new Color(1,.6f,.22f,.62f*Mathf.Lerp(.15f,1,taper)),new Color(1,.6f,.22f,0));
             }
             // The relay that opens it can be 30 m away: a beam runs from the relay to the curtain as it comes down.
             var sweep=new GameObject("Curtain sweep",typeof(LineRenderer)).GetComponent<LineRenderer>();sweep.useWorldSpace=true;sweep.positionCount=2;sweep.startWidth=sweep.endWidth=2.4f;
@@ -554,10 +612,13 @@ namespace Lattice.EditorTools
             strands.GetComponent<LightCurtain>().sweep=sweep;
             foreach(float x in new[]{-56f,-20f,20f,56f})Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,-9,ReachLength-40),10,x,false,false);
             var gateKeeper=new GameObject("Lantern gate light",typeof(FlagGate)).GetComponent<FlagGate>();gateKeeper.flag="wick.gateOpen";gateKeeper.showWhenSet=false;gateKeeper.targets=new[]{gate.gameObject};
-            // On the curtain, and gone with it: once it has come down there is no gate here to name.
-            WorldBuilder.Label("LANTERN GATE",new Vector3(0,-1,ReachLength-41),3.1f).transform.SetParent(strands.transform,true);
+            // In front of the curtain, and gone with it: once it has come down there is no gate here to name. Larger than the style's floor sign: it's mostly read with the view pulled far back to show the curtain.
+            WorldBuilder.Label("LANTERN GATE",new Vector3(0,-1,ReachLength-41.9f),7).transform.SetParent(strands.transform,true);
             WorldBuilder.Dock("Dock — Lanternwick",new Vector3(0,1,ReachLength-14),"Lanternwick","Arrival",WorldBuilder.FlightDockRange);
             WorldBuilder.Label("LANTERNWICK",new Vector3(0,5,ReachLength-10),2.6f);
+            // The dock was a bare disc alone in the sky, and the next frame a desert town. The canyon's lip and two of its lanterns stand below and beyond it. Under the flight plane and drawn only, as all the Reach's backdrop is.
+            foreach(var (key,x,y,z,size,yaw) in new[]{("RidgeRock2",-17f,-14f,ReachLength-4,11f,30f),("RidgeRock2",18f,-15f,ReachLength+2,12f,200f),("RidgeRock3",-2f,-17f,ReachLength+12,12f,110f),("LanternTower",-12f,-10f,ReachLength+3,9f,0f),("LanternTower",13f,-11f,ReachLength+7,10f,40f)})
+                Prop(Kit(key,"CrystalClusterB"),new Vector3(x,y,z),size,yaw,false,false).name="Lanternwick below the dock";
             // No lock: nobody stands in the Reach without the route. It lands above Tallow with the dock still ahead, and is called that, as the Halo's and the Gullet's are.
             WorldBuilder.Warp("Warp — Tallow Approach",new Vector3(-16,1,-2),"TallowApproach","","Wick").lockedPrompt="";
             // Walls at the flight plane; the far reaches stay visible.
@@ -601,10 +662,37 @@ namespace Lattice.EditorTools
             var tone=Color.Lerp(new Color(.8f,.72f,.66f),new Color(1,.97f,.93f),laid);
             return new Color(tone.r*wear,tone.g*wear,tone.b*wear,1);
         }
-        /// <summary>What the town's scatter stays off: its people, the archive's forecourt, and the homes that close in on the courier square.</summary>
+        /// <summary>The market goes on down to the square, facing the street as the others do: the model's counter and shelf are on its forward side, and its back is a plain dark panel. Lamps climb the east terrace, off the walk up it.</summary>
+        static readonly (float x,float z,float yaw)[] NewStalls={(8.6f,4.6f,-90),(-8.8f,3.6f,85)};
+        static readonly (float x,float z)[] StairLamps={(22.6f,21.5f),(22.6f,26.5f),(22.6f,31),(22.6f,39.5f),(22.6f,46)};
+        /// <summary>People who live here, with no names and nothing to say: behind the stalls, on the square, on a doorstep, up on the terrace. Off every route, none between the camera and anyone with
+        /// a name, and each tinted so nobody takes one for the person whose body it borrows. They stand in a body-sized box, so the navigation walks round them.</summary>
+        static readonly (string body,float x,float z,float yaw,Color tint)[] Townsfolk=
+        {
+            ("Neve",10.2f,14.2f,-90,new(.84f,.74f,.66f)),("SurvivorNatural",11,23.2f,-100,new(.7f,.78f,.72f)),("Hal",-11,22,80,new(.78f,.7f,.74f)),
+            ("Mira",10.6f,4.6f,-90,new(.72f,.74f,.84f)),("Orrin",-10.8f,3.6f,85,new(.86f,.76f,.62f)),
+            ("Neve",-9.4f,-7.2f,120,new(.66f,.74f,.8f)),("SurvivorNatural",7.5f,-8.4f,-100,new(.82f,.7f,.6f)),
+            ("Hal",-8.4f,62.8f,100,new(.74f,.8f,.7f)),("Mira",25,46,-120,new(.86f,.72f,.72f)),("Orrin",-7.6f,88.4f,60,new(.68f,.72f,.8f)),
+        };
+        static void Townsperson(string body,Vector3 at,float yaw,Color tint)
+        {
+            var person=new GameObject("Townsperson");person.transform.SetPositionAndRotation(new Vector3(at.x,height(new Vector2(at.x,at.z)),at.z),Quaternion.Euler(0,yaw,0));person.isStatic=true;
+            var model=(GameObject)PrefabUtility.InstantiatePrefab(Body("Characters",body,"Characters","Neve"));model.transform.SetParent(person.transform,false);model.name="Generated civilian";
+            // Static for the bake, which only reads static boxes. Off screen, a body's animation stops: this camera can hold four of them at most, on the square, and the town's frame budget is close.
+            var solid=person.AddComponent<BoxCollider>();solid.size=new Vector3(.7f,1.9f,.7f);solid.center=Vector3.up*.95f;
+            person.AddComponent<PropTint>().tint=tint;
+            foreach(var rig in model.GetComponentsInChildren<Animator>()){rig.cullingMode=AnimatorCullingMode.CullCompletely;PrefabUtility.RecordPrefabInstancePropertyModifications(rig);}
+        }
+        /// <summary>The town's floor signs, for the scatter to keep off: their spots and half their widths.</summary>
+        static readonly (Vector2 at,float half)[] TownSigns={(new(9f,-13.4f),1.9f),(new(0,.5f),1.8f),(new(-8.5f,33.6f),1.6f),(new(21.5f,35),1.9f),(new(-4.2f,91.4f),1.2f),(new(-23.5f,46.5f),1.3f),(new(-27,82),3.2f)};
+        /// <summary>What the town's scatter stays off: its people, its signs, the archive's forecourt, and the homes that close in on the courier square.</summary>
         static bool ScatterKeepsOff(Vector2 p)
         {
             foreach(var person in TownPeople)if(InSightOf(p,person,2.6f,4.5f,1.6f))return true;
+            if(OnASign(p,TownSigns))return true;
+            foreach(var (_,x,z,_,_) in Townsfolk)if(Vector2.Distance(p,new Vector2(x,z))<2.4f)return true;
+            foreach(var (x,z,_) in NewStalls)if(Vector2.Distance(p,new Vector2(x,z))<3)return true;
+            foreach(var (x,z) in StairLamps)if(Vector2.Distance(p,new Vector2(x,z))<2)return true;
             if(p.x>-11&&p.x<12.5f&&p.y>86&&p.y<99.5f)return true;
             return p.x>-18&&p.x<-10&&p.y>-9&&p.y<-1||p.x>11&&p.x<19&&p.y>-11&&p.y<-3;
         }
@@ -616,7 +704,8 @@ namespace Lattice.EditorTools
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
             var dock=Prop("LandingPad",new Vector3(0,0,-22),5,0);dock.name="Courier pad";
             var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — The Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
-            WorldBuilder.Label("COURIER DOCK",new Vector3(11,.1f,-13.4f));
+            // Where the first screen shows all of it: at 7 the arch's right pier hid its first letters, and at 11 the screen's edge cut off its last.
+            WorldBuilder.Label("COURIER DOCK",new Vector3(9.2f,.1f,-13.4f));
             // The great arch stands over the courier square and frames the party as it arrives: the camera sees about 9 m ahead of the hero and 6 m behind, so the way to
             // show a gate is to stand the party just through it. It stays well south of the market: with the camera this far back, anything tall over the street passes
             // under the lens at the stalls, and an arch fading out at Corra's stall read as a rendering fault. This size and spot show both of the party through its opening,
@@ -629,6 +718,7 @@ namespace Lattice.EditorTools
             Prop("DressKiosk",new Vector3(5.6f,0,-9.5f),1.7f,-20);
             // The arch market: stalls either side of the main street.
             foreach(var (x,z,yaw) in new[]{(-8f,14f,90f),(8f,14f,-90f),(-9f,22f,80f),(9f,23f,-100f)})Prop("DressMarketStall",new Vector3(x,0,z),2.6f,yaw);
+            foreach(var (x,z,yaw) in NewStalls)Prop("DressMarketStall",new Vector3(x,0,z),2.6f,yaw);
             Prop("DressKiosk",new Vector3(-4,0,27),2.2f,10);Prop("DressWaterBarrels",new Vector3(12,0,10),1.2f,40);Prop("DressCargoPallet",new Vector3(-12,0,8),1.1f,20);
             // Up the street from the arch, where it and the first stalls are in view together.
             WorldBuilder.Label("ARCH MARKET",new Vector3(0,.1f,.5f));
@@ -660,6 +750,16 @@ namespace Lattice.EditorTools
             Relay("Lantern tower",new Vector3(31,0,64),"",18,15).alwaysLit=true;
             Relay("Lantern tower north",new Vector3(27,0,88),"",13,-10).alwaysLit=true;
             WorldBuilder.Label("LANTERN STAIR",new Vector3(21.5f,3.2f,35));
+            // Lit lamps climb the stair. Fixtures and painted pools, with no lights of their own: the terrace is part of one floor renderer, already past Forward's six lights a renderer, and one more
+            // real lamp would put out another pool somewhere else in view.
+            var stairPools=new GameObject("Stair lamp pools");var stairPool=ChapterOneStaging.Soft("lamp-pool",new Color(1,.7f,.36f,.2f));
+            foreach(var (x,z) in StairLamps)
+            {
+                // Laid on the ground itself. Following whatever a ray meets first, it ran up the planter and the ledge beside the first lamp as a slanted orange sheet.
+                var pool=ChapterOneStaging.SoftPatch("Lamp pool",stairPools.transform,new Vector3(x,height(new Vector2(x,z)),z),2.6f,2.6f,0,stairPool,false).GetComponent<MeshFilter>().sharedMesh;
+                var lying=pool.vertices;for(int i=0;i<lying.Length;i++)lying[i].y=height(new Vector2(lying[i].x,lying[i].z))+.04f;pool.vertices=lying;pool.RecalculateBounds();
+                Prop(Kit("LampPost","DressLightBollard"),new Vector3(x,0,z),1.6f,0);
+            }
             // The archive: a door carved into the bluff, broken columns either side of it, and the racks and mirror stands of the people who read the plates.
             Arch("Archive door",new Vector3(0,0,98.7f),8,0);
             foreach(float x in new[]{-7f,7f})Prop(Kit("AncelaneColumn","HushwellColumn"),new Vector3(x,0,98.8f),4.5f,0);
@@ -671,11 +771,14 @@ namespace Lattice.EditorTools
             var wallLit=new GameObject("The archive wall lights",typeof(FlagGate)).GetComponent<FlagGate>();wallLit.flag="bossdown.HessaKorl";wallLit.targets=new[]{wall};wall.SetActive(false);
             WorldBuilder.Label("ARCHIVE",new Vector3(-4.2f,.1f,91.4f));
             // The orchard terrace and the shed someone is hiding in.
-            foreach(var (x,z) in new[]{(-25f,50f),(-31f,56f),(-24f,62f),(-30f,70f),(-25f,76f),(-34f,46f)})Prop(Kit("OrchardTree","DressFanShrub"),new Vector3(x,0,z),3.2f,x*z);
-            // Up on the cliff at x -36 the shed was never in frame. A deserter's lean-to against the wall behind him, in view while he talks.
+            foreach(var (x,z) in new[]{(-25f,50f),(-31f,56f),(-24f,62f),(-30f,70f),(-22f,75f),(-34f,46f)})Prop(Kit("OrchardTree","DressFanShrub"),new Vector3(x,0,z),3.2f,x*z);
+            // Up on the cliff at x -36 the shed was never in frame. A deserter's lean-to against the wall behind him, in view while he talks. On its own it read as a black tarp on poles,
+            // and the quest says shed: so a small one of the town's own stone stands behind it, let into the wall, its door to the terrace. Back from the line the route walks past him.
+            Prop(Kit("CanyonHouse","OutpostHab"),new Vector3(-35.6f,-1.4f,64),3.6f,90);
             Prop(Kit("MusterLeanTo","DressCargoPallet"),new Vector3(-33.8f,0,63.6f),2.6f,110,false);
             WorldBuilder.Label("ORCHARD",new Vector3(-23.5f,1.5f,46.5f));
-            Gate("Orchard gate — Lantern Gorge",new Vector3(-34,0,86),"LanternGorge","Arrival","met.Aumi","Talk to Keeper Aumi on the lantern stair first","AncelaneArch",5.5f,5,new Vector2(-28,84));
+            // Clear of the wall's foot, or its left leg goes three metres into the rock. Its sign lies south and east of it, on open terrace off to the side of where the route stops for the prompt.
+            Gate("Orchard gate — Lantern Gorge",new Vector3(-32.2f,0,86),"LanternGorge","Arrival","met.Aumi","Talk to Keeper Aumi on the lantern stair first","AncelaneArch",5.5f,5,new Vector2(-27,82));
             // Lamps and lamp posts along the walk.
             foreach(var (x,z) in new[]{(-4f,-8f),(4f,-8f),(-5f,30f),(5f,40f),(-6f,55f),(6f,70f),(-5f,85f),(18f,26f)})
             {Prop(Kit("LampPost","DressLightBollard"),new Vector3(x,0,z),1.6f,0);Lamp(new Vector3(x,1.6f,z));}
@@ -688,8 +791,10 @@ namespace Lattice.EditorTools
                 townCliffs.Add(new Vector3(x,0,z));
             }
             for(float x=-30;x<=30;x+=10)if(Mathf.Abs(x)>13)townCliffs.Add(new Vector3(x,0,106));
-            CliffFoot(townCliffs,11);
+            // Nothing wide stands straight behind the orchard gate: a way out with a cliff of rock across it isn't one.
+            CliffFoot(townCliffs,11,null,p=>p.x<-20&&p.y>88&&p.y<104);
             // People.
+            foreach(var (body,x,z,yaw,tint) in Townsfolk)Townsperson(body,new Vector3(x,0,z),yaw,tint);
             Person("Aumi",new Vector3(22,0,52),-110,"bossdown.HessaKorl",true,"lanternwick.chartGiven","AumiFinal").postNode="AumiReturn";
             var townPell=Person("Pell",new Vector3(6,0,34),200,"lanternwick.chartGiven");
             var gone=new GameObject("Pell has gone to Tallow",typeof(FlagGate)).GetComponent<FlagGate>();gone.flag="pell.aboard";gone.showWhenSet=false;gone.targets=new[]{townPell.gameObject};
@@ -750,9 +855,27 @@ namespace Lattice.EditorTools
             float camera=Mathf.Clamp01(Mathf.InverseLerp(10,-30,p.x))*.45f;   // the west wall is the fixed camera's foreground
             return floor+wall*(1-camera)+Smooth(-12,-18,p.y)*10+Smooth(234,240,p.y)*12;
         }
-        /// <summary>What the gorge's scatter stays off: the spots you relight a relay from (a dark cage lying beside the prompt looked like the thing to light), and the things to take.</summary>
+        /// <summary>The middle of each of the gorge's fights.</summary>
+        static readonly Vector2[] GorgeFights={new(2,26),new(8,60),new(-22,98),new(-6,114),new(2,156),new(6,204)};
+        /// <summary>The floor a fight or the walk uses: four metres either side of the path, and round each fight's middle as far as a fight really drifts.</summary>
+        static List<Vector3> GorgeFloor()
+        {
+            var floor=new List<Vector3>();
+            void Add(Vector2 p){if(GorgeDistance(p)<12)floor.Add(new Vector3(p.x,height(p),p.y));}
+            for(int i=1;i<GorgePath.Length;i++)
+            {
+                Vector2 a=GorgePath[i-1],d=GorgePath[i]-a;float length=d.magnitude;var across=new Vector2(-d.y,d.x)/length;
+                for(float along=0;along<=length;along+=2)foreach(float off in new[]{-4f,-2f,0f,2f,4f})Add(a+d*(along/length)+across*off);
+            }
+            for(float along=0;along<=1;along+=.1f)Add(Vector2.Lerp(DenEntry,Den,along));
+            foreach(var fight in GorgeFights)for(float x=-10;x<=10;x+=2)for(float z=-7;z<=7;z+=2)Add(fight+new Vector2(x,z));
+            return floor;
+        }
+        /// <summary>What the gorge's scatter stays off: the spots you relight a relay from (a dark cage lying beside the prompt looked like the thing to light), the things to take, and its floor signs.</summary>
+        static readonly (Vector2 at,float half)[] GorgeSigns={(new(-8,100),2.2f),(new(.4f,-9),2.6f),(new(4.6f,227.2f),2.8f)};
         static bool GorgeKeepsOff(Vector2 p)
         {
+            if(OnASign(p,GorgeSigns))return true;
             foreach(var clear in new[]{new Vector2(9,52),new Vector2(-9,124),new Vector2(10,186)})if(Vector2.Distance(p,clear)<5.5f)return true;
             return Vector2.Distance(p,new Vector2(-12.6f,103.4f))<3||Vector2.Distance(p,new Vector2(Den.x+.8f,Den.y+.5f))<3;
         }
@@ -769,12 +892,14 @@ namespace Lattice.EditorTools
             var rest=Prop("DeckConsole",new Vector3(6,0,8),1.4f,-60).AddComponent<RepairBay>();rest.free=true;rest.saveSpawn="Arrival";rest.prompt="Waystone — repair and save";
             Lamp(new Vector3(6,2,8),8,1.4f);
             // Fallen relay towers lie across the canyon: landmarks and cover.
-            foreach(var (x,z,yaw,size) in new[]{(14f,40f,30f,14f),(-14f,84f,-20f,16f),(13f,140f,60f,13f),(-12f,170f,-40f,15f)})
+            // The den's lies at the back of the den, where you see it from inside. On the camera's side of the way in it filled the lower half of the screen as you walked past it.
+            foreach(var (x,z,yaw,size) in new[]{(14f,40f,30f,14f),(-29f,112f,-20f,16f),(13f,140f,60f,13f),(-12f,170f,-40f,15f)})
             {
                 // Lying along the canyon wall: scenery and a landmark, never a wall across the route.
                 var fallen=Dark(Prop(Kit("LanternTower","HushwellColumn"),new Vector3(x,0,z),size,yaw,false),"LanternTower");fallen.name="Fallen relay tower";
                 fallen.transform.rotation=Quaternion.Euler(0,yaw,84);var lying=ModelGeometry.BoundsOf(fallen);
                 fallen.transform.position+=new Vector3(x,height(new Vector2(x,z))-.4f,z)-new Vector3(lying.center.x,lying.min.y,lying.center.z);
+                SeatInWall(fallen,GorgeDistance,CliffRockClear,false);fallen.transform.position+=Vector3.down*.4f;
             }
             foreach(var (x,z) in new[]{(10f,44f),(-10f,88f),(9f,144f),(-9f,166f),(4f,100f)})Prop(Kit("LanternShard","CrystalClusterB"),new Vector3(x,0,z),1.6f,x*13);
             // Cliff feet along both walls, and boulders on the floor's verge (never on the route itself).
@@ -791,7 +916,8 @@ namespace Lattice.EditorTools
                         var v=a+d*(along/length)+normal*side*9.5f;if(((int)along/8+i)%3==0&&GorgeDistance(v)>8.5f)verge.Add(new Vector3(v.x,0,v.y));
                     }
             }
-            CliffFoot(gorgeCliffs,23);
+            var fightFloor=GorgeFloor();
+            CliffFoot(gorgeCliffs,23,rock=>SeatInWall(rock,GorgeDistance,CliffRockClear)&&!HidesFloor(Drawn(rock),fightFloor));
             foreach(var v in verge)if(Prefab("Environment","DressBoulders")!=null)Prop("DressBoulders",v,1.2f,v.x*31,true);
             var grng=new System.Random(41);
             Scatter(grng,70,()=>new Vector2((float)grng.NextDouble()*60-30,(float)grng.NextDouble()*236-6),p=>{float d=GorgeDistance(p);return d>5.5f&&d<12.5f;},GorgeKeepsOff,
@@ -859,7 +985,7 @@ namespace Lattice.EditorTools
             var doorGlow=doorLight.GetComponent<Light>();doorGlow.type=LightType.Point;doorGlow.color=new Color(1,.78f,.45f);doorGlow.range=14;doorGlow.intensity=3;doorGlow.shadows=LightShadows.None;
             var doorLit=new GameObject("The relay door lights",typeof(FlagGate)).GetComponent<FlagGate>();doorLit.flag="gorge.relaysLit";doorLit.targets=new[]{doorLight};doorLight.SetActive(false);
             var anvil=Prop("LatticeAnvil",new Vector3(-6,0,212),1.8f,40).AddComponent<Bench>();anvil.prompt="Fabricate — Lattice Anvil";
-            WorldBuilder.Label("SUNKEN RELAY",new Vector3(1.5f,.2f,225));
+            // The door is named by its arch's sign and its prompt. A floor sign saying it a third time, a few steps off, read as something left behind.
             WorldBuilder.Boundary("South gorge limit",new Vector3(0,8,-16),new Vector3(120,20,2));
             WorldBuilder.Boundary("North gorge limit",new Vector3(0,8,238),new Vector3(120,20,2));
             BakeNavigation("LanternGorge",new Bounds(new Vector3(0,8,110),new Vector3(110,40,260)),new Vector3(0,0,0),
@@ -875,7 +1001,11 @@ namespace Lattice.EditorTools
             (new(0,6),new(18,28),"ENTRY HALL"),(new(0,32),new(8,24),"CUT CORRIDOR"),(new(0,64),new(30,40),"FALLEN GALLERY"),
             (new(0,100),new(22,32),"LOWER VAULT"),(new(0,140),new(38,48),"GREAT LANTERN"),
         };
-        static float RelayHeight(Vector2 p)
+        /// <summary>The rock as the scatter has always read it. Its draws have to stay in step, so it keeps the old walls: a low west wall would refuse spots along it and move every piece after them.</summary>
+        static float RelayHeight(Vector2 p)=>RelayRock(p,false);
+        /// <summary>The camera stands south and west of the hero, so a wall on either side stands between them. lowWest brings the west side down with the south: at full height, a hero hugging a hall's
+        /// west wall dragged the camera in to a close-up, Sela huge at the screen's edge and Hessa off it.</summary>
+        static float RelayRock(Vector2 p,bool lowWest)
         {
             float inside=float.PositiveInfinity;bool cameraSide=false;
             foreach(var (centre,size,_) in RelayHalls)
@@ -883,18 +1013,21 @@ namespace Lattice.EditorTools
                 var d=new Vector2(Mathf.Abs(p.x-centre.x)-size.x*.5f,Mathf.Abs(p.y-centre.y)-size.y*.5f);
                 // Rounded rectangles: the outside distance, softened at the corners.
                 float box=Mathf.Max(d.x,d.y)<0?Mathf.Max(d.x,d.y):new Vector2(Mathf.Max(d.x,0),Mathf.Max(d.y,0)).magnitude;
-                if(box<inside){inside=box;cameraSide=p.y<centre.y-size.y*.5f;}
+                if(box<inside){inside=box;cameraSide=p.y<centre.y-size.y*.5f||lowWest&&p.x<centre.x-size.x*.5f;}
             }
-            // Just south of any hall's wall counts too: a corridor's flank past its door belongs to the corridor by distance, and stood full height between the camera and a hero hugging that wall.
+            // Just south of any hall's wall counts too: a corridor's flank past its door belongs to the corridor by distance, and stood full height between the camera and a hero hugging that wall. So does just west.
             foreach(var (centre,size,_) in RelayHalls)
             {
-                float south=centre.y-size.y*.5f;
+                float south=centre.y-size.y*.5f,west=centre.x-size.x*.5f;
                 if(p.y<south&&p.y>south-3.5f&&Mathf.Abs(p.x-centre.x)<size.x*.5f+1){cameraSide=true;break;}
+                if(lowWest&&p.x<west&&p.x>west-3.5f&&Mathf.Abs(p.y-centre.y)<size.y*.5f+1){cameraSide=true;break;}
             }
             // Rock between a hall and the camera stays low, or the camera slides in to a close-up of the hero's knees.
             float rock=Smooth(-.2f,1.3f,inside)*(5.2f+1.4f*Mathf.PerlinNoise(p.x*.08f+4,p.y*.08f))*(cameraSide?.36f:1);
             return rock+.06f*Mathf.PerlinNoise(p.x*.3f,p.y*.3f);
         }
+        /// <summary>The relay's floor signs, for the scatter to keep off.</summary>
+        static readonly (Vector2 at,float half)[] RelaySigns={(new(0,8),1.5f),(new(0,22.5f),1.9f),(new(0,46.5f),2),(new(0,86.5f),1.7f),(new(0,118.5f),2),(new(8,106.5f),1.8f),(new(-3.4f,-.2f),3.7f),(new(-2.2f,154.2f),3.4f)};
         /// <summary>Each hall its own colour of dark, one running into the next at its door.</summary>
         static Color RelayTone(Vector2 p)
         {
@@ -904,7 +1037,7 @@ namespace Lattice.EditorTools
             return new Color(tone.r*wear,tone.g*wear,tone.b*wear,1);
         }
         /// <summary>The floor as it's built. Two halls only touch at their door, so the rock rose .3 m along the one row of the grid between them: a ridge across every doorway, which
-        /// caught the light as a pale straight seam across the floor. RelayHeight stays as it was for the scatter, whose draws have to stay in step.</summary>
+        /// caught the light as a pale straight seam across the floor. RelayHeight stays as it was for the scatter, whose draws have to stay in step, as it does for the low west walls.</summary>
         static float RelayFloor(Vector2 p)
         {
             for(int i=1;i<RelayHalls.Length;i++)
@@ -912,11 +1045,12 @@ namespace Lattice.EditorTools
                 var (near,nearSize,_)=RelayHalls[i-1];var (far,farSize,_)=RelayHalls[i];
                 if(Mathf.Abs(p.y-(near.y+nearSize.y*.5f))<.3f&&Mathf.Abs(p.x)<Mathf.Min(nearSize.x,farSize.x)*.5f)return .06f*Mathf.PerlinNoise(p.x*.3f,p.y*.3f);
             }
-            return RelayHeight(p);
+            return RelayRock(p,true);
         }
         static void Relay()
         {
-            height=RelayFloor;CliffTop=2.4f;fadeTall=true;
+            // The low walls' tops are rock too, dark as the others. Under 2.4 m they counted as floor: a second, lit floor up on top of every low wall.
+            height=RelayFloor;CliffTop=1.2f;fadeTall=true;
             var scene=WorldBuilder.Begin("SunkenRelay");
             Terrain("SunkenRelay","Relay halls",-36,36,-14,180,.5f,Canyon(false),RelayTone,new Color(.4f,.4f,.5f));
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,3));
@@ -957,6 +1091,7 @@ namespace Lattice.EditorTools
             {
                 foreach(var plate in plates)if(Vector2.Distance(p,new Vector2(plate.x,plate.z))<6.5f)return true;
                 foreach(var (_,x,z,_) in lamps)if(Vector2.Distance(p,new Vector2(x,z))<2.5f)return true;
+                if(OnASign(p,RelaySigns))return true;
                 return Vector2.Distance(p,new Vector2(-6.6f,3))<4.5f||Vector2.Distance(p,new Vector2(-6,160))<5;
             }
             var rrng=new System.Random(53);
@@ -983,8 +1118,9 @@ namespace Lattice.EditorTools
             Fight("Relay_1",new Vector3(0,0,58),"Gloomgrazer",4,"MusterScav",2);
             Fight("Relay_2",new Vector3(0,0,96),"MusterSergeant",1,"MusterScav",2);
             foreach(var (x,z) in new[]{(-9f,40f),(9f,82f),(-7f,92f)})Prop(Kit("MusterCrate","DeckCrate"),new Vector3(x,0,z),1.1f,z);
-            // Well south of the cradle: it stood across the cradle's sign from the fixed camera.
-            Prop(Kit("MusterCutterRig","DressWorkLamp"),new Vector3(9,0,97.5f),2.2f,200);
+            // Well south of the cradle: it stood across the cradle's sign from the fixed camera. Drawn only, like the rest of this hall's trade: solid, with the column south of it and the wall east of it, it
+            // made a pocket in the middle of a fight, and a scavenger backed into that pocket couldn't be reached by a blade or a shot.
+            Prop(Kit("MusterCutterRig","DressWorkLamp"),new Vector3(9,0,97.5f),2.2f,200,false);
             // The checkpoint before the captain: under a minute from her floor.
             var cradle=Prop("DeckConsole",new Vector3(8,0,110),1.4f,-90).AddComponent<RepairBay>();cradle.free=true;cradle.saveSpawn="Vault";cradle.prompt="Relay cradle — repair and save";
             WorldBuilder.Spawn("Vault",new Vector3(4,0,108));
@@ -1024,7 +1160,8 @@ namespace Lattice.EditorTools
             var yielded=new GameObject("Hessa under guard",typeof(YieldedCaptain)).GetComponent<YieldedCaptain>();yielded.npc=hessa;hessa.gameObject.SetActive(false);
             yielded.guards=new[]{Guard(hessa.transform,1.7f,"AumiBody","Neve"),Guard(hessa.transform,-1.7f,"PellBody","SurvivorNatural")};
             // A real lift, its lamp dark until it will run. A prompt measures to the middle of the cage, so its reach is long enough for the floor in front of it.
-            Gate("Ride the relay lift — Lanternwick",new Vector3(-6,0,160),"Lanternwick","Archive","relay.hessaYielded","The lift waits: hear the captain out first","HushwellLift",4,4.4f,new Vector2(-9.6f,155.8f));
+            // East of the column at (-10,150), which stood across its words from the camera.
+            Gate("Ride the relay lift — Lanternwick",new Vector3(-6,0,160),"Lanternwick","Archive","relay.hessaYielded","The lift waits: hear the captain out first","HushwellLift",4,4.4f,new Vector2(-2.2f,154.2f));
             var liftLamp=new GameObject("Relay lift lamp",typeof(Light));liftLamp.transform.position=new Vector3(-6,height(new Vector2(-6,158))+3.2f,158);
             var liftGlow=liftLamp.GetComponent<Light>();liftGlow.type=LightType.Point;liftGlow.color=new Color(1,.78f,.45f);liftGlow.range=12;liftGlow.intensity=5;liftGlow.shadows=LightShadows.None;
             var liftLit=new GameObject("The relay lift lights",typeof(FlagGate)).GetComponent<FlagGate>();liftLit.flag="relay.hessaYielded";liftLit.targets=new[]{liftLamp};liftLamp.SetActive(false);

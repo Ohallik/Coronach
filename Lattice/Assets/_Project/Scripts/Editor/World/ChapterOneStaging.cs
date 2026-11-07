@@ -82,14 +82,14 @@ namespace Lattice.EditorTools
             }
         }
         /// <summary>Soft dark paint: Lattice/SignPlate, whose alpha the mesh feathers.</summary>
-        static Material Soft(string name,Color paint)
+        internal static Material Soft(string name,Color paint)
         {
             string path=WorldMaterials+name+".mat";var made=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(made==null){made=new Material(Shader.Find("Lattice/SignPlate"));AssetDatabase.CreateAsset(made,path);}
             made.SetColor("_BaseColor",paint);EditorUtility.SetDirty(made);return made;
         }
         /// <summary>A soft shape lying on the ground, solid two thirds of the way out and gone at its rim. A flat one for a hole, or one that follows the ground.</summary>
-        static GameObject SoftPatch(string name,Transform parent,Vector3 centre,float rx,float rz,float yaw,Material material,bool follow)
+        internal static GameObject SoftPatch(string name,Transform parent,Vector3 centre,float rx,float rz,float yaw,Material material,bool follow)
         {
             const int Around=28;float[] rings={0,.64f,1};byte[] alpha={255,255,0};
             var rotation=Quaternion.Euler(0,yaw,0);var vertices=new Vector3[Around*3];var colors=new Color32[vertices.Length];var triangles=new int[Around*(3+6)*3];int t=0;
@@ -142,7 +142,7 @@ namespace Lattice.EditorTools
         }
         /// <summary>A console alone reads as a shut crate. A service pad under it, its screen lit, a pair of glowing bollards and a soft column of light say
         /// a free repair stands here from across the excavation. All of it is drawn only.</summary>
-        static void CradleBay(string name,GameObject console,Vector3 at,float floor)
+        static void CradleBay(string name,GameObject console,Vector3 at,float floor,bool glows=true)
         {
             var bay=new GameObject(name+" bay").transform;
             // Thin, so a body walking through it has its feet on the pad: nothing solid here, and the site's navigation doesn't know it.
@@ -156,7 +156,16 @@ namespace Lattice.EditorTools
             Wear(console,Variant("repair-cradle",Models+"DeckConsole/DeckConsole_Toon.mat",m=>m.SetColor("_EmissionColor",new Color(.2f,2.6f,2.4f))));
             var lit=new Color(.4f,1,.85f,.7f);var top=new Vector3(at.x,ModelGeometry.BoundsOf(console).max.y,at.z);
             Beam("Bay light",bay,top,top+Vector3.up*1.9f,.62f,lit,new Color(lit.r,lit.g,lit.b,0));
-            Glow("Bay glow",bay,top+Vector3.up*.5f,new Color(.4f,1,.85f),5,1.5f);
+            if(glows)Glow("Bay glow",bay,top+Vector3.up*.5f,new Color(.4f,1,.85f),5,1.5f);
+        }
+        /// <summary>The first cradle anyone meets was a shut box beside a bench. The same bay, without a light of its own: Sorrel's terrain is one renderer, with all six of its lights spent.</summary>
+        static void OutpostCradle()
+        {
+            var bay=All<RepairBay>().Single(b=>b.prompt.StartsWith("Outpost cradle"));
+            ClearNamed("Outpost cradle bay");
+            // Measured from the console's own foot: straight down from above, the ground here is the console's solid top.
+            var at=new Vector3(bay.transform.position.x,0,bay.transform.position.z);
+            CradleBay("Outpost cradle",bay.gameObject,at,ModelGeometry.BoundsOf(bay.gameObject).min.y,false);
         }
 
         public static void Halo()
@@ -212,8 +221,30 @@ namespace Lattice.EditorTools
             BridgeCasings();
             // At its new size its corner met the door's lintel.
             MoveSign("ARRIVALS / DOCK OFFICE",new Vector3(-28,.12f,-.8f));
+            // Into the room it names: on the promenade it lay along the bottom of the screen wherever the party stands at Hal's anvil, half under the button bar.
+            MoveSign("RECEIVING / REPAIR",new Vector3(26.5f,.12f,2.6f));
+            ServiceJob();
             // The first job's service opening lay a millimetre under the promenade's runner: a lid standing on an unbroken walkway, with no hole.
             foreach(var hole in All<Transform>().Where(t=>t.name=="Walkway service opening"))hole.position=new Vector3(hole.position.x,MarketOpeningStaging.OpeningHeight,hole.position.z);
+        }
+        /// <summary>The first job was two boards and a black plate tilted up in the walkway, with nothing to say what they were. Whoever's doing it has left their kit out: painted edges round the hole, a work
+        /// lamp, a cable drum and a power cell along the bridge's walls. Drawn only and off Sela's and Mira's walks. It's there only on the morning the job's on: a save from before this scene never sees it, and it's gone once the walkway's mended.</summary>
+        static void ServiceJob()
+        {
+            const string Kit="Service job kit",Pieces="Service job pieces",Gone="Service job kit goes",Comes="Service job kit comes";
+            ClearNamed(Kit);ClearNamed(Gone);ClearNamed(Comes);
+            var root=new GameObject(Kit);var kit=new GameObject(Pieces).transform;kit.SetParent(root.transform,false);
+            var hazard=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+"dress-detail-DecalHazard.mat");
+            foreach(var (x,z,yaw) in new[]{(-13.6f,-3.82f,0f),(-13.6f,-2.18f,0f),(-14.42f,-3f,90f),(-12.78f,-3f,90f)})
+            {
+                var edge=GameObject.CreatePrimitive(PrimitiveType.Quad);edge.name="Opening edge";Object.DestroyImmediate(edge.GetComponent<Collider>());edge.transform.SetParent(kit,true);
+                edge.transform.SetPositionAndRotation(new Vector3(x,MarketOpeningStaging.OpeningHeight+.012f,z),Quaternion.Euler(90,yaw,0));edge.transform.localScale=new Vector3(1.8f,.16f,1);
+                edge.GetComponent<MeshRenderer>().sharedMaterial=hazard;
+            }
+            foreach(var (key,x,z,size,yaw) in new[]{("DressWorkLamp",-14.9f,-5.1f,1.2f,40f),("DressCableDrum",-15.3f,-.95f,.8f,0f),("DressPowerCell",-13.8f,-5.2f,.55f,90f)})
+                Place(key,new Vector3(x,0,z),size,yaw,false).transform.SetParent(kit,true);
+            var gone=new GameObject(Gone,typeof(FlagGate)).GetComponent<FlagGate>();gone.flag=OpeningMarketSequence.Repaired;gone.showWhenSet=false;gone.targets=new[]{root};
+            var comes=new GameObject(Comes,typeof(FlagGate)).GetComponent<FlagGate>();comes.flag=OpeningMarketSequence.Requested;comes.targets=new[]{kit.gameObject};
         }
         /// <summary>The four boxes under the Decks' bridges, in the interior and the exterior scene alike. Named for what they became, so a second pass finds none.</summary>
         static void BridgeCasings()
@@ -236,7 +267,7 @@ namespace Lattice.EditorTools
             Spawn("DrillDoor",new Vector3(1,GroundAt(new Vector3(1,0,148)),148));
             Cradle("Drill site cradle",new Vector3(-3,0,140.5f),60,"DrillDoor");
             Wreck();
-            DrillSeals();KeyCradle();BoreMouth();
+            DrillSeals();KeyCradle();BoreMouth();OutpostCradle();
             // Cliffs take the ground's texture from the side, as the rock's would be: a floor projection smeared them into streaks a third of a screen long.
             var ground=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+"sorrel-ground.mat");
             ground.EnableKeyword("_TRIPLANAR_ON");ground.SetFloat("_Triplanar",1);ground.SetFloat("_TriplanarScale",.125f);EditorUtility.SetDirty(ground);
@@ -310,11 +341,15 @@ namespace Lattice.EditorTools
             // On its lower side, as it falls in the fight, with its dead maw toward the road: from there it's the boss you beat, where its tail alone read as a spare
             // drill bit. The nose is driven into the ground: it was still going when it stopped.
             rig.transform.rotation=Quaternion.Euler(0,Heading,0)*Quaternion.Euler(22,0,128);
+            // Burned: from the road its clean grey ribs read as a heap of boulders.
+            rig.AddComponent<PropTint>().tint=new Color(.58f,.5f,.46f);
             var lying=ModelGeometry.BoundsOf(rig);rig.transform.position+=new Vector3(at.x,floor-.9f,at.z)-new Vector3(lying.center.x,lying.min.y,lying.center.z);
             var parts=new GameObject("Thrown parts");parts.transform.SetParent(wreck.transform,false);
             // The furrow it ploughed, and the ground it threw up round its nose.
             SoftPatch("Wreck scar",parts.transform,new Vector3(at.x,floor,at.z),5.6f,2.4f,Heading-90,Soft("wreck-soot",new Color(.05f,.035f,.03f,.62f)),true);
-            foreach(var (key,x,z,size,yaw) in new[]{("DressSpoilHeap",-5.8f,162f,.95f,30f),("HushwellDrillBit",-12.8f,161.6f,1.1f,205f),("HushwellRubble",-8.6f,160.6f,1f,80f),("DressCableDrum",-4.4f,168.6f,.9f,130f)})
+            // The scorch it left where it burned out, across the scar and out toward the road. The spoil heap's neat oval of orange nuggets looked stamped: broken ground instead.
+            SoftPatch("Wreck scorch",parts.transform,new Vector3(at.x+1.6f,floor,at.z-2.6f),4.2f,3.2f,Heading-40,Soft("wreck-scorch",new Color(.02f,.016f,.016f,.72f)),true);
+            foreach(var (key,x,z,size,yaw) in new[]{("HushwellRubble",-5.8f,162f,1.3f,30f),("HushwellDrillBit",-12.8f,161.6f,1.1f,205f),("HushwellRubble",-8.6f,160.6f,1f,80f),("DressCableDrum",-4.4f,168.6f,.9f,130f)})
                 Place(key,new Vector3(x,0,z),size,yaw,false).transform.SetParent(parts.transform,true);
             var site=new GameObject("Burrower wreck site",typeof(BossWreck)).GetComponent<BossWreck>();site.wreck=wreck;site.rig=rig.transform;site.thrownParts=parts;
             wreck.SetActive(false);
@@ -338,6 +373,40 @@ namespace Lattice.EditorTools
             Spawn("BellowsDoor",HushwellLayout.OnFloor(new Vector2(0,237)));
             Cradle("Survey cradle",HushwellLayout.OnFloor(new Vector2(8,231)),-60,"BellowsDoor");
             foreach(var cache in All<SalvageField>().Where(c=>c.cacheId=="HushwellMiners")){cache.owner="The miners' cache";cache.dialogueNode="";}
+            PoolShores();
+        }
+        /// <summary>The nursery's pools were dark patches that faded into the floor. A band of damp rock round each, with a thin pale lip at the water's edge, gives them a shore. The water itself is the
+        /// licensed layer's, and its sheen stays Nathan's call.</summary>
+        static void PoolShores()
+        {
+            const string Name="Pool shores";ClearNamed(Name);var shores=new GameObject(Name).transform;Physics.SyncTransforms();
+            var damp=Soft("pool-damp",new Color(.02f,.025f,.05f,.62f));var lip=Soft("pool-lip",new Color(.5f,.58f,.66f,.34f));
+            foreach(var pool in BiomeLandscapeUpgrade.NurseryPools)
+            {
+                var centre=new Vector3(pool.x,HushwellLayout.Lower,pool.y);
+                ShoreRing("Pool shore",shores,centre,pool.z,pool.w,.82f,1,1.34f,damp);
+                ShoreRing("Pool lip",shores,centre,pool.z,pool.w,.84f,.93f,1.03f,lip);
+            }
+        }
+        /// <summary>A soft band lying on the ground round an ellipse: nothing at its inner and outer radii, full at the one between.</summary>
+        static void ShoreRing(string name,Transform parent,Vector3 centre,float rx,float rz,float inner,float middle,float outer,Material material)
+        {
+            const int Around=40;float[] rings={inner,middle,outer};byte[] alpha={0,255,0};
+            var vertices=new Vector3[Around*3];var colors=new Color32[vertices.Length];var triangles=new int[Around*12];int t=0;
+            for(int ring=0;ring<3;ring++)for(int i=0;i<Around;i++)
+            {
+                float a=i*Mathf.PI*2/Around;var p=centre+new Vector3(Mathf.Cos(a)*rx*rings[ring],0,Mathf.Sin(a)*rz*rings[ring]);
+                // The cave's own floor, under anything standing on it: a ring laid on whatever came first ran up the side of an egg cradle.
+                foreach(var hit in Physics.RaycastAll(p+Vector3.up*3,Vector3.down,8,~0,QueryTriggerInteraction.Ignore))if(hit.collider is MeshCollider)p.y=hit.point.y;
+                p.y+=.05f;vertices[ring*Around+i]=p;colors[ring*Around+i]=new Color32(255,255,255,alpha[ring]);
+                if(ring==2)continue;
+                int here=ring*Around+i,next=ring*Around+(i+1)%Around;
+                triangles[t++]=here;triangles[t++]=next;triangles[t++]=here+Around;
+                triangles[t++]=next;triangles[t++]=next+Around;triangles[t++]=here+Around;
+            }
+            var go=new GameObject(name,typeof(MeshFilter),typeof(MeshRenderer));go.transform.SetParent(parent,true);go.transform.SetPositionAndRotation(Vector3.zero,Quaternion.identity);
+            var mesh=new Mesh{name=name,vertices=vertices,colors32=colors,triangles=triangles};mesh.RecalculateBounds();
+            go.GetComponent<MeshFilter>().sharedMesh=mesh;var view=go.GetComponent<MeshRenderer>();view.sharedMaterial=material;view.shadowCastingMode=ShadowCastingMode.Off;view.receiveShadows=false;
         }
         public static void Gullet()
         {
@@ -356,13 +425,15 @@ namespace Lattice.EditorTools
             MoveSign("SLALOM THROAT",new Vector3(1.4f,-1,325));
         }
         static Material Weathered(string source,string name)=>Variant(name,Models+source,m=>{m.SetColor("_BaseColor",new Color(.5f,.47f,.48f));m.SetColor("_EmissionColor",new Color(.03f,.12f,.14f));});
-        /// <summary>A clean deck crate, pale as paper with a black triangle on its lid, was the brightest thing in a dim room. The cache is the miners' kind of crate stack, in the eddy's
-        /// dim. The trigger stays exactly as it was.</summary>
+        /// <summary>A clean deck crate, pale as paper with a black triangle on its lid, was the brightest thing in a dim room. The cache is the miners' kind of crate stack. Those crates' faces are near
+        /// black in their own paint, and dimmed for the eddy they went solid black, a hole in the room and bigger than a ship: so the paint is lifted, the stack is a size smaller, and a warm work light
+        /// picks it out. Gullet's shell has no point lights to compete with. The trigger stays exactly as it was.</summary>
         static void Salvaged(SalvageField cache)
         {
             for(int i=cache.transform.childCount-1;i>=0;i--)Object.DestroyImmediate(cache.transform.GetChild(i).gameObject);
-            var pile=WorldBuilder.Piece("HushwellCrates",cache.transform.position,Vector3.one*1.9f,"Rock",false);pile.transform.SetParent(cache.transform,true);
-            Wear(pile,Weathered("HushwellCrates/HushwellCrates_Toon.mat","gullet-cache"));
+            var pile=WorldBuilder.Piece("HushwellCrates",cache.transform.position,Vector3.one*1.6f,"Rock",false);pile.transform.SetParent(cache.transform,true);
+            Wear(pile,Variant("gullet-cache",Models+"HushwellCrates/HushwellCrates_Toon.mat",m=>{m.SetColor("_BaseColor",new Color(.66f,.6f,.55f));m.SetFloat("_BaseMapStrength",.78f);m.SetColor("_EmissionColor",new Color(.03f,.12f,.14f));}));
+            Glow("Cache light",cache.transform,cache.transform.position+new Vector3(-1.2f,2.6f,-1.2f),new Color(1,.74f,.46f),8,3);
         }
         public static void Approach()
         {
@@ -388,10 +459,15 @@ namespace Lattice.EditorTools
             Reprompt("Launch — Tallow approach","Launch — Tallow Approach");
             // Two metres from the outer hatch, its frame hid the hero from the chest down on every launch. From here the prompt still reaches the lobby's far end.
             var launch=All<DockingPad>().Single(d=>d.scene=="TallowApproach");launch.transform.position=new Vector3(0,launch.transform.position.y,-8);
-            // Beside the bed pictogram RoomDressing paints, not on it, and clear of the workbench in front and the low wall behind.
-            foreach(var sign in All<TextMeshPro>().Where(t=>t.text=="SERVICE / REST CABINS"))sign.transform.position=new Vector3(.4f,sign.transform.position.y,7.4f);
+            // In the aisle in front of a cabin door, beside the bed pictogram RoomDressing paints. Behind the Keeper it lay right where her name hangs from this camera, so neither could be read.
+            MoveSign("SERVICE / REST CABINS",new Vector3(5.9f,.12f,7.4f));
+            // Beside her, where her name and Pell's stay clear of it. On the far side of the room it named empty deck.
+            MoveSign("REFUGE / KEEPER",new Vector3(-4.2f,.12f,3.4f));
             // At the sign style's size these words were wider than the lobby, and both ends ran into its low walls.
             foreach(var sign in All<TextMeshPro>().Where(t=>t.text=="ARRIVALS / PRESSURE LIFT"))sign.text="PRESSURE LIFT";
+            // On the runner that leads to the lift's door, not under the feet of everyone who stands on the launch spot: there it only ever showed faded to a ghost.
+            // Any nearer the door and its left jamb hides the sign's first letters from this camera, then its lintel the rest.
+            MoveSign("PRESSURE LIFT",new Vector3(0,.12f,-2.4f));
             ClearNamed("Pell");ClearNamed("Pell aboard");ClearNamed("Pell's lamp");ClearNamed("Pell's lamp burns");ClearNamed("Pell comes aboard");
             var pell=WorldBuilder.Npc("Pell",new Vector3(-5.5f,0,-1.5f));pell.transform.rotation=Quaternion.Euler(0,70,0);
             pell.firstNode="PellTallow";pell.repeatNode="PellTallow";pell.postNode="";

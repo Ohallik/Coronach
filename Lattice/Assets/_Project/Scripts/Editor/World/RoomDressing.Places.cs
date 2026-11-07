@@ -80,7 +80,7 @@ namespace Lattice.EditorTools
             Detail("DecalHazard",0,-7f,.4f,4f,90,.02f,true,.9f);
             Detail("PictoDock",0,-9.5f,1.5f,1.5f,0);
             // The galley's picture lay behind the life support hatch from this camera, all but a pale tuft of it; the bed's lay under its sign.
-            Detail("PictoGalley",-7.3f,-2.2f,1.1f,1.1f,0);Detail("PictoRepair",4.6f,1.4f,1.1f,1.1f,0);Detail("PictoCabins",-2.8f,7.6f,1.1f,1.1f,0);
+            Detail("PictoGalley",-7.3f,-2.2f,1.1f,1.1f,0);Detail("PictoRepair",4.6f,1.4f,1.1f,1.1f,0);Detail("PictoCabins",2.5f,7.7f,1.1f,1.1f,0);
             foreach(int s in new[]{-1,1}){Detail("DecalGrate",s*8.4f,-4.6f,1.3f,1.3f,0);Detail("DecalDrain",s*4.4f,7f,.9f,.9f,0);}
             Detail("DecalHatch",9.8f,-1.4f,1.1f,1.1f,0);Detail("DecalTrench",8.6f,2.6f,.7f,1.4f,90);
             // No kiosk here: every open spot near the lobby is somebody's route, and the Keeper is the refuge's information point.
@@ -199,9 +199,10 @@ namespace Lattice.EditorTools
                 foreach(var (o,yaw,scale) in offsets)
                 {
                     // On a slope's edge a plant sinks to its lowest footing and leaves a few shards poking out of the dirt. A clump mixes its kinds so it doesn't repeat.
-                    if(Slope(p+o)>.22f||RoadDistance(p+o)<.6f||built.Any(r=>PointRect(p+o,r)<.8f))continue;
-                    bool other=Mathf.Repeat(o.x*7.3f+o.y*3.1f,1)<.25f;
-                    Put(fan!=other?"DressFanShrub":"DressSucculent",p.x+o.x,p.y+o.y,yaw,scale,false,true,.1f);plants++;
+                    if(Slope(p+o)>.16f||RoadDistance(p+o)<.6f||built.Any(r=>PointRect(p+o,r)<.8f))continue;
+                    bool other=Mathf.Repeat(o.x*7.3f+o.y*3.1f,1)<.25f;string plant=fan!=other?"DressFanShrub":"DressSucculent";
+                    // The kit's plants stand on a jagged disc of their own, up to 15% of their height. This puts it under the ground. A slope keeps its downhill side out, so they keep to gentler ones.
+                    Put(plant,p.x+o.x,p.y+o.y,yaw,scale,false,true,.16f*Nominal[plant].y*scale);plants++;
                 }
                 if(plants==rooted)continue;
                 // Their gravel skirts melt into one soft patch instead of each sitting on its own jagged disc.

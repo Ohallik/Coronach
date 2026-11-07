@@ -42,6 +42,7 @@ namespace Lattice.UI
 
     /// <summary>A dark plate behind floating HUD text, hidden with it, so a prompt or a line reads on the brightest floor (QA-002). It's sized and
     /// centred on the letters as they're drawn: at this weight the frame's bevel takes 10 units top and bottom, and the padding leaves 6 of air inside that.</summary>
+    [DefaultExecutionOrder(906)]
     public sealed class TextPlate : MonoBehaviour
     {
         TMP_Text text; Image image; Vector2 padding; string shown; Vector2 shownAt;

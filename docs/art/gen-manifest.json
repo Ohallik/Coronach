@@ -5740,5 +5740,382 @@
       "art-src/Generated/QA-Cast/PellBody.fbx",
       "art-src/Generated/QA-Cast/PellBody_base_color.png"
     ]
+  },
+  {
+    "task": "qa-cast-image2image-01a1b4db-8b33-7728-8c9a-4d252b6b3947",
+    "task_id": "01a1b4db-8b33-7728-8c9a-4d252b6b3947",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Hessa Korl, an adult Vaskar alien woman and scavenger captain, tall, lean and heavy-boned with square armored shoulders. Keep her exact head from the portrait: narrow fierce face of warm rust-bronze orange skin grown in large overlapping plates across brow, cheeks, jaw and neck with fine black seams, bright hard amber eyes, two tall crimson ribbed membranous crest-sails rising from the sides and back of the skull like folded fans, large and clearly visible, a thin cut-glass earring; no hair, no human ears, no helmet. Keep her dark gunmetal salvage armor collar with rust-red riveted plates and the ragged bright crimson captain's sash across one shoulder. Extend the outfit naturally: a fitted salvage cuirass of warm rust-red and burnt-orange plates with dark gunmetal straps, the crimson sash falling across the chest to one hip, bare rust-bronze plated upper arms, rust-red plated forearm guards and matte dark gloves, a wide belt, fitted dark gunmetal trousers with rust-red plated thigh and shin guards, heavy dark salvage boots. Mostly warm mid-tone rust-orange and crimson rather than black, so the figure reads clearly on a dark floor. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, crest-sails and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Hessa Korl, an adult Vaskar alien woman and scavenger captain, tall, lean and heavy-boned with square armored shoulders. Keep her exact head from the portrait: narrow fierce face of warm rust-bronze orange skin grown in large overlapping plates across brow, cheeks, jaw and neck with fine black seams, bright hard amber eyes, two tall crimson ribbed membranous crest-sails rising from the sides and back of the skull like folded fans, large and clearly visible, a thin cut-glass earring; no hair, no human ears, no helmet. Keep her dark gunmetal salvage armor collar with rust-red riveted plates and the ragged bright crimson captain's sash across one shoulder. Extend the outfit naturally: a fitted salvage cuirass of warm rust-red and burnt-orange plates with dark gunmetal straps, the crimson sash falling across the chest to one hip, bare rust-bronze plated upper arms, rust-red plated forearm guards and matte dark gloves, a wide belt, fitted dark gunmetal trousers with rust-red plated thigh and shin guards, heavy dark salvage boots. Mostly warm mid-tone rust-orange and crimson rather than black, so the figure reads clearly on a dark floor. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, crest-sails and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=1947664 sha256(base64)=834c30183112ac2c>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/QA-Hessa/refs/Hessa_Body.png",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:14:10+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:14:46+00:00"
+  },
+  {
+    "task": "qa-cast-img3d-01a1b4dc-4c97-74b1-aed3-9ecf3469f5ae",
+    "task_id": "01a1b4dc-4c97-74b1-aed3-9ecf3469f5ae",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Hessa Korl, Vaskar alien scavenger captain woman, rust-bronze plated skin, tall crimson crest-sails, rust-red salvage armor, ragged crimson sash, T pose",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1328736 sha256(base64)=969deff053609261>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/QA-Hessa/HessaBody_Meshy.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:14:59+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-11-07T07:16:01+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/HessaBody_Meshy.fbx",
+      "art-src/Generated/QA-Hessa/HessaBody_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-rig-01a1b4dd-b9a3-7530-8fa1-fca2d25d5339",
+    "task_id": "01a1b4dd-b9a3-7530-8fa1-fca2d25d5339",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 2.0,
+      "input_task_id": "01a1b4dc-4c97-74b1-aed3-9ecf3469f5ae"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/QA-Hessa/HessaBody_Rigged.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:16:35+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:16:48+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/HessaBody_Rigged.fbx",
+      "art-src/Generated/QA-Hessa/HessaBody_Rigged_walking_fbx.fbx",
+      "art-src/Generated/QA-Hessa/HessaBody_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "qa-cast-image2image-01a1b4de-0e35-7603-bdf2-15aa3853fceb",
+    "task_id": "01a1b4de-0e35-7603-bdf2-15aa3853fceb",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Brekk Tamar, an adult Vaskar alien man, a quiet tired smith, tall, broad and heavy-boned with thick arms. Keep his exact head from the portrait: a broad heavy face of weathered olive-grey skin grown in large overlapping stone-like plates across brow, cheeks, jaw and neck with slightly darker seams, a long pale healed scar across one cheek plate, tired amber eyes, two tall dark grey ribbed membranous crest-sails edged with dull rust rising from the sides and back of the skull like folded fans, large and clearly visible; no hair, no human ears, no helmet. Keep his plain coarse light grey shirt and worn brown leather straps. Extend the outfit naturally: sleeves rolled to the elbow over bare olive-grey plated forearms, a long worn mid-brown leather smith's apron with visible stitching from chest to knee, soot smudges, grey-brown work trousers, scuffed brown work boots. Lightly coloured and easy to read in sunlight, no armor, no glowing parts. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Brekk Tamar, an adult Vaskar alien man, a quiet tired smith, tall, broad and heavy-boned with thick arms. Keep his exact head from the portrait: a broad heavy face of weathered olive-grey skin grown in large overlapping stone-like plates across brow, cheeks, jaw and neck with slightly darker seams, a long pale healed scar across one cheek plate, tired amber eyes, two tall dark grey ribbed membranous crest-sails edged with dull rust rising from the sides and back of the skull like folded fans, large and clearly visible; no hair, no human ears, no helmet. Keep his plain coarse light grey shirt and worn brown leather straps. Extend the outfit naturally: sleeves rolled to the elbow over bare olive-grey plated forearms, a long worn mid-brown leather smith's apron with visible stitching from chest to knee, soot smudges, grey-brown work trousers, scuffed brown work boots. Lightly coloured and easy to read in sunlight, no armor, no glowing parts. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2207812 sha256(base64)=8c35580b96676ed5>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/QA-Hessa/refs/Brekk_Body.png",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:16:54+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:17:25+00:00"
+  },
+  {
+    "task": "qa-cast-image2image-01a1b4de-8b9e-7189-b723-57d602029016",
+    "task_id": "01a1b4de-8b9e-7189-b723-57d602029016",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Corra Vey, an adult Vael alien woman, a brisk market trader of medium athletic build. Keep her exact head from the portrait: strong square face of warm umber-brown skin, bright orange sync-lines along the jaw and down the throat, dark-bronze ring irises, a large crest of thick copper-red flat keratin fronds, tied up high with a green cloth band and falling behind her shoulders, a stub of chalk behind one frond; no human hair, no ears. Keep her dark green market vest with fine gold piping over a cream shirt, and the brown leather strap across the chest. Extend the outfit naturally: cream sleeves rolled to the elbow, bare umber forearms with orange lines, a broad brown leather coin belt with small pouches, sturdy warm tan trousers, soft brown boots. Warm and bright, easy to read in sunlight. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Corra Vey, an adult Vael alien woman, a brisk market trader of medium athletic build. Keep her exact head from the portrait: strong square face of warm umber-brown skin, bright orange sync-lines along the jaw and down the throat, dark-bronze ring irises, a large crest of thick copper-red flat keratin fronds, tied up high with a green cloth band and falling behind her shoulders, a stub of chalk behind one frond; no human hair, no ears. Keep her dark green market vest with fine gold piping over a cream shirt, and the brown leather strap across the chest. Extend the outfit naturally: cream sleeves rolled to the elbow, bare umber forearms with orange lines, a broad brown leather coin belt with small pouches, sturdy warm tan trousers, soft brown boots. Warm and bright, easy to read in sunlight. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=1968636 sha256(base64)=fde2065e6ee6e217>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/QA-Hessa/refs/Corra_Body.png",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:17:26+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:17:57+00:00"
+  },
+  {
+    "task": "qa-cast-image2image-01a1b4df-0899-7232-95cf-44375094fe0c",
+    "task_id": "01a1b4df-0899-7232-95cf-44375094fe0c",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "image2image",
+    "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Ishen, an elderly Vael alien man, a gentle slender archivist. Keep his exact head from the portrait: long gentle face of cool pale grey-blue skin with deep laugh lines and faded violet sync-lines at the temples and down the throat, small round brass reading lenses perched low on the nose, pale blue ring irises, a crest of thin white flat keratin fronds combed back from the brow; no human hair. Keep his layered high-collared pale cream-white scholar's coat with many small pockets and rolled record slips tucked at the collar and chest, a muted brown under-tunic and brown leather straps. Extend the outfit naturally: a long pale cream coat to the knee, cool grey-blue hands, soft grey-blue trousers, soft dark brown shoes. Cool pale colours that stand clearly apart from a warm sandy floor. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "Use case: stylized-concept. Asset type: single 3D game-character modeling reference for Coronach. The attached portrait sheet is ONLY an identity and style reference: create exactly ONE full-body figure of its character, no sheet, no extra views. Ishen, an elderly Vael alien man, a gentle slender archivist. Keep his exact head from the portrait: long gentle face of cool pale grey-blue skin with deep laugh lines and faded violet sync-lines at the temples and down the throat, small round brass reading lenses perched low on the nose, pale blue ring irises, a crest of thin white flat keratin fronds combed back from the brow; no human hair. Keep his layered high-collared pale cream-white scholar's coat with many small pockets and rolled record slips tucked at the collar and chest, a muted brown under-tunic and brown leather straps. Extend the outfit naturally: a long pale cream coat to the knee, cool grey-blue hands, soft grey-blue trousers, soft dark brown shoes. Cool pale colours that stand clearly apart from a warm sandy floor. No weapon, backpack, cape, tools or floating accessories. Front-facing orthographic full-body view, neutral expression, head straight aligned with torso, natural adult game proportions, both arms straight horizontally in a T pose, hands open with separated fingers, feet shoulder-width separated and pointing forward. Entire body, head shape and fingertips comfortably inside image with white margin. Flat matte toon-color illustration, crisp restrained linework, only subtle local shading, no cast or ground shadows, highlights, gloss, ambient occlusion, bloom or dramatic lighting; uniform pure white background, no scenery, text, labels, dividers or watermark. This is ONE single isolated character only.",
+      "aspect_ratio": "1:1",
+      "reference_image_urls": [
+        "data:image/png;base64,<omitted chars=2089864 sha256(base64)=84a02b511cb1f71a>"
+      ]
+    },
+    "credits": 12,
+    "consumed_credits": 12,
+    "output_path": "art-src/Generated/QA-Hessa/refs/Ishen_Body.png",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:17:58+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:18:29+00:00"
+  },
+  {
+    "task": "qa-cast-img3d-01a1b4df-d096-75bf-bac8-c1da2a50f9a7",
+    "task_id": "01a1b4df-d096-75bf-bac8-c1da2a50f9a7",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Brekk Tamar, Vaskar alien smith man, olive-grey stone plated skin, dark crest-sails, brown leather apron over grey shirt, T pose",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1386176 sha256(base64)=d29239ff7bbb4fea>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/QA-Hessa/BrekkBody_Meshy.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:18:50+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-11-07T07:20:03+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/BrekkBody_Meshy.fbx",
+      "art-src/Generated/QA-Hessa/BrekkBody_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-rig-01a1b4e0-f3fe-70df-b7d9-6a4fd8e2eb50",
+    "task_id": "01a1b4e0-f3fe-70df-b7d9-6a4fd8e2eb50",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 2.0,
+      "input_task_id": "01a1b4df-d096-75bf-bac8-c1da2a50f9a7"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/QA-Hessa/BrekkBody_Rigged.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:20:06+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:20:20+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/BrekkBody_Rigged.fbx",
+      "art-src/Generated/QA-Hessa/BrekkBody_Rigged_walking_fbx.fbx",
+      "art-src/Generated/QA-Hessa/BrekkBody_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "qa-cast-img3d-01a1b4e1-3604-76cc-9da2-67d56187a245",
+    "task_id": "01a1b4e1-3604-76cc-9da2-67d56187a245",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Corra Vey, Vael alien market trader woman, umber skin, copper-red keratin fronds tied with green cloth, dark green vest, cream shirt, tan trousers, T pose",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1291988 sha256(base64)=a7f92cd36eb83b6b>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/QA-Hessa/CorraBody_Meshy.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:20:21+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-11-07T07:21:35+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/CorraBody_Meshy.fbx",
+      "art-src/Generated/QA-Hessa/CorraBody_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-rig-01a1b4e2-5a47-73bc-9ff0-c5260e4637ff",
+    "task_id": "01a1b4e2-5a47-73bc-9ff0-c5260e4637ff",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.8,
+      "input_task_id": "01a1b4e1-3604-76cc-9da2-67d56187a245"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/QA-Hessa/CorraBody_Rigged.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:21:38+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:21:51+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/CorraBody_Rigged.fbx",
+      "art-src/Generated/QA-Hessa/CorraBody_Rigged_walking_fbx.fbx",
+      "art-src/Generated/QA-Hessa/CorraBody_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "qa-cast-img3d-01a1b4e2-9bd4-70f8-889d-89be81944877",
+    "task_id": "01a1b4e2-9bd4-70f8-889d-89be81944877",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "img3d",
+    "prompt": "Ishen, elderly Vael alien archivist, pale grey-blue skin, white keratin fronds, round brass glasses, long pale cream coat with pockets, T pose",
+    "params": {
+      "image_url": "data:image/png;base64,<omitted chars=1265680 sha256(base64)=0a01e652ba540245>",
+      "ai_model": "meshy-t2",
+      "model_type": "smart-topology",
+      "target_polycount": 12000,
+      "pose_mode": "t-pose",
+      "target_formats": [
+        "fbx"
+      ],
+      "should_texture": true
+    },
+    "credits": 15,
+    "consumed_credits": 15,
+    "output_path": "art-src/Generated/QA-Hessa/IshenBody_Meshy.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:21:53+00:00",
+    "polycount_band": {
+      "min": 8000,
+      "max": 15000,
+      "target": 12000
+    },
+    "updated_at": "2026-11-07T07:22:42+00:00",
+    "status": "SUCCEEDED",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/IshenBody_Meshy.fbx",
+      "art-src/Generated/QA-Hessa/IshenBody_Meshy_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-cast-rig-01a1b4e3-61c5-77e6-bf5d-7de455d16a02",
+    "task_id": "01a1b4e3-61c5-77e6-bf5d-7de455d16a02",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "rig",
+    "prompt": "humanoid auto-rig; t-pose source; +Z forward; skeleton-measured scale",
+    "params": {
+      "height_meters": 1.85,
+      "input_task_id": "01a1b4e2-9bd4-70f8-889d-89be81944877"
+    },
+    "credits": 5,
+    "consumed_credits": 5,
+    "output_path": "art-src/Generated/QA-Hessa/IshenBody_Rigged.fbx",
+    "batch": "QA-Hessa",
+    "created_at": "2026-11-07T07:22:45+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T07:22:59+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Hessa/IshenBody_Rigged.fbx",
+      "art-src/Generated/QA-Hessa/IshenBody_Rigged_walking_fbx.fbx",
+      "art-src/Generated/QA-Hessa/IshenBody_Rigged_running_fbx.fbx"
+    ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b589-43bc-7073-9424-37399d77b763",
+    "task_id": "01a1b589-43bc-7073-9424-37399d77b763",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Muster raider skiff, a hostile salvage gunship: hard-edged burnt-orange and rust-red painted hull plates separated by bold near-black panel lines and rows of rivets, cream and black hazard chevrons on the wing tips, gunmetal engine nozzles scorched black, a crude white tally stencil on the hull, chipped paint at plate edges. High contrast and crisp, nothing muddy or brown. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=633616 sha256(base64)=8a73725c81d8dd67>",
+      "text_style_prompt": "Muster raider skiff, a hostile salvage gunship: hard-edged burnt-orange and rust-red painted hull plates separated by bold near-black panel lines and rows of rivets, cream and black hazard chevrons on the wing tips, gunmetal engine nozzles scorched black, a crude white tally stencil on the hull, chipped paint at plate edges. High contrast and crisp, nothing muddy or brown. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/MusterSkiff.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-07T10:23:57+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T10:24:46+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/MusterSkiff.fbx",
+      "art-src/Generated/QA-Cast/MusterSkiff_base_color.png"
+    ]
+  },
+  {
+    "task": "qa-title-text2image-01a1b5a4-18e3-7320-982b-8b5dbd21647f",
+    "task_id": "01a1b5a4-18e3-7320-982b-8b5dbd21647f",
+    "prompt_id": "QA-Title",
+    "tool": "Meshy API",
+    "mode": "text2image",
+    "prompt": "A video game title logo wordmark on a plain flat pure white background, the single word CORONACH spelled exactly C-O-R-O-N-A-C-H in large capital letters, no other words or letters anywhere. Elegant classical engraved serif capitals with sharp flared stems, in the spirit of an old inscription on a space-age ring city: letters of warm pale ivory and brushed gold with a thin dark outline for legibility on any background, a fine glowing cyan light line inlaid along the centre of each main stem. A single slim orbital ring sweeps in a long shallow ellipse behind the word, passing through the two letter O shapes, thin and clean. Centered, wide horizontal composition, the whole word and ring inside the frame with generous margin. Crisp clean vector-like edges, flat graphic illustration with restrained shading, no drop shadow, no background scene, no planet, no extra ornaments, no tagline, no watermark.",
+    "params": {
+      "ai_model": "gpt-image-2",
+      "prompt": "A video game title logo wordmark on a plain flat pure white background, the single word CORONACH spelled exactly C-O-R-O-N-A-C-H in large capital letters, no other words or letters anywhere. Elegant classical engraved serif capitals with sharp flared stems, in the spirit of an old inscription on a space-age ring city: letters of warm pale ivory and brushed gold with a thin dark outline for legibility on any background, a fine glowing cyan light line inlaid along the centre of each main stem. A single slim orbital ring sweeps in a long shallow ellipse behind the word, passing through the two letter O shapes, thin and clean. Centered, wide horizontal composition, the whole word and ring inside the frame with generous margin. Crisp clean vector-like edges, flat graphic illustration with restrained shading, no drop shadow, no background scene, no planet, no extra ornaments, no tagline, no watermark.",
+      "aspect_ratio": "16:9",
+      "remove_background": true
+    },
+    "credits": 9,
+    "consumed_credits": 9,
+    "output_path": "art-src/Generated/QA-Title/refs/Coronach_Wordmark.png",
+    "batch": "QA-Title",
+    "created_at": "2026-11-07T10:53:12+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T10:53:37+00:00"
   }
 ]

@@ -452,7 +452,8 @@ namespace Lattice.Tests.PlayMode
             var strands=Strands();var gate=All<Membrane>().Single(m=>m.name=="Lantern gate");
             Assert.Greater(strands.Length,20,"fixture: the curtain has its strands");
             Assert.IsTrue(strands.All(Showing),"fixture: the closed curtain shows");
-            float full=strands.Max(s=>s.startColor.a);
+            // Each against its own start: the outer strands begin faint on purpose, so the faintest one says nothing about whether they fade.
+            var full=strands.ToDictionary(s=>s,s=>s.startColor.a);
             barks.Clear();log.Clear();
             Flag("wick.relay1");Flag("wick.relay2");
             yield return Until(()=>Has("wick.gateOpen"),3);
@@ -463,7 +464,7 @@ namespace Lattice.Tests.PlayMode
             Assert.IsTrue(barks.Any(b=>b.who=="Sela"&&b.line.Contains("Curtain")),"nobody remarks on the gate opening 30 m from the relay that opened it");
             Assert.AreEqual(1,log.Count,"the opening isn't marked once in the log");
             yield return new WaitForSecondsRealtime(1.5f);
-            Assert.Less(strands.Min(s=>s.startColor.a),full*.5f,"the strands don't fade");
+            Assert.Less(strands.Min(s=>s.startColor.a/full[s]),.5f,"the strands don't fade");
             Assert.IsTrue(strands.Any(Showing),"the curtain is gone before anyone could see it go");
             yield return new WaitForSecondsRealtime(3);
             Assert.AreEqual(0,strands.Count(Showing),"the strands never finish going");

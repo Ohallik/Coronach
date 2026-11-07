@@ -38,7 +38,8 @@ namespace Lattice.UI
         void Rebuild(string want=null)
         {
             var selected=EventSystem.current.currentSelectedGameObject;string focus=want??(selected!=null?selected.name:null);
-            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,.95f).gameObject;
+            // Solid: at .95 a bright sign showed through as ghost letters between the rows.
+            if(panel!=null){panel.SetActive(false);Destroy(panel);}panel=UiKit.Dim(canvas.transform,1).gameObject;
             var state=GameServices.Current.State;var active=state.party[state.activeMember];
             string trade=inventory!=null&&!string.IsNullOrEmpty(inventory.title)?inventory.title:"OUTFITTER";
             var heading=UiKit.Heading(panel.transform,"Heading",trade+(page==0?" · BUY":" · SELL")+"   "+state.scrip+" SCRIP",42,UiKit.TextColor);

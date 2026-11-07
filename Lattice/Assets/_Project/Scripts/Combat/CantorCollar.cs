@@ -71,7 +71,8 @@ namespace Lattice.Combat
             foreach(var link in links)if(link!=null&&link.Alive)CombatVfx.Burst(link.transform.position,new Color(1,.7f,.25f),"hit");
             AudioManager.PlayAt("impactMetal_000",transform,transform.position+Vector3.up,.14f,AudioBus.SFX,60,.04f,.75f);
         }
-        void Released(Health _,DamagePacket packet){health.Damageable=false;bands[3].Open();}
+        // The lock flies well clear: at the flight camera's distance the links' short drop doesn't read, and this is the payoff.
+        void Released(Health _,DamagePacket packet){health.Damageable=false;bands[3].Open(3.6f);}
         void Rearmed(Health _)
         {
             foreach(var link in links){link.ResetFull();link.GetComponent<Collider>().enabled=true;}
@@ -111,7 +112,7 @@ namespace Lattice.Combat
             readonly Transform anchor;
             readonly Vector3 center;
             public Transform Root {get;}
-            float opened=float.PositiveInfinity;
+            float opened=float.PositiveInfinity,thrown=1.4f;
             public CollarBand(Transform parent,Vector3 center,int index,GameObject platePrefab)
             {
                 anchor=parent;this.center=center;
@@ -133,9 +134,9 @@ namespace Lattice.Combat
                     go.GetComponent<Renderer>().SetPropertyBlock(properties);
                 }
             }
-            public void Open()
+            public void Open(float reach=1.4f)
             {
-                if(!float.IsPositiveInfinity(opened))return;Follow();opened=GameTime.Now;
+                if(!float.IsPositiveInfinity(opened))return;Follow();opened=GameTime.Now;thrown=reach;
                 for(int i=0;i<plates.Length;i++)
                 {
                     positions[i]=plates[i].position;worldRotations[i]=plates[i].rotation;
@@ -153,7 +154,7 @@ namespace Lattice.Combat
                 float age=GameTime.Now-opened;
                 for(int i=0;i<plates.Length;i++)
                 {
-                    plates[i].position=positions[i]+directions[i]*(1-Mathf.Exp(-5*age))*1.4f-Vector3.up*(1.8f*age*age);
+                    plates[i].position=positions[i]+directions[i]*(1-Mathf.Exp(-5*age))*thrown-Vector3.up*(1.8f*age*age);
                     plates[i].rotation=worldRotations[i]*Quaternion.Euler(age*50,0,age*35);
                     plates[i].localScale=PlateScale*(1-Mathf.SmoothStep(0,1,Mathf.InverseLerp(.7f,1.2f,age)));
                     if(age>=1.2f)plates[i].gameObject.SetActive(false);

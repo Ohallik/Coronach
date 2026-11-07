@@ -22,11 +22,12 @@ namespace Lattice.Combat
         Vector3 origin,headPosition,firstControl,secondControl,destination;
         Vector3 turnCenter,turnOffset,travelOrigin;
         float turnAngle,turnDuration,age;
+        bool freed;
         Quaternion heading,headRotation;
 
         public void Begin(Transform visual,IReadOnlyList<Transform> body)
         {
-            age=0;Departing=true;KeepInEncounterFrame=true;
+            age=0;Departing=true;KeepInEncounterFrame=true;freed=false;
             head=visual;origin=transform.position;heading=transform.rotation;
             headPosition=head.localPosition;headRotation=head.localRotation;
             parts=new Transform[body.Count];localPositions=new Vector3[body.Count];
@@ -82,6 +83,8 @@ namespace Lattice.Combat
             // Give the first turn room to read, then let the animal leave the
             // ordinary view before bounded removal. The owner passes game time.
             age=elapsed;KeepInEncounterFrame=elapsed<1.5f;
+            // The win's moment. Past the frame it fell on, or the boss's own end clears the ring with the rest of the field. Light, no blast: it's freed, not killed.
+            if(!freed){freed=true;Free();}
             if(elapsed<=.35f)return;
             if(elapsed<.35f+turnDuration)
             {
@@ -109,6 +112,12 @@ namespace Lattice.Combat
                 parts[i].SetPositionAndRotation(worldPositions[i],Quaternion.LookRotation(direction));
                 previous=worldPositions[i];
             }
+        }
+        void Free()
+        {
+            var at=transform.position+Vector3.up*SerpentSegments.CenterHeight;var pale=GroundRing.Friendly;
+            SkillRing.Expand(at,11,pale,1.1f,true);CombatVfx.Burst(at,pale,"kill");
+            foreach(var part in parts)if(part!=null)CombatVfx.Burst(part.position,pale,"hit");
         }
         public void Restore()
         {

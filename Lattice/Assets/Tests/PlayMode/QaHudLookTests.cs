@@ -308,47 +308,45 @@ namespace Lattice.Tests.PlayMode
         }
         static IEnumerator Hold(EnemyBrain enemy,Vector3 at,float seconds)
         {for(float end=Time.unscaledTime+seconds;Time.unscaledTime<end;){enemy.transform.position=at;Physics.SyncTransforms();yield return null;}}
-        static CanvasGroup Group(string image){var group=Picture(image).GetComponentInParent<CanvasGroup>();Assert.IsNotNull(group,image+" can't fade: anyone behind it stays hidden behind a solid box");return group;}
+        /// <summary>How far a plate has stepped aside. It's the plate alone that goes: QaHudSecondTests pins the words staying.</summary>
+        static float Plate(string image)=>Picture(image).canvasRenderer.GetAlpha();
         [UnityTest] public IEnumerator APanelStepsAsideForWhatItHidesAndComesBackGently()
         {
             var hero=Hero;var partner=Partner;hero.Health.InvulnerableUntil=partner.Health.InvulnerableUntil=GameTime.Now+60;
             yield return Settle();
-            var vitals=Group("VitalsFrame");var objective=Group("ObjectiveFrame");
-            Assert.AreNotSame(vitals,objective,"fixture: each panel fades alone");
-            Assert.Greater(vitals.alpha,.98f,"the vitals are faded with nobody behind them");Assert.Greater(objective.alpha,.98f,"the objective is faded with nobody behind it");
-            // The partner walks behind the vitals, down to about a third, quickly.
+            Assert.Greater(Plate("VitalsFrame"),.98f,"the vitals are faded with nobody behind them");Assert.Greater(Plate("ObjectiveFrame"),.98f,"the objective is faded with nobody behind it");
+            // In a fight the partner walks behind the vitals, down to about a third, quickly. On a calm walk she's no reason to: QaHudSecondTests pins that.
+            var fight=Spawn("Ridgehound",hero.transform.position+Vector3.left*6+Vector3.back*3);fight.Passive=false;
             Put(partner,Behind(Picture("VitalsFrame").rectTransform,1));
             yield return new WaitForSecondsRealtime(.3f);
-            Assert.Less(vitals.alpha,.42f,"the partner is behind the vitals and the panel stays solid");
-            Assert.Greater(vitals.alpha,.3f,"the panel fades so far its numbers are gone");
-            Assert.Greater(objective.alpha,.98f,"the objective fades for someone behind the other corner");
+            Assert.Less(Plate("VitalsFrame"),.42f,"the partner is behind the vitals and the panel stays solid");
+            Assert.Greater(Plate("VitalsFrame"),.3f,"the panel fades so far its numbers are gone");
+            Assert.Greater(Plate("ObjectiveFrame"),.98f,"the objective fades for someone behind the other corner");
             // Then she's gone, and it comes back gently: no pop.
-            Put(partner,hero.transform.position+Vector3.right*2);
+            Put(partner,hero.transform.position+Vector3.right*2);Object.Destroy(fight.gameObject);
             yield return new WaitForSecondsRealtime(.4f);
-            Assert.Less(vitals.alpha,.8f,"the panel snaps back the moment nobody's behind it, and would flicker on a body at its edge");
+            Assert.Less(Plate("VitalsFrame"),.8f,"the panel snaps back the moment nobody's behind it, and would flicker on a body at its edge");
             yield return new WaitForSecondsRealtime(1f);
-            Assert.Greater(vitals.alpha,.98f,"the panel never comes back");
+            Assert.Greater(Plate("VitalsFrame"),.98f,"the panel never comes back");
             // A body at rest isn't the fight; an awake enemy is.
             var at=Behind(Picture("ObjectiveFrame").rectTransform,.75f);var hound=Spawn("Ridgehound",at);
             yield return Hold(hound,at,.3f);
-            Assert.Greater(objective.alpha,.98f,"the objective fades for a sleeping enemy, which isn't what the player needs to see");
+            Assert.Greater(Plate("ObjectiveFrame"),.98f,"the objective fades for a sleeping enemy, which isn't what the player needs to see");
             hound.Passive=false;yield return Hold(hound,at,.3f);
-            Assert.Less(objective.alpha,.42f,"an awake enemy is behind the objective and the panel stays solid");
+            Assert.Less(Plate("ObjectiveFrame"),.42f,"an awake enemy is behind the objective and the panel stays solid");
             hound.Passive=true;hound.transform.position=hero.transform.position+Vector3.right*30;Physics.SyncTransforms();
             // What the player is locked onto counts wherever it is, asleep or not.
             yield return null;hero.target=hound.Health;hero.TargetLocked=true;yield return null;yield return null;
-            var target=Group("TargetPlate");Assert.AreNotSame(target,vitals,"fixture: the target plate fades alone");
             at=Behind(Picture("TargetPlate").rectTransform,.75f);
             yield return Hold(hound,at,.3f);
-            Assert.Less(target.alpha,.42f,"the locked target is behind the target plate and the plate stays solid");
+            Assert.Less(Plate("TargetPlate"),.42f,"the locked target is behind the target plate and the plate stays solid");
             hound.transform.position=hero.transform.position+Vector3.right*30;Physics.SyncTransforms();
             // A prompt the hero is reading gives way only to the hero: the partner walking behind it mustn't take it away.
             var fixture=new GameObject("Prompt fixture").AddComponent<FixturePrompt>();fixture.prompt="Finish the walkway repair";fixture.range=6;fixture.transform.position=hero.transform.position;
             yield return null;yield return null;
-            var prompt=Group("InteractionPlate");Assert.AreNotSame(prompt,vitals,"fixture: the prompt fades alone");
             Put(partner,Behind(Picture("InteractionPlate").rectTransform,1));
             yield return new WaitForSecondsRealtime(.25f);
-            Assert.Greater(prompt.alpha,.98f,"the prompt the hero is standing at fades because the partner walked behind it");
+            Assert.Greater(Plate("InteractionPlate"),.98f,"the prompt the hero is standing at fades because the partner walked behind it");
             Object.Destroy(fixture.gameObject);
         }
 
@@ -374,10 +372,12 @@ namespace Lattice.Tests.PlayMode
             var lines=Live("PickupLine");Assert.GreaterOrEqual(lines.Length,5,"fixture: a full feed");
             foreach(var line in lines)Assert.IsFalse(box.Overlaps(Box(line.rectTransform)),"the bark lands on the pickup feed's \""+line.text+"\"");
             // And the column gives way like the other panels, if the party does stray behind it.
-            var group=Group("BarkPlate");Assert.Greater(group.alpha,.98f,"the bark is faded with nobody behind it");
-            var partner=Partner;partner.Health.InvulnerableUntil=GameTime.Now+10;Put(partner,Behind(plate.rectTransform,1));
+            Assert.Greater(Plate("BarkPlate"),.98f,"the bark is faded with nobody behind it");
+            var partner=Partner;Hero.Health.InvulnerableUntil=partner.Health.InvulnerableUntil=GameTime.Now+10;
+            // A fight: on a calm walk the partner doesn't move it, which QaHudSecondTests pins.
+            Spawn("Ridgehound",Hero.transform.position+Vector3.right*6+Vector3.back*3).Passive=false;Put(partner,Behind(plate.rectTransform,1));
             yield return new WaitForSecondsRealtime(.3f);
-            Assert.Less(group.alpha,.42f,"the partner is behind a bark and the plate stays solid");
+            Assert.Less(Plate("BarkPlate"),.42f,"the partner is behind a bark and the plate stays solid");
         }
 
         // ------------------------------------------------------------------ items 7 and 13: what the objective says and points at
@@ -488,13 +488,15 @@ namespace Lattice.Tests.PlayMode
             // A link nearly cut: the plate's 66/5100 and the bar have to agree.
             collar.Links[0].integrity=66;yield return null;yield return null;
             Assert.AreEqual(Left()/Whole(),Bar(),.015f,"a link is nearly gone and the bar hasn't moved: 66/5100 on the plate reads as nearly dead over a full bar");
-            // Notches where the fight changes: the last link's cut, then the head's phases.
+            // Notches where the fight changes: each link's cut, the last where the head opens, then the head's phases.
             var notches=fill.canvas.GetComponentsInChildren<Image>().Where(i=>i.name.StartsWith("BossNotch")).Select(i=>i.rectTransform.anchoredPosition.x/back.rectTransform.rect.width).OrderByDescending(x=>x).ToArray();
             float share=head.maximum/Whole();var thresholds=cantor.GetComponent<BossController>().Thresholds;
-            Assert.AreEqual(3,notches.Length,"the bar doesn't mark the collar coming off as well as the head's two phases");
-            Assert.AreEqual(share,notches[0],.01f,"no notch where the last link goes and the head opens");
-            Assert.AreEqual(share*thresholds[0],notches[1],.01f,"the head's first phase isn't marked where it falls on the whole fight's bar");
-            Assert.AreEqual(share*thresholds[1],notches[2],.01f,"the head's second phase isn't marked where it falls on the whole fight's bar");
+            Assert.AreEqual(5,notches.Length,"the bar doesn't mark each link coming off as well as the head's two phases");
+            Assert.AreEqual(1-collar.Links[0].maximum/Whole(),notches[0],.01f,"no notch where the first link goes");
+            Assert.AreEqual(1-(collar.Links[0].maximum+collar.Links[1].maximum)/Whole(),notches[1],.01f,"no notch where the second link goes");
+            Assert.AreEqual(share,notches[2],.01f,"no notch where the last link goes and the head opens");
+            Assert.AreEqual(share*thresholds[0],notches[3],.01f,"the head's first phase isn't marked where it falls on the whole fight's bar");
+            Assert.AreEqual(share*thresholds[1],notches[4],.01f,"the head's second phase isn't marked where it falls on the whole fight's bar");
             // The links gone, the bar stands at the head's share.
             foreach(var link in collar.Links)link.Receive(new DamagePacket{source=hero.Health,amount=1e8f,type=DamageType.Pulse});
             yield return null;yield return null;
@@ -707,7 +709,8 @@ namespace Lattice.Tests.PlayMode
             // Its moment over, the bar carries the epithet.
             yield return new WaitForSecondsRealtime(3.2f);
             Assert.Less(card.alpha,.01f,"the card never leaves");
-            Assert.IsFalse(Picture("BossTitleBand").isActiveAndEnabled,"the card's band stays over the fight after its words have gone");
+            Assert.IsNull(Picture("BossTitleBand"),"the card has a dark band over the fight, and it hid a boss standing under it");
+            Assert.IsFalse(Picture("BossTitleRule").isActiveAndEnabled,"the card's rule stays over the fight after its words have gone");
             StringAssert.Contains("scavenger",Text("BossEpithet").text,"the epithet never reaches the bar");
             boss.Passive=true;Object.Destroy(boss.gameObject);
         }
@@ -726,8 +729,8 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(screen.center.x,Box(card.rectTransform).center.x,screen.width*.02f,"the card isn't centred");
             Assert.AreEqual(screen.center.y,(Box(card.rectTransform).center.y+Box(words.rectTransform).center.y)*.5f,screen.height*.12f,"the card isn't in the middle of the screen");
             Assert.IsFalse(Picture("QuestToastFrame").gameObject.activeInHierarchy,"the corner card shows the same words beside it");
-            StringAssert.Contains("later build",words.text,"nothing says plainly that the road goes on in a later build");
-            foreach(var developer in new[]{"for today","stops here"})StringAssert.DoesNotContain(developer,words.text,"the card sounds like a developer's note");
+            StringAssert.Contains("road runs on to Xylos",words.text,"nothing says plainly that the road goes on");
+            foreach(var developer in new[]{"for today","stops here","build"})StringAssert.DoesNotContain(developer,words.text,"the card sounds like a developer's note");
             foreach(var text in new[]{card,words,Text("ChapterCardTitle")})
             {
                 Assert.IsNotNull(text,"fixture: the card's pieces");var box=text.rectTransform.rect;var need=text.GetPreferredValues(text.text,box.width,0);

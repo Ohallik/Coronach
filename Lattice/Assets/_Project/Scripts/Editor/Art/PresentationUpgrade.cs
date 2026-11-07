@@ -43,6 +43,7 @@ namespace Lattice.EditorTools
                     var clips=new List<GenIntake.ClipRow>();
                     foreach(string state in new[]{"Idle","Walk","Run","Sprint","Shoot","Dodge","Stagger","Buff"})
                         clips.Add(new GenIntake.ClipRow{state=state,path=AnimRoot+"HeroLocomotion.fbx",name=state=="Idle"&&row.form=="Shaped"?(row.character=="Taren"?"CombatIdle":"RangedIdle"):state});
+                    if(row.form=="Shaped")clips.Add(new GenIntake.ClipRow{state="CalmIdle",path=AnimRoot+"HeroLocomotion.fbx",name="Idle"});
                     foreach(string state in new[]{"Attack1","Attack2","Attack3","Guard","Cleave","Dash","Pulse"})
                         clips.Add(new GenIntake.ClipRow{state=state,path=AnimRoot+"HeroCombat.fbx",name=state});
                     row.clips=clips.ToArray();

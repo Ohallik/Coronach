@@ -199,7 +199,10 @@ namespace Lattice.Tests.PlayMode
                     Assert.IsNotNull(material.GetTexture("_BaseMap"),zone+": a strand has no texture: a flat opaque bar, not a curtain of light");
                     Assert.AreEqual((float)BlendMode.One,material.GetFloat("_DstBlend"),zone+": a strand covers what's behind it instead of glowing over it");
                     Assert.AreEqual("curtain_soft",material.GetTexture("_BaseMap").name,zone+": drawn on the flare, a thin streak, a strand is a spark halfway up its own length");
-                    Assert.Greater(strand.startColor.a,.6f,zone+": a strand isn't brightest at the floor");
+                    // The Reach's outer strands thin away on purpose, so its ends don't stop in a row of teeth: all but they keep the old floor, and they have to really fall away.
+                    float across=Mathf.Abs(strand.transform.TransformPoint(strand.GetPosition(0)).x);
+                    if(zone=="WickReach"&&across>36)Assert.Less(strand.startColor.a,across>46?.3f:.62f,zone+": the curtain's ends don't thin away: they stop in a row of teeth");
+                    else Assert.Greater(strand.startColor.a,.6f,zone+": a strand isn't brightest at the floor");
                     Assert.Less(strand.endColor.a,.03f,zone+": a strand doesn't fade to nothing at its top: it ends in a hard edge up across the HUD");
                     Assert.Less(strand.transform.TransformPoint(strand.GetPosition(1)).y,tallest,zone+": a strand climbs over the HUD");
                 }

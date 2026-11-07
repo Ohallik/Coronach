@@ -70,6 +70,8 @@ namespace Lattice.World
         }
         void Open()
         {
+            // The gate's name goes as the gate does. Lattice.World can't see the sign's type, and doesn't need to: its text and its plate are the only things here drawn by a mesh.
+            foreach(var part in GetComponentsInChildren<Renderer>())if(part is not LineRenderer)part.enabled=false;
             for(int i=-2;i<=2;i++)CombatVfx.Burst(transform.position+Vector3.right*i*BurstSpacing,new Color(1,.7f,.3f),"kill");
             AudioManager.PlayAt("doorOpen_000",null,Vector3.zero,.3f,AudioBus.SFX,40,.06f,.6f);
             BarkService.Play(speaker,bark,true);

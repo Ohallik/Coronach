@@ -490,7 +490,7 @@ namespace Lattice.Tests.PlayMode
             Flag("chapter2.homecoming");
             float deadline=Time.unscaledTime+3;while(!toast.Heading.Contains("CHAPTER 2")&&Time.unscaledTime<deadline)yield return null;
             StringAssert.Contains("CHAPTER 2 COMPLETE",toast.Heading,"the last conversation of the chapter ends with nothing to say so");
-            StringAssert.Contains("later build",toast.Body,"nothing says the road goes on in a later build, so 'isn't charted yet' still reads as a task");
+            StringAssert.Contains("still being drawn",toast.Body,"nothing says the road's chart is out of the player's hands, so 'isn't charted yet' still reads as a task");
             yield return new WaitForSecondsRealtime(5.5f);
             Assert.IsTrue(toast.Showing,"three lines at the end of a chapter are gone before they can be read");
             deadline=Time.unscaledTime+6;while(toast.Showing&&Time.unscaledTime<deadline)yield return null;

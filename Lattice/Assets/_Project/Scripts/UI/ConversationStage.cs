@@ -8,19 +8,24 @@ namespace Lattice.UI
 {
     /// <summary>A conversation with someone standing there is a scene: the partner comes over and stands beside the hero, and all three look at each other. She used to be left across
     /// the room with her back to the speaker while saying her own lines. Nobody is moved through anything: she walks the baked navigation for a few seconds at most, a speaker still on
-    /// a scripted walk keeps to it, and when the talk ends the speaker turns back to their post and she goes back to following.</summary>
+    /// a scripted walk keeps to it, and when the talk ends the speaker turns back to their post and she goes back to following. A talk that starts on its own at a discovery or a crossing
+    /// has nobody to turn back: the party just faces whoever's held for it, or the thing itself.</summary>
     public sealed class ConversationStage:MonoBehaviour
     {
         const float Beside=1.7f,TurnRate=360,Settled=.3f,WalkLimit=4,SpeakerReach=9,JogFrom=3;
+        /// <summary>How far apart she and the hero stand across the screen: a body's width. And how far she keeps across the screen from the speaker, should the free side be theirs.</summary>
+        const float ClearOfHero=1.15f,ClearOfSpeaker=.9f,HeldReach=26;
+        /// <summary>Across the screen and up it, from him, in the order she tries them. The later ones are for a narrow place: a terrace's edge or a wall on the free side.</summary>
+        static readonly (float across,float up)[] Marks={(Beside,.3f),(Beside+.7f,.3f),(1.3f,1.4f),(1.3f,-1)};
         const float WalkTilt=.45f;
         NavMeshPath path;Vector3[] corners;int corner;float nextPath,walked;
-        Npc speaker;Quaternion rest;bool staging,returning;
+        Npc speaker;Quaternion rest;bool staging,returning;Transform focus;
         CombatActor hero,partner;Vector3 mark;bool hasMark;int began;
         void Awake()=>path=new NavMeshPath();
-        void OnEnable()=>Npc.TalkRequested+=Begin;
+        void OnEnable(){Npc.TalkRequested+=Begin;DiscoveryPoint.DialogueRequested+=Discovered;}
         void OnDisable()
         {
-            Npc.TalkRequested-=Begin;
+            Npc.TalkRequested-=Begin;DiscoveryPoint.DialogueRequested-=Discovered;
             if(speaker!=null&&Holds(speaker)&&(staging||returning))speaker.transform.rotation=rest;
             staging=returning=false;
         }
@@ -32,11 +37,35 @@ namespace Lattice.UI
             var lead=party.Active;var person=Find(who,lead.transform.position);if(person==null)return;
             if(speaker!=null&&speaker!=person&&Holds(speaker)&&returning)speaker.transform.rotation=rest;
             if(speaker!=person||!returning&&!staging){rest=person.transform.rotation;}
-            speaker=person;hero=lead;
+            speaker=person;Open(party,person.transform,who);
+        }
+        /// <summary>A talk that starts on its own: a discovery, or a crossing with someone held for it. It left her wherever she'd got to: off screen under the box through Hessa's opening, or
+        /// across the hall while saying her own line about the cut housings. So she can be the one speaking, and still comes over.</summary>
+        void Discovered(DiscoveryPoint point)
+        {
+            var party=PartyController.Current;if(point==null||party==null||party.Active==null||party.Active.flight)return;
+            if(speaker!=null&&Holds(speaker)&&returning)speaker.transform.rotation=rest;
+            speaker=null;Open(party,Held(point.dialogueSpeaker,party.Active.transform.position)??point.transform,null);
+        }
+        void Open(PartyController party,Transform look,string who)
+        {
+            hero=party.Active;focus=look;
             staging=true;returning=false;began=Time.frameCount;walked=0;nextPath=0;corners=null;hasMark=false;partner=null;
             foreach(var member in party.members)
-                if(member!=null&&member!=lead&&member.character!=who&&member.Health.Alive&&member.TryGetComponent<PartnerBrain>(out var brain)&&brain.enabled)partner=member;
+                if(member!=null&&member!=hero&&member.character!=who&&member.Health.Alive&&member.TryGetComponent<PartnerBrain>(out var brain)&&brain.enabled)partner=member;
             if(partner!=null)hasMark=Mark(out mark);
+        }
+        /// <summary>A boss standing there for her own confrontation, by her id (Hessa, HessaKorl).</summary>
+        static Transform Held(string who,Vector3 near)
+        {
+            if(string.IsNullOrEmpty(who))return null;
+            Transform best=null;float closest=HeldReach*HeldReach;
+            foreach(var health in Health.All)
+            {
+                if(health==null||health.friendly||health.id==null||!health.id.StartsWith(who))continue;
+                float gap=(health.transform.position-near).sqrMagnitude;if(gap<closest){closest=gap;best=health.transform;}
+            }
+            return best;
         }
         /// <summary>The nearest person of that name in reach of the hero: a recorded message or a speaker off on the radio has nobody standing there.</summary>
         static Npc Find(string who,Vector3 near)
@@ -49,16 +78,21 @@ namespace Lattice.UI
             }
             return best;
         }
-        /// <summary>Beside the hero, on the side away from the camera so she's above the dialogue box, and on floor she can reach.</summary>
+        /// <summary>Beside the hero on the screen, not beside him as he faces: a mark at his side when he faces east lies straight behind him from this camera, one figure with two heads.
+        /// So it's measured along the camera's own right, a body's width off, on the side away from whoever he's talking to, a little up the screen so she's above the dialogue box, and on floor she can reach.</summary>
         bool Mark(out Vector3 spot)
         {
             spot=default;
-            var toward=Flat(speaker.transform.position-hero.transform.position);if(toward.sqrMagnitude<.01f)return false;toward.Normalize();
-            var side=Vector3.Cross(Vector3.up,toward);
-            if(Vector3.Dot(side,Quaternion.Euler(0,SightlineAudit.Yaw,0)*Vector3.forward)<0)side=-side;
-            foreach(float sign in new[]{1f,-1f})
-                if(NavMesh.SamplePosition(hero.transform.position+side*sign*Beside+toward*.3f,out var hit,1,NavMesh.AllAreas)&&Flat(hit.position-hero.transform.position).magnitude>1)
-                {spot=hit.position;return true;}
+            var view=Quaternion.Euler(0,SightlineAudit.Yaw,0);Vector3 across=view*Vector3.right,up=view*Vector3.forward,at=hero.transform.position;
+            float free=Vector3.Dot(focus.position-at,across)>=0?-1:1;
+            foreach(float side in new[]{free,-free})
+                foreach(var (reach,lift) in Marks)
+                {
+                    if(!NavMesh.SamplePosition(at+across*side*reach+up*lift,out var hit,.8f,NavMesh.AllAreas))continue;
+                    if(Mathf.Abs(Vector3.Dot(hit.position-at,across))<ClearOfHero)continue;
+                    if(Mathf.Abs(Vector3.Dot(hit.position-focus.position,across))<ClearOfSpeaker&&Flat(hit.position-focus.position).magnitude<4)continue;
+                    spot=hit.position;return true;
+                }
             return false;
         }
         void Update()
@@ -72,16 +106,16 @@ namespace Lattice.UI
             }
             if(!staging)return;
             var dialogue=DialogueSystem.Current;
-            if(speaker==null||hero==null||Time.frameCount>began&&(dialogue==null||!dialogue.Running)){staging=false;returning=speaker!=null;return;}
+            if(focus==null||hero==null||Time.frameCount>began&&(dialogue==null||!dialogue.Running)){staging=false;returning=speaker!=null;return;}
             if(GameTime.Paused)return;
-            Face(hero,speaker.transform.position);
-            if(Holds(speaker))Turn(speaker.transform,hero.transform.position);
+            Face(hero,focus.position);
+            if(speaker!=null&&Holds(speaker))Turn(speaker.transform,hero.transform.position);
             if(partner!=null&&partner.Health.Alive&&!partner.Recovering)Stage();
         }
         void Stage()
         {
             var at=partner.transform.position;var toMark=Flat(mark-at);
-            if(!hasMark||toMark.magnitude<=Settled||walked>WalkLimit){partner.motor.Move(Vector2.zero,false,false);Face(partner,speaker.transform.position);return;}
+            if(!hasMark||toMark.magnitude<=Settled||walked>WalkLimit){partner.motor.Move(Vector2.zero,false,false);Face(partner,focus.position);return;}
             walked+=Time.unscaledDeltaTime;
             var step=toMark;var nav=GroundNavigation.Current;
             if(nav!=null)
@@ -91,7 +125,7 @@ namespace Lattice.UI
                     nextPath=Time.unscaledTime+.3f;
                     corners=nav.FindPath(at,mark,hero.transform.position,path)?path.corners:null;corner=1;
                 }
-                if(corners==null||corners.Length<2){partner.motor.Move(Vector2.zero,false,false);Face(partner,speaker.transform.position);return;}
+                if(corners==null||corners.Length<2){partner.motor.Move(Vector2.zero,false,false);Face(partner,focus.position);return;}
                 while(corner<corners.Length-1&&Flat(corners[corner]-at).magnitude<.35f)corner++;
                 step=Flat(corners[corner]-at);
             }

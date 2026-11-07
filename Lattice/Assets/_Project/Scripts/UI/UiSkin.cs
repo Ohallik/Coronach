@@ -83,12 +83,14 @@ namespace Lattice.UI
             }
             return Drawn(id,size,pixels,new Vector4(31,31,31,31));
         }
-        /// <summary>A solid arrowhead pointing up, for what the objective points at: a triangle with a notch, not art.</summary>
+        /// <summary>The arrow's outline, tip up, in the sprite's -1 to 1. Long and slim, the tip well past everything else, the wing ends blunt and a notch behind them, so it has one sharp end
+        /// at any rotation. The wings used to reach further from the middle than the tip (1.08 against .92), and it read as a plain triangle aimed 120 degrees off.</summary>
+        public static readonly Vector2[] PointerOutline={new(0,.98f),new(.48f,-.56f),new(.32f,-.68f),new(0,-.26f),new(-.32f,-.68f),new(-.48f,-.56f)};
+        /// <summary>A solid arrowhead pointing up, for what the objective points at: drawn in code, not art.</summary>
         public static Sprite Pointer()
         {
             const string id="pointer";const int size=64,samples=4;
             if(Cache.TryGetValue(id,out var known)&&known!=null)return known;
-            Vector2 apex=new(0,.92f),right=new(.72f,-.8f),notch=new(0,-.36f),left=new(-.72f,-.8f);
             var pixels=new Color32[size*size];
             for(int y=0;y<size;y++)for(int x=0;x<size;x++)
             {
@@ -96,17 +98,19 @@ namespace Lattice.UI
                 for(int sy=0;sy<samples;sy++)for(int sx=0;sx<samples;sx++)
                 {
                     var p=new Vector2((x+(sx+.5f)/samples)/size*2-1,(y+(sy+.5f)/samples)/size*2-1);
-                    if(InTriangle(p,apex,right,notch)||InTriangle(p,apex,notch,left))inside++;
+                    if(InPointer(p))inside++;
                 }
                 pixels[y*size+x]=new Color32(255,255,255,(byte)(255*inside/(samples*samples)));
             }
             return Drawn(id,size,pixels,Vector4.zero);
         }
-        static float Side(Vector2 p,Vector2 a,Vector2 b)=>(p.x-b.x)*(a.y-b.y)-(a.x-b.x)*(p.y-b.y);
-        static bool InTriangle(Vector2 p,Vector2 a,Vector2 b,Vector2 c)
+        /// <summary>Crossings counted along a line: the notch makes the outline concave.</summary>
+        static bool InPointer(Vector2 p)
         {
-            float one=Side(p,a,b),two=Side(p,b,c),three=Side(p,c,a);
-            return !((one<0||two<0||three<0)&&(one>0||two>0||three>0));
+            bool inside=false;var shape=PointerOutline;
+            for(int i=0,j=shape.Length-1;i<shape.Length;j=i++)
+                if((shape[i].y>p.y)!=(shape[j].y>p.y)&&p.x<(shape[j].x-shape[i].x)*(p.y-shape[i].y)/(shape[j].y-shape[i].y)+shape[i].x)inside=!inside;
+            return inside;
         }
         static Sprite Drawn(string id,int size,Color32[] pixels,Vector4 border)
         {

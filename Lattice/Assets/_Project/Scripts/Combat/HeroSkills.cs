@@ -23,7 +23,7 @@ namespace Lattice.Combat
     {
         CombatActor actor;
         void Awake(){actor=GetComponent<CombatActor>();}
-        static readonly Color Amber=new(1.4f,.62f,.18f),Cyan=new(.25f,1.1f,1.6f),Violet=new(.75f,.45f,1.6f);
+        static readonly Color Cyan=new(.25f,1.1f,1.6f),Violet=new(.75f,.45f,1.6f);
 
         DamagePacket Hit(float amount,DamageType type,float breakPower)=>actor.Packet(amount,type,breakPower);
         /// <summary>A skill's strike on the world: it stops at walls, as its ring does, and it outlives the caster's next action.</summary>
@@ -154,7 +154,7 @@ namespace Lattice.Combat
         {
             if(CombatCover.Sweep(Body,point+Vector3.up*.9f,.2f,out var wall))point=Body+(point+Vector3.up*.9f-Body).normalized*Mathf.Max(0,wall.distance-.2f)-Vector3.up*.9f;
             Land(point+Vector3.up*.9f,radius,packet).life=.14f;
-            SkillRing.Expand(point,radius,Amber,.35f,false);CombatVfx.Burst(point+Vector3.up*.3f,new Color(1,.6f,.2f),"hit");
+            SkillRing.Expand(point,radius,GroundRing.Friendly,.35f,false);CombatVfx.Burst(point+Vector3.up*.3f,new Color(1,.6f,.2f),"hit");
             Sound("explosionCrunch_000",.38f,.85f);
         }
 
@@ -177,7 +177,7 @@ namespace Lattice.Combat
                         {
                             ticks++;
                             Land(Body,2.9f,CombatActor.MultiHit(Hit(Melee(.75f,power),DamageType.Plasma,22)));
-                            SkillRing.Expand(transform.position,2.9f,new Color(1.5f,.5f,.15f),.18f,false);
+                            SkillRing.Expand(transform.position,2.9f,GroundRing.Friendly,.18f,false);
                             Sound("impactMetal_000",.16f,1.1f+ticks*.06f);
                         }
                     }
@@ -332,7 +332,7 @@ namespace Lattice.Combat
                 if(!CombatCover.Clear(from,to)){Destroy(gameObject);return;}
                 last=point;
                 var strike=HeroSkills.Land(to,1.7f,packet());strike.hit=victims;strike.life=.1f;
-                SkillRing.Expand(point,1.7f,new Color(1.4f,.55f,.15f),.3f,flight);
+                SkillRing.Expand(point,1.7f,GroundRing.Friendly,.3f,flight);
                 CombatVfx.Burst(point+Vector3.up*(flight?0:.25f),new Color(1,.55f,.2f),"hit");
                 burst++;
             }
@@ -452,7 +452,7 @@ namespace Lattice.Combat
                 landed=true;age=0;nextTick=.4f;
                 // Stopped short by a wall it still opens on the floor: its ring used to float over everyone's heads.
                 if(!flight)transform.position=CombatCover.Ground(transform.position+Vector3.up*.1f)+Vector3.up*.1f;
-                SkillRing.Expand(transform.position,PullRadius*.15f,new Color(.7f,.4f,1.5f,.8f),Duration,flight,true,PullRadius);
+                SkillRing.Expand(transform.position,PullRadius*.15f,new Color(.3f,1,1.6f,.8f),Duration,flight,true,PullRadius);
                 HeroSkills.Sound(owner,transform.position,"forceField_000",.26f,.55f);return;
             }
             float spin=age*540;transform.rotation=Quaternion.Euler(0,spin,0);transform.localScale=Vector3.one*(1+.25f*Mathf.Sin(age*12));
@@ -474,7 +474,7 @@ namespace Lattice.Combat
             if(age>=Duration)
             {
                 HeroSkills.Land(transform.position+Vector3.up*(flight?0:.8f),ImplodeRadius,Packet(1.4f,45)).life=.12f;
-                SkillRing.Expand(transform.position,ImplodeRadius,new Color(.9f,.5f,1.8f),.35f,flight);
+                SkillRing.Expand(transform.position,ImplodeRadius,new Color(.4f,1.2f,1.8f),.35f,flight);
                 CombatVfx.Burst(transform.position+Vector3.up*(flight?0:.6f),new Color(.7f,.4f,1.5f),"hit");HeroSkills.Sound(owner,transform.position,"explosionCrunch_000",.3f,.7f);
                 Destroy(gameObject);
             }

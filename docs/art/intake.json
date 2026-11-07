@@ -126,6 +126,11 @@
         "name": "CombatIdle"
       },
       {
+        "state": "CalmIdle",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Idle"
+      },
+      {
         "state": "Walk",
         "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
         "name": "Walk"
@@ -332,6 +337,11 @@
         "state": "Idle",
         "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
         "name": "RangedIdle"
+      },
+      {
+        "state": "CalmIdle",
+        "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
+        "name": "Idle"
       },
       {
         "state": "Walk",
@@ -2406,9 +2416,9 @@
   },
   {
     "id": "HessaKorl",
-    "model": "art-src/Generated/P3-SentinelHusk/SentinelHusk_clean.fbx",
-    "albedo": "art-src/Generated/QA-Cast/HessaKorl_albedo.png",
-    "emission": "art-src/Generated/QA-Cast/HessaKorl_emission.png",
+    "model": "art-src/Generated/QA-Hessa/HessaBody_clean.fbx",
+    "albedo": "art-src/Generated/QA-Hessa/HessaBody_albedo.png",
+    "emission": "art-src/Generated/QA-Hessa/HessaBody_emission.png",
     "emissionColor": "#FFB62E",
     "kind": "biped",
     "fit": "height",
@@ -2445,14 +2455,19 @@
         "state": "Stagger",
         "path": "Assets/_Project/Art/Animation/HeroLocomotion.fbx",
         "name": "Stagger"
+      },
+      {
+        "state": "Revive",
+        "path": "Assets/_Project/Art/Animation/HeroRevive.fbx",
+        "name": "Revive"
       }
     ]
   },
   {
     "id": "BrekkBody",
-    "model": "art-src/Generated/P3-Orrin/Orrin_clean.fbx",
-    "albedo": "art-src/Generated/QA-Cast/BrekkBody_albedo.png",
-    "emission": "art-src/Generated/QA-Cast/BrekkBody_emission.png",
+    "model": "art-src/Generated/QA-Hessa/BrekkBody_clean.fbx",
+    "albedo": "art-src/Generated/QA-Hessa/BrekkBody_albedo.png",
+    "emission": "art-src/Generated/QA-Hessa/BrekkBody_emission.png",
     "emissionColor": "#FF8046",
     "kind": "biped",
     "fit": "height",
@@ -2485,8 +2500,8 @@
   {
     "id": "MusterSkiff",
     "model": "art-src/Generated/P3-PatrolCutter/PatrolCutter_clean.fbx",
-    "albedo": "art-src/Generated/C9-Lantern/MusterSkiff_albedo.png",
-    "emission": "art-src/Generated/C9-Lantern/MusterSkiff_emission.png",
+    "albedo": "art-src/Generated/QA-Cast/MusterSkiff_albedo.png",
+    "emission": "art-src/Generated/QA-Cast/MusterSkiff_emission.png",
     "emissionColor": "#FF8046",
     "kind": "static",
     "fit": "length",
@@ -2536,9 +2551,9 @@
   },
   {
     "id": "CorraBody",
-    "model": "art-src/Generated/P3-Mira/Mira_clean.fbx",
-    "albedo": "art-src/Generated/C9-Lantern/CorraBody_albedo.png",
-    "emission": "art-src/Generated/C9-Lantern/CorraBody_emission.png",
+    "model": "art-src/Generated/QA-Hessa/CorraBody_clean.fbx",
+    "albedo": "art-src/Generated/QA-Hessa/CorraBody_albedo.png",
+    "emission": "art-src/Generated/QA-Hessa/CorraBody_emission.png",
     "emissionColor": "#FF8046",
     "kind": "biped",
     "fit": "height",
@@ -2546,7 +2561,7 @@
     "character": null,
     "form": "Natural",
     "enemy": null,
-    "size": 1.84,
+    "size": 1.9,
     "yaw": 0.0,
     "pitch": 0.0,
     "roll": 0.0,
@@ -2570,9 +2585,9 @@
   },
   {
     "id": "IshenBody",
-    "model": "art-src/Generated/P3-Hal/Hal_clean.fbx",
-    "albedo": "art-src/Generated/QA-Cast/IshenBody_albedo.png",
-    "emission": "art-src/Generated/QA-Cast/IshenBody_emission.png",
+    "model": "art-src/Generated/QA-Hessa/IshenBody_clean.fbx",
+    "albedo": "art-src/Generated/QA-Hessa/IshenBody_albedo.png",
+    "emission": "art-src/Generated/QA-Hessa/IshenBody_emission.png",
     "emissionColor": "#FF8046",
     "kind": "biped",
     "fit": "height",

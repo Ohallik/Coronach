@@ -21,7 +21,7 @@ namespace Lattice.Combat
         {
             if(GameTime.Paused)return;
             age+=Time.deltaTime;float radius=(cleave?5.4f:5)*Mathf.Clamp01(age/(cleave?.24f:.28f));
-            edge.Draw(radius,cleave?65:180,new Color(1,.65f,.2f,Mathf.Clamp01((.4f-age)/.12f)),true);
+            var tint=GroundRing.Friendly;tint.a=Mathf.Clamp01((.4f-age)/.12f);edge.Draw(radius,cleave?65:180,tint,true);
             foreach(var health in Health.All.ToArray())
             {
                 if(health==null||!health.Alive||health==packet.source||hasFaction&&health.friendly==friendly||victims.Contains(health))continue;

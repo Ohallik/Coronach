@@ -6,10 +6,10 @@ namespace Lattice.Combat
     {
         static CombatVfx current;
         readonly List<ParticleSystem> pool=new();
-        Material flare,circle,slash;
+        Material flare,slash;
         void Awake()
         {
-            current=this;flare=Resources.Load<Material>("Effects/flare_01");circle=Resources.Load<Material>("Effects/circle_02");slash=Resources.Load<Material>("Effects/slash_01");
+            current=this;flare=Resources.Load<Material>("Effects/flare_01");slash=Resources.Load<Material>("Effects/slash_01");
             Health.DamageNumber+=OnHit;
         }
         void OnDestroy(){Health.DamageNumber-=OnHit;if(current==this)current=null;}
@@ -38,10 +38,11 @@ namespace Lattice.Combat
             }
             ps.transform.position=position;var settings=ps.main;
             settings.startLifetime=kind=="steam"?.95f:kind=="spark"?.16f:kind=="failure"?.28f:kind=="form"?.13f:kind=="shape"?.6f:kind=="kill"?.45f:.24f;
-            settings.startSpeed=kind=="steam"?1.1f:kind=="failure"?.6f:kind=="form"?1:kind=="kill"?6:kind=="shape"?3:kind=="boost"?1:3;
-            settings.startSize=kind=="steam"?1.25f:kind=="spark"?.12f:kind=="failure"?.09f:kind=="form"?2.4f:kind=="shape"?.45f:kind=="lunge"?.7f:.3f;settings.startColor=color;
-            ps.GetComponent<ParticleSystemRenderer>().sharedMaterial=kind=="lunge"?slash:kind=="shape"?circle:flare;
-            ps.Play();ps.Emit(kind=="steam"?14:kind=="spark"?5:kind=="failure"?6:kind=="form"?3:kind=="kill"?30:kind=="shape"?40:kind=="boost"?3:10);
+            settings.startSpeed=kind=="steam"?1.1f:kind=="failure"?.6f:kind=="form"?1:kind=="kill"?6:kind=="shape"?1.8f:kind=="boost"?1:3;
+            settings.startSize=kind=="steam"?1.25f:kind=="spark"?.12f:kind=="failure"?.09f:kind=="form"?2.4f:kind=="shape"?.8f:kind=="lunge"?.7f:.3f;settings.startColor=color;
+            // A shape's burst is a soft puff. Forty thin outline rings looked like debug gizmos, and they hung round the dying Bellows.
+            ps.GetComponent<ParticleSystemRenderer>().sharedMaterial=kind=="lunge"?slash:flare;
+            ps.Play();ps.Emit(kind=="steam"?14:kind=="spark"?5:kind=="failure"?6:kind=="form"?3:kind=="kill"?30:kind=="shape"?14:kind=="boost"?3:10);
         }
     }
 }

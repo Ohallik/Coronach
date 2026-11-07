@@ -36,6 +36,7 @@ Material:
     m_Floats:
     - _AlphaTest: 0
     - _BaseMapStrength: 1
+    - _BodyStencil: 0
     - _Cull: 2
     - _Cutoff: 0.42
     - _Detail: 0
@@ -45,12 +46,14 @@ Material:
     - _Gel: 0
     - _Glow: 0
     - _Ice: 0
+    - _LightFloor: 0
     - _OccFade: 0
     - _OccFadeDepth: 0.82
     - _OccFadeToggle: 0
     - _RampSteps: 3
     - _ReceiveShadows: 1
     - _RimPower: 4
+    - _RimUnlit: 0
     - _ScatterPebbleRerole: 0
     - _SrcBlend: 5
     - _Strata: 0

@@ -165,8 +165,9 @@ namespace Lattice.Tests.PlayMode
             var sign=All<TextMeshPro>().First(t=>t.text=="BELLOWS CHAMBER");
             var lead=PartyController.Current.Active;
             // Past the sign but short of the arena's trigger (z 249 to 275): standing inside it starts the fight by itself, and the sign would already be going.
-            foreach(var hero in PartyController.Current.members){Put(hero,new Vector3(hero==lead?7:-7,HushwellLayout.Middle+.1f,247));hero.Health.maximum=hero.Health.integrity=90000;}
-            yield return new WaitForSecondsRealtime(.3f);
+            // A sign half off the screen goes too, and a headless screen can be narrower than 16:9: at 7 m it ran off the left of a 4:3 view. And the camera is still on its way after a long jump at .3 s, with the sign crossing the screen and its plates: it's where it comes to rest that this asks about.
+            foreach(var hero in PartyController.Current.members){Put(hero,new Vector3(hero==lead?3:-7,HushwellLayout.Middle+.1f,247));hero.Health.maximum=hero.Health.integrity=90000;}
+            yield return new WaitForSecondsRealtime(1f);
             Assert.Greater(sign.alpha,.9f,"fixture: nobody stands near the sign, so it's showing");
             All<EncounterVolume>().Single(e=>e.encounterId=="Hushwell_Bellows").Begin();
             yield return new WaitForSecondsRealtime(1f);
@@ -181,8 +182,9 @@ namespace Lattice.Tests.PlayMode
         {
             yield return Zone("Hushwell");
             var sign=All<TextMeshPro>().First(t=>t.text=="BELLOWS CHAMBER");
-            Put(PartyController.Current.Active,sign.transform.position+new Vector3(0,.1f,-5));
-            yield return new WaitForSecondsRealtime(.3f);
+            // Five metres straight down the screen from it, clear of the corners on any screen, and the camera at rest: a sign under a plate goes for its own reason.
+            Put(PartyController.Current.Active,sign.transform.position+Quaternion.Euler(0,View.yaw,0)*Vector3.back*5+Vector3.up*.1f);
+            yield return new WaitForSecondsRealtime(1f);
             Assert.Greater(sign.alpha,.9f,"a sign five metres from the hero is already half faded, so on a screen that follows the hero it's faint for most of the time it's in view");
         }
 

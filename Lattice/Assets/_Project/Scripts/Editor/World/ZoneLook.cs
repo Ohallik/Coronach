@@ -95,8 +95,9 @@ namespace Lattice.EditorTools
                 bloomThreshold=.85f,bloomIntensity=.7f,vignette=.26f},
             // QA: a buried station read as open ground, with a hard sun, wall tops lit as if under the sky and an even lilac floor. Down here there's only a faint cold fill now, too weak for a
             // shadow to read: what light there is comes from the lamps and the Great Lantern, and the wall tops, above the lamps, stay dark.
+            // The fill is lifted on the sides more than from above: the floor stays as dark as it reads now, about .19 on screen, and a body's flanks stop going black between lamps.
             ["SunkenRelay"]=new Spec{sun=C(.62f,.66f,.85f),sunIntensity=.28f,sunPitch=62,shadowStrength=.25f,
-                sky=C(.16f,.17f,.25f),equator=C(.17f,.17f,.22f),ground=C(.1f,.09f,.1f),
+                sky=C(.18f,.19f,.27f),equator=C(.27f,.27f,.33f),ground=C(.16f,.15f,.17f),
                 exposure=.25f,contrast=12,saturation=-2,splitShadows=C(.44f,.46f,.6f),splitHighlights=C(.56f,.5f,.44f),
                 bloomThreshold=.85f,bloomIntensity=.8f,vignette=.3f},
             // QA: between lamps the floor went near black and the player lost the walls; the dark stays, the mud doesn't.
