@@ -11,7 +11,7 @@ Your job is to test the game the way a professional tester would, then **fix eve
 ## Read first
 1. `docs/TEST_PLAN.md`: your checklist, quality bar, severity scale, issue format and fix loop. Follow it.
 2. `docs/NEXT_SESSION_PROMPT.md`: current state, the commands that work, the ground rules and the evidence rules.
-3. `docs/PROGRESS.md`, newest entry first, and `docs/DECISIONS.md` D197–D202.
+3. `docs/PROGRESS.md`, newest entry first, and `docs/DECISIONS.md` D197–D222 (D203–D222 are the November QA pass, whose log is `docs/qa/ISSUES.md`).
 4. For story and voice: `docs/STORY_CAMPAIGN.md`, `docs/GAME_DESIGN.md` §3 (cast) and `docs/writing/*.yarn`.
 
 ## Ground rules
@@ -21,7 +21,7 @@ Your job is to test the game the way a professional tester would, then **fix eve
   - Nathan plays `Builds/WindowsDev` himself; his log is `LocalLow\Nathan\Coronach\Player.log`.
 - **Unity:** only one Unity may own `Lattice/`. Never stop Frostbound or any other unrelated Unity process. Use the isolated builder entry points only.
 - **Player windows:** player-window runs (replays, look captures, smokes) fail if they lose focus. Run each one alone as a single blocking call and issue nothing else while it runs.
-- **Long runs:** full PlayMode needs `-TimeoutSec 3600`; run it in the background and start no other Unity work.
+- **Long runs:** full PlayMode is about 1,400 tests and 2.5 hours. Run `scripts/full-suite.ps1 -Label <name>` (three parts by class; read the results with `python tools/suite_results.py <name>`) in the background, and start no other Unity work. One unfiltered run under a single time limit loses every result when it times out and strands the saves.
 - **Art:** art must be generated (Meshy, through `tools/meshy/meshy.py`, one image task at a time) or come from the existing generated kit. Kenney and other packs are donors only.
 - **Git:**
   - Revert `Lattice/Packages/packages-lock.json` before committing.
@@ -42,8 +42,7 @@ You can't hold a controller, so you play through the game's own tools:
 - **PlayMode tests** for anything you can pin down in code.
 
 Play the whole game in order: Title → New Game → the first morning → Sorrel → Hushwell → the Halo → the Gullet → Tallow → the Compact's call → Abri's lantern tale → the Wick Reach → Lanternwick → Lantern Gorge → the Sunken Relay → Hessa Korl → Aumi → home to Abri.
-- The chapter 1 chain routes exist (`chapter-01` … `chapter-11`).
-- **Write the chapter 2 routes** (`chapter-12` … `chapter-16`, listed in TEST_PLAN §5), validating each one alone before moving on.
+- The chain routes exist for the whole game: `chapter-01` … `chapter-11`, and `chapter-12` … `chapter-16`, written by `python tools/lantern_routes.py` (change the generator and rerun it, never the JSON by hand). `scripts/quality-chain.ps1` runs them in order; without `-Routes` it runs chapter 1 only.
 - Then work through every section of TEST_PLAN §4.
 
 ## The fix loop
