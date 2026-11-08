@@ -23,9 +23,6 @@ namespace Lattice.UI
         internal const float FightRange=18,FlightFightRange=45;
         /// <summary>A little round the point a goal or a prompt's thing is known by: a pad or a ship's wing is wider than its middle.</summary>
         const float GoalRound=40,PromptRound=60,ShipRound=130;
-        /// <summary>Flight's targets come in from the top, where the target plate stands. It steps down this far when its own target is behind it, a little past the lock's brackets, and goes home when that's over, with this much to spare so a target on the line doesn't send it up and down.</summary>
-        const float TargetStep=170,TargetStepHold=30,TargetStepPerSecond=1000,ShipRoom=60;
-        float targetDrop;Vector2 targetHome;
         /// <summary>How much room over the prompt a sign has to leave.</summary>
         const float PromptHeadroom=190;RectTransform promptFrame;
         /// <summary>How far the lock's brackets reach from its middle: they cross a stepped-aside plate's words before the middle is behind it, and they dim from there, the margin they always had.</summary>
@@ -77,7 +74,7 @@ namespace Lattice.UI
             charge=Bar("Charge",new(262,912),new Color(.18f,.66f,1));
             thrust=Bar("Thrust",new(262,869),new Color(1,.65f,.2f));
             partner=Text("Partner",TopLeft,new(279,833),new(435,32),24,TextAlignmentOptions.Left);
-            target=Text("Target",TopCentre,new(960,972),new(700,80),25);targetHome=target.rectTransform.anchoredPosition;
+            target=Text("Target",TopCentre,new(960,972),new(700,80),25);
             // Centred between the objective frame's top edge (987.5) and the top of the screen: at 1000 its words sat on that edge.
             zone=Text("Zone",TopRight,new(1635,1034),new(500,60),26,TextAlignmentOptions.Right);
             skills=Text("Skills",BottomLeft,new(625,50),new(1190,60),24);
@@ -178,9 +175,11 @@ namespace Lattice.UI
                 bool on=i<bossMarks.Length;if(bossNotches[i].gameObject.activeSelf!=on)bossNotches[i].gameObject.SetActive(on);
                 if(on)bossNotches[i].rectTransform.anchoredPosition=new Vector2(BossBarWidth*bossMarks[i],0);
             }
-            string state=boss.Shifting?boss.ShiftText:health.Broken?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:boss.StatusText;
+            // The Bellows sags open after every breath, and that lifts its brace, so an opening over its organs is real. But with the plate on an organ and the objective saying break them it told a hero in the middle of the fight's one lesson to go and hit something else. Only a hero whose own target is the boss is told to strike it.
+            bool opening=health.Broken&&(active.target==health||boss.StatusText.Length==0);
+            string state=boss.Shifting?boss.ShiftText:opening?"OPENING  ·  STRIKE NOW":!health.Damageable?boss.GuardedText:boss.StatusText;
             if(bossState.text!=state)bossState.text=state;
-            bossState.color=boss.Shifting?ShiftingWords:health.Broken?OpeningWords:UiKit.LooseTextColor;
+            bossState.color=boss.Shifting?ShiftingWords:opening?OpeningWords:UiKit.LooseTextColor;
             return true;
         }
         /// <summary>The card's epithet, from the foot of the screen in its usual place, or from the middle of the screen; and how far over it the rule and the name stand.</summary>
@@ -305,7 +304,6 @@ namespace Lattice.UI
                 float brackets=ReticleReach*canvas.scaleFactor;foreach(var panel in panels)if(panel!=null&&panel.Touches(screen,brackets)){mark.a*=.4f;break;}
                 reticle.color=mark;
             }
-            StepTargetPlate(a);
             var interaction=PromptService.Interaction;prompt.text=interaction!=null&&!GameInput.Current.Blocked&&!bossUp&&!QuestToast.CardUp?PromptService.Tag("Interact")+"  "+interaction.prompt+PeopleMarks.PromptNote(interaction):"";
             bool combat=ZoneController.Current.Combat;
             for(int i=0;i<4;i++)
@@ -397,25 +395,6 @@ namespace Lattice.UI
                 foreach(var thing in InteractionPrompt.Active)bar.Near(camera.WorldToScreenPoint(thing.transform.position),round,now);
             }
             foreach(var panel in panels)panel?.Step(now,Time.unscaledDeltaTime);
-        }
-        /// <summary>The words naming a Shellmine lay on the Shellmine. With its own target behind it in flight the plate steps down past it, unless that lands it on the ship. On foot the camera keeps a target lower on the screen, and the plate fades as any plate does.</summary>
-        void StepTargetPlate(CombatActor a)
-        {
-            float want=0;
-            if(a.flight&&reticle.enabled&&targetPlate.Frame.enabled)
-            {
-                float scale=canvas.scaleFactor;targetPlate.Frame.rectTransform.GetWorldCorners(corners);
-                float left=corners[0].x,right=corners[2].x,low=corners[0].y+targetDrop*scale,high=corners[1].y+targetDrop*scale,reach=(ReticleReach+(targetDrop>0?TargetStepHold:0))*scale;
-                Vector2 lockedAt=reticle.rectTransform.position;
-                if(lockedAt.x>left-reach&&lockedAt.x<right+reach&&lockedAt.y>low-reach)
-                {
-                    Vector2 ship=Camera.main.WorldToScreenPoint(a.transform.position);float step=TargetStep*scale,room=ShipRoom*scale;
-                    if(ship.x<left-room||ship.x>right+room||ship.y<low-step-room||ship.y>high-step+room)want=TargetStep;
-                }
-            }
-            if(targetDrop==want)return;
-            targetDrop=Mathf.MoveTowards(targetDrop,want,Time.unscaledDeltaTime*TargetStepPerSecond);
-            target.rectTransform.anchoredPosition=targetHome-new Vector2(0,targetDrop);
         }
         bool Behind(Vector3 screen){foreach(var panel in panels)if(panel!=null&&panel.Contains(screen))return true;return false;}
         void Look(Vector3 screen,float now){foreach(var panel in panels)panel?.Look(screen,now);}

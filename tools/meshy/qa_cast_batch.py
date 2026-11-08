@@ -39,10 +39,11 @@ RESKINS = {
         "with many small pockets over cream trousers, soft pale cloth shoes, a bundle of paper slips at the collar"),
     # Chapter 1's first boss is a drill rig, and it read as a giant tan grub in the floor's own colour.
     "Burrower": ("art-src/Generated/P3-Burrower/Burrower_clean.fbx",
-        "Massive mining drill machine, a burrowing rig gone rogue: heavy segmented armor plates of weathered dark gunmetal steel, "
-        "chipped faded hazard-yellow paint and black warning chevrons along the plate edges, bold black panel lines and rows of rivets, "
-        "oil streaks and scorched soot, exposed hydraulic joints between the segments, a drill nose of worn bright steel with spiral "
-        "ridges, a glowing cyan core deep in its maw. Hard-edged industrial machine, nothing organic, not tan, not a worm"),
+        "Massive mining drill machine, a burrowing rig gone rogue: every surface is heavy industrial steel. Dark gunmetal armor plates "
+        "with brushed lighter steel along their edges, bold black panel lines and rows of rivets, oil streaks and scorched soot, exposed "
+        "hydraulic joints between the segments, three jaws of worn bright bare steel with worn cutting teeth, a glowing cyan core deep "
+        "in its maw. One restrained colour family of cold steel greys, with a single stencilled white number. No yellow, no orange, no "
+        "stripes, no spots, no pattern. Hard-edged machine, nothing organic, not an animal"),
     # Not a person: the first enemy of chapter 2 read as soft clay on a dark sky. Hard paint and hull lines, warm for hostile as the other flight enemies are.
     "MusterSkiff": ("art-src/Generated/P3-PatrolCutter/PatrolCutter_clean.fbx",
         "Muster raider skiff, a hostile salvage gunship: hard-edged burnt-orange and rust-red painted hull plates separated by bold "

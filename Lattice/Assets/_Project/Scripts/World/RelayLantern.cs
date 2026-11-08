@@ -58,8 +58,8 @@ namespace Lattice.World
                 // The range that brings the pool on the floor to the ring, from a lamp this high.
                 float high=glow.transform.position.y-floor.y;glow.range=Mathf.Sqrt(radius*radius+high*high);
             }
-            // Thin and pale: in a fight a bright orange curve on the floor reads as danger, and this one ran straight through the real markings.
-            if(ward==null){ward=Telegraph.Ring(floor,radius-.16f,radius,99999,new Color(1,.95f,.72f,.42f));ward.owner=this;ward.Steady=true;}
+            // Thin and faint: in a fight a bright orange curve on the floor reads as danger, and this one ran straight through the real markings. The lamps' colour, and falling away inward (the marking shader's faint path): a flat cream band read as a debug circle, or as one of the party's own skills.
+            if(ward==null){ward=Telegraph.Ring(floor,radius-.18f,radius,99999,new Color(1,.84f,.55f,.34f));ward.owner=this;ward.Steady=true;}
         }
         void Present(bool relit)
         {

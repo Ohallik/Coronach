@@ -440,7 +440,7 @@ namespace Lattice.UI
             var inventory=RpgServices.Inventory;
             if(!fabricator.Craft(r,AtBench,UnityEngine.Random.value,out var made))
             {
-                Refuse(fabricator.Level(r.discipline)<r.unlockLevel?$"Needs {r.discipline} level {r.unlockLevel}. Each fabrication trains it.":
+                Refuse(fabricator.Level(r.discipline)<r.unlockLevel?$"Needs {r.discipline} level {r.unlockLevel}. Making {r.discipline} trains it.":
                     r.output!=null&&!AtBench?"Parts can only be fabricated at a Lattice Anvil or Hal's bench.":
                     "Not enough materials: "+string.Join(", ",r.inputs.Where(x=>inventory.Count(x.id)<x.count).Select(x=>$"{DisplayNames.Item(x.id)} {inventory.Count(x.id)}/{x.count}"))+".");
             }

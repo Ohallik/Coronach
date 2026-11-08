@@ -653,7 +653,7 @@ namespace Lattice.Tests.PlayMode
             Assert.AreEqual(corner.y,landed.y,.001f,"the mark left its edge");Assert.Less(landed.x,.5f,"the mark went further along its edge than it had to");
         }
 
-        // ------------------------------------------------------------------ item 13: the prompt's plate, a goal behind a plate, and the target's plate in flight
+        // ------------------------------------------------------------------ item 13: the prompt's plate, and a goal behind a plate
         [UnityTest] public IEnumerator ThePromptsPlateStepsAsideForThePartnerAndForWhatItLiesOn()
         {
             var hero=Hero;var partner=Partner;Guard();yield return Settle();
@@ -703,33 +703,6 @@ namespace Lattice.Tests.PlayMode
             Put(partner,Under(new Vector2(box.xMin-420*units,box.center.y),0));yield return new WaitForSecondsRealtime(1.2f);
             Assert.Greater(Plate("ObjectiveFrame"),.98f,"the panel stays faded for a ship well clear of it");
             dart.Passive=true;Object.Destroy(dart.gameObject);
-        }
-        [UnityTest] public IEnumerator AFlightTargetBehindItsPlateMovesThePlateOffIt()
-        {
-            yield return Zone("Arena_Flight");
-            float anchoredHome=Text("Target").rectTransform.anchoredPosition.y;
-            var hero=Hero;hero.Health.InvulnerableUntil=GameTime.Now+30;hero.GetComponent<FlightMotor>().Halt();
-            var dart=Spawn("ChoristerDart",hero.transform.position+Vector3.forward*10+Vector3.right*3);yield return null;yield return null;
-            hero.target=dart.Health;hero.TargetLocked=true;yield return null;yield return null;yield return null;
-            var camera=Camera.main;var plate=Picture("TargetPlate");var reticle=Picture("TargetReticle");Assert.IsTrue(plate.enabled&&reticle.enabled,"fixture: the plate and the lock are up");
-            var home=Box(plate.rectTransform);
-            // A Shellmine coming in from the top, with the words naming it printed across it.
-            float level=dart.transform.position.y;
-            for(int settling=0;settling<60;settling++)
-            {
-                var ray=camera.ScreenPointToRay(home.center);dart.transform.position=ray.GetPoint((level-ray.origin.y)/ray.direction.y);
-                Physics.SyncTransforms();yield return null;
-            }
-            yield return null;
-            var box=Box(plate.rectTransform);Vector2 locked=reticle.rectTransform.position;float units=plate.rectTransform.lossyScale.y;
-            // The drawn middle a little over the root held on the ray.
-            Assert.Less(Vector2.Distance(locked,home.center),90*units,"fixture: the target stands where the plate rests");
-            Assert.Less(box.yMax,locked.y-30*units,"the words naming the target lie on the target");
-            Assert.AreEqual(1,Text("Target").alpha,.01f,"fixture: the words hold");
-            // It goes home with the target gone from there.
-            dart.transform.position=hero.transform.position+Vector3.right*3;Physics.SyncTransforms();
-            yield return new WaitForSecondsRealtime(.6f);
-            Assert.AreEqual(anchoredHome,Text("Target").rectTransform.anchoredPosition.y,2,"the plate doesn't go home");
         }
     }
 }

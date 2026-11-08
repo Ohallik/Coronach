@@ -22,9 +22,10 @@ namespace Lattice.Rpg
             {
                 item=inv.GivePart(recipe.output);
                 if(roll<OverclockChance(recipe.discipline)&&recipe.output.affixPool?.Length>0)item.affixes.Add(recipe.output.affixPool[0].id);
+                // Only a part trains a ladder. A consumable's recipe names no discipline and the field's default is Emitters: twelve Repair Gels took Emitters from 2 to 6 for 24 Scrap Alloy.
+                state.craftingXp[recipe.discipline.ToString()]=Xp(recipe.discipline)+recipe.tier*10;
             }
             else {state.consumables.TryGetValue(recipe.consumableOutput,out var n);state.consumables[recipe.consumableOutput]=n+1;}
-            state.craftingXp[recipe.discipline.ToString()]=Xp(recipe.discipline)+recipe.tier*10;
             return true;
         }
     }

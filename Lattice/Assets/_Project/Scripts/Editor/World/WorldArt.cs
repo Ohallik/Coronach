@@ -27,7 +27,8 @@ namespace Lattice.EditorTools
             }
             foreach(string name in new[]{"halo-sky","gullet-sky","tallow-sky"})
             {
-                var mat=Material(name,"Skybox/Panoramic");mat.SetTexture("_MainTex",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+name+".png"));mat.SetFloat("_Exposure",.8f);mat.SetFloat("_Mapping",1);EditorUtility.SetDirty(mat);
+                // Open skies a flight crosses take a turn as the view travels (D219, ChapterOneStaging.DriftingSky); the Gullet's is behind its walls.
+                var mat=Material(name,name=="gullet-sky"?"Skybox/Panoramic":"Lattice/DriftingSky");mat.SetTexture("_MainTex",AssetDatabase.LoadAssetAtPath<Texture2D>(Root+name+".png"));mat.SetFloat("_Exposure",.8f);mat.SetFloat("_Mapping",1);EditorUtility.SetDirty(mat);
             }
             foreach(var zone in GameCatalog.All<ZoneDef>())
             {

@@ -288,7 +288,7 @@ namespace Lattice.Tests.PlayMode
             foreach(string plate in new[]{"TargetPlate","VitalsFrame"})
                 Assert.Less(drawn.IndexOf(reticle),drawn.IndexOf(Picture(plate)),$"the reticle is drawn over {plate}: its brackets cut through the words ('LO..KED')");
             var words=Text("Target");var frame=Picture("ObjectiveFrame");var c=new Vector3[4];frame.rectTransform.GetWorldCorners(c);
-            // A locked target moved up the screen makes the flight camera reframe, so it's held under the plate until the camera settles. Not its own plate: in flight that moves off a target behind it, which QaHudThirdTests pins.
+            // A locked target moved up the screen makes the flight camera reframe, so it's held under the plate until the camera settles.
             float held=dart.transform.position.y+.3f;
             for(int settling=0;settling<90;settling++)
             {

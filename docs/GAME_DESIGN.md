@@ -165,7 +165,7 @@ Parts have a damage type (weapons), tier (T1 Scrap / T2 Refined / T3 Prime), upg
 0–2 affixes. Salvage a part → materials.
 
 **Fabrication** (crafting) has five disciplines with their own levels: Emitters, Edges, Frames,
-Drives, Modules. Crafting anything grants discipline XP (recipe tier × 10). Levels unlock recipes
+Drives, Modules. Crafting a part grants its discipline XP (recipe tier × 10); a consumable trains nothing. Levels unlock recipes
 and tiers, and raise the chance of an **overclock** (a free affix). Recipes need materials:
 Scrap Alloy, Lattice Filament, Ridge Crystal, Husk Core, Choir Resin, Cantor Pearl. Benches: Hal's
 bay in the Decks and any Lattice Anvil in the world; consumables can be fabricated anywhere from

@@ -54,6 +54,12 @@ namespace Lattice.Tests.PlayMode
             var animal=Object.FindObjectsByType<EnemyBrain>(FindObjectsSortMode.None).Single(e=>e.definition.id=="Cantor");
             Place(party.Active,encounter.previewPoint.position);Place(party.members.First(h=>h!=party.Active),encounter.previewPoint.position+new Vector3(-4,0,-3));
             yield return new WaitForSecondsRealtime(2);
+            // The party is put here in one frame from the tube's mouth, and the view pulls back for a jump no ship can make before it comes in, at the pace a framed view comes in at
+            // (CameraRig.MostComeIn, D221). A player flies in, so what's judged is the view once it has settled. A swap re-seats the camera, which is why Sela's run never waited.
+            var eye=Camera.main.transform;float settled=Time.unscaledTime+8;
+            for(var last=eye.position;Time.unscaledTime<settled;last=eye.position)
+            {yield return new WaitForSecondsRealtime(.25f);if((eye.position-last).sqrMagnitude<.05f*.05f)break;}
+            Assert.Less(Time.unscaledTime,settled,"fixture: the preview's view never settles");
             Assert.IsFalse(encounter.Started);
             var meshes=animal.GetComponentsInChildren<Renderer>().Where(r=>r.enabled&&r.gameObject.activeInHierarchy).ToArray();
             float entrance=encounter.GetComponent<BoxCollider>().bounds.min.z;

@@ -115,6 +115,11 @@ Shader "Lattice/Telegraph"
                 // and a lane on flight's dark floor a flat salmon slab.
                 colour=lerp(colour,half3(1,1,1),_Flash*0.22);
                 alpha=saturate(alpha+_Flash*(0.05+hatch*0.35))*_Fade*_BaseColor.a;
+                // A faint boundary isn't a marking: light lying on the ground, a soft line near its outer edge that falls away inward to nothing, with no flat band for a rim.
+                half faint=1-step(0.99,_BaseColor.a);
+                half falloff=smoothstep(0.0,0.75,input.uv.x)*(1-smoothstep(0.85,1.0,input.uv.x));
+                colour=lerp(colour,_BaseColor.rgb,faint);
+                alpha=lerp(alpha,falloff*falloff*_Fade*_BaseColor.a,faint);
                 return half4(colour,alpha);
             }
             ENDHLSL

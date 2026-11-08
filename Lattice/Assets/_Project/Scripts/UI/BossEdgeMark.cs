@@ -10,7 +10,8 @@ namespace Lattice.UI
         const float Inset=.05f,Margin=.02f,BossBox=56,GoalBox=40,AlongEdge=.03f;
         /// <summary>The goal's mark stands in from the edges by these shares of the screen: over the hint bar and the skill row, along the foot.</summary>
         const float GoalSide=.04f,GoalTop=.06f,GoalFoot=.16f;
-        static readonly Color GoalCream=new(1,.93f,.8f,.95f);
+        static readonly Color GoalCream=new(1,.93f,.8f,.95f),GoalEdge=new(.02f,.03f,.05f,.85f);
+        const float GoalEdgeWidth=3;
         Image mark,goalMark;RectTransform place,goalPlace;ObjectiveHud objective;
         /// <summary>Held, not asked of a mark: this goes on working behind a menu or a conversation, which turn the canvas off, and a graphic has no canvas then.</summary>
         Canvas surface;
@@ -20,6 +21,8 @@ namespace Lattice.UI
             mark=UiKit.Panel(parent,"BossEdgeMark",new Color(1,.46f,.2f,.95f));mark.sprite=UiSkin.Pointer();mark.raycastTarget=false;mark.preserveAspect=true;
             place=UiKit.Rect(mark.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(BossBox,BossBox));mark.enabled=false;
             goalMark=UiKit.Panel(parent,"GoalEdgeMark",GoalCream);goalMark.sprite=UiSkin.Pointer();goalMark.raycastTarget=false;goalMark.preserveAspect=true;
+            // Cream on a cream planet it was lost, just where the screen has least else on it. A dark edge holds it on anything, and on black space it doesn't show. The boss's orange shares the sprite and keeps its look, so the edge belongs to this mark and not to the art.
+            var edge=goalMark.gameObject.AddComponent<Outline>();edge.effectColor=GoalEdge;edge.effectDistance=new Vector2(GoalEdgeWidth,GoalEdgeWidth);
             goalPlace=UiKit.Rect(goalMark.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(GoalBox,GoalBox));goalMark.enabled=false;
             objective=GetComponent<ObjectiveHud>();
         }

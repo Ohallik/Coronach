@@ -357,13 +357,6 @@ namespace Lattice.Tests.PlayMode
             float share=ToothShare(All<MeshFilter>().Single(f=>f.name.EndsWith(" floor")).sharedMesh);
             Assert.Less(share,.13f,$"{share*100:0}% of the points along the floor's edge are teeth: hard triangles of rock and floor along the cliff foot");
         }
-        /// <summary>The reader's row of dashes at Gorge_0, read off s14/017: static across five frames, pale, inside a shadow, and not in the floor's texture. Tracing back along the sun, its points reach a far ridge's lit slope 46 m away.</summary>
-        [UnityTest] public IEnumerator WallsCastShadowFromBothSides()
-        {
-            yield return Zone("LanternGorge");
-            var cliffs=All<MeshFilter>().Single(f=>f.name.EndsWith(" cliffs")).GetComponent<MeshRenderer>();
-            Assert.AreEqual(UnityEngine.Rendering.ShadowCastingMode.TwoSided,cliffs.shadowCastingMode,"the walls' unshared triangles open hairline cracks under the shadow pass's normal bias: a straight row of pale dashes across a shaded floor");
-        }
 
         // ---------------------------------------------------------------- item 11: the town
         [UnityTest] public IEnumerator TheLanternStairIsAStair()

@@ -6227,5 +6227,33 @@
       "art-src/Generated/QA-Cast/Burrower.fbx",
       "art-src/Generated/QA-Cast/Burrower_base_color.png"
     ]
+  },
+  {
+    "task": "qa-cast-retexture-01a1b77a-d44e-712b-bc9c-356ffc003725",
+    "task_id": "01a1b77a-d44e-712b-bc9c-356ffc003725",
+    "prompt_id": "QA-Cast",
+    "tool": "Meshy API",
+    "mode": "retexture",
+    "prompt": "Massive mining drill machine, a burrowing rig gone rogue: every surface is heavy industrial steel. Dark gunmetal armor plates with brushed lighter steel along their edges, bold black panel lines and rows of rivets, oil streaks and scorched soot, exposed hydraulic joints between the segments, three jaws of worn bright bare steel with worn cutting teeth, a glowing cyan core deep in its maw. One restrained colour family of cold steel greys, with a single stencilled white number. No yellow, no orange, no stripes, no spots, no pattern. Hard-edged machine, nothing organic, not an animal. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+    "params": {
+      "model_url": "data:application/octet-stream;base64,<omitted chars=610192 sha256(base64)=9e22e0467ef1a04c>",
+      "text_style_prompt": "Massive mining drill machine, a burrowing rig gone rogue: every surface is heavy industrial steel. Dark gunmetal armor plates with brushed lighter steel along their edges, bold black panel lines and rows of rivets, oil streaks and scorched soot, exposed hydraulic joints between the segments, three jaws of worn bright bare steel with worn cutting teeth, a glowing cyan core deep in its maw. One restrained colour family of cold steel greys, with a single stencilled white number. No yellow, no orange, no stripes, no spots, no pattern. Hard-edged machine, nothing organic, not an animal. Preserve palette semantics and original UV islands; flat clean cel-shaded game texture, no baked lighting.",
+      "enable_original_uv": true,
+      "remove_lighting": true,
+      "target_formats": [
+        "fbx"
+      ]
+    },
+    "credits": 10,
+    "consumed_credits": 10,
+    "output_path": "art-src/Generated/QA-Cast/Burrower.fbx",
+    "batch": "QA-Cast",
+    "created_at": "2026-11-07T19:27:25+00:00",
+    "status": "SUCCEEDED",
+    "updated_at": "2026-11-07T19:28:14+00:00",
+    "downloaded": [
+      "art-src/Generated/QA-Cast/Burrower.fbx",
+      "art-src/Generated/QA-Cast/Burrower_base_color.png"
+    ]
   }
 ]

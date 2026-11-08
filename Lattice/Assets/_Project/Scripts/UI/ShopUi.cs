@@ -25,9 +25,10 @@ namespace Lattice.UI
         public void Open(ShopInventory source,string from=null)
         {
             inventory=source;seller=from;page=offset=0;feedback="";sellAsked=null;GameServices.Current.Input.Blocked=true;MusicDirector.Shop(this,true);
-            // Focus starts on an offer, and the A that ended the conversation is often pressed twice: submit waits a moment.
+            // The A that ended the conversation is often pressed twice: submit waits a moment.
             first.Begin();
-            Rebuild("ShopRow1");
+            // A moment doesn't cover a thumb still tapping through someone's lines, and its next A bought a 240-scrip part nobody had read. So a shop a conversation opens lands on the page's toggle, which spends nothing: another tap only turns the page, with the cursor left on the toggle, and the first offer is one press down.
+            Rebuild(string.IsNullOrEmpty(from)?"ShopRow1":"ShopRow0");
         }
         public void Close(){first.End();if(panel!=null)Destroy(panel);panel=null;GameServices.Current.Input.Blocked=false;MusicDirector.Shop(this,false);}
         void OnDisable(){MusicDirector.Shop(this,false);}

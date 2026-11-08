@@ -81,7 +81,8 @@ namespace Lattice.EditorTools
             Detail("PictoDock",0,-9.5f,1.5f,1.5f,0);
             // The bed's picture lay under its sign. The galley's stood at the foot of the screen from Abri's stop, sliced by the button bar and poking out under her dialogue box, and over the hatch's top from the lobby.
             // Here it's whole in the open from her stop, and whole under the box while she talks.
-            Detail("PictoGalley",-7,.2f,1.1f,1.1f,0);Detail("PictoRepair",4.6f,1.4f,1.1f,1.1f,0);Detail("PictoCabins",2.5f,7.7f,1.1f,1.1f,0);
+            // The cradle's bay brings its own wrench mark, on its pad (ChapterOneStaging.CradleBay). One here too lay a step from it, on bare floor, like a leftover copy.
+            Detail("PictoGalley",-7,.2f,1.1f,1.1f,0);Detail("PictoCabins",2.5f,7.7f,1.1f,1.1f,0);
             foreach(int s in new[]{-1,1}){Detail("DecalGrate",s*8.4f,-4.6f,1.3f,1.3f,0);Detail("DecalDrain",s*4.4f,7f,.9f,.9f,0);}
             Detail("DecalHatch",9.8f,-1.4f,1.1f,1.1f,0);Detail("DecalTrench",8.6f,2.6f,.7f,1.4f,90);
             // No kiosk here: every open spot near the lobby is somebody's route, and the Keeper is the refuge's information point.

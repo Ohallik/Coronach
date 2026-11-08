@@ -187,7 +187,7 @@ namespace Lattice.EditorTools
         static GameObject Dark(GameObject go,string kit=null){var dark=go.AddComponent<StaysDark>();if(kit!=null)dark.glass=DeadGlass(kit);return go;}
         /// <summary>Unlit, a tower's glass still wore its painted amber in full sun, so a dead relay looked softly lit and the one you could relight didn't stand out. This is the
         /// model's own texture with whatever its emission mask lights turned to the unlit smoky crystal of the kit's design board. Made once from the staged art; a lit relay goes back to the original.</summary>
-        static Texture2D DeadGlass(string kit)
+        internal static Texture2D DeadGlass(string kit)
         {
             string folder="Assets/_Project/Art/Generated/Models/"+kit+"/",target="Assets/_Project/Art/Generated/Lantern/"+kit+"_dead.png";
             var made=AssetDatabase.LoadAssetAtPath<Texture2D>(target);if(made!=null)return made;
@@ -350,8 +350,7 @@ namespace Lattice.EditorTools
             floorView.GetComponent<MeshFilter>().sharedMesh=ground;floorView.GetComponent<Renderer>().sharedMaterial=material;
             var cliffView=new GameObject(label+" cliffs",typeof(MeshFilter),typeof(MeshRenderer));cliffView.transform.SetParent(terrain.transform,false);
             cliffView.GetComponent<MeshFilter>().sharedMesh=cliffs;cliffView.GetComponent<Renderer>().sharedMaterial=Canyon(true);
-            // Every wall triangle has its own vertices, for its own strata, so the shadow pass's normal bias pushes neighbours apart and opens hairline cracks along a far ridge: a low sun through them drew a straight row of pale dashes across the shaded floor. Their far sides close them.
-            cliffView.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.TwoSided;
+            // From their lit side only, the default. Two-sided, a wall with no lit side on the mesh (the gorge's south end, whose lit side is past z -24) laid a shadow over the whole arrival, and every wall triangle having its own vertices, the shadow pass's normal bias opened that shadow into straight rows of pale dashes.
             return terrain;
         }
         static Npc Person(string id,Vector3 at,float yaw,string postFlag,bool post=true,string finalFlag=null,string finalNode=null)
@@ -718,8 +717,8 @@ namespace Lattice.EditorTools
             person.AddComponent<PropTint>().tint=tint;
             foreach(var rig in model.GetComponentsInChildren<Animator>()){rig.cullingMode=AnimatorCullingMode.CullCompletely;PrefabUtility.RecordPrefabInstancePropertyModifications(rig);}
         }
-        /// <summary>The town's floor signs, for the scatter to keep off: their spots and half their widths.</summary>
-        static readonly (Vector2 at,float half)[] TownSigns={(new(7.7f,-13.4f),3.2f),(new(0,8),1.8f),(new(-8.5f,33.6f),1.6f),(new(21.5f,35),1.9f),(new(24,48.5f),1.9f),(new(-4.2f,91.4f),1.2f),(new(-23.5f,46.5f),1.3f),(new(-27,82),3.2f)};
+        /// <summary>The town's floor signs, for the scatter to keep off: their spots and half their widths. Two spots signs have left stay listed, so nothing new lands where every route was walked.</summary>
+        static readonly (Vector2 at,float half)[] TownSigns={(new(7.7f,-13.4f),3.2f),(new(3.85f,-12.5f),1.9f),(new(0,8),1.8f),(new(-8.5f,33.6f),1.6f),(new(21.5f,35),1.9f),(new(24,48.5f),1.9f),(new(24.6f,51.8f),1.9f),(new(-4.2f,91.4f),1.2f),(new(-23.5f,46.5f),1.3f),(new(-27,82),3.2f)};
         /// <summary>What the town's scatter stays off: its people, its signs, the archive's forecourt, and the homes that close in on the courier square.</summary>
         static bool ScatterKeepsOff(Vector2 p)
         {
@@ -779,8 +778,8 @@ namespace Lattice.EditorTools
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
             var dock=Prop("LandingPad",new Vector3(0,0,-22),5,0);dock.name="Courier pad";
             var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — The Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
-            // Beside the party on the first screen, clear of the objective panel over it and of everyone's feet.
-            WorldBuilder.Label("COURIER DOCK",new Vector3(6.4f,.1f,-13.4f));
+            // Against the ringed mat's east side, on the first screen. Further out it hung over bare floor with nothing under it, the first sign in town naming nothing.
+            WorldBuilder.Label("COURIER DOCK",new Vector3(3.85f,.1f,-12.5f));
             // The great arch stands at the head of the courier square, the way into the town from the pad. Between the camera and the arriving party it filled the first screen: the party small between its piers, and no town.
             // From here the first look is the square with the party on it and the arch's feet ahead, and the walk up the street goes through it. It stays well south of the market: anything tall over the street
             // passes under the lens at the stalls, and an arch fading out at Corra's stall read as a rendering fault.
@@ -824,8 +823,8 @@ namespace Lattice.EditorTools
             Relay("Lantern tower south",new Vector3(28,0,40),"",14,0).alwaysLit=true;
             Relay("Lantern tower",new Vector3(31,0,64),"",18,15).alwaysLit=true;
             Relay("Lantern tower north",new Vector3(27,0,88),"",13,-10).alwaysLit=true;
-            // Where the top of the walk up the terrace shows it and the stair's foot together.
-            WorldBuilder.Label("LANTERN STAIR",new Vector3(24,3.2f,48.5f));
+            // On the floor at the stair's foot, under its first step's east end and beside the keeper. 3 m further south it named bare floor by a lamp post. Any further east the home at (30,46) stands across its last letters.
+            WorldBuilder.Label("LANTERN STAIR",new Vector3(24.6f,3.2f,51.8f));
             // Lit lamps climb the stair. Fixtures and painted pools, with no lights of their own: the terrace is part of one floor renderer, already past Forward's six lights a renderer, and one more
             // real lamp would put out another pool somewhere else in view.
             var stairPools=new GameObject("Stair lamp pools");var stairPool=ChapterOneStaging.Soft("lamp-pool",new Color(1,.7f,.36f,.2f));
@@ -1023,8 +1022,9 @@ namespace Lattice.EditorTools
                 Prop("HushwellRubble",new Vector3(x+.8f,0,z-.9f),.55f,yaw*3,false);
             }
             var grng=new System.Random(41);
+            // Lantern shards in the crystals' slot, so the draws stay in step. That kit's crystals are flat fills of teal on its chart: the nearest prop at the arrival read as two untextured slabs on a mound.
             Scatter(grng,70,()=>new Vector2((float)grng.NextDouble()*60-30,(float)grng.NextDouble()*236-6),p=>{float d=GorgeDistance(p);return d>5.5f&&d<12.5f;},GorgeKeepsOff,
-                ("HushwellRubble",1f,false),("DressSucculent",.9f,false),("DressFanShrub",1.2f,false),("CrystalClusterA",1.1f,false),("LanternShard",1f,false),("DressBoulders",1f,true));
+                ("HushwellRubble",1f,false),("DressSucculent",.9f,false),("DressFanShrub",1.2f,false),("LanternShard",1.1f,false),("LanternShard",1f,false),("DressBoulders",1f,true));
             // Relays to relight (the main quest's step), each in an open clearing.
             var gorgeRelays=new[]{(new Vector3(9,0,52),"gorge.relay1","SelaRelayLit"),(new Vector3(-9,0,124),"gorge.relay2",(string)null),(new Vector3(10,0,186),"gorge.relay3",(string)null)};
             int index=0;
@@ -1261,11 +1261,12 @@ namespace Lattice.EditorTools
             foreach(var filter in entry.GetComponentsInChildren<MeshFilter>())UnityEngine.Object.DestroyImmediate(filter);
             foreach(var view in entry.GetComponentsInChildren<Renderer>())UnityEngine.Object.DestroyImmediate(view);
             var sealObstacle=entry.gameObject.AddComponent<NavMeshObstacle>();sealObstacle.shape=NavMeshObstacleShape.Box;sealObstacle.center=door.center;sealObstacle.size=door.size;sealObstacle.carving=true;sealObstacle.carveOnlyStationary=false;sealObstacle.enabled=false;
-            var sealBeam=CurtainMaterial("SunkenRelay");var wave=new System.Random(83);
+            // The lamps' colour, and well under a curtain's strength: this is what came on behind the party as Hessa's fight started, a smoky cloud across the floor in her own markings' orange, the brightest thing on the screen with no lamp in view.
+            var sealBeam=CurtainMaterial("SunkenRelay");sealBeam.SetColor("_BaseColor",new Color(.72f,.72f,.72f,1));EditorUtility.SetDirty(sealBeam);var wave=new System.Random(83);
             for(float x=-11;x<=11;x+=1.1f)
             {
                 float rise=3.1f+(float)wave.NextDouble()*.9f,lean=((float)wave.NextDouble()-.5f)*.35f,width=1.55f+(float)wave.NextDouble()*.5f;
-                Strand(entry.transform,new Vector3(x,0,116.5f),new Vector3(x+lean,rise,116.5f),sealBeam,width,new Color(1,.6f,.22f,.62f),new Color(1,.6f,.22f,0));
+                Strand(entry.transform,new Vector3(x,0,116.5f),new Vector3(x+lean,rise,116.5f),sealBeam,width,new Color(1,.76f,.45f,.62f),new Color(1,.76f,.45f,0));
             }
             foreach(var strand in entry.GetComponentsInChildren<LineRenderer>())strand.enabled=false;
             var duel=WorldBuilder.Encounter("Relay_Hessa",new Vector3(0,1,138),new Vector3(38,5,28),"HessaKorl",1,new[]{entry});

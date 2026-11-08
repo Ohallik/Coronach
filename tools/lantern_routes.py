@@ -206,8 +206,9 @@ def lanternwick():
     r.add("release before her stock", 0.5)
     r.add("look at the stock", 1.5, buttons=["South"], expectedUi="shop")
     r.add("release stock", 0.5)
-    r.wait("read the Refined parts", 1.2, expectedUi="shop")
-    r.press("buy a Refined part", "South", 0.3, expectedUi="shop")
+    # A stall opens on its toggle, so the first offer is named: Corra's first row, 240 scrip.
+    r.wait("read the Refined parts", 1.2, pickRow="Refined Emitter", expectedUi="shop")
+    r.press("buy a Refined part", "South", 0.3, pickRow="Refined Emitter", expectedUi="shop")
     r.wait("read the receipt", 1.2, expectedUi="shop")
     # What a player with scrip to spare does before the gorge. Hessa is a long fight, and the route used to reach her on one gel.
     r.add("find the repair gel", 3, pickRow="Repair Gel", until="row:Repair Gel", expectedUi="shop")

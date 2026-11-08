@@ -130,6 +130,7 @@
     {
       "name": "read the Refined parts",
       "seconds": 1.2,
+      "pickRow": "Refined Emitter",
       "expectedUi": "shop",
       "expectedScene": "Lanternwick"
     },
@@ -139,6 +140,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "Refined Emitter",
       "expectedUi": "shop",
       "expectedScene": "Lanternwick"
     },

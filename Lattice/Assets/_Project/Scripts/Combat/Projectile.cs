@@ -25,6 +25,8 @@ namespace Lattice.Combat
         /// <summary>Would this shot harm a body on the given side?</summary>
         public bool Threatens(bool friendlySide)=>hasFaction&&friendly!=friendlySide;
         Renderer view;TrailRenderer trail;
+        /// <summary>A tail is what the shot flew in its last moment, and at the party's 24 m/s .12 s of it is 2.9 m: close to 300 px on a close camera, and with two shots on one line it read as a beam across the screen. A bolt needs a comet's tail. A shot under 12.5 m/s, as most enemies' are, has less than that already and stays as it was.</summary>
+        const float TailSeconds=.12f,MostTail=1.5f;
         static Material friendlyShot,hostileShot,partyShot;
         static Material Shots(bool hostile)
         {
@@ -56,14 +58,14 @@ namespace Lattice.Combat
             {
                 var go=GameObject.CreatePrimitive(PrimitiveType.Sphere);go.name="Projectile";go.transform.position=position;Destroy(go.GetComponent<Collider>());
                 p=go.AddComponent<Projectile>();p.view=go.GetComponent<Renderer>();p.view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;
-                p.trail=go.AddComponent<TrailRenderer>();p.trail.time=.12f;p.trail.startWidth=.26f;p.trail.endWidth=0;p.trail.minVertexDistance=.2f;
+                p.trail=go.AddComponent<TrailRenderer>();p.trail.startWidth=.26f;p.trail.endWidth=0;p.trail.minVertexDistance=.2f;
                 p.trail.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;p.trail.sharedMaterial=Shots(true);
             }
             // Their shots read as theirs: bigger, hot and trailing, against the party's small cyan needles.
             bool hostile=damage.source!=null&&!damage.source.friendly;
             p.transform.localScale=Vector3.one*(hostile?.36f:.18f);p.view.sharedMaterial=Shots(hostile);
             // Theirs a hot trail, the party's a thin cyan streak: a shot says whose it is.
-            p.trail.sharedMaterial=p.view.sharedMaterial;p.trail.startWidth=hostile?.26f:.12f;
+            p.trail.sharedMaterial=p.view.sharedMaterial;p.trail.startWidth=hostile?.26f:.12f;p.trail.time=Mathf.Min(TailSeconds,MostTail/speed);
             p.trail.enabled=true;
             p.transform.position=position;p.velocity=direction.normalized*speed;p.life=reach>0?reach/speed:3;p.marked=reach>0;
             damage.projectileOrigin=ProjectileProvenance.StampLaunch(damage,position,p.velocity,p.GetInstanceID());p.packet=damage;

@@ -73,6 +73,15 @@ namespace Lattice.EditorTools
             if(made==null){made=new Material(from);AssetDatabase.CreateAsset(made,path);}
             made.CopyPropertiesFromMaterial(from);tune(made);EditorUtility.SetDirty(made);return made;
         }
+        /// <summary>A flight camera never rotates, so a skybox is painted on the screen: crossing the Halo every star stayed on its pixel for 100 m, dust on the lens rather than space going past.
+        /// The Reach's answer (D219): the same panorama on Lattice/DriftingSky, which draws just as Panoramic does until a SkyDrift in the scene turns it, so the ground zones sharing the material don't change.</summary>
+        static void DriftingSky(string material)
+        {
+            var sky=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+material+".mat");var drifting=Shader.Find("Lattice/DriftingSky");
+            if(sky==null||drifting==null)throw new System.InvalidOperationException("Missing sky "+material);
+            if(sky.shader!=drifting){sky.shader=drifting;EditorUtility.SetDirty(sky);}
+            ClearNamed("Sky drift");new GameObject("Sky drift",typeof(SkyDrift));
+        }
         static void Wear(GameObject go,Material material)
         {
             foreach(var part in go.GetComponentsInChildren<Renderer>(true))
@@ -114,11 +123,17 @@ namespace Lattice.EditorTools
         {
             m.SetTextureScale("_BaseMap",new Vector2(0,1));m.SetTextureOffset("_BaseMap",new Vector2(.5f,0));m.SetColor("_BaseColor",new Color(1.7f,1.7f,1.7f,1));
         });
-        static void Beam(string name,Transform parent,Vector3 from,Vector3 to,float width,Color bottom,Color top)
+        /// <summary>A soft column of light, drawn as a relay's curtain strand is. The particle shader ignores tiling, so LightLine is the flare whatever it asks for: on a line that's one thin spark halfway up, and a bay's or the key's column of light had only ever been a tiny cyan tick hanging in the air.</summary>
+        static Material LightColumn=>Variant("staged-light-column","Assets/_Project/Resources/Effects/flare_01.mat",m=>
+        {
+            m.SetFloat("_Blend",2);m.SetFloat("_SrcBlend",(float)BlendMode.SrcAlpha);m.SetFloat("_DstBlend",(float)BlendMode.One);m.SetFloat("_SrcBlendAlpha",(float)BlendMode.One);m.SetFloat("_DstBlendAlpha",(float)BlendMode.One);
+            m.SetTexture("_BaseMap",AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Particles/curtain_soft.png"));m.SetColor("_BaseColor",Color.white);
+        });
+        static void Beam(string name,Transform parent,Vector3 from,Vector3 to,float width,Color bottom,Color top,Material look=null)
         {
             var line=new GameObject(name,typeof(LineRenderer)).GetComponent<LineRenderer>();line.transform.SetParent(parent,false);
             line.useWorldSpace=true;line.positionCount=2;line.SetPosition(0,from);line.SetPosition(1,to);line.startWidth=line.endWidth=width;
-            line.startColor=bottom;line.endColor=top;line.sharedMaterial=LightLine;line.shadowCastingMode=ShadowCastingMode.Off;line.receiveShadows=false;
+            line.startColor=bottom;line.endColor=top;line.sharedMaterial=look!=null?look:LightLine;line.shadowCastingMode=ShadowCastingMode.Off;line.receiveShadows=false;
         }
         static void Glow(string name,Transform parent,Vector3 at,Color color,float range,float intensity)
         {
@@ -154,8 +169,8 @@ namespace Lattice.EditorTools
             for(int i=0;i<uv.Length;i++)uv[i]=new Vector2(.5f+(mesh.vertices[i].x-centre.x)/1.44f,.5f+(mesh.vertices[i].z-centre.z)/1.44f);
             mesh.uv=uv;mesh.RecalculateNormals();picto.GetComponent<MeshRenderer>().receiveShadows=true;
             Wear(console,Variant("repair-cradle",Models+"DeckConsole/DeckConsole_Toon.mat",m=>m.SetColor("_EmissionColor",new Color(.2f,2.6f,2.4f))));
-            var lit=new Color(.4f,1,.85f,.7f);var top=new Vector3(at.x,ModelGeometry.BoundsOf(console).max.y,at.z);
-            Beam("Bay light",bay,top,top+Vector3.up*1.9f,.62f,lit,new Color(lit.r,lit.g,lit.b,0));
+            var lit=new Color(.4f,1,.85f,.42f);var top=new Vector3(at.x,ModelGeometry.BoundsOf(console).max.y,at.z);
+            Beam("Bay light",bay,top,top+Vector3.up*1.9f,.62f,lit,new Color(lit.r,lit.g,lit.b,0),LightColumn);
             if(glows)Glow("Bay glow",bay,top+Vector3.up*.5f,new Color(.4f,1,.85f),5,1.5f);
         }
         /// <summary>The first cradle anyone meets was a shut box beside a bench. The same bay, without a light of its own: Sorrel's terrain is one renderer, with all six of its lights spent.</summary>
@@ -180,6 +195,7 @@ namespace Lattice.EditorTools
         {
             var warps=All<WarpBeacon>();
             var sorrel=warps.Single(w=>w.scene=="Sorrel_Ridges");sorrel.lockedPrompt="Warp locked — see Orrin at the dock office first";
+            DriftingSky("halo-sky");
             ClearSigns("Sorrel approach");ClearSigns("Warp — Sorrel");sorrel.prompt="Warp — Sorrel";sorrel.name="Warp — Sorrel";
             WorldBuilder.Label("Warp — Sorrel",sorrel.transform.position+Vector3.up*4,1.5f);
             var gullet=warps.Single(w=>w.scene=="Gullet_Tunnel");gullet.lockedPrompt="Warp locked — recover Sorrel's survey key";
@@ -281,6 +297,8 @@ namespace Lattice.EditorTools
             var ground=AssetDatabase.LoadAssetAtPath<Material>(WorldMaterials+"sorrel-ground.mat");
             ground.EnableKeyword("_TRIPLANAR_ON");ground.SetFloat("_Triplanar",1);ground.SetFloat("_TriplanarScale",.125f);EditorUtility.SetDirty(ground);
         }
+        /// <summary>Rubble lying where something burned: the kit's flat-topped tan blocks with pale outlines read as stacked bricks in full sun, brighter than the wreck they came off.</summary>
+        static readonly Color Scorched=new(.58f,.5f,.46f);
         /// <summary>The site's rig stood square and clean beside a hole a boss had come out of. Burned and dead, canted down on its east legs on the footing, with what shook loose lying along the footing's edge.
         /// All drawn only: the rig's collider is the wrapper's and doesn't lean, and the site's navigation is as it was.</summary>
         static void RigWrecked()
@@ -288,15 +306,18 @@ namespace Lattice.EditorTools
             const string Loose="Rig wreckage";ClearNamed(Loose);
             var rig=All<Transform>().First(t=>t.name=="OutpostDrill"&&t.parent==null);
             if(rig.GetComponent<PropTint>()==null)rig.gameObject.AddComponent<PropTint>().tint=new Color(.66f,.6f,.54f);
-            if(rig.GetComponent<StaysDark>()==null)rig.gameObject.AddComponent<StaysDark>();
+            // Its strips are painted on as well as lit. With the light off they still ran bright green up a dead machine, so it wears dead glass as a relay does.
+            if(!rig.TryGetComponent<StaysDark>(out var dead))dead=rig.gameObject.AddComponent<StaysDark>();
+            dead.glass=LanternRoadBuilder.DeadGlass("OutpostDrill");
             // From where the body rests upright, so a second staging run doesn't lean it twice.
             var body=rig.GetChild(0);body.localRotation=Quaternion.identity;
             body.position+=rig.position-ModelGeometry.BoundsOf(body.gameObject).center;
             body.localRotation=Quaternion.Euler(1.5f,0,-4);body.position+=Vector3.down*.14f;
             var parts=new GameObject(Loose).transform;
             foreach(var (key,x,z,size,yaw) in new[]{("HushwellRubble",-2.2f,177.4f,.7f,40f),("DressPipeRun",-2.4f,181.6f,.8f,65f),("DressCableDrum",-2f,184.8f,.8f,200f),("HushwellDrillBit",-5.4f,188.2f,1f,110f)})
-                Place(key,new Vector3(x,0,z),size,yaw,false).transform.SetParent(parts,true);
-            SoftPatch("Rig scorch",parts,new Vector3(-1.9f,GroundAt(new Vector3(-1.9f,0,180.6f)),180.6f),1.6f,4.6f,4,Soft("wreck-scorch",new Color(.02f,.016f,.016f,.72f)),true);
+            {var part=Place(key,new Vector3(x,0,z),size,yaw,false);part.transform.SetParent(parts,true);if(key=="HushwellRubble")part.AddComponent<PropTint>().tint=Scorched;}
+            // A faint stain under the pipe that fell. As big and as dark as the wreck's own, off the footing with nothing above it, it was a huge soft oval on bare ground with no source.
+            SoftPatch("Rig scorch",parts,new Vector3(-2.2f,GroundAt(new Vector3(-2.2f,0,180.8f)),180.8f),1,2.8f,4,Soft("rig-scorch",new Color(.02f,.016f,.016f,.3f)),true);
         }
         /// <summary>The drill's seals were a stretched cube of the Gullet's membrane, a navy plank at a dusty site. Now a line of bollards along the cut that always
         /// stands, and low hazard lines between them that only show while the seal is shut. The collider and the carving obstacle are exactly as they were.</summary>
@@ -331,8 +352,8 @@ namespace Lattice.EditorTools
             float shelf=ModelGeometry.BoundsOf(rack).max.y;
             var key=Place("DressPowerCell",at,.46f,20,false);key.name="Survey key";key.transform.position+=Vector3.up*(shelf-floor-.03f);key.transform.SetParent(cradle.transform,true);
             Wear(key,Variant("survey-key",Models+"DressPowerCell/DressPowerCell_Toon.mat",m=>{m.SetColor("_BaseColor",new Color(.72f,.86f,.95f));m.SetColor("_EmissionColor",new Color(.25f,2.4f,2.8f));}));
-            var lit=new Color(.45f,1,1,.75f);var crown=new Vector3(at.x,ModelGeometry.BoundsOf(key).max.y,at.z);
-            Beam("Key light",key.transform,crown,crown+Vector3.up*1.8f,.55f,lit,new Color(lit.r,lit.g,lit.b,0));
+            var lit=new Color(.45f,1,1,.45f);var crown=new Vector3(at.x,ModelGeometry.BoundsOf(key).max.y,at.z);
+            Beam("Key light",key.transform,crown,crown+Vector3.up*1.8f,.55f,lit,new Color(lit.r,lit.g,lit.b,0),LightColumn);
             Glow("Key glow",key.transform,crown+Vector3.up*.4f,new Color(.4f,.95f,1),5,1.5f);
             cradle.visual=key;
             box.center=cradle.transform.InverseTransformPoint(new Vector3(at.x,floor+.55f,at.z));box.size=new Vector3(2.5f,1.1f,1.2f);box.enabled=true;
@@ -377,7 +398,7 @@ namespace Lattice.EditorTools
             // The scorch it left where it burned out, across the scar and out toward the road. The spoil heap's neat oval of orange nuggets looked stamped: broken ground instead.
             SoftPatch("Wreck scorch",parts.transform,new Vector3(at.x+1.2f,floor,at.z-2.6f),4.2f,3.2f,Heading-40,Soft("wreck-scorch",new Color(.02f,.016f,.016f,.72f)),true);
             foreach(var (key,x,z,size,yaw) in new[]{("HushwellRubble",-4.4f,162f,1.3f,30f),("HushwellDrillBit",-11f,161.6f,1.1f,205f),("HushwellRubble",-7.2f,160.6f,1f,80f),("DressCableDrum",-4.4f,168.6f,.9f,130f)})
-                Place(key,new Vector3(x,0,z),size,yaw,false).transform.SetParent(parts.transform,true);
+            {var part=Place(key,new Vector3(x,0,z),size,yaw,false);part.transform.SetParent(parts.transform,true);if(key=="HushwellRubble")part.AddComponent<PropTint>().tint=Scorched;}
             var site=new GameObject("Burrower wreck site",typeof(BossWreck)).GetComponent<BossWreck>();site.wreck=wreck;site.rig=rig.transform;site.thrownParts=parts;
             wreck.SetActive(false);
             Report("Burrower wreck",new Vector3(at.x,floor+.8f,at.z));
@@ -467,8 +488,8 @@ namespace Lattice.EditorTools
             foreach(var cache in All<SalvageField>().Where(c=>c.cacheId=="Neve")){cache.owner="Neve's cache";cache.dialogueNode="CacheFound";cache.dialogueSpeaker="Neve";Salvaged(cache);}
             foreach(var loose in All<Transform>().Where(t=>t.name=="DeckCrate"&&t.parent==null).ToArray())Wear(loose.gameObject,Weathered("DeckCrate/DeckCrate_Toon.mat","gullet-crate"));
             GulletBuilder.Shell();
-            // Off the floor at the foot of a wall it hung in the void. On the bed, in front of the pocket it names.
-            MoveSign("SALVAGE EDDY",new Vector3(4,-1,397));
+            // Off the floor at the foot of a wall it hung in the void. On the bed, in front of the pocket it names, and near the tube's middle where the bed is level: SignFade holds a sign's size as this chamber's fight draws the view back, up to nearly three times over, and from x 4 the bed's rise came up through the end of the word, 'SALVAGE EDD'.
+            MoveSign("SALVAGE EDDY",new Vector3(-1.5f,-1,407));
             // A level sign rests on the bed's high side, so one laid well off the tube's middle hovers. This one was laid at the far chamber's centre.
             MoveSign("SLALOM THROAT",new Vector3(1.4f,-1,325));
         }
@@ -486,6 +507,7 @@ namespace Lattice.EditorTools
         public static void Approach()
         {
             var wick=All<WarpBeacon>().Single(w=>w.scene=="WickReach");wick.lockedPrompt="No course plotted. Keeper Abri holds Tallow's old routes.";
+            DriftingSky("tallow-sky");
             // Nobody has named the place until Abri does: the warp stands there unnamed, and its locked text says who holds the route.
             const string Named="Warp — The Wick Reach",Unnamed="Warp — No course plotted";
             wick.unnamedPrompt=Unnamed;

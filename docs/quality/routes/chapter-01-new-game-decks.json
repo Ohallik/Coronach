@@ -254,7 +254,8 @@
     {
       "name": "release choose stock",
       "seconds": 0.3,
-      "expectedScene": "Hub_Decks"
+      "expectedScene": "Hub_Decks",
+      "pickRow": "Scrap Emitter"
     },
     {
       "name": "buy Scrap Emitter",
@@ -263,6 +264,7 @@
       "buttons": [
         "South"
       ],
+      "pickRow": "Scrap Emitter",
       "expectedUi": "shop"
     },
     {
