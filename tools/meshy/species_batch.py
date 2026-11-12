@@ -51,6 +51,9 @@ RAUK = ("Rauk alien (a different species from the Vael in the references, and NO
         "flat saturated colour with no bloom. Deep-set eyes with pale silver ring irises on a pale sclera, a wide firm "
         "mouth. Stoic, solid and quietly warm; striking and likeable, never brutish and never simply a grey human.")
 
+# A people's first approved sheet: the anatomy reference for everyone else of that people.
+FIRST_OF = {ILU[0]: GEN / "C11-Wendmire/refs/Maru_Natural.png", RAUK[0]: GEN / "C13-Hoarfell/refs/Idra_Natural.png"}
+
 # name: (chapter, batch, species, character)
 PORTRAITS = {
     "Maru_Natural": (4, "C11-Wendmire", ILU, "Character: Maru Wend, a raft pilot of Driftreed, a new adult Ilu woman in her "
@@ -66,6 +69,44 @@ PORTRAITS = {
         "miss nothing, the faintest dry humour at one corner of her mouth. A rescue-orange high collar with a steel "
         "clasp over plain grey fatigues, and a coil of orange rescue line worn over her right shoulder. Dry, exact, "
         "impatient with speeches, deadpan; kind in practical ways. NATURAL off-duty form, no armour, no helmet."),
+    "Meret_Natural": (5, "C12-ManyHands", VAEL, "Character: Meret Venn, director of the Anchor Compact and a public route "
+        "engineer, a new adult Vael woman in her sixties, NOT any character in the references; only the art style, sheet "
+        "layout and species anatomy come from them. A long composed face with fine age lines at the eyes and mouth, pale "
+        "steady grey-green ring irises, silver-white keratin fronds cropped close to the skull and swept back, faint dim "
+        "teal sync-lines at the temples, cool slate-grey skin. A white field coat with teal piping and a high plain "
+        "collar, worn soft at the edges, a small teal ring-shaped pin at the collar, an engineer's brass stylus clipped "
+        "at the collar's edge. Courteous, exact, tired and dry, with kind eyes. Her expressions are RESTRAINED and never "
+        "theatrical: Happy is a small real smile, Angry is cold stillness with a set mouth, Shocked is a lifted brow and "
+        "parted lips, Sad is a lowered gaze, Special is a quiet closed-eyed breath of a laugh. NATURAL civilian form."),
+    "Dessik_Natural": (5, "C12-ManyHands", VAEL, "Character: Dessik Varn, called Hulljack, a salvage boss, a new heavy-set "
+        "adult Vael man in his fifties, NOT any character in the references; only the art style, sheet layout and "
+        "species anatomy come from them. A broad jowled face on a thick neck, small sharp amber ring irises, keratin "
+        "fronds shaved down to short grey stubble ridges, an old pale burn scar across the right side of the jaw, dull "
+        "orange sync-lines, ruddy warm-grey skin. A hazard-yellow and gunmetal salvage harness collar over a stained "
+        "grey work shirt, and a fine brass chain at the collar leading down out of frame to a ledger. A clerk's "
+        "patience on a brawler's frame: reasonable, petty, tired, never a pirate in his own eyes. NATURAL civilian form."),
+    "Ona_Natural": (4, "C11-Wendmire", ILU, "Character: Ona Sedge, mistress of Driftreed's weaving hall, a new adult Ilu woman "
+        "in her fifties, " + NOT_REF + "Deep violet skin with a paler face, a composed, stern, careful face with fine "
+        "lines at the eyes, long straight antennae held very still. IMPORTANT: her glow-spots are DIM, barely lit, in "
+        "the Neutral, Sad, Angry, Worried, Intense, Amused, Smug, Curious and Determined cells, and bright only in "
+        "Happy, Tender, Playful, Synced and Special: she is grieving and hiding it. A high layered collar of woven "
+        "reed in undyed straw and indigo, with a carved bone weaver's comb pinned at the throat. Exact, unhurried, "
+        "unflattered; her warmth is rare. Civilian clothing."),
+    "Dov_Natural": (4, "C11-Wendmire", ILU, "Character: Dov Hale, Driftreed's smokehouse keeper and trader, a new adult Ilu man "
+        "in his forties, " + NOT_REF + "Broad and solid for his people, smoke-greyed lilac skin, a wide cheerful face "
+        "with crinkled eyes, short thick antennae that never keep still, bright glow-spots. A stiff brine-stained "
+        "leather apron bib over a rust-brown oiled shirt, a neckerchief of smoked reed-cloth. Loud, cheerful, a gossip "
+        "who is usually right. Civilian clothing."),
+    "Quill_Natural": (4, "C11-Wendmire", ILU, "Character: Quill, Driftreed's old pump-wright, a new very old Ilu man, " + NOT_REF +
+        "Stooped, with pale washed-out lilac skin, thin wispy antennae that tremble, small round brass-rimmed lenses "
+        "perched on his muzzle, soft faded glow-spots. A patched grey waistcoat whose many small pockets bulge with "
+        "brass fittings, a loop of fine chain at the collar. Delighted by machinery, vague about people, gentle. "
+        "Civilian clothing."),
+    "Pim_Natural": (4, "C11-Wendmire", ILU, "Character: Pim, an apprentice weaver of Driftreed, a new adolescent Ilu, clearly "
+        "younger and smaller than an adult and neither clearly a boy nor a girl, " + NOT_REF + "Light lilac skin, a "
+        "narrow young face with very large dark eyes, short antennae not yet grown long, very bright glow-spots. A "
+        "plain undyed reed-cloth tunic with a half-woven strip of mat worn as a sash over one shoulder and a belt cord "
+        "tied in a careful knot. Frightened but practical, earnest, a little embarrassed. Civilian clothing."),
 }
 
 
@@ -83,8 +124,14 @@ def main() -> int:
             print("SPECIES_SKIP", name, flush=True)
             continue
         prompt = PORTRAIT_HEADER.format(species=species[0], anatomy=species[1]) + character
+        refs = list(STYLE_REFS)
+        first = FIRST_OF.get(species[0])
+        if first and first.exists() and first != out:
+            refs = [first, STYLE_REFS[0]]
+            prompt += (" The FIRST reference sheet shows another person of this same people: copy the species anatomy and the "
+                       "way its expression instrument moves between cells from it, but this is a different person.")
         subprocess.run(MESHY + ["image2image", "--prompt", prompt, "--name", name, "--batch", batch, "--prompt-id", batch.split("-")[0],
-                                "--aspect-ratio", "1:1", *sum((["--reference", str(r)] for r in STYLE_REFS), [])], check=True, cwd=ROOT)
+                                "--aspect-ratio", "1:1", *sum((["--reference", str(r)] for r in refs), [])], check=True, cwd=ROOT)
     print("SPECIES_OK", flush=True)
     return 0
 

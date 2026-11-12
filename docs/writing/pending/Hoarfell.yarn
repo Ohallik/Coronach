@@ -1,0 +1,394 @@
+// Chapter 6 - The Long Sleep (Hoarfell). Brief: docs/chapters/ch06-the-long-sleep.md. Wiring: docs/writing/pending/ch06-manifest.md.
+title: SelaHoarfellChart
+---
+Sela: I've found them. The margin note. "Lastlight, on Hoarfell. They keep the long sleep of the road they live in." #emotion:Determined
+Taren: Herders who live in a road. #emotion:Curious
+Sela: In a dead one, by the chart. It's an ice world at the cold end of everything. If anybody knows how a young road crosses the cold, it's them. #emotion:Curious
+Ilo: Lastlight. It isn't in the number. It isn't in the footnotes either. #emotion:Worried
+Ilo: I left room. May I? "Lastlight, Hoarfell. Herders. Count not known. Ask them." That's the first line in it that's mine. #emotion:Flustered
+Taren: Thirty-six days. #emotion:Worried
+Sela: I know. I've been through her arithmetic twice more, and it still holds. If the herders can't tell us how, hers is the only plan on this table that has carried anyone. #emotion:Worried
+Taren: Then we go and ask. #emotion:Determined
+<<startQuest LongSleep>>
+<<setFlag hoar.charted>>
+===
+title: AbriThirtySix
+---
+Keeper: Thirty-six days. I've stopped writing the number on the form. I write it on my hand, where I'll see it. Go and find your herders. #emotion:Worried
+===
+title: IloLastlightEntry
+---
+Ilo: One line. I've read it back nine times. "Ask them." I've never written an instruction into a record before. It feels like shouting in a library. #emotion:Flustered
+===
+title: IdraShearHail
+---
+Idra: Unmarked craft. You're in the slow lane and it's about to be the wrong lane. Follow me or don't. #emotion:Neutral
+Sela: Who's "me"? #emotion:Curious
+Idra: The cutter with the stripes. That current's turning. In a moment it runs against you, and then it empties your tanks and hands you to the ice. #emotion:Neutral
+Idra: Line's on you. Don't fight it. I've towed worse pilots out of worse than this. Not many. #emotion:Amused
+Taren: We're clear. Thank you. #emotion:Neutral
+Idra: Don't. That's one you owe, and I'll want it back. The aurora's a river. Fly with the light and it carries you and fills your tanks. Fly against it and it drains them. #emotion:Determined
+Idra: Idra Sorn. Veyr frontier guard, rescue. Lastlight's at the bottom of the fast lane. The Muster hauls its thaw rigs down the same lane, so shoot what's hauling. #emotion:Neutral
+Sela: She hasn't asked who we are. #emotion:Amused
+Idra: You're two more people on this ice than I planned for. I'll learn your names if you're still here tonight. #emotion:Neutral
+<<setFlag hoar.idraHailed>>
+===
+title: IdraShearLanes
+---
+Idra: That wasn't the lane I gave you, Irun. #emotion:Neutral
+Sela: It was shorter. #emotion:Smug
+Idra: It was. It also runs past a tender, and now the tender knows you. Its wake burns. Cross behind it once. Not twice. #emotion:Neutral
+Sela: Is she always like this? #emotion:Amused
+Taren: I've known her exactly as long as you have. #emotion:Amused
+===
+title: IdraCutterFound
+---
+Sela: Hazard stripes, under the ice shelf. The pod's whole. Somebody inside is working a hand-lamp. #emotion:Curious
+Idra: One long flash, then nothing? That's Kott. He's saving the cell. If Kott is saving the cell, Kott is fine. #emotion:Neutral
+Taren: And somebody's knocking on the hull. Three, then two. #emotion:Curious
+Idra: Sibb. Three and two is "sorry". She put that cutter in the ice, and she'll have been knocking it ever since. Tell her it's noted. #emotion:Amused
+Idra: Tow them in to Lastlight. Thank you. That goes on the right side of the brace. I don't keep much there. #emotion:Tender
+===
+title: SelaLastlightArrival
+---
+Sela: Those arches aren't rock. They're too even, and they all lean the same way. #emotion:Curious
+Taren: Ribs. #emotion:Neutral
+Sela: We've landed inside something. And nobody has looked up. Two ships come down in their town, and they go on carrying ladders. #emotion:Amused
+Idra: They've had Muster lifters over their heads for a month. You're not interesting. The old woman's hall is under the fourth rib. She'll want to look at you. #emotion:Neutral
+===
+title: TernFirst
+---
+Tern: Don't mind me not getting up. I got up once already this winter, and nothing came of it. #emotion:Amused
+Taren: Old Tern? We were told you keep the long sleep. #emotion:Curious
+Tern: I keep a roof from waking. Look up. Those are ribs. This town is inside something that used to be a road, and it has been asleep since before my people could count. #emotion:Neutral
+Tern: And now it's sweating. Feel the floor. The vents were never this warm. Somebody has lit a fire under my glacier. #emotion:Worried
+Sela: The Muster. What are they digging for? #emotion:Curious
+Tern: Guards. The old rulers stood an army round this road, so nobody could let it go. #emotion:Neutral
+Tern: When it died they marched the army off to fetch another, and the ice had them before the first pass. They're down there yet, in ranks, standing. #emotion:Neutral
+Tern: Bridle-guards, the old word is. Your Muster is thawing them a rank at a time and loading them like stock. #emotion:Worried
+Taren: We came to ask how the young ones sleep. #emotion:Neutral
+Tern: I know what you came to ask. You've the look of people who were told something over supper and haven't digested it. #emotion:Amused
+Tern: I tell things once, and I won't tell it over the noise of my roof coming off. Put the fire out. Then sit down. #emotion:Determined
+Tern: There's a stone-faced woman at the pens, shouting at Hask. She has a plan. Hask has two hundred beasts. Go and stand between them. #emotion:Amused
+<<setFlag hoar.ternHeard>>
+===
+title: TernRepeat
+---
+Tern: The roof's still sweating, and I'm still sitting. One of those can change, and it isn't me. #emotion:Amused
+===
+title: IdraPens
+---
+Idra: Empty the pens. Tonight. Walk them up to the ninth rib while the floor still holds. #emotion:Determined
+Hask: Two hundred and six beasts, uphill, in a thaw. Two hundred and seven. She's calved. No. #emotion:Neutral
+Idra: When that dig lets go, this end of your town goes into it. I've pulled people out of worse. I'd sooner not pull them out of this. #emotion:Worried
+Hask: Then stop the dig. That's what you came down here for, with your three cutters. Two. #emotion:Amused
+Idra: Two. The third's in the Shear, with a pair of my crew in its pod. I can't go back for them and hold your pens. It's that kind of week. #emotion:Worried
+Taren: We can fly. #emotion:Determined
+Idra: I don't ask. #emotion:Neutral
+Taren: You didn't. #emotion:Neutral
+Idra: Hm. Vosk and Irun. The old woman wants the dig shut before she'll give you what you came for. So do I. Carving yard. I'll show you how. #emotion:Determined
+<<startQuest CutterDown>>
+===
+title: IdraPlan
+---
+Idra: One. This is the herders' map, and it's better than mine. The dig goes down in three levels. A thaw rig at the bottom sends heat up through three couplings. #emotion:Neutral
+Idra: Two. Every rank that heat reaches wakes, walks out and gets loaded. So the heat stops. #emotion:Determined
+Idra: Three. We break the couplings from the bottom up. The cold comes in behind us and shuts each level as we leave it. #emotion:Determined
+Idra: Four. I go first and take the bottom coupling. You two keep the ranks off my back until my hammer is on it. #emotion:Determined
+Idra: Five. Whatever stands guard down there, we don't break it. The herders want their dead left lying. We put it back to sleep. #emotion:Neutral
+Taren: What happens if the top coupling goes first? #emotion:Curious
+Idra: The heat's shut in below, with us. The ice lets go from the bottom. Nobody on this map comes up. #emotion:Neutral
+Taren: Bottom first. #emotion:Determined
+Idra: Good. You'll do. #emotion:Neutral
+Sela: And if it doesn't go the way you've carved it? #emotion:Playful
+Idra: Then I say a new plan. Out loud. Before I do it. You should try that, Irun. #emotion:Neutral
+<<setFlag hoar.planTaken>>
+===
+title: IdraRepeat
+---
+Idra: Reach gate, north. I'll be on the ice. Don't make me come back for you. That costs. #emotion:Neutral
+===
+title: HaskFirst
+---
+Hask: Hask. Lead herder. You'll want hide, bone fittings, rime-wool. We don't sell beasts. Two hundred and seven. Don't ask me to stop counting. #emotion:Neutral
+Hask: If you meet the herd out on the Reach, hum. Low. Don't stop when they look at you. They've walked to that sound since before they were weaned. #emotion:Determined
+-> See what you trade.
+    <<shop>>
+-> Later.
+    Hask: Later. Mind the calf. Two hundred and. She's moved again. #emotion:Amused
+===
+title: HaskRepeat
+---
+Hask: Two hundred and seven. It's a good number. It was a better one before the thaw. What do you need? #emotion:Neutral
+<<shop>>
+===
+title: HaskStraysOffer
+---
+Hask: Two hundred and four. I've counted them twice. It ought to be two hundred and seven. #emotion:Worried
+Hask: Three went through the fence when the vents blew. They'll be out on the Reach, standing wherever there's steam. A beast alone doesn't know to come home. #emotion:Worried
+Taren: We'll bring them in. #emotion:Determined
+Hask: Hum them in. Walk, don't lead. Pull one and the other two run, and then it's a different job. #emotion:Determined
+<<startQuest StrayBeasts>>
+===
+title: HaskStraysWaiting
+---
+Hask: Two hundred and four. Two hundred and four. I keep getting the same answer, and I don't like it. #emotion:Worried
+===
+title: HaskStraysReturn
+---
+Hask: Two hundred and five. Six. Seven. Wait. Two hundred and seven. I'll count them again, to be sure. #emotion:Happy
+Hask: Take the plating. It's rib-bone, cut when my father was lead. It has turned worse things than you'll meet. #emotion:Tender
+<<setFlag hask.straysCounted>>
+<<shop>>
+===
+title: IruFirst
+---
+Iru: You're the ones who flew in behind the stripes. I'm Iru. I keep the skull lamps. The shrine lamps. Tern says not to call it the skull. #emotion:Flustered
+Iru: It is a skull, though. You can see the teeth from the top ladder. #emotion:Curious
+Sela: What else can you see from up there? #emotion:Curious
+Iru: The whole ice ring. All the lanes going out. I look at them a lot. I'm not meant to say that either. #emotion:Flustered
+===
+title: IruRepeat
+---
+Iru: The lamps want trimming at dusk and at the turn of the night. In between I look out. It's allowed. I've decided it's allowed. #emotion:Determined
+===
+title: IruLampsOffer
+---
+Iru: The three high lamps are out. The thaw shook them. The ladders went to the pens for fencing, and I can't get up the rib-halls alone. #emotion:Worried
+Iru: If the shrine's dark when the young roads come past, how do they know anybody kept this one? That's what the lamps are for. I think. Nobody has said. #emotion:Curious
+Taren: Three lamps. We'll climb. #emotion:Determined
+Iru: Light them from the low lamp. Not from your own fire. It has to be the same flame. That part I do know. #emotion:Determined
+<<startQuest ShrineLamps>>
+===
+title: IruLampsReturn
+---
+Iru: All three. I saw them catch from the pens. So did Tern. She didn't say anything. She sat up, though. She never sits up. #emotion:Happy
+Iru: Take this. It's from the shrine's own store. And I'm going to tell her. About the lanes. About going. I've decided. #emotion:Determined
+<<setFlag iru.lampsLit>>
+===
+title: SelaRibTally
+---
+Sela: Cuts in the rib. Hundreds, in rows. Somebody stood here and counted something for a long time. #emotion:Curious
+Taren: Eleven rows. The last one stops in the middle. #emotion:Worried
+===
+title: SelaReachGate
+---
+Sela: One question. You asked her one question, Vosk. #emotion:Amused
+Taren: It was the only loose thing in it. #emotion:Curious
+Sela: You sound surprised. #emotion:Playful
+Taren: I am. #emotion:Curious
+===
+title: IdraHerd
+---
+Idra: Herd. Two hundred head, coming through the gap. Don't run. To a herd, running is an order. #emotion:Determined
+Sela: The herders hum to them. You've seen it done. You hum. #emotion:Playful
+Idra: I don't hum. #emotion:Neutral
+Taren: Low and steady, then. Like this. #emotion:Neutral
+Idra: You're flat. They don't mind. Keep going. #emotion:Amused
+===
+title: IdraWhiteout
+---
+Idra: The wind's dropped. That's the warning. In ten breaths you won't see your own hands. #emotion:Determined
+Idra: Vent pocket, left, forty paces. The steam marks it. Go now. Talk there. #emotion:Determined
+Sela: I was about to say that. #emotion:Amused
+Idra: Say it sooner. #emotion:Neutral
+===
+title: VessaLoudhailer
+---
+Vessa: Upper gallery. Two Shapers and a Rauk in a rescue frame. I have you on the rig's glass. #emotion:Neutral
+Vessa: Dig-master Vessa Korl. My sister lost a canyon and a crate of relay glass to two Shapers. I told the Warmaster she had been careless. I see that I owe her a correction. #emotion:Neutral
+Sela: Hessa's sister. Of course she is. #emotion:Amused
+Vessa: This dig is costed at six hundred tonnes of guard, thawed and loaded. You are a delay, and a delay has a weight. #emotion:Neutral
+Vessa: I've worked yours out. You are cheaper to remove than to wait for. #emotion:Determined
+Idra: She's told us what we cost. Good. She'll spend that much and no more. Down. #emotion:Neutral
+===
+title: IdraDigGalleries
+---
+Taren: They're in the ice. Rows of them, standing. All the way down. #emotion:Shocked
+Sela: Where it's gone amber, the ice is nearly through. Those ones are next. #emotion:Worried
+Idra: Don't count them. That's her job. Ours is three couplings. Amber means awake soon. Go round amber. #emotion:Determined
+===
+title: VessaSecondLevel
+---
+Vessa: Rescue frame. Veyr pays its rescue crews by the head brought out. I know the rate. I'll pay you the same, per head, to bring out nobody. #emotion:Neutral
+Idra: She's read our pay scales. #emotion:Amused
+Vessa: I read everything. Your cutters are rated to drag forty tonnes each. I have six hundred to move. #emotion:Neutral
+Vessa: You could be hauling for me by nightfall, and nobody down here need be hurt. #emotion:Neutral
+Idra: That's the best offer I've had this year. Vosk. Left gallery. #emotion:Neutral
+Sela: You're not even going to answer her? #emotion:Curious
+Idra: I did. #emotion:Neutral
+===
+title: SelaDigShortcut
+---
+Sela: That rank has just walked out. There's a gap in the wall where they stood, and it goes straight down to the bottom gallery. #emotion:Curious
+Idra: That isn't on the map. #emotion:Neutral
+Sela: It wasn't there when they carved the map. #emotion:Playful
+Idra: Hm. It's faster. Say it before you jump, next time. I'll count it either way. #emotion:Amused
+===
+title: SelaMusterSlate
+---
+Sela: Her lading slate, left on the winch. "Guards, thawed, a dozen to a cage. Cages, six, on order at the foundry." #emotion:Curious
+Sela: "Roads, private, two. Stock for the first: juvenile, Sorrel, the whole clutch. Collect before the Compact sets its anchor." #emotion:Shocked
+Taren: Stock. She's counted the nursery the way Hask counts beasts. #emotion:Angry
+Idra: A caged road goes where its owner says, and nobody else flies it. Your director is right about that much. Leave a road open, and this is who comes down it. #emotion:Neutral
+Taren: Then what keeps them off? #emotion:Worried
+Idra: I've held a frontier nine years on that question. I've a cutter and a tally. Move. #emotion:Worried
+===
+title: IdraJoins
+---
+Idra: Bottom gallery. That's the first coupling, under the frost. From here I stop leading and start fighting. #emotion:Determined
+Idra: Two of us on the floor and one resting. You say which before a level, Vosk. Not in the middle of it. #emotion:Determined
+Sela: Why him? #emotion:Curious
+Idra: He asks one question and then does it. You ask none and then do something else. #emotion:Neutral
+Sela: It usually works. #emotion:Smug
+Idra: I've noticed. I haven't decided whether that's better or worse. #emotion:Amused
+<<joinParty Idra>>
+<<setFlag hoar.idraJoined>>
+===
+title: IdraMarshalWakes
+---
+Taren: The wall's moving. That one is twice the height of the rest. #emotion:Worried
+Idra: Tall. #emotion:Neutral
+Sela: There's a standard on its spear. It's their commander. It's still giving the last order it was given. #emotion:Curious
+Idra: Then we don't argue with it. Couplings. Each one we break puts a third of that wall back to sleep. The last one puts it back. #emotion:Determined
+===
+title: IdraMarshalSleeps
+---
+Taren: It's kneeling. The frost is taking it. #emotion:Tender
+Idra: Leave it be. That's a soldier coming off watch. I've wanted to give somebody that for nine years. #emotion:Tender
+Vessa: Rescue frame. You have put five hundred tonnes of my dig back in the ice. I'm lifting with what's loaded. A dozen guards, awake. And one crate. #emotion:Neutral
+Sela: What's in the crate? #emotion:Worried
+Vessa: Paper. The plans for the thing they guarded. It weighs almost nothing. It's the only part of this dig I was sent for. #emotion:Smug
+Idra: Her lifter's away. I can't catch it from a hole in the ice. Up. The cold's coming behind us, as planned. #emotion:Determined
+<<setFlag hoar.marshalAsleep>>
+===
+title: TernLongSleep
+---
+Tern: You came to ask how the young ones sleep. Sit down. It's a long answer, and you're letting the cold in. #emotion:Amused
+Tern: Cold slowly. That's the first of it. Take a young one into the cold fast and it goes stiff and stays stiff. A hand of frost a day, and it folds itself up and waits. #emotion:Neutral
+Tern: Never alone. That's the second. One by itself won't fold. It thrashes. Lay them flank to flank and they settle, the way beasts do in a pen. #emotion:Neutral
+Tern: And sung to. Our herders hum to the beasts on a long crossing, and the beasts walk to it. #emotion:Neutral
+Tern: A road answers the same thing. Not the tune. The beat of it, through its side, like a hand on a flank. #emotion:Tender
+Taren: Pressure, and a rhythm it can feel. #emotion:Curious
+Tern: If you like long words. Slowly, together, and somebody humming. That's all of it. I tell things once. #emotion:Amused
+Sela: And this one? The one we're sitting in. Why didn't it sleep? #emotion:Curious
+Tern: It wasn't let. The old rulers had built beside it, and they wanted a road that stayed. So they held it. Clamps at the head, where the lamp shrine is now. #emotion:Neutral
+Tern: It pulled for eleven winters. Somebody kept the tally on the fourth rib. Then it stopped pulling. Then it stopped. #emotion:Sad
+Sela: And the road? Did it stay? #emotion:Worried
+Tern: Oh, it stayed. It's the best roof on Hoarfell. Nothing has gone anywhere along it since. #emotion:Neutral
+Idra: There's room on the cutters. For you as well. #emotion:Neutral
+Tern: I've kept its sleep sixty winters. When your young ones come past, somebody should be here who knows it was a road once. I'm not staying behind, girl. I'm staying. #emotion:Determined
+Sela: Cold slowly. Never alone. Sung to. #emotion:Determined
+Tern: You were listening. Most people only want the first one. #emotion:Tender
+<<setFlag hoar.sleepLearned>>
+===
+title: TernAfter
+---
+Tern: Still here. I said so. Go on. And when the young ones come past, tell them the roof says good morning. #emotion:Amused
+===
+title: HaskGoes
+---
+Hask: Tern says the knowing should travel. So it travels, and I'm what it travels in. Two hundred and seven beasts go with it. That isn't for arguing. #emotion:Determined
+Hask: She won't come. Don't ask her twice. She tells things once, and she hears them once as well. #emotion:Tender
+===
+title: HaskOwes
+---
+Hask: You wanted my pens emptied. They're full, and the floor's still under them. By my count that's two hundred and seven I owe you. #emotion:Amused
+Idra: Don't. I've enough columns. #emotion:Flustered
+Hask: Two hundred and eight, with the calf. #emotion:Amused
+<<setFlag hask.owesHeard>>
+===
+title: IruGoes
+---
+Iru: I'm going. I haven't told her. I've packed the wicks, and I haven't told her. #emotion:Flustered
+Iru: She watched me pack. She said, "Take the long wicks. The short ones smoke." That's all she said. #emotion:Tender
+===
+title: IruSpeaksUp
+---
+Iru: Tern. I'm going with the herders. I should have said. I've wanted to since the first cutter landed. Since before. #emotion:Determined
+Tern: I know. You've looked at the door every time you trimmed a lamp since you were nine. #emotion:Amused
+Iru: You never said. #emotion:Shocked
+Tern: It wasn't mine to say. It was yours, and now you've said it. Three high lamps lit, and a girl who can speak. That's a good day for the shrine. #emotion:Tender
+Iru: Who'll keep the lamps? #emotion:Worried
+Tern: I will. I kept them before you could reach the low ones. Take the long wicks. The short ones smoke. #emotion:Amused
+<<setFlag iru.spokeUp>>
+===
+title: SelaVentBath
+---
+Sela: He's asleep. Sitting up, in the steam, with his boots on. #emotion:Amused
+Idra: He followed a plan all day. It's restful. People forget. #emotion:Neutral
+Sela: He hasn't looked at a hinge since the carving yard. #emotion:Curious
+Idra: Then don't wake him to tell him so. #emotion:Neutral
+Sela: I wasn't going to. #emotion:Smug
+Idra: You were going to improvise it. #emotion:Amused
+===
+title: SelaClampScars
+---
+Taren: Seats, cut into the bone. Four of them, each as wide as a door. #emotion:Curious
+Taren: Something closed here, and it was never meant to open. They built the lamp shrine in the scar. #emotion:Worried
+Idra: Somebody has lit a lamp where something died badly. I've done the same. It doesn't mend it. You do it anyway. #emotion:Tender
+===
+title: IdraTally
+---
+Idra: I keep a count. The left side of the brace is who I've pulled out. The right side is what I owe. #emotion:Neutral
+Idra: I came onto this ice one up on you. The tow. Then you kept a wall of guards off my back while I broke three couplings. #emotion:Neutral
+Sela: So we're even. #emotion:Playful
+Idra: We're not even. Three couplings is three. That's two I'm down, before I count anything else. I have never been down. #emotion:Flustered
+Taren: You could stop counting. #emotion:Tender
+Idra: I could stop breathing. It would come about as naturally. #emotion:Amused
+<<setFlag idra.tallyShown>>
+===
+title: IdraLiftFigures
+---
+Idra: These are your lift figures. #emotion:Neutral
+Keeper: Teo's. He counted them twice. #emotion:Worried
+Idra: He counted what you carry. Nobody has counted what you can lift. #emotion:Neutral
+Idra: You've a town's worth of hull on a station's worth of engine. If this ship had to move in a hurry, it would think about it first. #emotion:Amused
+Sela: The director said we had half the power. #emotion:Neutral
+Idra: She was being polite. It's a third. #emotion:Amused
+Idra: I've three cutters built to drag wrecks, and crews who know how to lash on. That's the other two thirds. I'll fix your figures. Don't thank me. It restarts the count. #emotion:Determined
+Taren: You're still behind. #emotion:Amused
+Idra: I'm aware. Your cook has fed nineteen of my crew without asking who is paying. I can't even find the column for that. #emotion:Flustered
+Sela: The crate Vessa lifted. I saw its marks before the cold came up. Carved, not painted. The same hand as Lanternwick's archive wall. #emotion:Determined
+Taren: Ancelane. Ishen reads that for a living. #emotion:Curious
+Sela: I've sent for him. If the Muster has the plans for a cage, I'd like to know who drew the first one. #emotion:Determined
+<<setFlag hoar.liftFixed>>
+<<setFlag chapter6.complete>>
+===
+title: BinnaCutterCrews
+---
+Binna: Nineteen Rauk, and every one of them eats standing, with their back to a wall. I've told them the wall's fine. It isn't going anywhere. They won't sit. #emotion:Worried
+===
+title: BinnaKottSibb
+---
+Binna: The big one out of that pod, Kott, says my eel is the wrong colour. He's had four. #emotion:Amused
+Binna: And the pilot, Sibb, has apologised to me twice for the way she docked. I don't own the dock. I've told her. She apologised for that as well. #emotion:Amused
+===
+title: AbriCutters
+---
+Keeper: Three rescue cutters, nineteen crew, two hundred and seven beasts, and a herder who counts them aloud at night. I've stopped making forms. I make lists of forms now. #emotion:Flustered
+===
+title: HaskAboard
+---
+Hask: Your garden woman wants my beasts off her root beds. Your raft woman wants them off her mats. I've put them in the freight hall. Two hundred and seven. Eight. Hm. #emotion:Amused
+===
+title: IruAboard
+---
+Iru: Pell showed me the gallery. Forty corridors, and she trims them alone. I said I'd take twenty. She cried. I didn't know lamp-keepers were allowed. #emotion:Happy
+===
+title: MaruCutters
+---
+Maru: She put a line on your hulls without asking, and towed you out of a current. I like her. I don't like that I like her. She ties things. #emotion:Amused
+===
+title: RuvaBeasts
+---
+Ruva: Two hundred beasts that eat roots, on a ship with one garden. I've put it to a vote. The beasts lost. Nobody has told them. #emotion:Amused
+===
+title: TeoLiftFigures
+---
+Teo: She has corrected my lift figures. In my own column. I've checked hers. They're right. I'd like it noted that mine were neater. #emotion:Amused
+===
+title: IloHoarfellPost
+---
+Ilo: I've corrected my line. "Lastlight, Hoarfell. Herders. All travelling but one, who stays by her own choice." That last part's in the margin. Nobody has told me I can't. #emotion:Determined
+===
