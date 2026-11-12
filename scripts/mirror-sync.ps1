@@ -55,12 +55,13 @@ try {
     if (Mirror-Unity) { "MIRROR_SYNC_FAILED a Unity is still running in mirror $Name"; exit 1 }
     # Wait out a builder (it is writing scenes and definitions), not a test run (it writes no assets). Holding the
     # main turn while copying keeps a new builder from starting half-way through.
-    $until = (Get-Date).AddSeconds($TurnWaitSec)
-    while ((Get-Date) -lt $until) {
-        if (-not $heldMain) { $heldMain = Take $mainTurn ([TimeSpan]::Zero) }
-        if (-not (Main-Builder)) { break }
-        Start-Sleep -Seconds 2
-    }
+    # Queue for the main turn like a builder does. Trying it only when it happened to be free lost every time to the
+    # builders waiting on it properly: with twenty engineers each copy waited its full ten minutes and then copied
+    # anyway, and the mirrors stood idle meanwhile (four test runs in half an hour, November 12).
+    $heldMain = Take $mainTurn ([TimeSpan]::FromSeconds($TurnWaitSec))
+    # Holding the turn, no builder started through exec-when-green is running; one started some other way gets a minute.
+    $until = (Get-Date).AddSeconds(60)
+    while ((Main-Builder) -and (Get-Date) -lt $until) { Start-Sleep -Seconds 2 }
     $quiet = -not (Main-Builder)
     $started = Get-Date
     $first = -not (Test-Path (Join-Path $mirror 'Lattice\Library'))

@@ -23,8 +23,15 @@ param(
     # copies once and runs every part on that frozen copy); -Main runs in the main project the old way.
     [string]$Mirror = '',
     [switch]$NoSync,
-    [switch]$Main
+    [switch]$Main,
+    # Every shared test case that names one of these zones, and nothing else: -Zones 'Driftreed,SporeVeil'. The shared
+    # zone classes walk every zone in the game and take over an hour whole; one zone's cases take a few minutes.
+    [string]$Zones = ''
 )
+if ($Zones) {
+    $byZone = $Zones.Split(',') | ForEach-Object { $_.Trim() } | Where-Object { $_ } | ForEach-Object { "Lattice.Tests.PlayMode.*$_.*" }
+    $Classes = (@($Classes) + @($byZone) | Where-Object { $_ }) -join '|'
+}
 $ErrorActionPreference = 'Continue'
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
