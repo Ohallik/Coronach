@@ -1,0 +1,561 @@
+// Chapter 3 - Carrying a Place (Xylos). Brief: docs/chapters/ch03-carrying-a-place.md. Wiring: docs/writing/ch03-manifest.md.
+title: AbriSeedRoad
+---
+Keeper: Cabin nine's asked about dinner four times today. I say "soon". They've started writing down what time I say it. #emotion:Worried
+Taren: How long will the garden hold? #emotion:Curious
+Keeper: Twelve days, if nobody has seconds. Somebody always has seconds. It's usually me. #emotion:Flustered
+Sela: Then here's a first course. One of Aumi's lantern patterns runs sunward and stops over a green world. I've matched it to a lane. #emotion:Determined
+Keeper: Xylos! #emotion:Happy
+Sela: Xylos. We buy a harvest, lift it out, and we're back on the passage before cabin nine runs out of paper. #emotion:Playful
+Taren: Is the lane in the beacon yet? #emotion:Curious
+Sela: It's in my head. Pell's lantern has to learn it before the warp will open. #emotion:Neutral
+Keeper: Then go and teach it. And Sela? Buy enough for seconds. #emotion:Tender
+<<startQuest SeedRoad>>
+===
+title: AbriSeedRoadRepeat
+---
+Keeper: Pell's at the lantern. She'll hold it steady for you. She holds everything steady. I've had to speak to her about the kettle. #emotion:Amused
+===
+title: AbriSeedRoadCharted
+---
+Keeper: The lantern's showing the Xylos lane now. I've told cabin nine that dinner's on its way. Please don't make a liar of me. #emotion:Tender
+===
+title: AbriSeedRoadWaiting
+---
+Keeper: A vote? On us? Oh, I hope they ask hard questions. I've been practising my answers on cabin nine. Cabin nine says no to everything. #emotion:Happy
+===
+title: PellLaneLantern
+---
+Pell: It's lit! I checked. Then I relit it to be sure. Then Abri asked me to stop. #emotion:Happy
+Sela: Leave it lit and hold the shutter. I'm giving it a new lane. Sunward, long, ends in green. #emotion:Determined
+Pell: Xylos! My aunt sold lamp oil there. They voted on her price. It took two days, and she lost. #emotion:Happy
+Taren: They vote on prices? #emotion:Curious
+Pell: They vote on everything. She says they voted once on whether to vote less. It didn't pass. #emotion:Amused
+Sela: There. It's answering. The warp will read that now. #emotion:Happy
+Pell: Should I keep it lit while you're gone? I'm going to keep it lit while you're gone. #emotion:Determined
+<<setFlag xylos.charted>>
+===
+title: PellLaneRepeat
+---
+Pell: Still lit! I'm not touching it. I'm standing near it, which is different. #emotion:Happy
+===
+title: TeoBargeHail
+---
+Teo: Seed barge to whoever just came out of the lane. Teo Marrow. Don't hurry. Nothing here's going anywhere. #emotion:Neutral
+Taren: Taren Vosk, out of Tallow Drift. What's holding you? #emotion:Curious
+Teo: Snagvine. Three barges, three knots of it a barge. That's nine knots. I've had a week to count them. #emotion:Worried
+Teo: Podskimmers are eating the seed, so one of my numbers is going down. It's the wrong one. #emotion:Amused
+Sela: Cut the knots and the barges drift back into the lane? #emotion:Curious
+Teo: If they feel like it. The middle one's sulked since the day I bought her. A blade or steady fire. The weed doesn't care which. #emotion:Neutral
+Taren: We'll start with the nearest. #emotion:Determined
+Teo: Everyone does. Free all three and the delta beacon will bring you down. I'd put the kettle on, but it's on the far barge. #emotion:Amused
+===
+title: PatrolHail
+---
+Patrol: Craft over the Xylos delta, this is Compact patrol Steady Hand. Good day. We hold two contacts, both Shaper. #emotion:Neutral
+Sela: Sela Irun, surveying out of Tallow Drift. Two Shapers, no trouble. #emotion:Neutral
+Patrol: Thank you, Surveyor Irun. For your log, your position is outside the shelter corridor. Past this line we assist by declared emergency only. #emotion:Neutral
+Taren: There's a captain out here who's been snagged a week with his cargo being eaten. Does that count? #emotion:Curious
+Patrol: Cargo with no immediate threat to life does not. I'm sorry. If that changes, declare it on this band and we will come. #emotion:Neutral
+Patrol: On behalf of Director Venn's office, we wish you a safe transit. Steady Hand out. #emotion:Neutral
+Sela: Very polite. He logged us to four decimal places while he said it. #emotion:Amused
+Taren: He said they'd come. #emotion:Neutral
+Sela: He said what it would take. That's a shorter list than it sounds. #emotion:Worried
+===
+title: TeoClaimDrones
+---
+Teo: Vosk. The grey ones on my far barge. They're not eating. I don't like a thing that isn't eating. #emotion:Worried
+Sela: Salvage drones. They're tagging the hull. I can read one from here. #emotion:Curious
+Sela: "Vessel off its registered mooring. Claimed for recovery. Hulljack Salvage." #emotion:Neutral
+Teo: Claimed. She sat in that weed a week and nobody wanted her. Now she's worth stealing. #emotion:Angry
+Taren: Off its registered mooring. That's a wide net. #emotion:Worried
+Teo: They'll have all three tagged by supper. Burn those tags off and I'll owe you something with an engine in it. #emotion:Determined
+<<startQuest ClaimTags>>
+===
+title: SelaWeatherMirror
+---
+Sela: A weather mirror. It kept the storms off the delta, once. Look at the crack in it. #emotion:Curious
+Taren: Clean across. One pane's still catching the sun. I could re-seat the rest. #emotion:Curious
+Sela: It's the size of the Decks, Vosk. #emotion:Amused
+Taren: I said I could. I didn't say today. #emotion:Smug
+===
+title: RuvaArrival
+---
+Ruva: Left line, haul! She's swinging wide! #emotion:Determined
+Binna: Gently! That's my garden! The storm left one spice bush on her, and I've promised it things! #emotion:Worried
+Ruva: Then pull instead of shouting. You, tall one. That line's short a back. #emotion:Determined
+Sela: We're from Tallow Drift. It's a station, and it travels. We've come to buy a harvest. All you can lift. #emotion:Determined
+Ruva: A station that travels. You want to carry a place? Start by carrying this. #emotion:Amused
+Taren: Got it. You're bringing her in on that old ring? #emotion:Curious
+Ruva: Old ring's a stride under water. The bank moved. She goes where the bank is. #emotion:Neutral
+Sela: He'd have taken the rope anyway. Show him anything loose and he holds it. #emotion:Playful
+===
+title: RuvaRopeHold
+---
+Ruva: Talk when she's seated. Left line. Haul. #emotion:Determined
+===
+title: BinnaRopeHold
+---
+Binna: Not now! That's my garden on that rope! Pull, pull, I'll feed you after! #emotion:Worried
+===
+title: RuvaTerms
+---
+Ruva: She's seated. You pull straight. Now. Who are you, and what was that about a harvest? #emotion:Neutral
+Taren: Taren Vosk. Sela Irun. Tallow's taken on more cabins than its garden can feed. We'll pay for everything you can load. #emotion:Determined
+Ruva: No. #emotion:Neutral
+Sela: You haven't heard the price. #emotion:Curious
+Ruva: Don't need to. A harvest that size comes out by the root. You can't eat a field once and still have it. #emotion:Determined
+Ruva: Here's what I need. The storm left our three seed carriers on the wrong bank. No carriers, no planting. Then nobody eats, starting with us. #emotion:Worried
+Taren: So we bring them back across. #emotion:Determined
+Ruva: You bring them back across. Then I put your station's dinner to a vote. I don't promise the vote. I only chair it, and I hate that. #emotion:Neutral
+Sela: How long does a vote take? #emotion:Worried
+Ruva: Longer than a river. Two carriers are aground mid-river with their crews shut inside. The third's on Seedfall bank. River gate's east, past Hadda's press. #emotion:Neutral
+<<setFlag xylos.termsHeard>>
+===
+title: RuvaRepeat
+---
+Ruva: Carriers first. Then the vote. I haven't changed the order. #emotion:Neutral
+-> Why won't you sell?
+    Ruva: The seed house holds next season. Sell that and we eat your scrip till spring. Then we eat nothing. Scrip's poor eating. #emotion:Determined
+-> What's on the carriers?
+    Ruva: Seedlings. Ten thousand, in trays, wanting water on the wrong bank. Teo's counted them. Ask him, if you've an afternoon to lose. #emotion:Amused
+-> We're going.
+    Ruva: Go the way the water goes. It knows where the bank is. #emotion:Neutral
+===
+title: RuvaCrewsHome
+---
+Ruva: The crews came in on the ferry. Twenty of them. They ate like forty. That was you. #emotion:Neutral
+Ruva: Crews aren't carriers. I still count three hulls on the wrong bank. #emotion:Determined
+<<setFlag xylos.crewsThanked>>
+===
+title: RuvaVote
+---
+Ruva: Carriers are across. I said I'd put it to them, so I put it. Forty-one hands for. Nine against. #emotion:Neutral
+Senn: Count mine against twice. I'm staying, and so's the island. #emotion:Smug
+Ruva: Counted once, Senn. Here's what forty-one hands said. We won't sell you a harvest. We'll grow you one. Aboard. #emotion:Determined
+Ruva: Our islands, our seed, our pumps. They travel with us and they stay ours. Nobody up there owns a root of it. #emotion:Determined
+Ruva: And we vote on where this convoy goes. Same as we vote on everything. Out loud, and for too long. #emotion:Amused
+Taren: Good. Nobody aboard Tallow got a vote on leaving. They could use the practice. #emotion:Amused
+Ruva: Then one question, surveyor, before I let them load. This convoy we've voted ourselves into. Where's it going? #emotion:Curious
+Sela: Somewhere with room to turn back. I'm still charting it. #emotion:Worried
+Ruva: Hm. First thing you've said here that wasn't a timetable. #emotion:Tender
+Ruva: Load the seed. And somebody find the ferry boy. He's never missed a vote he wasn't allowed in. #emotion:Neutral
+<<setFlag xylos.voteHeard>>
+===
+title: RuvaAfterVote
+---
+Ruva: Fifty floods I've kept this town on one river. Now I'm to keep it on a road with no banks. I'll want a longer rope. #emotion:Worried
+Ruva: Your line held, Vosk. Don't make me say it twice. #emotion:Tender
+<<setFlag ruva.lineHeld>>
+===
+title: RuvaAfterVoteRepeat
+---
+Ruva: I said it once. Go and chart your road, the pair of you. #emotion:Amused
+===
+title: SelaSeedHouse
+---
+Sela: Trays to the rafters. Every one's tagged with a bank and a flood. #emotion:Curious
+Taren: So this is what she won't sell. #emotion:Neutral
+Sela: It isn't a harvest. It's next year, in boxes. #emotion:Tender
+===
+title: SelaCompactNotice
+---
+Sela: A Compact notice. "Shelter corridor capacity, by settlement." The capacity line's the short one. #emotion:Neutral
+Taren: Is Rootmarket on it? #emotion:Curious
+Sela: Wait. I'm reading it twice. #emotion:Worried
+Sela: "Xylos delta. Outside the corridor. Residents may file individually at Nacre." Individually. #emotion:Worried
+Taren: A whole delta, filing one at a time. #emotion:Neutral
+Sela: And somebody's nailed the ferry times over the bottom half. I think that's the growers' reply. #emotion:Amused
+===
+title: TeoFirst
+---
+Teo: Three barges back in the lane. Thank you. I've written it down. Nothing else today is going on the good side of the page. #emotion:Neutral
+Taren: Ruva says you've three carriers on the wrong bank. #emotion:Neutral
+Teo: Marrow-1's aground mid-river. She'll be fine. She does as she's told. Marrow-2's aground as well, and she's never done as she's told in her life. #emotion:Worried
+Teo: Marrow-3 was my mother's. She's up on Seedfall bank with something sitting on her. I counted its legs through a glass and stopped at twelve. #emotion:Worried
+Sela: How many crew? #emotion:Curious
+Teo: Eleven and nine, shut in their own holds with a river full of teeth outside. Marrow-3 had the sense to be empty. #emotion:Neutral
+Teo: The sluices change which channel you can wade. I'd tell you which, but the storm didn't ask me. #emotion:Amused
+===
+title: TeoRepeat
+---
+Teo: Three hulls, wrong bank. I count them every hour in case one's come home on her own. Ask me about them. Nobody does. #emotion:Neutral
+-> Marrow-1?
+    Teo: The eldest. Does as she's told, floats where she's put, and reminds you of it for a season. #emotion:Amused
+-> Marrow-2?
+    Teo: The middle one. Leaks when she's bored. She ran aground on a clear day once, to get out of a wedding cargo. #emotion:Amused
+-> Marrow-3?
+    Teo: My mother's. She's never liked me at the wheel. Thirty floods, and she still pulls left when I'm not looking. #emotion:Tender
+===
+title: TeoTagsOffer
+---
+Teo: One more number. My barges are pinging. All three. Something up there's put a tag on each of them. #emotion:Worried
+Sela: A tag saying what? #emotion:Curious
+Teo: "Vessel off its registered mooring. Claimed for recovery. Hulljack Salvage." They sat in weed a week and nobody wanted them. Now they're worth stealing. #emotion:Angry
+Taren: We'll burn the tags off. #emotion:Determined
+Teo: All three, or they'll come back for the one you missed. Salvage crews count as well as I do. #emotion:Neutral
+<<startQuest ClaimTags>>
+===
+title: TeoTagsReturn
+---
+Teo: Three tags gone. My barges have stopped pinging. I didn't know how loud it was until it quit. #emotion:Happy
+Teo: Here. A drive from my spare rack. It's the only thing I own that's never let me down, so of course I'm giving it away. #emotion:Amused
+Teo: Listen. That Hulljack crew tags what's come loose. Then it comes back for what it tagged. That's all the law it needs. #emotion:Worried
+Sela: Off its registered mooring. #emotion:Neutral
+Teo: Your station slipped its mooring, I hear. I'd count your hull plates now and then. Just to keep in practice. #emotion:Worried
+<<setFlag xylos.tagsReported>>
+===
+title: TeoSeedfall
+---
+Teo: She's whole. Mostly. It built a nest in my mother's wheelhouse. I'm not telling her. #emotion:Worried
+Taren: It's gone upriver. It wanted the hull, not the fight. #emotion:Neutral
+Teo: Then she'll float. Now look east. You'll have seen it from the first arch. #emotion:Worried
+Sela: The big root island. I marked it as scenery. #emotion:Neutral
+Teo: Your scenery's the Walking Canopy. The storm tore it off its mooring, and it's walked onto the one stretch a carrier can cross. #emotion:Worried
+Taren: Then we walk it back to where it was moored. #emotion:Determined
+Teo: Three anchor roots hold it. Work one and the whole island lurches. It's lurched a long way from where it was, Vosk. #emotion:Neutral
+Teo: And something's moved into the basin under it. The water in there goes up and down, and this river's got no tide. #emotion:Worried
+Sela: Something that likes it there. #emotion:Worried
+Teo: An island, a basin, and a thing in the basin. That's three between my boats and home. I never count past three. It's bad luck. #emotion:Amused
+<<setFlag xylos.seedthaneGone>>
+===
+title: TeoSeedfallRepeat
+---
+Teo: East, through the root arches. Three anchor roots, and whatever's in the basin. I'll stay with Marrow-3. Somebody ought to apologise to her. #emotion:Neutral
+===
+title: TeoPost
+---
+Teo: Three carriers, three crews, forty-one growers, and a press Hadda swears was a boat once. I've never counted a town onto a lane before. #emotion:Amused
+Teo: One station and two Shapers was a rumour. This is a convoy, and a convoy wants counting. I'll manage. #emotion:Determined
+===
+title: BinnaFirst
+---
+Binna: Sit. No, there. What've you eaten today? #emotion:Curious
+Taren: Ration bars, on the lane. #emotion:Neutral
+Binna: That's not eating, that's storage. And you, the quick one, you've had nothing. I can tell by the elbows. #emotion:Worried
+Sela: We're not staying for supper. We load and we lift. #emotion:Neutral
+Binna: Everyone stays for supper. It's how I count the town. Here, it's hot. You pulled my garden in, so you eat first. That's the rule. I've just made it. #emotion:Happy
+Binna: Is it true you turn into the ship? Where does lunch go when you do? No, eat first. Tell me after. #emotion:Curious
+-> What are you selling?
+    Binna: Anything you can chew. Parts are Hadda's, at the press. I sold one once, and somebody bit it. #emotion:Happy
+    <<shop>>
+-> Just the bowl, thanks.
+    Binna: Then bring the bowl back. They wander. I've lost nine to the ferry. #emotion:Amused
+===
+title: BinnaRepeat
+---
+Binna: You're back. Good. You look thinner. What do you need? #emotion:Happy
+<<shop>>
+===
+title: BinnaBasketsOffer
+---
+Binna: You're going out on the river? Then you've got hands, and I've got three empty baskets. Isn't that lucky? #emotion:Happy
+Binna: Spice pods. You saw my garden come in. One bush. I'm cooking for a vote on one bush, and a hungry vote says no to everything. #emotion:Worried
+Taren: What do they look like? #emotion:Curious
+Binna: Red ones like sun, and they bite. Blue ones like shade, and they sulk. Yellow ones grow where a thornback's been sick. Don't think about it, just pick. #emotion:Amused
+Sela: And we get? #emotion:Curious
+Binna: Fed. Properly. Food that keeps on a lane and still tastes of something. #emotion:Determined
+<<startQuest ThreeBaskets>>
+<<shop>>
+===
+title: BinnaBasketsReturn
+---
+Binna: Three baskets! Red, blue, and the ones we don't think about. Give, give. #emotion:Happy
+Binna: Smell that. No, don't, those are the red ones. You'll cry. #emotion:Amused
+Sela: Too late. #emotion:Flustered
+Binna: Good, that means they're ripe. There'll be lane food on the shelf by the time you've stopped. Ask at the till. #emotion:Happy
+<<setFlag binna.basketsReturned>>
+<<shop>>
+===
+title: BinnaAfterBaskets
+---
+Binna: The red ones went in the stew. Ruva had two bowls and argued better for it. If the vote runs long, that's on you. #emotion:Amused
+<<setFlag binna.afterBaskets>>
+<<shop>>
+===
+title: BinnaPost
+---
+Binna: We're going! I voted twice. Ruva caught me. It still passed. I'm bringing the kitchen and the garden. The garden's been on a rope before. #emotion:Happy
+Binna: If you see Jask, tell him there's a bowl going cold. He's missed supper twice. He's never missed supper. #emotion:Worried
+<<shop>>
+===
+title: JaskFirst
+---
+Jask: You came down as ships? Both of you? Does it hurt, folding up like that? #emotion:Curious
+Sela: No. It's like putting on a coat that already knows the way. #emotion:Playful
+Jask: Is it true your station's got no ground under it? Not even far down? #emotion:Curious
+Sela: Not even far down. Deck, hull, then a long way of nothing. #emotion:Neutral
+Jask: So if I dropped my pole off the edge, where would it stop? #emotion:Curious
+Taren: It wouldn't. #emotion:Amused
+Jask: Ever? Who do I ask about going up to see that? Is it Ruva? It's always Ruva, isn't it? #emotion:Worried
+Sela: From what I've seen, it's always Ruva. #emotion:Amused
+Jask: Can I ask you more when I've thought of them? There's a lot. Is that all right? #emotion:Curious
+<<startQuest Questions>>
+===
+title: JaskRepeat
+---
+Jask: What's the tallest thing on your station? Is it taller than a ferry pole? Is it him? #emotion:Curious
+Sela: It's him. Nobody's measured the lamps. #emotion:Playful
+===
+title: JaskFerryFirst
+---
+Jask: You're the ones who came down as ships? And opened the sluice? Do you know that makes me the ferry again? #emotion:Happy
+Sela: Congratulations. And you are? #emotion:Amused
+Jask: Didn't Binna say? Jask, off the ferry? She tells everyone everything, doesn't she? #emotion:Curious
+Jask: Is it true your station's got no ground under it? Not even far down? #emotion:Curious
+Sela: Not even far down. Deck, hull, then a long way of nothing. #emotion:Neutral
+Jask: Can I ask you more? I've got a lot. Have you got time before the carriers cross? #emotion:Curious
+<<startQuest Questions>>
+===
+title: JaskFerry
+---
+Jask: Have you got time now? I've been saving them up. Can I start with the big one? #emotion:Happy
+Sela: You'll start with it anyway. Go on. #emotion:Amused
+Jask: When the carriers are across, are you leaving? The same day? #emotion:Curious
+Sela: That's the plan. Load, lift, back on the lane. #emotion:Neutral
+Jask: Back to the station? And where's the station going? #emotion:Curious
+Sela: Along its passage. Away from here, mostly. #emotion:Neutral
+Jask: But where's it going to? #emotion:Curious
+Sela: I chart lanes, Jask. A lane goes from one place to the next one. #emotion:Flustered
+Jask: So you don't know? You're the surveyor, and you don't know? Is that allowed? #emotion:Shocked
+Taren: She's working on it. #emotion:Tender
+Sela: I'm working on it. Mind your pole. #emotion:Flustered
+<<setFlag jask.ferryTalk>>
+===
+title: JaskFerryRepeat
+---
+Jask: If I think of somewhere it could be going to, should I tell you? Would that help? #emotion:Curious
+Sela: Ferry, Jask. #emotion:Amused
+===
+title: SelaJaskPole
+---
+Taren: That's Jask's pole. He doesn't put it down. #emotion:Curious
+Sela: There's a seed tag tied to it. "For the surveyor. One. Is it cold? Two. Who steers? Three. Do you come back?" #emotion:Curious
+Sela: He's numbered them. They go up to nineteen. #emotion:Amused
+Taren: What's the last line? #emotion:Curious
+Sela: "Tell Binna I ate." That one isn't a question. #emotion:Worried
+<<setFlag jask.poleFound>>
+===
+title: SennFirst
+---
+Senn: You're the ones with the station. Ruva says it travels. #emotion:Neutral
+Taren: It does. There'd be room aboard for you. #emotion:Tender
+Senn: I've sat on this island sixty floods. It's been moored at six towns in that time. Two of them came to me. #emotion:Smug
+Senn: A root island's already a boat. I don't need a bigger one. #emotion:Neutral
+Sela: Ours is faster. #emotion:Playful
+Senn: So is falling. Sit down. You're making the roots nervous. #emotion:Amused
+===
+title: SennRepeat
+---
+Senn: Still here. That's the whole trick of it. #emotion:Smug
+===
+title: SennPostOffer
+---
+Senn: You'll be out on the river. There's a thing you could carry, if you've a hand free. #emotion:Neutral
+Senn: A mooring post. I carved it for my wife's island, mid-river. Ulma didn't wait for me to finish. She never waited for anything. #emotion:Tender
+Taren: Where does it go? #emotion:Curious
+Senn: There's a ring on the upstream side, and the stump of the old post beside it. Or there was. Storms rearrange. #emotion:Neutral
+Senn: Set it where it'll hold. I'd go myself, but then I'd have to come back, and that's twice as far. #emotion:Amused
+<<startQuest MooringPost>>
+===
+title: SelaMooringPost
+---
+Taren: Upstream side. There's the ring, and the old stump. The river's had both. #emotion:Worried
+Taren: I could dam it, bail it and pack it. An hour. Maybe two. #emotion:Determined
+Sela: He said to set it where it'll hold. There's a dry fork right there, and it faces the town. #emotion:Tender
+Taren: That's not where he carved it for. #emotion:Worried
+Sela: It's where he can see it from his chair. Put it in, Vosk. #emotion:Tender
+<<setFlag senn.postSet>>
+===
+title: SennPostReturn
+---
+Senn: I saw it go up. A post goes up on that island, I see it. I've nothing else to look at. #emotion:Amused
+Taren: The old ring's under water. It's in a fork on the town side. I'm sorry. It isn't where you meant. #emotion:Worried
+Senn: I meant it to hold her island. Is it holding? #emotion:Neutral
+Taren: It's holding. #emotion:Neutral
+Senn: Then it's where I meant. You fuss like a man who's never been flooded. #emotion:Amused
+Senn: Take this. It read the river for Ulma before the river knew its own mind. I'm staying put. I don't need the warning. #emotion:Tender
+<<setFlag senn.postReported>>
+===
+title: SennAfterVote
+---
+Senn: Forty-one, was it? I counted from here. Ruva's arm goes up crooked when she means it. #emotion:Amused
+Senn: Go on, then. I'll keep the bank. Wherever it gets to. #emotion:Tender
+===
+title: SennLastWord
+---
+Senn: You'll be lifting soon. Sit a moment. It costs nothing, and I've a last word, if you'll have it. #emotion:Neutral
+Taren: You could still come. There's room. #emotion:Tender
+Senn: There's room here, too. More of it by tonight. Somebody has to be where they left from, or it isn't leaving. It's only getting lost. #emotion:Tender
+Senn: When they look back, there'll be one post on the river with an island tied to it, and me. That's all a place needs. Go on. #emotion:Tender
+<<setFlag senn.lastWord>>
+===
+title: HaddaFirst
+---
+Hadda: Shapers. Two of you, and nothing hanging off. Sit by the press. It likes company. #emotion:Amused
+Hadda: I'm Hadda. Married in, twenty floods back. We mend what the river bends here, and the river bends everything. #emotion:Happy
+Taren: That old mooring ring. It's a stride under water. I could reset it at the new line. #emotion:Curious
+Hadda: We've reset it four times. Now we tie to whatever's dry and call that the ring. You're a tidy one, aren't you? #emotion:Amused
+Sela: He's been thinking about that ring since we landed. #emotion:Playful
+Taren: What can't you mend? #emotion:Curious
+Hadda: The mats the seed house breathes through. Driftreed weaves them, on Wendmire. I've picked one apart twice. I still can't see how it lets air in and keeps wet out. #emotion:Flustered
+-> Use the press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    Hadda: Top shelf's sound. Bottom shelf's been in the river. It's cheaper. #emotion:Playful
+    <<shop>>
+===
+title: HaddaRepeat
+---
+Hadda: You two grow your own tools. Here we have to remember where we left them. What's bent? #emotion:Amused
+-> Use the press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: HaddaPost
+---
+Hadda: The press comes with us. Ruva asked how. I said it was a boat once and it remembers. That's a lie, so I'll want the tall one and a great deal of rope. #emotion:Amused
+Hadda: One thing. Seed in a shut hull sweats. So do people. Our seed house breathes through Driftreed mats. If your air goes thick up there, I'd point you at Wendmire. #emotion:Determined
+-> Use the press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: HaddaAir
+---
+Taren: Tallow's lamps are burning yellow. #emotion:Worried
+Hadda: That's thick air. Driftreed, on Wendmire. Ask for the tight weave, and don't let them sell you door mats. #emotion:Determined
+Hadda: Go on ahead. We'll be right behind you. That's new. #emotion:Tender
+<<setFlag hadda.airHeard>>
+-> Use the press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: SelaRiverArch
+---
+Sela: Three channels, and they can't agree which one's the river. I'm charting all three out of spite. #emotion:Amused
+Taren: What's that at the far end? Trees don't usually leave a wake. #emotion:Curious
+Sela: A root island. A big one, across the east channel. I'll mark it as scenery. #emotion:Neutral
+===
+title: SelaSluiceA
+---
+Taren: This one feeds the middle channel. Shut it off and that's a riverbed we can walk. #emotion:Curious
+Sela: There's a ferry stage on the island past it. And somebody waving a pole at us. #emotion:Amused
+Taren: The gate's been hung four times. Look at the hinge holes. They keep moving it to wherever the river's got to. #emotion:Curious
+Sela: Then it's in the right place today. Turn it, Vosk. #emotion:Playful
+<<setFlag xylos.sluiceA>>
+===
+title: GaroRelief
+---
+Garo: Channel's gone quiet? Good. Garo, mate of Marrow-1. Eleven aboard, eleven breathing, one sprained wrist. That was cards. #emotion:Neutral
+Taren: Teo sent us. Ruva sent us, and Teo counted. #emotion:Amused
+Garo: That's him. Tell him eleven of eleven. He'll want the number before the names. #emotion:Amused
+Garo: She's hard aground and the seed trays are drying. We can't float her till the crossing's open, but I can walk this crew to the ferry stage. #emotion:Determined
+Garo: Go on to Marrow-2. Dabb's lot will have had it worse. They always do. They work at it. #emotion:Worried
+<<setFlag xylos.marrow1>>
+===
+title: GaroRepeat
+---
+Garo: Trays are wet, crew's counted, wrist's still sprained. Marrow-1's fine. She's always fine. It's the river that's wrong. #emotion:Neutral
+===
+title: DabbRelief
+---
+Dabb: Don't shut that hatch. Please. I've looked at the inside of it for three days. #emotion:Worried
+Taren: You're clear. The channel's quiet. Is anyone hurt? #emotion:Tender
+Dabb: Nine of us, all whole. She's holed at the bow, mind. I've been bailing with the soup pot. We ate the soup first. We're not animals. #emotion:Amused
+Sela: Will she float? #emotion:Curious
+Dabb: She'll sulk at the surface. Teo calls that floating. Open the crossing and I'll bail her all the way home. I've got a rhythm now. #emotion:Determined
+<<setFlag xylos.marrow2>>
+===
+title: DabbRepeat
+---
+Dabb: One soup pot, every third breath. I've worked it out in buckets as well. The pot's quicker, and I hate it. #emotion:Amused
+===
+title: SelaSluiceB
+---
+Sela: Last gate. This one drains the south channel, and past that's the far bank. Seedfall. #emotion:Determined
+Taren: I can see Marrow-3 from here, up on the gravel. With a roof she didn't have before. #emotion:Curious
+Sela: That's not a roof. Roofs don't keep their legs tucked under them. #emotion:Worried
+<<setFlag xylos.sluiceB>>
+===
+title: SelaSeedfall
+---
+Taren: It's hung its pods off her mast. It's nesting on a boat. #emotion:Curious
+Sela: A seed-bearer on a seed carrier. It thinks it's found the biggest pod on the river. #emotion:Amused
+Taren: We don't need it dead. We need it off the boat. #emotion:Determined
+Sela: Then make the boat a bad place to sit. Knock those pods down and there's something to stand behind. #emotion:Determined
+===
+title: SelaSeedthaneGone
+---
+Sela: There it goes. Upriver, with every pod it could carry. #emotion:Happy
+Taren: It left the nest. Teo's going to find that in his wheelhouse. #emotion:Amused
+Sela: Let him. I'm not charting what's in it. #emotion:Playful
+===
+title: SelaCanopyMooring
+---
+Sela: Those are mooring roots. It's tied itself to the crossing. Nobody did that for it. #emotion:Curious
+Taren: And there's an anchor root, right here in the hall. Teo said work one and the whole island lurches. #emotion:Curious
+Sela: Then the doors will move. I'm charting this one in pencil. #emotion:Playful
+===
+title: SelaCanopyAnchor
+---
+Taren: Hold on. There. It's settled. #emotion:Worried
+Sela: The gallery's open, and the stair we wanted just shut. Same island. Different way through. #emotion:Curious
+Taren: Two more anchors. Each one should swing it again. #emotion:Determined
+===
+title: SelaSeedVault
+---
+Sela: Seed. Racks of it, dry as the day it was stored. This island kept its own pantry. #emotion:Shocked
+Taren: Somebody built this to outlast them. It has. #emotion:Tender
+Sela: Look down, through the slot. #emotion:Worried
+Taren: Water. Gates on the rim. And antlers. #emotion:Worried
+===
+title: SelaFloodcrownBasin
+---
+Taren: It's working the flood gates. It opens one and the basin fills. Shuts it, and the water stays. #emotion:Curious
+Sela: It came in on the storm and found a pond with doors. I'd stay too. #emotion:Amused
+Taren: Three gates on the rim. Break those and the water goes back to the river. #emotion:Determined
+Sela: Then it follows the water, or it fights us on a dry floor. Either way, the crossing's clear. #emotion:Determined
+===
+title: SelaFloodcrownGone
+---
+Sela: Down the drain channel and out to the river. Gone with the water it came in on. #emotion:Curious
+Taren: Basin's dry. Now we work the anchors and walk the island back to its mooring. #emotion:Determined
+Sela: Look at the east channel first, Vosk. It's running. A carrier could cross that now. #emotion:Happy
+Taren: The island's still not where it was. #emotion:Worried
+Sela: Ruva asked for open. Nobody asked for tidy. #emotion:Amused
+<<setFlag xylos.floodcrownGone>>
+===
+title: AbriDinnerCall
+---
+Keeper: Tallow to Taren. Tallow to Sela. Am I doing this right? Pell says hold the button. I'm holding the button. #emotion:Flustered
+Taren: We hear you, Abri. The growers are coming. Seed, islands and all. #emotion:Happy
+Keeper: I know! Teo's first barge is at the dock. Cabin nine had seconds. I watched it happen. #emotion:Happy
+Sela: Then why do you sound like that? #emotion:Curious
+Keeper: Three more settlements called on the beacon band while you were away. They saw us go by, and they'd like to follow. I said yes. I think I said yes. #emotion:Flustered
+Sela: Three. #emotion:Shocked
+Keeper: Ruva's people say the word is convoy. I've been calling it a queue. #emotion:Amused
+Keeper: And one small thing. The air's gone a bit thick aboard. Pell lit a lamp in the long corridor and it burned yellow. #emotion:Worried
+Taren: How many people are breathing it? #emotion:Worried
+Keeper: More than this morning. That's rather the trouble. #emotion:Worried
+Sela: One impossible thing at a time, Abri. We're on our way up. #emotion:Determined
+<<setFlag chapter3.complete>>
+===
+title: AbriDinnerServed
+---
+Keeper: The first barge docked with a pot already hot aboard, and a note from somebody called Binna. "What have they been eating?" I didn't like to say. #emotion:Amused
+===
+title: PellAfterVote
+---
+Pell: The long corridor lamp's burning yellow. I've trimmed it, cleaned it and apologised to it. It isn't the lamp. #emotion:Worried
+===

@@ -83,8 +83,20 @@ Each chapter gets a full brief (map sketches, encounter plan, cast and script ou
 
 ## 7. Progress
 
-| Item | State |
+| Item | State (November 11, evening) |
 |---|---|
-| November 10 open-issue work (38 Minors) | verifying |
-| S1-S6 | not started |
-| Chapters 3-10 | not started |
+| November 10 open-issue work | landed (`ff99a7a`): 28 fixed, 6 much better, 5 open (cliff-foot teeth, the Burrower's wreck, the engine's shutdown crash, two that need a chain run) |
+| Briefs for chapters 3-10 | written (`docs/chapters/`) |
+| [CHAPTER_GUIDE.md](CHAPTER_GUIDE.md) | written |
+| S1 Impact | in progress |
+| S2 Loot | in progress |
+| S3 Skills and EXTRA moves | in progress |
+| S4 Route chart | not started (after S2; needs Many Hands for its home) |
+| S5 Ground density (GroundKit; retrofit Lantern Gorge, Lanternwick, Sorrel, Hushwell) | in progress |
+| S5 Town life, uphill gait | not started |
+| S6 Third hero | designed (chapter 6 brief); not started |
+| Framework (content by data: music, objectives, scene and boss registration, tests that discover content, chapter loadouts) | in progress |
+| Chapter 3 | script, art (six portrait sheets approved), `ZoneKit`, all four zones in progress |
+| Chapters 4-10 | briefed |
+
+Meshy ledger: 2,372 at the start; chapter 3's portraits 72.

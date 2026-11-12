@@ -24,7 +24,17 @@
     "bossphase.HessaKorl": "She's calling her crew. Watch the ground.",
     "bossopening.HessaKorl": "She overreached. Now!",
     "bossopening.Cantor": "The collar slacks each time its song ends. Cut it then!",
-    "bossphase.Cantor": "It's changing its song. Watch the lanes."
+    "bossphase.Cantor": "It's changing its song. Watch the lanes.",
+    "bossphase.Seedthane": "It's pulled its legs up and it's circling. Watch the fans.",
+    "bossopening.Seedthane": "A leg's gone. It's listing. Now!",
+    "bossphase.Floodcrown": "Basin's dry and it's faster. Keep off the puddles.",
+    "bossopening.Floodcrown": "It's caught in its own wave. Break a flood gate!",
+    "barge": "She's drifting clear. That's cover now.|Loose. Keep her between us and them.|Free. Mind the weed on the way round.",
+    "tag": "One of Hulljack's tags, gone.|Unclaimed again.|That's his paperwork lighter.",
+    "anchor": "Hold on to something.|There it goes again.|Same island. Different doors.",
+    "pods.red": "Red ones. They bite, she said.",
+    "pods.blue": "Blue. Sulking, as promised.",
+    "pods.yellow": "Yellow. I'm not thinking about it."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.|My turn. Watch and learn.|Move over. I'm bored.",
@@ -48,6 +58,28 @@
     "bossphase.HessaKorl": "She brought friends. Read the floor, Vosk.",
     "bossopening.HessaKorl": "There's your opening. Don't admire it.",
     "bossopening.Cantor": "The collar slacks when its song ends. Cut it then, Vosk.",
-    "bossphase.Cantor": "New rhythm. Read the current, Vosk."
+    "bossphase.Cantor": "New rhythm. Read the current, Vosk.",
+    "bossphase.Seedthane": "It's up and circling, Vosk. Read the fans.",
+    "bossopening.Seedthane": "It's listing, Vosk. There's your opening.",
+    "bossphase.Floodcrown": "Dry floor, faster crown. Mind the puddles, Vosk.",
+    "bossopening.Floodcrown": "It's open. Go for a gate on the rim, Vosk.",
+    "barge": "It's drifting back into the lane. Fly behind it, Vosk.|A barge between us and them. I'll take it.|Loose. One more thing to hide behind.",
+    "tag": "Unclaimed. Again.|Somebody's paperwork just got lighter.|I'd like to see them file that.",
+    "anchor": "It's walking. Check the doors, Vosk.|New doors. I'll redraw it.|Same halls, new exits. Keep up.",
+    "pods.red": "Red pods. If I cry, Vosk, it's the spice.",
+    "pods.blue": "Blue pods, in the shade, sulking. She wasn't joking.",
+    "pods.yellow": "Yellow pods. We don't think about it. We pick."
+  },
+  "Teo": {
+    "hail.barge1": "Near barge is loose. She was always the easy one. I don't trust it.",
+    "hail.barge2": "Second one's out of the mirror's shadow. She'll want thanking. Don't. It goes to her head.",
+    "hail.barge3": "Far barge is free. She's carrying the good seed, so of course she went furthest.",
+    "hail.landing": "That's three in the lane. The delta beacon's lit. Follow it down before I count something else."
+  },
+  "Ruva": {
+    "rope": "Lean into it.|Again. She's coming.|There. She's seated."
+  },
+  "Jask": {
+    "hail.ferry": "Surveyor! Is that you? Can you hear me from there?"
   }
 }
