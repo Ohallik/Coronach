@@ -351,6 +351,10 @@ namespace Lattice.EditorTools
             var cliffView=new GameObject(label+" cliffs",typeof(MeshFilter),typeof(MeshRenderer));cliffView.transform.SetParent(terrain.transform,false);
             cliffView.GetComponent<MeshFilter>().sharedMesh=cliffs;cliffView.GetComponent<Renderer>().sharedMaterial=Canyon(true);
             // From their lit side only, the default. Two-sided, a wall with no lit side on the mesh (the gorge's south end, whose lit side is past z -24) laid a shadow over the whole arrival, and every wall triangle having its own vertices, the shadow pass's normal bias opened that shadow into straight rows of pale dashes.
+            // So the landform's shadow comes from one welded caster, the collision heightfield itself, whose shared vertices give the bias nothing to open (E3-lanternwick-08); the drawn floor and walls only receive.
+            floorView.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;cliffView.GetComponent<Renderer>().shadowCastingMode=ShadowCastingMode.Off;
+            var caster=new GameObject(label+" shadow",typeof(MeshFilter),typeof(MeshRenderer));caster.transform.SetParent(terrain.transform,false);
+            caster.GetComponent<MeshFilter>().sharedMesh=full;var casts=caster.GetComponent<MeshRenderer>();casts.sharedMaterial=Canyon(true);casts.shadowCastingMode=ShadowCastingMode.ShadowsOnly;casts.receiveShadows=false;
             return terrain;
         }
         static Npc Person(string id,Vector3 at,float yaw,string postFlag,bool post=true,string finalFlag=null,string finalNode=null)
@@ -774,7 +778,8 @@ namespace Lattice.EditorTools
         {
             height=TownHeight;CliffTop=3.6f;fadeTall=true;
             var scene=WorldBuilder.Begin("Lanternwick");
-            Terrain("Lanternwick","Canyon terraces",-60,60,-50,125,1,Canyon(false),TownTone);
+            // Half-metre cells: floor and wall meet along single triangles, and at a metre each the foot of every wall was a row of hard teeth (E1-lanternwick-13).
+            Terrain("Lanternwick","Canyon terraces",-60,60,-50,125,.5f,Canyon(false),TownTone);
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,-14));WorldBuilder.Spawn("Gorge",new Vector3(-30,1.4f,80));WorldBuilder.Spawn("Archive",new Vector3(0,0,92));
             var dock=Prop("LandingPad",new Vector3(0,0,-22),5,0);dock.name="Courier pad";
             var pad=dock.AddComponent<DockingPad>();pad.prompt="Launch — The Wick Reach";pad.range=4;pad.scene="WickReach";pad.spawn="Lanternwick";
@@ -981,7 +986,7 @@ namespace Lattice.EditorTools
         {
             height=GorgeHeight;CliffTop=2.5f;fadeTall=true;
             var scene=WorldBuilder.Begin("LanternGorge");
-            Terrain("LanternGorge","Lantern Gorge",-60,60,-24,250,1,Canyon(false),GorgeTone);
+            Terrain("LanternGorge","Lantern Gorge",-60,60,-24,250,.5f,Canyon(false),GorgeTone);
             WorldBuilder.Spawn("Arrival",new Vector3(0,0,0));WorldBuilder.Spawn("Relay",new Vector3(0,0,220));
             // Its sign is south of the arrival's view: any nearer, standing at the arrival it runs along the bottom of the screen under the skill bar.
             Gate("Climb to Lanternwick",new Vector3(-4,0,-8),"Lanternwick","Gorge",null,null,"HushwellScaffold",3,3.6f,new Vector2(.4f,-9));

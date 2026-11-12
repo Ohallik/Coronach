@@ -252,18 +252,20 @@ namespace Lattice.Combat
             {
                 if(Time.time>=strikeAt)
                 {
-                    Telegraphing=false;if(AttackMark!=null){AttackMark.Release();AttackMark=null;}attackAnimationUntil=Time.time+.55f;
+                    // A shot's marking goes with it until it lands (Telegraph.Carry); anything else strikes now, and its marking flashes.
+                    Telegraphing=false;var told=AttackMark;AttackMark=null;Projectile[] shots=null;attackAnimationUntil=Time.time+.55f;
                     var packet=new DamagePacket{source=Health,amount=(attack!=null?attack.damage:18)*DamageScale,type=attack!=null?attack.type:DamageType.Kinetic,breakPower=10,deathAttack=Mine};
                     if(dive)StartCoroutine(LungeAttack(packet));
                     else if(definition.id=="ChoristerDrifter")
-                    {packet.hullVolleyHits=new HashSet<Health>();packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);for(int i=-1;i<=1;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11,ShotReach(range));}
+                    {packet.hullVolleyHits=new HashSet<Health>();packet=ProjectileProvenance.Volley(packet);CombatAudio.HostileShot(transform,transform.position+Vector3.up);shots=new Projectile[3];for(int i=-1;i<=1;i++)shots[i+1]=Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*10,0)*aim,packet,11,ShotReach(range));}
                     else if(ranged)
                     {
                         packet=ProjectileProvenance.Volley(packet);
                         CombatAudio.HostileShot(transform,transform.position+Vector3.up);
                         int fan=collar!=null&&collar.VolleyAttached?1:0;
                         if(collar!=null)packet.amount*=.55f;
-                        for(int i=-fan;i<=fan;i++)Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*12,0)*aim,packet,11,ShotReach(range));
+                        shots=new Projectile[fan*2+1];
+                        for(int i=-fan;i<=fan;i++)shots[i+fan]=Projectile.Fire(transform.position+Vector3.up,Quaternion.Euler(0,i*12,0)*aim,packet,11,ShotReach(range));
                     }
                     else if(Mine)
                     {
@@ -278,6 +280,7 @@ namespace Lattice.Combat
                         var mouth=new Vector3(markedFrom.x,transform.position.y+StrikeHeight,markedFrom.z);float ahead=CombatCover.Sweep(mouth,mouth+aim*1.1f,.05f,out var wall)?Mathf.Max(0,wall.distance-.05f):1.1f;
                         CombatActor.Strike(mouth+aim*ahead,Mathf.Max(1,range*.7f),packet).ThroughWalls=false;
                     }
+                    if(told!=null){if(shots!=null)told.Carry(shots);else told.Release();}
                     nextAttack=Time.time+(attack!=null?attack.cooldown:1.5f);
                 }
                 return;

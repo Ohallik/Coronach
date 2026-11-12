@@ -92,6 +92,16 @@ namespace Lattice.EditorTools
                 }
             }
             Asset<RecipeDef>("RepairGel",r=>{r.id="RepairGel";r.displayName="Repair Gel";r.consumableOutput="RepairGel";r.inputs=new[]{new Ingredient{id="ScrapAlloy",count=2}};});
+            // prog158: a boss's trophy is the key to one part a little past the Refined one in its slot, at a rank anyone has, so it's worth making the day it drops.
+            // Parts, not consumables: Mira's stall sells every consumable in the catalogue, which would have sold the trophy's use for 20 scrip.
+            foreach(var (id,name,discipline,slot,stats,trophy,count,alloy) in new[]{
+                ("FramesHusk","Husk Frame",Discipline.Frames,GearSlot.Frame,new Stats{plating=20},"HuskCore",2,4),
+                ("EmittersChoir","Choir Emitter",Discipline.Emitters,GearSlot.Emitter,new Stats{output=25,resonance=4},"ChoirResin",4,6),
+                ("ModulesPearl","Pearl Module",Discipline.Modules,GearSlot.Module,new Stats{resonance=14,fortune=8},"CantorPearl",1,6)})
+            {
+                var part=Asset<TechPartDef>(id,p=>{p.id=id;p.displayName=name;p.tier=2;p.slot=slot;p.baseStats=stats;p.damageType=slot==GearSlot.Emitter?DamageType.Beam:DamageType.Kinetic;p.affixPool=new[]{affix};p.salvage=new[]{new Ingredient{id="ScrapAlloy",count=4}};});
+                Asset<RecipeDef>(id,r=>{r.id=id;r.displayName=name;r.discipline=discipline;r.tier=r.unlockLevel=1;r.output=part;r.consumableOutput="";r.inputs=new[]{new Ingredient{id=trophy,count=count},new Ingredient{id="ScrapAlloy",count=alloy}};});
+            }
             Asset<QuestDef>("Sorrel",q=>{q.id="Sorrel";q.title="The Silent Outpost";q.steps=new[]{new Objective{kind=ObjectiveKind.Reach,target="Sorrel_Ridges",count=1},new Objective{kind=ObjectiveKind.TalkTo,target="Survivor",count=1},new Objective{kind=ObjectiveKind.Kill,target="Burrower",count=1},new Objective{kind=ObjectiveKind.Collect,target="WarpKey",count=1}};q.rewardXp=160;q.rewardScrip=200;q.flagsOnComplete=new[]{"warpkey"};});
             Asset<QuestDef>("MiraCrystals",q=>{q.id="MiraCrystals";q.title="Six Bright Answers";q.steps=new[]{new Objective{kind=ObjectiveKind.Collect,target="RidgeCrystal",count=6}};q.rewardXp=80;q.rewardScrip=100;});
         }

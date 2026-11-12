@@ -66,6 +66,12 @@ Shader "Lattice/Toon"
         [Toggle(_TRIPLANAR_ON)] _Triplanar("Side Projection", Float) = 0
         _TriplanarScale("Side Projection Scale (1/world-u)", Float) = 0.125
 
+        // ---- Hull plating: crisp seams laid over a generated hull whose own paint is soft up close (E2-tallow-11), world-projected from the side a face looks. ----
+        [Toggle(_PANELS_ON)] _Panels("Hull Panels", Float) = 0
+        _PanelMap("Panel Map", 2D) = "white" {}
+        // x = scale (1/world-u), y = strength
+        _PanelParams("Panel Params", Vector) = (0.25, 0.5, 0, 0)
+
         // ---- POLISH-01: soft edges ----
         [Toggle(_EDGEFADE_ON)] _EdgeFade("Edge Fade", Float) = 0
         // x = mode (0 = path uv2, 1 = disc uv2, 2 = object-local slab), y = fade width (world u),
@@ -208,6 +214,7 @@ Shader "Lattice/Toon"
             float4 _StrataParams;
             float4 _StrataSlope;
             float _TriplanarScale;
+            float4 _PanelParams;
             float4 _EdgeParams;
             half4 _DeepColor;
             half4 _FoamColor;
@@ -238,6 +245,7 @@ Shader "Lattice/Toon"
 
         TEXTURE2D(_BaseMap); SAMPLER(sampler_BaseMap);
         TEXTURE2D(_EmissionMap); SAMPLER(sampler_EmissionMap);
+        TEXTURE2D(_PanelMap); SAMPLER(sampler_PanelMap);
 
         // Global (NOT a material property): the gallery pins this for deterministic
         // renders; 0 in the live game -> real time drives the motion.
@@ -383,6 +391,7 @@ Shader "Lattice/Toon"
             #pragma shader_feature_local_fragment _DETAIL_ON
             #pragma shader_feature_local_fragment _STRATA_ON
             #pragma shader_feature_local_fragment _TRIPLANAR_ON
+            #pragma shader_feature_local_fragment _PANELS_ON
             #pragma shader_feature_local_fragment _EDGEFADE_ON
             #pragma shader_feature_local_fragment _WATER_ON
             #pragma shader_feature_local_fragment _GLOW_ON
@@ -493,6 +502,16 @@ Shader "Lattice/Toon"
                 #endif
                 baseTex.rgb = lerp(half3(1, 1, 1), baseTex.rgb, _BaseMapStrength);
                 half4 albedo = baseTex * _BaseColor;
+                #if defined(_PANELS_ON)
+                {
+                    float3 plate = pow(abs(normalize(input.normalWS)), 6.0);
+                    plate /= plate.x + plate.y + plate.z;
+                    half seams = SAMPLE_TEXTURE2D(_PanelMap, sampler_PanelMap, input.positionWS.xz * _PanelParams.x).r * plate.y
+                        + SAMPLE_TEXTURE2D(_PanelMap, sampler_PanelMap, input.positionWS.zy * _PanelParams.x).r * plate.x
+                        + SAMPLE_TEXTURE2D(_PanelMap, sampler_PanelMap, input.positionWS.xy * _PanelParams.x).r * plate.z;
+                    albedo.rgb *= lerp(1.0h, seams, (half)_PanelParams.y);
+                }
+                #endif
                 #if defined(_VCOLOR_ON)
                 albedo *= input.color;
                 // #308 is a rendered-read defect, not a support defect.  The
@@ -688,8 +707,12 @@ Shader "Lattice/Toon"
                     half3 strataBase = albedo.rgb;
                     float band = FbNoise2(float2(input.positionWS.y * _StrataParams.x,
                                                  dot(input.positionWS.xz, float2(0.11, 0.07))));
+                    // _StrataSlope.w sharpens the bands' edges, 0 (soft, every material before November 10) to 1 (cut), and draws a thin ledge
+                    // line along each: Sorrel's arena slope read as airbrushed bands beside crisp floor (E2-sorrel-07).
+                    half crisp = saturate(_StrataSlope.w);
                     albedo.rgb = lerp(albedo.rgb, albedo.rgb * _StrataTintA.rgb,
-                        smoothstep(0.42, 0.60, band) * _StrataParams.y);
+                        smoothstep(0.42 + 0.085 * crisp, 0.60 - 0.085 * crisp, band) * _StrataParams.y);
+                    albedo.rgb *= 1.0 - crisp * 0.32 * (1.0 - smoothstep(0.004, 0.018, abs(band - 0.51)));
                     float vein = abs(FbFbm2(input.positionWS.xz * _StrataParams.z
                                             + input.positionWS.yy * (_StrataParams.z * 0.85)
                                             + 7.7) - 0.5);

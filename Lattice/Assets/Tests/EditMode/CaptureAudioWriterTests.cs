@@ -115,6 +115,22 @@ namespace Lattice.Tests.EditMode
             }
             finally{writer.Complete();Wait(()=>writer.Completed,"cleanup");}
         }
+        /// <summary>QA-033: a listener writer rides out a disk stall of seconds. The capture used to size its writer at 32 slots, about .7 s of Unity's 1024-frame stereo callbacks, and a
+        /// stall of that length while the video encoder and step screenshots were writing rejected two complete Burrower runs. (Written against ForListener, which e37c9b4 lacks.)</summary>
+        [Test] public void AListenerWriterRidesOutAFiveSecondDiskStall()
+        {
+            var stream=new BlockedStream();var writer=CaptureAudioWriter.ForListener(stream,48000,1024,2);
+            try
+            {
+                var block=new float[2048];Assert.IsTrue(writer.Append(block,2));Assert.IsTrue(stream.entered.Wait(2000));
+                for(int i=0;i<235;i++)Assert.IsTrue(writer.Append(block,2),"callback "+i+" lost to a five-second stall: "+writer.Failure);
+                Assert.IsNull(writer.Failure);
+                writer.Complete();stream.release.Set();var wav=Finish(writer,stream);CheckHeader(wav,2,236*2048);
+                Assert.IsNull(writer.Failure);
+                Assert.Less(writer.Snapshot().sampleBufferBytes,32L*1024*1024,"the deeper queue costs more memory than a capture can spare");
+            }
+            finally{stream.release.Set();writer.Complete();Wait(()=>writer.Completed,"cleanup");}
+        }
         [Test] public void EmptyCaptureIsRejected()
         {
             var stream=new MemoryStream();var writer=new CaptureAudioWriter(stream,48000,2,8);

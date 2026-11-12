@@ -36,7 +36,17 @@ namespace Lattice.UI
             slots=new float[bufferCount][];lengths=new int[bufferCount];bytes=new byte[checked(blockSamples*4)];
             for(int i=0;i<slots.Length;i++)slots[i]=new float[blockSamples];
             stream.Write(new byte[44],0,44);
-            new Thread(Write){IsBackground=true,Name="Quality listener writer"}.Start();
+            new Thread(Write){IsBackground=true,Name="Quality listener writer",Priority=ThreadPriority.AboveNormal}.Start();
+        }
+        /// <summary>How long the disk may stall before the listener's queue fills. Sized at 32 blocks of 32768 samples, it held about .7 s of Unity's 1024-frame callbacks, and a
+        /// stall of about that while the video encoder and the step screenshots were writing rejected two complete Burrower runs (QA-033). A stall this long is a real loss.</summary>
+        public const float ListenerStallSeconds=20;
+        /// <summary>A writer sized for the listener's own callbacks: room for each block twice over, and enough slots for the stall above. About 15 MB at any DSP buffer size.</summary>
+        public static CaptureAudioWriter ForListener(Stream output,int rate,int bufferFrames,int channels)
+        {
+            int frames=Math.Max(64,bufferFrames),block=frames*Math.Max(1,channels);
+            int slots=(int)Math.Ceiling(ListenerStallSeconds*rate/(double)frames);
+            return new CaptureAudioWriter(output,rate,Math.Max(32,slots),block*2);
         }
         void Reject(string reason)=>Interlocked.CompareExchange(ref failure,reason,null);
         public bool Append(float[] samples,int channelCount)

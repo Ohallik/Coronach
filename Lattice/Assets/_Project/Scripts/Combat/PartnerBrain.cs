@@ -16,7 +16,7 @@ namespace Lattice.Combat
         SerpentSegments departingSerpent;
         FlightObstacles flightObstacles;
         // Three seconds at least, and never less than what it was already waiting: swapping out and back used to shorten the six to nine seconds to three.
-        void OnEnable(){nextSkill=Mathf.Max(nextSkill,GameTime.Now+3);corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;}
+        void OnEnable(){nextSkill=Mathf.Max(nextSkill,GameTime.Now+3);corners=null;nextPath=0;flankTarget=null;flightSeparation=null;departingSerpent=null;flightObstacles=null;framed=null;nextFrameSearch=0;}
         void Awake(){actor=GetComponent<CombatActor>();path=new NavMeshPath();}
         void Update()
         {
@@ -25,6 +25,8 @@ namespace Lattice.Combat
             // The lead's lock waits out a dive, but a buried rig is nothing to fight: take what stands open, or follow. Burrowed rather
             // than !Targetable: a collared Cantor can't be hurt either, and it is still what the partner flies at.
             if(actor.target!=null&&actor.target.TryGetComponent<BossController>(out var dive)&&dive.Burrowed)actor.target=GetComponent<PlayerBrain>().FindTarget();
+            var camera=Camera.main;
+            actor.target=Seen(camera,actor.target,out bool seen);
             var selectedCarrier=actor.target!=null?(actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target):null;
             var serpent=actor.flight&&selectedCarrier!=null&&selectedCarrier.Alive?selectedCarrier.GetComponent<SerpentSegments>():null;
             // Lethal resolution clears the lock before the full-size animal
@@ -57,10 +59,10 @@ namespace Lattice.Combat
             Vector3 goal=active.transform.position-active.motor.Facing*3+followingRight*2;
             bool fighting=ZoneController.Current!=null&&ZoneController.Current.Combat&&actor.target!=null&&actor.target.Alive;
             float separation=(active.transform.position-transform.position).magnitude;
-            bool flanking=false;
+            bool flanking=false,closing=false;
             if(fighting&&separation<18&&actor.Health.integrity>actor.Health.maximum*.3f)
             {
-                goal=actor.target.transform.position;
+                goal=actor.target.transform.position;closing=true;
                 var carrier=actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target;
                 if(actor.flight&&carrier.TryGetComponent<SerpentSegments>(out _))
                 {
@@ -79,6 +81,14 @@ namespace Lattice.Combat
                 goal=transform.position+escape*5;flanking=false;
                 if(landing<.14f*Time.timeScale&&Dodge(escape))return;
             }
+            // Getting out of a marking comes first; where she then comes to rest stays where the player can see her.
+            bool framedNow=false;
+            if(!escaping&&camera!=null)
+            {
+                float rest=flanking?.6f:fighting?(actor.flight?2.2f:actor.character=="Sela"?7.5f:1.35f):1.5f;
+                // Closing on a target she can see, her place keeps her reach of it; following, it keeps near the lead.
+                goal=KeepInFrame(camera,active,goal,rest,closing&&seen,out framedNow);
+            }
             bool avoiding=false,avoidanceBrake=false;
             if(flightSeparation!=null)goal=flightSeparation.Guide(transform.position,goal,flanking?actor.target:null,out avoiding,out avoidanceBrake);
             bool wallAdjusted=false;
@@ -94,6 +104,7 @@ namespace Lattice.Combat
             // stand-off relied on the removed oversized invisible hit sphere.
             float distance=d.magnitude,stop=fighting?(actor.flight?2.2f:actor.character=="Sela"?7.5f:1.35f):1.5f;
             if(flanking||wallAdjusted)stop=.6f;
+            if(framedNow)stop=Mathf.Min(stop,FrameStop);
             if(escaping)stop=.3f;
             if(avoiding)stop=.45f;
             if(!actor.flight&&GroundNavigation.Current!=null&&!fighting)
@@ -121,6 +132,10 @@ namespace Lattice.Combat
             actor.motor.Move(distance>stop?new Vector2(d.x,d.z).normalized:Vector2.zero,(separation>10||flightSeparation!=null&&flightSeparation.EscapingDeparture)&&!avoidanceBrake,actor.flight&&(distance<stop+2||avoidanceBrake));
             if((flanking||wallAdjusted&&fighting)&&!avoiding&&distance<stop+1&&actor.State!=Lattice.Data.ActorState.Dodge)
                 GetComponent<FlightMotor>().FaceTarget(actor.target.transform.position-transform.position);
+            // Come to rest facing what she's fighting, as a player turns before firing: brought up short (a marking, the frame, the lead's side), she
+            // kept the heading she arrived on, and every shot left along it.
+            else if(fighting&&seen&&!avoiding&&!escaping&&distance<=stop+(actor.flight?1:0)&&(actor.State==Lattice.Data.ActorState.Idle||actor.State==Lattice.Data.ActorState.Move))
+                FaceToward(actor.target.transform.position-transform.position);
             if(fighting)
             {
                 var opponent=actor.target.reactionOwner!=null?actor.target.reactionOwner:actor.target;
@@ -137,9 +152,128 @@ namespace Lattice.Combat
                     if(Dodge(evade))return;
                 }
                 var fromTarget=Planar(actor.target.transform.position-transform.position);
-                if(GameTime.Now>=nextSkill&&TrySkill(fromTarget.magnitude))nextSkill=GameTime.Now+Random.Range(6f,9f);
-                if(fromTarget.magnitude<(actor.flight||actor.character=="Sela"?14:3))actor.Attack();
+                // Nothing the player can't see: not at a target off the screen, and not from off it, where her bolts flew in from nowhere.
+                bool inView=seen&&Shows(camera,transform.position+Vector3.up*(actor.flight?0:.9f),0);
+                if(inView&&GameTime.Now>=nextSkill&&TrySkill(fromTarget.magnitude))nextSkill=GameTime.Now+Random.Range(6f,9f);
+                bool shooter=actor.flight||actor.character=="Sela";
+                // A shot leaves along the heading unless the target is inside the aim's cone (CombatActor.Aim), so a gun fires only once it's
+                // pointed: run out of a marking or round the lead with the trigger held, her shots went off the screen with the boss behind her.
+                if(inView&&fromTarget.magnitude<(shooter?14:3)&&(!shooter||Vector3.Angle(actor.motor.Facing,fromTarget)<(actor.flight?FlightFireCone:GroundFireCone)))actor.Attack();
             }
+        }
+        // ---------- what the player can see ----------
+        /// <summary>A gun fires only within this of its target, well inside Aim's own 30 and 120 degrees: past it on foot the shot left the posed arm
+        /// sideways, and in flight a nose 25 degrees off read as shooting past.</summary>
+        const float FlightFireCone=20,GroundFireCone=35;
+        /// <summary>How far in from the screen's edge her body stands, as a share of the screen's height, and the gap she keeps from a plate, in pixels.</summary>
+        const float FrameEdge=.045f,PlateGap=10;
+        /// <summary>How close she comes to a place picked to keep her in the frame: the fighting stand-offs would stop her metres short of it, still under the plate.</summary>
+        const float FrameStop=.4f;
+        /// <summary>A target only counts while its middle is on the screen: half a body at the edge is something the player can see her shoot.</summary>
+        const float TargetInset=0;
+        static readonly float[] FrameRings={1.25f,2.5f,4,6};
+        const float FrameSearchEvery=.2f;
+        Vector3? framed;float nextFrameSearch;
+        /// <summary>The lead's target while the player can see it. Off the screen: the boss in a boss fight if it shows, else whatever shows nearest her,
+        /// else the lead's still, for where to go, with her fire held (seen false). With no camera (a fixture) everything counts as seen.</summary>
+        Health Seen(Camera camera,Health chosen,out bool seen)
+        {
+            seen=chosen!=null;if(camera==null||chosen==null||Shows(camera,AimPoint(chosen),TargetInset))return chosen;
+            var boss=BossController.Focus(transform.position,45);
+            if(boss!=null&&boss.Health!=null&&boss.Health.Targetable&&!boss.Burrowed&&Shows(camera,AimPoint(boss.Health),TargetInset))return boss.Health;
+            Health nearest=null;float best=30*30;
+            foreach(var body in Health.All)
+            {
+                if(body==null||body.friendly||!body.Targetable||body.TryGetComponent<BossController>(out var buried)&&buried.Burrowed)continue;
+                float far=Planar(body.transform.position-transform.position).sqrMagnitude;
+                if(far<best&&Shows(camera,AimPoint(body),TargetInset)){best=far;nearest=body;}
+            }
+            if(nearest!=null)return nearest;
+            seen=false;return chosen;
+        }
+        Vector3 AimPoint(Health body)=>body.transform.position+Vector3.up*(actor.flight?0:.9f);
+        /// <summary>Whether a point stands on the screen at least this share of its height in from every edge.</summary>
+        static bool Shows(Camera camera,Vector3 world,float inset)
+        {
+            if(camera==null)return true;
+            var at=camera.WorldToViewportPoint(world);float across=inset*camera.pixelHeight/Mathf.Max(1,camera.pixelWidth);
+            return at.z>0&&at.x>across&&at.x<1-across&&at.y>inset&&at.y<1-inset;
+        }
+        /// <summary>Her body at a place, whole on the screen and clear of every HUD plate: on foot her feet, middle and head; in flight the hull as wide as it shows.</summary>
+        bool Fits(Camera camera,Vector3 at)
+        {
+            float edge=FrameEdge*camera.pixelHeight;
+            if(actor.flight)
+            {
+                var middle=camera.WorldToScreenPoint(at);if(middle.z<=0)return false;
+                float hull=Mathf.Abs(camera.WorldToScreenPoint(at+camera.transform.right*HeroCollision.HullRadius(actor.character)).x-middle.x);
+                return Inside(camera,middle,hull+edge)&&!HudKeepOut.Covers(middle,hull+PlateGap);
+            }
+            var feet=camera.WorldToScreenPoint(at);var waist=camera.WorldToScreenPoint(at+Vector3.up*.9f);var head=camera.WorldToScreenPoint(at+Vector3.up*1.7f);
+            return Inside(camera,feet,edge)&&Inside(camera,head,edge)&&!HudKeepOut.Covers(feet,PlateGap)&&!HudKeepOut.Covers(waist,PlateGap)&&!HudKeepOut.Covers(head,PlateGap);
+        }
+        static bool Inside(Camera camera,Vector3 screen,float inset)=>screen.z>0&&screen.x>inset&&screen.x<camera.pixelWidth-inset&&screen.y>inset&&screen.y<camera.pixelHeight-inset;
+        /// <summary>Where she'll come to rest, kept in the open frame: on the screen with a margin and out from under the HUD's plates. Her place came from the
+        /// lead's heading and the target alone, so she stood under the skill row and the control bar, behind the boss card, across the warp prompt and off the
+        /// bottom edge with her bolts coming in from nowhere. Where that place doesn't fit, the nearest one that does, within her reach of a target she can see
+        /// (or near the lead), on open floor, out of every boss marking, with no wall on the way; and the one she picked last while it still does, so she doesn't
+        /// hop between two. Nothing fits: she goes where she was going.</summary>
+        Vector3 KeepInFrame(Camera camera,CombatActor lead,Vector3 goal,float stop,bool engaged,out bool moved)
+        {
+            moved=false;
+            var to=Planar(goal-transform.position);float far=to.magnitude;
+            var rest=far>stop?transform.position+to/far*(far-stop):transform.position;rest.y=transform.position.y;
+            if(Fits(camera,rest)){framed=null;return goal;}
+            if(framed.HasValue&&Planar(framed.Value-rest).magnitude<8&&Allowed(camera,lead,framed.Value,engaged,out _)){moved=true;return framed.Value;}
+            framed=null;
+            // A search is up to 68 places: a few times a second is plenty for something that moves at a walk.
+            if(Time.unscaledTime<nextFrameSearch)return goal;
+            nextFrameSearch=Time.unscaledTime+FrameSearchEvery;
+            // Round where she'd have stood, the side toward the lead first; then along the way back to the lead.
+            var toLead=Planar(lead.transform.position-rest);float start=toLead.sqrMagnitude>.01f?Mathf.Atan2(toLead.x,toLead.z)*Mathf.Rad2Deg:0;
+            foreach(float ring in FrameRings)
+                for(int i=0;i<16;i++)
+                {
+                    float turn=start+(i%2==0?1:-1)*((i+1)/2)*22.5f;
+                    var place=rest+Quaternion.Euler(0,turn,0)*Vector3.forward*ring;
+                    if(Allowed(camera,lead,place,engaged,out var floor)){framed=floor;moved=true;return floor;}
+                }
+            if(toLead.sqrMagnitude>4)
+            {
+                var beside=lead.transform.position-toLead.normalized*2;beside.y=rest.y;
+                for(float t=.25f;t<=1.001f;t+=.25f)
+                    if(Allowed(camera,lead,Vector3.Lerp(rest,beside,t),engaged,out var floor)){framed=floor;moved=true;return floor;}
+            }
+            return goal;
+        }
+        /// <summary>A place she may be sent to keep her in the frame.</summary>
+        bool Allowed(Camera camera,CombatActor lead,Vector3 place,bool engaged,out Vector3 floor)
+        {
+            floor=place;float lift=actor.flight?.8f:.9f;
+            if(engaged)
+            {
+                float reach=Planar(actor.target.transform.position-place).magnitude;
+                if(actor.flight||actor.character=="Sela"?reach<3.5f||reach>12:reach>2.6f)return false;
+            }
+            else{float near=Planar(lead.transform.position-place).magnitude;if(near<1.5f||near>9)return false;}
+            if(!Fits(camera,place))return false;
+            if(!actor.flight&&GroundNavigation.Current!=null)
+            {
+                if(!NavMesh.SamplePosition(place,out var hit,.8f,NavMesh.AllAreas))return false;
+                floor=hit.position;if((floor-place).sqrMagnitude>.04f&&!Fits(camera,floor))return false;
+            }
+            foreach(var marking in Telegraph.Live)if(marking!=null&&!marking.Released&&marking.owner is BossController&&marking.Contains(floor))return false;
+            if(!CombatCover.Clear(transform.position+Vector3.up*lift,floor+Vector3.up*lift))return false;
+            return !engaged||CombatCover.Clear(floor+Vector3.up*lift,AimPoint(actor.target));
+        }
+        /// <summary>Turns her where she stands; a ship turns its nose.</summary>
+        void FaceToward(Vector3 direction)
+        {
+            direction.y=0;if(direction.sqrMagnitude<.01f)return;
+            if(actor.flight){GetComponent<FlightMotor>().FaceTarget(direction);return;}
+            if(actor.motor is not GroundMotor ground)return;
+            transform.rotation=Quaternion.RotateTowards(transform.rotation,Quaternion.LookRotation(direction),GroundMotor.CombatTurnRate*actor.MotorDelta);
+            ground.KeepFacing(transform.forward);
         }
         bool MarkedEscape(out Vector3 escape,out float landing)
         {

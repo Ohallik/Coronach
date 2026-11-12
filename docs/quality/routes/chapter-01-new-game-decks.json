@@ -378,67 +378,11 @@
       "pauseUi": "bench"
     },
     {
-      "name": "select Scrap Edge row 1",
-      "seconds": 0.2,
+      "name": "select Scrap Edge",
+      "seconds": 8,
+      "until": "rowReached",
       "expectedScene": "Hub_Decks",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select Scrap Edge row 1",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select Scrap Edge row 2",
-      "seconds": 0.2,
-      "expectedScene": "Hub_Decks",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select Scrap Edge row 2",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select Scrap Edge row 3",
-      "seconds": 0.2,
-      "expectedScene": "Hub_Decks",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select Scrap Edge row 3",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "select Scrap Edge row 4",
-      "seconds": 0.2,
-      "expectedScene": "Hub_Decks",
-      "buttons": [
-        "DpadDown"
-      ],
-      "expectedUi": "bench",
-      "pauseUi": "bench"
-    },
-    {
-      "name": "release select Scrap Edge row 4",
-      "seconds": 0.3,
-      "expectedScene": "Hub_Decks",
+      "pickRow": "Scrap Edge",
       "pauseUi": "bench"
     },
     {

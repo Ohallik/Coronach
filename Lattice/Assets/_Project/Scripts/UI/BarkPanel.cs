@@ -16,13 +16,13 @@ namespace Lattice.UI
         const float Air=14,SlidePerSecond=1100,FootRoom=112,ShipTall=.75f,ThingHalf=70;
         float slide,plateLow,plateHigh,plateLeft,plateRight;
         /// <summary>The stretches of the column the plate can't stand in this frame, as from and to of its slide.</summary>
-        readonly float[] shut=new float[48];int shutCount;
+        readonly float[] shut=new float[160];int shutCount;
         public PanelFade Fade{get;private set;}
         void Start()
         {
             canvas=UiKit.CreateCanvas("Barks",8,transform);feed=GetComponent<PickupFeed>();text=UiKit.Legible(UiKit.Text(canvas.transform,"Bark","",25,UiKit.LooseTextColor,TextAlignmentOptions.TopLeft));
             UiKit.Rect(text.gameObject,new(0,1),new(0,1),Rest,new(460,170));var plate=TextPlate.Attach(text,"BarkPlate",34,16);BarkService.Spoken+=Show;
-            plate.Frame.color=new Color(1,1,1,RestingPlate);Fade=new PanelFade(plate.Frame.rectTransform,plate.Frame);
+            plate.Frame.color=new Color(1,1,1,RestingPlate);Fade=new PanelFade(plate.Frame.rectTransform,plate.Frame).Backs(text);
         }
         void Show(string speaker,string line)
         {
@@ -84,7 +84,33 @@ namespace Lattice.UI
                 if(at.z<=0||x+ThingHalf<left||x-ThingHalf>right||!thing.Available)continue;
                 Shut(x,ThingHalf,at.y/scale-ThingHalf,at.y/scale+ThingHalf,left,right,top,bottom);
             }
+            // Sela's three lines sat solid on a red Muster Skiff and the first stretch of the lane it was firing down. An awake enemy near enough to matter, and the lanes
+            // marked on the floor, close the column as a hero does.
+            var lead=party.Active;if(lead==null)return;var from=lead.transform.position;
+            foreach(var body in Health.All)
+            {
+                if(body==null||body.friendly||!body.Alive)continue;
+                var gap=body.transform.position-from;gap.y=0;if(gap.sqrMagnitude>AwakeRange*AwakeRange)continue;
+                if(!body.TryGetComponent<EnemyBrain>(out var brain)||!brain.enabled||brain.Passive)continue;
+                if(!PanelFade.ScreenBody(camera,body,out var seen))continue;
+                Shut(seen.center.x/scale,seen.width*.5f/scale,seen.yMin/scale,seen.yMax/scale,left,right,top,bottom);
+            }
+            foreach(var marking in Telegraph.Live)
+            {
+                if(marking==null||marking.Shape!=Telegraph.Kind.Line)continue;
+                var gap=marking.Origin-from;gap.y=0;if(gap.sqrMagnitude>AwakeRange*AwakeRange)continue;
+                // A lane is a row of points a stride apart, each as wide as the lane.
+                int steps=Mathf.Clamp(Mathf.CeilToInt(marking.Length/LaneStride),1,LaneMostSteps);var side=Vector3.Cross(Vector3.up,marking.Forward)*(marking.Width*.5f);
+                for(int i=0;i<=steps;i++)
+                {
+                    var on=marking.Origin+marking.Forward*(marking.Length*i/steps);var at=camera.WorldToScreenPoint(on);if(at.z<=0)continue;
+                    float half=Mathf.Max(Mathf.Abs(camera.WorldToScreenPoint(on+side).x-at.x),Mathf.Abs(camera.WorldToScreenPoint(on+side).y-at.y))/scale+LaneEdge;
+                    Shut(at.x/scale,half,at.y/scale-half,at.y/scale+half,left,right,top,bottom);
+                }
+            }
         }
+        /// <summary>How far off an awake enemy is worth keeping clear of (GameHud's own reach), how far apart a lane is sampled and how many points at most, and how much past its paint the lane is kept.</summary>
+        const float AwakeRange=60,LaneStride=2.5f,LaneEdge=10;const int LaneMostSteps=16;
         void Shut(float x,float half,float low,float high,float left,float right,float top,float bottom)
         {
             if(x+half<left||x-half>right||shutCount+2>shut.Length)return;

@@ -41,8 +41,22 @@ namespace Lattice.Combat
         public const float FlashRhythm=.45f;
         /// <summary>What a roll out of that rhythm costs in Thrust: free, a mash at the gap's floor kept i-frames up 71% of the time. A roll in its own time stays free.</summary>
         public const float MashCost=30;
-        /// <summary>When the player's last roll was refused for Thrust, for the HUD's flash. A partner's doesn't count: it pressed nothing.</summary>
+        /// <summary>When the player's last roll was refused for Thrust, or their guard broke for want of it, for the HUD's flash. A partner's doesn't count: it pressed nothing.</summary>
         public float RollRefusedAt{get;private set;}
+        /// <summary>What a guard lets through.</summary>
+        public const float GuardTakes=.35f;
+        /// <summary>boss269. What a guard pays for what it stops, in Thrust per whole Integrity bar stopped: held, it took 65% off any hit for nothing, so a boss's
+        /// special was answered by standing still. At this rate a read combo of three or four ordinary blows costs about half the bar, and two of a boss's big hits
+        /// in a row nearly all of it. A Flash Guard, pressed on the beat, is never charged: it's turned away before this.</summary>
+        public const float GuardCost=250;
+        /// <summary>How fast Thrust comes back, and how fast while a guard is up: a guard held through everything kept itself paid for.</summary>
+        public const float ThrustRest=17,GuardedRest=6;
+        /// <summary>How long a guard that runs out of Thrust leaves the hero open. The hit that broke it lands whole.</summary>
+        public const float GuardBreak=.6f;
+        /// <summary>When the last guard broke.</summary>
+        public float GuardBrokenAt{get;private set;}=-99;
+        /// <summary>A broken guard waits for the button to come up: a held X raised it again the moment the stagger ended, with a fresh press's Flash window.</summary>
+        bool guardBroken;
         /// <summary>When the last perfect guard showed itself.</summary>
         public float FlashGuardShownAt{get;private set;}
         float nextAttack,actionUntil,dodgeAt=-99,guardAt=-99,overdriveUntil,refractUntil,lastComboAt=-99;
@@ -61,7 +75,22 @@ namespace Lattice.Combat
         internal void ArmOverdrive()=>overdriveUntil=GameTime.Now+10;
         internal void ArmRefract()=>refractUntil=GameTime.Now+1.4f;
         public bool Recovering=>Health.Alive&&GameTime.Now<recoverUntil;
-        public float GuardDamageMultiplier=>guarding?.35f:1;
+        public float GuardDamageMultiplier=>guarding?GuardTakes:1;
+        public bool GuardBroken=>guardBroken;
+        /// <summary>What a hit leaves of itself after a guard, which pays for the rest in Thrust (boss269). Short of the price the guard breaks: the hit lands whole,
+        /// the bar empties and flashes as a refused roll's does, and the hero staggers.</summary>
+        public float Guarded(float damage)
+        {
+            if(!guarding||damage<=0)return damage;
+            float cost=GuardCost*damage*(1-GuardTakes)/Mathf.Max(1,Health.maximum);
+            if(thrust>=cost){thrust-=cost;return damage*GuardTakes;}
+            thrust=0;guardBroken=true;GuardBrokenAt=GameTime.Now;
+            if(PartyController.Current==null||PartyController.Current.Active==this)RollRefusedAt=GameTime.Now;
+            Stagger(GuardBreak);
+            CombatVfx.Burst(transform.position+Vector3.up*1.2f+(motor!=null?motor.Facing:transform.forward)*.5f,new Color(1.4f,.45f,.3f),"hit");
+            Debug.Log("GUARD_BROKEN "+character);
+            return damage;
+        }
         public bool ChangingForm=>TryGetComponent<FormController>(out var form)&&form.Shaping;
         public bool CanAct=>!GameTime.Paused&&Health.Alive&&!Recovering&&!ChangingForm&&State!=ActorState.Stagger&&GameTime.Now>=actionUntil;
         public float MotorDelta=>GameTime.Paused?0:GameTime.Now<Health.InvulnerableUntil?Time.unscaledDeltaTime:Time.deltaTime;
@@ -97,12 +126,13 @@ namespace Lattice.Combat
             if(GameTime.Now>=actionUntil&&State!=ActorState.Guard)State=motor!=null&&motor.Velocity.sqrMagnitude>.1f?ActorState.Move:ActorState.Idle;
             // A conversation holds the fight, and its clocks with it: a cooldown used to run out during the lines.
             if(GameTime.CombatHeld)return;
-            charge=Mathf.Max(0,charge-Time.deltaTime*.4f);thrust=Mathf.Min(100,thrust+Time.deltaTime*17);
+            charge=Mathf.Max(0,charge-Time.deltaTime*.4f);thrust=Mathf.Min(100,thrust+Time.deltaTime*(guarding?GuardedRest:ThrustRest));
             for(int i=0;i<4;i++)cooldowns[i]=Mathf.Max(0,cooldowns[i]-Time.deltaTime);
         }
         public void Guard(bool held)
         {
             if(!Health.Alive||Recovering||ChangingForm){guarding=false;return;}
+            if(guardBroken){if(held){guarding=false;if(State==ActorState.Guard)State=ActorState.Idle;return;}guardBroken=false;}
             // A roll wins: it keeps its i-frames, its Flash and its clip, and a guard still held takes up where it ends. Pressed with X down, Guard wrote over it in the same frame,
             // so the hero glid in the guard pose and a hit landed at guard damage.
             bool rolling=State==ActorState.Dodge&&GameTime.Now<actionUntil;

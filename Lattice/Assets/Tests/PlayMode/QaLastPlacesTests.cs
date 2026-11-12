@@ -126,8 +126,15 @@ namespace Lattice.Tests.PlayMode
             foreach(var zone in new[]{"LanternGorge","Lanternwick"})
             {
                 yield return Zone(zone);
+                // Since November 10 the landform's shadow comes from one welded caster, the collision heightfield, and the drawn walls only receive (E3-lanternwick-08):
+                // the caster must still cast from its lit side only, and be welded, since a wall triangle with its own vertices is what the normal bias opened into dashes.
                 var cliffs=All<MeshFilter>().Single(f=>f.name.EndsWith(" cliffs")).GetComponent<MeshRenderer>();
-                Assert.AreEqual(ShadowCastingMode.On,cliffs.shadowCastingMode,zone+": a wall casting from its back lays a shadow its mesh has no lit side for, and the shadow pass's normal bias opens that shadow into rows of pale dashes");
+                Assert.AreNotEqual(ShadowCastingMode.TwoSided,cliffs.shadowCastingMode,zone+": a wall casting from its back lays a shadow its mesh has no lit side for");
+                var caster=All<MeshFilter>().Single(f=>f.name.EndsWith(" shadow")&&f.transform.parent==cliffs.transform.parent);var casts=caster.GetComponent<MeshRenderer>();
+                Assert.AreEqual(ShadowCastingMode.ShadowsOnly,casts.shadowCastingMode,zone+": the landform's one caster casts from its lit side only");
+                Assert.Less(caster.sharedMesh.vertexCount*3,(int)caster.sharedMesh.GetIndexCount(0),zone+": the caster's triangles share their vertices, so the shadow pass's normal bias can't open gaps between them");
+                foreach(var drawn in new[]{cliffs,All<MeshFilter>().Single(f=>f.name.EndsWith(" floor")&&f.transform.parent==cliffs.transform.parent).GetComponent<MeshRenderer>()})
+                    Assert.AreEqual(ShadowCastingMode.Off,drawn.shadowCastingMode,zone+": "+drawn.name+" casts as well as the welded caster, and its own unwelded triangles bring the dashes back");
             }
         }
 

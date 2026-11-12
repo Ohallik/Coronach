@@ -42,11 +42,12 @@ namespace Lattice.UI
             var cont=MenuButton("Continue",1,OpenSaves);continueButton=cont;
             cont.interactable=System.Array.Exists(new[]{"autosave","slot1","slot2","slot3"},GameServices.Current.Saves.Exists); if(cont.interactable)buttons.Add(cont);
             settingsButton=MenuButton("Settings",2,OpenSettings);buttons.Add(settingsButton);
-            buttons.Add(MenuButton("Quit",3,Application.Quit)); UiKit.LinkVertical(buttons.ToArray());
+            buttons.Add(MenuButton("Quit",3,()=>OrderlyQuit.Quit())); UiKit.LinkVertical(buttons.ToArray());
             hint=UiKit.Text(mainMenu.transform,"Hint",DeviceHints.TitleMenu(),24,UiKit.DimTextColor,TextAlignmentOptions.Left);
             UiKit.Rect(hint.gameObject,new Vector2(0,0),new Vector2(0,0),new Vector2(510,85),new Vector2(840,50));
             // A returning player's habitual press must continue, not start over.
             EventSystem.current.SetSelectedGameObject((cont.interactable?cont:playButton).gameObject);
+            StartCoroutine(UiWarmup.Run(transform));
             Debug.Log("TITLE_BOOT_OK");
             if(DevArgs.Has("-smoketest")&&!DevArgs.Has("-route")) StartCoroutine(Capture());
         }
@@ -111,8 +112,9 @@ namespace Lattice.UI
             var heading=UiKit.Heading(savePicker.transform,"LoadTitle","CONTINUE YOUR ROUTE",45,UiKit.TextColor);UiKit.Rect(heading.gameObject,new(.5f,.5f),new(.5f,.5f),new(0,330),new(1200,80));
             foreach(string slot in new[]{"autosave","slot1","slot2","slot3"})
             {
+                // Each save is read once: asking Damaged as well read every one of them a second time on the frame the list opened (QA-034).
                 var state=GameServices.Current.Saves.Load(slot);string id=slot;
-                string empty=GameServices.Current.Saves.Damaged(slot)?" — Damaged":" — Empty";
+                string empty=state==null&&GameServices.Current.Saves.DamagedAfterEmptyLoad(slot)?" — Damaged":" — Empty";
                 var button=UiKit.Button(savePicker.transform,slot,state==null?SlotName(slot)+empty:SlotName(slot)+" — "+DisplayNames.Zone(state.zone)+" — Sync "+state.party[0].level+" — "+Played(state.playtime)+SavedWhen(state),()=>
                 {
                     if(SceneFlow.Current.Loading)return;
@@ -141,7 +143,7 @@ namespace Lattice.UI
                 Debug.Log("SCREENSHOT_OK "+path);
             }
             yield return new WaitForSecondsRealtime(6);
-            Debug.Log("TITLE_SMOKE_OK"); Application.Quit();
+            Debug.Log("TITLE_SMOKE_OK"); OrderlyQuit.Quit();
         }
         static string SavedWhen(GameState state){string at=DisplayNames.SavedAt(state.savedAtUtc);return at==""?"":" — "+at;}
         static string SlotName(string slot)=>slot=="autosave"?"Autosave":"Slot "+slot.Substring(4);

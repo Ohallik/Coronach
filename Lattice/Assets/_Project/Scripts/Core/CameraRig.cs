@@ -130,11 +130,15 @@ namespace Lattice.Core
         const float PullStep=6;
         /// <summary>The top speed of the pull back, and how it comes in with the fight still on: at 6 a second it went from 85 m to 40 in a third of a second, straight after a whip out, with the same
         /// enemies on screen. CantorCollarTests' 1.3 s to frame a Cantor from the ordinary view is what stops the pull back going any slower.</summary>
-        const float MostPull=50,MostComeIn=28,ComeIn=2.4f;
+        const float MostPull=50,ComeIn=2.4f;
+        /// <summary>With the fight still on, the view holds as far back as it last needed for this long, and then comes in at no more than this. Coming in the moment the bounds
+        /// shrank, at 28 a second, it pumped: out for a far target, in as the ship closed on it, out again for the next (E2-gullet-10, three times a cluster in the Gullet).</summary>
+        public const float ComeInHold=1.6f,MostComeIn=20;
+        float holdAge;
         // Combat supplies geometry through this generic bridge; Core owns no actors.
         public void FrameEncounter(Bounds? bounds)
         {
-            if(bounds.HasValue){returning=false;if(!encounterBounds.HasValue){pullAge=0;pullShare=0;}}
+            if(bounds.HasValue){returning=false;if(!encounterBounds.HasValue){pullAge=0;pullShare=0;holdAge=0;}}
             else if(encounterBounds.HasValue&&!HasSceneInterest)BeginReturn();
             encounterBounds=bounds;
         }
@@ -289,8 +293,11 @@ namespace Lattice.Core
             float chase=6,most=1e5f;
             if(isFlight&&encounterBounds.HasValue)
             {
-                pullAge+=dt;if(required-lastRequired>PullStep+40*dt)pullAge=0;lastRequired=required;
+                pullAge+=dt;holdAge+=dt;if(required-lastRequired>PullStep+40*dt)pullAge=0;lastRequired=required;
+                // Still wanted about this far back: the hold starts over. Half a metre, so the settling of the pull itself doesn't count as letting go.
+                if(required>cameraDistance-.5f)holdAge=0;
                 if(required>cameraDistance){chase=Mathf.Min(chase,PullEaseIn*pullAge);most=MostPull;pullShare=chase/6;}
+                else if(holdAge<ComeInHold){chase=0;pullShare=1;}
                 else{chase=ComeIn;most=MostComeIn;pullShare=1;}
             }
             cameraDistance=isFlight?Mathf.MoveTowards(cameraDistance,Mathf.Lerp(cameraDistance,required,1-Mathf.Exp(-chase*dt)),most*dt):GroundDistance(rotation,dt);

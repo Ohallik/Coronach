@@ -41,7 +41,8 @@ namespace Lattice.Combat
             var reaction=reactionOwner!=null?reactionOwner:this;
             float damage=friendly?Mathf.Max(0,packet.amount)*multiplier:DamageMath.Resolve(packet.amount,packet.type,weakness,resistance,reaction.Broken,packet.isCrit,multiplier);
             if(!friendly&&Time.time<reaction.ShieldUntil&&!reaction.Broken)damage*=.5f;
-            if(actor!=null)damage*=actor.GuardDamageMultiplier*(100/(100+Mathf.Max(0,actor.plating-10)));
+            // Plating first, so a guard pays for what got past the frame: a heavier frame makes a guard cheaper as well as a hit lighter.
+            if(actor!=null)damage=actor.Guarded(damage*(100/(100+Mathf.Max(0,actor.plating-10))));
             // A spread covers lanes; its overlapping pellets do not multiply
             // damage on one hero hull. Invulnerable/deflected hits above do not
             // spend this budget. Other victims and later volleys remain live.

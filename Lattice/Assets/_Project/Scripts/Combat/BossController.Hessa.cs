@@ -125,8 +125,8 @@ namespace Lattice.Combat
                 strikeAt=Time.time+.32f;
                 yield return Windup(.32f,-4);
                 if(Interrupted)yield break;
-                line.Release();
-                Projectile.Fire(muzzle,hero-muzzle,Packet(16,DamageType.Plasma),20,18);
+                // The line stays charged ahead of the shot until it lands, as the Bellows' comets' do (D207): released as it left, it was gone while the shot still crossed 18 m.
+                line.Carry(new[]{Projectile.Fire(muzzle,hero-muzzle,Packet(16,DamageType.Plasma),20,18)});
                 CombatAudio.HostileShot(transform,muzzle);
             }
             Pose(0);Finish(HessaRest*.8f);

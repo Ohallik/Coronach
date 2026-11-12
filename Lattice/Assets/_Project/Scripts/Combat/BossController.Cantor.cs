@@ -34,7 +34,8 @@ namespace Lattice.Combat
             bool sweep=collar==null||collar.SweepAttached,chorus=collar==null||collar.ChorusAttached;
             float radius=song?(chorus?14:10):(sweep?8:5),tell=song?1.1f:.85f;strikeAt=Time.time+tell;
             Debug.Log($"CANTOR_TELL song={song} radius={radius} stagger={song&&chorus}");
-            var marking=Mark(Telegraph.Circle(transform.position,radius,tell,song?Telegraph.Stagger:Telegraph.Threat));
+            // The song's ring is red, the plain strike's orange. In the Stagger purple, the song's thin rim and faint wash lay on the Gullet's purple floor as the one mark you had to hunt for.
+            var marking=Mark(Telegraph.Circle(transform.position,radius,tell,song?Telegraph.Heavy:Telegraph.Threat));
             yield return new WaitForSeconds(tell);
             bool sung=health.Alive&&!health.Broken;
             if(sung)

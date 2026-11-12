@@ -45,9 +45,16 @@ namespace Lattice.Combat
 
         Mesh mesh;MeshRenderer view;MaterialPropertyBlock block;Color color;
         float releasedAt=-1,cancelledAt=-1;bool ownsMesh;
-        static Material shared;
+        /// <summary>Each marking is drawn twice from one mesh: its area (wash, hatch, the charge's glow) a step earlier in the queue than its outline. Every area goes down before any outline, so
+        /// where markings overlap the area is laid once, not stacked, and an outline isn't drawn across another marking's inside: three lanes landing together read as one shape with one edge,
+        /// where they were a lattice of rims and crossing hatch with bright bars over the hero. A faint boundary (a ward) lays its light without taking part.</summary>
+        static Material shared,sharedFill,sharedFaint;
         static readonly RaycastHit[] Hits=new RaycastHit[8];
         static readonly List<Vector3> Vertices=new(),Scales=new();static readonly List<Vector2> Uvs=new();static readonly List<int> Triangles=new();static readonly List<float> OnFloor=new();
+        /// <summary>The ground samples of a whole marking, row by row: where each is, how high it was laid, whether it's floor, and how far it is from where the floor ends (D217's cut).</summary>
+        static readonly List<Vector3> SampleAt=new();static readonly List<float> SampleLaid=new(),SampleCut=new(),SampleAway=new();static readonly List<bool> SampleOn=new(),SampleReached=new();static readonly Stack<int> Flood=new();
+        /// <summary>A sample's distance from a cut when it has none near it: a marking on open floor.</summary>
+        const float Uncut=99;
         /// <summary>The row being laid, and the one inside it on the way out from the origin.</summary>
         static List<float> Heights=new(),Before=new();
         /// <summary>A lane's heights as they were found and as they were laid, whether each vertex is on the floor, and the row each of its columns ends at.</summary>
@@ -161,10 +168,39 @@ namespace Lattice.Combat
         }
         public Object owner;
 
+        // ---------- a shot in the air ----------
+        Projectile[] carried;Vector3[] carriedVelocity;Vector3 carriedOrigin;float carriedLength,carriedFrom;
+        /// <summary>The shot is away and the marking goes with it: it stays charged ahead of the shot until the shot lands or burns out at its tip, and a lane is eaten from behind as the shot
+        /// runs down it. Released as the shot left, a lane was gone in a third of a second, and the Bellows' comets crossed a second and more of floor with nothing marked ahead of them: a hot
+        /// ball heading for the hero that read as Sela's cyan shot in another colour (D207: what strikes is marked where it strikes).</summary>
+        public void Carry(Projectile[] shots)
+        {
+            if(Released||cancelledAt>=0)return;
+            int live=0;foreach(var shot in shots)if(shot!=null)live++;
+            if(live==0){Release();return;}
+            carried=shots;carriedVelocity=new Vector3[shots.Length];for(int i=0;i<shots.Length;i++)if(shots[i]!=null)carriedVelocity[i]=shots[i].Velocity;
+            carriedOrigin=Origin;carriedLength=Length;carriedFrom=0;Steady=true;Elapsed=Mathf.Max(Elapsed,Duration);
+        }
+        /// <summary>Whether a carried shot is still the one fired: a pooled shot that landed can be fired again by someone else in the same frame, with another heading.</summary>
+        bool Flying(int i)=>carried[i]!=null&&carried[i].isActiveAndEnabled&&Projectile.Live.Contains(carried[i])&&carried[i].Velocity==carriedVelocity[i];
+        void FollowShots()
+        {
+            float behind=float.PositiveInfinity;bool any=false;
+            for(int i=0;i<carried.Length;i++)if(Flying(i)){any=true;behind=Mathf.Min(behind,Vector3.Dot(carried[i].transform.position-carriedOrigin,Forward));}
+            if(!any){carried=null;Cancel();return;}
+            if(Shape!=Kind.Line)return;
+            // The lane starts where the last of its shots is: what's behind them is spent. Laid again only every quarter metre, since each lay asks the ground again.
+            behind=Mathf.Clamp(behind,0,carriedLength);
+            if(carriedLength-behind<.3f){carried=null;Cancel();return;}
+            if(behind-carriedFrom<.25f)return;
+            carriedFrom=behind;Origin=carriedOrigin+Forward*behind;Length=carriedLength-behind;Build();
+        }
+
         void Update()
         {
             // A marking can't outlive what made it: a body dismissed or removed mid-tell never got to cancel its own, and it stayed on the floor for good.
             if(cancelledAt<0&&!Released&&!ReferenceEquals(owner,null)&&owner==null)Cancel();
+            if(carried!=null&&cancelledAt<0&&!Released)FollowShots();
             if(!GameTime.CombatHeld)Elapsed+=Time.deltaTime;
             float fill=Steady?1:Mathf.Clamp01(Elapsed/Duration),flash=0,fade=1;
             if(releasedAt>=0)
@@ -190,13 +226,17 @@ namespace Lattice.Combat
                 view.shadowCastingMode=UnityEngine.Rendering.ShadowCastingMode.Off;view.receiveShadows=false;
                 if(shared==null)
                 {
-                    var shader=Resources.Load<Shader>("Effects/Telegraph");
+                    var shader=Resources.Load<Shader>("Effects/Telegraph");var fill=Resources.Load<Shader>("Effects/TelegraphFill");
                     shared=new Material(shader!=null?shader:Shader.Find("Sprites/Default")){name="telegraph (runtime)"};
+                    sharedFill=new Material(fill!=null?fill:shared.shader){name="telegraph fill (runtime)"};
+                    // A faint boundary lays its light under whatever else is marked there and keeps nobody's outline out: a danger crossing a ward still reads whole.
+                    sharedFaint=new Material(sharedFill){name="telegraph faint (runtime)"};sharedFaint.SetFloat("_FillMask",0);sharedFaint.SetFloat("_FillComp",(float)UnityEngine.Rendering.CompareFunction.Always);
                 }
-                view.sharedMaterial=shared;block=new MaterialPropertyBlock();
+                view.sharedMaterials=new[]{shared,color.a<.99f?sharedFaint:sharedFill};block=new MaterialPropertyBlock();
                 block.SetColor(ColorId,color);
                 block.SetFloat(SidesId,Shape==Kind.Line||Shape==Kind.Cone&&Angle<359?1:0);
-                block.SetFloat(InnerId,Shape==Kind.Ring?1:0);
+                // A lane is closed at both ends. Open where it starts, a charge's lane ended under the Burrower in a straight cut across its hatch, with no rim, as if the floor had sliced it.
+                block.SetFloat(InnerId,Shape==Kind.Ring||Shape==Kind.Line?1:0);
                 block.SetFloat(ThroughId,ZoneController.Current!=null&&ZoneController.Current.Flight?0:1);
                 block.SetVector(HatchId,Hatch());
             }
@@ -234,11 +274,19 @@ namespace Lattice.Combat
                     // is still on, where the boss still charges. Dragging its neighbours down with it, a 20 m lane on open floor could be painted for 6 m.
                     int reach=Mathf.CeilToInt(Width/columns/Mathf.Max(run,.1f))+1;
                     for(int c=0,inside=-1;c<=columns;c++){int own=Ends[c];Ends[c]=Mathf.Min(own,Mathf.Max(inside,c<columns?Ends[c+1]:-1)+reach);inside=own;}
+                    // Past its end a column is off the floor too, for the cut: its paint has stopped there either way.
+                    SampleAt.Clear();SampleLaid.Clear();SampleOn.Clear();
+                    for(int r=0;r<=rows;r++)for(int c=0;c<=columns;c++)
+                    {
+                        int laid=r*(columns+1)+c;var point=Origin+Forward*(r/(float)rows*Length)+right*((c/(float)columns-.5f)*Width);
+                        SampleAt.Add(point);SampleLaid.Add(Laid[laid]);SampleOn.Add(Floored[laid]&&r<=Ends[c]);
+                    }
+                    Cut(rows,columns,false,flight,true);
                     for(int r=0;r<=rows;r++)for(int c=0;c<=columns;c++)
                     {
                         float v=c/(float)columns;int end=Mathf.Max(1,Ends[c]),laid=r*(columns+1)+c;
-                        var point=Origin+Forward*(r/(float)rows*Length)+right*((v-.5f)*Width);point.y=Laid[laid]+Lift;
-                        vertices.Add(point);uv.Add(new Vector2(r/(float)end,v));scale.Add(new Vector3(end*run,Width,r<=Ends[c]&&Floored[laid]?1:0));
+                        var point=SampleAt[laid];point.y=Laid[laid]+Lift;
+                        vertices.Add(point);uv.Add(new Vector2(r/(float)end,v));scale.Add(new Vector3(end*run,Width,SampleCut[laid]));
                     }
                     break;
                 }
@@ -251,21 +299,31 @@ namespace Lattice.Combat
                     rows=light?1:Mathf.Clamp(Mathf.CeilToInt((outer-inner)/1.4f),1,12);
                     // The rim is finer than the ground it reads: heights carry between the samples, so a circle is round for no more raycasts than it took to be a polygon.
                     int every=Mathf.Max(1,Mathf.CeilToInt(RoundSides*Mathf.Sqrt(outer)*sweep/360/samples));columns=samples*every;
-                    float start=-sweep*.5f;
+                    float start=-sweep*.5f;bool closed=sweep>=359.9f;int width=samples+1;
+                    SampleAt.Clear();SampleLaid.Clear();SampleOn.Clear();
+                    for(int r=0;r<=rows;r++)
+                    {
+                        float radius=Mathf.Lerp(inner,outer,r/(float)rows);
+                        NewRow();
+                        for(int s=0;s<=samples;s++){var at=Origin+Quaternion.Euler(0,start+sweep*s/samples,0)*Forward*radius;SampleAt.Add(at);Ground(at,s,r==0,(outer-inner)/rows,flight);}
+                        Raised.Clear();Raised.AddRange(Heights);
+                        Settle(radius*sweep*Mathf.Deg2Rad/samples,closed);
+                        // Settled more than a little under the ground that raised it, a sample is under the hill as surely as one that found no floor: its paint can't be seen from there.
+                        for(int s=0;s<=samples;s++){SampleLaid.Add(Heights[s]);SampleOn.Add(OnFloor[s]>=1&&Raised[s]-Heights[s]<=LeftTheFloor);}
+                    }
+                    Cut(rows,samples,closed,flight,false);
                     for(int r=0;r<=rows;r++)
                     {
                         float u=r/(float)rows,radius=Mathf.Lerp(inner,outer,u);
-                        NewRow();
-                        for(int s=0;s<=samples;s++)Ground(Origin+Quaternion.Euler(0,start+sweep*s/samples,0)*Forward*radius,s,r==0,(outer-inner)/rows,flight);
-                        Settle(radius*sweep*Mathf.Deg2Rad/samples,sweep>=359.9f);
                         for(int c=0;c<=columns;c++)
                         {
                             float v=c/(float)columns;var point=Origin+Quaternion.Euler(0,start+v*sweep,0)*Forward*radius;
-                            int sample=c/every;float between=(c%every)/(float)every,floor=sample<samples?Mathf.Lerp(OnFloor[sample],OnFloor[sample+1],between):OnFloor[samples];
-                            point.y=(sample<samples?Mathf.Lerp(Heights[sample],Heights[sample+1],between):Heights[samples])+Lift;
+                            int sample=c/every,at=r*width+sample;float between=(c%every)/(float)every;
+                            point.y=(sample<samples?Mathf.Lerp(SampleLaid[at],SampleLaid[at+1],between):SampleLaid[at])+Lift;
+                            float cut=sample<samples?Mathf.Lerp(SampleCut[at],SampleCut[at+1],between):SampleCut[at];
                             vertices.Add(point);uv.Add(new Vector2(u,v));
                             // The arc's real length at this radius: a fan's side line keeps its width all the way to the point.
-                            scale.Add(new Vector3(Mathf.Max(.01f,outer-inner),Mathf.Max(.01f,radius*sweep*Mathf.Deg2Rad),floor));
+                            scale.Add(new Vector3(Mathf.Max(.01f,outer-inner),Mathf.Max(.01f,radius*sweep*Mathf.Deg2Rad),cut));
                         }
                     }
                     break;
@@ -276,7 +334,77 @@ namespace Lattice.Combat
                 int a=r*(columns+1)+c,b=a+1,d=a+columns+1,e=d+1;
                 triangles.Add(a);triangles.Add(d);triangles.Add(b);triangles.Add(b);triangles.Add(d);triangles.Add(e);
             }
-            mesh.Clear();mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetUVs(1,scale);mesh.SetTriangles(triangles,0);mesh.RecalculateBounds();
+            // The same triangles twice: the outline's material draws the first, the area's the second.
+            mesh.Clear();mesh.SetVertices(vertices);mesh.SetUVs(0,uv);mesh.SetUVs(1,scale);mesh.subMeshCount=2;mesh.SetTriangles(triangles,0);mesh.SetTriangles(triangles,1);mesh.RecalculateBounds();
+        }
+
+        /// <summary>Where the ground ends a marking (D217: it follows a rise of .7 a metre and stops at a wall's foot), the paint ends in a rim, as at any other edge. Laid on flat under the hill
+        /// instead, a ring behind the Burrower had no rim on its slope side and the hero's own rings lost half their round: the shape was never closed where the player could see it.
+        /// Each sample gets its distance in metres from where the floor ends, positive on it and negative past it, so the line between two samples that disagree falls where the floor really
+        /// stops, found by halving between them. Only floor lost from the edge inward counts: a bump the marking goes under in its middle has floor all round it, and stays painted.</summary>
+        void Cut(int rows,int across,bool closed,bool flight,bool lane)
+        {
+            int width=across+1,count=(rows+1)*width;
+            SampleCut.Clear();SampleAway.Clear();SampleReached.Clear();
+            for(int i=0;i<count;i++){SampleCut.Add(Uncut);SampleAway.Add(Uncut);SampleReached.Add(false);}
+            if(flight)return;
+            bool Edge(int r,int s)=>r==rows||lane&&(r==0||s==0||s==across)||!lane&&(Shape==Kind.Ring&&r==0||!closed&&(s==0||s==across));
+            Flood.Clear();
+            for(int r=0;r<=rows;r++)for(int s=0;s<=across;s++){int i=r*width+s;if(!SampleOn[i]&&Edge(r,s)){SampleReached[i]=true;Flood.Push(i);}}
+            while(Flood.Count>0)
+            {
+                int i=Flood.Pop(),r=i/width,s=i%width;
+                void Visit(int rr,int ss)
+                {
+                    if(closed){if(ss<0)ss=across-1;else if(ss>across)ss=1;}
+                    if(rr<0||rr>rows||ss<0||ss>across)return;int j=rr*width+ss;
+                    if(!SampleOn[j]&&!SampleReached[j]){SampleReached[j]=true;Flood.Push(j);}
+                }
+                Visit(r-1,s);Visit(r+1,s);Visit(r,s-1);Visit(r,s+1);
+                // The first and last samples of a whole circle are one point.
+                if(closed&&(s==0||s==across))Visit(r,s==0?across:0);
+            }
+            bool Off(int i)=>SampleReached[i];
+            bool any=false;for(int i=0;i<count&&!any;i++)any=Off(i);
+            if(!any)return;
+            int steps=light?3:4;
+            void Pair(int a,int b)
+            {
+                bool offA=Off(a),offB=Off(b);if(offA==offB)return;
+                int on=offA?b:a,off=offA?a:b;var flat=SampleAt[off]-SampleAt[on];flat.y=0;float length=flat.magnitude;if(length<.01f)return;
+                float foot=Foot(SampleAt[on],SampleLaid[on],SampleLaid[off],flat,length,steps);
+                SampleCut[on]=Mathf.Min(SampleCut[on],foot);SampleAway[off]=Mathf.Min(SampleAway[off],length-foot);
+            }
+            for(int r=0;r<=rows;r++)for(int s=0;s<=across;s++)
+            {
+                int i=r*width+s;
+                if(s<across)Pair(i,i+1);
+                if(r<rows){Pair(i,i+width);if(s<across)Pair(i+1,i+width);}
+            }
+            for(int i=0;i<count;i++)if(Off(i))SampleCut[i]=-SampleAway[i];
+            if(closed)for(int r=0;r<=rows;r++){int a=r*width,b=a+across;float both=Mathf.Abs(SampleCut[a])<Mathf.Abs(SampleCut[b])?SampleCut[a]:SampleCut[b];SampleCut[a]=SampleCut[b]=both;}
+        }
+        /// <summary>How far the paint is drawn on the floor between a sample on it and one past it: halved a few times, each half asking whether the ground there still lies under the paint
+        /// as drawn, a straight run between the two samples' laid heights. Asked by the rule that makes a sample floor (a rise of .7 a metre), the cut walked up the low foot of Sorrel's wall
+        /// while the paint between the two stayed flat beneath it, and the closing rim lay 0.8 m under the hill.</summary>
+        static float Foot(Vector3 from,float levelFrom,float levelTo,Vector3 flat,float length,int steps)
+        {
+            float lo=0,hi=1;
+            for(int i=0;i<steps;i++){float mid=(lo+hi)*.5f;if(FloorAt(from+flat*mid,Mathf.Lerp(levelFrom,levelTo,mid),PaintClear))lo=mid;else hi=mid;}
+            return (lo+hi)*.5f*length;
+        }
+        /// <summary>How far the ground may stand over a laid point and the paint, lifted over it, still show: under the lift and a hair more.</summary>
+        const float PaintClear=Lift+.04f;
+        static bool FloorAt(Vector3 point,float level,float most)
+        {
+            int count=Physics.RaycastNonAlloc(new Vector3(point.x,level+3f,point.z),Vector3.down,Hits,8f,~0,QueryTriggerInteraction.Ignore);
+            for(int i=0;i<count;i++)
+            {
+                var collider=Hits[i].collider;
+                if(collider is CharacterController||collider.GetComponentInParent<Health>()!=null)continue;
+                if(Hits[i].point.y<=level+most)return true;
+            }
+            return false;
         }
 
         /// <summary>The hatch says marked and the rim says where it ends. Square across a lane its lines were the rungs of a ladder, so there they cross it at a slant; on anything else they run
@@ -288,7 +416,7 @@ namespace Lattice.Combat
             var across=Shape==Kind.Line?Quaternion.Euler(0,45,0)*Forward:new Vector3(-.607f,0,.795f);
             float size=Shape==Kind.Line?Mathf.Sqrt(Length*Width):Shape==Kind.Ring?10:Mathf.Sqrt(Mathf.PI*Radius*Radius*Angle/360);
             float thin=Mathf.InverseLerp(8,22,size),strength=Mathf.Lerp(1,.08f,thin);
-            if(Shape==Kind.Line&&Width<1.5f)strength*=.4f;
+            if(Shape==Kind.Line&&Width<1.5f)strength*=.3f;
             return new Vector4(across.x,across.z,Mathf.Lerp(.62f,1.6f,thin),strength);
         }
         static void NewRow(){var swap=Before;Before=Heights;Heights=swap;Heights.Clear();OnFloor.Clear();}

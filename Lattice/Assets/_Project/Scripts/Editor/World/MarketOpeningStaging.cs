@@ -42,21 +42,31 @@ namespace Lattice.EditorTools
             foreach(var r in opening.GetComponentsInChildren<Renderer>())r.sharedMaterial=Flat("market-service-opening",new Color(.05f,.06f,.08f));
             var guard=new GameObject("Service opening guard",typeof(BoxCollider));guard.transform.SetParent(root.transform,false);
             guard.transform.position=new Vector3(-13.6f,.5f,-3);guard.GetComponent<BoxCollider>().size=new Vector3(1.6f,1,1.6f);
-            var hinge=new GameObject("Service cover hinge");hinge.transform.SetParent(root.transform,false);hinge.transform.position=new Vector3(-14.4f,.03f,-3);
-            var lid=Piece(root,"DeckFloor","Walkway service cover",new Vector3(-13.6f,.03f,-3),new Vector3(1.6f,.05f,1.6f),false);
+            // A raised collar round the opening, striped like the gates: from the camera's height a hole flush with the deck was a black plate lying on it,
+            // where the collar's far inside face, lit, shows it goes down (E2-title-decks-06). It stays after the job, as a service hatch's rim does, and the lid closes onto it.
+            var steel=Flat("market-gate-steel",new Color(.24f,.26f,.3f));var kick=Striped();
+            var collar=new GameObject("Service hatch collar").transform;collar.SetParent(root.transform,false);
+            foreach(var (x,z,sx,sz) in new[]{(-13.6f,-3.81f,1.74f,.12f),(-13.6f,-2.19f,1.74f,.12f),(-14.41f,-3f,.12f,1.5f),(-12.79f,-3f,.12f,1.5f)})
+                Bar(collar,"Hatch collar",new Vector3(x,CollarHeight*.5f,z),new Vector3(sx,CollarHeight,sz),kick);
+            var hinge=new GameObject("Service cover hinge");hinge.transform.SetParent(root.transform,false);hinge.transform.position=new Vector3(-14.47f,CollarHeight,-3);
+            var lid=Piece(root,"DeckFloor","Walkway service cover",new Vector3(-13.6f,CollarHeight+.025f,-3),new Vector3(1.74f,.05f,1.74f),false);
             lid.transform.SetParent(hinge.transform,true);
             sequence.cover=hinge.transform;sequence.openCoverEuler=new Vector3(0,0,70);sequence.openingGuard=guard.GetComponent<Collider>();
 
-            // Two low safety gates close the bridge's market end and fold back along its side walls once the job is done.
-            var gates=new Transform[2];
+            // Two low safety gates close the bridge's market end and fold back along its side walls once the job is done. Each leaf is site kit, not a board:
+            // a steel post at the wall and one at its free end, two amber rails and a striped kick plate, which is what took the place of the flat amber slab.
+            var gates=new Transform[2];var amber=Flat("market-safety-gate",new Color(.95f,.66f,.12f));
             foreach(var (index,wall,sign) in new[]{(0,SouthWall,1f),(1,NorthWall,-1f)})
             {
                 var post=new GameObject(index==0?"South safety gate":"North safety gate");post.transform.SetParent(root.transform,false);
                 post.transform.position=new Vector3(GateX,0,wall);
-                var panel=Piece(root,"DeckWall","Safety gate panel",new Vector3(GateX,.55f,wall+sign*1.375f),new Vector3(.14f,1.1f,2.7f));
-                // Construction amber, so the closed walkway reads at a glance against the white bridge walls.
-                foreach(var r in panel.GetComponentsInChildren<Renderer>())r.sharedMaterial=Flat("market-safety-gate",new Color(.95f,.66f,.12f));
-                panel.transform.SetParent(post.transform,true);gates[index]=post.transform;
+                var leaf=new GameObject("Safety gate leaf",typeof(BoxCollider)).transform;leaf.SetParent(post.transform,false);
+                var block=leaf.GetComponent<BoxCollider>();block.center=new Vector3(0,.55f,sign*1.35f);block.size=new Vector3(.14f,1.1f,2.7f);
+                Bar(leaf,"Gate hinge post",new Vector3(0,.62f,sign*.07f),new Vector3(.13f,1.24f,.13f),steel,true);
+                Bar(leaf,"Gate latch post",new Vector3(0,.56f,sign*2.64f),new Vector3(.1f,1.12f,.1f),steel,true);
+                foreach(float y in new[]{1.05f,.66f})Bar(leaf,"Gate rail",new Vector3(0,y,sign*1.36f),new Vector3(.08f,.08f,2.52f),amber,true);
+                Bar(leaf,"Safety gate panel",new Vector3(0,.29f,sign*1.36f),new Vector3(.05f,.4f,2.52f),kick,true);
+                gates[index]=post.transform;
             }
             sequence.gates=gates;sequence.gateOpenYaw=new[]{-90f,90f};
 
@@ -126,6 +136,24 @@ namespace Lattice.EditorTools
             string path="Assets/_Project/Resources/WorldMaterials/"+name+".mat";var material=AssetDatabase.LoadAssetAtPath<Material>(path);
             if(material==null){material=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(material,path);}
             material.SetColor("_BaseColor",color);material.SetColor("_EmissionColor",Color.black);EditorUtility.SetDirty(material);return material;
+        }
+        /// <summary>How far the hatch's collar stands proud of the deck, and where its lid lies closed.</summary>
+        const float CollarHeight=.16f;
+        /// <summary>A plain box of the gate's kit: drawn only, with the leaf's one box as its collision.</summary>
+        static GameObject Bar(Transform parent,string name,Vector3 at,Vector3 size,Material material,bool local=false)
+        {
+            var bar=GameObject.CreatePrimitive(PrimitiveType.Cube);bar.name=name;Object.DestroyImmediate(bar.GetComponent<Collider>());bar.transform.SetParent(parent,false);
+            if(local)bar.transform.localPosition=at;else bar.transform.position=at;bar.transform.localScale=size;
+            bar.GetComponent<Renderer>().sharedMaterial=material;return bar;
+        }
+        /// <summary>Opaque construction stripes, laid at 45 degrees across a kick plate's long face.</summary>
+        static Material Striped()
+        {
+            const string path="Assets/_Project/Resources/WorldMaterials/market-gate-kick.mat";
+            var paint=AssetDatabase.LoadAssetAtPath<Texture2D>("Assets/_Project/Art/Generated/Dressing/GateKick_base_color.png")??throw new System.InvalidOperationException("Gate stripes missing");
+            var material=AssetDatabase.LoadAssetAtPath<Material>(path);
+            if(material==null){material=new Material(Shader.Find("Lattice/Toon"));AssetDatabase.CreateAsset(material,path);}
+            material.SetTexture("_BaseMap",paint);material.SetColor("_BaseColor",Color.white);material.SetColor("_EmissionColor",Color.black);EditorUtility.SetDirty(material);return material;
         }
         static Material SafetyLine()
         {

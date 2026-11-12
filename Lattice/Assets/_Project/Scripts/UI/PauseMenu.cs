@@ -42,6 +42,12 @@ namespace Lattice.UI
         string followPart;
         /// <summary>The Items page's rows by name, for the Swap button: what's under the cursor when it's pressed.</summary>
         readonly Dictionary<string,string> itemRows=new();
+        /// <summary>What each save slot holds, in the Party page's words, read once a visit to the page. Every press redraws the page, and each redraw read all three
+        /// slot files from the disk, so a manual save wrote one file and then read three on the frame of the press (QA-034). A save made here says what it wrote.</summary>
+        readonly Dictionary<string,string> slotHolds=new();
+        /// <summary>The Fabricate page shows only what can be made right now. Its row is the page's first and spends nothing, so a bench that opens at the end of
+        /// Hal's talk lands there: a thumb still tapping through his lines used to make the first recipe and spend 2 Scrap Alloy (QA-036).</summary>
+        bool onlyMakeable;
         public bool IsOpen=>panel!=null;
         public bool AtBench;
         InputActionRebindingExtensions.RebindingOperation rebind;
@@ -50,7 +56,7 @@ namespace Lattice.UI
         public bool Listening=>rebind!=null;
         public void Open(int selected=0,bool bench=false)
         {
-            page=selected;offset=gearMode=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;feedbackDevice=PromptService.Device;AtBench=bench;skillsOf=GameServices.Current.State.activeMember;
+            page=selected;offset=gearMode=0;skillSlot=-1;keyboardSettings=leaveAsked=onlyMakeable=false;feedback="";salvageAsked=null;feedbackDevice=PromptService.Device;AtBench=bench;skillsOf=GameServices.Current.State.activeMember;slotHolds.Clear();
             GameServices.Current.Input.Blocked=true;GameTime.Paused=true;
             // The bench opens from a conversation on a row that spends materials, and the A that ended the talk is often pressed twice.
             if(bench)first.Begin();
@@ -99,7 +105,7 @@ namespace Lattice.UI
             if(input.Find("MenuNext").WasPressedThisFrame())GoTo((page+1)%tabs.Length);
             if(input.Find("MenuPrev").WasPressedThisFrame())GoTo((page+tabs.Length-1)%tabs.Length);
         }
-        void GoTo(int target){rebind?.Cancel();page=target;offset=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;skillsOf=GameServices.Current.State.activeMember;Rebuild(false);}
+        void GoTo(int target){rebind?.Cancel();page=target;offset=0;skillSlot=-1;keyboardSettings=leaveAsked=false;feedback="";salvageAsked=null;skillsOf=GameServices.Current.State.activeMember;slotHolds.Clear();Rebuild(false);}
         static void Navigation(bool on){var system=EventSystem.current;if(system!=null)system.sendNavigationEvents=on;}
         void TrySwap()
         {
@@ -163,8 +169,9 @@ namespace Lattice.UI
                 if(state.party.Count>1)Add("Swap active member",()=>TrySwap());
                 for(int i=1;i<=3;i++)
                 {
-                    int number=i;string slot="slot"+i;var saved=GameServices.Current.Saves.Load(slot);
-                    Add($"Save to slot {number}"+(saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty"),()=>{GameServices.Current.Saves.Save(slot,state);feedback=$"Saved to slot {number}.";Rebuild();});
+                    int number=i;string slot="slot"+i;
+                    if(!slotHolds.TryGetValue(slot,out string holds))slotHolds[slot]=holds=Holding(GameServices.Current.Saves.Load(slot));
+                    Add($"Save to slot {number}"+holds,()=>{GameServices.Current.Saves.Save(slot,state);slotHolds[slot]=Holding(state);feedback=$"Saved to slot {number}.";Rebuild();});
                 }
                 Note(string.Join("\n",state.party.Select(m=>PartyTotals(state,m)))+$"\n{state.scrip} scrip  ·  The game autosaves when you dock, warp, repair or finish a quest");
             }
@@ -246,7 +253,12 @@ namespace Lattice.UI
                 const int perPage=6;
                 bool Ranked(RecipeDef r)=>fabricator.Level(r.discipline)>=r.unlockLevel&&r.tier<=Mathf.Min(3,fabricator.Level(r.discipline));
                 bool Makeable(RecipeDef r)=>Ranked(r)&&(r.output==null||AtBench)&&r.inputs.All(x=>inventory.Count(x.id)>=x.count);
-                foreach(var recipe in recipes.Skip(Window(recipes.Length,perPage)).Take(perPage))
+                // First, a row that spends nothing, with the first recipe one press down, as a shop a talk opens lands on its page toggle (D222). It's the bench's
+                // own: with every recipe listed, the ones that can be made are spread over pages among the grey ones.
+                Add(onlyMakeable?"Showing what can be made now  ·  select to show every recipe":"Showing every recipe  ·  select to show only what can be made now",
+                    ()=>{onlyMakeable=!onlyMakeable;offset=0;feedback="";Rebuild(false,"Row_0");},"Anvil");
+                var shown=onlyMakeable?recipes.Where(Makeable).ToArray():recipes;
+                foreach(var recipe in shown.Skip(Window(shown.Length,perPage)).Take(perPage))
                 {
                     var r=recipe;
                     // A rank it hasn't reached takes the place of what it would make, which won't fit beside it on a row. Grey with every material met looked like a fault: the reason was only in the footer.
@@ -255,9 +267,9 @@ namespace Lattice.UI
                     var line=Add($"{r.displayName}  T{r.tier}  ·  {does}  ·  {needs}",()=>Fabricate(r,fabricator),r.output!=null?r.output.slot.ToString():r.consumableOutput);
                     if(!Makeable(r))Dim(line);
                 }
-                Pager(recipes.Length,perPage);
+                Pager(shown.Length,perPage);
                 string Trained(Discipline d){int level=fabricator.Level(d);return level>=10?$"{d} {level}":$"{d} {level} ({fabricator.Xp(d)%30}/30)";}
-                Note(string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>Trained(d)))+(AtBench?"\nParts and consumables can both be made here.":"\nParts need a Lattice Anvil or Hal's bench. Consumables can be made anywhere."));
+                Note((onlyMakeable&&shown.Length==0?"Nothing can be made with what you hold right now.\n":"")+string.Join("  ·  ",System.Enum.GetValues(typeof(Discipline)).Cast<Discipline>().Select(d=>Trained(d)))+(AtBench?"\nParts and consumables can both be made here.":"\nParts need a Lattice Anvil or Hal's bench. Consumables can be made anywhere."));
             }
             else if(page==ItemsPage)
             {
@@ -299,7 +311,7 @@ namespace Lattice.UI
                 {
                     Add("Stay",StepBack);
                     Add("Return to title",()=>{Close();GameTime.Reset();GameServices.Current.Input.Blocked=false;SceneFlow.Current.LoadZone("Title");});
-                    Add("Quit to desktop",Application.Quit);
+                    Add("Quit to desktop",()=>OrderlyQuit.Quit());
                     Note("Progress since your last save is lost. The game autosaves when you dock, warp, repair or finish a quest.");
                 }
                 else if(!keyboardSettings)
@@ -382,6 +394,8 @@ namespace Lattice.UI
             return recipes.Any(r=>r.inputs!=null&&r.inputs.Any(i=>i.id==id))?"  ·  used to fabricate":"  ·  keep this: no use yet";
         }
         static string SavedWhen(GameState saved){string at=DisplayNames.SavedAt(saved.savedAtUtc);return at==""?"":"  ·  "+at;}
+        /// <summary>What a slot's row says it holds.</summary>
+        static string Holding(GameState saved)=>saved!=null&&saved.party.Count>0?$"  ·  now {DisplayNames.Zone(saved.zone)}, Sync {saved.party[0].level}{SavedWhen(saved)}":"  ·  empty";
         /// <summary>The Swap button on a consumable's row makes it the quick item. Cycling in a fight was the only way, one press at a time, blind.</summary>
         void SetQuickItem()
         {

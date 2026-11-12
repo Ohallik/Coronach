@@ -365,7 +365,8 @@ namespace Lattice.Tests.PlayMode
             AddPad();yield return Zone("Arena_Ground");
             State.materials["HuskCore"]=1;
             var menu=Menu;menu.Open(PauseMenu.ItemsPage);yield return null;
-            foreach(var (name,says) in new[]{("Scrap Alloy","fabricat"),("Husk Core","no use")})
+            // Husk Core was the material with no use until November 10 (prog158); it's the Husk Frame's now, and refused the same way.
+            foreach(var (name,says) in new[]{("Scrap Alloy","fabricat"),("Husk Core","fabricat")})
             {
                 var row=With(name);string place=row.name;EventSystem.current.SetSelectedGameObject(row.gameObject);yield return null;
                 using(var log=new CueLog())

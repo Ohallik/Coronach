@@ -47,6 +47,7 @@ namespace Lattice.UI
             frame.gameObject.SetActive(false);
             readHint=UiKit.Legible(UiKit.Text(frame.transform,"QuestToastHint","",24,UiKit.DimTextColor,TextAlignmentOptions.MidlineRight));
             UiKit.Rect(readHint.gameObject,new(.5f,1),new(.5f,1),new(0,-40),new(TextWidth,30));
+            Fade.Backs(heading,body,readHint);
             BuildChapterCard();
             Lattice.Rpg.Levels.LevelRaised+=OnLevel;SkillBook.MasteryRaised+=OnMastery;Notices.Posted+=OnNotice;PromptService.Changed+=RefreshHint;
         }

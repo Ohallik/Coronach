@@ -134,8 +134,10 @@ namespace Lattice.Tests.PlayMode
         }
 
         // ------------------------------------------------------------------ item 3: the flight target's plate
-        /// <summary>It stepped 170 units down off its own target, which put it in the middle of the playfield between the ship and what it was shooting. It stays at the top of the screen and fades, as any plate does. This replaces QaHudThirdTests.AFlightTargetBehindItsPlateMovesThePlateOffIt, which pinned the step.</summary>
-        [UnityTest] public IEnumerator AFlightTargetBehindItsPlateFadesThePlateAndLeavesItWhereItIs()
+        /// <summary>It stepped 170 units down off its own target, which put it in the middle of the playfield between the ship and what it was shooting, so it went back to the top of the screen
+        /// and only faded. Faded, its words still lay on the locked Shellmine (E3-gullet-03), so now it slides along the top, or cuts to its first line against the top edge, and never steps down.
+        /// This replaces AFlightTargetBehindItsPlateFadesThePlateAndLeavesItWhereItIs, which pinned the fade in place; QaNov10HudTests pins the slide on foot.</summary>
+        [UnityTest] public IEnumerator AFlightTargetBehindItsPlateMovesTheCardAlongTheTopNeverIntoThePlayfield()
         {
             yield return Zone("Arena_Flight");
             float anchoredHome=Text("Target").rectTransform.anchoredPosition.y;
@@ -154,8 +156,8 @@ namespace Lattice.Tests.PlayMode
             }
             yield return null;
             Assert.IsTrue(home.Contains((Vector2)reticle.rectTransform.position),"fixture: the target stands behind where the plate rests");
-            Assert.AreEqual(anchoredHome,Text("Target").rectTransform.anchoredPosition.y,.5f,"the target's plate has left the top of the screen for the middle of the playfield, between the ship and what it's shooting");
-            Assert.Less(Plate("TargetPlate"),.42f,"the plate stays solid over its own target");
+            Assert.GreaterOrEqual(Text("Target").rectTransform.anchoredPosition.y,anchoredHome-.5f,"the target's plate has left the top of the screen for the middle of the playfield, between the ship and what it's shooting");
+            Assert.IsFalse(Box(plate.rectTransform).Contains((Vector2)reticle.rectTransform.position),"the card's words still lie on its own target, as 'D-pad left/right SWITCH' lay on the locked Shellmine");
             Assert.AreEqual(1,Text("Target").alpha,.01f,"its words go down with its plate");
         }
 

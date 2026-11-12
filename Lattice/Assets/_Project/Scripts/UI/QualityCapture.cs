@@ -31,7 +31,10 @@ namespace Lattice.UI
         public void Begin(string output, string ffmpeg)
         {
             folder = output;
-            audio = new CaptureAudioWriter(File.Create(Path.Combine(folder, "mix.wav")), AudioSettings.outputSampleRate);
+            // Sized for the listener's own callbacks and a long disk stall, behind a 1 MB file buffer (QA-033).
+            AudioSettings.GetDSPBufferSize(out int dspFrames, out _);
+            audio = CaptureAudioWriter.ForListener(new FileStream(Path.Combine(folder, "mix.wav"), FileMode.Create, FileAccess.Write, FileShare.Read, 1 << 20),
+                AudioSettings.outputSampleRate, dspFrames, SpeakerChannels(AudioSettings.speakerMode));
             target = new RenderTexture(Screen.width, Screen.height, 0, RenderTextureFormat.ARGB32);
             target.Create();
             // Reuse bounded exact-size readback storage. Allocating an 8 MB
@@ -111,5 +114,10 @@ namespace Lattice.UI
             target.Release(); Destroy(target); encoder.Dispose();
         }
         void OnDestroy() { lock (audioLock) { running = false; audio?.Complete(); } }
+        static int SpeakerChannels(AudioSpeakerMode mode) => mode switch
+        {
+            AudioSpeakerMode.Mono => 1, AudioSpeakerMode.Quad => 4, AudioSpeakerMode.Surround => 5,
+            AudioSpeakerMode.Mode5point1 => 6, AudioSpeakerMode.Mode7point1 => 8, _ => 2
+        };
     }
 }

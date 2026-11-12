@@ -36,10 +36,10 @@ namespace Lattice.UI
             // At the weight of the card under it, and of the vitals in the other corner. The full border left this frame room for three lines of type, and it can need four.
             frame.pixelsPerUnitMultiplier=2;
             Frame=UiKit.Rect(frame.gameObject,new(1,1),new(1,1),new(-300,-FrameTop),new(570,FrameLeast));Frame.pivot=new(.5f,1);Frame.anchoredPosition=new(-300,-FrameTop);
-            Fade=new PanelFade(Frame,frame);
-            // Its plate steps aside, so what it says has to hold on the floor without it.
+            // Its plate steps aside, so what it says has to hold on the floor without it, and gets a backing of its own as the plate goes: the faded panel's words lay straight on the launch pad they named.
             text=UiKit.Legible(UiKit.Text(frame.transform,"Objective","",24,UiKit.LooseTextColor,TextAlignmentOptions.MidlineLeft));
             UiKit.Rect(text.gameObject,new(.5f,.5f),new(.5f,.5f),Vector2.zero,new(480,112));
+            Fade=new PanelFade(Frame,frame).Backs(text);
             arrow=Pointer("ObjectiveArrow",36,UiKit.GoldColor);alsoArrow=Pointer("ObjectiveAlsoArrow",30,UiKit.DimTextColor);
         }
         Image Pointer(string name,float size,Color color)

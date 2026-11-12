@@ -9,8 +9,13 @@ namespace Lattice.World
     /// the curtain and the view pulls back to show it going. A save that already has it open loads with nothing there.</summary>
     public sealed class LightCurtain:MonoBehaviour
     {
-        /// <summary>Each strand takes this long to go, and the last starts as the first is nearly through. The view shows the stretch nearest the ship, so what a player sees is a strand's own time, not the whole curtain's: at half this it was gone before Sela had finished saying so.</summary>
-        const float EachStrand=2.6f,Parting=3.6f,BurstSpacing=24,SweepTime=.7f;
+        /// <summary>Each strand takes this long to go, and the parting runs out from the middle over the rest: the outermost starts going as the middle has long gone. A strand holds
+        /// near full for its first third and then falls away, and the view shows from the middle out to the ship, so the opening widens toward the player while Sela's line is up
+        /// (3.5 s). With a strand fading evenly over 2.6 s and the parting crossing the curtain in one second, it was mostly gone a second after it opened and gone by the next
+        /// step, with her line still on screen (E3-tallow-01).</summary>
+        const float EachStrand=1.9f,Spread=2.3f,Parting=EachStrand+Spread,Holds=.35f,BurstSpacing=24,SweepTime=.7f;
+        /// <summary>How far past the middle and the ship the view takes in, so the strands either side of the stretch are seen going too.</summary>
+        const float FramedMargin=9;
         /// <summary>From further south than this the curtain is too far off to frame with the ship: there the beam shows which way it went.</summary>
         const float FramedWithin=70;
         static readonly Rect FramedIn=new(.06f,.18f,.88f,.74f);
@@ -29,7 +34,7 @@ namespace Lattice.World
                 bottoms[i]=strands[i].startColor;tops[i]=strands[i].endColor;
                 delays[i]=Mathf.Abs(strands[i].transform.TransformPoint(strands[i].GetPosition(0)).x-transform.position.x);widest=Mathf.Max(widest,delays[i]);
             }
-            for(int i=0;i<strands.Length;i++)delays[i]=widest>0?delays[i]/widest*(Parting-EachStrand):0;
+            for(int i=0;i<strands.Length;i++)delays[i]=widest>0?delays[i]/widest*Spread:0;
         }
         void Update()
         {
@@ -43,7 +48,7 @@ namespace Lattice.World
             elapsed+=Time.deltaTime;
             for(int i=0;i<strands.Length;i++)
             {
-                float left=1-Mathf.Clamp01((elapsed-delays[i])/EachStrand);
+                float left=Left((elapsed-delays[i])/EachStrand);
                 strands[i].startColor=bottoms[i]*left;strands[i].endColor=tops[i]*left;
             }
             Frame();
@@ -58,15 +63,18 @@ namespace Lattice.World
                 gameObject.SetActive(false);
             }
         }
+        /// <summary>How much of a strand is left a share of the way through its own time: near full for the first part, then a smooth fall to nothing.</summary>
+        public static float Left(float through)=>1-Mathf.SmoothStep(0,1,Mathf.Clamp01((through-Holds)/(1-Holds)));
         /// <summary>The stretch of curtain nearest the ship.</summary>
         Vector3 Nearest(Vector3 ship)=>new(ship.x*.6f,transform.position.y,transform.position.z);
-        /// <summary>The ship and that stretch in one view. The camera eases out, and back when the lease stops being renewed.</summary>
+        /// <summary>The ship and the curtain from its middle, where it parts first, out past the ship's side, in one view. The camera eases out, and back when the lease stops being renewed.</summary>
         void Frame()
         {
             var party=PartyController.Current;if(party==null||party.Active==null||rig==null)return;
             var at=party.Active.transform.position;if(Mathf.Abs(transform.position.z-at.z)>FramedWithin)return;
-            var door=Nearest(at);var view=new Bounds(at,Vector3.one*3);
-            view.Encapsulate(door+new Vector3(-10,-6,0));view.Encapsulate(door+new Vector3(10,5,0));
+            float middle=transform.position.x,side=Mathf.Sign(at.x-middle+.01f);var view=new Bounds(at,Vector3.one*3);
+            var near=new Vector3(middle-side*FramedMargin,transform.position.y,transform.position.z);var far=new Vector3(at.x+side*FramedMargin,transform.position.y,transform.position.z);
+            view.Encapsulate(near+new Vector3(0,-6,0));view.Encapsulate(near+new Vector3(0,5,0));view.Encapsulate(far+new Vector3(0,-6,0));view.Encapsulate(far+new Vector3(0,5,0));
             rig.FrameSceneInterest(this,view,FramedIn);
         }
         void Open()

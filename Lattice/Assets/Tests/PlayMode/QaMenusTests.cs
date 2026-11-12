@@ -248,12 +248,13 @@ namespace Lattice.Tests.PlayMode
             }
             Assert.IsEmpty(failures,string.Join("\n",failures.Distinct()));
         }
-        /// <summary>prog158. Boss trophies sat in the list with no word on what they're for.</summary>
+        /// <summary>prog158. Boss trophies sat in the list with no word on what they're for, then said "keep this: no use yet"; since November 10 each is the key to a part.</summary>
         [UnityTest] public IEnumerator KeepsakesSaySo()
         {
             foreach(string id in new[]{"HuskCore","ChoirResin","CantorPearl"})State.materials[id]=1;
             var menu=Menu;menu.Open(PauseMenu.ItemsPage);yield return null;
-            foreach(string name in new[]{"Husk Core","Choir Resin","Cantor Pearl"})With($"{name} ×1  ·  keep this: no use yet");
+            foreach(string name in new[]{"Husk Core","Choir Resin","Cantor Pearl"})With($"{name} ×1  ·  used to fabricate");
+            StringAssert.DoesNotContain("no use yet",string.Join(" | ",Shown()),"a material says it has no use");
             StringAssert.DoesNotContain("no use yet",Words(With("Scrap Alloy")),"a material the bench uses says it has no use");
             menu.Close();
         }
@@ -514,6 +515,8 @@ namespace Lattice.Tests.PlayMode
             yield return PadPress(GamepadButton.South);
             Assert.AreEqual(held,State.materials.Values.Sum(),"the press that ended the conversation also crafted");
             yield return new WaitForSecondsRealtime(.4f);
+            // The bench opens on its filter row, which spends nothing (QA-036): the first recipe is one press down.
+            yield return PadPress(GamepadButton.DpadDown);
             yield return PadPress(GamepadButton.South);
             Assert.Less(State.materials.Values.Sum(),held,"a deliberate press a moment later must craft");
             menu.Close();

@@ -51,7 +51,8 @@ namespace Lattice.Combat
             return hostile?hostileShot:partyShot;
         }
         /// <param name="reach">How far a marked shot flies: it ends where its marking ends. Unmarked shots fly their three seconds.</param>
-        public static void Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24,float reach=0)
+        /// <returns>The shot, so its marking can go with it (Telegraph.Carry).</returns>
+        public static Projectile Fire(Vector3 position,Vector3 direction,DamagePacket damage,float speed=24,float reach=0)
         {
             Projectile p=null;while(pool.Count>0&&p==null)p=pool.Pop();
             if(p==null)
@@ -74,6 +75,7 @@ namespace Lattice.Combat
             // Only now, where it is and awake. Cleared before it moved, the trail kept the last spot it stood on, the world's origin for a new shot or where the last one died, and for its .12 s a
             // long bright line ran from there to the muzzle: the brightest thing on screen, through the shooter and off the edge of it, kinked where the real trail began.
             p.trail.Clear();
+            return p;
         }
         void Update()
         {

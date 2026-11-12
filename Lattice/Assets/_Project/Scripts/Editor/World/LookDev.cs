@@ -34,22 +34,30 @@ namespace Lattice.EditorTools
                 // The old dock/ring points lie inside the redesigned hulls; these sit where ships actually fly.
                 new View("office-dock",new Vector3(-28,1,-27),true),new View("market-roof",new Vector3(0,1,-25),true,2.2f),new View("workshop-roof",new Vector3(28,1,-25),true,2.2f)}),
             ("Sorrel_Ridges",new[]{new View("outpost",new Vector3(0,0,18)),new View("seam",new Vector3(-35,0,58)),new View("service",new Vector3(35,0,82)),new View("bore",new Vector3(8,0,164)),
-                new View("landing",new Vector3(2,0,-11)),new View("habs",new Vector3(12,0,10)),new View("haul",new Vector3(5,0,47)),new View("basin",new Vector3(-5,0,96)),new View("drill",new Vector3(4,0,141))}),
+                new View("landing",new Vector3(2,0,-11)),new View("habs",new Vector3(12,0,10)),new View("haul",new Vector3(5,0,47)),new View("basin",new Vector3(-5,0,96)),new View("drill",new Vector3(4,0,141)),
+                // The Burrower's arena and the slope beside it, and the wrecked rig past the bore (E2-sorrel-07, E2-gullet-06).
+                new View("arena-slope",new Vector3(10,0,168)),new View("rig",new Vector3(-2,0,180))}),
             ("Arena_Ground",new[]{new View("yard",new Vector3(-6,0,4))}),
             ("Hushwell",new[]{new View("descent",new Vector3(0,0,20)),new View("nursery",new Vector3(14,-15,334)),
                 new View("breach",new Vector3(0,0,6)),new View("gallery-a",new Vector3(-12,0,48)),new View("gallery-b",new Vector3(8,0,84)),
                 new View("survey-wall",new Vector3(5,0,112)),new View("ramp",new Vector3(1,-4,135)),new View("chamber-1",new Vector3(0,-8,164)),
                 new View("chamber-2",new Vector3(-4,-8,196)),new View("chamber-3",new Vector3(1,-8,226)),new View("bellows",new Vector3(0,-8,262)),
                 new View("east-pocket",new Vector3(40,-8,164)),new View("west-pocket",new Vector3(-36,-8,212)),new View("lower-ramp",new Vector3(9,-12,306)),
-                new View("nursery-lift",new Vector3(24,-16,342))}),
+                new View("nursery-lift",new Vector3(24,-16,342)),
+                // The Bellows' two doors, from the chamber side (E4-hushwell-04).
+                new View("bellows-exit",new Vector3(0,-8,276)),new View("bellows-entry",new Vector3(0,-8,250))}),
             ("Gullet_Tunnel",new[]{new View("mouth",new Vector3(0,1,8),true),new View("throat",new Vector3(Mathf.Sin(320f/900*Mathf.PI*4)*12,1,320),true),
                 new View("canal",new Vector3(GulletProfile.RouteX(70),1,70),true),new View("feeding",new Vector3(GulletProfile.RouteX(165),1,165),true),
                 new View("feeding-far",new Vector3(GulletProfile.RouteX(225),1,225),true),new View("valve-0",new Vector3(GulletProfile.RouteX(252),1,252),true),
                 new View("slalom",new Vector3(GulletProfile.RouteX(362),1,362),true),new View("eddy",new Vector3(GulletProfile.RouteX(410)+8,1,410),true),
                 new View("gate",new Vector3(GulletProfile.RouteX(560),1,560),true),new View("gate-far",new Vector3(GulletProfile.RouteX(660),1,660),true),
                 new View("coil-entry",new Vector3(GulletProfile.RouteX(745),1,745),true),new View("coil",new Vector3(GulletProfile.RouteX(805),1,805),true),
-                new View("exit",new Vector3(GulletProfile.RouteX(880),1,880),true)}),
-            ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true),new View("deck",new Vector3(4.75f,1,18),true,1.8f),new View("mooring",new Vector3(-25,1,3),true)}),
+                new View("exit",new Vector3(GulletProfile.RouteX(880),1,880),true),
+                // The way in as the party arrives, and drawn back as the first fight draws the view back (E2-gullet-15).
+                new View("arrival",new Vector3(0,1,8),true,1.6f),new View("arrival-far",new Vector3(0,1,14),true,2.6f)}),
+            ("TallowApproach",new[]{new View("refuge",new Vector3(0,1,-8),true),new View("deck",new Vector3(4.75f,1,18),true,1.8f),new View("mooring",new Vector3(-25,1,3),true),
+                // The dock at the play camera's own distance, where the hull was soft beside the ships (E2-tallow-11).
+                new View("dock-close",new Vector3(4.75f,1,12),true)}),
             ("TallowDrift",new[]{new View("refuge",new Vector3(0,0,-3)),new View("garden",new Vector3(6,0,3)),
                 new View("waiting",new Vector3(-7,0,1)),new View("repair",new Vector3(7,0,5)),new View("arrival",new Vector3(0,0,-9)),new View("rest",new Vector3(0,0,8))}),
             // Chapter 2, the Lantern Road (D202).

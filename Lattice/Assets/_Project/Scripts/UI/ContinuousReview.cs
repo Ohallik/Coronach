@@ -114,7 +114,13 @@ namespace Lattice.UI
         GamepadState held;
         QualityStep step;
         int stepIndex;
-        bool recording, arrived, endedByCondition, rowReached;
+        bool recording, arrived, endedByCondition, rowReached, pickHeld, pickPaged; GamepadButton pickButton;
+        /// <summary>Reaching a fallen hero goes round what's between: steered straight, a column, a crew body or the yielded captain stopped Taren short, nobody was revived, and the talk
+        /// that waits for it never came (QA-035). The baked floor gives the way round the room; a body isn't in the bake, so a hero who stops gaining on the goal side-steps, a side at a time.</summary>
+        readonly UnityEngine.AI.NavMeshPath revivePath = new();
+        Vector3[] reviveCorners;
+        double revivePathAt=-1, reviveGainedAt, detourUntil=-1;
+        float reviveBest=float.PositiveInfinity, detourSide=1;
         Health stepTarget;
         double stepStart, previous, lastSwapPress=-1;
         string folder;
@@ -253,7 +259,8 @@ namespace Lattice.UI
             Debug.Log("QUALITY_REPLAY_BEGIN " + route.name);
             for (stepIndex = 0; stepIndex < route.steps.Length; stepIndex++)
             {
-                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;endedByCondition=false;rowReached=false;
+                step = route.steps[stepIndex]; stepStart = clock.Elapsed.TotalSeconds; arrived = false;interaction=null;endedByCondition=false;rowReached=false;pickHeld=false;pickPaged=false;
+                reviveCorners=null;revivePathAt=-1;detourUntil=-1;reviveBest=float.PositiveInfinity;reviveGainedAt=stepStart;
                 var lead = PartyController.Current != null ? PartyController.Current.Active : null;stepTarget = lead != null && lead.TargetLocked ? lead.target : null;
                 Debug.Log("QUALITY_CHECKPOINT_BEGIN " + stepIndex + " " + step.name);
                 while (clock.Elapsed.TotalSeconds - stepStart < step.seconds)
@@ -281,7 +288,8 @@ namespace Lattice.UI
             groundPose?.Finish();
             WriteEvidence();
             Debug.Log(failures.Count == 0 ? "QUALITY_REPLAY_OK " + route.name : "QUALITY_REPLAY_REJECTED " + string.Join("; ", failures));
-            Application.Quit(failures.Count == 0 ? 0 : 1);
+            // Out through the orderly door: the capture let its target go this frame, and D3D12 has crashed tearing down with that still in flight (QA-031).
+            OrderlyQuit.Quit(failures.Count == 0 ? 0 : 1);
         }
         void InputUpdate()
         {
@@ -302,7 +310,8 @@ namespace Lattice.UI
                     if (step.approachTarget) inReach = chased != null && difference.magnitude <= reach;
                     if (step.approachTarget ? chased != null && !inReach : !arrived)
                     {
-                        var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * difference.normalized;
+                        var heading = step.approachPartner && chased == null && !actor.flight ? ReviveHeading(actor, goal, difference) : difference;
+                        var local = Quaternion.Euler(0, -ZoneController.Current.definition.cameraProfile.yaw, 0) * heading.normalized;
                         direction = new Vector2(local.x, local.z) * step.magnitude;
                     }
                     else if (chased != null && actor.flight && difference.sqrMagnitude > .01f && Vector3.Angle(actor.motor.Facing, difference) > 5)
@@ -361,7 +370,13 @@ namespace Lattice.UI
                     else
                     {
                         press = false;
-                        if ((clock.Elapsed.TotalSeconds - stepStart) % .24 < .12) held = held.WithButton(GamepadButton.DpadDown);
+                        // A row on a later page: on the pager, turn the page once and go on down, which wraps to the new page's top. A route that counted presses
+                        // broke whenever a recipe was added above its row (the bench's filter row and the trophies' parts, November 10).
+                        bool on = (clock.Elapsed.TotalSeconds - stepStart) % .24 < .12, pager = OnRow("Pager");
+                        if (on && !pickHeld) { pickHeld = true; pickButton = pager && !pickPaged ? GamepadButton.South : GamepadButton.DpadDown; if (pickButton == GamepadButton.South) pickPaged = true; }
+                        if (!on) pickHeld = false;
+                        if (!pager && !on) pickPaged = false;
+                        if (on) held = held.WithButton(pickButton);
                     }
                 }
                 // Nothing to chase after a kill: a person presses lock and looks for the next one, where this stood idle while the last scavenger shot at it.
@@ -380,6 +395,23 @@ namespace Lattice.UI
                 pad.MakeCurrent();
             }
             if (pad != null) InputSystem.QueueStateEvent(pad, held);
+        }
+        /// <summary>Which way to push the stick toward a fallen hero on foot: along the baked floor's path where there is one, and sideways a while when the hero has stopped gaining,
+        /// alternating sides, since a body standing in the way isn't in the bake. Only the stick: the walk is still the motor's own.</summary>
+        Vector3 ReviveHeading(CombatActor actor, Vector3 goal, Vector3 straight)
+        {
+            double now = clock.Elapsed.TotalSeconds; var at = actor.transform.position; var heading = straight;
+            if (GroundNavigation.Current != null)
+            {
+                if (now - revivePathAt > .25) { revivePathAt = now; reviveCorners = GroundNavigation.Current.FindPath(at, goal, goal, revivePath) ? revivePath.corners : null; }
+                if (reviveCorners != null) foreach (var corner in reviveCorners) { var gap = corner - at; gap.y = 0; if (gap.magnitude > .6f) { heading = gap; break; } }
+            }
+            float distance = straight.magnitude;
+            if (distance < reviveBest - .25f) { reviveBest = distance; reviveGainedAt = now; }
+            else if (now - reviveGainedAt > .7 && now >= detourUntil) { detourUntil = now + .8; detourSide = -detourSide; reviveGainedAt = now; }
+            heading.y = 0;
+            if (now < detourUntil && heading.sqrMagnitude > .0001f) heading = Vector3.Cross(Vector3.up, heading.normalized) * detourSide + heading.normalized * .3f;
+            return heading;
         }
         static Vector3? IncomingShotDirection(CombatActor actor)
         {
@@ -570,6 +602,8 @@ namespace Lattice.UI
         {
             // The enemy locked when the step began has fallen.
             if (name == "targetDown") return stepTarget != null && !stepTarget.Alive;
+            // A pickRow step is done once its row is focused, however far down or over however many pages it was.
+            if (name == "rowReached") return rowReached;
             // The step's navigation goal is reached: a walk takes as long as it takes.
             if (name == "arrived") return arrived;
             if (name.StartsWith("flag:")) return GameServices.Current.Flags.GetBool(name.Substring(5));
