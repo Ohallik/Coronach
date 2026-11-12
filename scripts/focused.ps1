@@ -60,7 +60,12 @@ $pool = @()
 if (-not $Main -and (Test-Path $mirrorBase)) {
     # S belongs to the whole suite; a focused run takes whichever of the others is free.
     $pool = @(Get-ChildItem $mirrorBase -Directory | Where-Object { (Test-Path (Join-Path $_.FullName '.test-mirror')) -and (Test-Path (Join-Path $_.FullName 'Lattice\Library')) } | ForEach-Object { $_.Name })
-    $pool = if ($Mirror) { @($pool | Where-Object { $_ -eq $Mirror }) } else { @($pool | Where-Object { $_ -ne 'S' }) }
+    # While a whole suite runs (suite-shared.ps1 leaves a marker; one older than five hours is a suite that died), S is
+    # the suite's alone. Otherwise it is a fourth place for focused runs: fourteen engineers and three mirrors got
+    # five test runs through in half an hour (November 12).
+    $suiteMark = Join-Path $mirrorBase '.suite-running'
+    $suiteOn = (Test-Path $suiteMark) -and ((Get-Item $suiteMark).LastWriteTime -gt (Get-Date).AddHours(-5))
+    $pool = if ($Mirror) { @($pool | Where-Object { $_ -eq $Mirror }) } else { @($pool | Where-Object { $_ -ne 'S' -or -not $suiteOn }) }
 }
 if ($pool.Count -gt 0) {
     $deadline = (Get-Date).AddMinutes($WaitMinutes)

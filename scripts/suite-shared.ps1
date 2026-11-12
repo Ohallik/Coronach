@@ -21,6 +21,9 @@ New-Item -ItemType Directory -Force $out | Out-Null
 python tools/split_suite.py $Parts | Select-Object -Last 1
 $groups = Get-Content Builds/logs/suite_groups.json -Raw | ConvertFrom-Json
 $where = @{ Main = $true }
+# Mirror S is the suite's alone while this runs; focused runs use it otherwise (focused.ps1 reads this marker).
+$suiteMark = Join-Path (Join-Path (Split-Path $root -Parent) 'CoronachTest') '.suite-running'
+if (-not $Main) { Set-Content -LiteralPath $suiteMark -Value "$Label $(Get-Date -Format s)" -Encoding ascii -ErrorAction SilentlyContinue }
 if (-not $Main) {
     if ($From -le 0) {
         $synced = $false
@@ -48,4 +51,5 @@ foreach ($group in $groups) {
     Copy-Item (Join-Path $root "Builds\quality\focused\$Label-part$n-playmode.xml") (Join-Path $out "$Label-part$n-playmode-results.xml") -Force -ErrorAction SilentlyContinue
     if ($Main) { git checkout -- Lattice/Packages/packages-lock.json Lattice/Assets/_Project/Resources/WorldMaterials/staged-light-line.mat 2>$null }
 }
+if (-not $Main) { Remove-Item -LiteralPath $suiteMark -Force -ErrorAction SilentlyContinue }
 "SUITE_SHARED_DONE $Label $(Get-Date -Format HH:mm:ss)"
