@@ -61,8 +61,12 @@ def main():
     args = [a for a in sys.argv[1:] if not a.startswith("--")]
     player = "--player" in sys.argv
     dag = find_dag(player)
-    scratch = os.path.join(tempfile.gettempdir(), "lattice-typecheck" + ("-player" if player else ""))
-    os.makedirs(scratch, exist_ok=True)
+    # One scratch folder a run: several engineers type-check at once, and a shared folder made them overwrite each
+    # other's assemblies (CS2012) and wait on each other's files (a nine-second check took forty, November 11).
+    import atexit
+    import shutil
+    scratch = tempfile.mkdtemp(prefix="lattice-typecheck" + ("-player-" if player else "-"))
+    atexit.register(shutil.rmtree, scratch, True)
     rsps = {n: os.path.join(dag, n + ".rsp") for n in ASMDEFS if os.path.exists(os.path.join(dag, n + ".rsp"))}
     deps = {}
     for n, p in rsps.items():

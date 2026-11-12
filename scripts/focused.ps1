@@ -22,7 +22,10 @@ $ErrorActionPreference = 'Continue'
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
 $save = Join-Path $env:USERPROFILE 'AppData\LocalLow\Nathan\Lattice\Saves\autosave.json'
-$before = if (Test-Path $save) { (Get-FileHash $save).Hash.Substring(0, 8) } else { 'none' }
+# The "before" hash is taken when this run gets its own turn at Unity, not at script start: while another test run
+# holds Unity its save shield has test saves in the live folder, and a hash taken then reads as a change (November 11).
+$script:before = $null
+function Note-Before { if (-not $script:before) { $script:before = if (Test-Path $save) { (Get-FileHash $save).Hash.Substring(0, 8) } else { 'none' } } }
 $out = Join-Path $root 'Builds\quality\focused'
 New-Item -ItemType Directory -Force $out | Out-Null
 $failed = $false
@@ -55,7 +58,13 @@ function Wait-Ready {
         if ((python tools/typecheck.py | Select-Object -Last 1) -ne 'TYPECHECK_OK') { Start-Sleep -Seconds 30; continue }
         for ($poll = 0; $poll -lt 40; $poll++) {
             $busy = @(Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($project) }).Count -gt 0
-            if (-not $busy) { return $true }
+            if (-not $busy) {
+                # Yield to short jobs: a builder or a render launches the instant Unity is free, a test run only once
+                # Unity has stayed free for six seconds, so twenty-minute test parts can't starve one-minute builds.
+                Start-Sleep -Seconds 6
+                $busy = @(Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($project) }).Count -gt 0
+                if (-not $busy) { Note-Before; return $true }
+            }
             Start-Sleep -Seconds 2
         }
     }
@@ -104,6 +113,8 @@ if ($Classes) {
     Show-Results $xml 'PlayMode'
     if (-not $script:lastOk) { $failed = $true }
 }
+Note-Before
+$before = $script:before
 $after = if (Test-Path $save) { (Get-FileHash $save).Hash.Substring(0, 8) } else { 'none' }
 "FOCUSED saves $before -> $after" + $(if ($before -ne $after) { '  CHANGED: check Builds/logs for a stranded backup' } else { '' })
 Get-ChildItem (Join-Path $root 'Builds\logs') -Directory -Filter 'playmode-human-saves-backup-*' -ErrorAction SilentlyContinue | ForEach-Object { "FOCUSED STRANDED BACKUP $($_.Name)"; $failed = $true }
