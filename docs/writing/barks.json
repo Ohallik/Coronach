@@ -11,6 +11,8 @@
     "teach.flash": "Watch the mark fill. Dodge just before it lands and everything slows for you.",
     "teach.swap": "Swap me in when it gets tight. I come in swinging and you get to breathe.",
     "teach.guard": "Guard right as it lands. You take nothing, gain Charge, and your next hit bites.",
+    "teach.extra": "Your gauge is full. Spend it all at once. Nothing touches you while it lasts.",
+    "extra": "Stand clear. This is the loud part.|Anvil Chorus. Mind your ears.",
     "boss": "We can stop shouting now.",
     "release": "Lock's open. Give it room.",
     "zone": "Same body. Different problem.|New ground. Same job.|Let's see what's broken here.|Stay close. I mean it.",
@@ -34,7 +36,15 @@
     "anchor": "Hold on to something.|There it goes again.|Same island. Different doors.",
     "pods.red": "Red ones. They bite, she said.",
     "pods.blue": "Blue. Sulking, as promised.",
-    "pods.yellow": "Yellow. I'm not thinking about it."
+    "pods.yellow": "Yellow. I'm not thinking about it.",
+    "bossphase.Rotbloom": "The hall's draining. It's grounded. Watch the floor.",
+    "bossopening.Rotbloom": "Stalk's burned. A mouth's open. Now!",
+    "glow": "We're lit. Going dark.|Too bright. Coast.",
+    "swarm": "Swarm on me. Rolling it off.",
+    "tune": "Back in time. Two short, one long.|That's the pair. Both keeping time.",
+    "lure": "No long. That one's a mouth.|It never finished the count. Blades out.",
+    "leech": "Marked water. Leeches. Take the dry way.",
+    "pump": "Water's dropping. Watch the alcoves.|There it goes. Somebody built that to last."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.|My turn. Watch and learn.|Move over. I'm bored.",
@@ -44,6 +54,8 @@
     "teach.flash": "See that mark fill, Vosk? Dodge just before it lands and the world slows for you.",
     "teach.swap": "Swap me in when it gets ugly, Vosk. I land hitting and you get to breathe.",
     "teach.guard": "Or guard right as it lands, Vosk. No damage, free Charge, and your next hit bites.",
+    "teach.extra": "That gauge is full, Vosk. Let it all go at once. Nothing can touch you while you're showing off.",
+    "extra": "Everybody look up!|Lattice Aria. Try to keep time.",
     "boss": "Quiet again. I missed that.",
     "release": "It's turning. Follow the opening.",
     "gate.open": "Curtain's coming down, Vosk. That door only opens for people who relight things.",
@@ -68,7 +80,15 @@
     "anchor": "It's walking. Check the doors, Vosk.|New doors. I'll redraw it.|Same halls, new exits. Keep up.",
     "pods.red": "Red pods. If I cry, Vosk, it's the spice.",
     "pods.blue": "Blue pods, in the shade, sulking. She wasn't joking.",
-    "pods.yellow": "Yellow pods. We don't think about it. We pick."
+    "pods.yellow": "Yellow pods. We don't think about it. We pick.",
+    "bossphase.Rotbloom": "It's beached and thrashing, Vosk. Mind the cracks.",
+    "bossopening.Rotbloom": "There's a mouth open, Vosk. Don't admire it.",
+    "glow": "We're glowing, Vosk. Count two.|Dark. Seams and all.",
+    "swarm": "They're on me. Rolling them off.",
+    "tune": "Two short, one long. Keeping time.|That's the second. Maru can stop watching.",
+    "lure": "Short, short, nothing. Not a lamp, Vosk.|It can't hold the long. Lure.",
+    "leech": "Something's in that channel. Go round.",
+    "pump": "Draining. Something always wakes, Vosk.|Listen to that. Quill would cry."
   },
   "Teo": {
     "hail.barge1": "Near barge is loose. She was always the easy one. I don't trust it.",
@@ -81,5 +101,15 @@
   },
   "Jask": {
     "hail.ferry": "Surveyor! Is that you? Can you hear me from there?"
+  },
+  "Maru": {
+    "hail.pods": "Pods ahead. Shoot one and you'll be blind and popular. Thread them.",
+    "hail.swarm": "Swarm field. Boost, then coast dark and count two. I can hear you wanting to fire.",
+    "hail.ray": "Next beacon's the dark one. A ray circles it. Set the lamp on its far pass, or fight it lit.",
+    "hail.relit": "I see it. Keeping time. Cleaner than my apprentice sets them. He's twelve, so don't dress it up.",
+    "hail.gate": "Tide-gate's the ring of lamps on the water below. Come down dark. Somebody will throw you a line.",
+    "hail.bright": "Lantern. You're glowing. I can see you from my kitchen.",
+    "line": "Give. Give. Now keep.|She's pulling. Let her.|There. She's lying easy. You can breathe.",
+    "hail.leech": "Marked water's leeches. There's a dry way round. It's longer. Take it."
   }
 }

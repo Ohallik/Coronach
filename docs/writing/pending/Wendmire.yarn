@@ -1,0 +1,491 @@
+// Chapter 4 - Breathing Room (Wendmire). Brief: docs/chapters/ch04-breathing-room.md. Wiring: docs/writing/ch04-manifest.md.
+title: AbriReedRoad
+---
+Keeper: Four hundred and twelve. I've counted heads three times this morning. The air wants to know. #emotion:Worried
+Teo: Four hundred and eleven, keeper. I count boarding lists. A list doesn't wander off while you're counting it. #emotion:Neutral
+Keeper: Then somebody's breathing who isn't on a list, Teo, and I can't spare the air for an argument. #emotion:Flustered
+Taren: I've been through every scrubber twice. They're sound. They were built for one small station. #emotion:Worried
+Teo: Hadda says it's mats you want. The seed house breathed through them. Driftreed weaves them, on Wendmire. She says ask for the tight weave. #emotion:Neutral
+Sela: Wendmire. A swamp world, three moons, and a veil of spores across the approach. I'll want the lantern. #emotion:Determined
+Keeper: Take it. And look in on Pell. The lamp's gone yellow, and she's watching it like a kettle. #emotion:Worried
+Taren: How long, Abri? #emotion:Curious
+Keeper: At four hundred and eleven, nine days. At four hundred and twelve, I'd rather not do the sum. #emotion:Amused
+<<startQuest ReedRoad>>
+===
+title: AbriReedRoadRepeat
+---
+Keeper: The lantern's with Pell. Teach it Wendmire and the warp will open. I'll count again while you're gone. I'd like to be wrong. #emotion:Worried
+===
+title: AbriReedRoadCharted
+---
+Keeper: Four hundred and twelve again. Teo's sent his list round with a pencil. Bring me mats, and somebody who knows which way up they go. #emotion:Amused
+===
+title: AbriReedRoadWaiting
+---
+Keeper: Lights that take people? Oh, don't tell the cabins. I'll tell the cabins. I'll say you've nearly got the mats, which is the same thing said kindly. #emotion:Worried
+===
+title: PellVeilLantern
+---
+Pell: It's lit. It's yellow. I haven't touched it. I've been breathing at it less. #emotion:Worried
+Sela: Breathe, Pell. And hold the shutter. New lane: out past the Reach, down through a veil of spores, ends in a swamp. #emotion:Determined
+Pell: Wendmire! They've lamps there that blink on purpose. Aumi says the raft people talk in them. Two little blinks and a big one means hello. #emotion:Happy
+Taren: Near enough, I expect. #emotion:Amused
+Pell: I'd come and see. But if I go, who watches this one go yellow? #emotion:Determined
+Sela: It's answering. Yellow, but it's answering. #emotion:Happy
+<<setFlag wend.charted>>
+===
+title: PellVeilRepeat
+---
+Pell: Still yellow. I've moved my stool back. If I sit close it gets worse, and then I feel responsible. #emotion:Worried
+===
+title: MaruVeilHail
+---
+Maru: Whoever's flying the lantern, put it out. #emotion:Angry
+Sela: Say again? #emotion:Curious
+Maru: Your lights. The pair of you, lit up like a wedding raft. Spores come to light. Fire, boost, shine, and you'll wear a swarm all the way down. #emotion:Angry
+Taren: And if one gets on us? #emotion:Curious
+Maru: Roll it off. Or go dark and count two. Dark, I said. That means the pretty seams as well. #emotion:Determined
+Sela: Who is this? #emotion:Curious
+Maru: Maru Wend. Pilot, Driftreed. I set the beacons you're about to ignore. Two short, one long. That's the lane. Anything that blinks another way isn't mine. #emotion:Smug
+Sela: I'd rather have a fixed mark to steer by. #emotion:Neutral
+Maru: Wouldn't you just. Three moons up there, Lantern. Nothing out here has stayed where it was put since before your grandmother. Follow the beacons. #emotion:Amused
+===
+title: MaruVeilStray
+---
+Maru: You've left my lane. Since you're out there, look at the lamp ahead of you. Short, long, short. #emotion:Neutral
+Sela: It's lost its count. #emotion:Curious
+Maru: A lamp that can't keep time is worse than a dark one. A dark one, nobody follows. #emotion:Worried
+<<jump MaruBeaconsAsk>>
+===
+title: MaruBeaconsOffer
+---
+Maru: Two of my beacons out in the Veil have slipped their count. Off the lane, where the caches are. You'll have flown past them, shining. #emotion:Amused
+Sela: A beacon with the wrong rhythm. After what we walked through in the mire. #emotion:Worried
+Maru: Now you see why it itches. #emotion:Neutral
+<<jump MaruBeaconsAsk>>
+===
+title: MaruBeaconsAsk
+---
+Maru: There are two of them. Set each back to two short, one long, and I'll owe you a thing that goes fast. #emotion:Determined
+Sela: Two short, one long. I can keep that in my head. #emotion:Playful
+<<startQuest BeaconKeeper>>
+===
+title: MaruDeadBeacon
+---
+Sela: Here's the dark one. The lamp's sound. It's only lost its count. Setting it. #emotion:Determined
+Maru: Two short, one long. Say it as you set it. If it comes up any other way I'll know. So will everything else out here that's learned to read. #emotion:Determined
+Sela: Two short. One long. #emotion:Neutral
+<<setFlag wend.beaconRelit>>
+===
+title: MaruArrival
+---
+Maru: Stern line, now, she's lifting! Not you. You. Lantern. Hands. #emotion:Determined
+Sela: I've got it. Where do I make it fast? #emotion:Determined
+Maru: You don't! Hold it. Let her take what she wants and keep the rest. #emotion:Angry
+Sela: A line that isn't made fast is a mistake. #emotion:Worried
+Maru: A line that's made fast is a raft with its cleat torn out. The tide's turning under her. Hold on. Don't tie on. #emotion:Determined
+Taren: I could take that. #emotion:Tender
+Maru: You could. She's the one who needs to learn it. #emotion:Smug
+Sela: Then where do we tie up, at least? #emotion:Flustered
+Maru: We don't use that word for people. Hold the line, Lantern. #emotion:Amused
+===
+title: MaruLineHold
+---
+Maru: Line first. Talk when she's lying easy. #emotion:Determined
+===
+title: OnaLineHold
+---
+Ona: The pilots have put a line in your hands. Finish what you were given. Then come and ask me for what you want. #emotion:Neutral
+===
+title: MaruFirst
+---
+Maru: You held it. You wanted to tie it. I watched your hands go looking for a cleat. #emotion:Amused
+Sela: Where I'm from, things stay where you leave them. We count that as a feature. #emotion:Playful
+Maru: Where you're from is tied up. No offence meant. Somebody should have said something years ago. #emotion:Tender
+Taren: We've come for mats. A station's worth. #emotion:Neutral
+Maru: Then you want Ona Sedge. Weaving hall, the tall racks. North raft. Today it's north. #emotion:Neutral
+Sela: Today. #emotion:Worried
+Maru: Ask me again after the tide. Don't hurry her, and don't tell her the mats are fine work. She knows. She'll make you wait for knowing. #emotion:Amused
+===
+title: MaruRepeat
+---
+Maru: Ona's hall is north. Still north. I'd tell you if it had moved. #emotion:Amused
+===
+title: OnaTerms
+---
+Ona: You are the two who came down lit. Maru says you want mats. How many are breathing, on this station of yours? #emotion:Neutral
+Taren: Four hundred and twelve. Hadda of Rootmarket says your mats are the ones that work. #emotion:Determined
+Ona: They work because somebody who knows the weave mends each one every tenth day. A mat without its weaver is a rug by the end of the season. #emotion:Determined
+Sela: Then we'd need weavers as well. #emotion:Neutral
+Ona: You would. And no weaver of mine is going anywhere. Their poles are locked in the reed store. Eleven. I count them at each tide. #emotion:Neutral
+Taren: Eleven. #emotion:Curious
+Ona: Pim took the twelfth. My apprentice. Two nights ago, between the second tide and the third. #emotion:Neutral
+Ona: There are lights in the mire that are not ours. Pim is the third to follow one this season. #emotion:Neutral
+Sela: Somebody's signalling from the pilots' stage. A lamp. Long, long, short. #emotion:Curious
+Ona: That is Maru. She has sent it at every tide for two nights. I don't answer it. #emotion:Neutral
+Ona: Find what is lighting those lamps and put it out. Then ask me again about mats. #emotion:Determined
+<<setFlag wend.onaHeard>>
+===
+title: OnaRepeat
+---
+Ona: Leave that comb where it lies. No, not you. What did you want? #emotion:Neutral
+-> How did the lights start?
+    Ona: After the old station's roof fell. Dov will tell you he said so in the spring. He did. It has not made him quieter. #emotion:Amused
+-> What's in the weave?
+    Ona: Forty reeds to the hand, split wet, laid on the turn. The air goes through and the damp stays out. That is all I'll say to someone who can't yet hold a comb. #emotion:Determined
+-> We'll find them.
+    Ona: You will find what there is to find. Go with Maru. She reads the water. I only read reeds. #emotion:Neutral
+===
+title: OnaPimBack
+---
+Ona: Maru's lamp said it an hour before you did. Pim is back, and has been fed, and has been told about the middle rows. #emotion:Neutral
+Ona: The reed store stays locked. The lights are still out there. Finish it. #emotion:Determined
+===
+title: OnaDecides
+---
+Ona: Pim is at the bench. The middle rows of that mat are a disgrace. They will be done again, properly, and not here. #emotion:Tender
+Taren: Not here? #emotion:Curious
+Ona: You asked for mats. A mat without its weaver is a rug. So the weavers go with them. On their own rafts, tied to nobody. #emotion:Determined
+Ona: The reed store is open. The poles are by the door. Whoever takes one is going. #emotion:Neutral
+Sela: And Maru? #emotion:Curious
+Ona: Maru will come if she is the one who draws where the rafts lie, up there. Nothing fixed. She said "tied up" twice while she was asking. She made it sound catching. #emotion:Amused
+Ona: Quill is sending drawings of his pump. He is not sending himself. He says the old engineers need the company. #emotion:Amused
+Sela: Ona. Your lights. Long, long, short. #emotion:Curious
+Ona: Yes. Maru has waited two nights for it. #emotion:Tender
+Sela: Still afloat. #emotion:Tender
+Ona: You read lamps now. Good. They'll need somebody up there who can. #emotion:Tender
+<<setFlag wend.decided>>
+===
+title: OnaAfter
+---
+Ona: A hall comes down in the order it went up. Racks last. I'll see it done before I decide what else leaves. #emotion:Neutral
+Ona: Pim's comb is on the bench. It can go with Pim. Tell them I said so. No. I'll tell them. #emotion:Tender
+===
+title: MaruTide
+---
+Maru: She said no. She says no to everyone. It's how she keeps count. #emotion:Neutral
+Sela: She said you've been signalling her for two nights. Long, long, short. #emotion:Curious
+Maru: That's for Ona, not for you. I'll take you into the mire. Pim poled my bow line when their arms were this long. #emotion:Determined
+Taren: What are we walking into? #emotion:Curious
+Maru: Lamps that aren't ours, round an old station that's sat on the same mud since before there were rafts. Look what it got for it. A roof on its own head. #emotion:Smug
+Maru: And where's this convoy of yours bound, Lantern, once it's breathing? #emotion:Curious
+Sela: I'm still charting it. #emotion:Worried
+Maru: Good. Don't finish. A finished chart's a place that's stopped. #emotion:Amused
+Maru: Feel the stage lift? That's the turn. Two rope walks are about to leave us and two are about to arrive. Stand still, or you'll be in the wrong half of town. #emotion:Determined
+Maru: The mire gate swings to us on this tide. North-east. I'll be on the first island with a lamp. #emotion:Determined
+<<setFlag wend.tideTurned>>
+===
+title: MaruOnaWaits
+---
+Maru: Go and see Ona. She's unlocked something. I heard the bar go from here. #emotion:Tender
+===
+title: MaruComes
+---
+Maru: Ona's answered. First time in two nights. You'll have seen it. #emotion:Tender
+Maru: So I'm coming. One condition. I've told her, and now I'm telling you. I draw where the rafts lie up there. On a tide line. Nothing bolted. Nothing named a berth. #emotion:Determined
+Taren: A ship's hold doesn't have tides. #emotion:Neutral
+Maru: Then I'll bring some. I've lived my whole life on water that moves. I'm not going to die somewhere that's been tied up for my convenience. #emotion:Determined
+Sela: You'll have to argue it with Ruva. She likes roots. #emotion:Amused
+Maru: Roots. Good. I've been short of a proper argument since you two stopped shining. #emotion:Happy
+<<setFlag maru.comesHeard>>
+===
+title: MaruPost
+---
+Maru: Three moons here. How many where we're going? Don't tell me. I'll count them when we get there, and tie a new cord. #emotion:Curious
+===
+title: MaruBeaconsReturn
+---
+Maru: Both of them, keeping time. I watched them come up from the stage. I didn't think you'd go back for the far one. #emotion:Curious
+Sela: It was off the lane. I marked it anyway. #emotion:Smug
+Maru: You marked a thing that drifts. We'll make a pilot of you yet, Lantern. Here. It came off a courier that stayed tied up too long. #emotion:Amused
+Maru: You did that well. There. I've said it. It won't happen again this tide. #emotion:Tender
+<<setFlag maru.beaconsReported>>
+===
+title: DovFirst
+---
+Dov: Shapers! Two! I said Shapers when you came through the gate lit like a festival, and Quill said marsh gas, and here you are, not marsh gas. Eel? #emotion:Happy
+Taren: We're here about the mats. #emotion:Neutral
+Dov: Everyone's here about the mats, and Ona's not sending any, and she's locked the apprentices' poles in the reed store. I sold her the lock. Good lock. #emotion:Amused
+Sela: Locked them? Why? #emotion:Curious
+Dov: The lights. Three gone this season. A reed-cutter in spring, a pilot's boy at midsummer, and now Ona's Pim. #emotion:Worried
+Dov: All three at dusk, all three alone, all three toward the old station. I keep a list. Nobody asks to see it. #emotion:Worried
+Dov: And the lights only started after the station's roof came down. I said so at the time. Something lives in there now, and it's been watching how we do lamps. #emotion:Determined
+-> Show us what you sell.
+    Dov: Smoked, salted, or still arguing. Parts are Quill's, west raft. Don't ask him the price. He'll tell you how it's made. #emotion:Happy
+    <<shop>>
+-> We'll be back.
+    Dov: You will. Everyone is. It's the smell. #emotion:Smug
+===
+title: DovRepeat
+---
+Dov: Back! Good. Sit. Don't sit, there's nowhere to sit. What'll it be? #emotion:Happy
+-> What's the talk?
+    Dov: A courier pinned a Compact notice on the market post and left before the tide. We're not on it. Ona says it's the politest thing the Compact's ever done for us. #emotion:Amused
+-> Show us the stock.
+    <<shop>>
+-> Nothing today.
+    Dov: Nothing! In a smokehouse! Go on, then. #emotion:Amused
+===
+title: DovOrderOffer
+---
+Dov: You're going into the mire with Maru. Don't tell me you're not. I watched the gate swing. So, while you're in there. #emotion:Happy
+Dov: Glowspore. Little caps, blue-green, on the wet side of the peat. Six of them. I burn it under the eel. It gives the colour, and the colour's half the price. #emotion:Determined
+Taren: You burn it. #emotion:Curious
+Dov: You don't eat it! Well. The reed-cutter's cousin did, once. Saw his own feet from above for a day. Six caps, and I'll have something on the counter that keeps a month. #emotion:Amused
+<<startQuest SmokehouseOrder>>
+<<shop>>
+===
+title: DovOrderReturn
+---
+Dov: Six! And not one of them squashed. You've carried eggs before. No? Well, you could. #emotion:Happy
+Dov: Smell that. That's the eel going blue. Give it till the tide and there'll be smoked provisions on the counter. The kind that keep. #emotion:Happy
+Sela: Blue eel. #emotion:Worried
+Dov: It's the colour, I told you. Nobody buys a grey eel. I've tried. I had a whole season of grey eel. #emotion:Amused
+<<setFlag dov.orderFilled>>
+<<shop>>
+===
+title: DovBellOffer
+---
+Dov: One more, and it's not for me. It's for Iri, on the school raft. She won't ask you. She's a teacher. She thinks asking is for pupils. #emotion:Amused
+Dov: Her bell-buoy slipped its line in the last big tide. It's out in the mire, ringing whatever the water wants. #emotion:Worried
+Dov: A bell that can't keep the count, in a place where the lights lie. The little ones aren't sleeping. #emotion:Worried
+Sela: The bell rings the lamp rhythm. #emotion:Curious
+Dov: Two short, one long. It's how they learn it. Ring it true and a pilot will go out and fetch it in. Nobody goes toward a thing that rings wrong. Not any more. #emotion:Determined
+<<startQuest SchoolBell>>
+<<shop>>
+===
+title: DovBellReturn
+---
+Dov: We heard it! Two short, one long, clear across the water. The school raft rang every pot Iri owns back at it. #emotion:Happy
+Dov: A pilot's gone out to fetch it in. First time anybody's gone toward a sound in that mire since spring. #emotion:Tender
+Dov: Iri says thank you. She also says if the weavers go, the school goes. You can't leave children with only me to learn from. That's her saying it. I think I'm insulted. #emotion:Amused
+<<setFlag dov.bellReported>>
+<<shop>>
+===
+title: DovPost
+---
+Dov: The weavers are going! I said they would. I said it to Quill, and Quill said "who?", but I said it. #emotion:Happy
+Dov: I'm thinking about it myself. A smokehouse floats. You've people up there who've never had a blue eel. Four hundred of them, I hear. #emotion:Smug
+<<shop>>
+===
+title: QuillFirst
+---
+Quill: Oh! Lattice. Living metal. May I? No, no, of course not, you're wearing it. Sit, sit. Mind the brass. #emotion:Happy
+Taren: You built this pump? #emotion:Curious
+Quill: Copied it. From the drowned station, counting pipes from outside. The old engineers drained it in three stages. Sensible people. They'd have been cross about the roof. #emotion:Happy
+Sela: You knew them? #emotion:Amused
+Quill: Eh? No, no. Long gone. But you get to know a person by their valves. One of them was left-handed. Very thrifty. I'd have liked her. #emotion:Tender
+Quill: And you're Ona's, the small one, with the comb. No. You're the ones looking for the small one. Good. Good. #emotion:Flustered
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    Quill: Fittings, mostly. Some of them are for things. #emotion:Happy
+    <<shop>>
+===
+title: QuillRepeat
+---
+Quill: You again. The one with the hands, and the, the other one. What does it need? #emotion:Happy
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: QuillPumpOffer
+---
+Quill: If you're going inside. Are you going inside? Somebody said. There's a thing I can't account for. #emotion:Curious
+Quill: Three pumps drain the halls. I counted the pipes for a fourth. It drains one small room, off the lower gallery, east side. #emotion:Worried
+Quill: The old engineers never built a pump for nothing. The thrifty one would have had words. #emotion:Amused
+Taren: You want it run. #emotion:Curious
+Quill: I want to know what they kept dry on purpose. Run it, look in, and bring me whatever's written down. They always wrote it down. Take a rubbing. #emotion:Determined
+<<startQuest FourthPump>>
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: QuillPumpReturn
+---
+Quill: Oh. Oh, that's the works mark. Ring and bar. It's on every pump I ever copied. #emotion:Happy
+Taren: It's on the bronze sentries too. On their collars. Same stamp. #emotion:Neutral
+Quill: Then one bench made the lot. Water-movers and spear-carriers. I always thought of them as plumbers. #emotion:Sad
+Quill: The strokes are a tally. This many kept here, to mind the door. This many sent on. #emotion:Worried
+Quill: That curl is frost. Up the cold road, it says. They ran out of wall counting the ones they sent. #emotion:Worried
+Sela: Ishen will want this. He reads walls for a living. #emotion:Determined
+Quill: Send it. And take this. It came out of the fourth pump's housing. The thrifty one wouldn't want it left idle. #emotion:Tender
+<<setFlag quill.markRead>>
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: QuillPost
+---
+Quill: I've drawn you the pump. Every valve, both sides. The old engineers would want it used. They hated a thing sitting idle. #emotion:Happy
+Quill: I'm not coming. Somebody has to stay and listen to the station, now it's draining. It's the first it's said in a long while. Tell the small one I said. Well. Something. #emotion:Tender
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> See the parts.
+    <<shop>>
+===
+title: SelaWendNotice
+---
+Sela: A Compact capacity notice, pinned to the market post with a fish hook. Driftreed isn't on it. Not inside the corridor, not outside it. #emotion:Worried
+Taren: "Settlements are counted by registered mooring." And a raft isn't one. #emotion:Neutral
+===
+title: SelaSchoolRaft
+---
+Sela: They're clapping it. The whole school raft. Two short, one long. #emotion:Amused
+Taren: A counting game. #emotion:Curious
+Sela: It's the lamp rhythm. They can tell a true lamp before they can tie a knot. #emotion:Tender
+===
+title: MaruMireGate
+---
+Sela: Stone. North, past the third island. A portico. That's a fixed mark at last. #emotion:Happy
+Maru: It's sinking. A hand a season. Your fixed mark's only slower than mine, Lantern. #emotion:Smug
+Taren: Is that where the lights come from? #emotion:Curious
+Maru: That's where they started. Step where I step. The peat holds me, so it'll nearly hold you. #emotion:Amused
+===
+title: MaruTideCord
+---
+Sela: That cord at your wrist. Knots. Is it a count? #emotion:Curious
+Maru: It's this month. Three moons, a strand each, and a knot where a tide turns. I tie it at the dark of the small moon and burn it when it's wrong. #emotion:Determined
+Sela: You burn your chart. #emotion:Shocked
+Maru: Every month. What do you do with yours when the water moves? #emotion:Curious
+Sela: I correct it. I keep the old lines underneath. #emotion:Neutral
+Maru: You keep where things used to be. No wonder you're slow. Here. Feel the knots. That one's tonight. #emotion:Amused
+Sela: That's the tide we came in on. #emotion:Curious
+Maru: Now you can read. Don't tell Ona I taught a chart-maker for nothing. #emotion:Smug
+<<setFlag maru.cordShown>>
+===
+title: MaruMireRepeat
+---
+Maru: Two short, one long. If it can't hold the long, it isn't mine. Walk where I walk. #emotion:Determined
+===
+title: MaruLureLesson
+---
+Maru: Stop. Two lamps ahead. One's mine. Which? #emotion:Determined
+Taren: The near one. It's brighter. #emotion:Neutral
+Maru: Bright is for moths. Don't look at it. Count it. #emotion:Smug
+Sela: The far one. Short, short, long. Short, short, long. #emotion:Curious
+Maru: Two short, one long. Somebody trimmed that lamp this morning and means to trim it tomorrow. Now the near one. #emotion:Neutral
+Sela: Short, short. Short. Short, short, short. It never gets to the long. #emotion:Worried
+Maru: It can't. A long means waiting, and nothing hungry waits. Lately it's got the two shorts right. That's new. #emotion:Worried
+Taren: And if we walk up to it? #emotion:Curious
+Maru: Then it stops being a lamp. Go round it, or go through it with your blades out. Don't go to it. #emotion:Determined
+<<setFlag wend.lureLearned>>
+===
+title: SelaBellBuoy
+---
+Taren: There's the buoy. Fouled in a root, ringing every time the water breathes. #emotion:Curious
+Sela: No count to it at all. No wonder nobody came out for it. #emotion:Worried
+Taren: It's free. Your hand's steadier than mine. Ring it. #emotion:Neutral
+Sela: Two short. One long. And again. Listen. Pot lids. The school raft's answering. #emotion:Happy
+===
+title: MaruPortico
+---
+Maru: This is as far as I go. I don't walk under a roof that doesn't float. #emotion:Determined
+Sela: It's stone. It's stood here longer than Driftreed. #emotion:Curious
+Maru: It's been tied up here longer than Driftreed. Look at it. I'll keep a lamp at the door. Two short, one long. When you can see it, that way's out. #emotion:Determined
+Taren: And if Pim's inside? #emotion:Tender
+Maru: Then send them to the lamp. Tell them I'm not angry. Tell them I'm waiting, which is worse. #emotion:Tender
+===
+title: SelaWaystationHall
+---
+Sela: Carved courses. Bronze collars on the columns. This is Lanternwick's stonework, Vosk. The same hands. #emotion:Shocked
+Taren: A relay? #emotion:Curious
+Sela: A route station. Ishen would weep. Then he'd make us carry a column home. #emotion:Amused
+Taren: There's a pump by the stair with its handle still on. Somebody meant to come back. #emotion:Curious
+===
+title: SelaPumpOne
+---
+Taren: Three stages. Hall, gallery, great hall. Whoever laid this out knew water. #emotion:Happy
+Sela: You're smiling. #emotion:Amused
+Taren: It's a pump. It wants one thing, and it says so. #emotion:Happy
+Sela: Look at the alcoves before you turn it. Bronze figures, standing in the water. When the water goes, they'll be standing in air. #emotion:Worried
+===
+title: PimFound
+---
+Sela: There. Behind the grille. Glow-spots. Long, long, short. #emotion:Curious
+Taren: That's what Maru's been sending Ona. #emotion:Curious
+Pim: Still afloat. It means still afloat. Are you real? Say something a lamp couldn't. #emotion:Worried
+Sela: Ona's locked eleven poles in the reed store, and she counts them at every tide. #emotion:Tender
+Pim: That's her. That's real. I shut the grille when the bronze ones woke, and tied it with my belt cord. It's a good knot. #emotion:Worried
+Taren: Are you hurt? #emotion:Tender
+Pim: No. I followed a light. It did the two shorts, and I didn't wait for the long. You learn that at five. I'm fifteen. #emotion:Flustered
+Pim: I kept weaving. It stops your hands shaking. Don't let Ona see the middle rows. #emotion:Flustered
+Sela: Maru's at the door with a lamp. Up the dry stair and out. Two short, one long. #emotion:Tender
+Pim: I'll wait for the long this time. #emotion:Determined
+<<setFlag wend.pimFound>>
+===
+title: PimPortico
+---
+Pim: I'm not looking at lights. I'm looking at my feet. Maru says that's a start. #emotion:Flustered
+===
+title: SelaVaultMark
+---
+Sela: Dry as the day they shut it. Shelves, all empty, and one wall of marks. #emotion:Curious
+Taren: The same ring and bar that's stamped on the pumps. And on the sentries' collars. #emotion:Worried
+Sela: Then rows of strokes under it. Somebody was counting. They ran out of wall. #emotion:Worried
+Taren: I've got the rubbing. Quill can tell us what they were counting. #emotion:Neutral
+===
+title: SelaBloomDoor
+---
+Taren: Four lamps on the rim. Our rhythm, nearly. And that, in the middle, turning toward the sound of the pump. #emotion:Worried
+Sela: The lamps are part of it. Stalks. Burn one, and something opens that it would rather keep shut. #emotion:Determined
+Taren: I keep looking for the collar. The thing that's hurting it. #emotion:Neutral
+Sela: There isn't one, Vosk. It isn't trapped. It's fishing. #emotion:Worried
+Taren: Then we stop it fishing. #emotion:Determined
+===
+title: SelaBloomDead
+---
+Sela: All four stalks dark. Every false lamp in the mire, out at once. #emotion:Determined
+Sela: You found the soft place on your first cut, Vosk. #emotion:Curious
+Taren: I always do. It's the same eye that finds where a joint's failing. I'd rather it only worked on joints. #emotion:Sad
+Sela: Come on. Out of the wet. #emotion:Tender
+<<setFlag wend.rotbloomDead>>
+===
+title: MaruAfterBloom
+---
+Maru: They went out all down the mire. One after another. Like somebody going home and shutting doors behind them. #emotion:Tender
+Maru: You're quiet. You were loud enough going in. #emotion:Curious
+Taren: It's done. #emotion:Neutral
+Maru: I can see it's done. Here. Carry the lamp back. Two short, one long. Don't hurry the long. #emotion:Tender
+Maru: And mind the second island. It's softer than it was this morning. #emotion:Neutral
+===
+title: PimHome
+---
+Pim: Ona's making me redo the middle rows. All of them. She watched me unpick the first one and didn't say a word. That's how I know she's pleased. #emotion:Happy
+Pim: Is it true there's no mire where we're going? Nothing to follow? I think I'd like that. For a bit. #emotion:Curious
+===
+title: AbriManyHandsCall
+---
+Keeper: Tallow to Taren. No. That's the trouble. I can't say that any more. #emotion:Flustered
+Taren: Abri? #emotion:Worried
+Keeper: Somebody chalked a name on the dock door in the night. By breakfast the growers were using it. By noon it was on Teo's lists. #emotion:Flustered
+Keeper: We're Many Hands. Nobody asked me. I rather like it. #emotion:Happy
+Sela: Many Hands. Then tell Many Hands the weavers are coming. Mats, rafts, and a pilot who won't be told where to lie. #emotion:Happy
+Keeper: Oh, good. Oh, that's good. Pell says the lamp's gone from yellow to amber, and she won't tell me which way that is. #emotion:Worried
+Keeper: One other thing. There's been a tug standing off our stern since yesterday. A salvage crew. Very civil. They asked where we're moored. #emotion:Worried
+Taren: What did you tell them? #emotion:Worried
+Keeper: The truth. That we aren't. He said "Thank you, that's all I needed," and he's been writing ever since. #emotion:Worried
+Sela: We're on our way up, Abri. Don't sign anything. #emotion:Determined
+<<setFlag chapter4.complete>>
+===
+title: AbriManyHands
+---
+Keeper: I've stopped correcting people. Many Hands. It's on the kettles now. The tug's still off our stern, and it's still writing. #emotion:Worried
+===
+title: PellManyHands
+---
+Pell: Amber's worse. I looked it up in Aumi's book. But the mats are coming, so I haven't told Abri. Now I've told you, so it's your secret as well. #emotion:Flustered
+===

@@ -28,7 +28,7 @@ title: PellLaneLantern
 ---
 Pell: It's lit! I checked. Then I relit it to be sure. Then Abri asked me to stop. #emotion:Happy
 Sela: Leave it lit and hold the shutter. I'm giving it a new lane. Sunward, long, ends in green. #emotion:Determined
-Pell: Xylos! My aunt sold lamp oil there. They voted on her price. It took two days, and she lost. #emotion:Happy
+Pell: Xylos! My aunt sold wicks there. They voted on her price. It took two days, and she lost. #emotion:Happy
 Taren: They vote on prices? #emotion:Curious
 Pell: They vote on everything. She says they voted once on whether to vote less. It didn't pass. #emotion:Amused
 Sela: There. It's answering. The warp will read that now. #emotion:Happy
@@ -187,15 +187,6 @@ Teo: Three hulls, wrong bank. I count them every hour in case one's come home on
 -> Marrow-3?
     Teo: My mother's. She's never liked me at the wheel. Thirty floods, and she still pulls left when I'm not looking. #emotion:Tender
 ===
-title: TeoTagsOffer
----
-Teo: One more number. My barges are pinging. All three. Something up there's put a tag on each of them. #emotion:Worried
-Sela: A tag saying what? #emotion:Curious
-Teo: "Vessel off its registered mooring. Claimed for recovery. Hulljack Salvage." They sat in weed a week and nobody wanted them. Now they're worth stealing. #emotion:Angry
-Taren: We'll burn the tags off. #emotion:Determined
-Teo: All three, or they'll come back for the one you missed. Salvage crews count as well as I do. #emotion:Neutral
-<<startQuest ClaimTags>>
-===
 title: TeoTagsReturn
 ---
 Teo: Three tags gone. My barges have stopped pinging. I didn't know how loud it was until it quit. #emotion:Happy
@@ -289,7 +280,12 @@ Jask: So if I dropped my pole off the edge, where would it stop? #emotion:Curiou
 Taren: It wouldn't. #emotion:Amused
 Jask: Ever? Who do I ask about going up to see that? Is it Ruva? It's always Ruva, isn't it? #emotion:Worried
 Sela: From what I've seen, it's always Ruva. #emotion:Amused
+<<jump JaskAsksMore>>
+===
+title: JaskAsksMore
+---
 Jask: Can I ask you more when I've thought of them? There's a lot. Is that all right? #emotion:Curious
+Sela: Ask. I'll answer the ones that have answers. #emotion:Playful
 <<startQuest Questions>>
 ===
 title: JaskRepeat
@@ -304,8 +300,7 @@ Sela: Congratulations. And you are? #emotion:Amused
 Jask: Didn't Binna say? Jask, off the ferry? She tells everyone everything, doesn't she? #emotion:Curious
 Jask: Is it true your station's got no ground under it? Not even far down? #emotion:Curious
 Sela: Not even far down. Deck, hull, then a long way of nothing. #emotion:Neutral
-Jask: Can I ask you more? I've got a lot. Have you got time before the carriers cross? #emotion:Curious
-<<startQuest Questions>>
+<<jump JaskAsksMore>>
 ===
 title: JaskFerry
 ---
@@ -334,7 +329,6 @@ Sela: There's a seed tag tied to it. "For the surveyor. One. Is it cold? Two. Wh
 Sela: He's numbered them. They go up to nineteen. #emotion:Amused
 Taren: What's the last line? #emotion:Curious
 Sela: "Tell Binna I ate." That one isn't a question. #emotion:Worried
-<<setFlag jask.poleFound>>
 ===
 title: SennFirst
 ---
@@ -365,7 +359,6 @@ Taren: I could dam it, bail it and pack it. An hour. Maybe two. #emotion:Determi
 Sela: He said to set it where it'll hold. There's a dry fork right there, and it faces the town. #emotion:Tender
 Taren: That's not where he carved it for. #emotion:Worried
 Sela: It's where he can see it from his chair. Put it in, Vosk. #emotion:Tender
-<<setFlag senn.postSet>>
 ===
 title: SennPostReturn
 ---
