@@ -21,6 +21,7 @@ param(
 )
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
+. (Join-Path $PSScriptRoot 'exec-log-name.ps1')
 $said = $false
 # A green check is good for ten minutes: after waiting for Unity the run starts at once instead of checking again,
 # because a second nine-second check lost every gap between two suite parts to the suite (eighty minutes, November 11).
@@ -52,6 +53,17 @@ for ($i = 1; $i -le $Attempts; $i++) {
     try {
         try { $text = & (Join-Path $PSScriptRoot 'exec.ps1') @params 2>&1 | Out-String } catch { $text = "$text`n$($_.Exception.Message)" }
         $code = $LASTEXITCODE
+        # Keep this run's own copy of the log before giving up the turn: exec.ps1 names its log by the method alone, so
+        # the next engineer's run of the same method deletes it (a failed build's log was lost this way, November 12).
+        $kept = ''
+        $shared = Join-Path $root ('Builds\logs\' + (Get-HeadlessExecLogName $Method))
+        if (Test-Path -LiteralPath $shared) {
+            $runs = Join-Path $root 'Builds\logs\runs'
+            New-Item -ItemType Directory -Force $runs | Out-Null
+            $kept = Join-Path $runs (([IO.Path]::GetFileNameWithoutExtension($shared)) + '-' + (Get-Date -Format 'MMdd-HHmmss') + "-$PID.log")
+            Copy-Item -LiteralPath $shared -Destination $kept -Force -ErrorAction SilentlyContinue
+            Get-ChildItem $runs -File | Where-Object { $_.LastWriteTime -lt (Get-Date).AddDays(-2) } | Remove-Item -Force -ErrorAction SilentlyContinue
+        }
     } finally { $unityTurn.ReleaseMutex() }
     # Busy is a short wait and doesn't use up an attempt: a long test part can hold Unity for twenty minutes, and the
     # gap between two parts is a few seconds, so look often (a 50 s poll starved for ninety minutes, November 11).
@@ -67,7 +79,7 @@ for ($i = 1; $i -le $Attempts; $i++) {
     }
     $said = $false
     # exec.ps1 prints its marker with Write-Host, which a capture doesn't see: go by the exit code and the run's own log.
-    $log = [regex]::Match($text, '[A-Za-z]:\\[^\r\n;]*headless-exec-[^\r\n;]*\.log').Value
+    $log = if ($kept -and (Test-Path -LiteralPath $kept)) { $kept } else { [regex]::Match($text, '[A-Za-z]:\\[^\r\n;]*headless-exec-[^\r\n;]*\.log').Value }
     if (-not $log) { $log = (Get-ChildItem (Join-Path $root 'Builds\logs') -Filter 'headless-exec-*.log' | Sort-Object LastWriteTime | Select-Object -Last 1).FullName }
     # When exec.ps1 throws, $LASTEXITCODE stays 0: a failed run is a non-zero code OR "FAILED" in what it printed.
     $bad = ($code -ne 0) -or ($text -match 'FAILED')
@@ -81,7 +93,7 @@ for ($i = 1; $i -le $Attempts; $i++) {
         "EXEC_WAIT $i Unity start-up collided with another launch"; Start-Sleep -Seconds 8; continue
     }
     ($text -split "`r?`n" | Where-Object { $_ } | Select-Object -Last 4) -join "`n"
-    if (-not $bad) { "EXEC_OK $Method"; exit 0 }
+    if (-not $bad) { "EXEC_OK $Method log=$log"; exit 0 }
     "EXEC_FAILED $Method exit=$code log=$log"; exit 1
 }
 "EXEC_GAVE_UP $Method after $Attempts attempts"; exit 2
