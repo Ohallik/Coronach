@@ -30,3 +30,7 @@ Lattice/Packages/xyz.staggart-creations.stylized-grass/
 Lattice/Packages/xyz.staggart-creations.stylized-grass.meta
 Lattice/Assets/_Project/LocalStaggart/
 Lattice/Assets/_Project/LocalStaggart.meta
+
+# Meshy bridge scratch files
+docs/art/gen-manifest.json.lock
+docs/art/gen-manifest.json.*.tmp

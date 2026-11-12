@@ -83,25 +83,65 @@ def read_manifest() -> list[dict[str, Any]]:
 
 def write_manifest(rows: list[dict[str, Any]]) -> None:
     MANIFEST.parent.mkdir(parents=True, exist_ok=True)
-    tmp = MANIFEST.with_suffix(".json.tmp")
+    tmp = MANIFEST.with_suffix(f".json.{os.getpid()}.tmp")
     tmp.write_text(json.dumps(rows, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    for attempt in range(40):
+        try:
+            tmp.replace(MANIFEST)
+            return
+        except PermissionError:  # a reader on Windows holds the file for a moment
+            time.sleep(0.25)
     tmp.replace(MANIFEST)
 
 
+class manifest_lock:
+    """Two bridge processes used to read, change and write the manifest at the same time, and rows were lost
+    (November 3 and 5). Every read-change-write now runs inside this lock, so tasks may run side by side."""
+    PATH = MANIFEST.with_suffix(".json.lock")
+
+    def __enter__(self) -> "manifest_lock":
+        MANIFEST.parent.mkdir(parents=True, exist_ok=True)
+        deadline = time.time() + 120
+        while True:
+            try:
+                self.fd = os.open(self.PATH, os.O_CREAT | os.O_EXCL | os.O_WRONLY)
+                os.write(self.fd, str(os.getpid()).encode())
+                return self
+            except (FileExistsError, PermissionError):
+                try:  # a lock left by a killed process is stale after a minute: nothing holds it longer than a write
+                    if time.time() - self.PATH.stat().st_mtime > 60:
+                        self.PATH.unlink()
+                        continue
+                except OSError:
+                    pass
+                if time.time() > deadline:
+                    raise MeshyError(f"Manifest lock is stuck: {self.PATH}")
+                time.sleep(0.2)
+
+    def __exit__(self, *exc: Any) -> None:
+        os.close(self.fd)
+        try:
+            self.PATH.unlink()
+        except OSError:
+            pass
+
+
 def append_manifest(row: dict[str, Any]) -> None:
-    rows = read_manifest()
-    rows.append(row)
-    write_manifest(rows)
+    with manifest_lock():
+        rows = read_manifest()
+        rows.append(row)
+        write_manifest(rows)
 
 
 def update_manifest(task_id: str, **values: Any) -> None:
-    rows = read_manifest()
-    for row in reversed(rows):
-        if row.get("task_id") == task_id:
-            row.update({k: v for k, v in values.items() if v is not None})
-            row["updated_at"] = utc_now()
-            write_manifest(rows)
-            return
+    with manifest_lock():
+        rows = read_manifest()
+        for row in reversed(rows):
+            if row.get("task_id") == task_id:
+                row.update({k: v for k, v in values.items() if v is not None})
+                row["updated_at"] = utc_now()
+                write_manifest(rows)
+                return
 
 
 def data_uri(path_text: str) -> str:
