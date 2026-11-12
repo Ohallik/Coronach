@@ -269,8 +269,13 @@ $LogFile = Join-Path $LogDir $LogName
 # can exercise the real autosave slot. Keep the user's bytes entirely outside the
 # test process and restore them on every exit path. Other headless modes do not
 # enter player runtime and retain their historical behavior.
-$ShieldPlaytestSaves = $Mode -eq "playtests"
-$SaveDir = [IO.Path]::GetFullPath((Join-Path $env:USERPROFILE "AppData\LocalLow\Nathan\Lattice\Saves"))
+# A test mirror (scripts\mirror-sync.ps1) is a second copy of the project that runs tests beside the main one. It keeps
+# its saves in its own folder through -savepath, so it needs no shield and never moves the human save folder; two
+# shields at once would each find the other's stash and stop.
+$IsMirror = Test-Path -LiteralPath (Join-Path $RepoRoot '.test-mirror') -PathType Leaf
+$MirrorSaves = $null
+$ShieldPlaytestSaves = ($Mode -eq "playtests") -and -not $IsMirror
+$SaveDir =[IO.Path]::GetFullPath((Join-Path $env:USERPROFILE "AppData\LocalLow\Nathan\Lattice\Saves"))
 $SaveSuffix = [IO.Path]::Combine("AppData", "LocalLow", "Nathan", "Lattice", "Saves")
 if ($ShieldPlaytestSaves -and -not $SaveDir.EndsWith(
         $SaveSuffix, [StringComparison]::OrdinalIgnoreCase)) {
@@ -329,6 +334,10 @@ if ($IsTestRun) {
     # from the existing gameplay-save shield and its save/resume coverage.
     $TestAudioDirectory = Join-Path $LogDir ("test-audio-settings-" + [guid]::NewGuid().ToString("N"))
     $args2 += @("-audio-settings-path", $TestAudioDirectory)
+    if ($IsMirror) {
+        $MirrorSaves = Join-Path $LogDir ("mirror-saves-" + [guid]::NewGuid().ToString("N"))
+        $args2 += @("-savepath", $MirrorSaves)
+    }
 }
 $testLaunchNotBeforeUtc = [datetime]::MinValue
 try {
@@ -437,6 +446,10 @@ try {
     }
 }
 finally {
+    if ($MirrorSaves -and (Test-Path -LiteralPath $MirrorSaves -PathType Container) -and
+        [IO.Path]::GetFullPath($MirrorSaves).StartsWith([IO.Path]::GetFullPath($LogDir), [StringComparison]::OrdinalIgnoreCase)) {
+        Remove-Item -LiteralPath $MirrorSaves -Recurse -Force -ErrorAction SilentlyContinue
+    }
     if ($ShieldPlaytestSaves) {
         $liveWriters = @(Get-LatticeSaveWriters $ProjectPath)
         if ($SafeToClearPlaytestSaves -and $liveWriters.Count -gt 0) {

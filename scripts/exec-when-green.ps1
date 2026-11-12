@@ -26,6 +26,7 @@ $said = $false
 # because a second nine-second check lost every gap between two suite parts to the suite (eighty minutes, November 11).
 # If the tree went red meanwhile, Unity says so and the compile-error branch below waits and checks again.
 $greenAt = [datetime]::MinValue
+$unityTurn = New-Object System.Threading.Mutex($false, 'Global\CoronachUnityTurn')
 for ($i = 1; $i -le $Attempts; $i++) {
     if (((Get-Date) - $greenAt).TotalMinutes -gt 10) {
         $check = python tools/typecheck.py | Select-Object -Last 1
@@ -42,9 +43,16 @@ for ($i = 1; $i -le $Attempts; $i++) {
     $params = @{ Method = $Method; Marker = $Marker; TimeoutSec = $TimeoutSec }
     if ($Graphics) { $params.Graphics = $true }
     if ($ExtraArgs.Count) { $params.ExtraArgs = $ExtraArgs }
+    # One launch at a time, machine-wide: two waiters that both saw Unity free started it in the same second, and the
+    # loser died resolving packages (November 11). The mutex is held for the whole run, so it is also the queue.
     $text = ''
-    try { $text = & (Join-Path $PSScriptRoot 'exec.ps1') @params 2>&1 | Out-String } catch { $text = "$text`n$($_.Exception.Message)" }
-    $code = $LASTEXITCODE
+    $held = $false
+    try { $held = $unityTurn.WaitOne([TimeSpan]::FromMinutes(45)) } catch [System.Threading.AbandonedMutexException] { $held = $true }
+    if (-not $held) { "EXEC_WAIT still queued for Unity"; $i--; continue }
+    try {
+        try { $text = & (Join-Path $PSScriptRoot 'exec.ps1') @params 2>&1 | Out-String } catch { $text = "$text`n$($_.Exception.Message)" }
+        $code = $LASTEXITCODE
+    } finally { $unityTurn.ReleaseMutex() }
     # Busy is a short wait and doesn't use up an attempt: a long test part can hold Unity for twenty minutes, and the
     # gap between two parts is a few seconds, so look often (a 50 s poll starved for ninety minutes, November 11).
     if ($text -match 'already holds') {
@@ -68,6 +76,9 @@ for ($i = 1; $i -le $Attempts; $i++) {
         Select-String -Path $log -Pattern 'error CS\d+' | Select-Object -First 3 | ForEach-Object { "  " + $_.Line.Substring(0, [Math]::Min(220, $_.Line.Length)) }
         $greenAt = [datetime]::MinValue
         Start-Sleep -Seconds $WaitSec; continue
+    }
+    if ($bad -and $log -and (Test-Path $log) -and (Select-String -Path $log -Pattern 'Failed to resolve packages: operation cancelled|another Unity instance is running|It looks like another Unity instance|Project folder or disk is read only' -Quiet)) {
+        "EXEC_WAIT $i Unity start-up collided with another launch"; Start-Sleep -Seconds 8; continue
     }
     ($text -split "`r?`n" | Where-Object { $_ } | Select-Object -Last 4) -join "`n"
     if (-not $bad) { "EXEC_OK $Method"; exit 0 }
