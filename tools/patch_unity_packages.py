@@ -16,4 +16,15 @@ for package in root.glob('com.unity.shadergraph@*'):
             path.chmod(0o666)
             path.write_text(fixed,encoding='utf-8')
             count+=1
+# Yarn Spinner's source generator is an unsigned compiler plug-in. Windows Smart App Control stops the compiler loading
+# it on some days and not on others (a Windows Security toast for every assembly compiled, and warning CS8034), so a
+# build was made with or without it depending on the machine. The game registers its Yarn commands by hand
+# (DialogueSystem.AddCommandHandler) and uses nothing the generator writes: stop offering it to the compiler.
+for meta in root.glob('dev.yarnspinner.unity@*/SourceGenerator/YarnSpinner.Unity.SourceCodeGenerator.dll.meta'):
+    text=meta.read_text(encoding='utf-8')
+    fixed=re.sub(r'labels:\r?\n- RoslynAnalyzer\r?\n','',text)
+    if fixed!=text:
+        meta.chmod(0o666)
+        meta.write_text(fixed,encoding='utf-8',newline='')
+        count+=1
 print(f'PACKAGE_COMPAT_OK modified={count}')
