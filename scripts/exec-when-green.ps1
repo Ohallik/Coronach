@@ -21,6 +21,7 @@ param(
 )
 $root = Split-Path $PSScriptRoot -Parent
 Set-Location $root
+$said = $false
 for ($i = 1; $i -le $Attempts; $i++) {
     $check = python tools/typecheck.py | Select-Object -Last 1
     if ($check -ne 'TYPECHECK_OK') { "EXEC_WAIT $i tree is red"; Start-Sleep -Seconds $WaitSec; continue }
@@ -30,7 +31,18 @@ for ($i = 1; $i -le $Attempts; $i++) {
     $text = ''
     try { $text = & (Join-Path $PSScriptRoot 'exec.ps1') @params 2>&1 | Out-String } catch { $text = "$text`n$($_.Exception.Message)" }
     $code = $LASTEXITCODE
-    if ($text -match 'already holds') { "EXEC_WAIT $i Unity is busy"; Start-Sleep -Seconds $WaitSec; continue }
+    # Busy is a short wait and doesn't use up an attempt: a long test part can hold Unity for twenty minutes, and the
+    # gap between two parts is a few seconds, so look often (a 50 s poll starved for ninety minutes, November 11).
+    if ($text -match 'already holds') {
+        if (-not $said) { "EXEC_WAIT Unity is busy"; $said = $true }
+        $free = $false
+        for ($poll = 0; $poll -lt 900 -and -not $free; $poll++) {
+            Start-Sleep -Seconds 2
+            $free = @(Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains((Join-Path $root 'Lattice')) }).Count -eq 0
+        }
+        $i--; continue
+    }
+    $said = $false
     # exec.ps1 prints its marker with Write-Host, which a capture doesn't see: go by the exit code and the run's own log.
     $log = [regex]::Match($text, '[A-Za-z]:\\[^\r\n;]*headless-exec-[^\r\n;]*\.log').Value
     if (-not $log) { $log = (Get-ChildItem (Join-Path $root 'Builds\logs') -Filter 'headless-exec-*.log' | Sort-Object LastWriteTime | Select-Object -Last 1).FullName }

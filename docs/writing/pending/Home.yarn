@@ -1,0 +1,631 @@
+// Chapter 9 - The House That Can Leave. Brief: docs/chapters/ch09-the-house-that-can-leave.md. Wiring: docs/writing/pending/ch09-manifest.md.
+title: AbriTurnsForNacre
+---
+Keeper: Taren. Sela. We heard it too, on every set aboard. I didn't call a vote. Ruva did. It took as long as it takes four hundred people to say "aye". #emotion:Determined
+Keeper: Many Hands is turning for Nacre. We're slow. You're not. #emotion:Worried
+Idra: Then we go ahead of you. People first. The director after. #emotion:Determined
+Sela: Four days by the chart. I can find three. #emotion:Determined
+<<startQuest HouseLeaves>>
+===
+title: BrynNacreApproach
+---
+Bryn: Unknown traffic at the outer marker, this is the tug Welcome Back. State your business, and make it rescue. #emotion:Neutral
+Taren: Taren Vosk, out of Cinder Halo. Two Shapers and a Veyr cutter. You've a hauler on line nine hundred and four. #emotion:Determined
+Bryn: I've four hundred hulls, and I know each one by its place in a queue that isn't there any more. Nine-oh-four is lit. She's inward of you. #emotion:Neutral
+Bryn: Here's the field, traffic. It turns in a spiral. Inward is quick, and full of things that were ferries. Outward is slow, and nothing hits you. #emotion:Determined
+Bryn: Three lamps I can't reach with one tug. The hauler. My navigators' pod. And me, when you've a minute. I've been meaning to stop. #emotion:Amused
+Idra: Captain. How long have you been flying? #emotion:Neutral
+Bryn: Since the door went. Somebody had to be traffic control. There wasn't any traffic control. #emotion:Tender
+<<setFlag home.nacreSpoken>>
+===
+title: OdaFound
+---
+Oda: Line nine hundred and four, to whoever that is. If you're salvage, we're still using it. #emotion:Worried
+Taren: It's the repairman. #emotion:Tender
+Oda: You're late. The door jammed days ago. I sent word. #emotion:Amused
+Taren: It reached me. I was a long way off, mending a different door. #emotion:Neutral
+Oda: Mother says to tell you the frame's cracked. The paper's fine. She checked the paper first. #emotion:Amused
+Taren: And you? #emotion:Worried
+Oda: Morbid. I was right about the door, and I'd give the hauler to have been wrong. #emotion:Sad
+Taren: I've a line on you. Hold on to something that's strapped to the inside. #emotion:Determined
+<<setFlag home.odaFound>>
+===
+title: BrynWelcomeBack
+---
+Bryn: Welcome aboard the Welcome Back, traffic. The name was funnier last week. #emotion:Amused
+Bryn: Bryn Asta. I ran the Nacre approach for nineteen years. One door, one queue, everybody in their line. I was very good at it. #emotion:Neutral
+Bryn: It's why they were all in one place. #emotion:Sad
+Idra: You've one arm on that tug, and a hull tethered to every cleat. You can stop now. We have them. #emotion:Tender
+Bryn: I'll stop when the pod's in. Six navigators, in a pod built for two. They're the only people here who know where anything is. #emotion:Determined
+<<setFlag home.tugFound>>
+===
+title: BrynNavigators
+---
+Bryn: That's my six. The pod's holed, and they've been breathing by turns. Don't tell me which two were asleep. #emotion:Worried
+Sela: They've drawn on the hatch. The whole wreck field, every hull, in grease. And where each one will be tomorrow. #emotion:Curious
+Bryn: The paper ran out on the second day. So did the pencils. That's a thumb. #emotion:Amused
+Sela: It's good. It's very good. It moves. #emotion:Shocked
+<<setFlag home.navigatorsFound>>
+===
+title: NeveReturnOffer
+---
+Neve: Shapers in my wreck field. I'm flying people out by the hull. Don't hit anything. All of it is somebody's. #emotion:Determined
+Neve: I'm still a courier. I've three parcels and no lanes left to run them down. One's for the tug. One's for a town I'm told walks. #emotion:Neutral
+Taren: And the third? #emotion:Curious
+Neve: Mine. It's addressed to a rock, and there's nobody on the rock any more. Take it last. If you can't find where he's gone, bring it back and say nothing. #emotion:Flustered
+<<startQuest ReturnAddress>>
+===
+title: MeretBerthNotice
+---
+Meret: All stations. Director Venn. Stillwater's anchor is being set, and the corridor will close behind it. #emotion:Neutral
+Meret: Movement outside the corridor is no longer advised. I cannot make it safe. #emotion:Sad
+Meret: To Cinder Halo. A berth is held for the station inside the corridor. Whole, as it stands. It is conditional on the station standing clear of the convoy at its dock. #emotion:Neutral
+Meret: I would sooner say that to your faces. I've asked your dock office for an hour. Venn, out. #emotion:Tender
+Keeper: She's offering the Halo a berth if it lets go of us. She said it politely. I think that's worse. #emotion:Worried
+<<setFlag home.noticeHeard>>
+===
+title: BrynChartLesson
+---
+Bryn: Traffic. Your chart moves. Mine didn't, and you've seen what's left of my harbour. Teach my six how. #emotion:Determined
+Sela: It's simple. You watch the bend, and then you. No. I can't say it. I've never had to say it. #emotion:Flustered
+Sela: Here. Draw the next hour of this lane. I'll tell you when it's wrong. #emotion:Determined
+Bryn: That's your pencil. #emotion:Curious
+Sela: It's a pencil. #emotion:Neutral
+Bryn: She's put the bend a finger early. #emotion:Neutral
+Sela: So did I, my first year. Leave it. She'll watch it go wrong, and then she'll never do it again. #emotion:Tender
+<<setFlag home.chartLent>>
+===
+title: IdraTownMovers
+---
+Idra: If the Halo says no to that berth, it has to move. Nobody on it has ever moved a town. I've moved cutters. It isn't the same trade. #emotion:Neutral
+Maru: Nor are rafts, before you look at me. We untie. We don't carry. But I know who does. #emotion:Neutral
+Maru: Duskline. One side cooks, the other freezes, and a town on treads has walked the line between for two hundred years. The Meridian Crawl. It has never stopped. #emotion:Determined
+Maru: My mother traded rope with them. They said our rafts were a good start. #emotion:Amused
+Idra: Then that's who we ask. Irun. Chart it. #emotion:Determined
+<<setFlag home.crawlNamed>>
+===
+title: OdaAboard
+---
+Oda: They've given us a cabin with a wall. Mother's hung the frame on it. The crack goes straight through "nine hundred". She says it's more honest. #emotion:Amused
+===
+title: DraskCount
+---
+Drask: The berth at Nacre. How many? #emotion:Neutral
+Idra: They're still counting. #emotion:Neutral
+Drask: Then tell me when they've finished. An officer should know his number. Odrun said I never asked. I'm asking. #emotion:Sad
+<<setFlag drask.asked>>
+===
+title: AbriNamesOnTheWall
+---
+Keeper: Four hundred and eleven more aboard, and a tug lashed where the cutters were. I've stopped using forms. #emotion:Worried
+Keeper: I'm writing names on the wall. It's quicker, and people stand next to theirs. #emotion:Tender
+===
+title: DorrowFirst
+---
+Dorrow: Visitors! Mind the floor, it's going somewhere. Dorrow. Chief engineer. When she breaks, they look at me, and I look at her. #emotion:Happy
+Idra: We need to move a town that has never moved. We're told you're the people to ask. #emotion:Neutral
+Dorrow: Never moved? How does it know it's working? A town's just a machine that complains. You listen to where it complains. #emotion:Curious
+Dorrow: Ours is complaining now, as it happens. Number four tread-hall threw a link and dropped behind. Everyone walked out. Nine kitchens and a schoolroom couldn't. #emotion:Happy
+Dorrow: It's sat on the day side, and the dawn gets there in about an hour. We can't go back for it. The Crawl doesn't stop. Stopping is how you become a landmark. #emotion:Happy
+Taren: What does it need? #emotion:Determined
+Dorrow: Three couplings mated, and somebody to drive it out ahead of the light. I've the somebody. I've nobody fast enough for the couplings. #emotion:Neutral
+Dorrow: Fetch me my kitchens, and I'll come and listen to your station. A lot of us will. We've always wondered what a still one sounds like. #emotion:Happy
+<<setFlag home.crawlAsked>>
+===
+title: DorrowRepeat
+---
+Dorrow: Still here? The dawn isn't. It's very punctual. I've always admired that about it. #emotion:Happy
+===
+title: TamFirst
+---
+Tam: Is it true yours stays where it is? All night? #emotion:Curious
+Sela: All night. The light comes on in the morning, in the same place. #emotion:Amused
+Tam: The same place. Every day. I'd never know which day it was. #emotion:Shocked
+Taren: Somebody writes it on a board. #emotion:Amused
+===
+title: DorrowTreadHome
+---
+Dorrow: There she comes. Number four, under her own power, with the sun on her back plates. Look at that colour. You'd pay for that colour. #emotion:Happy
+Dorrow: Nine kitchens. Somebody left a pot on, and it's been on for a day. That'll be Hesk. It's always Hesk. #emotion:Amused
+Taren: You said you'd come. #emotion:Neutral
+Dorrow: I said we'd listen. I've twenty who'll fit in a pod, and Tam, who won't be told. A town that stands still. We'll be dizzy for a week. #emotion:Happy
+<<setFlag home.treadRecovered>>
+===
+title: OrrinHomecoming
+---
+Orrin: Vosk. Sela. And you'll be the Rauk I've had three letters about. Mind the crates. Everything's in a crate. I've been in one since the notice. #emotion:Amused
+Orrin: You've seen it. A berth for the whole ring. One stamp, and nobody I know is a footnote. It's been on the board two days, and I haven't taken it down. #emotion:Worried
+Taren: It means cutting the convoy loose. #emotion:Neutral
+Orrin: I know what it means. I'm telling you I want it anyway. I'd sooner you heard that from me than worked it out. #emotion:Sad
+Orrin: She's coming to say it herself. I've called the town for the hour after. Go and see people first. They've been asking where you were. #emotion:Neutral
+<<setFlag home.returned>>
+===
+title: JunFirst
+---
+Jun: Pears. #emotion:Neutral
+Taren: Jun. You're on my line. #emotion:Amused
+Jun: The pears are on your line. I'm behind the pears. They're ripe today. Nobody told them about the Compact. #emotion:Neutral
+===
+title: JunRepeat
+---
+Jun: The pears keep a schedule. So do I. Nothing else here does any more. #emotion:Neutral
+===
+title: MiraInventoryOffer
+---
+Mira: Don't touch the crates. That's stock. #emotion:Smug
+Taren: That one's a cradle. #emotion:Curious
+Mira: It's stock somebody left with me. They all did. "Mira, mind this till we're back." Forty-one lots of other people's, and nine of my own. #emotion:Flustered
+Mira: Three have two names on them, and both names want paying. One went out to Nacre. One's on the Crawl, lent. One's under the promenade, and it's a table. #emotion:Worried
+Mira: Find them, and get the owners to say what comes aboard. I'd do it myself, but then I'd have to stop charging storage. #emotion:Smug
+<<startQuest SecondInventory>>
+<<shop>>
+===
+title: MiraCratedRepeat
+---
+Mira: If it sparks, it's in a crate. If it's in a crate, I can still sell it. Lift the lid yourself. #emotion:Happy
+<<shop>>
+===
+title: SelaWeddingTable
+---
+Sela: That's the table. It's wider than the hatch. It's wider than every hatch. Somebody built it in here. #emotion:Amused
+Taren: A wedding table. Forty years of names cut under the edge. I can take the top off the frame in two halves. #emotion:Curious
+Sela: Then it's two halves of a table. #emotion:Worried
+Taren: It's a table that has been through a door. Ask them. It's theirs to say. #emotion:Tender
+===
+title: MiraInventoryReturn
+---
+Mira: The Arrens said cut it. Both of them, at once. It's the first thing they've agreed on since the wedding. The legs stay. The top goes, with the names. #emotion:Happy
+Mira: Forty-one lots, and every one has said what it wants. I've nine crates of my own. I thought there'd be more of me. #emotion:Sad
+Mira: Take this. It's from my nine. Don't tell anyone I gave it away. #emotion:Smug
+<<setFlag mira.inventorySettled>>
+<<shop>>
+===
+title: HalCrated
+---
+Hal: Taren. You're thinner. Sit. No, there's a crate on it. Stand, then, but slowly. #emotion:Tender
+Hal: Nine apprentices, and one workshop that won't go through a hatch. I've been making benches that will. #emotion:Neutral
+-> Use the bench.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> Just visiting.
+    Hal: Good. You did say you would, more often. #emotion:Happy
+===
+title: HalBenchesOffer
+---
+Hal: Three benches that fold. One for Ket, on your big ship. One for Lo, who's gone out to that tread-hall with the Crawl people. One for Marn, at the tug dock. #emotion:Neutral
+Hal: They're good. They're better than they think. They keep bringing me things to check. #emotion:Tender
+Taren: You want them to stop. #emotion:Curious
+Hal: I want them not to need to. Carry the benches. Don't set them up. Let them. #emotion:Determined
+<<startQuest PortableBenches>>
+===
+title: HalBenchesReturn
+---
+Hal: Three benches lit, in three places. Then I'm not the only one who can fix things. I've wanted that for years. I don't like it at all. #emotion:Amused
+Hal: Here. Ket made it. A year ago I'd have sent it back. I couldn't find anything wrong. #emotion:Tender
+<<setFlag hal.benchesLit>>
+===
+title: NeveFlyingAStreet
+---
+Neve: They've asked me to fly the first district out. The market. I've flown parcels. I've never flown a street. #emotion:Worried
+Neve: I said yes before they could ask somebody good. #emotion:Smug
+===
+title: SurvivorDecks
+---
+Survivor: Dace. Sorrel outpost, as was. Compact engineers landed on my ridge with a clamp the size of the crater. Very civil. They gave us an hour and a receipt. #emotion:Worried
+Survivor: I asked what happens to what's under my bunk. They said it was covered in section eleven. #emotion:Sad
+===
+title: SurvivorNevesLetter
+---
+Survivor: For me? "Dace. Sorrel outpost. The bunk over the eggs." That's my address. That was my address. #emotion:Shocked
+Survivor: It's from Neve. She's written it twice. You can see where the first one's rubbed out underneath. #emotion:Tender
+Taren: What does it say? #emotion:Curious
+Survivor: It says stop sending socks back. Then it says something else. I'm going to stand over here for a minute. #emotion:Flustered
+<<setFlag dace.letterRead>>
+===
+title: NeveReturnAnswer
+---
+Neve: Well? Did it arrive warm? #emotion:Worried
+Taren: He read it twice. He said to tell you his address has moved. It's wherever lock nine goes. #emotion:Tender
+Neve: That's the nicest thing anyone's said to me all cycle. Take this drive. I was saving it for an emergency. I've stopped thinking I'd recognise one. #emotion:Happy
+<<setFlag neve.letterAnswered>>
+===
+title: OdaDecks
+---
+Oda: The dock office. Last time I stood here, I was asking for a stamp. Mother wants to know if she can have her two days in the queue back. #emotion:Amused
+===
+title: IloDecks
+---
+Ilo: I pinned the capacity line to that board with my own hands. I've come back to stand next to it. It seemed only fair. #emotion:Worried
+===
+title: DorrowListens
+---
+Dorrow: She creaks on the up-spin and sighs on the down. That isn't complaining. That's a town that's been comfortable. We'll have to teach her to grumble. #emotion:Happy
+===
+title: TamStillOffer
+---
+Tam: It doesn't move. I keep bracing for the turn, and there isn't one. I've been sick twice. Both times it was the floor's fault, for not doing anything. #emotion:Flustered
+Tam: Chief says listen to where it complains. It doesn't complain. It just sits here, being somewhere. #emotion:Worried
+Sela: Come on. I'll show you what you get for it. #emotion:Playful
+<<startQuest StillGround>>
+===
+title: TamDoorMarks
+---
+Tam: There are cuts in this doorframe. With names. They go up. #emotion:Curious
+Taren: That's a child, every year, against the same post. You can't do that on a wall that leaves. #emotion:Tender
+Tam: We do it on each other. It's not as accurate. #emotion:Amused
+===
+title: TamLeaningTree
+---
+Tam: The pear tree's bent. It's grown all one way. #emotion:Curious
+Sela: Toward the lamp. Thirty years of light from the same side. #emotion:Neutral
+Tam: Ours grow straight up. They never know where it's coming from next. I thought that was what trees did. #emotion:Shocked
+===
+title: TamWornStep
+---
+Tam: This step has a dip in it. #emotion:Curious
+Taren: Everybody's foot, in the same place, since before I was born. I've been asked to fix it eleven times. #emotion:Amused
+Tam: Don't. #emotion:Determined
+===
+title: TamGoesBack
+---
+Tam: I'm going back to the Crawl. After you've gone. I wanted to see how you leave a floor first. #emotion:Determined
+Tam: It's lovely here. Everything is where you left it. I kept waiting for it to catch me up, and it never did. #emotion:Tender
+Tam: I think I want a floor that's on its way somewhere. But I've cut my name in your doorframe. Low down. Is that all right? #emotion:Flustered
+Taren: That frame's leaving with the residential crescent. Your name is going further than you are. #emotion:Amused
+<<setFlag tam.goingBack>>
+===
+title: OrrinMeetingOpens
+---
+Orrin: That's everyone who'd fit, and the rest are on the stairs. I'll keep it short. I've a town to crate. #emotion:Neutral
+Orrin: Director Venn asked to come and say it herself. I said yes. She didn't have to ask, and she asked. #emotion:Neutral
+Orrin: Hear her out. Then say what you think. Loudly. I've the board to write it on. #emotion:Determined
+<<setFlag home.meetingOpened>>
+===
+title: MeretBerthOffer
+---
+Meret: Thank you, Malk. I'll be brief. You have crates to pack, and I am the reason. #emotion:Tender
+Meret: Stillwater is closing. Inside the corridor there is a berth for Cinder Halo. The whole station, as it stands. Every household on its roll, by name. #emotion:Neutral
+Meret: It has one condition. The station stands clear of the convoy at its dock. I can hold one town steady beside a road. I cannot hold eleven that move. #emotion:Neutral
+Taren: And the convoy? #emotion:Neutral
+Meret: Is outside the number. I have never told you otherwise. I won't begin in this room. #emotion:Sad
+<<setFlag home.offerMade>>
+===
+title: HalApprentices
+---
+Hal: Director. A small question. How many apprentices does the berth include? #emotion:Neutral
+Meret: How many have you? #emotion:Curious
+Hal: Nine. Three were born on this ring. Six came in on the convoy with nothing, and they're the better six. #emotion:Tender
+Meret: Three. #emotion:Neutral
+Hal: Thank you. I only wanted the number. #emotion:Neutral
+<<setFlag home.halAsked>>
+===
+title: MiraManifest
+---
+Mira: I want the manifest. Not the summary. The lines. I don't sign for a crate I haven't opened. #emotion:Determined
+Meret: Here. It's the bound copy. #emotion:Neutral
+Mira: Pitch nine. Tessen, parts and sundries. That's me. I'm "sundries" now. Where's Jun? She has sold pears off the end of my stall for thirty-one years. #emotion:Worried
+Meret: A trader with no registered pitch is not on the roll. She will be in the footnotes. #emotion:Sad
+Mira: She's in my takings. I'd have known where to look. #emotion:Angry
+<<setFlag home.manifestShown>>
+===
+title: IloReadsNames
+---
+Ilo: I have the footnotes. I didn't write them. I'm tired of saying that. I'll read the ones who are in this room. #emotion:Determined
+Ilo: "Unregistered traders, Cinder Halo: one." That's Jun. #emotion:Neutral
+Ilo: "Apprentices, unindentured, arrived by irregular convoy: six." "Sorrel survey outpost, lease ended: ten." That's Dace and his crew, by the door. #emotion:Neutral
+Ilo: "Nacre transfer, incomplete. Households to refile individually." Line nine hundred and four. #emotion:Sad
+<<setFlag home.namesRead>>
+===
+title: OdaStands
+---
+Oda: Here. #emotion:Determined
+Survivor: Sorrel outpost. Here. All ten. #emotion:Determined
+Mira: Jun's up. She won't say it. She's up. #emotion:Tender
+Oda: We filed. We queued two days. We were at the door when it broke. I'm not refiling. I'm standing up. Mother is too. She's just short. #emotion:Determined
+<<setFlag home.odaStood>>
+===
+title: OrrinPostponed
+---
+Orrin: Stay up. All of you. I've something of my own, and it's worse than hers. #emotion:Worried
+Orrin: I want that berth. I've wanted it since the notice went up. One stamp, and nobody I know is a footnote. I've had the pen out twice. #emotion:Sad
+Orrin: There's a separation survey on my desk. Fourteen months. It says this station was built out of ships, and can be ships again. I put the evacuation notices on top of it. #emotion:Sad
+Orrin: I knew what was under them. That's why they went on top. It says what won't travel. The promenade, end to end. Hal's shop, as a shop. I didn't want to say so. #emotion:Angry
+Orrin: So I waited for somebody to give me a reason not to. She has. It's a good offer. I'm voting against it, and I'd like it on the board that I was angry. #emotion:Angry
+<<setFlag home.orrinSaid>>
+===
+title: MeretWithdraws
+---
+Orrin: Hands for the berth. Four. Thank you. I see you, and I don't blame you. #emotion:Neutral
+Orrin: Hands against. I'll not count that. I can't see the back wall for it. #emotion:Tender
+Orrin: Then the board will say Cinder Halo declines, with thanks. I'll write the thanks small. #emotion:Determined
+Meret: Then I withdraw it. I'm sorry. I mean that. #emotion:Sad
+Meret: You will be separating a station inside a corridor I am closing. There will be crews in your way. They are good crews. Please don't think I sent them carelessly. #emotion:Neutral
+Hal: Director. Easy on the landing. #emotion:Tender
+<<setFlag home.berthRefused>>
+<<setFlag home.meetingHeld>>
+===
+title: DorrowWorks
+---
+Dorrow: Oh, listen to her. She's been complaining at every one of these since before any of you were born. #emotion:Happy
+Taren: These are my collars. I've tightened them every year for eleven years. #emotion:Shocked
+Dorrow: And every year she worked them loose again. That's a tug's bow in your wall. That's hauler rib. Six kinds of hull, and a joint wherever two of them meet. #emotion:Happy
+Taren: They're separation joints. I've been holding my own town shut at the places it was built to open. #emotion:Sad
+Sela: "Did the walkway just move?" #emotion:Tender
+Dorrow: You fixed her where she complained. Good lad. Wrong direction. Take the weight off each one, and she'll show you which way she wants to go. #emotion:Amused
+<<setFlag home.worksRead>>
+===
+title: OrrinSaintSpeaks
+---
+Orrin: Is this on? Vosk, I'm speaking out of a press. It has my voice. I don't know how I feel about that. #emotion:Flustered
+Orrin: It says "local control". It's asking me for a sequence. There is one. Somebody wrote it a hundred years ago and left it in here for whoever was on the board. #emotion:Shocked
+Orrin: Separation plant, this is the board. Stand by your joints. On my word, and not before. #emotion:Determined
+<<setFlag home.saintReleased>>
+===
+title: HalLastMachine
+---
+Hal: It won't go through the hatch whole. I measured three times, in case the hatch had changed its mind. #emotion:Neutral
+Hal: The apprentices have the ones that fold. This one I take down myself. I set its first bolt. I know where it is. #emotion:Determined
+Taren: I'll take the far side. #emotion:Determined
+Hal: No. Hold the lamp. Higher. There. #emotion:Neutral
+Hal: Your first edge came off this plate. It was a terrible edge. I kept the offcut. It's in the drawer I'm about to unbolt. #emotion:Tender
+Hal: Hold still a moment. #emotion:Neutral
+Hal: Good. That's the last of them. She's in nine pieces, and every piece fits a hatch. #emotion:Sad
+<<setFlag home.halChose>>
+===
+title: OrrinCallsCoronach
+---
+Orrin: One joint left, and it's the walkway. Before it opens, we hold the Coronach. We walk the town. All of it. #emotion:Neutral
+Orrin: If you've never done one: find your door. Say what the place did for you. Out loud, to the door. Nobody's good at it. That isn't the point. #emotion:Tender
+Orrin: Take as long as you like. That joint has waited a hundred years. #emotion:Neutral
+<<setFlag home.coronachCalled>>
+===
+title: MiraStallDoor
+---
+Mira: Stall. You're four planks and an awning I never paid for. If it sparked, I sold it off you. Eleven years, and you only fell on me the once. #emotion:Tender
+Mira: And every morning I told that man the pears needed room. They did. They weren't even my pears. #emotion:Amused
+Mira: You owe me a morning's trade for today. I want that written down. I'm keeping the awning. #emotion:Smug
+===
+title: OrrinBoardDoor
+---
+Orrin: Board. Everything this town knew, it knew off you. Ships in, ships late, a drill gone quiet. I wrote it up, and they believed you. They never once believed me. #emotion:Tender
+Orrin: Last line's on. "Cinder Halo: departed, all sections." Nobody will believe it. #emotion:Amused
+===
+title: HalBenchDoor
+---
+Hal: Bench. You're in nine pieces in a crate, and I'm talking to four bolt holes. Never mind. #emotion:Amused
+Hal: Everyone who came to you came in a hurry. You were the one thing in this town that made them hold still. Thank you for that. #emotion:Tender
+===
+title: NeveLockDoor
+---
+Neve: Lock nine. I've gone out through you four thousand times, and you've let me back in every one. I never said. I thought if I said, you'd stop. #emotion:Tender
+Neve: Brake before you turn. That's all I know. You taught me, with the frame. #emotion:Amused
+===
+title: OdaOfficeDoor
+---
+Oda: Dock office. This is where they stamped us. One family, one berth, line nine hundred and four. It was a bad idea, and you stamped it very nicely. #emotion:Amused
+Oda: We queued at your window two days. Mother made friends with the whole line. She still writes to eight hundred and ninety. #emotion:Tender
+Oda: She's bringing the frame. Not the line. Only the frame. She says something else will want framing. #emotion:Happy
+===
+title: JunLineDoor
+---
+Jun: Line. Thirty-one years I've put the pears one crate past you, every morning, before the shift bell. #emotion:Neutral
+Jun: Every spring somebody painted you fresh. Nobody ever moved a crate back. #emotion:Neutral
+Jun: That's what this place did for me. It let me be a little over. #emotion:Tender
+===
+title: IloNoticeDoor
+---
+Ilo: Notice board. I pinned the capacity line to you myself. Four pins. I made sure it was straight. #emotion:Neutral
+Ilo: You held up the worst thing I ever posted, where everybody could read it. That's all a board can do. I've taken it down. I'm keeping the pins. #emotion:Tender
+===
+title: SurvivorDockDoor
+---
+Survivor: Dock. I'm not from here. You sent two people down to my rock when nobody else would land. They were rude about the coffee. #emotion:Amused
+Survivor: Then you took in ten of us with a receipt and no lease. I never lived here. I'd like to say it anyway. #emotion:Tender
+===
+title: PellEdge
+---
+Pell: It's not my door. I've lit the lamp over it anyway. Somebody ought to be able to see where they're saying it. #emotion:Tender
+===
+title: RuvaEdge
+---
+Ruva: We pulled a town up by the root once. Nobody told us you could thank it first. I'd have put that to a vote. #emotion:Sad
+===
+title: MaruEdge
+---
+Maru: My people untie every tide, and we don't say a word. I thought that was strength. I think now we were only in a hurry. #emotion:Neutral
+===
+title: HaskEdge
+---
+Hask: Tern stayed with her roof. I didn't understand it. Then I watched that man talk to a board. #emotion:Tender
+===
+title: TovraEdge
+---
+Tovra: I've only ever taken apart things I was ashamed of. This is the other kind. I'm watching how it's done. #emotion:Neutral
+===
+title: DorrowEdge
+---
+Dorrow: We've never left anywhere. We've also never been anywhere. I didn't know a town could do both. #emotion:Tender
+===
+title: AbriEdge
+---
+Keeper: Tallow just went, in the night. Nobody said a word to a door. I'm writing down what your people say. Tallow might want to borrow some. #emotion:Tender
+===
+title: TarenWalkway
+---
+Taren: Walkway. You broke something every morning for eleven years, so I'd have somewhere to be. I never thanked you. I only fixed it. #emotion:Tender
+Taren: You weren't failing. You were telling me which way you wanted to go. I'm sorry it took me this long to ask. #emotion:Sad
+===
+title: SelaGateSix
+---
+Sela: Gate six. I had a ticket out through you. One way. I was an hour late, and you'd shut. #emotion:Neutral
+Sela: It's the best thing a door has ever done for me. I still have the receipt. #emotion:Tender
+===
+title: IdraNoDoor
+---
+Idra: I've no door here. I counted who spoke, instead. Nobody was left out of it. I checked twice. #emotion:Neutral
+===
+title: OrrinGiveItRoom
+---
+Orrin: That's every door I know of. If I've missed yours, say it on your way out. The board's shut. #emotion:Tender
+Orrin: Last joint. Stand back from the line, all of you. Give it room. #emotion:Determined
+<<setFlag home.coronachWalked>>
+===
+title: MiraDoorCrystals
+---
+Mira: And six Ridge Crystals in the lamp, every colour, including "not stolen". They're coming. They were a promise. #emotion:Happy
+===
+title: SurvivorDoorSocks
+---
+Survivor: And socks. Three crates. I complained every time. I'm wearing two pair. #emotion:Flustered
+===
+title: SurvivorDoorBeacons
+---
+Survivor: Four beacons I planted to call for help. Your two put them out, so the help could stop coming. I think about that. #emotion:Neutral
+===
+title: OdaDoorStamp
+---
+Oda: He found our token under the evacuation notices. I watched him look. He said sorry twice, and stamped it once. #emotion:Amused
+===
+title: PellDoorMothersLamp
+---
+Pell: That's my mother's lamp on the hook. It's been down a gorge, and it still lights. I've told it where it is. #emotion:Happy
+===
+title: IshenDoorRecord
+---
+Ishen: I'm taking it all down. Every door. In a thousand years somebody should be irritated by how long this took. #emotion:Happy
+===
+title: BrekkDoorWalked
+---
+Brekk: I walked out of a works without a word to it. I'd do that part differently now. #emotion:Sad
+===
+title: BinnaDoorBaskets
+---
+Binna: Nobody leaves a town on an empty stomach! Three baskets' worth. Red's on the left. What've you eaten today? #emotion:Happy
+===
+title: RuvaDoorSenn
+---
+Ruva: Old Senn asked me to stand a while for him. He knows what it is to owe a place a walk. #emotion:Tender
+===
+title: JaskDoorQuestion
+---
+Jask: Can you say one for a place you've only been in a day? Is that allowed? Can I thank the stairs? #emotion:Curious
+===
+title: JaskDoorFare
+---
+Jask: Is this what a fare is for? Did I pay to see this? Was it enough? #emotion:Happy
+===
+title: TeoDoorTags
+---
+Teo: I counted every tag we pulled off a Xylos hull. I never counted what the hulls were for. I'm counting that today. It's taking longer. #emotion:Tender
+===
+title: MaruDoorLamps
+---
+Maru: Two short, one long. I've hung one at each end of your walk. So the halves can tell each other they're afloat. #emotion:Determined
+===
+title: DovDoorEel
+---
+Dov: I've brought blue eel! Nobody's touched it. I said you eat at a wake. They said it isn't a wake. Then what's it for? #emotion:Worried
+===
+title: DovDoorBell
+---
+Dov: That's Iri's bell, from the raft bay. The small ones asked to ring you out. She said once, and softly. They've managed the once. #emotion:Tender
+===
+title: IshenDoorQuill
+---
+Ishen: Quill of Wendmire has sent a rubbing of your oldest collar. He asks whether it is a pump. I have written back that it is a town. #emotion:Amused
+===
+title: CorraDoorKettles
+---
+Corra: Eleven kettles since first bell. People leaving a place want a kettle. I don't sell what I can't explain. I'll sell that. #emotion:Amused
+===
+title: IloDoorLedger
+---
+Ilo: The claims ledger is shut as well. Every hull struck out, and initialled. I used my own pen. #emotion:Determined
+===
+title: HaskDoorStrays
+---
+Hask: I counted my strays twice. I've counted these doors once. Once is enough for a door. #emotion:Amused
+===
+title: IruDoorLamp
+---
+Iru: I lit three lamps inside a dead road's ribs. I've lit one here. It's the same work. I hadn't known that. #emotion:Curious
+===
+title: IdraDoorCrew
+---
+Idra: Kott is on the far lock. Sibb is flying the gap. They asked where to stand. I said find a door. #emotion:Tender
+===
+title: RuvaDoorGardener
+---
+Ruva: It has brought its rake. It's stood by the fruit stall since first bell, with its light low. Nobody's told it what today is. I think it knows. #emotion:Tender
+===
+title: IshenDoorMoons
+---
+Ishen: I have the hours of nine moons by heart and no idea what time it is here. I'd like it noted that nobody has asked me. #emotion:Amused
+===
+title: PellDoorOriel
+---
+Pell: This is the Oriel flame. I carried it down from the gallery. It's seen a town that never did this. I thought it should see one that did. #emotion:Determined
+===
+title: TovraDoorPikes
+---
+Tovra: Three of my smiths have their pike-boys beside them today. They read under a kettle, and they came. I'm told that's your doing. #emotion:Amused
+===
+title: AbriDoorLanterns
+---
+Keeper: Lanternwick's lit, all down the chain, with its own glass. Aumi is watching. She says it's nothing. #emotion:Happy
+===
+title: BrekkDoorKettle
+---
+Brekk: Mother Odrun has sent a kettle. Regulation. There's a note on it. It says "For nobody." #emotion:Amused
+===
+title: PipDoorFile
+---
+Pip: I'm standing in the third file. There isn't one. I've made one. It's just me so far. #emotion:Happy
+===
+title: MiraDoorTable
+---
+Mira: That's the Arrens' table top going by, in two halves. They're carrying one each. I've their signatures. In ink. #emotion:Happy
+===
+title: HalDoorBenches
+---
+Hal: Three benches lit, in three places. None of them is here. That was the idea. #emotion:Happy
+===
+title: NeveDoorLetter
+---
+Neve: And Dace wrote back. Two lines. I'm not reading them to an airlock. #emotion:Flustered
+===
+title: TamDoorEdge
+---
+Tam: I'm going home after this. I've nothing to say to a door. Ours come with us. I think I'll say it to ours anyway. #emotion:Tender
+===
+title: NeveFirstOut
+---
+Orrin: Market district. On my word. Now. #emotion:Determined
+Neve: Market, this is Neve. I have her. She's off. She flies like a shop. #emotion:Shocked
+Mira: I felt that! Did the walkway just move? #emotion:Happy
+Taren: All of it. On purpose. #emotion:Tender
+Meret: Cinder Halo, Venn. You are separating inside a corridor I am closing. My crews are in your path, with orders I wrote. Fly carefully. I mean that as well. #emotion:Sad
+Neve: Brake before I turn. I know. I know. #emotion:Determined
+<<setFlag home.launched>>
+===
+title: BrynTowsCutter
+---
+Bryn: Compact cutter, this is the tug Welcome Back. You've no beam, no mines and no line. That makes you traffic. I've got you. Crew, stay with your hull. #emotion:Neutral
+Idra: Their crew's alive. All of them. Count it. #emotion:Neutral
+Bryn: Counted, traffic. I count everything now. #emotion:Tender
+<<setFlag home.cutterDisabled>>
+===
+title: OrrinChalk
+---
+Sela: Every lane we've charted since Tallow. Draw them on, and watch where they go. #emotion:Neutral
+Bryn: They all bend the same way, traffic. My navigator's put a ring round it. #emotion:Worried
+Sela: One passage. Every road out runs through it now. And that's where she is setting the anchor. #emotion:Worried
+Taren: Where? #emotion:Neutral
+Sela: Sorrel. Over the nursery. Where we started. #emotion:Sad
+Orrin: Sorrel. I'll put it on the board. #emotion:Determined
+Taren: Which board? #emotion:Curious
+Orrin: I brought the chalk. #emotion:Smug
+<<setFlag home.chartRead>>
+<<setFlag chapter9.complete>>
+===
