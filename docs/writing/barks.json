@@ -58,7 +58,22 @@
     "thaw": "The ice has gone amber. They're stepping out.",
     "coupling": "Coupling's gone. Feel that cold.|Second one. The wall's stopping.|That's the last. Up.",
     "stray": "Easy. Walk with us.|That's it. Home's this way.|Last one. Hask can stop counting.",
-    "lamp": "Lit, from the low flame.|Second one. Mind the drop.|That's all three."
+    "lamp": "Lit, from the low flame.|Second one. Mind the drop.|That's all three.",
+    "rail": "Lights are running green. Go.|Amber. Tuck in behind the moon.|Green again. It keeps better time than I do.",
+    "rail.forced": "We forced that one. The rails are waking up.",
+    "moonshard": "That moon's shedding. Keep off the marked track.",
+    "lift": "Down's that way now. Step on.|It carries. Don't fight it.|Same as a hoist. Stand in the middle.",
+    "junction.cut": "Cut. Mind your feet.|Down it goes. Quick, at least.",
+    "junction.seat": "Seated. Up she comes.|Collar's home. Hear the glass ring?",
+    "garden": "We've broken their bed. Here come the shears.",
+    "wisp": "That fibre's lit. Off it. Now.",
+    "glassback": "It's shed its plates. Watch the floor.",
+    "sentinel": "It throws your shot straight back. Get round the side.",
+    "tender": "It's closing my clamp. Stop it first.",
+    "clamp": "Taking its weight. Cover me.|Weight's mine. Waiting on the slack.|It's easing. Cover me.|Last one. Then together.",
+    "mend": "Seated. Its light's come up.|Second one. It's raking already.|Third. It's off. I think we follow.",
+    "bossphase.LastWarden": "Fewer lines, more floor. Watch which one brightens.",
+    "bossopening.LastWarden": "Staff's down. Clamp. I'll take the weight."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.|My turn. Watch and learn.|Move over. I'm bored.",
@@ -116,7 +131,22 @@
     "thaw": "Another rank's awake. Three at a time, Vosk.",
     "coupling": "That's a third of them back to sleep.|Two. The cold's coming up behind us, as briefed.|Three. Don't tell her I counted.",
     "stray": "Hum, Vosk. It likes you flat.|It's following. Don't look pleased.|One more for Hask to count twice.",
-    "lamp": "It's caught. Iru will see that from the pens.|Second lamp. So that's the whole ice ring.|Three. She'll have to tell Tern now."
+    "lamp": "It's caught. Iru will see that from the pens.|Second lamp. So that's the whole ice ring.|Three. She'll have to tell Tern now.",
+    "rail": "Green. Go, Vosk.|Amber. Sit in the moon's lee and look harmless.|Green. Keep its time and it keeps the peace.",
+    "rail.forced": "We jumped its count. The rails have noticed.",
+    "moonshard": "That's the Clerk of Roads coming apart. Off the marked track.",
+    "lift": "Step on.|It carries.|Up.",
+    "junction.cut": "Cut.|It's falling.",
+    "junction.seat": "Seated.|It's rising.",
+    "garden": "That was theirs. Shears.",
+    "wisp": "Lit fibre. Off it.",
+    "glassback": "Glass on the floor.",
+    "sentinel": "From the side.",
+    "tender": "The tender first.",
+    "clamp": "I have its weight.|Waiting.|Slack. Opening.|Last one.",
+    "mend": "Its light's up.|It's raking.|It's leaving. Follow it.",
+    "bossphase.LastWarden": "More light. Fewer lines.",
+    "bossopening.LastWarden": "It's stopped. Clamp, Vosk."
   },
   "Idra": {
     "swap": "Out. I'm in.|Behind me.|My shift.",
@@ -176,7 +206,22 @@
     "lamp": "Lit.|Lit. Long way down.|Last one. Good.",
     "hail.tender": "Tender ahead. Slow to turn, and its wake burns. Cross behind it once.",
     "hail.fastlane": "That's the fast lane. Ride it. It's the only free thing on this ice.",
-    "hail.reach": "Stay in my steps. The white holds. The blue is a hole."
+    "hail.reach": "Stay in my steps. The white holds. The blue is a hole.",
+    "rail": "Green. Move.|Amber. Hold in the lee.|Green. On the count.",
+    "rail.forced": "Gate forced. Rails are live. Don't sit on one.",
+    "moonshard": "Debris on the marked track. Go round. I'm not learning its name.",
+    "lift": "It carries. I don't like it. Step on.|Down has moved again.|On. Before I think about it.",
+    "junction.cut": "Cut. Island's down.|Down. Quick.",
+    "junction.seat": "Seated. It holds.|Up. Slower. Fine.",
+    "garden": "Their bed's broken. They've turned. Shears.",
+    "wisp": "Fibre's lit. Off it.",
+    "glassback": "Plates are down. Don't step back.",
+    "sentinel": "Front's a mirror. Flank it.",
+    "tender": "It's mending the clamp. Tender first.",
+    "clamp": "Weight's mine. Cover.|Holding. Watch my back.|Slack. Opening.|Last. On the call.",
+    "mend": "Its light came up. Noted.|It's raking again. Twelve paces.|It's moving. Ahead of us. Follow.",
+    "bossphase.LastWarden": "Lines are fewer. Floor's wider. Use it.",
+    "bossopening.LastWarden": "Staff's grounded. Clamp. I have your back."
   },
   "Teo": {
     "hail.barge1": "Near barge is loose. She was always the easy one. I don't trust it.",
@@ -215,5 +260,15 @@
     "hail.coupling1": "You have put two hundred tonnes back in the ice. I'll remember the figure.",
     "hail.coupling2": "Four hundred. Stop loading rank three. Bring up the lifter.",
     "hail.excavator": "Excavators to the middle gallery. A thaw-lance melts a rescue frame as well as it melts ice."
+  },
+  "Ishen": {
+    "hail.moon": "Number seven is the Bellfounder. I'm sorry. I'll stop.|The Almoner. I didn't say anything.|The ninth is the Warden. It rides last, behind all the others. Now I'll stop.",
+    "hail.survey": "Slower, please. There. The Steward, and its hour beneath.|The Weigher. I have it. You may go quickly now.|The Lamplighter. That's all three. Oh, well flown."
+  },
+  "Lume": {
+    "hail.pod": "Courier pod to the Shapers. Lume, flying. He has unbuckled to look at a moon. Fly gently."
+  },
+  "Warden": {
+    "clamp.open": "One clamp is opened.|Two clamps are opened.|Three clamps are opened."
   }
 }

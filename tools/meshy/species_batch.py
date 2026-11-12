@@ -107,6 +107,13 @@ PORTRAITS = {
         "narrow young face with very large dark eyes, short antennae not yet grown long, very bright glow-spots. A "
         "plain undyed reed-cloth tunic with a half-woven strip of mat worn as a sash over one shoulder and a belt cord "
         "tied in a careful knot. Frightened but practical, earnest, a little embarrassed. Civilian clothing."),
+    "Idra_Braced": (6, "C13-Hoarfell", RAUK, "Character: Idra Sorn again, the SAME woman as in the first reference sheet (same "
+        "face, same burn scar across the left brow plate, same crest, same pale silver eyes), now BRACED in her cutter "
+        "frame, a rescue rig that has unfolded around her. Heavy hazard-orange and brushed-steel collar and shoulder "
+        "plates rise around her neck, with black panel lines and a row of rivets; a steel visor is pushed UP onto her "
+        "brow above the brow plates so her whole face shows; the plates of her crest are capped with thin steel edge "
+        "guards; her heat-seams are a little brighter. A coil of orange rescue line is clipped at the right shoulder "
+        "plate. Same dry, exact, deadpan character. No helmet over the face, no weapon in frame."),
 }
 
 
