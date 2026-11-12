@@ -1,11 +1,12 @@
-# Coronach - continuation prompt (November 7, 2026, after the QA pass)
+# Coronach - continuation prompt (November 12, 2026, during the finishing run)
 
 > **For another QA pass, use [TESTER_PROMPT.md](TESTER_PROMPT.md)**, which hands the game to a tester session that plays through the replay driver and fixes what it finds, following [TEST_PLAN.md](TEST_PLAN.md). The November pass's log is [qa/ISSUES.md](qa/ISSUES.md). Take commands and state from this file.
 
-You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md` (next free number: D232).
+You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (URP) about Vael heroes who sync with technology and shift between ground, flight and civilian forms. Project: `C:\Users\natem\Projects\SpaceRPG` (Unity project `Lattice/`); public repo `github.com/Ohallik/Coronach`, branch `main`. Nathan is the creator. The goal is a genuinely great game, not green tests. If something looks or feels poor while tests pass, keep iterating. Make routine decisions yourself (D157) and record consequential ones in `docs/DECISIONS.md` (next free number: D248).
 
 ## Read first
 
+0. `docs/SHIPPING_PLAN.md` (the ten-chapter scope, D223, and its progress table) and `docs/CHAPTER_GUIDE.md` (how a chapter is built, and section 0: how several engineers share the tree and Unity). Each chapter's brief is in `docs/chapters/`, its script in `docs/writing/` or `docs/writing/pending/`.
 1. `docs/PROGRESS.md`, newest entry first (November 10-11: the open Minors and the plan to finish; then November 6-7: the QA pass, with its summary), then `docs/WORKSHOP_NOV07.md`, `docs/qa/ISSUES.md` (open items first among the Minor rows), `docs/TEST_PLAN.md`, `docs/qa/PLAN_COVERAGE.md` and `docs/validation/QA-nov07-chain.md`.
 2. `docs/DECISIONS.md` D223 (the shipping scope) and D224-D231 (the open Minors), D203-D222 (the QA pass), then D200-D202 (script, skills, chapter 2) and D197-D199 (gait, bosses, side stories). For a new zone or chapter: D119 (fixed-camera sightlines), D191 (room dressing and `SightlineAudit`), D196 (exteriors), D060 (no blur), D131 (paid packs stay private), D154 (display-off stall).
 3. `docs/PRODUCTION_PLAN.md`: milestones, evidence rules, MAP_EYE_TEST.
@@ -20,6 +21,17 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 - **Git:** Unity re-adds the embedded grass entry to `Lattice/Packages/packages-lock.json` on every run; revert it before committing. A test run also rewrites `Resources/WorldMaterials/staged-light-line.mat`'s `_Color`: revert that too. Never commit `Builds/`, `Library/`, `art-src/`, `tools/meshy/.env`, `Lattice/Assets/Stylized Water 3/`, `Lattice/Packages/xyz.staggart-creations.stylized-grass/`, `Lattice/Assets/_Project/LocalStaggart/`, the `Lattice/Assets/InitTestScene*` an interrupted test run leaves (not ignored), or a throwaway render test (name such tests `QaDebug*` and delete them after use). Check the staged paths before every commit, write the message to a file and use `git commit -F`, and commit and push as each gate completes.
 
 ## Where things stand
+
+### The finishing run (November 11 onward)
+
+Nathan's instruction on November 11: finish the game without check-ins, fix rather than defer, and leave only music for Nathan (six cues, `docs/music/NEW_TRACKS.md`). The work is run by a lead with engineers as subagents, all in one working tree. State lives in `docs/SHIPPING_PLAN.md` section 7; read that table first.
+
+- **Committed:** the plan, the eight chapter briefs, every chapter's script (chapter 3 live, 4 to 10 in `docs/writing/pending/` until their chapter is defined), every speaker's portrait sheet, the six music seeds, the shared-Unity tools and the test mirrors (D247).
+- **In the working tree, uncommitted** (snapshots of it are kept under `refs/snapshots/*`; `git show-ref | findstr snapshots`): the systems pass (impact, loot, late skills and EXTRA moves, route chart, difficulty, chapter cards, ground kit, content-by-data framework, the replay driver's new hands), chapter 3's zones and combat, chapters 4 to 6's art, Idra's bodies. None of it is committed until a whole suite passes on a frozen copy and the regressions it found are closed.
+- **A killed or interrupted session** leaves engineers stopped mid-task with their work on disk. Resume each by its agent id with a message rather than starting it again, check `Builds/quality/focused/` and `Builds/quality/suite/` for results that finished meanwhile, and take a new snapshot before changing anything.
+- **Not yet done in this run:** no player-window run (no replay chain, no in-player stills) has been made since November 7, so nothing built in this run has been seen in a capture; boss durations for the new fights are estimates from tests.
+
+### The last committed build
 
 - The whole game, Title to Abri's homecoming (chapters 1 and 2), plays through on the replay driver: 16 routes, `chapter-01-new-game-decks` to `chapter-16-lantern-home`. Routes 12 to 16 are written by `python tools/lantern_routes.py`: change the generator and rerun it, never the JSON by hand.
 - **196 EditMode / 1,449 PlayMode** checks. The last full run was November 7 (195 and 1,413; 1,412 passed). On November 11, EditMode passed 196 of 196, and the six new `QaNov10*` PlayMode classes (36 cases) with the existing classes that work touched passed 147 of 147; the full suite hasn't been rerun since. `CompanionTravelTests.TarenRegroupsAroundTheWholeAnimal` is intermittent: it failed the same way on November 6 and in the final full run (its fixture flies the leader straight through the Cantor, and the leader can stick on the body), and passed when its class was rerun alone. If it recurs, steer the fixture's leader round the animal; never loosen it.
@@ -42,15 +54,12 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 
 ## What to do next, in order
 
-0. **Read Nathan's verdict on Workshop-Nov07** (the log of whichever build Nathan played, and anything Nathan writes) and tune from Nathan's words before adding more. Hessa: the replay driver lost 1 of 3 in the final chain and 4 of 10 since her November 6 retune, which only a person on a pad can judge.
-1. **The five Minors still open in ISSUES.md**, each with what `ff99a7a` tried: the canyon's cliff-foot teeth, halved by half-metre cells and not gone (E1-lanternwick-13); the Burrower's wreck, which got smoke and nothing else (E2-hushwell-16); and three that only a chain can close. Those are the menu and save hitches (QA-034: the next timing chain must show no frame over 33 ms at those steps), the replay's revive step (QA-035: watch chapter 15), and the shutdown crash (item 3). The next capture is also the first look at everything `ff99a7a` changed, and the place to re-measure boss lengths and Hessa, since the partner now fires less (D227) and a guard has a price (D224). In `ff99a7a` the Choir Emitter's Resonance +4 doesn't reach a fight (D225). The haul road's sameness is an open idea.
-2. **Still open from before the QA pass:**
-   - **Sela's uphill fold (both heroes fold).** Re-pose uphill walking in `GroundFeet` in the gravity frame: an upright torso, slope-aware foot targets, a trailing heel that lifts at toe-off. Don't retune parameters: five variants broke the planted-sole and knee-continuity checks (`docs/validation/C2-uphill-fold.md`). `Lattice.EditorTools.UphillStepAudit.Run` (marker `UPHILL_STEP_AUDIT`) is the acceptance check, OPEN at 8 of 8.
-   - **Town life.** Generated Decks residents on `ScriptedWalk` loops, resident interiors, and a measured stride profile for Mira's walk. Lanternwick's townsfolk came in the QA pass.
-   - **An Ys-style EXTRA move.** None exists yet.
-3. **The engine's shutdown crash** (QA-031): an access violation in `D3D12Core.dll` while quitting, twice in about 160 exits. Every quit now goes through `OrderlyQuit` (D230), which should make it rarer and can't cure it: count the exits of the next chains. If it reaches Nathan, try the next Unity 6000.4 patch before changing graphics API.
-4. **Chapter 3:** Xylos and Many Hands (food, Venn's first condition), per the atlas, with blockouts before art. Chapter 2 ends with Abri pointing there.
-5. After a meaningful batch: the full suites, rebuild both players, rerun the chain, publish `Builds/Workshop-<date>` with a short note for Nathan, update PROGRESS and this file, commit and push.
+1. **Close the systems pass.** Read the latest whole-suite result (`python tools/suite_results.py <label>`, newest label in `Builds/quality/suite/`), send each real regression to the code that caused it, rerun, and commit the systems pass when a frozen-copy suite is clean apart from content a chapter in progress still owes.
+2. **Chapter 3** (Xylos): finish the look pass on the approach and the town, the river and the Canopy with their boss arenas, tests and routes; then a sync point (below).
+3. **Chapters 4 to 10 in story order**, each by the guide: definitions, art bind, zones, combat, tests, routes, a look review of stills by the lead, and its script moved up from `docs/writing/pending/`. Chapters may be built side by side; they are played and committed in order.
+4. **A sync point after each chapter:** every engineer idle, then alone on the machine with the displays held awake: rebuild both players, run the whole-game chain through that chapter, look at the captures frame by frame, re-baseline boss durations, fix what the captures show, commit, push, snapshot.
+5. **Systems still owed:** Idra as the third hero (kit, party of three, chapter 6), town life and the uphill gait (S5), the four Hushwell stills still over the floor limit and the decal draw order over danger markings, and the Minors still open in `docs/qa/ISSUES.md`.
+6. **The end:** a whole-game QA pass on the replay driver (TESTER_PROMPT), a Workshop build with a note for Nathan, and the six tracks wired in once Nathan has made them in Suno.
 
 **Evidence proportionality.** Keep the hard rules: prove a new check fails on the broken state first, never loosen an assertion, keep failed evidence, and never claim unobserved quality (human play, controller feel, listening, continuous motion). But keep validation notes short, and spend time on what a player sees and feels. Earlier sessions spent whole days on single props and evidence bookkeeping while the maps stayed empty.
 
@@ -61,13 +70,16 @@ You're continuing development of **Coronach**, an HD-2D action RPG in Unity 6 (U
 .\scripts\headless.ps1 -Mode verify
 # type-check the ten assemblies with Unity's own compiler without starting Unity, in about nine seconds (--player for the player's defines); the compile check above is still the gate
 python tools/typecheck.py
-# the whole suite: EditMode, then about 1,400 PlayMode tests in three parts by class (about 2.5 hours). Run it in the background
-# and start no other Unity work. Never run PlayMode unfiltered under one time limit: a timeout loses every result and strands the saves.
-.\scripts\full-suite.ps1 -Label <name>
+# the whole suite: EditMode, then about 1,600 PlayMode tests in eight parts, on one frozen copy of the tree in test mirror S
+# (..\CoronachTest\S, D247). About 2.5 hours, in the background, beside other work. -From n resumes at part n.
+.\scripts\suite-shared.ps1 -Label <name>
 python tools/suite_results.py <name>
-# focused runs
-.\scripts\headless.ps1 -Mode tests -TimeoutSec 900
-.\scripts\headless.ps1 -Mode playtests -Graphics -TestFilter "Lattice.Tests.PlayMode.A|Lattice.Tests.PlayMode.B" -TimeoutSec 2400
+# focused runs: copies the tree to a free test mirror (A or C) and runs there; results in Builds/quality/focused/<label>-*.xml
+.\scripts\focused.ps1 -SkipVerify -Label <label> -Classes 'ATests|BTests' [-EditMode]
+# a test mirror is made or refreshed with .\scripts\mirror-sync.ps1 -Name A (about 6 GB the first time). Never run PlayMode in the
+# main project unless you must (-Main): that path moves the human saves aside and a timeout strands them.
+# builders, renders and intake, in the main project: waits for a tree that compiles and for its turn at Unity
+& .\scripts\exec-when-green.ps1 -Method Lattice.EditorTools.<Method> -Marker <MARKER> [-Graphics] [-TimeoutSec n] [-ExtraArgs @(...)]
 # editor methods: call with & from PowerShell (powershell -File cannot pass arrays); -Marker is the method's final log line,
 # and the method's own arguments go through -ExtraArgs
 & .\scripts\exec.ps1 -Method Lattice.EditorTools.ZoneLook.Apply -Marker ZONE_LOOK_OK -ExtraArgs @('-look-zones','WickReach,Lanternwick')
@@ -97,6 +109,9 @@ python tools/package_workshop.py Workshop-<name> --revision <sha>
 | chapter 1 dressing | `RoomDressing.Apply` | `ROOM_DRESSING_OK` | `-Graphics -ExtraArgs @('-dress-zones','<chapter 1 zones>','-dress-final')`; it knows chapter 1's seven zones only, and a refused zone is left unsaved (read `DRESSING_PROBLEM`) |
 | staging again, on the final dressing | `ChapterOneStaging.Apply` | `CHAPTER_ONE_STAGED_OK` | `-Graphics` |
 | the November 10 looks, after staging (D231) | `QaNov10Staging.Apply` | `QA_NOV10_STAGED_OK` | `-Graphics`; `-ExtraArgs @('-qa-zones','<zones>')` limits it to Hushwell, Gullet_Tunnel, Sorrel_Ridges or TallowApproach |
+| the ground (D246), always last | `GroundStaging.Apply` | `GROUND_STAGED_OK` | `-Graphics`; see the guide's "Ground kit" for its zone argument and `GroundStaging.Audit` |
+| local biomes, after the ground | `LocalBiomeBake.BuildPatches` | `LOCAL_BIOMES_OK` | `-Graphics -ExtraArgs @('-biome-zones','<zones>')`; needs the licensed packs on this machine |
+| chapter 3 | `XylosBuilder.Dialogue`, `.BuildZones`, `.StageApproach` | `XYLOS_DIALOGUE_OK`, `XYLOS_ZONES_OK`, `XYLOS_APPROACH_OK` | the order is in the guide, section 12; later chapters follow the same names |
 
 After a rebuild of the Decks scene itself, rerun `MarketOpeningStaging.Refresh` (`MARKET_OPENING_STAGING_OK`, `-Graphics`); after a rebuild of Sorrel itself, `SideStoryStaging.Refresh` (`SIDE_STORY_STAGING_OK`). Then delete `Resources/WorldMaterials/gullet-membrane-23-1.mat*` (building the relay's seal makes it, and nothing uses it) and revert `packages-lock.json`.
 

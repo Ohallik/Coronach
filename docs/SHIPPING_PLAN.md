@@ -83,20 +83,24 @@ Each chapter gets a full brief (map sketches, encounter plan, cast and script ou
 
 ## 7. Progress
 
-| Item | State (November 11, evening) |
+| Item | State (November 12, 02:00) |
 |---|---|
-| November 10 open-issue work | landed (`ff99a7a`): 28 fixed, 6 much better, 5 open (cliff-foot teeth, the Burrower's wreck, the engine's shutdown crash, two that need a chain run) |
-| Briefs for chapters 3-10 | written (`docs/chapters/`) |
-| [CHAPTER_GUIDE.md](CHAPTER_GUIDE.md) | written |
-| S1 Impact | in progress |
-| S2 Loot | in progress |
-| S3 Skills and EXTRA moves | in progress |
-| S4 Route chart | not started (after S2; needs Many Hands for its home) |
-| S5 Ground density (GroundKit; retrofit Lantern Gorge, Lanternwick, Sorrel, Hushwell) | in progress |
+| November 10 open-issue work | landed (`ff99a7a`): 28 fixed, 6 much better, 5 open |
+| Briefs and scripts for chapters 3-10 | written and committed (`docs/chapters/`, `docs/writing/`, `docs/writing/pending/`; about 1,900 lines of dialogue) |
+| Portrait sheets | approved for every speaker in chapters 3-10 |
+| Music | thirteen existing tracks placed; six new cues wait on Suno (`docs/music/NEW_TRACKS.md`) |
+| S1 Impact (hit weight, hit-stop, camera, flash, knockback, 19 sounds, settings) | built, its tests pass; uncommitted |
+| S2 Loot (affixes, five tiers, modules, consumables, per-seller stalls, caches) | built, its tests pass; uncommitted |
+| S3 Skills and EXTRA moves | built; four regressions with the skills engineer; uncommitted |
+| S4 Route chart, difficulty, chapter cards | built, tests pass; uncommitted |
+| S5 Ground kit (D246) | Lantern Gorge, Lanternwick, Sorrel done; Hushwell 10 of 17 stills; uncommitted |
 | S5 Town life, uphill gait | not started |
-| S6 Third hero | designed (chapter 6 brief); not started |
-| Framework (content by data: music, objectives, scene and boss registration, tests that discover content, chapter loadouts) | in progress |
-| Chapter 3 | script, art (six portrait sheets approved), `ZoneKit`, all four zones in progress |
-| Chapters 4-10 | briefed |
+| S6 Third hero (Idra) | bodies and portraits in; kit and party-of-three machinery in progress |
+| Framework (content by data, test book, scaffold, replay driver's new hands) | built; two ReplayHands failures open; uncommitted |
+| Test mirrors (D247) | committed (`035bd75`); suite `nov12a` running on a frozen copy |
+| Chapter 3 | combat written (eight enemies, two bosses); approach and town built, look pass sent back; river and Canopy in progress; tests and routes being written |
+| Chapter 4 | art in; three engineers started (space and town, dungeon, combat) |
+| Chapters 5-6 | art in (20 pieces, six portrait sets); not started |
+| Chapters 7-10 | art ordered; not started |
 
-Meshy ledger: 2,372 at the start; chapter 3's portraits 72.
+Meshy ledger: 2,372 at the start; 891 left after chapters 3-6, Idra and every portrait sheet; chapters 7-10 are capped at 720 with 45 more allowed for chapter 3's space backdrop.

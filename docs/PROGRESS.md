@@ -1,6 +1,14 @@
 # CORONACH slice progress
 
-## The open Minors, and the plan to finish - November 10 and 11 (latest)
+## The finishing run, first night - November 11 and 12 (latest, in progress)
+
+**No new build, and most of the work is not committed yet.** Nathan asked on November 11 for the game to be finished without check-ins, leaving only music. This entry is a marker for a session that is still running; the table in [SHIPPING_PLAN.md](SHIPPING_PLAN.md) section 7 is the live state and [NEXT_SESSION_PROMPT.md](NEXT_SESSION_PROMPT.md) says how to pick it up.
+- **Committed and pushed:** the ten-chapter plan (D223), a brief for each of chapters 3 to 10, every chapter's script (about 1,900 lines; chapter 3 live, the rest in `docs/writing/pending/`), a portrait sheet for every speaker, six melody seeds for the music the ending needs ([music/NEW_TRACKS.md](music/NEW_TRACKS.md)), [CHAPTER_GUIDE.md](CHAPTER_GUIDE.md), and the tools that let several engineers share one tree: `exec-when-green.ps1`, `focused.ps1`, `suite-shared.ps1`, and test mirrors (D247).
+- **Built, in the working tree, not committed:** hit weight and hit-stop (S1); affixes, five part tiers, modules, consumables and per-seller stalls (S2); six late skills and two EXTRA moves (S3); Sela's route chart, three difficulties and chapter cards (D243 to D245); the ground kit (D246); content registered by data with a test book that finds unfinished content by itself; chapter 3's eight enemies and two bosses on a new behaviour library; chapter 3's approach and town; art for chapters 4 to 6 and Idra.
+- **Verified so far:** EditMode 217 of 217 on a frozen copy. The first shared suite (November 11, parts 1 to 7) ran 1,326 PlayMode cases with 75 failures: most were the registry reporting chapter 3 content that didn't exist yet, and fifteen were real regressions, each sent to the code that caused it; eight are fixed and rerun, and seven (the partner's reach and sidestep, the target card's lines, a HUD panel) are still with the skills engineer. A second whole suite (`nov12a`) is running on a frozen copy.
+- **Not run:** any player window. Nothing from this run has been seen in a capture or played by a person; new boss durations are estimates.
+
+## The open Minors, and the plan to finish - November 10 and 11
 
 **No new build.** The November 10 session worked through the QA pass's 38 open Minors and its one partial, and was interrupted before it wrote any of this down. Its work was verified and committed on November 11 as `ff99a7a`. Nathan's build is still `Builds/Workshop-Nov07` (`a8247e6`).
 - **Verified:** Unity compiles. **196 of 196 EditMode.** The six new `QaNov10*` PlayMode classes and the existing classes the work touched pass **147 of 147**. 16 of the 18 new checks tried on the old code failed there first.
