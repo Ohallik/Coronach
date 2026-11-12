@@ -2,7 +2,8 @@
   "Orrin": {
     "hail.outer": "Got the key? Good. Tallow's on the far side, and that warp doesn't run back until you're through.",
     "hail.outer.after": "Finish what you owe around here first. The tender's free if you're dented. I'll keep the board.",
-    "hail.section": "Market district is away. Mira wants a receipt.|Repair quarter, lifting. Hal's holding a bench down with his foot.|Residential crescent is clear. Somebody's left a kettle on.|Tug dock, go. That's the last of us."
+    "hail.section": "Market district is away. Mira wants a receipt.|Repair quarter, lifting. Hal's holding a bench down with his foot.|Residential crescent is clear. Somebody's left a kettle on.|Tug dock, go. That's the last of us.",
+    "hail.board": "Board: half the hulls are through.|Board: three in four.|Board: one to come."
   },
   "Taren": {
     "swap": "My turn to be unreasonable.|I've got it. Breathe.|Stepping in.",
@@ -131,7 +132,29 @@
     "bench.lo": "Lo says thank you. Lo also says go away.",
     "bench.marn": "Marn's lit it. Didn't need me.",
     "parcel.tug": "For the Welcome Back. She says put it with the others. There are no others.",
-    "parcel.crawl": "Handed over at a walk. Nobody stopped."
+    "parcel.crawl": "Handed over at a walk. Nobody stopped.",
+    "mother": "She's swinging wide. That's fright. Stay in the lane.|Shorter sweep. The humming's reaching her.",
+    "young": "The young ones are moving in the bore. Mind them.",
+    "bossphase.MotherOfDoors": "A clamp's off, and she's eased. Three to go.",
+    "bossopening.MotherOfDoors": "She's drawn back. Dock now. I'll take the weight.",
+    "sectionhit": "That's one of ours hit. They'll hold. Keep on the gate.",
+    "tollbrace": "One brace gone. There's a gap.|Second. The cage is closing. Out.|Third. Its arm's bare. Dock on it.",
+    "bossphase.Tollkeeper": "It's pulling the cage in. Weave out, then back.",
+    "bossopening.Tollkeeper": "Gate motor's showing. On foot, quick.",
+    "standaside": "They've stepped back from the door. Leave them be.",
+    "helpers": "That one's holding the hatch for us. Thank him on the way.",
+    "returnfire": "The shield's up. Shoot now and it comes back. Wait.",
+    "oldmachines": "That's the Saint's slam. Same tell.|The Works' welding line. Over it.|Foundry sluices. Dry floor, quick.",
+    "bossphase.MeretShip": "A projector's out. She's changing the lanes.",
+    "bossopening.MeretShip": "Shield's dropped. Now.",
+    "bossphase.MeretGantry": "One coupling open. She's down an arm.",
+    "bossopening.MeretGantry": "Arm's overreached. Collar. Take its weight.",
+    "bossphase.MeretWell": "She's stopped testing us.",
+    "bossopening.MeretWell": "Her counter's spent. In.",
+    "passage": "It's opening ahead of us. Follow the lanterns.",
+    "youngchoir": "They're alongside. Don't crowd them.",
+    "wake": "Against the wake. Everybody's lights are the wrong way round.",
+    "tugdrones": "One drone off her.|Two.|Last one. She's clear. Get the line on."
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.|My turn. Watch and learn.|Move over. I'm bored.",
@@ -261,7 +284,29 @@
     "bench.lo": "Lo's set it up on a floor that's moving. Of course.",
     "bench.marn": "Marn didn't look up. That's a yes.",
     "parcel.tug": "One parcel, for a tug. She signed with a thumb.",
-    "parcel.crawl": "Delivered. I had to walk backwards to do it."
+    "parcel.crawl": "Delivered. I had to walk backwards to do it.",
+    "mother": "That's how wide a frightened road swings, Vosk. Stay small.|She's narrowing. She can hear them.",
+    "young": "The young are in the drilled voids. They cut those doors themselves.",
+    "bossphase.MotherOfDoors": "A clamp's gone, and she's breathing easier.",
+    "bossopening.MotherOfDoors": "She's given us the clamp. Dock. I'll cover.",
+    "sectionhit": "They've hit the convoy. It's holding. Don't look. Fly.",
+    "tollbrace": "A brace down. Through the gap.|Two. It's contracting. Out, Vosk.|Three. Land on the arm.",
+    "bossphase.Tollkeeper": "The cage is closing. Out, then back in.",
+    "bossopening.Tollkeeper": "There's the gate motor. Feet. Now.",
+    "standaside": "They're letting us by. Don't make them regret it.",
+    "helpers": "He's opened that for us. In her uniform.",
+    "returnfire": "Don't shoot the shield. It gives it back. I've tried.",
+    "oldmachines": "That's your press, Vosk. Built properly.|The welding line. We've jumped that.|Coolant. Sluices. Move.",
+    "bossphase.MeretShip": "One projector. She's redrawn the lanes already.",
+    "bossopening.MeretShip": "Her shield's down. Go.",
+    "bossphase.MeretGantry": "A coupling's open. She noticed how.",
+    "bossopening.MeretGantry": "The arm's too far out. Its collar, Vosk.",
+    "bossphase.MeretWell": "She's quicker than she said.",
+    "bossopening.MeretWell": "She's open. She knows it.",
+    "passage": "It's a road. A whole one. It's letting us through.",
+    "youngchoir": "They're keeping pace with us. Leave them their side.",
+    "wake": "Back up the lane. I've never charted it from this end.",
+    "tugdrones": "One off.|Two.|That's the last. Line, Vosk."
   },
   "Idra": {
     "swap": "Out. I'm in.|Behind me.|My shift.",
@@ -395,7 +440,30 @@
     "bench.marn": "Delivered. Marn asked nothing. Good sign.",
     "parcel.tug": "Parcel, tug. Signed.",
     "parcel.crawl": "Parcel, Crawl. They didn't stop for it. I respect that.",
-    "hail.ring": "Ring's held. Sections, keep your count.|Interceptors on the crescent. I have them.|Nobody breaks formation for me. Fly."
+    "hail.ring": "Ring's held. Sections, keep your count.|Interceptors on the crescent. I have them.|Nobody breaks formation for me. Fly.",
+    "mother": "Wide sweep. Fright. Hold the lane.|Narrower. The herders have her.",
+    "young": "Young in the bore. Mark them. Don't fire near.",
+    "bossphase.MotherOfDoors": "Clamp off. She's easing. Next.",
+    "bossopening.MotherOfDoors": "She's back. Dock. I'll cover.",
+    "sectionhit": "Convoy's hit. Mats are in. Eyes front.",
+    "tollbrace": "One brace.|Two. Cage closing. Out.|Three. Arm's bare. Dock.",
+    "bossphase.Tollkeeper": "Cage contracting. Weave.",
+    "bossopening.Tollkeeper": "Gate motor. On foot. Go.",
+    "standaside": "They've stood aside. They're crew. Pass.",
+    "helpers": "That one's helping. Count him.",
+    "returnfire": "Shield returns fire. Hold yours.",
+    "oldmachines": "Press. You know it.|Weld line. Jump.|Coolant. Clear the floor.",
+    "bossphase.MeretShip": "Projector down. New lanes.",
+    "bossopening.MeretShip": "Shield's down. Fire.",
+    "bossphase.MeretGantry": "Coupling open. One arm.",
+    "bossopening.MeretGantry": "Overreached. Collar.",
+    "bossphase.MeretWell": "She's stopped holding back. Brace.",
+    "bossopening.MeretWell": "Counter's spent. Now.",
+    "passage": "Lane's open. Formation. Follow the count.",
+    "youngchoir": "They're alongside. Keep off their side.",
+    "wake": "Against the wake. Stay on my wing.",
+    "tugdrones": "One.|Two.|Three. Clear. Line on.",
+    "hail.spine": "Spine's braced. Kott, forward ring. Sibb, aft.|It's holding. Go up it."
   },
   "Teo": {
     "hail.barge1": "Near barge is loose. She was always the easy one. I don't trust it.",
@@ -417,7 +485,8 @@
     "hail.gate": "Tide-gate's the ring of lamps on the water below. Come down dark. Somebody will throw you a line.",
     "hail.bright": "Lantern. You're glowing. I can see you from my kitchen.",
     "line": "Give. Give. Now keep.|She's pulling. Let her.|There. She's lying easy. You can breathe.",
-    "hail.leech": "Marked water's leeches. There's a dry way round. It's longer. Take it."
+    "hail.leech": "Marked water's leeches. There's a dry way round. It's longer. Take it.",
+    "hail.mats": "Mats are holding. The weavers say stop asking."
   },
   "Dessik": {
     "foot": "That's hired.|That's also hired.|You're running up a bill.|Note the damage. Somebody note the damage."
@@ -426,7 +495,8 @@
     "hail.breach": "Breach! The north-west cabins! The door's sealed itself and I can't get it open!"
   },
   "Patrol": {
-    "hail.latched": "Many Hands, Steady Hand. Your hull is open. We are latching on. No declaration is needed."
+    "hail.latched": "Many Hands, Steady Hand. Your hull is open. We are latching on. No declaration is needed.",
+    "hail.aside": "Steady Hand to Compact crews, deck four. Stand aside. No declaration is needed."
   },
   "Vessa": {
     "hail.rank1": "Rank one is thawed. Forty tonnes. Load it.",
@@ -450,7 +520,8 @@
     "hail.crust": "Dark holds. Step where I step.|That seam's lit. Wait it out.|Squall. Stand still. It passes."
   },
   "Tovra": {
-    "hail.sluice": "The red wheel. Turn it till it screams.|Second wheel's behind the press. Mind the press.|Third. That plate's going dark. Hit it."
+    "hail.sluice": "The red wheel. Turn it till it screams.|Second wheel's behind the press. Mind the press.|Third. That plate's going dark. Hit it.",
+    "hail.gear": "Gear's on the first seat.|Second and third are dressed.|All four. Waiting on your collar, fitter."
   },
   "Drask": {
     "shout": "Guard wing! To me!|Arrek! Sool! To me!|Sool!",
@@ -459,19 +530,41 @@
   },
   "Bryn": {
     "hail.spiral": "Traffic on the spiral, watch your inside. That was a ferry once.|Nice flying, traffic. Don't get used to it.",
-    "hail.ring": "Section traffic, Welcome Back. Hold your spacing. You're towns, not darts.|Market district, you're drifting. Don't apologise. Correct."
+    "hail.ring": "Section traffic, Welcome Back. Hold your spacing. You're towns, not darts.|Market district, you're drifting. Don't apologise. Correct.",
+    "hail.lead": "Convoy traffic, follow the pencil. She's drawn it true."
   },
   "Dorrow": {
     "hail.dawn": "Dawn's a way behind you yet. Lovely colour. Don't look.|It's gaining. It always does. Nothing personal.|That's it on your heels. I'd run. I'm told you can.",
-    "hail.remate": "First coupling! Hear her stop complaining?|Second. She's nearly a town again.|Third. That's her. Drive, drive, drive."
+    "hail.remate": "First coupling! Hear her stop complaining?|Second. She's nearly a town again.|Third. That's her. Drive, drive, drive.",
+    "hail.step": "Market's lagging half a length. Bring her up. Lovely.|All districts in step. Listen to that. Not one complaint."
   },
   "Neve": {
-    "hail.lane": "Market to the board. She turns like a warehouse. I've stopped fighting her.|Shapers, keep that cutter off my street."
+    "hail.lane": "Market to the board. She turns like a warehouse. I've stopped fighting her.|Shapers, keep that cutter off my street.",
+    "hail.rear": "Rear guard. Nothing behind me but wake.|Last hull but one. I can see the lanterns."
   },
   "Mira": {
-    "hail.market": "Market to the board. Something's hit my awning. I want it logged."
+    "hail.market": "Market to the board. Something's hit my awning. I want it logged.",
+    "hail.manifest": "Manifest: the crescent's signed.|Somebody's gone through twice. I've struck one."
   },
   "Hal": {
-    "hail.repair": "Repair quarter. We're holding together. Easy on the turn, Neve."
+    "hail.repair": "Repair quarter. We're holding together. Easy on the turn, Neve.",
+    "hail.cradle": "Launch cradle's cracked on the tug dock. Ket's on it. I'm only holding the lamp."
+  },
+  "Hask": {
+    "hail.hum": "Cold slowly. Hum with us.|Never alone. She's narrowing.|Sung to. Keep on. She's listening."
+  },
+  "Iru": {
+    "hail.hum": "A clamp's off. Her sweep is shorter. I can hear it in the hum.|Three. She's stopped fighting. She's only frightened now."
+  },
+  "Pell": {
+    "hail.count": "Two short, one long. Here. This way.|Lanterns are lit to the bend. Count with me.|Two short, one long. Still afloat."
+  },
+  "Ilo": {
+    "hail.names": "Line nine hundred and four. Oda's hauler. Through.|Pitch nine, and one unregistered pear stall. Through.|Sorrel outpost. Ten. Lease ended. Through.|Lastlight, Hoarfell. Herders. I asked them. Sixty-one. Through.|Rootmarket. Fifty hands and a seed house. Through.|Six apprentices, unindentured. All nine, in fact. Through."
+  },
+  "Meret": {
+    "ship": "Shield's up. Shoot it now and you'll have it back.|Clamp to starboard. I've marked it for you.",
+    "gantry": "That's the press. You know its tell.|The welding line. You've jumped this before.|Coolant. Mind your footing. I do.",
+    "duel": "Don't mash. I shall only counter.|Stand still and the clamps take you. Keep moving.|Good. Is the nursery clear? Tell me truthfully.|Again. You have nearly made the case."
   }
 }
