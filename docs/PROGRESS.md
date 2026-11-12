@@ -1,6 +1,35 @@
 # CORONACH slice progress
 
-## The QA pass: both chapters played end to end, four looks at the whole game, and every finding fixed or handed on - November 6 and 7 (latest)
+## The open Minors, and the plan to finish - November 10 and 11 (latest)
+
+**No new build.** The November 10 session worked through the QA pass's 38 open Minors and its one partial, and was interrupted before it wrote any of this down. Its work was verified and committed on November 11 as `ff99a7a`. Nathan's build is still `Builds/Workshop-Nov07` (`a8247e6`).
+- **Verified:** Unity compiles. **196 of 196 EditMode.** The six new `QaNov10*` PlayMode classes and the existing classes the work touched pass **147 of 147**. 16 of the 18 new checks tried on the old code failed there first.
+- **Not run:** the full suite, a chain or a capture. Nothing below has been seen in a whole-game capture or played by a person.
+
+**What was fixed.** In [qa/ISSUES.md](qa/ISSUES.md), 28 rows are now Fixed and 6 much better, all under `ff99a7a`; the decisions are D224 to D231.
+- **HUD (D226).** The target card and the prompt bar slide along their own edge off heroes, targets and bosses instead of only fading. Bark plates keep off awake enemies and marked lanes. A faded plate leaves a soft band behind its words, and the skill row's labels always have one. The HUD publishes where its plates stand (`HudKeepOut`).
+- **Partner (D227).** She fires only when pointed at her target, only at what the screen shows, and only from on screen. Where she comes to rest is kept inside the open frame, out from under the plates.
+- **Guard (D224, boss269).** A held guard pays Thrust for what it stops, refills slowly while it's up, and breaks when Thrust runs out. A Flash Guard stays free.
+- **Trophies (D225, prog158).** Husk Core, Choir Resin and Cantor Pearl each make a part at the bench: Husk Frame, Choir Emitter, Pearl Module.
+- **Markings, signs and camera (D228, D229).**
+  - A marking's area draws once and crossing markings share one outline (`TelegraphFill`). The rim closes where the ground cuts it and at a lane's origin.
+  - A shot's lane stays lit ahead of it until it lands: the Bellows' comets, Hessa's sidearm. The Pulse ring follows a slope. The Cantor's song ring is red.
+  - A floor sign thins while a hero stands in front of its letters, and a lying sign in flight grows only while its letters stay over the floor (QA-037).
+  - The flight view holds back 1.6 s before it comes in, and the Wick curtain comes down while Sela says so.
+- **Menus and quitting (D230).** The bench opens on a filter row that spends nothing (QA-036). In a player, saves are written behind the frame, the title warms the menus' fonts and sheets, and each slot is read once (QA-034). Every quit goes through `OrderlyQuit` (QA-031).
+- **World (D231, `QaNov10Staging`).** Framed doors for the Bellows, a lip with teeth at the Gullet's arrival, cut strata on Sorrel's slope, a torn and scorched rig deck, plating seams on Tallow's hull, a steel gate with kick plates and a hatch collar for the first job, and one welded shadow caster in each canyon zone, which closes the gorge's partial.
+- **Tooling.** Bench routes pick a recipe by its row's name, not by counted presses. The capture's audio writer rides out a 20 s disk stall (QA-033). `python tools/typecheck.py` compiles the ten assemblies outside Unity in about nine seconds.
+
+**What's open: 5 Minors, no Blocker or Major.** They come first among the Minor rows, each with what was tried.
+- **Three wait on a chain.** The menu and save hitches (QA-034) need a timing chain to show no frame over 33 ms at those steps. The replay's revive step (QA-035) has no check and needs a chapter 15 replay. The engine's shutdown crash (QA-031) should be rarer, which 2 in 160 exits can't show yet.
+- **Two are looks.** The canyon's cliff-foot teeth are halved, not gone (E1-lanternwick-13). The Burrower's wreck got smoke and nothing else (E2-hushwell-16).
+- **Found by reading, after the commit:** in `ff99a7a` the Choir Emitter's Resonance +4 never reaches a fight, so in combat it equals a Refined Emitter (D225).
+- **To measure on the next chain:** boss lengths and Hessa's win rate, since the partner now fires less and a guard has a price.
+- **Design calls left for Nathan:** a cap on Repair Gels (prog159) and a chapter 2 scrip sink (prog160). The guard's rate is for Nathan to judge on a pad.
+
+**The plan to finish.** D223 (November 11): the game will be finished as ten chapters, every region Nathan asked for kept as one compact chapter, with a systems pass first. Read [SHIPPING_PLAN.md](SHIPPING_PLAN.md) for the plan; each chapter's brief is under `docs/chapters/`.
+
+## The QA pass: both chapters played end to end, four looks at the whole game, and every finding fixed or handed on - November 6 and 7
 
 **New playable candidate: `Builds/Workshop-Nov07/Play Coronach.cmd`** ([note for Nathan](WORKSHOP_NOV07.md)), built from `a8247e6`.
 - **195 EditMode / 1,413 PlayMode** checks with graphics, zero skipped. In the full run 1,412 passed. The one failure, `CompanionTravelTests.TarenRegroupsAroundTheWholeAnimal` (its fixture's leader stuck on the Cantor's body), passed when its class was run alone, with the numbers of earlier full runs; it failed the same way once on November 6, so it is intermittent. The PlayMode suite now takes about 2.5 hours, so it was run in three parts by class (`Builds/quality/QA/b13full-*.xml`); `scripts/full-suite.ps1` now does that, and hasn't been run yet.
