@@ -34,6 +34,7 @@ Pell: They vote on everything. She says they voted once on whether to vote less.
 Sela: There. It's answering. The warp will read that now. #emotion:Happy
 Pell: Should I keep it lit while you're gone? I'm going to keep it lit while you're gone. #emotion:Determined
 <<setFlag xylos.charted>>
+<<setFlag extra.unlocked>>
 ===
 title: PellLaneRepeat
 ---

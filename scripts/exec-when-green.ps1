@@ -16,7 +16,7 @@ param(
     [switch]$Graphics,
     [int]$TimeoutSec = 1500,
     [string[]]$ExtraArgs = @(),
-    [int]$Attempts = 30,
+    [int]$Attempts = 110,
     [int]$WaitSec = 50
 )
 $root = Split-Path $PSScriptRoot -Parent

@@ -44,7 +44,13 @@
     "tune": "Back in time. Two short, one long.|That's the pair. Both keeping time.",
     "lure": "No long. That one's a mouth.|It never finished the count. Blades out.",
     "leech": "Marked water. Leeches. Take the dry way.",
-    "pump": "Water's dropping. Watch the alcoves.|There it goes. Somebody built that to last."
+    "pump": "Water's dropping. Watch the alcoves.|There it goes. Somebody built that to last.",
+    "bossphase.Hulljack": "It's lurching to another join. Watch the booms.",
+    "bossopening.Hulljack": "A foot's planted. Cut it!",
+    "bossphase.DessikVarn": "He's throwing the cargo. Watch the circles.",
+    "bossopening.DessikVarn": "The suit's kneeling. Hit the cockpit!",
+    "foot": "A foot's off. It's lurching.|Another one cut. Watch where it lands.|It's running out of feet.",
+    "breach": "That's the cabin alarm. We can't leave him standing. Finish it!"
   },
   "Sela": {
     "swap": "Try to keep up, Vosk.|My turn. Watch and learn.|Move over. I'm bored.",
@@ -88,7 +94,13 @@
     "tune": "Two short, one long. Keeping time.|That's the second. Maru can stop watching.",
     "lure": "Short, short, nothing. Not a lamp, Vosk.|It can't hold the long. Lure.",
     "leech": "Something's in that channel. Go round.",
-    "pump": "Draining. Something always wakes, Vosk.|Listen to that. Quill would cry."
+    "pump": "Draining. Something always wakes, Vosk.|Listen to that. Quill would cry.",
+    "bossphase.Hulljack": "New join. Different cover. Move, Vosk.",
+    "bossopening.Hulljack": "It's put a foot down, Vosk. That one.",
+    "bossphase.DessikVarn": "Containers. Read the floor, Vosk.",
+    "bossopening.DessikVarn": "It's down on a knee. Cockpit, Vosk.",
+    "foot": "One foot gone. It hates that.|Cut. It's hopping to the next join.|It can't hold on with what's left, Vosk.",
+    "breach": "That's the cabins, Vosk. End this."
   },
   "Teo": {
     "hail.barge1": "Near barge is loose. She was always the easy one. I don't trust it.",
@@ -111,5 +123,14 @@
     "hail.bright": "Lantern. You're glowing. I can see you from my kitchen.",
     "line": "Give. Give. Now keep.|She's pulling. Let her.|There. She's lying easy. You can breathe.",
     "hail.leech": "Marked water's leeches. There's a dry way round. It's longer. Take it."
+  },
+  "Dessik": {
+    "foot": "That's hired.|That's also hired.|You're running up a bill.|Note the damage. Somebody note the damage."
+  },
+  "Keeper": {
+    "hail.breach": "Breach! The north-west cabins! The door's sealed itself and I can't get it open!"
+  },
+  "Patrol": {
+    "hail.latched": "Many Hands, Steady Hand. Your hull is open. We are latching on. No declaration is needed."
   }
 }

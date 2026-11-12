@@ -1,0 +1,656 @@
+// Chapter 5 - Many Hands. Brief: docs/chapters/ch05-many-hands.md. Wiring: docs/writing/pending/ch05-manifest.md.
+title: AbriHandsArrival
+---
+Keeper: Welcome home. Welcome to Many Hands. I've written that on eleven forms since breakfast, so I had better mean it. #emotion:Flustered
+Taren: Abri. Who are all these people? #emotion:Curious
+Keeper: Six settlements. Each has sent somebody who can talk, and each somebody has a form. I didn't make a form. They brought their own. #emotion:Worried
+Sela: These are Compact berth applications. They've crossed out "Nacre" and written us in. #emotion:Shocked
+Keeper: In ink! I've a queue of people applying to a ship that had no name nine days ago. #emotion:Flustered
+Taren: Then it had better be a ship. What's still loose? #emotion:Determined
+Keeper: Three things. I've written them down. Ruva and the raft pilot have argued about where things tie since the rafts came in. #emotion:Worried
+Keeper: Binna says the galley is breathing its own smoke. And Sela, your chart table's up on the lamp gallery, pointing at the floor. #emotion:Amused
+Sela: And the tug? #emotion:Worried
+Keeper: Still off our stern. Still writing. #emotion:Worried
+<<startQuest ManyHands>>
+<<setFlag hands.aboard>>
+===
+title: SelaDockDoor
+---
+Sela: "Many Hands." In chalk. There's more of it under the cargo door, where it's slid across. #emotion:Curious
+Taren: I can see "make light". And "ask". #emotion:Curious
+Sela: That isn't a name. That's somebody wanting help with something. #emotion:Amused
+===
+title: AbriHandsRepeat
+---
+Keeper: I became a keeper because I liked a quiet lamp and a kettle. Now I have a desk. Don't lean on that pile. It's the one I understand. #emotion:Flustered
+===
+title: AbriCourier
+---
+Keeper: There's a courier at the dock asking for the two of you by name. Compact markings. One man, and a case he's holding as if it bites. #emotion:Worried
+===
+title: AbriDinnerTalk
+---
+Keeper: I tried to thank her for the cabins. She asked Binna for the recipe. I've a form for thanks, and she wouldn't take it. #emotion:Flustered
+===
+title: AbriHandsPost
+---
+Keeper: She read my manifest and said it was accurate. Nobody has ever called anything of mine accurate. I've been cross about it all evening. #emotion:Flustered
+Keeper: Her captain left a list on my desk. Muster raiders, sighted on the frontier lanes, with dates. #emotion:Worried
+Keeper: And forty days. I've started a form for the forty days. It has one box. The box says "how". #emotion:Worried
+===
+title: PellChartLamps
+---
+Pell: Don't look at the dock door. Did you look at the dock door? #emotion:Flustered
+Sela: "Many Hands." Abri says somebody chalked it in the night. #emotion:Amused
+Pell: It wasn't a name! It was a notice. "Many hands make light work. Lamp trimmers wanted, ask Pell." Then the cargo door slid across the rest. #emotion:Flustered
+Taren: Did anyone come about the lamps? #emotion:Amused
+Pell: No! They named the ship after it, and nobody came about the lamps. I've forty corridors now. I used to have one stair. #emotion:Worried
+Sela: I need three of your lamps, Pell. The chart table's lost its marks, and yours are the only lights aboard I'd trust. #emotion:Determined
+Pell: The gallery three. I trim those myself. Sight them from the table and I'll hold each one steady. I'm good at steady. #emotion:Determined
+===
+title: PellHandsRepeat
+---
+Pell: Forty corridors. I've drawn up a round. If I ran, I could trim every lamp aboard before the first one wanted trimming again. I'm not going to run. I'm going to walk fast. #emotion:Determined
+===
+title: PellHandsPost
+---
+Pell: Two growers and a weaver came about the lamps. They'd read the whole notice. I've moved it to where the door doesn't slide. #emotion:Happy
+Pell: The director looked at the corridor lamp for a long time. She didn't say it was amber. She knew I knew. #emotion:Worried
+===
+title: SelaChartOpen
+---
+Sela: Three lamps, and every one of them moves when the ship does. A year ago I'd have called that useless. #emotion:Amused
+Taren: And now? #emotion:Curious
+Sela: Now it's the only kind of mark I trust. Maru will be unbearable. There. The route chart has them. #emotion:Happy
+Sela: Every place that's answered us is on it. Lanternwick. Rootmarket. Driftreed. Home. Ask it for one, and it gives us the lane. #emotion:Determined
+<<setFlag hands.chartOpen>>
+===
+title: RuvaMooring
+---
+Ruva: Tall one. Good. Come and look at this before the pilot gets to you with her side of it. #emotion:Determined
+Ruva: Root beds and seedling trays, forty islands' worth, where Teo's holds used to be. They want still water. Every time her rafts swing next door, my water moves. #emotion:Worried
+Taren: The raft bay shares its water with the garden. #emotion:Curious
+Ruva: I don't know what it shares. I know a seedling that's rocked doesn't root. Rings, bolted to the frames, and every raft made fast. That's how you keep a thing alive. #emotion:Determined
+Sela: Maru won't have "made fast". #emotion:Amused
+Ruva: Maru can have what she likes once my seed is in the ground. There isn't any ground. That's the point I keep making. #emotion:Amused
+<<setFlag hands.ruvaHeard>>
+===
+title: MaruMooring
+---
+Maru: Lantern. And the quiet one. Has she told you I'm drowning her seedlings? #emotion:Amused
+Sela: She says your rafts move her water. #emotion:Neutral
+Maru: They do. Rafts move. A ship turns, and the water in a hold goes one way and comes back. That's a tide. A small stupid tide, but I can read it. #emotion:Determined
+Maru: Bolt a raft down in that, and the first hard turn tears the lashings out. You saw it on the stage. A line made fast is a cleat on the floor. #emotion:Determined
+Taren: So you want them loose. #emotion:Curious
+Maru: I want them held, on a line that gives. She wants them tied up, like something she's afraid will leave. They're rafts. Leaving is what they're for. #emotion:Determined
+<<setFlag hands.maruHeard>>
+===
+title: SelaMooringRail
+---
+Taren: They're both right. The roots want still water, and the rafts can't be pinned. #emotion:Curious
+Sela: Go on. You've got the face. #emotion:Amused
+Taren: A rail along the hold wall, fixed at both ends, with rings that run on it. Each raft holds a ring. It rides the surge, and it can't swing past the stop. #emotion:Determined
+Sela: Fixed where Ruva needs it. Free where Maru needs it. Somebody still has to tell them whose idea it was. #emotion:Playful
+-> Call it rings. Ruva asked for rings.
+    Taren: Rings, on a rail. Ruva gets her word for it. Maru can read the drawing and sulk. #emotion:Amused
+    <<setFlag hands.mooringForRoots>>
+-> Call it a tide line. Maru asked for one.
+    Taren: A tide line, with stops. Maru gets her word. Ruva can count the bolts and be quiet. #emotion:Amused
+    <<setFlag hands.mooringForTides>>
+Taren: Either way, I'm leaving a hand's play at each stop. Nothing holds that can't give a little. #emotion:Determined
+<<setFlag hands.mooringSettled>>
+===
+title: RuvaMooringLost
+---
+Ruva: A tide line. On my garden wall, with her name for it. It holds. I've pulled on it. I'm not saying more than that. #emotion:Angry
+<<setFlag ruva.mooringGrumbled>>
+===
+title: MaruMooringLost
+---
+Maru: Rings. She's telling people I'm on rings, like a bull at a fair. They run, I'll give you that. I've greased the rail so they run better. Don't tell her. #emotion:Angry
+<<setFlag maru.mooringGrumbled>>
+===
+title: RuvaHandsRepeat
+---
+Ruva: First shoots in the root beds. On a ship. Don't tell them it's a ship. They think it's a slow river. #emotion:Tender
+===
+title: RuvaHandsPost
+---
+Ruva: Page four. Fifty hands and a seed house, and a line that says "outside". I've had it read to me three times. It doesn't improve. #emotion:Angry
+Ruva: She answered me straight. I've chaired forty floods of votes, and I can count the people who've done that. I still vote against. #emotion:Determined
+===
+title: MaruHandsRepeat
+---
+Maru: This hold has a tide. Small, stupid, and it comes whenever the keeper turns the ship without telling me. I've tied a cord for it anyway. #emotion:Amused
+===
+title: MaruHandsPost
+---
+Maru: Forty days. That's a cord and a third. I've started it. #emotion:Determined
+Maru: She pins a road and calls it still water. Water's never still, Lantern. When it's still, something has died in it. #emotion:Worried
+===
+title: BinnaVent
+---
+Binna: You're here about the vent! Good. Sit. No, don't sit, it's up there. Have you eaten? You haven't. I'll talk, you fix. #emotion:Happy
+Binna: It started when the weavers' mats went in. Lovely mats. Then the smoke came back down and sat on the stew like a lid. #emotion:Worried
+Taren: Pass me that. #emotion:Neutral
+Binna: Dov's on the counter in the arcade with his blue eel. It's blue. I've decided to respect it. The growers won't touch it, and the weavers won't eat anything else. #emotion:Amused
+Taren: The mat's in backwards. The rough side wants to face the smoke. #emotion:Curious
+Binna: Is that bad? Pim fitted it. Don't tell Ona. No, I'll tell Ona. She'll know anyway. She can hear a mat. #emotion:Flustered
+Binna: And I put a bowl out for Jask every night, the same as at home. It's empty every morning. It's him, or a very polite rat, and I didn't raise a rat. #emotion:Worried
+Taren: There. It's drawing. #emotion:Happy
+Binna: Oh, listen to that. That's a kitchen breathing. Now sit. You fixed it, so you eat first. That's the rule. #emotion:Happy
+<<setFlag hands.ventFixed>>
+===
+title: BinnaHandsRepeat
+---
+Binna: Have you eaten? Today? Sit. I can tell you what every soul aboard had for breakfast, and you two are the only ones who skipped it. #emotion:Worried
+===
+title: BinnaHandsPost
+---
+Binna: She finished the bowl. All of it. Then she carried it back to the hatch herself. Nobody does that. I don't know what to do with a person like that. #emotion:Worried
+Binna: Forty days. That's a hundred and twenty meals. I can do a hundred and twenty meals. Tell me who's doing the rest of it, and I'll feed them. #emotion:Determined
+===
+title: TeoHands
+---
+Teo: Three carriers, moored rib to rib, with a garden where their holds were. My mother's boat is a flower bed. She'd have had opinions. #emotion:Amused
+Teo: Four hundred and eleven on my lists. Four hundred and twelve by the keeper's count. I've checked every list twice. I don't miscount. #emotion:Worried
+Sela: Then somebody's aboard who isn't on a list. #emotion:Curious
+Teo: So the keeper says. I've started counting bowls instead. Binna is one short every morning. #emotion:Curious
+===
+title: TeoHandsRepeat
+---
+Teo: Hulls, heads and bowls. I count all three every morning. When they agree, I count again. #emotion:Neutral
+===
+title: TeoHandsPost
+---
+Teo: Three hundred and twelve thousand. It's a clean number. She'll have counted it herself. I'd have liked her, on a river. #emotion:Tender
+Teo: Two hundred and four thousand, six hundred and nineteen. That's the one I can't put down. Somebody counted that as well. Then they wrote "outside" next to it. #emotion:Worried
+===
+title: TeoDinnerTalk
+---
+Teo: Fourteen at table and one standing. The one standing is making a point. I've counted the bowls. For once there are enough. #emotion:Amused
+===
+title: JaskFound
+---
+Sela: The seed racks off Marrow-3. Somebody's rolled a blanket in behind them. And there's a bowl. #emotion:Curious
+Jask: Is it you? Are you alone? Is Ruva with you? #emotion:Worried
+Sela: Nineteen questions, Jask. You left me nineteen on a seed tag, and then you left. #emotion:Amused
+Jask: Did you answer any? Is it cold out there? Who steers? #emotion:Curious
+Taren: You're the four hundred and twelfth head. The keeper's been counting you for weeks. #emotion:Amused
+Jask: Is that bad? Are they sending me back? Can they send a person back down a road that's moved? #emotion:Worried
+Sela: I don't think they can. That's rather the trouble with you. #emotion:Tender
+Jask: Will you tell Teo first? Not Ruva? Teo only counts things, doesn't he? #emotion:Worried
+<<setFlag hands.jaskFound>>
+===
+title: JaskFoundRepeat
+---
+Jask: Have you told Teo? What did he count me as? Am I a head or a hull? #emotion:Worried
+===
+title: TeoStowawayOffer
+---
+Teo: Four hundred and twelve. There he is. I knew I hadn't miscounted. I'd like that written down somewhere. #emotion:Happy
+Taren: He rode up in Marrow-3's seed racks. #emotion:Neutral
+Teo: In my mother's boat. Of course he did. She always took in strays. Well. A passage has a price, and he's fifteen and owns a pole. #emotion:Amused
+Teo: He works it off. That's fair, and it's what Ruva will say once she's finished shouting. Go and hear her shout. Then come back, and we'll settle where he's least trouble. #emotion:Determined
+<<startQuest StowawayFare>>
+===
+title: RuvaStowaway
+---
+Ruva: He asked me to go. I said ask again in two floods. So he didn't ask. #emotion:Angry
+Ruva: I'm not angry that he came. I'm angry that I didn't count him. Fifty hands at the vote, and I never looked for the one who wasn't allowed. #emotion:Worried
+Taren: Teo says he works it off. #emotion:Neutral
+Ruva: He does. Somewhere I can see him, or somewhere he'll learn something. Not both. He's had enough of me watching. You choose. I'd choose wrong on purpose. #emotion:Tender
+<<setFlag hands.ruvaOnJask>>
+===
+title: TeoStowawayDecide
+---
+Teo: Well? She's shouted. Where does he go? #emotion:Curious
+-> The garden, under Ruva's eye.
+    Teo: Trays and water, where she can count him. He'll hate it for a week. Then he'll know every root aboard by name. #emotion:Amused
+    <<setFlag jask.worksGarden>>
+-> The raft bay. He's a ferry hand.
+    Teo: Poling Maru's ferry across a hold. It's the only river we've got. She'll work him harder than Ruva would, and he'll thank her for it. #emotion:Amused
+    <<setFlag jask.worksFerry>>
+-> The lamp gallery, with Pell.
+    Teo: Forty corridors of lamps, and a girl who's been asking for hands. Somebody has finally come about the notice. #emotion:Happy
+    <<setFlag jask.worksLamps>>
+Teo: I'll put him on a list. Four hundred and twelve, and every one of them written down. I'll sleep tonight. #emotion:Happy
+<<setFlag hands.jaskPlaced>>
+===
+title: JaskThanksGarden
+---
+Jask: Thank you! Did you hear that? Should I say it louder? Thank you! Ruva's looking. Is she smiling? Does she do that? #emotion:Happy
+<<setFlag jask.thanked>>
+===
+title: JaskThanksFerry
+---
+Jask: Thank you! Was that loud enough? Did it carry across the hold? Thank you! Why is Maru smiling at the water? #emotion:Happy
+<<setFlag jask.thanked>>
+===
+title: JaskThanksLamps
+---
+Jask: Thank you! Was that too loud for a gallery? Thank you! Pell says I made a lamp flicker. Can a voice do that? Should I do it again? #emotion:Happy
+<<setFlag jask.thanked>>
+===
+title: JaskGardenHand
+---
+Jask: Ruva says I talk to the seedlings too much. Can a seedling have too many questions? Is that why they lean toward me? #emotion:Curious
+===
+title: JaskFerryHand
+---
+Jask: Maru says the hold has a tide. Can you feel it? Why can't I feel it yet? Is it because I'm standing still? #emotion:Curious
+===
+title: JaskLampHand
+---
+Jask: Pell says a lamp can tell when you're worried. Is that true? Is mine worried? Should I tell it something? #emotion:Curious
+===
+title: JaskDinnerTalk
+---
+Jask: Are you the one who pins the road? Does it know it's being pinned? Does it mind? #emotion:Curious
+Meret: I am. Sit down, if you like. Those are three questions, and I have an answer to two of them. #emotion:Tender
+Meret: It will know. It will pull against the anchor. I've built the anchor to take four times the hardest pull I have ever measured. I would not build it at three. #emotion:Neutral
+Jask: And does it mind? #emotion:Curious
+Meret: I don't know. I can measure what it does to my anchor. I can't measure what my anchor does to it. That is in writing as well. What's your name? #emotion:Sad
+Jask: Jask? Should I not have asked? #emotion:Worried
+Meret: You should ask everyone who tells you they have a plan, Jask. Start with these two. #emotion:Amused
+===
+title: JaskHandsPost
+---
+Jask: Was that her? The one who pins the road? Why did she look so tired? Is being right tiring? #emotion:Curious
+===
+title: HaddaHands
+---
+Hadda: There you are. Look at it. Quill's pump and my press, bolted to one bed. It shouldn't work. It's the best thing I've ever stood next to. #emotion:Happy
+Hadda: I told Ruva the press was a boat once. Now it is one. We don't discuss it. #emotion:Amused
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> Later.
+    Hadda: It'll be here. So will I. We've stopped being surprised. #emotion:Playful
+===
+title: HaddaHandsRepeat
+---
+Hadda: What's bent? Everything aboard is bent a little. It's how it fits together. #emotion:Amused
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> Nothing yet.
+    Hadda: Give it time. We've a ship for that. #emotion:Playful
+===
+title: HaddaHandsPost
+---
+Hadda: I've read the anchor drawings over the tall one's shoulder. It's lovely work. I keep looking for the part that's badly made. There isn't one. #emotion:Flustered
+-> Use the pump-and-press.
+    <<bench>>
+-> Repair and save (8 scrip per Sync level).
+    <<repair>>
+-> Not now.
+    Hadda: No. Go and find the bad part. There's always one. We'll mend it. #emotion:Determined
+===
+title: CorraHands
+---
+Corra: Shapers! I'd know the pair of you anywhere. Corra Vey, arch market. Well. Arcade, now. #emotion:Happy
+Taren: You left Lanternwick? #emotion:Curious
+Corra: Four hundred people moved in together, and not one of them brought a kettle. Somebody has to sell these people a kettle. #emotion:Smug
+Corra: Aumi says it isn't leaving if I write. Gel, cells, parts, and kettles. What do you need? #emotion:Amused
+-> Show us what you have.
+    <<shop>>
+-> Later.
+    Corra: Later's fine. Later still pays. #emotion:Smug
+===
+title: CorraHandsRepeat
+---
+Corra: Parts, cells, kettles. The kettles are outselling the parts. I've stopped being hurt by it. #emotion:Amused
+<<shop>>
+===
+title: CorraKettleOffer
+---
+Corra: You two walk this whole ship twice a day. I've watched you. I've three kettles paid for, and no legs to spare. #emotion:Amused
+Corra: One for the carrier crews in the garden. One for the weaving bench in the raft bay. One for cabin nine, who ordered in writing, with a diagram. #emotion:Amused
+Taren: A diagram of a kettle. #emotion:Curious
+Corra: Of where they want it put. Take that one to the keeper's desk. I'm not calling at cabin nine. #emotion:Worried
+<<startQuest KettleTrade>>
+<<shop>>
+===
+title: GaroKettle
+---
+Garo: A kettle? Eleven cups, and it's ours? Tell her Marrow-1 pays in whatever she's short of. Dabb will want one next. He'll put soup in it. #emotion:Happy
+<<setFlag kettle.garden>>
+===
+title: OnaKettle
+---
+Ona: A kettle. I did not order a kettle. Pim ordered it. #emotion:Neutral
+Ona: Put it on the bench. No. There. It may stay. #emotion:Tender
+<<setFlag kettle.bay>>
+===
+title: AbriKettle
+---
+Keeper: For cabin nine? With the diagram? Oh, give it here. They've written to me about it twice. #emotion:Flustered
+Keeper: I'll carry it up myself. I want to see their face. I've never seen their face. #emotion:Happy
+<<setFlag kettle.cabins>>
+===
+title: CorraKettleReturn
+---
+Corra: All three? And nobody sent one back? You've a future in this, and I'd tell you so if I wanted the competition. #emotion:Happy
+Corra: Stall price is yours from now on. And take this. It came in a crate of kettles. I don't sell what I can't explain. #emotion:Amused
+<<setFlag kettle.reported>>
+<<shop>>
+===
+title: CorraHandsPost
+---
+Corra: I sold the director a kettle. She paid the marked price and didn't argue. I felt robbed. #emotion:Amused
+<<shop>>
+===
+title: DovHands
+---
+Dov: You! I said I'd come, I said it to Quill, and here I am, and here's a counter, and there's a cook over there who won't let me near her fire! Eel? #emotion:Happy
+Dov: The growers think it's gone off. It's blue! It's meant to be blue! I've put up a sign. Nobody reads a sign. #emotion:Amused
+-> Show us the stock.
+    <<shop>>
+-> Not today.
+    Dov: Not today! That's what the growers say. Then they send a child to buy two. #emotion:Smug
+===
+title: DovHandsRepeat
+---
+Dov: Smoked, salted, or still arguing. There's a man in cabin six who buys two eels a day and tells the growers he doesn't. I keep a list. #emotion:Smug
+<<shop>>
+===
+title: DovHandsPost
+---
+Dov: Three in five! I heard it through the hatch. I was bringing the eel. I said to Hadda, that's two in five on the wrong side of a door. #emotion:Worried
+Dov: Hadda said "I can count, Dov." Everybody can count. Nobody's saying it. #emotion:Worried
+<<shop>>
+===
+title: OnaHands
+---
+Ona: The racks came up last. So did I. It was not a decision. It was the order of things. #emotion:Neutral
+Ona: Our mats are in forty corridors and one galley. One was fitted rough side in. I know which. I have not said who. #emotion:Amused
+===
+title: OnaHandsRepeat
+---
+Ona: Every tenth day, each mat. Forty corridors. I've drawn up the round, and the weavers walk it. The air is our work now. Mind the comb. #emotion:Determined
+===
+title: OnaHandsPost
+---
+Ona: She says she tried to buy our mats for three years. She did. I refused her three times. She never once sent anyone to take them. I have been thinking about that. #emotion:Neutral
+===
+title: PimHands
+---
+Pim: There's no mire. I checked. There's a hold with water in it, and a wall, and nothing in it has lights that lie. I slept the whole first night. #emotion:Happy
+Pim: Don't tell Ona about the galley mat. She knows. Don't tell her anyway. #emotion:Flustered
+===
+title: PimHandsRepeat
+---
+Pim: Middle rows. Still. She says when the middle rows are right, I can keep a corridor on my own. Corridor nine. I've been to look at it. #emotion:Determined
+===
+title: PimHandsPost
+---
+Pim: Her lamps would all keep the count, wouldn't they? Every one. Two short, one long, for ever. I'd have walked straight to it. #emotion:Worried
+===
+title: GaroHands
+---
+Garo: Marrow-1's a garden path now. Eleven crew, eleven breathing, and nobody's sprained anything since we stopped playing cards for the water ration. #emotion:Amused
+===
+title: GaroHandsRepeat
+---
+Garo: Trays wet, crew counted. Tell Teo eleven of eleven. He'll have asked already. #emotion:Neutral
+===
+title: GaroHandsPost
+---
+Garo: Three in five. I've a crew of eleven. I've been working out which seven. I'd like to stop. #emotion:Worried
+===
+title: DabbHands
+---
+Dabb: They've given me the garden's water to mind. Pumps, not pots. I keep reaching for the soup pot. It's in the galley now. Binna won't give it back. #emotion:Amused
+===
+title: DabbHandsRepeat
+---
+Dabb: Forty buckets an hour, and a pump does it without me. I stand here in case it wants company. #emotion:Amused
+===
+title: DabbHandsPost
+---
+Dabb: A road that stays put. I bailed a boat for three days so she'd stay put. It's harder than the director makes it sound. She'd know that. She looks like she's bailed. #emotion:Worried
+===
+title: IloArrives
+---
+Ilo: Taren Vosk. Sela Irun. You won't remember me. The Halo lanes, a survey cutter. I told you that you were in a chart. #emotion:Flustered
+Sela: Ilo. You read us Venn's letter at Tallow. #emotion:Curious
+Ilo: I did. I've read out her figures for eleven years. "The figure is the figure." That's what you say when somebody asks who's underneath it. I've stopped saying it. #emotion:Determined
+Taren: What's in the case? #emotion:Curious
+Ilo: The footnotes. Every settlement the capacity line leaves out, by name, with a count against each. #emotion:Determined
+Ilo: I've always told people I didn't write them. That's true. It has stopped being enough. #emotion:Worried
+Sela: Does she know you've gone? #emotion:Worried
+Ilo: I left a note. It was accurate. #emotion:Flustered
+<<setFlag hands.iloAboard>>
+===
+title: IloHandsRepeat
+---
+Ilo: The keeper's given me a desk and all her forms. I've sorted them by what they're really asking. Most of them ask the same thing. "Is there room." #emotion:Worried
+===
+title: IloHandsPost
+---
+Ilo: She didn't ask for the case back. I'd rehearsed what I would say when she did. All that time, and I never once thought she'd simply let me read it out. #emotion:Flustered
+Ilo: Driftreed still isn't on a page. I've left room. I've never added a line to it myself. I think I'm going to have to learn. #emotion:Determined
+===
+title: IloLedgerOffer
+---
+Ilo: Varn let me read his ledger. He says it's a public record. He's proud of the handwriting. #emotion:Amused
+Ilo: Three entries are hulls whose owners are standing on this ship. Teo Marrow's seed barges. A Driftreed pilot's raft, "no mooring on record". And Tallow Drift. #emotion:Worried
+Taren: He filed on Tallow. #emotion:Shocked
+Ilo: The day it slipped its line. A claim falls if the owner is found aboard and says so before a witness. #emotion:Worried
+Ilo: I'm a witness. I've been one for eleven years. I may as well be one for somebody. #emotion:Determined
+<<startQuest ClaimsLedger>>
+===
+title: TeoLedger
+---
+Teo: All three barges, in his book, in ink. Teo Marrow, aboard, and they're mine. The middle one as well. He can't have her. Nobody else would put up with her. #emotion:Determined
+<<setFlag ledger.teo>>
+===
+title: MaruLedger
+---
+Maru: "No mooring on record." He's written it down as if it were a fault. #emotion:Smug
+Maru: Tell your witness. Maru Wend, aboard. The raft is mine, and it has never been tied up in its life. Have him spell "never". #emotion:Determined
+<<setFlag ledger.maru>>
+===
+title: AbriLedger
+---
+Keeper: Tallow? He filed on Tallow, the day we slipped the line? I was so pleased, that day. #emotion:Shocked
+Keeper: Abri, keeper, aboard. It's mine. No. Can a form say "ours"? Make it say "ours". #emotion:Determined
+<<setFlag ledger.abri>>
+===
+title: IloLedgerReturn
+---
+Ilo: Three owners found, three statements witnessed. I've written them into his own ledger, in his own column. He watched me do it. He corrected my margin. #emotion:Amused
+Ilo: Then he asked whether the same holds for every hull in the book. It does. There are two hundred and six. I've started a list. #emotion:Determined
+<<setFlag ledger.returned>>
+===
+title: DessikClaim
+---
+Dessik: Vessel styling itself Many Hands. Dessik Varn, Hulljack Salvage, licence on file. I'm obliged to read you this, so I'll read it. #emotion:Neutral
+Dessik: "A hull that leaves its registered mooring and files no other within thirty days is abandoned in transit, and may be recovered by the first licensed claimant to tag it." #emotion:Neutral
+Dessik: It has been thirty-one. I asked your keeper where you were moored. She was very helpful. #emotion:Smug
+Keeper: I told him the truth! He thanked me! #emotion:Flustered
+Taren: There are four hundred people aboard this hull. #emotion:Determined
+Dessik: Passengers transfer with the hull, or disembark at the claimant's convenience. Clause nine. I didn't write clause nine. I only read it more carefully than you did. #emotion:Neutral
+Sela: You're stealing a town. #emotion:Angry
+Dessik: I don't steal. I file. The filing's done. This is recovery. I'd stand clear of the joins. #emotion:Determined
+<<setFlag hands.claimRead>>
+===
+title: DessikHall
+---
+Dessik: You've cost me four feet and a cargo door. Both are itemised. #emotion:Angry
+Taren: Get out of the suit, Varn. #emotion:Determined
+Dessik: The suit is the only thing in this hall with a licence. You've people aboard who walked off their moorings and thought nobody kept a book. Somebody always keeps a book. #emotion:Smug
+Sela: Then close it. #emotion:Angry
+Dessik: When it's settled. That's what the claw is for. #emotion:Determined
+===
+title: DessikYields
+---
+Dessik: Stop. Stop! I yield. Note the time. Somebody note the time. #emotion:Angry
+Taren: Why does the time matter? #emotion:Curious
+Dessik: A claim given up under protest can be refiled. A claim lost in a brawl can't. I want it written that I stopped. #emotion:Determined
+Sela: You tried to cut a town in half. #emotion:Angry
+Dessik: I tried to recover a hull. And that suit is hired. There's a deposit. #emotion:Flustered
+Dessik: My knee's gone. It's been going for ten years. Help me up or don't, but stop standing over me as if I'm the one who left without paying. #emotion:Sad
+Taren: The alarm's stopped. Sela. The cabin alarm's stopped. #emotion:Worried
+<<setFlag hands.dessikYielded>>
+===
+title: DessikHeld
+---
+Dessik: I've asked for the charge in writing. Your keeper is writing it. She asked me how to spell "recovery". I told her. I'm not a savage. #emotion:Amused
+===
+title: DessikHeldPost
+---
+Dessik: Venn's striking clause nine. Sixty days. I'll have refiled under clause twelve by then. There's always a clause. She knows. She wrote half of them. #emotion:Smug
+Dessik: Three in five. Those are better odds than salvage. Nobody's asked which side of it I'm on. #emotion:Sad
+===
+title: PatrolBreachSealed
+---
+Patrol: Hold there, please. The seal is good, but I'd like it left alone until your own fitter has seen it. #emotion:Neutral
+Taren: I'm the fitter. Who's inside? #emotion:Worried
+Patrol: Six cabins. Thirty-one residents, thirty-one accounted for. Two treated for cold. The resident of cabin nine is asking whether supper is at the usual hour. #emotion:Neutral
+Sela: You told us you only came for a declared emergency. #emotion:Curious
+Patrol: I did. Your hull declared it. We don't need it in words. #emotion:Neutral
+Taren: We couldn't get here. #emotion:Sad
+Patrol: No. You were keeping a salvage frame off the rest of them. I would have made the same choice. Excuse me. #emotion:Neutral
+Patrol: Director. Section sealed. Thirty-one of thirty-one. #emotion:Neutral
+<<setFlag hands.breachSealed>>
+===
+title: PatrolRepeat
+---
+Patrol: Two cutters stay on the seal until your fitter signs it off. After that we're a courtesy. We're good at being a courtesy. #emotion:Neutral
+===
+title: MeretArrives
+---
+Meret: Thank you, Captain. Keep two cutters on the seal until their own people have looked at it. #emotion:Neutral
+Meret: Taren Vosk. Sela Irun. Meret Venn. I'm sorry to meet you on a day like this one. #emotion:Tender
+Taren: Director. Your patrol reached our cabins before we could. #emotion:Neutral
+Meret: The captain's patrol. He'll tell you he was only nearest. He is usually nearest. I've stopped asking how. #emotion:Amused
+Meret: There's a queue at your dock holding my forms, with my harbour struck out. I read a few on the way past. In their place I would have done the same. #emotion:Neutral
+Sela: You sent us a notice, once. #emotion:Curious
+Meret: Food, power, and a route that waits. I said that if you showed me all three, I'd listen. #emotion:Neutral
+Meret: You have the food and the route, and about half the power. So I've come to listen. #emotion:Neutral
+Meret: I have also been awake for two days, and I'm told there's a cook aboard. Is there anything to eat? #emotion:Amused
+<<setFlag hands.meretMet>>
+===
+title: BinnaDinner
+---
+Binna: Sit. No, there. What've you eaten today, Director? #emotion:Curious
+Meret: A ration bar. Yesterday, I think. #emotion:Neutral
+Binna: That's not eating, that's storage. Here. It's hot. Don't ask what's in it till it's gone. #emotion:Worried
+Meret: What's in it? #emotion:Amused
+Binna: Blue eel, river pods, and something the weavers pickle. I said don't ask. #emotion:Amused
+Meret: It's very good. I'd like it written down, if it isn't a secret. #emotion:Tender
+Meret: Somebody has turned the mat in that vent. Rough side to the smoke. That's right, and it is never fitted right. #emotion:Curious
+Taren: It was in backwards. #emotion:Amused
+Meret: It always is. And your corridor lamp is burning amber. How many are breathing through those mats? #emotion:Amused
+Keeper: More than this morning. It's always more than this morning. #emotion:Worried
+Meret: Driftreed weave. I tried to buy it for the corridor for three years. They wouldn't sell a mat without its weaver. You came home with the weavers. #emotion:Tender
+Meret: It's well done. It holds four hundred people, and that lamp says it only just holds them. I have three hundred thousand. That is all I'll say against it. #emotion:Neutral
+<<setFlag hands.dinnerSat>>
+===
+title: BinnaDinnerTalk
+---
+Binna: What do you cook for a woman who's come to tell you something terrible? Soup. You can't say a terrible thing with your mouth full. She managed, mind. #emotion:Worried
+Binna: She asked what was in it. Nobody asks. Then she asked who grew the pods and who pickled the rest, and she wrote down both names. #emotion:Curious
+Binna: I'd like her. That's the worst of it. Has she eaten properly? Somebody look at her plate. #emotion:Tender
+===
+title: MaruDinnerTalk
+---
+Maru: I'm not sitting. That table's bolted to the deck, and so is everything she has ever built. #emotion:Determined
+Sela: She saved thirty-one people this morning. #emotion:Neutral
+Maru: I know she did. I watched her cutters come in. Clean as anything. That's what frightens me, Lantern. She's good at it. #emotion:Worried
+Maru: Three hundred thousand people, tied up beside a pinned road and told it's safe. Somebody should say something. I suppose that's us. #emotion:Determined
+===
+title: MeretStillwater
+---
+Binna: So what is it you do, when you're not eating my soup? The notices only say "capacity". #emotion:Curious
+Meret: The roads are leaving. All of them. Some have gone already. Think of a river that goes out and doesn't come back while anyone here is alive. #emotion:Neutral
+Meret: One of them I can hold. The big one, that runs past the most front doors. I set an anchor at its mouth, and it stays where it is. #emotion:Neutral
+Binna: Like a stone on a tablecloth. #emotion:Curious
+Meret: Very like. A large stone. Along that road I'm building shelter. Berths, water, air that has been tested. I don't count a berth until a household has slept a month in it. #emotion:Neutral
+Taren: Stillwater. #emotion:Neutral
+Meret: A committee named it. I would have called it something duller, and been ignored. #emotion:Amused
+Meret: It's a road that stays, and room beside it for a known number of people. That's the whole plan. It would fit on a ladle. #emotion:Neutral
+<<setFlag hands.stillwaterHeard>>
+===
+title: RuvaDinnerNumber
+---
+Ruva: A known number. Say it, then. I chair votes. I like a count said out loud. #emotion:Determined
+Meret: Three hundred and twelve thousand. It's the short line on every notice I have posted. #emotion:Neutral
+Meret: That is three people in five. I've spent nine years trying to make it four. #emotion:Sad
+Sela: A road that stays where the chart says it is. Open at both ends, every day, for the rest of my life. #emotion:Curious
+Meret: Yes. #emotion:Neutral
+Sela: I had a ticket once, for a ship that had already left. On a road like that, it would still be at the dock. I could finally go. #emotion:Worried
+Sela: Somewhere with room to turn back. I told Ruva that's where we were going. I didn't know where it was. It might be this. #emotion:Worried
+Taren: Sela. #emotion:Worried
+Sela: It's the first plan I've heard that I'd fit in, Vosk. I'm allowed to say so. #emotion:Determined
+Meret: You are. Your chart is the best work I've seen in thirty years, Surveyor, and it lives in one head. Mine lives in forty, and it's worse. I would trade. #emotion:Tender
+Ruva: She'd fit. So would he. I asked for a count. Who isn't in it? #emotion:Determined
+<<setFlag hands.numberHeard>>
+===
+title: IloFootnotes
+---
+Ilo: I can answer that. I've carried the answer a long way. #emotion:Determined
+Ilo: The footnotes. Two hundred and four thousand, six hundred and nineteen people, by settlement, with a count against each name. I didn't write them. I've brought them. #emotion:Determined
+Meret: You took the bound copy. Good. The loose one has an error on page nine. #emotion:Neutral
+Ilo: You're not going to ask for it back. #emotion:Shocked
+Meret: It was never hidden, Ilo. It's the other half of the number. I would sooner it was read at a table than kept in a drawer. Mine included. #emotion:Tender
+Ruva: Page four. Rootmarket. "Outside the corridor." Fifty hands and a seed house. #emotion:Neutral
+Maru: And Driftreed? What page are we? #emotion:Curious
+Ilo: No page. The registry counts moorings, and a raft has none. #emotion:Worried
+Meret: Then the registry is wrong, and the registry is mine. It's also what that salvager filed under this morning. #emotion:Neutral
+Meret: I'll have the clause struck. It takes sixty days. I know what sixty days is worth to you, and I'm sorry. #emotion:Sad
+<<setFlag hands.footnotesTabled>>
+===
+title: MeretSorrel
+---
+Taren: You've costed everything else on this table. What does the anchor cost? #emotion:Curious
+Meret: Ask it the way you would ask about a joint. #emotion:Neutral
+Taren: What does it bear on? #emotion:Determined
+Meret: A moon. The anchor has to brace against something that won't move, close to the road's mouth, with voids deep enough to take its roots. One moon fits. #emotion:Neutral
+Sela: Sorrel. #emotion:Worried
+Meret: Sorrel. #emotion:Neutral
+Taren: We've stood in those voids. They aren't empty. There are eggs down there. New roads, curled round each other, under a drill we stopped ourselves. #emotion:Intense
+Meret: I know what is under Sorrel. It's in the third volume, section eleven, in plain words. It has been posted for six years. You are the first two people to ask me about it. #emotion:Sad
+Taren: And the anchor kills it. #emotion:Neutral
+Meret: Yes. #emotion:Neutral
+<<setFlag hands.sorrelNamed>>
+===
+title: MeretDrawings
+---
+Meret: This is the anchor. All of it. The loads, the clamps, section eleven. Check my arithmetic. In six years nobody has who didn't work for me. #emotion:Neutral
+Sela: You're handing us your plan. #emotion:Shocked
+Meret: I'm handing you the thing you would have to beat. I'd rather be beaten. Being wrong costs me nine years. Being right costs a nursery. #emotion:Sad
+Taren: Then wait for us. #emotion:Determined
+Meret: I can't hold a road that has already gone. And your hull opened today on one cutting torch. When the roads begin to thrash, every join you have will take that at once. #emotion:Neutral
+Meret: I say it because you'll want to mend it, Vosk, and you can't mend what nobody has told you is broken. #emotion:Tender
+Meret: So. Bring me a plan that has carried people. I can wait forty days. The routes can't. #emotion:Neutral
+<<setFlag hands.dinnerDone>>
+===
+title: MeretParting
+---
+Meret: One thing more, and it isn't an argument. Muster raiders are working the frontier lanes, cutting relays out of the old chains. If you go outward, go together. #emotion:Neutral
+Taren: You could have left that out. #emotion:Curious
+Meret: I could. Then you would have met them without it, and I'd have had to cost that as well. #emotion:Amused
+Meret: The running rings in your raft bay. A hand's play at each stop. Yours? #emotion:Curious
+Taren: Mine. #emotion:Neutral
+Meret: They're good. Most people forget the play. Good night, Vosk. Thank your cook. She has my ration bars, and she won't give them back. #emotion:Tender
+<<setFlag hands.partingHeard>>
+===
+title: SelaLampGallery
+---
+Taren: You told her you could leave by it. In front of everyone. #emotion:Neutral
+Sela: I could. That's what's wrong with it. It's the first plan anyone has shown me that has a place in it for me. #emotion:Worried
+Taren: And Sorrel? #emotion:Worried
+Sela: Don't. I've got her drawings open. I'm reading section eleven, the way she asked. #emotion:Sad
+Sela: Look. If the nursery moves before the anchor sets, there's one way out for it, and it runs cold. The old charts mark it. Nothing young has crossed it in living memory. #emotion:Determined
+Taren: How does a young road cross the cold? #emotion:Curious
+Sela: Nobody alive knows. But the oldest sheet has a note in the margin. Herders, on an ice world, who "keep the long sleep". #emotion:Curious
+Taren: Forty days. #emotion:Worried
+Sela: Thirty-nine. She'll have started counting at supper. #emotion:Amused
+<<setFlag hands.chartRead>>
+<<setFlag chapter5.complete>>
+===
