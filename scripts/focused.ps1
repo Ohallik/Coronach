@@ -48,12 +48,16 @@ $project = Join-Path $root 'Lattice'
 # Several engineers share this tree and this Unity: wait for a tree that compiles and a Unity that is free, and try a
 # phase again when somebody's half-finished edit breaks the compile under it.
 function Wait-Ready {
+    # Type-check first (nine seconds), then watch for Unity every two seconds: checking Unity first left a nine-second
+    # gap in which another engineer's run took it, every time, for ten minutes (November 11).
     $deadline = (Get-Date).AddMinutes($WaitMinutes)
     while ((Get-Date) -lt $deadline) {
-        $busy = @(Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($project) }).Count -gt 0
-        if ($busy) { Start-Sleep -Seconds 20; continue }
-        if ((python tools/typecheck.py | Select-Object -Last 1) -eq 'TYPECHECK_OK') { return $true }
-        Start-Sleep -Seconds 40
+        if ((python tools/typecheck.py | Select-Object -Last 1) -ne 'TYPECHECK_OK') { Start-Sleep -Seconds 30; continue }
+        for ($poll = 0; $poll -lt 40; $poll++) {
+            $busy = @(Get-CimInstance Win32_Process -Filter "Name = 'Unity.exe'" | Where-Object { $_.CommandLine -and $_.CommandLine.Contains($project) }).Count -gt 0
+            if (-not $busy) { return $true }
+            Start-Sleep -Seconds 2
+        }
     }
     return $false
 }
@@ -61,7 +65,7 @@ function Invoke-Phase([string]$name, [scriptblock]$run, [string]$log) {
     for ($try = 1; $try -le 6; $try++) {
         if (-not (Wait-Ready)) { "FOCUSED $name gave up waiting for a green tree and a free Unity"; return $false }
         # Another stream can start Unity in the seconds between the check and the launch: that is a wait, not a failure.
-        try { & $run | Select-Object -Last 3 } catch { if ("$_" -match 'already holds') { "FOCUSED $name found Unity taken, waiting"; Start-Sleep -Seconds 30; $try--; continue } else { throw } }
+        try { & $run | Select-Object -Last 3 } catch { if ("$_" -match 'already holds') { Start-Sleep -Seconds 3; $try--; continue } else { throw } }
         $code = $LASTEXITCODE
         $compile = $log -and (Test-Path $log) -and ((Get-Item $log).LastWriteTime -gt (Get-Date).AddMinutes(-30)) -and (Select-String -Path $log -Pattern 'error CS\d+' -Quiet)
         if ($compile) { "FOCUSED $name hit a compile error (someone mid-edit), try $try"; Select-String -Path $log -Pattern 'error CS\d+' | Select-Object -First 2 | ForEach-Object { '  ' + $_.Line.Substring(0, [Math]::Min(200, $_.Line.Length)) }; Start-Sleep -Seconds 60; continue }
@@ -77,7 +81,7 @@ if (-not $SkipVerify) {
         if (-not (Wait-Ready)) { break }
         $taken = $false
         try { & (Join-Path $PSScriptRoot 'headless.ps1') -Mode verify -TimeoutSec 1500 | Select-Object -Last 2 } catch { if ("$_" -match 'already holds') { $taken = $true } else { throw } }
-        if ($taken) { "FOCUSED verify found Unity taken, waiting"; Start-Sleep -Seconds 30; $try--; continue }
+        if ($taken) { Start-Sleep -Seconds 3; $try--; continue }
         if ($LASTEXITCODE -eq 0) { $ok = $true } else { "FOCUSED verify failed, try $try"; Start-Sleep -Seconds 60 }
     }
     if (-not $ok) { "FOCUSED verify failed: read $(& $verifyLog)"; exit 1 }

@@ -34,13 +34,15 @@ for ($i = 1; $i -le $Attempts; $i++) {
     # exec.ps1 prints its marker with Write-Host, which a capture doesn't see: go by the exit code and the run's own log.
     $log = [regex]::Match($text, '[A-Za-z]:\\[^\r\n;]*headless-exec-[^\r\n;]*\.log').Value
     if (-not $log) { $log = (Get-ChildItem (Join-Path $root 'Builds\logs') -Filter 'headless-exec-*.log' | Sort-Object LastWriteTime | Select-Object -Last 1).FullName }
-    if ($code -ne 0 -and $log -and (Test-Path $log) -and (Select-String -Path $log -Pattern 'error CS\d+' -Quiet)) {
+    # When exec.ps1 throws, $LASTEXITCODE stays 0: a failed run is a non-zero code OR "FAILED" in what it printed.
+    $bad = ($code -ne 0) -or ($text -match 'FAILED')
+    if ($bad -and $log -and (Test-Path $log) -and (Select-String -Path $log -Pattern 'error CS\d+' -Quiet)) {
         "EXEC_WAIT $i Unity found a compile error (someone is mid-edit):"
         Select-String -Path $log -Pattern 'error CS\d+' | Select-Object -First 3 | ForEach-Object { "  " + $_.Line.Substring(0, [Math]::Min(220, $_.Line.Length)) }
         Start-Sleep -Seconds $WaitSec; continue
     }
     ($text -split "`r?`n" | Where-Object { $_ } | Select-Object -Last 4) -join "`n"
-    if ($code -eq 0 -and $text -notmatch 'FAILED') { "EXEC_OK $Method"; exit 0 }
+    if (-not $bad) { "EXEC_OK $Method"; exit 0 }
     "EXEC_FAILED $Method exit=$code log=$log"; exit 1
 }
 "EXEC_GAVE_UP $Method after $Attempts attempts"; exit 2

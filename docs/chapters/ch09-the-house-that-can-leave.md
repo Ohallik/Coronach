@@ -21,7 +21,7 @@ New faces:
 
 | Name | Who | Voice |
 |---|---|---|
-| **Captain Bryn Asta** | The Nacre tug crew's captain (F, 40s; the "recurring tug crew": heard on the radio from chapter 3 as a traffic voice out of Nacre). Rescued with her navigators. Sixteen-cell sheet. | Traffic-controller calm over real fear; gallows humour; calls everyone "traffic" |
+| **Captain Bryn Asta** | The Nacre tug crew's captain (F, 40s; a Vael; first heard on the distress band at the end of chapter 8, holding nine hundred hulls together with one tug). Rescued with her navigators. Sixteen-cell sheet. | Traffic-controller calm over real fear; gallows humour; calls everyone "traffic" |
 | **Chief Engineer Dorrow** | The Meridian Crawl's chief (M, 60s; a Crawler: small, goggled, soot-dark people who have lived on a moving town for generations). Sixteen-cell sheet. | Cheerful about catastrophe. "A town's just a machine that complains. You listen to where it complains." |
 | **Tam** | Dorrow's apprentice (adolescent Crawler). Comes to the Halo and can't get over how still it is. | Wonder, then seasickness |
 | **The fruit seller, Jun** | The stallholder from the first scene (finally named). | Unchanged. The pears keep a schedule. |

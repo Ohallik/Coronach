@@ -1,0 +1,471 @@
+// Chapter 8 - Harrowgate (the Vaskar Reach). Brief: docs/chapters/ch08-harrowgate.md. Wiring: docs/writing/pending/ch08-manifest.md.
+title: BrekkScoriaWord
+---
+Brekk: Brekk Tamar. Smith. I walked out of the Muster's cage works, and I've been mending awnings at Lanternwick since. #emotion:Neutral
+Brekk: The works on Scoria has finished one. There's a young road in it. Tovra Kesh got word out to me. She's forewoman there. She's still inside. #emotion:Worried
+Taren: It's alive? #emotion:Worried
+Brekk: It pulls. They measure how hard, and write it down. That's how they know the cage is good. #emotion:Sad
+Brekk: I know the Flows. I know which crust holds. I never thought I'd ask to go back there. I'm asking. #emotion:Determined
+Idra: Then it's the Picket. Chart table. I'll say it once. #emotion:Determined
+<<startQuest Harrowgate>>
+===
+title: IdraPicketPlan
+---
+Idra: One. The Picket of Teeth. The Muster's border. Buoys, then a hunter wing, then the carrier. It wakes in that order, and it shows you each time. #emotion:Neutral
+Idra: Two. Rocks. They throw shadows a buoy can't see into. We cross shadow to shadow, dark. Or loud, and we pay for it. #emotion:Determined
+Idra: Three. One clean lane goes through. There's a Compact barrier across it. A route lock. #emotion:Neutral
+Idra: Veyr sent a convoy up that lane eight years ago. I flew escort. We turned round at it. #emotion:Neutral
+Taren: It's mine. #emotion:Neutral
+Idra: Say it so I can't mishear. #emotion:Neutral
+Taren: I installed that lock. It was a job. The order said "unregistered traffic". I knew who that meant. I took the job. #emotion:Neutral
+Idra: How many bolts? #emotion:Neutral
+Taren: Forty-four. Four collars and a keeper bar. I know every one. #emotion:Neutral
+Idra: Four. The lock comes off. I run it. Your hands go where I say, when I say, and nowhere I haven't said. #emotion:Determined
+Taren: Yes. #emotion:Neutral
+Sela: I'll fly point. #emotion:Neutral
+<<setFlag vask.lockAdmitted>>
+===
+title: AbriTwentySeven
+---
+Keeper: Twenty-seven days. I've moved the number to my other hand. The first one won't wash off. #emotion:Flustered
+===
+title: AbriThreeWords
+---
+Keeper: He told her at the table, in front of everyone. And Sela said three words. I've heard her say more than that to a kettle. #emotion:Worried
+===
+title: IdraPicketEdge
+---
+Idra: First buoy. The cone it sweeps is marked. Stay out of the cone. When you can't, be in a rock's shadow. #emotion:Neutral
+Idra: Amber on the buoys is the first stage. A hunter wing is the second. If the carrier turns, that's the third, and we're loud whether we like it or not. #emotion:Determined
+Sela: Their buoys are sitting on my survey points. Every one I'd have picked. #emotion:Worried
+Sela: Somebody over there charts as well as I do. I hate that. #emotion:Angry
+Idra: Then go where you wouldn't. #emotion:Neutral
+===
+title: IdraLockReached
+---
+Taren: There it is. Four collars on the anchor rocks, and the keeper bar across the lane. The bar comes off last, or the whole frame swings. #emotion:Neutral
+Idra: I hadn't asked yet. #emotion:Neutral
+Taren: No. #emotion:Neutral
+Idra: Port collar first. I'll call each one. Irun keeps the hunters off him. Vosk. Go. #emotion:Determined
+===
+title: IdraLockOff
+---
+Idra: Hands off it, Vosk. It's done. The lane's open. #emotion:Neutral
+Taren: Eight years it stood. It came apart in the time it takes to drink a tea. #emotion:Sad
+Idra: It does. That isn't the same as it never standing. #emotion:Neutral
+Idra: Irun flew that whole lane and said nothing to you. She talks through everything. If I were you, that's the one I'd mind. #emotion:Neutral
+Taren: I do. #emotion:Sad
+<<setFlag vask.lockRemoved>>
+===
+title: BrekkCrust
+---
+Brekk: Scoria. Watch the ground, not me. Dark crust holds. A seam that glows is about to go. Bright is already gone. #emotion:Determined
+Brekk: If it takes you, it throws you back burnt. It doesn't keep you. Don't make it throw you twice. #emotion:Neutral
+Idra: You sound different on your own ground, smith. #emotion:Amused
+Brekk: I learned to walk here. I'd forgotten I was good at it. #emotion:Tender
+===
+title: BrekkCrossing
+---
+Brekk: Pikeguard. They fight in twos. One braces, one covers. Get between them. #emotion:Determined
+Brekk: And put them down soft. Half that garrison is clan. Somebody's son, with a pike he didn't ask for. #emotion:Worried
+Idra: We don't finish people. #emotion:Neutral
+Brekk: No. I didn't think you did. I wanted it said on this ground. #emotion:Neutral
+===
+title: TovraFirst
+---
+Tovra: Tamar. You walked out with my second-best tongs. #emotion:Neutral
+Brekk: I've brought them back. And these three. They opened the first cage, on Oriel. They've come to open yours. #emotion:Determined
+Tovra: You want to break the cage. Good. I built it. I know where it's weak, because I put the weakness in. #emotion:Determined
+Taren: Where? #emotion:Curious
+Tovra: The old drawings have a seat on every clamp. Two hand-holds, cut in. The Warmaster's order was to pour them solid. A cage with a handle is a cage somebody else can open. #emotion:Neutral
+Tovra: I poured them a finger deep and called it solid. Knock the skin off, and the seat's under it. Nobody checks a forewoman's pour. I'm too good. #emotion:Smug
+Taren: "Take its weight. Wait for the slack. Let go together." #emotion:Neutral
+Tovra: Tongs. That's on the drawings. In the margin, in the old hand. None of us could read it. I thought it was a maker's prayer. #emotion:Shocked
+Tovra: It wants four sets of hands that know hot metal. I've sixty. And it wants the heart cleared first. That's a guard, a dig-master, and a thing they call the Colossus. #emotion:Determined
+Idra: What's the Colossus weak to? #emotion:Neutral
+Tovra: Nothing. I didn't build that one. It's a crucible on legs, too hot to hurt. So cool it. Three sluices round the heart. Open one, and a plate goes dark. #emotion:Neutral
+Tovra: Go and clear my floor. I'll bring the hands. #emotion:Determined
+<<setFlag vask.unswornMet>>
+===
+title: TovraRepeat
+---
+Tovra: Sluices, guard, dig-master, Colossus. In that order. Then send for me. I'll have sixty pairs of hands scrubbed. #emotion:Neutral
+===
+title: TovraCages
+---
+Tovra: Nineteen ribs in that cage, and not a cold shut in one of them. It's the best pour of my life. #emotion:Sad
+Tovra: I tried to botch it. I'd have given a hand to. The hands wouldn't do it. #emotion:Sad
+Taren: I know that one. #emotion:Sad
+Tovra: I thought you might. You've a fitter's thumbs. Go on. The floor won't clear itself. #emotion:Neutral
+<<setFlag tovra.cagesHeard>>
+===
+title: TovraQuietOffer
+---
+Tovra: One thing more, and it isn't the cage. Half my smiths have a son or a sister holding a pike at the crossings. The Muster splits a family and calls it a posting. #emotion:Sad
+Tovra: Three of mine have written. Nothing clever. "We're going. Come if you can. Don't hold the gate too hard." You're crossing the Flows anyway. #emotion:Neutral
+Taren: Who do we give them to? #emotion:Curious
+Tovra: Nobody. Each garrison has a cookfire behind the pike rack. Leave it under the kettle stone. A pikeguard seen taking paper is flogged. Families read under kettles. #emotion:Determined
+<<startQuest QuietHands>>
+===
+title: TovraQuietReturn
+---
+Tovra: All three under the stones? Then by now they've been read, burnt and denied. That's a family for you. #emotion:Amused
+Tovra: Take this. Frame plate, off the cage's own run. It'll do more good on you. #emotion:Neutral
+<<setFlag tovra.messagesLeft>>
+===
+title: BrekkCampStall
+---
+Brekk: They've put me on the stall. It's where you put a man you haven't decided about. Plating Wax, Repair Gel, and whatever the garrison didn't count. #emotion:Amused
+<<shop>>
+===
+title: BrekkCampRepeat
+---
+Brekk: Still on the stall. Two of them have nodded at me. One was my cousin, so it doesn't count. #emotion:Amused
+<<shop>>
+===
+title: BrekkPikeHead
+---
+Tovra: Who dressed that pike-head? The line's dead true. #emotion:Curious
+Brekk: I did. This morning. #emotion:Neutral
+Tovra: You never ground like that for me. #emotion:Neutral
+Brekk: I wasn't making cages. #emotion:Neutral
+Tovra: Hm. Tamar takes the fourth clamp. Somebody tell the hands I said so. #emotion:Determined
+===
+title: IdraFirstSluice
+---
+Taren: Coolant sluice. Flood the channel and it chills the pour hard enough to walk on. Drain it, and that press comes back up to strike. #emotion:Curious
+Idra: So every wheel opens one way and arms another. #emotion:Neutral
+Taren: It's a foundry. Everything in it is trying to be two things. #emotion:Amused
+===
+title: VessaGallery
+---
+Vessa: Casting gallery. Two Shapers and the rescue frame. On Hoarfell I entered you as eleven minutes of delay. #emotion:Neutral
+Vessa: I have corrected the entry. You are five hundred tonnes of guard, one dig, and a letter to my sister. #emotion:Neutral
+Sela: She's weighed us. #emotion:Neutral
+Vessa: Everything has a weight. Behind me is one cage, complete, nine hundred tonnes, with stock in it. It is the only finished thing the Muster owns. Pikes. #emotion:Determined
+===
+title: VessaFallsBack
+---
+Vessa: The gallery is forty tonnes of pikeguard. The heart is nine hundred of cage. I'll spend the gallery. #emotion:Neutral
+Vessa: Colossus to the heart. Wake it. #emotion:Determined
+Idra: She's written off her own squad. Out loud. In front of them. #emotion:Worried
+<<setFlag vask.vessaBeaten>>
+===
+title: SelaCagedRoad
+---
+Sela: There. It's so small. #emotion:Sad
+Taren: It's pulling. Watch the clamps take up. Then it eases. #emotion:Worried
+Idra: Pull, nine. Ease, four. Pull, nine. Ease, four. It's breathing against it. #emotion:Neutral
+Sela: It's still asking to go. The one on Oriel had stopped. #emotion:Sad
+===
+title: TovraRelease
+---
+Tovra: Hands! Four clamps, fifteen to a clamp. Knock the skin off the seats. Tamar, the fourth is yours. #emotion:Determined
+Brekk: I have it. #emotion:Determined
+Tovra: Take its weight! Lean till the lock's carrying nothing. If your clamp's still singing, you're not leaning. #emotion:Determined
+Idra: It pulls for nine and eases for four. I'll call it. #emotion:Neutral
+Tovra: Wait for the slack. Nobody opens on the pull. Nobody. Rauk, call it. #emotion:Determined
+Idra: Pulling. Pulling. Ease. #emotion:Determined
+Tovra: Let go together! #emotion:Intense
+Sela: Back. Everyone, to the walls. Give it room. #emotion:Determined
+Taren: It isn't moving. #emotion:Worried
+Sela: It doesn't know it can. #emotion:Tender
+Brekk: There. #emotion:Tender
+Idra: Gone. Up through the vent. Sixty smiths saw that. Eleven of the garrison, with their hands empty. One dig-master, on the gantry. #emotion:Neutral
+Idra: I want every name. Somebody is going to ask who saw it. #emotion:Determined
+<<setFlag vask.juvenileFreed>>
+===
+title: BrekkAnvil
+---
+Brekk: She poured every rib of it. Let her sit. #emotion:Tender
+===
+title: TovraHarrowgateRoad
+---
+Tovra: That's one cage. He has five more on order, and the order's signed in Harrowgate. So is the one for your nursery. #emotion:Neutral
+Brekk: There are Unsworn in the town. Behind Mother Odrun's kitchen, in the family quarter. She'll feed us. She won't like us. #emotion:Neutral
+Idra: We don't go in the back. Parley flag, front gate, daylight. A town that watches you walk in has to decide what it thinks. #emotion:Determined
+Tovra: Then my hands go in the back. There's sixty of us, and most have a mother in that town. #emotion:Determined
+<<setFlag vask.roadSaid>>
+===
+title: HessaSisters
+---
+Vessa: Gate. Enter one cage lost on Scoria. Nine hundred tonnes. #emotion:Neutral
+Hessa: Enter it yourself. I'm only the gate. I lost a crate of glass, and my sister wrote the report. #emotion:Smug
+Vessa: I sent you a correction. "The officer was not careless. The enemy was heavier than entered." #emotion:Neutral
+Hessa: I read it. You couldn't write "sorry"? #emotion:Angry
+Vessa: Sorry has no weight. #emotion:Neutral
+===
+title: HessaParley
+---
+Hessa: Shapers. And a rescue frame. You're collecting. #emotion:Smug
+Hessa: Captain Korl, as was. Gate-sergeant Korl, as is. Somebody had to answer for the glass. #emotion:Smug
+Idra: Parley. We're here for the Warmaster, in the open. #emotion:Determined
+Hessa: A parley flag needs an officer of the Muster to vouch for it, or the gate shoots. That's the rule. #emotion:Neutral
+Taren: Will you? #emotion:Curious
+Hessa: You beat me in a hole in the ground and handed me to people who wouldn't let me sit. I ought to shoot you twice. #emotion:Angry
+Hessa: But you've just cost my sister a cage, and I'd like to be there when she tells him. Flag's vouched. Don't thank me. It's spite. #emotion:Smug
+<<setFlag vask.parley>>
+===
+title: HessaGateRepeat
+---
+Hessa: It's vouched. If you embarrass me in there, I never saw you. #emotion:Smug
+===
+title: HessaWarmaster
+---
+Hessa: He came to my hearing himself. He didn't have to. He said I'd been unlucky, and he took my tabs anyway, and he asked after my crew by name. #emotion:Neutral
+Hessa: I'd still walk off the harbour wall if he pointed. That's what you're fighting. It isn't the lance. #emotion:Sad
+<<setFlag hessa.warmasterHeard>>
+===
+title: PipFirst
+---
+Pip: Are you the parley? You're the parley! I'm to show you the town. #emotion:Happy
+Idra: Who told you to? #emotion:Neutral
+Pip: Nobody told me not to. That's nearly an order. Cadet Pip, third file. A pip's the smallest mark on a rank tab. I've one. #emotion:Smug
+Pip: That's the muster field. That's the oath hall. That's where I was sick on drill day, but they've washed it. Come on! #emotion:Happy
+<<startQuest PipsOath>>
+===
+title: PipField
+---
+Pip: Four thousand can stand on this field and not one out of line. I've counted from the wall. Oath day, I'll be in the third file. There, by the drain. #emotion:Happy
+Taren: What do you swear? #emotion:Curious
+Pip: To go where the Warmaster points, and come back when he says. He always says. He's never lost a company. Not one. Everyone's father came home. #emotion:Smug
+Sela: Did the people he pointed at? #emotion:Neutral
+Pip: I don't know. They're not in the count. Why would they be in our count? #emotion:Curious
+<<setFlag pip.fieldTalked>>
+===
+title: PipOathHall
+---
+Pip: The oath hall. That wall is every company the Warmaster has brought home. Eleven campaigns. There's my father. Third from the drain, same as me. #emotion:Happy
+Taren: Is there a wall for the ones who didn't come home? #emotion:Curious
+Pip: There aren't any. That's the point of him. #emotion:Smug
+Idra: It's a good wall. At your age I'd have wanted my name on it. #emotion:Worried
+===
+title: PipWashing
+---
+Pip: Family quarter. Don't walk under the lines. It's bad luck, and it's wet. The grey sashes are ours. My mother does the whole stair's. She has a rota. #emotion:Happy
+Pip: She says Sergeant Arrek's wife says the guard wing had meat twice this week, and the stair had a speech. I'm not supposed to repeat that. #emotion:Playful
+Idra: Then why did you? #emotion:Amused
+Pip: It was a good speech. #emotion:Flustered
+===
+title: PipStairGame
+---
+Pip: The small ones are playing parley on the stair. Nobody would be the Shapers, so I said I would. I got pelted. #emotion:Flustered
+Sela: With what? #emotion:Curious
+Pip: Washing pegs. It's all right. They gave them back. You have to. There's a rota. #emotion:Happy
+===
+title: PipArmourers
+---
+Pip: Armourers' street. That's where a pike is born. They used to sing at the hammers. They've stopped. Nobody's said why. #emotion:Curious
+Taren: Half these forges are cold. #emotion:Neutral
+Pip: The smiths went to Scoria. For the great work. We had a speech about that as well. #emotion:Happy
+===
+title: PipHarbourWall
+---
+Pip: The war harbour. Nine cranes. The big one's called Auntie. That's the carrier, the Long Patience. I'm not allowed aboard till I've sworn. #emotion:Happy
+Sela: If a skiff ran from the field to the carrier, which way would it go? #emotion:Curious
+Pip: Under Auntie, round the flak mole, up the slip. Why? #emotion:Curious
+Sela: No reason. #emotion:Playful
+===
+title: SelaTrophyGallery
+---
+Pip: The gallery! One case for every world we've reached. That's a harbour bell. That's somebody's door. I don't know why we took a door. #emotion:Happy
+Sela: Relay glass. Lanternwick's. Under a card that says "Lantern Canyon, yielded". #emotion:Shocked
+Pip: That's Captain Korl's! She lost the rest, so there's only the one plate here. The others went to the east gallery and the oath hall. #emotion:Happy
+Sela: Everything in this room was a job, to somebody. #emotion:Neutral
+Taren: Yes. #emotion:Sad
+Sela: A canyon reads its roads by these. They're going home, Pip. #emotion:Determined
+Pip: You can't. They're ours. They've cards. #emotion:Worried
+<<startQuest RelayGlass>>
+===
+title: PipGallery
+---
+Pip: I've been in here a hundred times. I know every card. I never asked who the door belonged to. #emotion:Worried
+Pip: Is somebody in that canyon in the dark now? Because of the glass? #emotion:Worried
+Sela: An old woman and her apprentices. They kept the lamps lit anyway. By hand. #emotion:Neutral
+Pip: Oh. #emotion:Sad
+Pip: The case key's on the hook behind the harbour bell. I didn't tell you. #emotion:Flustered
+<<setFlag pip.galleryTalked>>
+===
+title: OdrunFirst
+---
+Odrun: Shut the door. You're letting the street see my soup. #emotion:Neutral
+Odrun: Two Shapers and a Rauk. Tamar said heroes. I said I'd believe the washing-up. #emotion:Neutral
+Taren: Mother Odrun. We're told you feed the Unsworn. #emotion:Neutral
+Odrun: Nobody eats here. Those forty bowls are for nobody. Sit. Not there. That's nobody's seat. #emotion:Amused
+Odrun: I fed Drask Vaal when he was a cadet with one pip. He ate like he was owed it, and he said thank you. They always tell you about the thank you. #emotion:Neutral
+Sela: You don't think much of him. #emotion:Curious
+Odrun: I don't think much of anybody. He brings every one of his soldiers home. Then I feed the ones who can't sleep. #emotion:Neutral
+Odrun: Ask him what they did while they were out. He'll tell you. He isn't ashamed of it. That's what is wrong with him. #emotion:Neutral
+Idra: And us? #emotion:Neutral
+Odrun: You broke a cage. Now you've come to break a Warmaster, and then you'll leave. I'll still have forty bowls. Eat something. You're no use to me thin. #emotion:Neutral
+<<setFlag vask.odrunMet>>
+===
+title: OdrunRepeat
+---
+Odrun: Still here? Then stir that. Clockwise. I'll know. #emotion:Neutral
+===
+title: OdrunSleepless
+---
+Odrun: The one by the stove was at the Karst gate. Two days, and every man home. He has the medal. #emotion:Neutral
+Odrun: He eats here because the mess hall has a window, and he can't sit with his back to one. #emotion:Neutral
+Odrun: Nobody he was pointed at is on any wall. I know how many there were. He says the number in his sleep. #emotion:Neutral
+<<setFlag odrun.sleeplessHeard>>
+===
+title: OdrunKitchenOffer
+---
+Odrun: You want to be useful. Everyone does, till it's heavy. A kitchen that doesn't exist can't draw rations. There are three things I can't buy with my own face. #emotion:Neutral
+Odrun: Garrison salt, off the quartermaster's stair. Ash-root flour, from the harbour scales. And a regulation mess kettle. Mine has a hole I've cooked round for a year. #emotion:Amused
+Taren: I could mend the kettle. #emotion:Curious
+Odrun: You could mend the kettle. Then I'd have a mended kettle and no second kettle. Go and get me a kettle. #emotion:Neutral
+<<startQuest OdrunsKitchen>>
+===
+title: OdrunKitchenReturn
+---
+Odrun: Salt. Flour. And that's a kettle with a quartermaster's stamp on it. I don't want to know. I never do. #emotion:Amused
+Odrun: The quarter's open to you. What the armourers say they lost is on the back table. Pay the jar. I don't sell anything. #emotion:Neutral
+<<setFlag odrun.kitchenStocked>>
+<<shop>>
+===
+title: OdrunShop
+---
+Odrun: Back table. Pay the jar. If anyone asks, you came for soup, and there wasn't any. #emotion:Neutral
+<<shop>>
+===
+title: OdrunTovra
+---
+Odrun: Kesh. You've slag in your hair and you've not slept. Sit down. #emotion:Neutral
+Tovra: I've sixty hands to place before the bell, Mother. #emotion:Determined
+Odrun: And they'll all still have hands when you've eaten. Sit. #emotion:Neutral
+Tovra: Tongs. #emotion:Flustered
+===
+title: BrekkKitchen
+---
+Brekk: My aunt's here. She hid my pike in the flour the night I walked. She has just told forty people I was always the careful one. #emotion:Flustered
+Brekk: I made cages for nine years. She's telling them about a gate hinge I made when I was twelve. #emotion:Tender
+===
+title: DraskReceives
+---
+Drask: You came in by the front gate, under a flag, past a field of my soldiers. Thank you. Most people who want me dead use the harbour. Sit. Have you eaten? #emotion:Happy
+Idra: We're not here to eat. #emotion:Neutral
+Drask: Officer Sorn, Veyr rescue. I've read your tallies. You have never left one of yours behind. Neither have I. Thirty years, eleven campaigns, every company home. #emotion:Tender
+Drask: You broke my foundry and let my road go. I'm not angry. I'd like you to understand what you broke. #emotion:Neutral
+Drask: The roads are leaving. Whole worlds will wake up with no lane to anywhere. Someone will rule the stranded worlds. I intend it to be someone who feeds them. #emotion:Determined
+Sela: From a road you keep in a cage. #emotion:Neutral
+Drask: From a road that stays where hungry people can find it. Your director wants the same. She says an open road invites conquest. She's right. I am what she means. #emotion:Amused
+Drask: I've read every notice she has posted. She is the only one of you who has understood me. #emotion:Neutral
+Drask: She'd hold one road and count who fits beside it. I'd hold six, and ask who is hungry. #emotion:Determined
+Taren: And the ones who don't want holding? #emotion:Determined
+Drask: Are fed anyway. I don't need them grateful. I need them alive in ten years. So do you. #emotion:Tender
+Drask: Now. Half this town is at its windows to see whether I have you shot. I won't. The Muster settles a question on the field, where everyone can see the answer. #emotion:Neutral
+Drask: So I'm offering you the field. If I fall, the Muster hears your question. If you fall, you fly my colours. I don't waste people who can do that to a foundry. #emotion:Determined
+Idra: One to one? #emotion:Neutral
+Drask: That's the custom. But there are three of you and I'll be in a war-frame, so let's call it even. The oath bell is in an hour. Eat something first. I would. #emotion:Happy
+<<setFlag vask.draskMet>>
+===
+title: DraskOnTheField
+---
+Drask: Third wing, you'll stand as guard. Arrek, your girl walked this week, I hear. Good. Sool, mind that knee. #emotion:Happy
+Idra: He knows their knees. That's a good officer. I don't like how much I mean that. #emotion:Worried
+Drask: Shapers. Officer. Whenever you like. #emotion:Neutral
+===
+title: DraskLeavesField
+---
+Drask: Sool. You held the Karst gate beside me for two days. #emotion:Sad
+Drask: No. Stay where you are. You've the knee. I should have asked a younger man. #emotion:Tender
+Drask: I said that if I fell, the Muster would hear your question. It has heard it. I never said I'd stop being its Warmaster. Harbour. My skiff. #emotion:Determined
+Idra: He's making for the carrier. If he lifts with that, there's no field left to answer on. Fly. #emotion:Determined
+<<setFlag vask.duelWon>>
+===
+title: OdrunVerdict
+---
+Drask: Stand them down, Odrun. This is a muster field. You've brought a kitchen onto it. #emotion:Neutral
+Odrun: I've brought the people who eat in it. Sixty smiths, and their mothers. Sool, with his knee. Arrek, whose wife can count. Look at them, Drask. You know every name. #emotion:Neutral
+Drask: I brought every one of them home. #emotion:Determined
+Odrun: You did. Nobody here says different. And you never once asked us what for. #emotion:Neutral
+Odrun: Harrowgate has had its question out. The answer's no. Take his tabs. Don't hurt him. Put him where he can't give an order, and feed him. We're not him. #emotion:Determined
+Idra: We've a ship with four hundred people aboard, and not one he outranks. #emotion:Neutral
+Odrun: That'll do. He'll hate it. Good. #emotion:Amused
+<<setFlag vask.deposed>>
+===
+title: HessaArmouryGate
+---
+Idra: The armoury gate was unbarred from inside. Before the pursuit. That's how sixty smiths walked onto a field holding pikes. #emotion:Neutral
+Hessa: Was it. I was on the harbour gate. Ask anyone. #emotion:Smug
+Taren: The harbour gate was shut. Nobody was on it. #emotion:Amused
+Hessa: Then I was careless. It's on my record. My sister put it there herself. #emotion:Smug
+===
+title: PipAfterDuel
+---
+Pip: Oath day's still on. Sergeant says the Muster is bigger than one Warmaster. I've pressed my sash. #emotion:Neutral
+Pip: I was in the third file. He called for the guard, and my sergeant didn't go. I've never seen a sergeant not go. #emotion:Worried
+Pip: If I swear tomorrow, I go where somebody points. I don't know who's pointing now. And I never asked about the door. #emotion:Worried
+Taren: What will you do? #emotion:Curious
+Pip: Mother Odrun wants somebody to carry a kettle. I'm still proud of the drill. Am I allowed to be? #emotion:Curious
+Idra: Yes. Drill gets people out of buildings. Keep it. #emotion:Tender
+<<setFlag pip.oathLeft>>
+===
+title: PipOathDay
+---
+Pip: Oath day's still on. Sergeant says the Muster is bigger than one Warmaster. I've pressed my sash twice. #emotion:Neutral
+===
+title: PipPost
+---
+Pip: I carried the kettle. It's heavier than a pike, and nobody salutes it. Mother Odrun says that's the point of a kettle. #emotion:Happy
+===
+title: IdraLockCounted
+---
+Taren: That's a new mark. #emotion:Curious
+Idra: The lock. #emotion:Neutral
+Taren: Which side? #emotion:Neutral
+Idra: It's counted. #emotion:Neutral
+===
+title: DraskCustody
+---
+Drask: Officer Sorn. Shapers. They've fed me. Odrun sent it down herself. Tell her it was good. #emotion:Neutral
+Taren: You've five cages on order. Cancel them. #emotion:Determined
+Drask: I can't cancel anything. I've no tabs. Ask the kitchen. #emotion:Amused
+Drask: You've won a field. I gave an order before I walked onto it. #emotion:Neutral
+Sela: What order? #emotion:Worried
+===
+title: BrynNacreTraffic
+---
+Idra: Quiet. Everyone. That's the distress band, and it's on every set in the harbour. #emotion:Worried
+Bryn: Nacre traffic, this is the tug Welcome Back. Something has hold of the road, and the road has taken the transfer berth apart. The berth is gone. Say again, gone. #emotion:Neutral
+Bryn: Ferry on line eight sixty, I see you. You're on fire a little. Cut your drive and sit still. You're traffic. I've got you. #emotion:Determined
+Oda: Welcome Back, hauler on line nine hundred and four. Something's turning us over. I can't see the door. #emotion:Worried
+Bryn: Nine-oh-four, there isn't a door. Lamp on, drive off, stay with your hull. Traffic behind nine-oh-four, do the same. #emotion:Neutral
+Oda: If anyone can raise Cinder Halo. There's a repairman called Taren Vosk. Tell him the door jammed. He'll know. #emotion:Sad
+Bryn: It's in the log, traffic. All hulls, Welcome Back. I have one tug and nine hundred of you. I'm going to be a while. Don't go anywhere. #emotion:Tender
+<<setFlag vask.nacreHeard>>
+===
+title: MeretAllStations
+---
+Meret: All stations. This is Director Venn. At first watch a cage was closed on the Nacre road, by standing order of the Vaskar Muster. The road broke the transfer berth. #emotion:Neutral
+Meret: Nine hundred households were at that door. I have no count yet. I am not going to wait for one. #emotion:Sad
+Meret: To the crew of Many Hands. Twenty-three days were left of the forty. I said I would not plan on all of them. #emotion:Neutral
+Meret: Stillwater proceeds now. Vessels inside the corridor, hold your berths. Vessels outside it, I am sorry. Venn, out. #emotion:Neutral
+Taren: Nine hundred and four. #emotion:Determined
+<<setFlag chapter8.complete>>
+===
+title: TovraAboard
+---
+Tovra: They've given me the freight hall, between a herd and a garden. The beasts like the forge. Your grower doesn't. I've promised her a hoe. #emotion:Amused
+Tovra: Sixty hands, and nothing to pour but what we broke. Good. I know that metal. I know what it owes. #emotion:Determined
+===
+title: BrekkAboard
+---
+Brekk: Corra's awnings will want doing when I'm back. I left her a note. It says I've gone to be a smith for a while. #emotion:Tender
+===
+title: AbriSmiths
+---
+Keeper: Sixty smiths and a Warmaster. I'd a form for one of those. He filled his in beautifully. It's the tidiest thing on my desk, and I don't trust it. #emotion:Worried
+===
+title: DraskAboard
+---
+Drask: Your cook won't take my thanks. She says to thank the vote. I've asked three people what the vote is. No two have answered alike. #emotion:Amused
+Drask: Four hundred people, and nobody in charge of them. I've watched for a day. I don't yet see what is holding it up. #emotion:Curious
+===
+title: PellAumiAnswers
+---
+Pell: Aumi answered! Three long. That's "received". Then one short, after. There isn't a one short. I think it's "thank you", and she's hoping nobody can read it. #emotion:Happy
+===
